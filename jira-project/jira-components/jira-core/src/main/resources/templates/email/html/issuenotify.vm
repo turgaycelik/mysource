@@ -1,0 +1,16 @@
+
+#disable_html_escaping()
+#defaultMailHeader("adhoc.notification.email.message.about.issue", $remoteUser)
+
+#if ($htmlBody)
+    #set($topTextContent = $htmlBody)
+    #parse('templates/email/html/includes/patterns/text-top.vm')
+#end
+
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/issue-title.vm')")
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+#parse("templates/email/html/includes/footer.vm")
+

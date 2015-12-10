@@ -1,0 +1,203 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+
+<table cellpadding="0" cellspacing="0" border="0" width="100%">
+<tr>
+    <td width="170" bgcolor="#f0f0f0" valign="top">
+
+        <table cellpadding="0" cellspacing="0" border="0" width="100%">
+        <tr>
+            <td>
+
+                <table cellpadding="3" cellspacing="0" style="border-top-style:none;border-right-style:none;border-bottom-style:solid;border-left-style:none;border-width:1px;border-color:#3c78b5;" width="100%">
+                <tr>
+                    <td style="background-color:#ddd;">
+                        <b>#text("common.concepts.issue")</b>
+                        (<b><a href="${baseurl}/browse/${issue.getKey()}">#text("template.view.online")</a></b>)<br/>
+                    </td>
+                </tr>
+                </table>
+                <table cellpadding="3" cellspacing="0" border="0" width="100%">
+                <tr style="vertical-align:top;">
+                    <td style="width:1%;white-space:nowrap;"><b>#text("common.concepts.key"):</b></td>
+                    <td style="font-weight:bold;width:99%"><a href="${baseurl}/browse/${issue.getKey()}">$issue.getKey()</a></td>
+                </tr>
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;">#text("issue.field.issuetype"):</td>
+                    <td>
+                        #set ($issueType = $issue.getIssueTypeObject())
+                        ## This is all one line so that we don't get the bug in IE6 where the whitespace gets an underline
+                        <a href="${baseurl}/browse/${issue.getKey()}">#renderIcon(${issueType.iconUrlHtml} ${issueType.getNameTranslation($i18n)})</a>
+                        $textutils.htmlEncode(${issueType.getNameTranslation($i18n)}, false)
+                    </td>
+                </tr>
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("issue.field.status"):</td>
+                    <td>
+                        #set ($status = ${issue.getStatusObject()})
+                        #renderIcon(${status.iconUrlHtml} ${status.getNameTranslation($i18n)})
+                        $textutils.htmlEncode(${status.getNameTranslation($i18n)}, false)
+                    </td>
+                </tr>
+                #if ($issue.getPriorityObject())
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("issue.field.priority"):</td>
+                    <td>
+                        #set ($priority = $issue.getPriorityObject())
+                        #renderIcon(${priority.iconUrlHtml} ${priority.getNameTranslation($i18n)})
+                        $textutils.htmlEncode(${priority.getNameTranslation($i18n)}, false)
+                    </td>
+                </tr>
+                #end
+
+                #if ($issue.getResolutionObject())
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("issue.field.resolution"):</td>
+                    <td>
+                        $textutils.htmlEncode($issue.getResolutionObject().getNameTranslation($i18n), false)
+                    </td>
+                </tr>
+                #end
+
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("issue.field.assignee"):</td>
+                    <td>
+                        #authorlinkkey($issue.assigneeId "")
+                    </td>
+                </tr>
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("issue.field.reporter"):</td>
+                    <td>
+                        #if ($issue.reporterId)
+                            #authorlinkkey($issue.reporterId "")
+                        #else
+                            #text("common.concepts.no.reporter")
+                        #end
+                    </td>
+                </tr>
+
+                #if ($issue.getVotes() && $issue.getVotes().intValue() > 0)
+                <tr style="vertical-align:top;">
+                    <td style="font-weight:bold;white-space:nowrap;">#text("common.concepts.votes"):</td>
+                    <td>
+                        $issue.getVotes()
+                    </td>
+                </tr>
+                #end
+
+                #if ($applicationProperties.getOption('jira.option.timetracking'))
+                    #if ($issue.getOriginalEstimate() || $issue.getAggregateOriginalEstimate())
+                    <tr style="vertical-align:top;">
+                        <td style="font-weight:bold;">#text("common.concepts.original.estimate"):</td>
+                        <td>
+                            $issue.getNiceTimeOriginalEstimate($i18n)
+                        </td>
+                    </tr>
+                    #end
+
+                    #if ($issue.getEstimate() || $issue.getAggregateRemainingEstimate())
+                    <tr style="vertical-align:top;">
+                        <td style="font-weight:bold;">#text("common.concepts.remaining.estimate"):</td>
+                        <td>
+                            $issue.getNiceTimeEstimate($i18n)
+                        </td>
+                    </tr>
+                    #end
+                    #if ($issue.getTimeSpent() || $issue.getAggregateTimeSpent())
+                    <tr style="vertical-align:top;">
+                        <td style="font-weight:bold;">#text("common.concepts.time.spent"):</td>
+                        <td>
+                            $issue.getNiceTimeSpent($i18n)
+                        </td>
+                    </tr>
+                    #end
+                    #if ($issue.isAnyAggregateDifferent())
+                        #if ($issue.getOriginalEstimate() || $issue.getAggregateOriginalEstimate())
+                        <tr>
+                            <td valign="top" nowrap><b>#text("common.concepts.aggregate.original.estimate"):</b></td>
+                            <td valign="top">
+                                $issue.getNiceTimeAggregateOriginalEstimate($i18n)
+                            </td>
+                        </tr>
+                        #end
+                        #if ($issue.getEstimate() || $issue.getAggregateRemainingEstimate())
+                        <tr>
+                            <td valign="top" nowrap><b>#text("common.concepts.aggregate.remaining.estimate"):</b></td>
+                            <td valign="top">
+                                $issue.getNiceTimeAggregateRemainingEstimate($i18n)
+                            </td>
+                        </tr>
+                        #end
+                        #if ($issue.getTimeSpent() || $issue.getAggregateTimeSpent())
+                        <tr>
+                            <td valign="top" nowrap><b>#text("common.concepts.aggregate.time.spent"):</b></td>
+                            <td valign="top">
+                                $issue.getNiceTimeAggregateTimeSpent($i18n)
+                            </td>
+                        </tr>
+                        #end
+                    #end
+                #end
+
+                #if ($issue.getEnvironment() && $issue.getEnvironment().length() != 0)
+                    <tr style="vertical-align:top;">
+                        <td style="font-weight:bold;white-space:nowrap;">#text("common.words.env"):</td>
+                        <td>
+                            $issue.getHtmlEnvironment()
+                        </td>
+                    </tr>
+                #end
+                </table>
+                <br/>
+                <table cellpadding="3" cellspacing="0" style="border-top-style:none;border-right-style:none;border-bottom-style:solid;border-left-style:none;border-width:1px;border-color:#3c78b5;" width="100%">
+                <tr>
+                    <td style="background-color:#dddddd;font-weight:bold;">
+                        #text("common.words.operations")
+                    </td>
+                </tr>
+                </table>
+                <table cellpadding="3" cellspacing="0" style="border:0;width:100%;">
+                #makeopifenabled( ${tabpanel-all} 'template.view.all' )
+                #makeopifenabled( ${tabpanel-comment} 'template.view.comments' )
+                #makeopifenabled( ${tabpanel-history} 'template.view.history' )
+                </table>
+
+            </td>
+        </tr>
+        </table>
+
+    </td>
+    <td bgcolor="#ffffff" valign="top">
+
+        <table width="100%" cellpadding="10" cellspacing="0" border="0">
+        <tr>
+            <td>
+
+            <table cellpadding="1" cellspacing="0" border="0" bgcolor="#bbbbbb" width="100%" align="center">
+            <tr>
+                <td>
+
+                    <table cellpadding="4" cellspacing="0" style="background-color:#fff;border:0;width:100%;">
+                    <tr>
+                        <td style="background-color:#f0f0f0;width:100%;vertical-align:top;">
+                            <b><font size="4" color="#003366"><a href="${baseurl}/browse/${issue.getKey()}">$textutils.htmlEncode($issue.getSummary())</a></font></b>&nbsp;
+                            <br/>
+                            <font size="1">
+                            #text("issue.field.updated"): <font color="#336699">$dateformatter.formatDMYHMS($issue.getUpdated())</font>
+                            &nbsp;
+                            #text("issue.field.created"): <font color="#336699">$dateformatter.formatDMYHMS($issue.getCreated())</font>
+                            &nbsp;
+                            #if ($issue.getDueDate())
+                            #text("issue.field.duedate"): <font color="#336699">$dateformatter.formatDMYHMS($issue.getDueDate())</font>
+                            #end
+                            #if ($issue.getResolutionDate())
+                                #text("issue.field.resolution.date"): <font color="#336699">$dateformatter.formatDMYHMS($issue.getResolutionDate())</font>
+                            #end
+                            </font>
+                        </td>
+                    </tr>
+                    </table>
+
+                </td>
+            </tr>
+            </table>

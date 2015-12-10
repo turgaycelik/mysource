@@ -1,0 +1,203 @@
+/* css resets */
+table { border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;}
+td { padding: 0px; border-collapse: collapse; }
+
+#background-table { background-color: #f5f5f5; border-collapse:collapse; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+
+/* Header Pattern contains the avatar and action string (eg. Henry Tapia created a page) */
+#header-pattern-container { padding: 10px 20px;}
+#header-avatar-image-container { vertical-align: top; width:32px; padding-right: 8px; }
+#header-avatar-image { border-radius: 3px; vertical-align: top; }
+#header-text-container { vertical-align: middle; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px;}
+
+/* Container for the main body of the email. Has a thin top and bottom row for rounded corners and
+   a main area that encompasses the content */
+#email-content-container { padding: 0 20px; }
+#email-content-table { border-spacing: 0; border-collapse: separate; }
+.email-content-top-padding { padding-top: 20px;}
+.email-content-main { border-left: 1px solid #cccccc; border-right: 1px solid #cccccc; border-top: 0; border-bottom: 0; padding: 0 15px 0 16px; background-color: #ffffff; }
+
+.email-content-rounded-top {
+    color: #ffffff;
+    padding: 0 15px 0 16px;
+    height: 15px;
+    background-color: #ffffff;
+    border-left: 1px solid #cccccc;
+    border-top: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-bottom: 0;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.email-content-rounded-bottom {
+    color: #ffffff;
+    padding: 0 15px 0 16px;
+    height: 5px;
+    line-height: 5px;
+    background-color: #ffffff;
+    border-top: 0;
+    border-left: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    border-right: 1px solid #cccccc;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+
+    mso-line-height-rule: exactly;
+}
+
+/* Helper classes utilized for formatting between pieces of content */
+.border-top { border-top: 1px solid #cccccc; }
+.padding-top {padding-top: 15px; }
+.action-padding { padding-bottom: 9px; }
+
+/* Page title pattern contains an icon (eg. page, blogpost, comment, etc) and a related heading, usually a page title */
+#page-title-pattern-icon-image-container { width:16px; vertical-align: top; }
+#page-title-pattern-icon-image-container-cell { width:16px; padding: 8px 8px 0px 0px; mso-text-raise: 6px;  mso-line-height-rule: exactly; }
+#page-title-pattern-header-container { padding-right: 5px; font-size: 20px; line-height: 30px; mso-line-height-rule: exactly;}
+#page-title-pattern-header { font-family: Arial, sans-serif; padding: 0; font-size: 20px; line-height: 30px; mso-text-raise: 2px; mso-line-height-rule: exactly; vertical-align: middle; }
+
+/* Inline user pattern appears after the page title in certain instances. It provides context for the title (created by, etc) */
+#inline-user-pattern-avatar-image { vertical-align: middle; line-height: 30px; mso-line-height-rule: exactly; border-radius: 3px; }
+#inline-user-pattern {font-family: Arial, sans-serif; font-size: 14px; line-height:30px; mso-line-height-rule: exactly; mso-text-raise: 3px; vertical-align: middle;}
+
+/* Notification comment is a block of text that appears above some modified content explaining the edit */
+.notification-comment-pattern { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 2px; }
+.notification-comment-pattern-container { padding: 0px; }
+
+/* Page link pattern is a less prominent way to link to content than the page link pattern */
+/* Status update pattern is similar to page-link except it is paragraph text and no links */
+#page-link-pattern-icon-container, #status-update-pattern-icon-container { width: 16px; padding: 0 8px 0 0; vertical-align: top; mso-text-raise: 3px; }
+#page-link-pattern-icon, #status-update-pattern-icon { padding-top: 2px; vertical-align: top; mso-text-raise: 3px; }
+#page-link-pattern-icon-image, #status-update-pattern-icon-image { vertical-align: top; display: block; }
+#page-link-pattern-text, #status-update-pattern-text { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+
+/* Content added pattern represents a file added and associated meta data */
+.content-added-pattern-text { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+.content-added-pattern-icon-container { width: 16px; vertical-align: top; mso-text-raise: 3px; }
+.content-added-pattern-icon { padding: 4px 8px 0 24px; mso-text-raise: 3px; }
+.content-added-pattern-icon-image { vertical-align: top; display: block; }
+.content-added-pattern-text-container { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; }
+
+/* Content excerpt pattern contains the main information related to a notification (page, comment excerpt) */
+.content-excerpt-pattern { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+.content-excerpt-pattern-container { padding: 0 0 0 24px; }
+.excerpt-highlight { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+.excerpt-highlight-container { border-radius: 5px; margin: 0; padding: 10px; background-color: #f5f5f5; }
+
+/* Move page pattern lays out information about a space and children pages which are moved */
+#move-page-pattern, #move-page-children-pattern { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; }
+.move-page-pattern-label {padding: 8px 10px 0 32px; color: #707070; vertical-align: top; text-align: right; white-space: nowrap;}
+.move-page-pattern-label.children {padding-top: 0px;}
+.move-page-pattern-icon-container {width: 32px; padding: 0px 4px 0px 0px; vertical-align: top; text-align: right;}
+.move-page-pattern-icon-container.children {padding-top: 5px; }
+.move-page-pattern-icon-image {border: 1px solid #ccc; border-radius: 50%;}
+
+/* Contains buttons and icon links that the user can click */
+#actions-pattern { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+#actions-pattern-container { padding: 10px 0 10px 24px; vertical-align: middle; }
+.actions-pattern-action-icon-container { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 0px; vertical-align: middle; }
+.actions-pattern-action-icon-image { vertical-align: middle; }
+.actions-pattern-action-text-container { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 4px; padding-left: 5px; }
+.actions-pattern-action-bull { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 4px; color: #999999; padding: 0 5px; }
+
+/* Contextual area pattern appears below the main body of the email (in the grey) and adds extra context */
+.contextual-area-pattern { padding: 15px 20px 0 20px; }
+
+/* Contextual excerpt pattern displays additional information about a comment (in reply to...) */
+.contextual-excerpt-pattern-text { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; }
+.contextual-excerpt-pattern { border-bottom: 1px solid #ccc;  }
+.contextual-excerpt-pattern-avatar-container { width: 32px; padding: 4px 8px 20px 0; vertical-align: top; }
+.contextual-excerpt-pattern-avatar { padding: 3px 0 0 0;}
+.contextual-excerpt-pattern-avatar-image { border-radius: 3px; }
+.contextual-excerpt-pattern-text-container { padding: 4px 0 17px 0; }
+
+/* Users involved pattern displays users that are involved in a notification */
+#users-involved-pattern {  font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px;}
+.users-involved-pattern-column-container { padding-right: 60px; }
+.users-involved-pattern-column-table-no-right-padding .users-involved-pattern-column-container {padding-right: 0;}
+.users-involved-pattern-column-table {float: left;}
+.users-involved-pattern-name-container { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; padding: 0 5px 5px 0; mso-line-height-rule: exactly; mso-text-raise: 3px; word-wrap:normal; overflow-wrap: normal;}
+.users-involved-pattern-name-container.no-right-padding { padding-right: 0px; }
+.users-involved-pattern-avatar-container { vertical-align: top; }
+.users-involved-pattern-avatar-table { font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; }
+.users-involved-pattern-avatar-table-cell { padding: 2px 5px 5px 0; max-width: 16px; width: 16px; }
+.users-involved-pattern-avatar-image { border-radius: 3px; display: block; }
+.email-content-main .users-involved-pattern-content { padding-left: 24px; }
+#users-involved-pattern-container-top { padding-bottom: 5px; }
+.contextual-area-pattern #users-involved-pattern-container, .contextual-area-pattern #users-involved-pattern-container-bottom { padding-left: 17px; }
+
+
+.simple-data-container { font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 1px; padding-top: 15px; color: #707070}
+.simple-data-title {padding-bottom: 5px;}
+.simple-data-label {padding: 0px 5px 0px 15px; text-align: right; font-weight: bold;}
+
+#follow-user-context-area { padding-bottom: 15px; font-family: Arial, sans-serif; font-size: 14px; line-height: 20px; mso-line-height-rule: exactly; mso-text-raise: 2px; }
+
+/* Footer pattern contains links, information about confluence and logos */
+#footer-pattern { padding: 12px 20px; }
+.footer-pattern-links { font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px; }
+.footer-pattern-links-bull { padding: 0 5px; color: #999999; }
+#footer-pattern-logo-desktop-container { padding-left: 20px; vertical-align: top; }
+#footer-pattern-logo-desktop-padding { padding-top: 3px; }
+#footer-pattern-text { color: #999999; font-size: 12px; line-height: 18px; font-family: Arial, sans-serif; mso-line-height-rule: exactly; mso-text-raise: 2px; }
+#footer-pattern-logo-mobile { display: none; mso-hide:all;}
+
+a { color: #3b73af; text-decoration: none; }
+#header-text-container .mailto-link {color:#333;}
+.simple-data-value .mailto-link {color: #707070;}
+
+.content-deleted-lozenge {
+    font-family: Arial, sans-serif;
+    background-color: #d04437;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: bold;
+    mso-line-height-rule: exactly;
+    line-height: 11px;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #d04437;
+    border-right-width: 4px;
+    border-left-width: 4px;
+    mso-text-raise:2px;
+    mso-border-alt:solid #d04437 2px;
+}
+#page-title-pattern .content-deleted-lozenge {
+    mso-border-alt:solid #d04437 4px;
+}
+
+/* Our custom aui-buttons that also caters for outlook - primary button is used by a few emails */
+.aui-button-email-container .aui-button-email-link {
+    color: #fff;
+    font-weight: bold;
+    padding: 6px;
+
+    /*Default font styles*/
+    font-size: 14px;
+    line-height: 1.42857142857143;
+    font-family: Arial, sans-serif;
+}
+
+.aui-button-email-container .aui-button-email {
+    border-radius: 3px;
+    padding: 5px;
+    margin: 0px;
+}
+
+
+/* This style needs to live at the bottom so BotoCSS applies it last. BotoCSS applies styles in order of appearance,
+   instead of specificity */
+.restrictions-active {color: #999999; margin-top: 10px;}
+.restrictions-active span {color: #d04437;}
+.restrictions-active-icon {margin-right: 3px; vertical-align: text-top;}
+.red { background-color: #b02015; border-color: #d04437;}
+.content-deleted-color, .content-deleted-color a { color: #707070; }
+
+.mobile-only {
+    overflow: hidden;
+    line-height: 0;
+    font-size: 0;
+    mso-hide: all;
+}

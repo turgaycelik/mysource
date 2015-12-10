@@ -1,0 +1,14 @@
+<indexsnapshotservice id="indexsnapshotservice">
+    <description>
+        admin.service.index.snapshotservice.desc
+    </description>
+    <properties>
+        <property>
+            <key>backupCount</key>
+            <name>admin.service.index.snapshotservice.backup.count</name>
+            <description>admin.service.index.snapshotservice.backup.count.desc</description>
+            <type>long</type>
+            <default>3</default>
+        </property>
+    </properties>
+</indexsnapshotservice>

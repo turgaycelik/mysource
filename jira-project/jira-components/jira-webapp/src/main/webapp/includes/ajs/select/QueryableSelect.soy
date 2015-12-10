@@ -1,0 +1,36 @@
+{namespace AJS.Templates}
+
+/**
+* A template to render <select>'s for use with frother/sparkler controls.
+*
+* @param id - Field id attribute
+* @param name - Field name attribute
+* @param descriptors - Array of AJS.ItemDescriptor & AJS.GroupDescriptor
+*/
+{template .queryableSelect}
+<select {if $name}name="{$name}"{/if} {if $id}id="{$id}"{/if} multiple="multiple">
+    {foreach $descriptor in $descriptors}
+        {if $descriptor.properties.items}
+            <optgroup label="{$descriptor.properties.label}">
+                {foreach $option in $descriptor.properties.items}
+                    {call .option}
+                        {param option: $option /}
+                    {/call}
+                {/foreach}
+            </optgroup>
+        {else}
+            {call .option}
+                {param option: $descriptor /}
+            {/call}
+        {/if}
+    {/foreach}
+</select>
+{/template}
+
+/**
+* Renders <option> element for using frother/sparkler controls
+* @param option
+*/
+{template .option}
+<option {if $option.properties.title}title="{$option.properties.title}"{/if} {if $option.properties.meta}data-meta="{$option.properties.meta}"{/if} {if $option.properties.selected}selected="selected"{/if} value="{$option.properties.value}">{$option.properties.label}</option>
+{/template}

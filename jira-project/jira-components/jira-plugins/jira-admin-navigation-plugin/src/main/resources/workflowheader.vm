@@ -1,0 +1,146 @@
+#* @vtlvariable name="helpUtil" type="com.atlassian.jira.web.util.HelpUtil" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.util.I18nHelper" *#
+#* @vtlvariable name="baseurl" type="java.lang.String" *#
+#* @vtlvariable name="atl_token" type="java.lang.String" *#
+#* @vtlvariable name="urlcodec" type="com.atlassian.jira.util.JiraUrlCodec" *#
+#* @vtlvariable name="userformat" type="com.atlassian.jira.plugin.profile.UserFormatManager" *#
+#* @vtlvariable name="authcontext" type="com.atlassian.jira.security.JiraAuthenticationContext" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="dateFormatter" type="com.atlassian.jira.datetime.DateTimeFormatter" *#
+#* @vtlvariable name="jiraWorkflow" type="com.atlassian.jira.workflow.JiraWorkflow" *#
+#* @vtlvariable name="active" type="java.lang.Boolean" *#
+#* @vtlvariable name="helpPath" type="com.atlassian.jira.web.util.HelpUtil.HelpPath" *#
+#* @vtlvariable name="sharedProjects" type="java.util.List<com.atlassian.jira.project.Project>" *#
+#* @vtlvariable name="projectId" type="java.lang.Long" *#
+#* @vtlvariable name="displayUpdatedDate" type="java.lang.Boolean" *#
+#enable_html_escaping()
+
+${webResourceManager.requireResource("com.atlassian.plugins.helptips.jira-help-tips:common")}
+
+#set ($url_atl_token = $urlcodec.encode(${atl_token}))
+#set ($url_workflow_name= $urlcodec.encode(${jiraWorkflow.name}))
+
+<header class="aui-page-header">
+    #if (${jiraWorkflow.draftWorkflow} || ${jiraWorkflow.hasDraftWorkflow()})## Banner at top of workflow page to contain actions relevant to the state of the workflow's draft
+        <div id="draft-workflow-actions" class="aui-message warning draft-workflow-message">
+            #if (${jiraWorkflow.draftWorkflow})
+                <span class="aui-icon aui-icon-warning"></span>$i18n.getText("admin.workflow.infobox.draft.editing")
+                <div class="aui-buttons">
+                    <a class="aui-button trigger-dialog" id="publish_draft_workflow" href="${baseurl}/secure/admin/workflows/PublishDraftWorkflow!default.jspa?workflowName=$url_workflow_name&amp;workflowMode=draft&amp;project=$!{projectId}&amp;issueType=$!{issueTypeId}">
+                        $i18n.getText("admin.workflows.actions.publish.draft")
+                    </a>
+                    <a class="aui-button trigger-dialog" id="discard_draft_workflow" href="${baseurl}/secure/admin/workflows/DeleteWorkflow.jspa?workflowName=$url_workflow_name&amp;workflowMode=draft&amp;atl_token=$url_atl_token&amp;project=$!{projectId}&amp;issueType=$!{issueTypeId}">
+                        $i18n.getText("admin.workflows.actions.discard.draft")
+                    </a>
+                </div>
+                <a id="view_live_workflow" class="aui-button aui-button-link" href="${baseurl}/secure/admin/workflows/ViewWorkflowSteps.jspa?workflowMode=live&amp;workflowName=$url_workflow_name">
+                    $i18n.getText("admin.project.workflows.view.original.action")
+                </a>
+            #else
+                <span class="aui-icon aui-icon-warning"></span>$i18n.getText("admin.workflow.infobox.viewing.active")
+                <a id="view-draft-workflow-trigger" href="${baseurl}/secure/admin/workflows/EditWorkflowDispatcher.jspa?atl_token=$url_atl_token&amp;wfName=$url_workflow_name">
+                    $i18n.getText("admin.workflow.infobox.edit.draft.action")
+                </a>
+            #end
+        </div>
+    #end
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <ul class="aui-nav aui-nav-breadcrumbs">
+                <li><a id="workflows-link" href="${baseurl}/secure/admin/workflows/ListWorkflows.jspa">$i18n.getText("admin.menu.globalsettings.workflows")</a></li>
+            </ul>
+            <h2>
+                <span class="workflow-name">${jiraWorkflow.name}</span>
+                #if (${jiraWorkflow.draftWorkflow} || !(${jiraWorkflow.systemWorkflow} || ${jiraWorkflow.active}))
+                    <a id="edit-workflow-trigger" class="icon jira-icon-edit" title="Edit Workflow" href="${baseurl}/secure/admin/workflows/EditWorkflow!default.jspa?workflowName=$url_workflow_name&amp;workflowMode=${jiraWorkflow.mode}">
+                        <span>$i18n.getText("admin.workflows.edit")</span>
+                    </a>
+                #end
+                #if (${jiraWorkflow.systemWorkflow})
+                    <span id="loz-workflow-system" class="aui-lozenge status-active workflow-system" title="$i18n.getText("admin.workflows.system.description2")">$i18n.getText("workflow.designer.workflow.system")</span>
+                #end
+                #if(${jiraWorkflow.draftWorkflow})
+                    <span id="loz-workflow-draft" class="aui-lozenge status-draft" title="$i18n.getText("admin.workflows.editing.description2")">$i18n.getText("common.words.draft")</span>
+                #else
+                    #if (${jiraWorkflow.active})
+                        <span id="loz-workflow-active" class="aui-lozenge status-active" title="$i18n.getText("admin.workflows.active.description2")">$i18n.getText("admin.common.words.active")</span>
+                    #else ## it's inactive
+                        <span id="loz-workflow-inactive" class="aui-lozenge status-inactive" title="$i18n.getText("admin.workflows.inactive.description2")">$i18n.getText("admin.common.words.inactive")</span>
+                    #end
+                #end
+                #if (!$sharedProjects.empty)
+                    <span class="aui-lozenge shared-by"><em>$i18n.getText("admin.project.shared.by")</em> <a href="#project-share-info" class="shared-item-trigger">$i18n.getText("admin.project.shared.projects", $sharedProjects.size())</a></span>
+                    <div id="project-share-info" class="shared-item-target">
+                        <div class="shared-item-content">
+                            <strong>$i18n.getText("admin.project.shared.list.heading.workflow")</strong>
+                            <ul class="shared-project-list">
+                                #foreach($project in $sharedProjects)
+                                    <li><a class="shared-project-name" href="${baseurl}/plugins/servlet/project-config/$project.key"><img class="shared-project-icon" width="16" height="16" alt="" src="${baseurl}/secure/projectavatar?pid=${project.id}&amp;avatarId=${project.avatar.id}" />${project.name}</a></li>
+                                #end
+                            </ul>
+                        </div>
+                    </div>
+                #end
+            </h2>
+            #if (!${jiraWorkflow.description.empty})
+                <p class="item-description workflow-description">${jiraWorkflow.description}</p>
+            #end
+        </div>
+        <div class="aui-page-header-actions">
+            #if (${jiraWorkflow.active} && !${jiraWorkflow.systemWorkflow} && !${jiraWorkflow.draftWorkflow})
+                <a class="aui-button" id="draft-workflow-trigger" href="${baseurl}/secure/admin/workflows/EditWorkflowDispatcher.jspa?atl_token=$url_atl_token&amp;wfName=$url_workflow_name">
+                    $i18n.getText("common.words.edit")
+                </a>
+            #end
+            $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.Links.helpLink", {
+                "url": $helpPath.url,
+                "title": $helpPath.title,
+                "isLocal": false
+            })
+        </div>
+    </div>
+</header>
+
+#if (!${jiraWorkflow.systemWorkflow})
+    #if ($displayUpdatedDate)
+        #if ($jiraWorkflow.updatedDate)
+            #set ($dateHtml = $textutils.htmlEncode($dateFormatter.format($jiraWorkflow.updatedDate)))
+            #if ( ! ${jiraWorkflow.updateAuthorName} )
+                #if ($jiraWorkflow.draftWorkflow)
+                    #set ($msgKey = "admin.workflow.infobox.draft.last.edited.by.anonymous")
+                #else
+                    #set ($msgKey = "admin.workflow.infobox.workflow.last.edited.by.anonymous")
+                #end
+                #set ($msgHtml = $i18n.getText($msgKey, "<strong>", "</strong>", $dateHtml))
+                <div class="aui-message warning last-edited"><span class="aui-icon icon-warning"></span>
+                    <p>$msgHtml</p>
+                </div>
+            #elseif ($authcontext.isLoggedInUser() && $authcontext.getUser().equals(${jiraWorkflow.updateAuthor}))
+                #if ($jiraWorkflow.draftWorkflow)
+                    #set ($msgKey = "admin.workflow.infobox.draft.last.edited.by.you")
+                #else
+                    #set ($msgKey = "admin.workflow.infobox.workflow.last.edited.by.you")
+                #end
+                #set ($msgHtml = $i18n.getText($msgKey, "<strong>", "</strong>", $dateHtml))
+                <div class="aui-message info last-edited"><span class="aui-icon icon-info"></span>
+                    <p>$msgHtml</p>
+                </div>
+            #else
+                #if ($jiraWorkflow.draftWorkflow)
+                    #set ($msgKey = "admin.workflow.infobox.draft.last.edited")
+                #else
+                    #set ($msgKey = "admin.workflow.infobox.workflow.last.edited")
+                #end
+                #set ($profileHtml = $userformat.formatUserkey(${jiraWorkflow.updateAuthor.key}, "profileLink", "workflowUpdater"))
+                #set ($msgHtml = $i18n.getText($msgKey, $profileHtml, $dateHtml))
+                <div class="aui-message warning last-edited"><span class="aui-icon icon-warning"></span>
+                    <p>$msgHtml</p>
+                </div>
+            #end
+        #end
+    #end
+#else
+    <div class="aui-message info last-edited"><span class="aui-icon icon-info"></span>
+        <p>$i18n.getText("admin.workflows.system.workflows.are.not.editable")</p>
+    </div>
+#end

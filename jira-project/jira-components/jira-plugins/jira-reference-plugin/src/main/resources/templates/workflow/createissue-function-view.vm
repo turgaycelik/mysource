@@ -1,0 +1,3 @@
+#disable_html_escaping()
+Creat Issue Post Function - creates a new issue cloning the issue
+

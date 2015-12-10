@@ -1,0 +1,10 @@
+#disable_html_escaping()
+#searcherHeaderNoField ($searcherId $i18n.getText($searcherNameKey))
+    #foreach ($constant in $selectedObjects)
+        #if ($invalidSelections && $invalidSelections.contains($constant) )
+            <span class="invalid_sel" #searchContextDescriptionTitle($searcherNameKey, $constant.nameTranslation, $contextProjectNames, $contextIssueTypeNames)>$textutils.htmlEncode($constant.nameTranslation)</span>#commaonly($selectedObjects)
+        #else
+            $textutils.htmlEncode($constant.nameTranslation)#commaonly($selectedObjects)
+        #end
+    #end
+#searcherFooter ($searcherId)

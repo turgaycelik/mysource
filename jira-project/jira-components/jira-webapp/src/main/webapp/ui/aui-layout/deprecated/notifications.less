@@ -1,0 +1,96 @@
+@import "../../imports/mixins/grid";
+@import "../../imports/mixins/borders";
+
+#jira-message-container { background-color: #fff; border:1px solid #bbb; -moz-border-radius: 5px; -webkit-border-radius: 5px; border-radius: 5px; margin: 16px auto; width: 600px; padding: 16px; }
+#jira-message-container .aui-message { margin: 16px 0 0 0; }
+#jira-message-container > h1 { margin: 0 0 16px 0; }
+#jira-message-container > h1 + .aui-message,
+#jira-message-container .aui-message:first-child { margin-top: 0; }
+#jira-message-container form { margin-top: 0.5em; }
+
+.notifications {
+    clear: both;
+    > ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        > li {
+            background-color: #ffd;
+            border-color: #f7df92;
+            border-style: solid;
+            border-width: 0 1px 1px 1px;
+            padding: @grid @gutter;
+            &:first-child {
+                border-top: 1px solid #f7df92;
+            }
+        }
+    }
+}
+
+.aui-message .icon-help {background-image: url("../../../images/icons/ico_help.png");float:right; height:16px; left:auto; margin-left:14px; position:relative; top:0; width:16px; }
+
+.notify { background-color: #f0f0f0; background-position: 0.75em 0.75em; background-repeat: no-repeat; border: 1px solid #bbb; color: #000; padding: 0.75em; }
+.notify.info { background-color: #e0efff; background-image: url("../../../images/icons/icon-information.png"); border-color: #9eb6d4; padding-left: 2.5em; }
+.notify.warn { background-color: #ffd; background-image: url("../../../images/icons/icon-warning.png"); border-color: #f7df92; padding-left: 2.5em; }
+.notify.error { background-color: #ffe7e7; background-image: url("../../../images/icons/icon-error.png"); border-color: #df9898; padding-left: 2.5em; }
+.notify.success { background-color: #ddfade; background-image: url("../../../images/icons/accept.png"); border-color: #9ec49f; padding-left: 2.5em; }
+
+/* Announcement Banner */
+#announcement-banner {
+    .border-bottom();
+    padding: @grid;
+    clear:both;
+}
+
+/* Legacy Notification Boxes - do not use */
+.importWarningBox, .warningBox, .importErrorBox, .infoBox, .tipBox, .greenBox, .grayBox { background-position: 0.5em 0.5em; background-repeat: no-repeat; color: #000; margin: 0 auto; padding: 0.5em; }
+.warningBox a, .infoBox a, .tipBox a { font-weight: bold; }
+.importWarningBox { background-color: #ffd; background-image: url( ../../../images/icons/icon-warning.png ); border: 1px solid #f7df92; padding-left: 2.5em; width: 80%; }
+.warningBox { background-color: #ffe7e7; background-image: url("../../../images/icons/icon-error.png"); border: solid 1px #df9898; padding-left: 2.5em; }
+.importErrorBox { background-color: #ffe7e7; background-image: url("../../../images/icons/icon-error.png"); border: 1px solid #df9898; padding-left: 2.5em; width: 80%; }
+.infoBox { background-color: #e0efff; background-image: url( ../../../images/icons/icon-information.png ); border: 1px solid #9eb6d4; padding-left: 2.5em; }
+.tipBox { background-color: #ddfade; border: 1px solid #9ec49f; }
+.greenBox { background-color: #ddfade; border: 1px solid #9ec49f; width: 80%; }
+.grayBox { background-color: #f0f0f0; border: 1px solid #bbb; width: 80%; }
+.informationBox { background-color: #ffd; border: 1px solid #f7df92; margin-left: auto; margin-right: auto; padding: 1em; width: 80%; }
+.informationBox .error, .informationBox .success, .informationBox .info { font-size: 1.2em; font-weight: bold; }
+.informationBox .error { color: #c00; }
+.informationBox .success { color: #006400; }
+.informationBox .info { color: #60f; }
+.module.message, .tooltip { background-color: #ffd; border: 1px solid #f7df92; }
+.tooltip { color: #000; display: none; font-weight: normal; padding: 0.5em; position: absolute; right: 10px; text-align: center; text-transform: none; width: 20em; z-index:  2050; }
+
+.module.message.error,.errorBox,.errorBox2 { background-color: #ffe7e7; border: 1px solid #df9898; }
+.errorBox { padding: 4px; width: 90%; }
+.rowClear { background-color: #fff; }
+.errorTabCell { background-color: #ffe7e7; }
+.formErrors { background-color: #ffe7e7 !important; }
+.loginFormError { background-color: #ffe7e7; color: #c00; font-weight: bold; }
+#portlet-search-view-footer .errors li,.paramRemoved,.paramRemoved a,.errMsg, td.frother-control-renderer div.error { color: #c00; font-weight: bold; }
+.errMsg { text-align: center; }
+form.aui .errMsg { text-align: left; }
+.formErrors ul { color:#000; margin: 0; padding: 0; list-style: none; }
+
+/* Contextual Overrides */
+.mod-content .notify { margin: 0 0.75em 0.75em 0; }
+
+/* status */
+.status-active {color: #006400;}
+.status-inactive {color: #c00;}
+.status-draft {color: #00c;}
+.status-correctable {color: #c60}
+.status-unfixable {color: #FF0004}
+
+/* bar colors */
+.bar-status-good {background-color:#0c0}
+.bar-status-bad {background-color:#c33}
+
+.secondary-text {color:#505050;font-weight:normal;}
+
+/* Websudo -style notifications */
+.global-warning { background-color: #ffd; border: 1px solid #f7df92; color: #000; margin: 0; text-align: center; padding:5px; }
+.global-warning p { margin-bottom: 0; }
+.global-warning a { cursor: pointer; }
+
+/* JRADEV-7010 errors in main nav look a little funky */
+.main-nav-dropdown > .aui-message { margin: -4px 0; border: none; border-radius:0;width:200px;}

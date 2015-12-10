@@ -1,0 +1,364 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <!-- Velocity template renderer -->
+    <component-import key="renderer" interface="com.atlassian.templaterenderer.TemplateRenderer" />
+
+    <component key="field-value-to-display-transformer" name="FieldValueToDisplayTransformer" class="com.atlassian.jira.gadgets.system.util.StatsMarkupFieldValueToDisplayTransformer"/>
+    <component key="single-stat-resource" name="StatisticTypesResource" class="com.atlassian.jira.gadgets.system.StatisticTypesResource"/>
+
+    <component key="marketingGadgetSpecProvider" name="Atlassian JIRA News"
+               class="com.atlassian.jira.gadgets.system.MarketingGadgetSpecProvider" public="true">
+        <interface>com.atlassian.gadgets.GadgetSpecProvider</interface>
+    </component>
+
+    <component key="jiraSubscribedGadgetFeedStore" name="JIRA Gadget Feed Store"
+               class="com.atlassian.jira.dashboard.JiraSubscribedGadgetFeedStore" public="true">
+        <interface>com.atlassian.gadgets.directory.spi.SubscribedGadgetFeedStore</interface>
+    </component>
+
+    <component key="admin-task-manager" name="AdminTaskManager" class="com.atlassian.jira.gadgets.system.AdminTaskManager" />
+    <component key="admin-task-user-property-manager" name="AdminTaskUserPropertyManager" class="com.atlassian.jira.gadgets.system.AdminTaskUserPropertyManager" />
+    <component key="look-and-feel-update-listener" name="LookAndFeelUpdateListener" class="com.atlassian.jira.gadgets.system.LookAndFeelUpdateListener" />
+    <component key="admin-greenhopper-license-checker" name="GreenhopperLicenseChecker" class="com.atlassian.jira.gadgets.system.util.DefaultGreenhopperLicenseChecker"/>
+    <component key="admin-bonfire-license-checker" name="BonfireLicenseChecker" class="com.atlassian.jira.gadgets.system.util.DefaultBonfireLicenseChecker"/>
+
+    <gadget key="login-gadget" name="Login" location="gadgets/login.xml">
+        <resource type="download" name="login-screenshot.png" location="images/login-screenshot.png"/>
+        <resource type="download" name="login-thumb.png" location="images/login-thumb.png"/>
+    </gadget>
+    <gadget key="introduction-gadget" name="Introduction" location="gadgets/introduction-gadget.xml"/>
+    <gadget key="bugzilla" name="Bugzilla" location="gadgets/bugzilla-id-search.xml">
+        <resource type="download" name="bugzilla-screenshot.png" location="images/bugzilla-screenshot.png"/>
+        <resource type="download" name="bugzilla-thumb.png" location="images/bugzilla-thumb.png"/>
+    </gadget>
+
+    <!-- Gadgets required a user to be logged in! -->
+    <gadget key="favourite-filters-gadget" name="Favourite Filters" location="gadgets/favourite-filters-gadget.xml">
+        <param name="roles-required">use</param>
+        <resource type="download" name="favfilters-screenshot.png" location="images/favfilters-screenshot.png"/>
+        <resource type="download" name="favfilters-thumb.png" location="images/favfilters-thumb.png"/>
+    </gadget>
+    <gadget key="assigned-to-me-gadget" name="Assigned to Me" location="gadgets/assigned-to-me-gadget.xml">
+        <param name="roles-required">use</param>
+    </gadget>
+    <gadget key="in-progress-gadget" name="In Progress" location="gadgets/in-progress-gadget.xml">
+        <param name="roles-required">use</param>
+    </gadget>
+    <gadget key="voted-gadget" name="Voted" location="gadgets/voted-gadget.xml">
+        <param name="roles-required">use</param>
+    </gadget>
+    <gadget key="watched-gadget" name="Watched" location="gadgets/watched-gadget.xml">
+        <param name="roles-required">use</param>
+    </gadget>
+    <gadget key="text-gadget" name="Text" location="gadgets/text-gadget.xml" state="disabled">
+        <param name="roles-required">use</param>
+    </gadget>
+
+    <!-- Gadgets required a user to have browse project permission in at least a single project -->
+    <gadget key="quicklinks-gadget" name="Quick Links" location="gadgets/quicklinks-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="quicklinks-screenshot.png" location="images/quicklinks-screenshot.png"/>
+        <resource type="download" name="quicklinks-thumb.png" location="images/quicklinks-thumb.png"/>
+    </gadget>
+    <gadget key="filter-results-gadget" name="Filter Results" location="gadgets/filter-results-gadget.xml">
+        <param name="roles-required">browse</param>
+    </gadget>
+    <gadget key="stats-gadget" name="Project/Filter Statistics" location="gadgets/stats-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="stats-screenshot.png" location="images/stats-screenshot.png"/>
+        <resource type="download" name="stats-thumb.png" location="images/stats-thumb.png"/>
+    </gadget>
+    <gadget key="two-dimensional-stats-gadget" name="Two Dimensional Stats" location="gadgets/two-dimensional-stats-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="twoDimensionalStats-screenshot.png" location="images/twoDimensionalStats-screenshot.png"/>
+        <resource type="download" name="twoDimensionalStats-thumb.png" location="images/twoDimensionalStats-thumb.png"/>
+    </gadget>
+    <gadget key="project-gadget" name="Project Gadget" location="gadgets/project-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="project-screenshot.png" location="images/project-screenshot.png"/>
+        <resource type="download" name="project-thumb.png" location="images/project-thumb.png"/>
+    </gadget>
+    <gadget key="pie-chart-gadget" name="Pie Chart" location="gadgets/piechart-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="piechart-screenshot.png" location="images/piechart-screenshot.png"/>
+        <resource type="download" name="piechart-thumb.png" location="images/piechart-thumb.png"/>
+    </gadget>
+    <gadget key="heat-map-gadget" name="Heat Map" location="gadgets/heatmap-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="heatmap-screenshot.png" location="images/heatmap-screenshot.png"/>
+        <resource type="download" name="heatmap-thumb.png" location="images/heatmap-thumb.png"/>
+    </gadget>
+    <gadget key="resolution-time-gadget" name="Resolution Time Chart" location="gadgets/resolution-time-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="resolutiontime-screenshot.png" location="images/resolutiontime-screenshot.png"/>
+        <resource type="download" name="resolutiontime-thumb.png" location="images/resolutiontime-thumb.png"/>
+    </gadget>
+    <gadget key="created-vs-resolved-issues-chart-gadget" name="Created vs Resolved Issues" location="gadgets/createdvsresolved-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="createdVsResolved-screenshot.png" location="images/createdVsResolved-screenshot.png"/>
+        <resource type="download" name="createdVsResolved-thumb.png" location="images/createdVsResolved-thumb.png"/>
+    </gadget>
+    <gadget key="average-age-chart-gadget" name="Average Age" location="gadgets/average-age-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="averageAge-screenshot.png" location="images/averageAge-screenshot.png"/>
+        <resource type="download" name="averageAge-thumb.png" location="images/averageAge-thumb.png"/>
+    </gadget>
+    <gadget key="time-since-chart-gadget" name="Time Since" location="gadgets/timesince-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="timeSince-screenshot.png" location="images/timeSince-screenshot.png"/>
+        <resource type="download" name="timeSince-thumb.png" location="images/timeSince-thumb.png"/>
+    </gadget>
+    <gadget key="recently-created-chart-gadget" name="Recently Created" location="gadgets/recently-created-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="recentlyCreated-screenshot.png" location="images/recentlyCreated-screenshot.png"/>
+        <resource type="download" name="recentlyCreated-thumb.png" location="images/recentlyCreated-thumb.png"/>
+    </gadget>
+    <gadget key="labels-gadget" name="Issues Labels Gadget" location="gadgets/labels-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="labels-screenshot.png" location="images/labels-screenshot.png"/>
+        <resource type="download" name="labels-thumb.png" location="images/labels-thumb.png"/>
+    </gadget>
+
+    <!-- Admin gadgets only -->
+    <gadget key="admin-gadget" name="Administration" location="gadgets/admin-gadget.xml">
+        <param name="roles-required">admin</param>
+        <resource type="download" name="admin-screenshot.png" location="images/admin-screenshot.png"/>
+        <resource type="download" name="admin-thumb.png" location="images/admin-thumb.png"/>
+    </gadget>
+
+    <resource type="download" name="checkbox-24-checked.png" location="images/checkbox-24-checked.png"/>
+    <resource type="download" name="checkbox-24-normal.png" location="images/checkbox-24-normal.png"/>
+    <resource type="download" name="admin-flag.png" location="images/admin-flag.png"/>
+    <resource type="download" name="admin-glass.png" location="images/admin-glass.png"/>
+    <resource type="download" name="admin-license.png" location="images/admin-license.png"/>
+    <resource type="download" name="admin-warning.png" location="images/admin-warning.png"/>
+    <resource type="download" name="admin-docs.png" location="images/admin-docs.png"/>
+
+
+    <rest key="gadgetRESTpoints" path="/gadget" version="1.0" description="Provides REST endpoints used to display gadget contents.">
+        <!-- Render takes URL with .xml at the end (gadget URI) so need to make sure jersey doesn't try to return XML content -->
+        <init-param>
+            <param-name>com.atlassian.plugins.rest.module.filter.ExtensionJerseyFilter#excludes</param-name>
+            <param-value>/chart/render.*</param-value>
+        </init-param>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <web-resource key="g-issuetable">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+        <dependency>jira.webresources:issue-table</dependency>
+        <dependency>jira.webresources:issue-statuses</dependency>
+    </web-resource>
+
+    <web-resource key="g-assigned-to-me">
+        <dependency>com.atlassian.jira.gadgets:g-issuetable</dependency>
+        <dependency>com.atlassian.jira.gadgets:g-labels</dependency>
+        <dependency>com.atlassian.jira.gadgets:column-picker</dependency>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <resource type="download" name="assigned-to-me.js" location="gadgets/assigned-to-me-gadget.soy"/>
+    </web-resource>
+
+    <web-resource key="g-filter-results">
+        <dependency>com.atlassian.jira.gadgets:g-issuetable</dependency>
+        <dependency>com.atlassian.jira.gadgets:autocomplete</dependency>
+        <dependency>com.atlassian.jira.gadgets:g-labels</dependency>
+        <dependency>com.atlassian.jira.gadgets:column-picker</dependency>
+    </web-resource>
+
+    <web-resource key="g-in-progress">
+        <dependency>com.atlassian.jira.gadgets:g-issuetable</dependency>
+        <dependency>com.atlassian.jira.gadgets:g-labels</dependency>
+        <dependency>com.atlassian.jira.gadgets:column-picker</dependency>
+    </web-resource>
+
+    <web-resource key="g-two-dimensional-stats">
+        <dependency>jira.webresources:issue-statuses</dependency>
+    </web-resource>
+
+    <web-resource key="g-stats">
+        <dependency>jira.webresources:issue-statuses</dependency>
+    </web-resource>
+
+    <web-resource key="g-labels">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-labels</dependency>
+        <transformation extension="css">
+            <transformer key="cssSubstitution" />
+        </transformation>
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+        <resource type="download" name="labels.css" location="/ui/aui-layout/labels.less">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="g-voted">
+        <dependency>com.atlassian.jira.gadgets:g-issuetable</dependency>
+        <dependency>com.atlassian.jira.gadgets:autocomplete</dependency>
+        <dependency>com.atlassian.jira.gadgets:g-labels</dependency>
+        <dependency>com.atlassian.jira.gadgets:column-picker</dependency>
+    </web-resource>
+
+    <web-resource key="g-watched">
+        <dependency>com.atlassian.jira.gadgets:g-issuetable</dependency>
+        <dependency>com.atlassian.jira.gadgets:autocomplete</dependency>
+        <dependency>com.atlassian.jira.gadgets:g-labels</dependency>
+        <dependency>com.atlassian.jira.gadgets:column-picker</dependency>
+    </web-resource>
+
+    <web-resource key="g-login">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+        <dependency>jira.webresources:captcha</dependency>
+        <dependency>com.atlassian.auiplugin:aui-reset</dependency>
+        <dependency>com.atlassian.auiplugin:ajs-gadgets-base</dependency>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <resource type="download" name="login-gadget.js" location="gadgets/login-gadget.soy"/>
+    </web-resource>
+
+    <web-resource key="g-admin">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <resource type="download" name="admin.js" location="gadgets/admin-gadget.soy"/>
+        <resource type="download" name="gadget-plugin-installer.js" location="script/gadget-plugin-installer.js"/>
+    </web-resource>
+
+    <web-resource key="g-admin-plugin-install-css">
+        <context>atl.dashboard</context>
+        <resource type="download" name="plugin-install.css" location="style/plugin-install.less"/>
+    </web-resource>
+
+    <web-resource key="core-gadget-resources">
+        <description>
+            Resources that govern the behaviour and presentation of the contents of gadgets.
+            These are the things 'common' and 'common-lite' have in... common...
+        </description>
+        <transformation extension="css">
+            <transformer key="cssSubstitution" />
+        </transformation>
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <resource type="download" name="gadget-common.js" location="script/gadget-common.js" />
+        <resource type="download" name="base.css" location="style/base.less" />
+        <resource type="download" name="common.css" location="style/common.less" />
+        <resource type="download" name="gadget-common-fields.js" location="script/gadget-common-fields.js" />
+    </web-resource>
+
+    <web-resource key="common">
+        <dependency>com.atlassian.gadgets.publisher:ajs-gadgets</dependency>
+        <dependency>jira.webresources:util-lite</dependency>
+        <dependency>com.atlassian.jira.gadgets:core-gadget-resources</dependency>
+    </web-resource>
+
+    <web-resource key="common-lite">
+        <context>jira-g-common-lite</context>
+        <dependency>com.atlassian.gadgets.publisher:ajs-gadgets-lite</dependency>
+        <dependency>jira.webresources:util-lite</dependency>
+        <dependency>com.atlassian.jira.gadgets:core-gadget-resources</dependency>
+    </web-resource>
+
+    <web-resource key="dashboard-gadget-chrome">
+        <description>Add JIRA-specific overrides to the dashboard gadget chrome</description>
+        <dependency>com.atlassian.gadgets.dashboard:dashboard</dependency>
+        <context>atl.dashboard</context>
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+        <resource type="download" name="gadget-colours.css" location="style/gadget-colours.less" />
+    </web-resource>
+
+    <web-resource key="autocomplete">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+        <dependency>jira.webresources:autocomplete</dependency>
+    </web-resource>
+
+    <web-resource key="column-picker">
+        <dependency>jira.webresources:autocomplete</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency><!-- RESTful Table -->
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <!-- Gadget-specific JavaScript -->
+        <resource type="download" name="gadget-filter-results-model.js" location="script/gadget-filter-results-model.js"/>
+        <resource type="download" name="gadget-column-picker.js" location="script/gadget-column-picker.js"/>
+        <resource type="download" name="gadget-column-picker.css" location="style/gadget-column-picker.less"/>
+    </web-resource>
+
+    <!-- don't use this! This remains for legacy reasons, backward support for greenhopeer gadgets amoung others -->
+    <web-resource key="jira-global">
+        <dependency>com.atlassian.jira.gadgets:common-lite</dependency>
+    </web-resource>
+
+
+    <!-- These resources are used from multiple gadgets -->
+    <resource type="download" name="filterResults-screenshot.png" location="images/filterResults-screenshot.png"/>
+    <resource type="download" name="filterResults-thumb.png" location="images/filterResults-thumb.png"/>
+    <resource type="download" name="text-screenshot.png" location="images/text-screenshot.png"/>
+    <resource type="download" name="text-thumb.png" location="images/text-thumb.png"/>
+
+    <!-- Chart popup stuff -->
+    <component-import key="dashboardService" interface="com.atlassian.gadgets.dashboard.DashboardService"/>
+    <component-import key="gadgetViewFactory" interface="com.atlassian.gadgets.view.GadgetViewFactory"/>
+    <component-import key="gadgetRequestContextFactory" interface="com.atlassian.gadgets.GadgetRequestContextFactory" />
+
+    <!-- Charts Search Request view -->
+    <web-resource key="searchrequestview-charts" i18n-name-key="admin.web.resources.plugin.charts.name"
+                  name="Charts Search Request View Javascript and CSS">
+        <dependency>jira.webresources:jira-global</dependency>
+        <dependency>com.atlassian.gadgets.embedded:gadget-standalone-resources</dependency>
+
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="popupuserprefstore.js" location="script/chartpopup/popupuserprefstore.js"/>
+        <resource type="download" name="chartdialog.js" location="script/chartpopup/chartdialog.js"/>
+        <resource type="download" name="charts-dialog.css" location="style/charts-dialog.less"/>
+    </web-resource>
+
+    <component-import key="tzManager" interface="com.atlassian.jira.timezone.TimeZoneManager"/>
+
+    <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>
+
+    <!-- Activity Stream on Browse Project page -->
+    <web-panel key="browse-project-activity-stream" location="webpanels.browse.project.summary.activitystream" name="Browse Project Activity Stream" weight="10">
+        <resource name="view" type="velocity" location="templates/project-activity-stream.vm"/>
+        <context-provider class="com.atlassian.jira.streams.ProjectActivityStreamContextProvider"/>
+    </web-panel>
+
+    <component-import key="outboundWhitelist" interface="com.atlassian.plugins.whitelist.OutboundWhitelist"/>
+    <component-import key="externalWhitelistService" interface="com.atlassian.plugins.whitelist.WhitelistService"/>
+
+    <component key="internalWhitelistManager" class="com.atlassian.jira.gadgets.whitelist.DefaultWhitelistManager" public="true">
+        <interface>com.atlassian.jira.bc.whitelist.InternalWhitelistManager</interface>
+    </component>
+
+    <component key="upgradeTask" class="com.atlassian.jira.gadgets.whitelist.UpgradeTask_Build611" public="true">
+        <interface>com.atlassian.sal.api.upgrade.PluginUpgradeTask</interface>
+    </component>
+
+</atlassian-plugin>

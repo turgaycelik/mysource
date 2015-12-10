@@ -1,0 +1,19 @@
+#disable_html_escaping()
+#if ($thumbnails && !$thumbnails.isEmpty())
+    #foreach ($thumbnail in $thumbnails)
+    ## Uncomment the line below and the one at the bottom to only show 1 thumbnail. To uncomment remove '##' from the start of the line.
+    ## #if ($velocityCount <= 1)
+    #if ($displayParams && $displayParams.get('full_link'))
+        <a href="${requestContext.baseUrl}/secure/attachment/${thumbnail.attachmentId}/${urlcodec.encode($thumbnail.filename, $charset)}">
+            $thumbnail.filename
+        </a>
+    #else
+        <a href="${requestContext.baseUrl}/secure/attachment/${thumbnail.attachmentId}/${urlcodec.encode($thumbnail.filename, $charset)}">
+            <img src="${requestContext.baseUrl}/secure/thumbnail/${thumbnail.attachmentId}/${urlcodec.encode($thumbnail.filename, $charset)}"
+                    width="${thumbnail.width}" height="${thumbnail.height}" vspace="5">
+        </a>
+    #end
+    ## Uncomment the line below if you have uncommented the if statement above.
+    ## #end
+    #end
+#end

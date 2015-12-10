@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($environment)
+  #if (${displayParams.excel_view})
+    $textutils.br($textutils.htmlEncode($environment, false))
+  #else
+    $rendererManager.getRenderedContent($fieldLayoutItem, $issue)
+  #end
+#end

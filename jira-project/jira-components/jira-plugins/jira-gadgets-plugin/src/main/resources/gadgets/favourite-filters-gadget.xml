@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.favourite.filters.title__" directory_title="__MSG_gadget.favourite.filters.title__" description="__MSG_gadget.favourite.filters.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:favourite-filters-gadget", "favfilters-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:favourite-filters-gadget", "favfilters-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.favourite.filters")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="showCounts" datatype="hidden" default_value="true"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+                gadgets.window.setTitle("__MSG_gadget.favourite.filters.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+                            return  {
+                                theme : function(){
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    {
+                                        userpref: "showCounts",
+                                        label: gadget.getMsg("gadget.favourite.filters.show.counts.label"),
+                                        description:gadget.getMsg("gadget.favourite.filters.show.counts.description"),
+                                        type: "select",
+                                        selected: gadget.getPref("showCounts"),
+                                        options:[
+                                            {
+                                                label:gadget.getMsg("gadget.common.yes"),
+                                                value:"true"
+                                            },
+                                            {
+                                                label:gadget.getMsg("gadget.common.no"),
+                                                value:"false"
+                                            }
+                                        ]
+                                    },
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        }
+                    },
+                    view: {
+                        enableReload: true,
+                        onResizeAdjustHeight: true,
+                        template: function (args) {
+                            var gadget = this;
+
+                            gadget.getView().addClass("g-favourite-filters");
+
+                            var filters = args.favFilters.filters;
+
+                            if (!filters || filters.length == 0)
+                            {
+                                AJS.$(".filter-list-content").removeClass("loading").html("<p>__MSG_gadget.favourite.filters.no.favourites__</p>");
+                            } else {
+
+                                if(!jQuery.isArray(filters)){
+                                    filters = [filters];
+                                }
+
+                                var list = AJS.$("<ul/>").attr("id", "filter-list");
+
+                                AJS.$(filters).each(function(){
+                                    var filter = this;
+                                    if (!filter.description){
+                                        filter.description = "";
+                                    }
+                                    if (filter.count == undefined){
+                                        filter.count = "";
+                                    }
+                                    list.append(
+                                        AJS.$("<li/>").append(
+                                            AJS.$("<a/>").attr({
+                                                target: "_parent",
+                                                title: gadgets.util.escapeString(filter.description),
+                                                href: "__ATLASSIAN_BASE_URL__/secure/IssueNavigator.jspa?mode=hide&requestId=" + filter.value
+                                            }
+                                            ).append(
+                                                AJS.$("<span/>").addClass("filter-name").text(filter.label)
+                                            ).append(
+                                                AJS.$("<span/>").addClass("filter-count").text(filter.count)
+                                            )
+                                        )
+                                        );
+                                });
+                                AJS.$(".filter-list-content").html(list);
+                            }
+                        },
+                        args: [{
+                            key: "favFilters",
+                            ajaxOptions: function () {
+                                return {
+                                    url: "/rest/gadget/1.0/favfilters",
+                                    data:  {
+                                        showCounts : this.getPref("showCounts")
+                                    }
+                                };
+                            }
+                        }]
+                    }
+                });
+                gadget.getView().append(
+                        AJS.$("<div/>").addClass("filter-list-content")
+                ).append(
+                    AJS.$("<div/>").addClass("config-options").append(
+                        AJS.$("<span/>").addClass("primary").append(
+                            AJS.$("<a/>").attr({
+                                target: "_parent",
+                                href: "__ATLASSIAN_BASE_URL__/secure/IssueNavigator.jspa?createNew=true&mode=show"
+                            }).text("__MSG_gadget.favourite.filters.create.new.filter__")
+                        )
+                    ).append(
+                        AJS.$("<span/>").addClass("secondary").append(
+                            AJS.$("<a/>").attr({
+                                target: "_parent",
+                                href: "__ATLASSIAN_BASE_URL__/secure/ManageFilters.jspa"
+                            }).text("__MSG_gadget.favourite.filters.manage.filters__")
+                        )
+                    )
+                );
+            })();
+
+        </script>
+
+
+        ]]>
+    </Content>
+</Module>

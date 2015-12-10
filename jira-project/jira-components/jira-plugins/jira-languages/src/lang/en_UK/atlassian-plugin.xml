@@ -1,0 +1,10 @@
+<atlassian-plugin name="English (United Kingdom) Language Pack" key="${project.groupId}.${project.artifactId}.en_UK"
+                  plugins-version="2">
+    <plugin-info>
+        <description>This plugin contains translations the core keys in JIRA for English (United Kingdom).</description>
+        <version>${pom.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+    <language name="English (United Kingdom)" key="en_UK" language="en" country="UK"/>
+    <resource name="i18n-0" type="i18n" location="com/atlassian/jira/web/action/"/>
+</atlassian-plugin>

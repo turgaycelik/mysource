@@ -1,0 +1,20 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.license.roles" i18n-name-key="licenserole.plugin.name" name="System License Roles">
+    <plugin-info>
+        <application-version min="6.3"/>
+        <description key="licenserole.plugin.desc">A plugin that defines the base license roles for JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <!--
+        This is the base JIRA License Role. When declaring future license roles, match the below format.
+        Mandatory fields:
+            - display-name-i18n-key (user displayed name of license role)
+            - license-role-key (unique identifier for license role)
+    -->
+    <license-role key="businessUser" name="Business User License Role">
+        <description>A license role for usage of core JIRA functionality.</description>
+        <display-name-i18n-key>licenserole.business.user.name</display-name-i18n-key>
+        <license-role-id>BusinessUser</license-role-id>
+    </license-role>
+</atlassian-plugin>

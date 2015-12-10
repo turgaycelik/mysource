@@ -1,0 +1,73 @@
+@import "../../imports/aui-colours";
+@import "../../imports/mixins/break-word";
+
+@label-width: 140px; // TODO: 3 blocks in grid terms...
+@temp-color-item-label-foreground: @aui-color-mid;
+
+.item-details { // essentially a pseudo dl with wrapping for layout concerns
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    dl {
+        border-spacing: 0;
+        display: table;
+        table-layout: fixed;
+        margin: 0;
+        width: 100%;
+
+        > dt {
+            color: @temp-color-item-label-foreground;
+            display: table-cell;
+            font-weight: normal;
+            text-align: right;
+            vertical-align: top;
+            width: @label-width;
+        }
+
+        > dd {
+            display: table-cell;
+            padding-left: 10px;
+            > a {
+                .break-word();
+            }
+        }
+
+        + dl {
+            margin-top: 5px;
+        }
+    }
+
+    > li {
+        margin-top: 0;
+
+        + li {
+            margin-top: 5px;
+        }
+    }
+}
+
+.aui-page-panel-nav {
+    .item-details {
+        dl {
+            display: block;
+            dt,
+            dd {
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+            dt {
+                text-align: left;
+                width: auto;
+            }
+        }
+    }
+}
+
+.context-issue-type {
+    display: inline-block;
+    + .context-issue-type {
+        margin: 0;
+    }
+}

@@ -1,0 +1,10 @@
+<atlassian-plugin name='Help Paths Plugin' key="jira.help.paths" i18n-name-key="jira.help.paths.plugin.name">
+    <plugin-info>
+        <description key="jira.help.paths.plugin.description">Provides the URLs that JIRA uses for help documentation.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="6.2" max="7.0"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <resource type="helpPaths" name="defaultHelpPaths" location="help-paths"/>
+</atlassian-plugin>

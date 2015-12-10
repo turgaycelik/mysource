@@ -1,0 +1,18 @@
+#disable_html_escaping()
+## This template is for editing an issue when there is only one issuetype available
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) true $displayParameters $auiparams)
+<img border="0" height="16" src="#getNormalizedUrl($issueTypeObject.iconUrlHtml)" title="$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false) #if ($textutils.htmlEncode($issueTypeObject.descTranslation, false) - $textutils.htmlEncode($issueTypeObject.descTranslation, false)) #end" width="16" />
+$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false)
+## Check if move permission has been granted - show link to move issue
+#if ($hasMovePermission)
+    #if (${issue.isSubTask()})
+        #set ($link1 = "<a href='${req.getContextPath()}/secure/MoveSubTaskChooseOperation!default.jspa?id=${issue.getId()}'>")
+    #else
+        #set ($link1 = "<a href='${req.getContextPath()}/secure/MoveIssue!default.jspa?id=${issue.getId()}'>")
+    #end
+    #set ($link2 = "</a>")
+    <div class="description">$i18n.getText('issue.field.issuetype.incompatible.type')</div>
+    <div class="description">$i18n.getText('issue.field.issuetype.editnote', $link1, $link2)</div>
+#end
+<input id="$field.id" name="$field.id" type="hidden" value="$issuetype" />
+#customControlFooter ($action $field.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

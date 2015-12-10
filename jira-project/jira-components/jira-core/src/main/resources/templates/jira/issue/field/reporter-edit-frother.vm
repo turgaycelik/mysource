@@ -1,0 +1,39 @@
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+
+<select id="$field.id"
+        name="$field.id"
+        class="single-user-picker js-default-user-picker"
+        data-container-class="long-field"
+        #if (!$canPerformAjaxSearch) data-disabled="true"#end
+        #if ($reporter && !$reporterDisplayName) data-edit-value="$textutils.htmlEncode($reporter)"#end
+        >
+
+    <optgroup id="reporter-group-suggested" label="$i18n.getText('user.picker.group.suggested')" data-weight="0">
+
+##      <option data-field-text="$i18n.getText('common.words.anonymous')"
+##              style="background-image:url('${anonymousUserAvatarUrl}')"
+##              value="">$i18n.getText('common.words.anonymous')</option>
+
+        #if ($reporterDisplayName)
+
+            #set ($username = $textutils.htmlEncode($reporter))
+            #set ($displayName = $textutils.htmlEncode($reporterDisplayName))
+
+            <option selected="selected"
+                    class="current-user"
+                    data-field-text="$displayName"
+                    data-icon="$reporterAvatarUrl"
+                    value="$username">$displayName</option>
+
+        #end
+    </optgroup>
+
+    <optgroup id="reporter-group-search" label="$i18n.getText('user.picker.group.search')" data-weight="1"></optgroup>
+
+</select>
+
+
+<div class="description">#if ($canPerformAjaxSearch)${i18n.getText('user.picker.ajax.desc')}#else${i18n.getText('user.picker.reporter.type.username')}#end</div>
+
+
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

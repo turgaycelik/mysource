@@ -1,0 +1,29 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.customfieldtypes" i18n-name-key="admin.customfield.plugin.name" name="Custom Field Types &amp; Searchers">
+    <plugin-info>
+        <description key="admin.customfield.plugin.desc">JIRA's system custom field types.</description>
+        <version>1.0</version>
+        <application-version min="3.0" max="3.0"/>
+        <vendor name="Atlassian Pty Ltd" url="http://www.atlassian.com"/>
+    </plugin-info>
+    <customfield-type key="multiversion" name="Version Picker"
+        i18n-name-key="admin.customfield.type.version.name"
+        class="com.atlassian.jira.issue.customfields.impl.VersionCFType">
+        <description key="admin.customfield.type.version.desc">Choose multiple versions from available versions in the project.</description>
+        <param name="multiple" value="true" />
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-version.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-version.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-version.vm"/>
+    </customfield-type>
+
+    <customfield-searcher key="versionsearcher" name="Version Dropdown Searcher"
+        i18n-name-key="admin.customfield.searcher.versionsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.VersionPickerSearcher">
+        <description key="admin.customfield.searcher.versionsearcher.desc">Allow to search for versions using a dropdown list.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit/edit-version.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-version.vm"/>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-version.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multiversion"/>
+    </customfield-searcher>
+</atlassian-plugin>

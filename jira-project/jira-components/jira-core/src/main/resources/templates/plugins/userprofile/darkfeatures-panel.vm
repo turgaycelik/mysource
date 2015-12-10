@@ -1,0 +1,69 @@
+#disable_html_escaping()
+#* @vtlvariable name="textUtils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="isAdmin" type="boolean" *#
+#* @vtlvariable name="globalEnabledFeatures" type="java.util.List<com.atlassian.jira.config.CoreFeatures>" *#
+#* @vtlvariable name="userEnabledFeatures" type="java.util.List<com.atlassian.jira.config.CoreFeatures>" *#
+
+<div class="module isolated">
+    <div class="mod-content">
+        <form class="aui" action="EditDarkFeatures.jspa">
+            <section id="global-dark-features">
+                <h3>Site-wide Dark Features</h3>
+                <p>
+                    These dark features are enabled for the entire site.
+##                    TODO - copy site dark-features admin from Confluence too, and link from here for admins.
+##                    #if ($isAdmin)
+##                        <a href="$req.contextPath/admin/darkfeatures.action">Change</a>
+##                    #else
+                        They may only be disabled by an administrator.
+##                    #end
+                </p>
+                <ul>
+                    #if ($globalEnabledFeatures.size())
+                        #foreach($feature in $globalEnabledFeatures)
+                            <li>
+                                $textUtils.htmlEncode($feature)
+                            </li>
+                        #end
+                    #else
+                        <li>
+                            No global dark features enabled
+                        </li>
+                    #end
+                </ul>
+            </section>
+
+            <section id="user-dark-features">
+                <h3>User Dark Features</h3>
+                <p>
+                    These dark features affect you only:
+                </p>
+                <ul>
+                    #if ($userEnabledFeatures.size())
+                        #foreach($feature in $userEnabledFeatures)
+                            #set ($featureStr = $textUtils.htmlEncode($feature))
+                            <li>
+                                $featureStr
+                                (<a href="EditDarkFeatures.jspa?action=remove&atl_token=${atl_token}&featureKey=$featureStr">remove</a>)
+                            </li>
+                        #end
+                    #else
+                        <li>
+                            No user dark features enabled
+                        </li>
+                    #end
+                </ul>
+            </section>
+            <div class="field-group">
+                <label for="feature-key">Enable dark feature:</label>
+                <input type="hidden" name="atl_token" value="$atl_token" />
+                <input id="feature-key" type="text" value="" name="featureKey" class="text">
+            </div>
+            <div class="buttons-container content-footer">
+                <div class="buttons">
+                    <input type="submit" value="Submit" class="button">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

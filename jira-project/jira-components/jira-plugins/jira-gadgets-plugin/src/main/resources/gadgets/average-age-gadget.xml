@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.average.age.title__" directory_title="__MSG_gadget.average.age.title__" description="__MSG_gadget.average.age.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:average-age-chart-gadget", "averageAge-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:average-age-chart-gadget", "averageAge-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Charts
+            </Param>
+        </Optional>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.average.age")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="projectOrFilterId" datatype="hidden" />
+    <UserPref name="daysprevious" datatype="hidden" default_value="30"/>
+    <UserPref name="periodName" datatype="hidden" default_value="daily"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #includeResources()
+
+        <script type="text/javascript">
+            gadgets.window.setTitle("__MSG_gadget.average.age.title__");
+            AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "/rest/gadget/1.0/currentUser",
+                config: {
+                    descriptor: function () {
+                        var gadget = this;
+                        var searchParam;
+                        if (/^jql-/.test(this.getPref("projectOrFilterId")) || this.getPref("isPopup") === "true"){
+                            searchParam =
+                                {
+                                    userpref: "projectOrFilterId",
+                                    type: "hidden",
+                                    value: gadgets.util.unescapeString(gadget.getPref("projectOrFilterId"))
+                                };
+                        }
+                        else{
+                            searchParam = AJS.gadget.fields.projectOrFilterPicker(gadget,"projectOrFilterId");
+                        }
+
+                        return  {
+                            action: "/rest/gadget/1.0/averageage/validate",
+                            theme : function(){
+                                if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    }
+                                    else
+                                    {
+                                        return "gdt";
+                                    }
+                            }(),
+                            fields: [
+                                searchParam,
+                                AJS.gadget.fields.period(gadget, "periodName"),
+                                AJS.gadget.fields.days(gadget, "daysprevious"),
+                                AJS.gadget.fields.nowConfigured()
+                            ]
+                        };
+                    }
+                },
+                view: {
+                    enableReload: true,
+                    onResizeReload: true,
+                    template: function (args) {
+                        var gadget = this;
+
+                        // reset view
+                        gadget.getView().addClass("g-average-age");
+                        gadget.getView().addClass("chart").empty();
+
+                        var requiresTitle = function() {
+                            return args.chart.filterTitle && args.chart.filterTitle !== "" && args.chart.filterTitle !== "gadget.common.anonymous.filter" && gadget.getPref("isPopup") === "false";
+                        };
+
+                        if (requiresTitle()){
+                            // This is used to pass the name of filter or project to the picker
+                            gadget.projectOrFilterName = args.chart.filterTitle;
+
+                            gadgets.window.setTitle(AJS.format("__MSG_gadget.average.age.title.specific__", args.chart.filterTitle));
+                        } else {
+                            gadget.title = "";
+                            gadget.getView().html("");
+                        }
+
+                        var getChartDiv = function()
+                        {
+                            var div = AJS.$("<div/>").addClass("gadget chart");
+                            return function() {
+                                return div;
+                            };
+                        }();
+
+                        var getChartContainer = function ()
+                        {
+                            var chart = AJS.$("<div id='chart' />").appendTo(gadget.getView());
+                            return function ()
+                            {
+                                return chart;
+                            };
+                        }();
+
+                        var safeEscapeString = function(text) {
+                            if(text) {
+                                return gadgets.util.escapeString(text);
+                            } else {
+                                return '';
+                            }
+                        };
+
+                        var getChartImg = function ()
+                        {
+                            AJS.$("#chart", gadget.getView()).get(0).innerHTML += "<img style='display:none' src='" + args.chart.base64Image + "' alt='" + safeEscapeString(args.chart.filterTitle) + "' usemap='#" +
+                            args.chart.imageMapName + "' height='" + args.chart.height + "' width='" + args.chart.width + "' />";
+                            gadget.getView().append(args.chart.imageMap);
+                            gadget.showLoading();
+                            var chartImg = AJS.$("img", getChartContainer());
+                            AJS.$(chartImg, gadget.getView()).load(function () {
+                                AJS.$(this).show();
+                                gadget.hideLoading();
+                                gadget.resize();
+                            });
+                            return function () {
+                                return chartImg;
+                            };
+                        }();
+
+                        var linkStart = "";
+                        var linkEnd = "";
+                        if(requiresTitle()) {
+                            linkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.chart.filterUrl + "\" target=\"_parent\" title=\"" + safeEscapeString(args.chart.filterTitle) + "\">";
+                            linkEnd = "</a>";
+                        }
+                        getChartContainer().append(AJS.$("<p/>").append(AJS.format(gadget.getMsg("gadget.average.age.numdays"), linkStart, linkEnd)))
+                                .append(AJS.$("<p/>").append(AJS.format("__MSG_gadget.common.chart.period__", "<span><strong>", gadget.getPref("daysprevious"), "</strong></span>", "<span><strong>", gadget.getMsg("gadget.common.period." + gadget.getPref("periodName")), "</strong></span>")));
+
+                        if (gadgets.views.getCurrentView().getName() === "canvas") {
+                            var dataTable = AJS.gadgets.templater.Table({
+                                descriptor: function (args)
+                                {
+                                    return {
+                                        cols: [
+                                            {
+                                                header: gadget.getMsg("gadget.common.period.name"),
+                                                sort: "asc"
+                                            },
+                                            {
+                                                header: gadget.getMsg("gadget.common.issuesunresolved")
+                                            },
+                                            {
+                                                header: gadget.getMsg("gadget.average.age.totalage")
+                                            },
+                                            {
+                                                header: gadget.getMsg("gadget.average.age.averageage")
+                                            }
+                                        ],
+                                        data: function ()
+                                        {
+                                            var linkIssues = function(item) {
+                                                if (item.issues > 0 && false) {
+                                                    return "<a href='" + item.issuesLink + "'>" + item.issues + "</a>";
+                                                } else {
+                                                    return item.issues;
+                                                }
+                                            };
+                                            var rows = [];
+                                            AJS.$(args.chartData).each(function (i)
+                                            {
+                                                rows.push([
+                                                    {
+                                                        value: i,
+                                                        label: this.period
+                                                    },
+                                                    {
+                                                        value: this.issues,
+                                                        label: linkIssues(this)
+                                                    },
+                                                    {
+                                                        value: this.totalTime,
+                                                        label: this.totalTime
+                                                    },
+                                                    {
+                                                        value: this.avgTime,
+                                                        label: this.avgTime
+                                                    }
+                                                ]);
+                                            });
+                                            return rows;
+                                        }()
+                                    };
+                                },
+                                sortable: true,
+                                args: [
+                                    {
+                                        key: "chartData",
+                                        data: args.chart.data
+                                    }
+                                ]
+                            });
+
+                            var getDataTable = function () {
+                                return AJS.$("table.aui", gadget.getView());
+                            };
+
+
+                            var createCanvasDataTable = function () {
+                                dataTable.addCallback(function (fragment) {
+                                    gadget.getView().append(fragment);
+                                    gadget.resize();
+                                });
+                                dataTable.build();
+                            };
+                            // finally after the image has loaded we create the data table
+                            getChartImg().load(createCanvasDataTable);
+                        }
+                    },
+                    args: [{
+                        key: "chart",
+                        ajaxOptions: function () {
+                            var width = Math.round(gadgets.window.getViewportDimensions().width * 0.9);
+                            //canvas mode needs some more room to the right for the data table.
+                            if(gadgets.views.getCurrentView().getName() === "canvas") {
+                                width = Math.round(gadgets.window.getViewportDimensions().width * 0.6);
+                            }
+                            if (width < 150){
+                                width = 150;
+                            }
+                            var height = Math.round(width*2/3);
+                            if (gadgets.views.getCurrentView().getName() === "canvas")
+                            {
+                                return {
+                                    url: "/rest/gadget/1.0/averageage/generate",
+                                    data:  {
+                                        projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                        daysprevious: this.getPref("daysprevious"),
+                                        periodName: this.getPref("periodName"),
+                                        width: Math.round(width * 0.7),
+                                        height: Math.round(height * 0.7),
+                                        returnData: true,
+                                        inline: true
+                                    }
+                                };
+                            }
+                            else
+                            {
+                                return {
+                                    url: "/rest/gadget/1.0/averageage/generate",
+                                    data:  {
+                                        projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                        periodName: this.getPref("periodName"),
+                                        daysprevious: this.getPref("daysprevious"),
+                                        width: width,
+                                        height: height,
+                                        inline: true
+                                    }
+                                };
+                            }
+                        }
+                    }]
+                }
+            });
+        </script>
+
+
+        ]]>
+    </Content>
+</Module>

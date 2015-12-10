@@ -1,0 +1,31 @@
+#disable_html_escaping()
+#* @vtlvariable name="currentAssigneeValue" type="java.lang.String" *#
+#* @vtlvariable name="currentAssignee" type="java.lang.String" *#
+#* @vtlvariable name="allowUnassigned" type="boolean" *#
+
+#controlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters.get('noHeader'))
+
+## Behaviour defined in assignee-edit-no-context.js
+
+<fieldset class="assignee-edit-group" rel="$field.id">
+    #if($allowUnassigned)
+        <div>
+            <input id="assignee_radio_unassigned_$field.id" type="radio" value="" name="assignee_radio" #if (!$currentAssignee || $currentAssignee.equals('')) checked="true" #end/> $i18n.getText('common.concepts.unassigned')
+        </div>
+    #end
+    <div>
+        <input id="assignee_radio_automatic_$field.id" type="radio" value="-1" name="assignee_radio" #if ($currentAssignee && $currentAssignee.equals('-1') || (!$currentAssignee    && !$allowUnassigned)) checked="true" #end/> $i18n.getText('common.concepts.automatic')
+    </div>
+    #if ($currentAssignee && ! $currentAssignee.equals('-1'))
+        #set ($currentAssigneeValue = $currentAssignee)
+    #else
+        #set ($currentAssigneeValue = "")
+    #end
+    <div>
+        <input id="assignee_radio_picker_$field.id" type="radio" style="float:left; margin-right:1em" value="$textutils.htmlEncode($currentAssigneeValue)" name="assignee_radio" #if ($currentAssignee && ! $currentAssignee.equals('-1') && ! $currentAssignee.equals('')) checked="true" #end/>
+        #userPicker ($action "assignee_userpicker_dummy_$field.id" $currentAssigneeValue false $null " width: 30%;" true 10)
+    </div>
+</fieldset>
+<input name="$field.id" id="$field.id" type="hidden" value="-1">
+
+#controlFooter ($action $fieldLayoutItem.getFieldDescription() $displayParameters.get('noHeader'))

@@ -1,0 +1,348 @@
+<exclusions>
+    <!--
+        This file contains classes, methods and fields that are excluded from api/spi compatibility checking
+        You should NOT be putting anything in here without a very very good reason and the knowledge and approval
+        of the Team Lead responsible for JIRA API
+
+        eg:
+           <exclusions>
+             <class name="com/atlassian/query/Query" exclude="true" />
+             <class name="com/atlassian/query/operator/Operator">
+               <field name="LIKE" exclude="true" />
+               <field name="NOT_LIKE" exclude="true" />
+               <method name="values" desc="()[Lcom/atlassian/query/operator/Operator;" exclude="true" />
+               <method name="valueOf" desc="(Ljava/lang/String;)Lcom/atlassian/query/operator/Operator;" access="PUBLIC"/>
+             </class>
+           </exclusions>
+       -->
+
+    <!-- Plugins should never have been using these any way and they have been totally broken for a long time. -->
+    <class name="com/atlassian/jira/config/properties/APKeys">
+        <field name="JIRA_SUBTASK_QUICKCREATE_TEMPLATE" exclude="true"/>
+        <field name="JIRA_SUBTASK_QUICKCREATE_FIELDS" exclude="true"/>
+    </class>
+
+    <!-- This class was only in the API by accident.  Plugin devs should not need to use it. -->
+    <class name="com/atlassian/jira/web/action/admin/customfields/CustomFieldContextManagementBean" exclude="true"/>
+
+    <!-- Deliberate API changes related to renamed users in JIRA 6.0 -->
+    <class name="com/atlassian/jira/security/JiraAuthenticationContext">
+        <method name="getUser" desc="()Lcom/atlassian/crowd/embedded/api/User;" exclude="true"/>
+    </class>
+    <class name="com/atlassian/jira/user/preferences/UserPreferencesManager">
+        <method name="clearCache" desc="(Ljava/lang/String;)V" exclude="true"/>
+    </class>
+
+    <!-- Added as @ExperimentalApi and later removed See JRADEV-23904 -->
+    <class name="com/atlassian/jira/project/ProjectManager">
+        <method name="getProjectByPreviousKey" desc="(Ljava/lang/String;)Lcom/atlassian/jira/project/Project;" exclude="true"/>
+    </class>
+
+    <!-- Previously deprecated GenericValue methods that have been zapped for 6.0 -->
+    <class name="com/atlassian/jira/issue/customfields/CustomFieldUtils">
+        <method name="buildJiraIssueContexts"
+                desc="(Ljava/lang/String;[Ljava/lang/Long;[Ljava/lang/Long;[Ljava/lang/String;Ljava/util/List;Lcom/atlassian/jira/issue/context/manager/JiraContextTreeManager;)Ljava/util/List;"
+                exclude="true"/>
+    </class>
+    <class name="com/atlassian/jira/web/action/JiraWebActionSupport">
+        <method name="getSelectedProject"
+                desc="()Lorg/ofbiz/core/entity/GenericValue;"
+                exclude="true" />
+    </class>
+    <class name="com/atlassian/jira/issue/attachment/Attachment">
+        <method name="getIssue"
+                desc="()Lorg/ofbiz/core/entity/GenericValue;"
+                exclude="true" />
+    </class>
+    <class name="com/atlassian/jira/workflow/WorkflowProgressAware">
+        <method name="getProject"
+                desc="()Lorg/ofbiz/core/entity/GenericValue;"
+                exclude="true" />
+    </class>
+
+    <!-- UserRoleActorFactory and GroupRoleActorFactory should not have been in the API.
+         They have been moved into jira-core for 6.0 -->
+    <class name="com/atlassian/jira/security/roles/actor/UserRoleActorFactory" exclude="true"/>
+    <class name="com/atlassian/jira/security/roles/actor/GroupRoleActorFactory" exclude="true"/>
+    <class name="com/atlassian/jira/security/roles/actor/GroupRoleActorFactory$GroupRoleActor" exclude="true"/>
+
+    <!-- Previously deprecated FieldAccessor class/methods that have been zapped for 6.0 -->
+    <class name="com/atlassian/jira/issue/fields/FieldAccessor" exclude="true"/>
+    <class name="com/atlassian/jira/component/ComponentAccessor">
+        <method name="getFieldAccessor"
+                desc="()Lcom/atlassian/jira/issue/fields/FieldAccessor;"
+                exclude="true" />
+    </class>
+    <class name="com/atlassian/jira/component/ComponentAccessor$Worker">
+        <method name="getFieldAccessor"
+                desc="()Lcom/atlassian/jira/issue/fields/FieldAccessor;"
+                exclude="true" />
+    </class>
+
+    <!-- Previously deprecated IssueLink-related classes that have been zapped for 6.0 -->
+    <class name="com/atlassian/jira/bc/issue/issuelink/IssueLinkService" exclude="true"/>
+    <class name="com/atlassian/jira/bc/issue/issuelink/IssueLinkService$AddIssueLinkValidationResult" exclude="true"/>
+    <class name="com/atlassian/jira/bc/issue/issuelink/IssueLinkService$DeleteIssueLinkValidationResult" exclude="true"/>
+    <class name="com/atlassian/jira/bc/issue/issuelink/IssueLinkService$IssueLinkResult" exclude="true"/>
+    <class name="com/atlassian/jira/bc/issue/issuelink/IssueLinkService$IssueLinkValidationResult" exclude="true"/>
+    <class name="com/atlassian/jira/issue/issuelink/Direction" exclude="true"/>
+    <class name="com/atlassian/jira/issue/issuelink/IssueLink" exclude="true"/>
+    <class name="com/atlassian/jira/issue/issuelink/IssueLinks" exclude="true"/>
+    <class name="com/atlassian/jira/issue/issuelink/IssueLinkType" exclude="true"/>
+
+    <!-- Changes to the ReindexAllCompletedEvent for HA work -->
+    <class name = "com/atlassian/jira/issue/index/ReindexAllCompletedEvent">
+        <field name="time"
+               exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - Plugins should never have called the constructor -->
+    <class name="com/atlassian/jira/event/ProjectDeletedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;Ljava/lang/String;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - Plugins should never have called the constructor -->
+    <class name="com/atlassian/jira/event/ProjectCreatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - This constructor was intended to be called only by implementations of ProjectService -->
+    <class name="com/atlassian/jira/bc/project/ProjectService$AbstractProjectValidationResult">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/util/ErrorCollection;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - This constructor was intended to be called only by implementations of ProjectService -->
+    <class name="com/atlassian/jira/bc/project/ProjectService$CreateProjectValidationResult">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/util/ErrorCollection;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - This constructor was intended to be called only by implementations of ProjectService -->
+    <class name="com/atlassian/jira/bc/project/ProjectService$UpdateProjectValidationResult">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/util/ErrorCollection;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/Long;Ljava/lang/Long;Lcom/atlassian/jira/project/Project;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1 - visible for testing -->
+    <class name="com/atlassian/jira/charts/jfreechart/ChartHelper">
+        <method name="&lt;init&gt;"
+                desc="(Lorg/jfree/chart/JFreeChart;Lcom/atlassian/jira/io/TempFileFactory;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.1.x - should have been @Internal -->
+    <class name="com/atlassian/jira/event/project/RemoteVersionLinkDeleteEvent">
+        <method name="&lt;init&gt;"
+                desc="(JLjava/lang/String;)V"
+                exclude="true" />
+    </class>
+    <!-- Since v6.1.x - should have been @Internal -->
+    <class name="com/atlassian/jira/event/project/RemoteVersionLinkPutEvent">
+        <method name="&lt;init&gt;"
+                desc="(JLjava/lang/String;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.2 - API check doesn't understand inheritance -->
+    <class name="com/atlassian/jira/event/workflow/WorkflowSchemeDeletedEvent">
+        <method name="getId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+    <class name="com/atlassian/jira/event/permission/PermissionSchemeDeletedEvent">
+        <method name="getId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+    <class name="com/atlassian/jira/event/notification/NotificationSchemeDeletedEvent">
+        <method name="getId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+
+    <!-- that's internal implementation that should not be visible -->
+    <class name="com/atlassian/jira/notification/NotificationBuilder">
+        <method name="getRestrictPermissions"
+                desc="()Ljava/util/List;"
+                exclude="true"/>
+    </class>
+
+    <!-- intentionally breaking API - this constructor is pointless -->
+    <class name="com/atlassian/jira/event/permission/PermissionDeletedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - we need constructor with more params -->
+    <class name="com/atlassian/jira/event/workflow/WorkflowSchemeAddedToProjectEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- moved to parent class -->
+    <class name="com/atlassian/jira/event/workflow/WorkflowSchemeAddedToProjectEvent">
+        <method name="getSchemeId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+
+    <!-- moved to parent class -->
+    <class name="com/atlassian/jira/event/workflow/WorkflowSchemeAddedToProjectEvent">
+        <method name="getProjectId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - we need constructor with more params -->
+    <class name="com/atlassian/jira/event/DraftWorkflowPublishedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/workflow/JiraWorkflow;)V"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - we need constructor with more params -->
+    <class name="com/atlassian/jira/event/WorkflowUpdatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/workflow/JiraWorkflow;)V"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - this constructor is pointless -->
+    <class name="com/atlassian/jira/event/notification/NotificationDeletedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - this constructor breaks auditing -->
+    <class name="com/atlassian/jira/event/notification/NotificationSchemeDeletedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;)V"
+                exclude="true" />
+    </class>
+
+    <!-- intentionally breaking API - this constructor breaks auditing -->
+    <class name="com/atlassian/jira/event/notification/NotificationSchemeUpdatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/scheme/Scheme;)V"
+                exclude="true" />
+    </class>
+
+    <!-- those constructors should not be used -->
+    <class name="com/atlassian/jira/event/issue/field/AbstractCustomFieldEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;)V"
+                exclude="true"/>
+    </class>
+    <class name="com/atlassian/jira/event/issue/field/CustomFieldUpdatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;Ljava/lang/String;Ljava/lang/String;)V"
+                exclude="true"/>
+    </class>
+    <class name="com/atlassian/jira/event/issue/field/CustomFieldUpdatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/issue/fields/CustomField;)V"
+                exclude="true"/>
+    </class>
+
+    <!-- Concreate class in API that should only injected, so the constructor is public but internal -->
+    <class name="com/atlassian/jira/web/action/SafeRedirectChecker">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/util/velocity/VelocityRequestContextFactory;)V"
+                exclude="true"/>
+    </class>
+
+    <!-- Since v6.3 - Plugins should never have called the constructor -->
+    <class name="com/atlassian/jira/event/bc/project/component/ProjectComponentUpdatedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Lcom/atlassian/jira/bc/project/component/ProjectComponent;)V"
+                exclude="true" />
+    </class>
+
+    <!-- Since v6.3 - Plugins should never have called the constructor and getId() method -->
+    <class name="com/atlassian/jira/event/bc/project/component/ProjectComponentDeletedEvent">
+        <method name="&lt;init&gt;"
+                desc="(Ljava/lang/Long;)V"
+                exclude="true" />
+        <method name="getId"
+                desc="()Ljava/lang/Long;"
+                exclude="true" />
+    </class>
+
+    <!-- Since 6.3, version events require Version argument -->
+    <class name="com/atlassian/jira/event/project/VersionMoveEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionCreateEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionArchiveEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionReleaseEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionUnreleaseEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionMergeEvent">
+        <method name="&lt;init&gt;"
+                desc="(JJ)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionUnarchiveEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+
+    <class name="com/atlassian/jira/event/project/VersionDeleteEvent">
+        <method name="&lt;init&gt;"
+                desc="(J)V"
+                exclude="true"/>
+    </class>
+    <!-- Since v6.3 - renamed -->
+    <class name="com/atlassian/jira/license/LicenseDetails">
+        <method name="isClusteredForScale"
+                desc="()Z"
+                exclude="true" />
+    </class>
+    <!-- Removed in v6.3 - added in 6.1 but performance problems -->
+    <class name="com/atlassian/jira/project/ProjectManager">
+        <method name="isAssignee"
+                desc="(Lorg/ofbiz/core/entity/GenericValue;Lcom/atlassian/crowd/embedded/api/User;)Z"
+                exclude="true" />
+        <method name="isAssignee"
+                desc="(Lcom/atlassian/jira/project/Project;Lcom/atlassian/crowd/embedded/api/User;)Z"
+                exclude="true" />
+    </class>
+
+    <!-- Briefly introduced on 6.3.1 but not needed anymore -->
+    <class name="com/atlassian/jira/issue/fields/rest/AuthAwareField" exclude="true"/>
+</exclusions>

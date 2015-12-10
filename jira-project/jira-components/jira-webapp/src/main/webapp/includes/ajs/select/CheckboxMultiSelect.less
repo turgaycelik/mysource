@@ -1,0 +1,193 @@
+@import "_SelectMixins.less";
+
+.check-list-select {
+    width: 250px;
+    .check-list-field-container {
+        .border-box();
+        position: relative;
+        padding:5px 10px 9px;
+        overflow: hidden;
+        .check-list-field {
+            .border-box();
+            .rounded(3px,3px,3px,3px);
+            position: relative;
+            z-index:1;
+            width:100%;
+            min-height:28px;
+            height:0;
+            .bordered;
+            padding:0 24px 0 6px;
+            -webkit-box-shadow: #bbb 0 7px 2px -7px inset;
+            -moz-box-shadow: #bbb 0 7px 2px -7px inset;
+            box-shadow: #bbb 0 7px 2px -7px inset;
+            margin: 0;
+            font-size: 14px;
+            font-family: inherit;
+
+            &::-ms-clear { //JRADEV-17689 IE10 trying to be clever. Adding a 'fix' to make it dumber.
+                display: none;
+            }
+        }
+        .icon {
+            position: absolute;
+            top: 11px;
+            right: 15px;
+            z-index: 2;
+            background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAo0lEQVQ4y7WSUQ2AIBCGL4IRiGAEoxjBBkTwmSciGIEIRjCCEU7YfuaNwelkPnxDhPvkPyFmJudcyRCZMFKLVEuFIBWFCAsC3j8KZhScER+xGLNo1gQGhQee5cYRa2cZSQosvjI18ubTLS1Bzk0KaX3rFYTfIhhs0JrIWhPf/EbG/PEi7ZWLtNUkNUHGQCbj+FKiCVp4EdN8ESRWNPY+QQ/dggvAl0v7SYIpuAAAAABJRU5ErkJggg==) no-repeat 0 0;
+            &.noloading.clear-field {
+                background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAxUlEQVQoz6WSOw7DIBBEOVTulBYa7MqKOIZBvoibdCD6NNwhhTt3m4yltdbfSI6lldHsPDEsKCJSXOM43vq+f3jvn03TvFFYQ0NPeudFKeXunHtprWmv0INnAUL4NocjSNTA8BSPd7LWUtu2G6DrOqqqat4ZjEJ+NoQQCF+McYZSSpMGmDUwCodnwRhDOefJCIAh/GUCMAqTkyJgBvYgFJgNKOOdgjKqhH5GlcPBANbGw+HI66jremE4vY7LD+CvJ3flkX8AWbIPwsu2DZAAAAAASUVORK5CYII=);
+                cursor: pointer;
+                opacity: 0.7;
+            }
+        }
+    }
+
+    .aui-list-scroll {
+        max-height: 270px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        clear: both;
+        h5 {
+            padding-left: 10px;
+        }
+        .no-suggestions {
+            padding: 7px 11px 6px;
+            background: #f2f2f2;
+        }
+    }
+
+    .check-list-group-actions {
+        padding: 5px 10px;
+        .clear-all {
+            color:  @jira-color-link;
+            &:visited,
+            &:hover {
+                color:  @jira-color-link;
+            }
+            &:hover {
+                text-decoration:  underline;
+            }
+        }
+    }
+
+    .check-list-group-footer {
+        padding:2px 10px;
+    }
+
+    .clear-all.disabled {
+        opacity:0.5;
+    }
+
+    .check-list-buttons-container {
+        .border-top (@aui-border-color);
+        padding-top: 7px;
+        padding-right: 10px;
+        margin-bottom: 2px; /* Override form.aui .buttons-container */
+        text-align: right;
+        .disabled {
+            display: inline-block;
+            cursor: default;
+            text-decoration: none;
+            opacity: .5;
+        }
+    }
+}
+
+form#issue-filter .check-list-select.easter, .check-list-select.easter {
+
+    opacity:1;
+/* Firefox */
+    -moz-transition-property: opacity;
+    -moz-transition-duration: 2s;
+    /* WebKit */
+    -webkit-transition-property: opacity;
+    -webkit-transition-duration: 2s;
+    /* Opera */
+    -o-transition-property: opacity;
+    -o-transition-duration: 2s;
+    /* Standard */
+    transition-property: opacity;
+    transition-duration: 2s;
+
+    &.enable-easter {
+        .aui-list {
+            height:500px;
+            opacity:0;
+        }
+    }
+}
+
+form#issue-filter .check-list-item,
+form.aui .check-list-item,
+.check-list-item,
+.check-list-group-footer {
+    .border-box();
+    padding: 6px 10px 6px 34px;
+    position: relative;
+
+    label {
+        clear: none;
+        color: inherit;
+        display: block;
+        left: 0;
+        line-height: 1.4;
+        margin: 0;
+        overflow: hidden;
+        padding: 0;
+        position: static;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: auto;
+
+        input[type="checkbox"] {
+            // Placing them absolutely within the container means the actual content can be 100% of the parent width.
+            position: absolute;
+            left: 10px;
+        }
+        img {
+            margin-right: 5px;
+            vertical-align: text-bottom;
+            -moz-force-broken-image-icon: 1;
+        }
+        em {
+            font-weight: bold;
+            font-style: normal;
+        }
+        .aui-lozenge {
+            .border-box();
+            margin-top: -1px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            vertical-align: middle;
+        }
+    }
+
+    &.disabled {
+        color: #888;
+        font-style: italic;
+
+        em {
+            font-style: italic;
+        }
+    }
+
+    &.active {
+        background-color: @jira-color-selection-background;
+    }
+}
+
+form#issue-filter .check-list-select {
+    width: 250px
+}
+
+.msie .check-list-select .check-list-item label {
+    word-wrap: normal;
+}
+
+
+/* TODO - remove this after multi-select class has been stripped from the sparkler */
+form#issue-filter .multi-select.check-list-select {
+    width:100%;
+}
+

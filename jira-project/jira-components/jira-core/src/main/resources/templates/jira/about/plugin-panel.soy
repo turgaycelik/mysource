@@ -1,0 +1,73 @@
+{namespace JIRA.Templates.About}
+
+/**
+ * @param pluginEntry an instance of PluginAndMaterials
+ */
+{template .renderModule}
+<p>
+    {call .pluginInfo}
+        {param entryKey: $pluginEntry /}
+    {/call}
+
+    {if $pluginEntry.entries}
+        {call .pluginLicenses}
+            {param entryValue: $pluginEntry.materials /}
+        {/call}
+    {/if}
+
+    {call .pluginConclusion}
+        {param entryKey: $pluginEntry /}
+    {/call}
+</p>
+{/template}
+
+/**
+ * @param entryKey entry key
+ */
+{template .pluginInfo}
+    <h3>{$entryKey.pluginName} v{$entryKey.pluginVersion}</h3>
+    {if $entryKey.introductionHtml}
+    <p>{$entryKey.introductionHtml|noAutoescape}</p>
+    {/if}
+{/template}
+
+/**
+ * @param entryKey entry key
+ */
+{template .pluginConclusion}
+    {if $entryKey.conclusionHtml}
+    <p>{$entryKey.conclusionHtml|noAutoescape}</p>
+    {/if}
+{/template}
+
+/**
+ * @param entryValue entry Value
+ */
+{template .pluginLicenses}
+    <p>{getText('aboutpage.plugin.copyright.lgpl')}</p>
+    <ul>
+    {foreach $materialItem in $entryValue}
+        {call .materialInfo}
+            {param material: $materialItem /}
+        {/call}
+    {ifempty}
+    {/foreach}
+    </ul>
+{/template}
+
+
+/**
+ * @param material the bom material
+ */
+{template .materialInfo}
+    <li>
+    {$material.libraryName}
+    {if $material.urlAndGav}
+        (<a href="{$material.url}" target="_blank">{$material.mavenInfo}</a>)
+    {elseif $material.urlNotGav}
+        (<a href="{$material.url}" target="_blank">{$material.url}</a>)
+    {elseif $material.gavNotUrl}
+        ({$material.mavenInfo})
+    {/if}
+    </li>
+{/template}

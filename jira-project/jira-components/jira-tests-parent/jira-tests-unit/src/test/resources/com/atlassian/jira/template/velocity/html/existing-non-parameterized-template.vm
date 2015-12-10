@@ -1,0 +1,9 @@
+#enable_html_escaping()
+<html>
+<head>
+    <title>Blank HTML Template</title>
+</head>
+<body>
+<p>This is a HTML template</p>
+</body>
+</html>

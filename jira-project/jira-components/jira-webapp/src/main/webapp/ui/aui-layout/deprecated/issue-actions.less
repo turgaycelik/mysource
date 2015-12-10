@@ -1,0 +1,68 @@
+@import "../../imports/colours";
+@import "../../imports/mixins/grid";
+
+// Stepped Progress - mainly used for Bulk Edit/Move/etc
+#stepped-process {
+    // These styles modify the AUI Page Panel so that it extends wider when long result tables exist in it
+    display: inline-block;
+    min-width: 100%;
+    width: auto;
+
+    .aui-page-panel-inner {
+        table-layout: auto;
+    }
+    .aui-page-panel-nav {
+        min-width: 200px;
+    }
+}
+.steps {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    > li {
+        font-weight: normal; // prevents nested steppers from inheriting bold on current step
+        padding: 5px 0 5px 20px;
+        position: relative;
+        word-break: break-word; // doesn't work in IE
+        &:before {
+            background-color: @jira-color-link;
+            border-radius: 100%;
+            content: "";
+            height: 10px;
+            left: 0;
+            position: absolute;
+            top: 10px;
+            width: 10px;
+        }
+    }
+    > .current {
+        font-weight: bold;
+        ~ li {
+            color: @jira-color-subtle-text;
+            &:before {
+                background-color: #ccc;
+            }
+        }
+    }
+}
+
+
+.formtitle img {vertical-align:baseline;}
+
+.use-for-all {padding-left:14px;}
+
+/* Aim to remove
+    - List styles for assigned-and-open.vm */
+.stat-list {list-style-type:none;margin:0;padding:0;}
+.stat-list li {margin-bottom:@grid;}
+.stat-list .stat {float:right}
+.stat-list img {vertical-align:top;margin-right:4px;}
+
+/* Manage Links */
+#viewLinks {margin:0 0 1em;}
+#viewLinks .linkDetailTable {width:49%;}
+#viewLinks .linkDetailTable table {border:0;background-color:transparent;}
+#viewLinks .summary {font-size:1em;width:80%}
+#viewLinks thead th {border:none;font-weight:400;}
+.manage-links-title {margin-left:0.166em;}
+.attribute-wrap {float:right;width:40px;}

@@ -1,0 +1,72 @@
+@import "dynamic:lookandfeel.less";
+
+// Tint the gradient steps based off the chosen look and feel colour
+@heroButtonTopBGColour: @heroButtonBaseBGColour;
+@heroButtonBottomBGColour: darken(@heroButtonTopBGColour, 6.8%);
+@heroButtonHoverTopBGColour: saturate(lighten(@heroButtonTopBGColour, 9%), 22);
+@heroButtonHoverBottomBGColour: desaturate(lighten(@heroButtonBottomBGColour, 2%), 2);
+@heroButtonActiveBGColour: darken(@heroButtonBaseBGColour, 5%);
+
+.aui-header {
+    background: @topBackgroundColour;
+    color: @topTxtColour;
+    border-bottom-color: @topSeparatorBackgroundColor;
+}
+
+.aui-header {
+    a {
+        color: @topTxtColour;
+
+        &:hover,
+        &:focus {
+            background-color: @topHighlightColor;
+            color: @topTextHighlightColor;
+        }
+    }
+
+    .aui-icon-dropdown,
+    .aui-dropdown2-trigger::after {
+        border-top-color: fadeout(@topTxtColour, 30%);
+    }
+
+    .aui-dropdown2-trigger {
+        color: @topTxtColour;
+
+        &:hover,
+        &:focus,
+        &.active {
+            background-color: @topHighlightColor;
+            color: @topTextHighlightColor;
+
+            .aui-icon-dropdown,
+            &::after {
+                border-top-color: @topTextHighlightColor;
+            }
+        }
+    }
+    .aui-button.aui-button-primary.aui-style {
+        color: @heroButtonTextColour;
+        background-color: @heroButtonTopBGColour;
+        background-image: -moz-linear-gradient(top, @heroButtonTopBGColour, @heroButtonBottomBGColour);
+        background-image: -ms-linear-gradient(top,  @heroButtonTopBGColour, @heroButtonBottomBGColour);
+        background-image: -webkit-linear-gradient(top,  @heroButtonTopBGColour, @heroButtonBottomBGColour);
+        background-image: -o-linear-gradient(top,  @heroButtonTopBGColour, @heroButtonBottomBGColour);
+        background-image: linear-gradient(to bottom,  @heroButtonTopBGColour, @heroButtonBottomBGColour);
+        text-shadow: 0 1px 0 contrast(@heroButtonTextColour, rgba(0,0,0,0.3), rgba(255,255,255,0.3));
+
+        &:hover,
+        &:focus {
+            color: @heroButtonTextColour;
+            background-color: @heroButtonHoverTopBGColour;
+            background-image: -moz-linear-gradient(top, @heroButtonHoverTopBGColour, @heroButtonHoverBottomBGColour);
+            background-image: -ms-linear-gradient(top, @heroButtonHoverTopBGColour, @heroButtonHoverBottomBGColour);
+            background-image: -webkit-linear-gradient(top, @heroButtonHoverTopBGColour, @heroButtonHoverBottomBGColour);
+            background-image: -o-linear-gradient(top, @heroButtonHoverTopBGColour, @heroButtonHoverBottomBGColour);
+            background-image: linear-gradient(to bottom, @heroButtonHoverTopBGColour, @heroButtonHoverBottomBGColour);
+        }
+        &:active {
+            background-color: @heroButtonActiveBGColour;
+            background-image: none;
+        }
+    }
+}

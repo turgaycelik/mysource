@@ -1,0 +1,2 @@
+#* @vtlvariable name="property" type="com.atlassian.jira.admin.RenderablePropertyImpl.Context" *#
+<textarea name="$!{property.fieldName}" cols="60" rows="8" wrap="virtual" style="width:90%">$!{property.valueHtml}</textarea>

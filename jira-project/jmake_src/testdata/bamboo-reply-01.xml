@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<result onceOff="false" id="339599339" number="2836" lifeCycleState="Finished" state="Failed"
+        key="MASTERONE-CIFUNCHAL-HALLELUJAHTESTSERVER-2836"
+        expand="changes,testResults,metadata,logEntries,plan,artifacts,comments,labels,jiraIssues">
+    <link rel="self"
+          href="https://jira.bamboo.atlassian.com/rest/api/latest/result/MASTERONE-CIFUNCHAL-HALLELUJAHTESTSERVER-2836"/>
+    <parent rel="parent" href="https://jira.bamboo.atlassian.com/rest/api/latest/result/MASTERONE-CIFUNCHAL-2836"/>
+    <plan enabled="true" type="job" shortKey="HALLELUJAHTESTSERVER" shortName="Hallelujah Test Server"
+          name="A1. JIRA Master Tier 1 - CI Functional Tests - Hallelujah Test Server"
+          key="MASTERONE-CIFUNCHAL-HALLELUJAHTESTSERVER">
+        <link rel="self"
+              href="https://jira.bamboo.atlassian.com/rest/api/latest/plan/MASTERONE-CIFUNCHAL-HALLELUJAHTESTSERVER"/>
+    </plan>
+    <testResults quarantined="6" fixed="0" existingFailed="0" newFailed="3" failed="3" successful="3511" all="3514"
+                 expand="allTests,successfulTests,failedTests,newFailedTests,existingFailedTests,fixedTests,quarantinedTests">
+        <allTests size="3514" max-result="3514" start-index="0"/>
+        <successfulTests size="3511" max-result="3511" start-index="0"/>
+        <failedTests expand="testResult" size="3" max-result="3" start-index="0">
+            <testResult status="failed" methodName="failedTest"
+                        className="com.atlassian.my.class"
+                        expand="errors">
+                <duration>3183</duration>
+                <durationInSeconds>3</durationInSeconds>
+                <errors size="1" max-result="1" start-index="0">
+                    <error>
+                        <message>com.sun.jersey.api.client.UniformInterfaceException: Run on SPECIAL-BAMBOO-AGENT-9000:
+                            com.sun.jersey.api.client.UniformInterfaceException: Client response status: 404
+                            at com.sun.jersey.api.client.WebResource.handle(WebResource.java:607)
+                            at com.sun.jersey.api.client.WebResource.get(WebResource.java:187)
+                            at com.atlassian.jira.functest.framework.backdoor.IndexingControl.isIndexConsistent(IndexingControl.java:35)
+                            at com.atlassian.jira.webtests.ztests.admin.index.TestIndexingInBackground.testIssueIndexIsCorrupt(TestIndexingInBackground.java:118)
+                            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+                        </message>
+                    </error>
+                </errors>
+            </testResult>
+            <testResult status="failed" methodName="anotherFail"
+                        className="com.atlassian.not.my.class"
+                        expand="errors">
+                <duration>3183</duration>
+                <durationInSeconds>3</durationInSeconds>
+                <errors size="1" max-result="1" start-index="0">
+                    <error>
+                        <message>com.sun.jersey.api.client.UniformInterfaceException: Run on NOT-QUITE-SURE-2134:
+                            com.sun.jersey.api.client.UniformInterfaceException: Client response status: 404
+                            at com.sun.jersey.api.client.WebResource.handle(WebResource.java:607)
+                            at com.sun.jersey.api.client.WebResource.get(WebResource.java:187)
+                            at com.atlassian.jira.functest.framework.backdoor.IndexingControl.isIndexConsistent(IndexingControl.java:35)
+                            at com.atlassian.jira.webtests.ztests.admin.index.TestIndexingInBackground.testIssueIndexIsCorrupt(TestIndexingInBackground.java:118)
+                            at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+                        </message>
+                    </error>
+                </errors>
+            </testResult>
+        </failedTests>
+        <newFailedTests size="3" max-result="3" start-index="0"/>
+        <existingFailedTests size="0" max-result="0" start-index="0"/>
+        <fixedTests size="0" max-result="0" start-index="0"/>
+        <quarantinedTests size="6" max-result="6" start-index="0"/>
+    </testResults>
+    <metadata size="19" max-result="19" start-index="0"/>
+    <logEntries size="25" max-result="25" start-index="0"/>
+</result>

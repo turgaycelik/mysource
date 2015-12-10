@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#* @vtlvariable name="adminHeaderSections" type="java.util.Map<com.atlassian.jira.plugin.webfragment.model.SimpleLinkSection, java.util.List<com.atlassian.jira.plugin.webfragment.model.SimpleLink>>" *#
+#* @vtlvariable name="rootAdminMenuLink" type="com.atlassian.jira.plugin.webfragment.model.SimpleLink" *#
+<li id="system-admin-menu">
+    <a href="$rootAdminMenuLink.url" id="admin_menu" class="aui-nav-link aui-dropdown2-trigger" aria-haspopup="true" aria-owns="system-admin-menu-content" title="$i18n.getText('menu.admin.header')"><span class="aui-icon aui-icon-small aui-iconfont-configure">$i18n.getText('menu.admin.header')</span></a>
+    <div id="system-admin-menu-content" class="aui-dropdown2 aui-style-default">
+        #foreach ($headerSection in $adminHeaderSections.keySet())
+            <div class="aui-dropdown2-section">
+                <strong>$headerSection.label</strong>
+                <ul class="aui-list-truncate">
+                    #foreach ($headerLink in $adminHeaderSections.get($headerSection))
+                        <li>
+                            <a href="$headerLink.url" class="aui-nav-link" id="$headerLink.id" #if ($headerLink.title) title="$headerLink.title"#end>$headerLink.label</a>
+                        </li>
+                    #end
+                </ul>
+            </div>
+        #end
+    </div>
+</li>

@@ -1,0 +1,26 @@
+#enable_html_escaping()
+#if (!$dates.empty)
+<ul class="item-details">
+    <li>
+    #foreach ($date in $dates)
+        <dl class="dates">
+            <dt>${date.label}:</dt>
+            <dd class="date $!{date.styleClass}" #if (${date.title}) title="${date.title}" #end>
+
+                <span data-name="${date.label}" id="${date.id}" #if (${date.fieldType}) data-fieldtype="${date.fieldType}" #end #if (${date.fieldTypeCompleteKey}) data-fieldtypecompletekey="${date.fieldTypeCompleteKey}" #end>
+                    #if (${date.iso8601Value})
+                        #if (${date.fieldType} == "datetime")
+                            <time class="livestamp" datetime="${date.iso8601Value}">${date.displayHtml}</time> ## datetime system fields
+                        #else
+                            <time datetime="${date.iso8601Value}">${date.displayHtml}</time> ## date system fields
+                        #end
+                    #else
+                        ${date.displayHtml} ## date/datetime custom fields
+                    #end
+                </span>
+            </dd>
+        </dl>
+    #end
+    </li>
+</ul>
+#end

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:CreateUser username="added-user" password="password" confirm="password" fullname="Full name" email="test@test.com">
+${jelly.new.username} added
+    </jira:CreateUser>
+    <jira:RemoveUser name="${jelly.new.username}"/>
+${jelly.new.username} removed
+</JiraJelly>

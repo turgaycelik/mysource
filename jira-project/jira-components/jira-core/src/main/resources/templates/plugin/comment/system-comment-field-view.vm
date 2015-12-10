@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if ($value)
+    #if (${displayParams.excel_view})
+        $textutils.br($textutils.htmlEncode($!value.toString(), false))
+    #else
+        $!value.toString()
+    #end
+    #if ($displayParameters.bulkoperation && $groupLevel && $groupLevel.length() > 0)
+    <br>
+    <span class="redText">$i18n.getText('comment.viewable')</span>: $textutils.htmlEncode($!groupLevel)
+    #elseif ($displayParameters.bulkoperation && $roleLevel && $roleLevel.length() > 0 && $selectedRoleName)
+    <br>
+    <span class="redText">$i18n.getText('comment.viewable')</span>: $textutils.htmlEncode($selectedRoleName)
+    #end
+#end

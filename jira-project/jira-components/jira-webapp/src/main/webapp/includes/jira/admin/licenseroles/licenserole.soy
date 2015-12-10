@@ -1,0 +1,60 @@
+{namespace JIRA.Templates.Admin.LicenseRoles}
+
+/**
+ * Render the groups associated with a license role.
+ *
+ * @param groups a collection of group-names to render.
+ */
+{template .groups}
+    {if length($groups) > 0}
+        <ul class="license-role-group-list">
+            {foreach $group in $groups}
+                <li><span class="icon icon-groups"></span>{sp}{$group}</li>
+            {/foreach}
+        </ul>
+    {/if}
+{/template}
+
+/**
+ * Render the table container for the roles component.
+ */
+{template .table}
+    <table class="license-role-table"></table>
+{/template}
+
+/**
+ * The group editor.
+ *
+ * @param groups
+ */
+{template .editGroups}
+    <select id="license-role-groups-select" class="hidden js-default-multi-group-picker" name="groups" multiple="multiple">
+    {if length($groups) > 0}
+        {foreach $group in $groups}
+            <option value="{$group}" selected="selected">{$group}</option>
+        {/foreach}
+    {/if}
+    </select>
+    <div class="description">{getText('licenserole.role.edit.groups.hint')}</div>
+{/template}
+
+/**
+ * Render the license role page.
+ */
+{template .page}
+    <html>
+    <head>
+        <title>{getText('licenserole.roles.concept')}</title>
+        <meta name="admin.active.tab" content="license_role_browser"/>
+    </head>
+    <body>
+        {call JIRA.Templates.Headers.pageHeader}
+            {param mainContent}<h2>{getText('licenserole.roles.concept')}</h2>{/param}
+        {/call}
+        {call JIRA.Templates.Modules.staticModule}
+            {param id: 'licenseroles'/}
+            {param content}<div id="license-roles"></div>{/param}
+        {/call}
+    </body>
+    </html>
+{/template}

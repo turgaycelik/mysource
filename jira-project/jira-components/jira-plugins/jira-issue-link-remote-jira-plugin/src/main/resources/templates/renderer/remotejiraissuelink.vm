@@ -1,0 +1,91 @@
+#* @vtlmacrolibrary path="../../../../../../../jira-core/src/main/resources/templates/plugins/jira/issuelinks/macros.vm" *#
+#* @vtlvariable name="noApplinkAuthConfigured" type="java.lang.Boolean" *#
+#* @vtlvariable name="applicationUrl" type="java.net.URI" *#
+#* @vtlvariable name="appLinkId" type="com.atlassian.applinks.api.ApplicationId" *#
+#* @vtlvariable name="id" type="java.lang.Long" *#
+#* @vtlvariable name="statusIconTooltip" type="java.lang.String" *#
+#* @vtlvariable name="statusIconLink" type="java.lang.String" *#
+#* @vtlvariable name="statusIconUrl" type="java.lang.String" *#
+#* @vtlvariable name="summary" type="java.lang.String" *#
+#* @vtlvariable name="title" type="java.lang.String" *#
+#* @vtlvariable name="resolved" type="java.lang.Boolean" *#
+#* @vtlvariable name="url" type="java.lang.String" *#
+#* @vtlvariable name="tooltip" type="java.lang.String" *#
+#* @vtlvariable name="iconTooltip" type="java.lang.String" *#
+#* @vtlvariable name="iconUrl" type="java.lang.String" *#
+#* @vtlvariable name="authenticationRequired" type="java.lang.Boolean" *#
+#* @vtlvariable name="permissionDenied" type="java.lang.Boolean" *#
+#* @vtlvariable name="authenticationUrl" type="java.lang.String" *#
+#* @vtlvariable name="applicationName" type="java.lang.String" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.action.JiraActionSupport" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+
+#if ($noApplinkAuthConfigured)
+<p>
+    #renderIssueLinkIcon(${iconUrl} ${iconTooltip} ${iconTooltip} ${textutils})
+    <span title="${textutils.htmlEncode($tooltip)}">
+        <a href="${url}" class="link-title">${textutils.htmlEncode($title)}</a>
+    </span>
+    <span class="link-loading-failed">${i18n.getText('common.concepts.loading.failed')}</span>
+</p>
+#elseif ($authenticationRequired)
+<p>
+    #renderIssueLinkIcon(${iconUrl} ${iconTooltip} ${iconTooltip} ${textutils})
+    <span title="${textutils.htmlEncode($tooltip)}">
+        <a href="${url}" class="link-title">${textutils.htmlEncode($title)}</a>
+    </span>
+    <span class="link-login"></span>
+</p>
+<script type="text/javascript">
+    AJS.$(document).bind('applinks.auth.approved', function (eventObject, applinkProperties) {
+        eventObject.preventDefault();
+        var newLocation = window.location.toString();
+        var hashIndex = newLocation.indexOf('#');
+        if (hashIndex >= 0) {
+            newLocation = newLocation.substr(0, hashIndex);
+        }
+
+        // Add or replace the expandLinks parameter
+        if (window.location.search.length > 0) {
+            newLocation = newLocation.replace(/\?expandLinks=\w*$/, "?expandLinks=true").replace(/\?expandLinks=\w*&/, "?expandLinks=true&").replace(/&expandLinks=\w*$/, "&expandLinks=true").replace(/&expandLinks=\w*&/g, "&expandLinks=true&");
+            if (newLocation.search(/[?&]expandLinks=/) < 0) {
+                newLocation = newLocation.concat('&expandLinks=true');
+            }
+        } else {
+            newLocation = newLocation.concat('?expandLinks=true')
+        }
+
+        newLocation = newLocation.concat('#linkingmodule');
+        window.location.replace(newLocation);
+    });
+    AJS.$('#remote-' + ${id} + " .link-login").append(ApplinksUtils.createAuthRequestInline(null, {id: '${appLinkId}', appName: '${applicationName}', appUri: '${applicationUrl}', authUri: '${authenticationUrl}'}))
+</script>
+#elseif ($permissionDenied)
+<p>
+    #renderIssueLinkIcon(${iconUrl} ${iconTooltip} ${iconTooltip} ${textutils})
+    <span title="${textutils.htmlEncode($tooltip)}">
+        <a href="${url}" class="link-title">${textutils.htmlEncode($title)}</a>
+    </span>
+    <span class="link-loading-failed">${i18n.getText('viewissue.links.forbidden.jira')}</span>
+</p>
+#else
+<p>
+    #renderIssueLinkIcon(${iconUrl} ${iconTooltip} ${iconTooltip} ${textutils})
+    <span title="${textutils.htmlEncode($tooltip)}">
+        <a href="${url}" class="link-title#if (${resolved}) resolution#end">${textutils.htmlEncode($title)}</a> <span class="link-summary">${textutils.htmlEncode($!summary)}</span>
+    </span>
+</p>
+<ul class="link-snapshot">
+    #if (${status})
+        <li class="status">
+        #if(${statusIconLink})<a href="${statusIconLink}">#end
+        $soyRenderer.render('jira.webresources:issue-statuses', 'JIRA.Template.Util.Issue.Status.issueStatusResolver', {
+            'issueStatus': $status,
+            'isSubtle': true,
+            'maxWidth': 'short'
+        })
+        #if(${statusIconLink})</a>#end
+        </li>
+    #end
+</ul>
+#end

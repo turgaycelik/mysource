@@ -1,0 +1,43 @@
+<atlassian-plugin name='JIRA Global Permissions' key='jira.system.global.permissions'>
+    <plugin-info>
+        <description key="jira.system.global.permissions">This plugin defines all of the default global permissions in JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="6.2" max="6.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <global-permission key="SYSTEM_ADMIN"
+                       i18n-name-key="admin.global.permissions.system.administer"
+                       i18n-description-key="admin.permissions.descriptions.SYS_ADMIN"
+                       anonymous-allowed="false"/>
+
+    <global-permission key="ADMINISTER"
+                       i18n-name-key="admin.global.permissions.administer"
+                       i18n-description-key="admin.permissions.descriptions.ADMINISTER"
+                       anonymous-allowed="false"/>
+
+    <global-permission key="USE"
+                       i18n-name-key="admin.global.permissions.use"
+                       i18n-description-key="admin.permissions.descriptions.USE"
+                       anonymous-allowed="false"/>
+
+    <global-permission key="USER_PICKER"
+                       i18n-name-key="admin.global.permissions.user.picker"
+                       i18n-description-key="admin.permissions.descriptions.USER_PICKER"
+                       anonymous-allowed="true"/>
+
+    <global-permission key="CREATE_SHARED_OBJECTS"
+                       i18n-name-key="admin.global.permissions.create.shared.filter"
+                       i18n-description-key="admin.permissions.descriptions.CREATE_SHARED_OBJECTS"
+                       anonymous-allowed="true"/>
+
+    <global-permission key="MANAGE_GROUP_FILTER_SUBSCRIPTIONS"
+                       i18n-name-key="admin.global.permissions.manage.group.filter.subscriptions"
+                       i18n-description-key="admin.permissions.descriptions.MANAGE_GROUP_FILTER_SUBSCRIPTIONS"
+                       anonymous-allowed="true"/>
+
+    <global-permission key="BULK_CHANGE"
+                       i18n-name-key="admin.global.permissions.bulk.change"
+                       i18n-description-key="admin.permissions.descriptions.BULK_CHANGE"
+                       anonymous-allowed="true"/>
+</atlassian-plugin>

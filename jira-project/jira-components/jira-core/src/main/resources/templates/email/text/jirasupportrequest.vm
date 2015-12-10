@@ -1,0 +1,99 @@
+#disable_html_escaping()
+---------------------------------------------------
+This is an automated support request sent from JIRA
+---------------------------------------------------
+
+Problem Description:
+
+$description
+
+Environment Information:
+#if($warningMessages.size() > 0)
+System Environment Warnings:
+ #foreach ($message in $warningMessages)
+    $message
+ #end
+#end
+
+#if($appliedPatches.size() > 0)
+Applied Patches:
+ #foreach ($patch in $appliedPatches)
+    $patch
+ #end
+#end
+Base URL: ${baseUrl}
+#foreach( $key in $sysinfo.keySet() )
+    $key: $sysinfo.get($key)
+#end
+#foreach( $key in $licenseinfo.keySet() )
+    $key: $licenseinfo.get($key)
+#end
+#foreach( $key in $jvmstats.keySet() )
+    $key: $jvmstats.get($key)
+#end
+#foreach( $key in $buildstats.keySet() )
+    $key: $buildstats.get($key)
+#end
+
+Memory Pools:
+#foreach( $pool in $memoryPools )
+    $pool
+#end
+
+Language Information:
+    Default language:       $defaultLanguage #if ($isUsingSystemLocale) - System Default#end
+
+    Installed languages:    #foreach($lang in $installedLanguages)$lang.displayName
+                            #end
+
+#if ($usageStats)
+Database Statistics
+#foreach( $key in $usageStats.keySet() )
+    #if($key)$key#end: #if($usageStats.get($key))$usageStats.get($key)
+#end#end#end
+
+Listeners:
+#foreach( $listener in $listeners )
+    $listener
+#end
+
+Services:
+#foreach( $service in $services )
+    $service
+#end
+
+Plugins:
+#foreach( $plugin in $plugins )
+    $plugin
+#end
+
+Paths:
+#foreach( $path in $paths.keySet() )
+    $path: $paths.get($path)
+#end
+
+Contact Information
+
+Name:   $name
+Email:  $email
+Phone:  $!phone
+#if ($supportIssueKey)
+Support Issue:  $supportIssueKey
+#end
+
+#if ( !$exportattached )
+User chose not to attach an export.
+#else
+Data Export Attached
+#end
+
+Application Properties
+#foreach ($prop in $applicationPropertiesHTML.keySet())
+    $prop: $applicationPropertiesHTML.get($prop)
+#end
+
+System Properties
+#foreach ($prop in $systemPropertiesHTML.keySet())
+    $prop: $systemPropertiesHTML.get($prop)
+#end
+

@@ -1,0 +1,847 @@
+<atlassian-plugin name='Admin Menu Sections' key='jira.webfragments.admin'
+                  i18n-name-key="webfragments.admin.menu.plugin.name">
+    <plugin-info>
+        <description key="webfragments.admin.menu.plugin.desc">This library includes the web fragments for the
+            administration menu which are core to Jira. It should never be disabled.
+        </description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.7" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-section key="system.admin.top.navigation.bar" name="Admin Navigation Bar" location="system.admin.top"
+                 i18n-name-key="webfragments.admin.menu.section.navigation.bar">
+        <label key="webfragments.admin.menu.label"/>
+    </web-section>
+
+    <!-- PROJECT MENU -->
+    <web-section key="admin_project_menu" name="Project Menu" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.admin.menu.section.project.name" weight="100">
+        <label key="common.concepts.projects"/>
+    </web-section>
+
+    <web-section key="admin_project_current" name="Project dropdown Current Project Section" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.navigation.bar.browse.dropdown.current" weight="10">
+        <label key="menu.project.current"/>
+        <tooltip key="menu.project.current.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSelectedProjectCondition"/>
+    </web-section>
+
+    <web-section key="atl.jira.proj.config" name="Project dropdown Current Project Link"
+                 location="admin_project_current" i18n-name-key="webfragments.navigation.bar.browse.link.current"
+              weight="20">
+        <label>${helper.projectObject.name} (${helper.projectObject.key})</label>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSelectedProjectCondition"/>
+    </web-section>
+
+    <web-section key="project_section" name="Administrate Project Section" location="admin_project_menu"
+                 i18n-name-key="webfragments.admin.menu.section.administrate.projects" weight="20"/>
+
+    <web-item key="view_projects" name="View Projects Link" section="admin_project_menu/project_section"
+              i18n-name-key="webfragments.admin.menu.item.view.projects.name" weight="10">
+        <label key="common.concepts.projects"/>
+        <link linkId="view_projects">/secure/project/ViewProjects.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.project.view_projects</param>
+        <conditions type="OR">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsProjectAdminCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        </conditions>
+    </web-item>
+
+    <web-item key="view_categories" name="View Project Categories Link" section="admin_project_menu/project_section"
+              i18n-name-key="webfragments.admin.menu.item.view.categories.name" weight="20">
+        <label key="admin.menu.projects.project.categories"/>
+        <link linkId="view_categories">/secure/admin/projectcategories/ViewProjectCategories!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.project.view_categories</param>
+    </web-item>
+
+    <!-- END PROJECT MENU -->
+
+
+    <!-- ISSUES MENU -->
+    <web-section key="admin_issues_menu" name="Issues Menu" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.admin.menu.section.issues.menu.name" weight="110">
+        <label key="common.concepts.issues"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="element_options_section" name="Element Options Section" location="admin_issues_menu"
+                 i18n-name-key="webfragments.admin.menu.section.element.name" weight="10">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="issue_types_section" name="Issue Types Section" location="element_options_section"
+                 i18n-name-key="webfragments.admin.menu.section.issue.types.name" weight="10">
+        <label key="admin.menu.issuesettings.issue.types.menu"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="admin.menu.issuesettings.issue.types.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="issue_types" name="Issue Types Link" section="element_options_section/issue_types_section"
+              i18n-name-key="webfragments.admin.menu.item.issue.types.name" weight="10">
+        <label key="admin.menu.issuesettings.issue.types"/>
+        <link linkId="issue_types">/secure/admin/ViewIssueTypes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.issue_types</param>
+    </web-item>
+
+    <web-item key="issue_type_schemes" name="Issue Types Schemes Link"
+              section="element_options_section/issue_types_section"
+              i18n-name-key="webfragments.admin.menu.item.issue.type.schemes.name" weight="20">
+        <label key="admin.menu.issuesettings.issue.types.schemes"/>
+        <link linkId="issue_type_schemes">/secure/admin/ManageIssueTypeSchemes!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.issue_types.schemes</param>
+    </web-item>
+
+    <web-item key="subtasks" name="Subtasks Link" section="element_options_section/issue_types_section"
+              i18n-name-key="webfragments.admin.menu.item.subtasks.name" weight="30">
+        <label key="admin.menu.globalsettings.sub.tasks"/>
+        <link linkId="subtasks">/secure/admin/subtasks/ManageSubTasks.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.subtasks</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-section key="workflows_section" name="Workflows Section" location="element_options_section"
+                 i18n-name-key="webfragments.admin.menu.section.workflows.name" weight="20">
+        <label key="admin.menu.globalsettings.workflows.menu"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="admin.menu.globalsettings.workflows.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="workflows" name="Workflows Link" section="element_options_section/workflows_section"
+              i18n-name-key="webfragments.admin.menu.item.workflows.name" weight="10">
+        <label key="admin.menu.globalsettings.workflows"/>
+        <link linkId="workflows">/secure/admin/workflows/ListWorkflows.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.workflows</param>
+    </web-item>
+
+    <web-item key="workflow_schemes" name="Workflow Schemes Link" section="element_options_section/workflows_section"
+              i18n-name-key="webfragments.admin.menu.item.workflow.schemes.name" weight="20">
+        <label key="admin.menu.schemes.workflow.schemes"/>
+        <link linkId="workflow_schemes">/secure/admin/ViewWorkflowSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.workflow_schemes</param>
+    </web-item>
+
+    <web-section key="screens_section" name="Screens Section" location="element_options_section"
+                 i18n-name-key="webfragments.admin.menu.section.screens.name" weight="30">
+        <label key="admin.menu.globalsettings.screens.menu"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="admin.menu.globalsettings.screens.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="field_screens" name="Field Screens Link" section="element_options_section/screens_section"
+              i18n-name-key="webfragments.admin.menu.item.field.screens.name" weight="10">
+        <label key="admin.menu.issuefields.screens"/>
+        <link linkId="field_screens">/secure/admin/ViewFieldScreens.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.field_screens</param>
+    </web-item>
+
+    <web-item key="field_screen_scheme" name="Field Screen Scheme Link"
+              section="element_options_section/screens_section"
+              i18n-name-key="webfragments.admin.menu.item.field.screen.scheme.name" weight="20">
+        <label key="admin.menu.issuefields.screen.schemes"/>
+        <link linkId="field_screen_scheme">/secure/admin/ViewFieldScreenSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.field_screen_scheme</param>
+    </web-item>
+
+    <web-item key="issue_type_screen_scheme" name="Issue Type Screen Scheme Link"
+              section="element_options_section/screens_section"
+              i18n-name-key="webfragments.admin.menu.item.issue.type.screen.scheme.name" weight="30">
+        <label key="admin.menu.issuefields.issue.type.screen.schemes"/>
+        <link linkId="issue_type_screen_scheme">/secure/admin/ViewIssueTypeScreenSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.issue_type_screen_scheme</param>
+    </web-item>
+
+    <web-section key="fields_section" name="Fields Section" location="element_options_section"
+                 i18n-name-key="webfragments.admin.menu.section.fields.name" weight="40">
+        <label key="webfragments.admin.menu.section.fields"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.fields.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="view_custom_fields" name="View Custom Fields Link" section="element_options_section/fields_section"
+              i18n-name-key="webfragments.admin.menu.item.view.custom.fields.name" weight="10">
+        <label key="admin.menu.issuefields.custom.fields"/>
+        <link linkId="view_custom_fields">/secure/admin/ViewCustomFields.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.view_custom_fields</param>
+    </web-item>
+
+    <web-item key="field_configuration" name="Field Configuration Link" section="element_options_section/fields_section"
+              i18n-name-key="webfragments.admin.menu.item.field.configuration.name" weight="20">
+        <label key="admin.menu.issuefields.field.configurations"/>
+        <link linkId="field_configuration">/secure/admin/ViewFieldLayouts.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.field_configuration</param>
+    </web-item>
+
+    <web-item key="issue_fields" name="Issue Fields Link" section="element_options_section/fields_section"
+              i18n-name-key="webfragments.admin.menu.item.issue.fields.name" weight="30">
+        <label key="admin.menu.issuefields.field.configuration.schemes"/>
+        <link linkId="issue_fields">/secure/admin/ViewFieldLayoutSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.issue_fields</param>
+    </web-item>
+
+    <web-section key="issue_attributes" name="Issue Attributes Section" location="admin_issues_menu"
+                 i18n-name-key="webfragments.admin.menu.section.issue.attributes.name" weight="20">
+        <label key="webfragments.admin.menu.section.issue.attributes"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="statuses" name="Statuses Link" section="admin_issues_menu/issue_attributes"
+              i18n-name-key="webfragments.admin.menu.item.statuses.name" weight="10">
+        <label key="admin.menu.issuesettings.statuses"/>
+        <link linkId="statuses">/secure/admin/ViewStatuses.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.statuses</param>
+    </web-item>
+
+    <web-item key="resolutions" name="Resolutions Link" section="admin_issues_menu/issue_attributes"
+              i18n-name-key="webfragments.admin.menu.item.resolutions.name" weight="20">
+        <label key="admin.menu.issuesettings.resolutions"/>
+        <link linkId="resolutions">/secure/admin/ViewResolutions.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.resolutions</param>
+    </web-item>
+
+    <web-item key="priorities" name="Priorities Link" section="admin_issues_menu/issue_attributes"
+              i18n-name-key="webfragments.admin.menu.item.priorities.name" weight="30">
+        <label key="admin.menu.issuesettings.priorities"/>
+        <link linkId="priorities">/secure/admin/ViewPriorities.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.elementoptions.priorities</param>
+    </web-item>
+
+    <web-section key="misc_schemes_section" name="Miscallaneous Schemes Options Section" location="admin_issues_menu"
+                 i18n-name-key="webfragments.admin.menu.section.misc.name" weight="40">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="security_schemes" name="Security Schemes Link" section="admin_issues_menu/misc_schemes_section"
+              i18n-name-key="webfragments.admin.menu.item.security.schemes.name" weight="10">
+        <label key="admin.menu.schemes.issue.security.schemes"/>
+        <link linkId="security_schemes">/secure/admin/ViewIssueSecuritySchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.issues.security_schemes</param>
+    </web-item>
+
+    <web-item key="notification_schemes" name="Notification Schemes Link"
+              section="admin_issues_menu/misc_schemes_section"
+              i18n-name-key="webfragments.admin.menu.item.notification.schemes.name" weight="20">
+        <label key="admin.menu.schemes.notification.schemes"/>
+        <link linkId="notification_schemes">/secure/admin/ViewNotificationSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.issues.notification_schemes</param>
+    </web-item>
+
+    <web-item key="permission_schemes" name="Permission Schemes Link" section="admin_issues_menu/misc_schemes_section"
+              i18n-name-key="webfragments.admin.menu.item.permission.schemes.name" weight="30">
+        <label key="admin.menu.schemes.permission.schemes"/>
+        <link linkId="permission_schemes">/secure/admin/ViewPermissionSchemes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.issues.permission_schemes</param>
+    </web-item>
+    <!-- END ISSUES MENU -->
+
+
+    <!-- USERS MENU -->
+    <web-section key="admin_users_menu" name="Users Menu" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.admin.menu.section.users.name" weight="120">
+        <label key="webfragments.admin.menu.section.usersgroups.name"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <conditions type="OR">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsOnDemandCondition" invert="true"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFeatureEnabledCondition" invert="true">
+                <param name="featureKey">unified.usermanagement</param>
+            </condition>
+        </conditions>
+    </web-section>
+
+    <web-section key="users_groups_section" name="Users and Groups Section" location="admin_users_menu"
+                 i18n-name-key="webfragments.admin.menu.section.usersgroups.name" weight="10">
+        <label key="webfragments.admin.menu.section.usersgroups.name"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="userbrowser" name="User Browser Link" section="admin_users_menu/users_groups_section"
+              i18n-name-key="webfragments.admin.menu.item.userbrowser.name" weight="10">
+        <label key="admin.menu.usersandgroups.user.browser"/>
+        <link linkId="user_browser">/secure/admin/user/UserBrowser.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.userbrowser</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-item key="groupbrowser" name="Group Browser Link" section="admin_users_menu/users_groups_section"
+              i18n-name-key="webfragments.admin.menu.item.groupbrowser.name" weight="20">
+        <label key="admin.menu.usersandgroups.group.browser"/>
+        <link linkId="group_browser">/secure/admin/user/GroupBrowser.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.groupbrowser</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-section key="users_groups_configuration" name="Users and Groups Configuration Section"
+                 location="admin_users_menu" i18n-name-key="webfragments.admin.menu.section.usersgroups.conf.name"
+                 weight="20">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="crowdApplication" name="Configure Crowd Server Admin Link"
+              section="admin_users_menu/users_groups_configuration"
+              i18n-name-key="admin.jaacs.application.menu.key.text" weight="10">
+        <label key="admin.jaacs.application.menu.text"/>
+        <link linkId="crowd_application_list">/secure/admin/ConfigureCrowdServer.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.crowdserver</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+    </web-item>
+    <!-- END USERS MENU -->
+
+
+    <!-- SYSTEM MENU -->
+    <web-section key="admin_system_menu" name="System Menu" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.admin.menu.section.system.menu.name" weight="130">
+        <label key="admin.menu.system.system"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="top_system_section" name="Top System Section" location="admin_system_menu"
+                 i18n-name-key="webfragments.admin.menu.section.top.system.name" weight="10">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="general_configuration" name="General Configuration Link"
+              section="admin_system_menu/top_system_section"
+              i18n-name-key="webfragments.admin.menu.item.general.configuration.name" weight="10">
+        <label key="admin.menu.globalsettings.general.configuration"/>
+        <link linkId="general_configuration">/secure/admin/ViewApplicationProperties.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.general_configuration</param>
+    </web-item>
+
+    <web-item key="dark_features" name="Dark Feature Configuration" section="admin_system_menu/top_system_section"
+              i18n-name-key="webfragments.admin.menu.item.darkfeatures.name" weight="10">
+        <label key="admin.menu.globalsettings.darkfeatures"/>
+        <link linkId="dark_features">/secure/admin/SiteDarkFeatures!default.jspa</link>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFeatureEnabledCondition">
+                <param name="featureKey">jira.site.darkfeature.admin</param>
+            </condition>
+        </conditions>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.darkfeatures</param>
+    </web-item>
+
+    <web-item key="find_more_admin_tools" name="Find More Admin Tools Link"
+              section="admin_system_menu/top_system_section"
+              i18n-name-key="webfragments.admin.menu.item.find.more.admin.tools.name" weight="10">
+        <label key="admin.menu.globalsettings.find.more.admin.tools"/>
+        <link linkId="find_more_admin_tools">/plugins/servlet/upm/marketplace/popular?category=Admin+Tools&amp;source=admin_homepage</link>
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsOnDemandCondition" invert="true"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        </conditions>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.find_more_admin_tools</param>
+    </web-item>
+
+    <web-section key="troubleshooting_and_support" name="Trouble shooting and Support Section"
+                 location="top_system_section" i18n-name-key="webfragments.admin.menu.section.support.name" weight="10">
+        <label key="webfragments.admin.menu.section.troubleshooing.support"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.troubleshooing.support.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="instrumentation" name="Instrumentation Link" section="top_system_section/troubleshooting_and_support"
+              i18n-name-key="webfragments.admin.menu.item.instrumentation.name" weight="10">
+        <label key="admin.menu.system.instrumentation"/>
+        <link linkId="instrumentation">/secure/admin/ViewInstrumentation.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.instrumentation</param>
+    </web-item>
+
+    <web-item key="integrity_checker" name="Integrity Checker Link"
+              section="top_system_section/troubleshooting_and_support"
+              i18n-name-key="webfragments.admin.menu.item.integrity.checker.name" weight="10">
+        <label key="admin.menu.system.integrity.checker"/>
+        <link linkId="integrity_checker">/secure/admin/IntegrityChecker!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.integrity_checker</param>
+    </web-item>
+
+    <web-item key="logging_profiling" name="Logging Profiling Link"
+              section="top_system_section/troubleshooting_and_support"
+              i18n-name-key="webfragments.admin.menu.item.logging.profiling.name" weight="10">
+        <label key="admin.menu.system.logging.and.profiling"/>
+        <link linkId="logging_profiling">/secure/admin/ViewLogging.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.logging_profiling</param>
+    </web-item>
+
+    <web-item key="scheduler_details" name="Scheduler Details Link"
+              section="top_system_section/troubleshooting_and_support"
+              i18n-name-key="webfragments.admin.menu.item.scheduler.details.name" weight="10">
+        <label key="admin.menu.system.scheduler.details"/>
+        <link linkId="scheduler_details">/secure/admin/SchedulerAdmin.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.scheduler_details</param>
+    </web-item>
+
+    <web-item key="system_info" name="System Info Link" section="top_system_section/troubleshooting_and_support"
+              i18n-name-key="webfragments.admin.menu.item.system.info.name" weight="5">
+        <label key="admin.menu.system.system.info"/>
+        <link linkId="system_info">/secure/admin/ViewSystemInfo.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.system_info</param>
+    </web-item>
+
+    <web-section key="security_section" name="Security Section" location="top_system_section"
+                 i18n-name-key="webfragments.admin.menu.section.security.name" weight="20">
+        <label key="webfragments.admin.menu.section.security"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.security.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="projectrolebrowser" name="Project Role Browser Link" section="top_system_section/security_section"
+              i18n-name-key="webfragments.admin.menu.item.projectrolebrowser.name" weight="5">
+        <label key="admin.menu.usersandgroups.role.browser"/>
+        <link linkId="project_role_browser">/secure/project/ViewProjectRoles.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.projectrolebrowser</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-item key="licenserolebrowser" name="License Role Browser" section="top_system_section/security_section"
+              i18n-name-key="webfragments.admin.menu.item.licenserolebrowser.name" weight="1000">
+        <label key="admin.menu.security.license.role.browser"/>
+        <link linkId="license_role_browser">/secure/admin/LicenseRoles.jspa</link>
+
+        <conditions type="AND">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFeatureEnabledCondition">
+                <param name="featureKey">com.atlassian.jira.config.CoreFeatures.LICENSE_ROLES_ENABLED</param>
+            </condition>
+        </conditions>
+    </web-item>
+
+    <web-item key="global_permissions" name="Global Permissions Link"
+              section="top_system_section/security_section"
+              i18n-name-key="webfragments.admin.menu.item.global.permissions.name" weight="10">
+        <label key="admin.menu.globalsettings.global.permissions"/>
+        <link linkId="global_permissions">/secure/admin/GlobalPermissions!default.jspa</link>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.global_permissions</param>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-item key="usersessions" name="user Sessions Link" section="top_system_section/security_section"
+              i18n-name-key="webfragments.admin.menu.item.sessions.name" weight="20">
+        <label key="admin.menu.system.sessions"/>
+        <link linkId="usersessions">/secure/admin/CurrentUsersList.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.usersessions</param>
+    </web-item>
+
+    <web-item key="rememberme" name="Clear All Remember My Login Tokens Link"
+              section="top_system_section/security_section" i18n-name-key="webfragments.admin.menu.item.plugins.name"
+              weight="25">
+        <label key="admin.menu.system.rememberme"/>
+        <link linkId="rememberme">/secure/admin/user/AllUsersRememberMeCookies!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.rememberme</param>
+    </web-item>
+
+    <web-section key="issue_features" name="Issue Feature Section" location="top_system_section"
+                 i18n-name-key="webfragments.admin.menu.section.issue.feature.name" weight="30">
+        <label key="webfragments.admin.menu.section.issue.features"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.issue.features.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="timetracking" name="Timetracking Link" section="top_system_section/issue_features"
+              i18n-name-key="webfragments.admin.menu.item.timetracking.name" weight="20">
+        <label key="admin.menu.globalsettings.time.tracking"/>
+        <link linkId="timetracking">/secure/admin/TimeTrackingAdmin!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.timetracking</param>
+    </web-item>
+
+    <web-item key="linking" name="Issue Linking Link" section="top_system_section/issue_features"
+              i18n-name-key="webfragments.admin.menu.item.linking.name" weight="30">
+        <label key="admin.menu.globalsettings.issue.linking"/>
+        <link linkId="linking">/secure/admin/ViewLinkTypes!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.linking</param>
+    </web-item>
+
+    <web-section key="user_interface" name="User Interface Settings Section" location="top_system_section"
+                 i18n-name-key="webfragments.admin.menu.section.user.interface.name" weight="40">
+        <label key="webfragments.admin.menu.section.user.interface"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.user.interface.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="user_defaults" name="User Defaults Link" section="top_system_section/user_interface"
+              i18n-name-key="webfragments.admin.menu.item.user.defaults.name" weight="0">
+        <label key="admin.menu.globalsettings.user.defaults"/>
+        <link linkId="user_defaults">/secure/admin/ViewUserDefaultSettings.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.usersgroups.user_defaults</param>
+    </web-item>
+
+    <web-item key="edit_default_dashboard" name="Edit Default Dashboard Link"
+              section="top_system_section/user_interface"
+              i18n-name-key="webfragments.admin.menu.item.edit.default.dashboard.name" weight="10">
+        <label key="admin.menu.globalsettings.default.dashboard"/>
+        <link linkId="edit_default_dashboard">/secure/admin/EditDefaultDashboard!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.edit_default_dashboard</param>
+    </web-item>
+
+    <web-item key="edit_announcement" name="Edit Announcement Link" section="top_system_section/user_interface"
+              i18n-name-key="webfragments.admin.menu.item.edit.announcement.name" weight="40">
+        <label key="admin.menu.optionsandsettings.announcement.banner"/>
+        <link linkId="edit_announcement">/secure/admin/EditAnnouncementBanner!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.edit_announcement</param>
+    </web-item>
+
+    <web-section key="import_export_section" name="Import and Export Section" location="top_system_section"
+                 i18n-name-key="webfragments.admin.menu.section.import.export.name" weight="50">
+        <label key="admin.menu.importexport.import.and.export"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="admin.menu.importexport.import.and.export.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="backup_data" name="Backup Data Link" section="top_system_section/import_export_section"
+              i18n-name-key="webfragments.admin.menu.item.backup.data.name" weight="10">
+        <label key="admin.menu.importexport.backup.data.to.xml"/>
+        <link linkId="backup_data">/secure/admin/XmlBackup!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.exportimport.backup_data</param>
+    </web-item>
+
+    <web-item key="restore_data" name="Restore Data Link" section="top_system_section/import_export_section"
+              i18n-name-key="webfragments.admin.menu.item.restore.data.name" weight="20">
+        <label key="admin.menu.importexport.restore.data.from.xml"/>
+        <link linkId="restore_data">/secure/admin/XmlRestore!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.exportimport.restore_data</param>
+    </web-item>
+
+    <web-item key="project_import" name="Project Import Link" section="top_system_section/import_export_section"
+              i18n-name-key="webfragments.admin.menu.item.project.import.name" weight="30">
+        <label key="admin.menu.importexport.project.import"/>
+        <link linkId="project_import">/secure/admin/ProjectImportSelectBackup!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.exportimport.project_import</param>
+    </web-item>
+
+    <web-section key="mail_section" name="Mail Section" location="top_system_section"
+                 i18n-name-key="webfragments.admin.menu.section.mail.name" weight="60">
+        <label key="webfragments.admin.menu.section.mail"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="webfragments.admin.menu.section.mail.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="mail_queue" name="Mail Queue Link" section="top_system_section/mail_section"
+              i18n-name-key="webfragments.admin.menu.item.mail.queue.name" weight="20">
+        <label key="admin.menu.system.mail.queue"/>
+        <link linkId="mail_queue">/secure/admin/MailQueueAdmin!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.mail_queue</param>
+    </web-item>
+
+    <web-item key="send_email" name="Send Email Link" section="top_system_section/mail_section"
+              i18n-name-key="webfragments.admin.menu.item.send.email.name" weight="20">
+        <label key="admin.menu.optionsandsettings.send.email"/>
+        <link linkId="send_email">/secure/admin/SendBulkMail!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.send_email</param>
+    </web-item>
+
+    <web-section key="licensing_section" name="Licensing Section" location="admin_system_menu"
+                 i18n-name-key="webfragments.admin.menu.section.licensing.name" weight="20">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="license_details" name="License Details Link" section="admin_system_menu/licensing_section"
+              i18n-name-key="webfragments.admin.menu.item.license.details.name" weight="10">
+        <label key="admin.menu.system.license.details"/>
+        <link linkId="license_details">/secure/admin/ViewLicense!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.license_details</param>
+    </web-item>
+
+    <web-section key="shared_section" name="Shared Types Management Section" location="admin_system_menu"
+                 i18n-name-key="webfragments.admin.menu.section.shared.name" weight="30">
+        <label key="admin.menu.shared"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+    <web-item key="shared_filters" name="Shared Filters Link" section="admin_system_menu/shared_section"
+              i18n-name-key="webfragments.admin.menu.item.filters.shared.name" weight="10">
+        <label key="admin.menu.shared.filters.label"/>
+        <link linkId="shared_filters">/secure/admin/filters/ViewSharedFilters.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+    <web-item key="shared_dashboards" name="Shared Dashboards Link" section="admin_system_menu/shared_section"
+              i18n-name-key="webfragments.admin.menu.item.dashboards.shared.name" weight="20">
+        <label key="admin.menu.shared.dashboards.label"/>
+        <link linkId="shared_dashboards">/secure/admin/dashboards/ViewSharedDashboards.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-item>
+
+    <web-section key="advanced_menu_section" name="Advanced Menu Section" location="admin_system_menu"
+                 i18n-name-key="webfragments.admin.menu.section.advanced.menu.name" weight="40">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="advanced_section" name="Advanced Section" location="advanced_menu_section"
+                 i18n-name-key="webfragments.admin.menu.section.advanced.name" weight="10">
+        <label key="admin.menu.advanced"/>
+        <!-- Tooltip is used for the heading shown in the admin page (without '...') -->
+        <tooltip key="admin.menu.advanced.heading.label"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="indexing" name="Indexing Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.indexing.name" weight="10">
+        <label key="admin.menu.system.indexing"/>
+        <link linkId="indexing">/secure/admin/IndexAdmin.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.indexing</param>
+    </web-item>
+
+    <web-item key="attachments" name="Attachments Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.attachments.name" weight="20">
+        <label key="admin.menu.globalsettings.attachments"/>
+        <link linkId="attachments">/secure/admin/ViewAttachmentSettings.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.attachments</param>
+    </web-item>
+
+    <web-item key="eventtypes" name="Event Types Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.eventtypes.name" weight="30">
+        <label key="admin.menu.globalsettings.event.types"/>
+        <link linkId="eventtypes">/secure/admin/ListEventTypes.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.eventtypes</param>
+    </web-item>
+
+    <web-item key="listeners" name="Listeners Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.listeners.name" weight="40">
+        <label key="admin.menu.system.listeners"/>
+        <link linkId="listeners">/secure/admin/ViewListeners!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.listeners</param>
+    </web-item>
+
+    <web-item key="services" name="Services Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.services.name" weight="50">
+        <label key="admin.menu.system.services"/>
+        <link linkId="services">/secure/admin/ViewServices!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.services</param>
+    </web-item>
+
+    <web-item key="scheme_tools" name="Scheme Tools Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.scheme.tools.name" weight="60">
+        <label key="admin.menu.scheme.tools"/>
+        <link linkId="scheme_tools">/secure/admin/SchemeTools.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.scheme_tools</param>
+    </web-item>
+
+    <web-item key="jelly_runner" name="Jelly Runner Link" section="advanced_menu_section/advanced_section"
+              i18n-name-key="webfragments.admin.menu.item.jelly.runner.name" weight="70">
+        <label key="admin.menu.optionsandsettings.jelly.runner"/>
+        <link linkId="jelly_runner">/secure/admin/util/JellyRunner!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.jelly_runner</param>
+    </web-item>
+    <!-- END SYSTEM MENU -->
+
+
+    <!-- PLUGINS MENU -->
+    <web-section key="admin_plugins_menu" name="Plugins Menu" location="system.admin.top.navigation.bar"
+                 i18n-name-key="webfragments.admin.menu.section.project.name" weight="140">
+        <label key="admin.menu.system.plugins"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="top_plugins_section" name="Top Plugins Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.top.plugins.name" weight="10">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="ual_section" name="Top Plugins Section" location="top_plugins_section"
+                 i18n-name-key="webfragments.admin.menu.section.top.plugins.name" weight="20">
+        <label key="admin.menu.system.applinks"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item key="ualJira" name="UAL" section="top_plugins_section/ual_section"
+              i18n-name-key="applinks.web.item.list.application.links" weight="10">
+        <label key="admin.menu.system.applinks"/>
+        <link linkId="ual">/plugins/servlet/applinks/listApplicationLinks</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.plugins.ual</param>
+    </web-item>
+
+
+    <web-section key="source_control" name="Source Control" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.source.control.name" weight="20">
+        <label key="webfragments.admin.menu.section.source.control"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="builds_section" name="Builds Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.builds.name" weight="30">
+        <label key="webgragments.admin.menu.section.builds"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-item-provider key="legacy-plugins-link-factory" section="admin_plugins_menu/legacy_plugins"
+                         name="Legacy Plugins Link Factory"
+                         i18n-name-key="webfragments.navigation.bar.legacy.plugins.factory"
+                         class="com.atlassian.jira.admin.LegacyAdminLinkFactory"/>
+
+    <web-section key="agile_section" name="Agile Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.agile.name" weight="40">
+        <label key="webgragments.admin.menu.section.agile"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="testing_section" name="Testing Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.testing.name" weight="50">
+        <label key="webgragments.admin.menu.section.testing"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="requirements_section" name="Requirements Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.requirements.name" weight="60">
+        <label key="webgragments.admin.menu.section.requirements"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="timetracking_section" name="Time Tracking Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.time.tracking.name" weight="70">
+        <label key="webgragments.admin.menu.section.timetracking"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="integrations_section" name="Integration Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.integration.name" weight="80">
+        <label key="webgragments.admin.menu.section.integrations"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="workflow_section" name="Workflow Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.worklow.name" weight="90">
+        <label key="webgragments.admin.menu.section.workflow"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="drawing_section" name="Drawing Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.drawing.name" weight="100">
+        <label key="webgragments.admin.menu.section.drawing"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="legacy_plugins" name="Legacy Plugins Admin Section" location="admin_plugins_menu"
+                 i18n-name-key="webfragments.admin.menu.section.legacy.plugins.name" weight="10000">
+        <label key="common.words.other.no.dots"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="lazy" value="true"/>
+    </web-section>
+    <!-- END PLUGINS MENU -->
+
+
+    <!-- USER BROWSER ACTION BAR -->
+    <web-section key="system.admin.userbrowser.opsbar" name="User Browser Operations Bar"
+                 location="system.admin.userbrowser" i18n-name-key="webfragments.admin.userbrowser.opsbar"/>
+
+    <web-item key="create_user" name="Create User" section="system.admin.userbrowser.opsbar"
+              i18n-name-key="admin.userbrowser.add.user" weight="10">
+        <label key="admin.userbrowser.add.user"/>
+        <tooltip key="admin.userbrowser.add.user.tooltip"/>
+        <link linkId="create_user">/secure/admin/user/AddUser!default.jspa</link>
+        <param name="iconClass" value="jira-icon-add"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasWritableDirectoryCondition"/>
+    </web-item>
+    <!-- END USER BROWSER ACTION BAR -->
+
+    <!-- OLD SECTIONS KEPT FOR BACKWARDS COMPATIBILITY -->
+    <web-section key="system.admin" name="Misc Menu" location="legacy.will.be.removed.in.future.release"
+                 i18n-name-key="webfragments.admin.menu.section.misc.menu.name" weight="1000">
+        <label key="admin.common.words.misc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="project" name="Project Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.project.name" weight="100">
+        <label key="common.words.project"/>
+    </web-section>
+
+    <web-section key="usersgroups" name="Users and Groups" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.usersgroups.name" weight="110">
+        <label key="admin.menu.usersandgroups.users.and.groups"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="globalsettings" name="Global Settings Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.globalsettings.name" weight="120">
+        <label key="admin.menu.globalsettings.global.settings"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="schemes" name="Schemes Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.schemes.name" weight="130">
+        <label key="admin.menu.schemes.schemes"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="issuefields" name="Issue Fields Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.issuefields.name" weight="140">
+        <label key="admin.menu.issuefields.issue.fields"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="issuesettings" name="Issue Settings Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.issuesettings.name" weight="150">
+        <label key="admin.menu.issuesettings.issue.settings"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="exportimport" name="Export Import Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.exportimport.name" weight="160">
+        <label key="admin.menu.importexport.import.and.export"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+    </web-section>
+
+
+    <web-section key="options" name="Options Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.options.name" weight="170">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+    <web-section key="system" name="System Section" location="system.admin"
+                 i18n-name-key="webfragments.admin.menu.section.system.name" weight="180">
+        <label key="admin.menu.system.system"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+    </web-section>
+
+</atlassian-plugin>

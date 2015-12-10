@@ -1,0 +1,18 @@
+#disable_html_escaping()
+<html>
+
+    <head>
+        <title>$i18n.getText("renderer.preview.title") $action.fieldName</title>
+        <meta name="decorator" content="popup"/>
+    </head>
+
+    <body>
+      <div style="float:right"><a href="#" onclick="window.close(); return false;">close window</a></div>
+      <h4>&nbsp;</h4>
+      <p/>
+      <div class="previewClass">
+        $action.renderedContent
+      </div>
+    </body>
+
+</html>

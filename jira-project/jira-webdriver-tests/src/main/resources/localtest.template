@@ -1,0 +1,13 @@
+jira.protocol = http
+#jira.host = daidalos.atlassian.com
+jira.host = localhost
+#jira.port = 9091
+jira.port = ${jira.port}
+#jira.port = 9090
+#jira.context =
+jira.context = ${jira.context}
+jira.edition = enterprise
+# Please note jira.xml.data.location needs to be the full path
+#jira.xml.data.location = /opt2/jira_autobuild/src/jira/subprojects/func_tests/xml
+jira.xml.data.location = jira-webdriver-tests/src/main/xml
+jira.release.info = unknown

@@ -1,0 +1,7 @@
+#disable_html_escaping()
+<li>
+    <form action="${baseurl}/secure/QuickSearch.jspa" method="post" id="quicksearch" class="aui-quicksearch dont-default-focus ajs-dirty-warning-exempt">
+        <input id="quickSearchInput" class="search" type="text" title="$i18n.getText('common.concepts.search')" placeholder="$i18n.getText('common.concepts.search')" name="searchString" accessKey="$i18n.getText('alt.text.quicksearch.accessKey')" />
+        <input type="submit" class="hidden" value="Search">
+    </form>
+</li>

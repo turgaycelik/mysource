@@ -1,0 +1,462 @@
+@import "../imports/aui-colours";
+@import "../imports/jira-colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/clearfix";
+@import "../imports/mixins/grid";
+@import "content/shorten.less";
+
+@label-width: 140px; // TODO: 3 blocks in grid terms...
+@temp-color-item-label-foreground: @aui-color-mid;
+
+
+.issue-body-content {
+    .module {
+        > .mod-header {
+            + .mod-content {
+                  margin-top: 5px;
+            }
+        }
+        + .module {
+            margin-top: 15px;
+            padding-top: 15px;
+        }
+    }
+}
+
+/* Issue Security Level */
+#security-val .note {color: #d04437;}
+
+#viewissuesidebar {
+    width: 35%; // matches the width of the sidebar in AUI page
+    padding-left: 30px; // double the standard due to the module twixies making the page feel cramped.
+}
+
+.user-content-block { overflow:auto; overflow-y:hidden; }
+
+/* Tab Panel Content styles */
+.issue-data-block {
+    @left-indent: 10px;
+    @active-border-width: 5px;
+    @active-border-color: #3572b0;
+
+    border-bottom: 1px solid @aui-border-color;
+    padding: @left-indent;
+
+    .clearfix();
+
+    &:hover,
+    &.focused {
+        background-color: #f5f5f5;
+        border-left: @active-border-width solid @active-border-color;
+        padding-left: @left-indent - @active-border-width;
+
+        .action-links a {
+            opacity: 1;
+        }
+    }
+}
+.actionContainer .subText { font-size: 1em; }
+.actionContainer .action-links a {
+    opacity: 0;
+    &:focus {
+        opacity: 1;
+    }
+}
+.actionContainer ul.item-details dl dt { width: 19%; }
+.actionContainer ul.item-details dl dd { width: 79%; }
+
+#status-val {
+    max-width: 100%;
+    margin-right: -5px;
+
+    .jira-issue-status-lozenge {
+        .border-box();
+
+        width: 100%;
+    }
+}
+
+.status-view {
+    display: inline-block;
+    padding: 2px 0 2px 5px;
+    white-space: nowrap;
+}
+
+.action-details { line-height: 1.5; text-align: left; }
+.focused .action-details { text-align: left; }
+
+.action-links { float: right; }
+.action-body { overflow: auto; overflow-y: hidden; margin: 10px 0 0 0;}
+.action-body blockquote { color: #333; }
+.action-body .item-details { margin-top: 0.5em; }
+.action-description {color: #666; margin-bottom: 1.5em}
+
+/* Custom fields */
+#customfieldmodule #customfield-tabs {
+    .tabs-menu {
+        margin-top: 20px;
+    }
+}
+
+/* Comments */
+#addcomment .mod-content {display:none;}
+#addcomment.active .mod-footer {display:none;}
+#addcomment .mod-footer {overflow:hidden;}
+#addcomment.active .mod-content {display:block;}
+#addcomment textarea {max-height:none; min-height:150px; }
+
+.icon-comment {
+  color: @jira-color-subtle-text;
+  vertical-align: middle;
+  overflow: visible;
+}
+
+#issue-comment-add {
+    #comment {
+        max-width: none;
+    }
+    #issue-comment-add-cancel {
+        margin-right: 9px;
+    }
+}
+/* Activity */
+#activitymodule {
+    .tabs2 {
+        position: relative;
+
+        .sortwrap {
+            bottom: 5px;
+            left: auto;
+            position: absolute;
+            right: 0;
+            width: 1em;
+        }
+        #issue-tabs {
+            padding-right: 20px;
+        }
+    }
+
+    .mod-content {
+        min-height: 5em; // To prevent jumping whilst switching between tabs and content is loading.
+    }
+
+    .issuePanelWrapper {
+        position: relative;
+        padding-top: 10px; // To push the message away from the bottom of the tabs.
+
+        &.loading {
+            .issuePanelProgress {
+                background: url("../../../images/gadgets/loading.gif") center no-repeat;
+                height: 60px;
+                width: 100%;
+                position: absolute;
+                z-index: 1;
+            }
+
+            .issuePanelContainer {
+                opacity: .3;
+            }
+        }
+    }
+
+    .issuePanelContainer {
+        -moz-transition: opacity .2s;
+        -webkit-transition: opacity .2s;
+        transition: opacity .2s;
+    }
+}
+
+/* Links */
+#linkingmodule table.aui {clear:both;margin-bottom:20px;overflow:hidden;}
+.issue-links .priority,
+.issue-links .status,
+.issue-links .actions {padding:5px 2px 4px;width:1%;}
+.issue-links .actions {padding-left:10px;}
+.issue-links .actions .icon {visibility:hidden;}
+.issue-links tr:hover .actions .icon {visibility:visible;}
+.issue-links .issuekey {max-width:200px;white-space:nowrap;width:15%;}
+.issue-links tbody .resolution {text-decoration:line-through;}
+
+/* new links module */
+.links-list + .links-list {border-top:1px solid @aui-border-color;}
+.links-list {padding-left:150px; margin: 0}
+.links-list:last-child {border-bottom:none;}
+.links-list .resolution {text-decoration: line-through;}
+.links-list img {vertical-align:text-top;}
+/* JRADEV-7116 FFX specific hack to prebvent the alt text blowing out the layout on broken images */
+.links-list img:-moz-broken,
+.links-list img:-moz-user-disabled { -moz-force-broken-image-icon: 1; height: 16px; width: 16px;}
+.links-list dt {float:left;margin-left:-150px;overflow:hidden; text-overflow:ellipsis; white-space: nowrap; padding-top:5px;width:142px;}
+.links-list dd {border-top:1px solid @aui-border-color; position:relative;padding-right:24px;}
+.links-list dt + dd {border-top:none;}
+.links-list .link-content { .border-box(); display:table; padding:5px; table-layout:fixed; width:100%; word-wrap:normal;}
+.links-list .link-content > p,
+.links-list .link-content > div,
+.links-list .link-content > ul { display:table-cell; }
+.links-list .link-content > p { .border-box(); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.links-list ul.link-snapshot {list-style:none;margin:0;padding:0;text-align:right;width:136px;white-space:nowrap;}
+.links-list  ul.link-snapshot .status {width:100px;text-align:left;display:inline-block;}
+.links-list ul.link-snapshot li {display:inline;margin:0 4px;}
+.links-list ul.link-snapshot li> span,
+.links-list ul.link-snapshot li > img { vertical-align: text-bottom; } /* align statuses and priorities the same way */
+.links-list dd .delete-link {text-align:center;visibility:hidden;width:24px;position:absolute;top:5px;right:0;}
+.links-list dd:hover {background-color: @aui-color-highlight-secondary;}
+.links-list dd:hover .delete-link {visibility:visible;}
+.links-list .link-loading, .link-loading-failed {color:#666;}
+.collapsed-links-list {display: none;}
+.collapsed-link {display: none;}
+#show-more-links {border-top:1px solid @aui-border-color; padding-top: 5px;}
+#show-more-links span {color: @aui-color-mid;}
+
+/* Subtasks */
+#view-subtasks td { white-space: normal; }
+#view-subtasks td.stsummary { min-width: 200px; width: 100%; }
+#view-subtasks td.assignee .tinylink { display: block; overflow: hidden; white-space: nowrap; word-wrap: normal; }
+.subtask-table-container {
+    overflow-x: auto;
+    #issuetable {
+        margin: 0;
+    }
+}
+#stqc_form_container {margin-bottom:1em;}
+#stqc_form_container h4 {border-bottom:1px solid #ddd;font-size:1em;margin:0 0 0.498em 0.2em;}
+#stqc_form_container .subText {font-size:1em;margin-left:0.498em;}
+#stqc_form_container .jiraform td.jiraformfooter {border-bottom:1px solid #ddd;}
+.subtask-prog-wrap {background-color: #FFF; display: block; float:right; margin: 3px 0 0 0; padding: 0 @grid 0 @grid;}
+.subtask-prog-wrap span {color:#808080; float:left; margin: 0 0.429em 0 0;}
+#subtasks_resolution_percentage {float:left;position:relative;top:3px;width:10em;line-height:1em}
+#subtasks_resolution_percentage td,
+#subtasks_resolution_percentage td img {height:10px;}
+#stqc_form_container #attachment_fieldFieldArea .field-group label{padding-left:5px;}
+#stqc_form_container #attachment_fieldFieldArea .field-group.error {color: #d04437;}
+
+/* Voters and watchers */
+#vote-label,
+#watch-label {
+    color: @jira-color-subtle-text;
+}
+
+/* View Voters */
+.tickLabel {font-size:11px;}
+
+/* Attachments */
+.item-attachments {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    &:after {
+        clear: both;
+        content: ".";
+        display: block;
+        height: 0;
+        visibility: hidden;
+    }
+    .attachment-content {
+        .clearfix();
+        padding: 5px 5px 5px 20px;
+        &:hover {
+            background-color: #f0f0f0;
+        }
+        &:after,
+        .twixi-block:after { content:".";display:block;height:0;clear:both;visibility:hidden;}
+    }
+}
+
+.attachment-content dl {margin:0;}
+.attachment-content dt {float:left;}
+.attachment-content dd {float:right;margin:0;}
+.attachment-content dd.zip-contents {
+    float: none;
+    padding: 0 215px 0 20px;
+}
+.attachment-content dd.zip-contents ol {list-style-type:none;padding:0;margin:0;}
+.attachment-content dd.zip-contents ol li {clear:both;}
+.attachment-content dd.zip-contents .attachment-size {color:#bbb;float:right;}
+.attachment-content .attachment-delete {width: 20px;padding-left: 5px;}
+.attachment-content .twixi-block {
+    margin-left: -20px; // equal to the left padding on .attachment-content
+}
+.zip-contents-trailer {color:#bbb;}
+#attachment_thumbnails {float:left;width:100%;}
+#file_attachments + #attachment_thumbnails {border-top: 1px solid @aui-border-color; margin-top: @grid;padding-top:@grid;}
+.attachment-thumb {float:left;margin-right:0.581em;}
+.attachment-thumb img {vertical-align:text-top; max-width: 200px; max-height: 200px;}
+.earlier-version a:link,
+.earlier-version a:visited {color:#666;}
+.attachment-size {color:#666;margin:0 5px;}
+.attachment-author {display:none;}
+dd.attachment-date {text-align:right;width:180px; padding: 0 5px;}
+/* large thumbnails */
+
+.blender {position:absolute;top:0;left:auto;right:0;width:1.162em;height:100%;background:transparent url("../../../images/grad.png") 100% 0 repeat-y;} /* little fade for view_attachments.jsp */
+#attachment_thumbnails .attachment-content:hover .blender {background-image:url("../../../images/grad_hover.png");}
+#attachment_thumbnails .attachment-content:hover .blender-delete {right: 10px;}
+
+.attachment-delete {visibility: hidden;}
+.attachment-content:hover .attachment-delete { visibility: visible; }
+
+#attachment_thumbnails .attachment-delete { position: absolute; left: auto; right: 0; padding: 0; margin: 0; background-color:#f0f0f0; }
+#attachment_thumbnails .attachment-delete .icon { margin: 0; }
+
+#attachment_thumbnails .attachment-content {border:1px solid #f0f0f0;float:left;height:242px;margin:0 6px 6px 0;padding:6px 10px;width:200px;text-align:center;}
+#attachment_thumbnails .attachment-thumb, #attachment_thumbnails .attachment-thumb .gallery {float:none;height:200px;margin:0 auto;width:200px;display:table-cell;text-align:center;vertical-align:middle;}
+#attachment_thumbnails dl {clear:left;display:block;height:42px;overflow:hidden;width:200px;}
+#attachment_thumbnails dt,
+#attachment_thumbnails dd {position:relative;text-align:left;}
+#attachment_thumbnails .attachment-title {display:block;float:none;height:21px;white-space:nowrap;width:200px;word-wrap:normal;}
+#attachment_thumbnails .attachment-size {float:left;margin:0;top:-0.213em;width:auto;}
+#attachment_thumbnails .attachment-date {top:-0.213em;width:auto;}
+
+
+/* Time (tracking) module RHS */
+
+.tt_inner dl {
+    display: table;
+    table-layout: fixed;
+    width: 100%;
+}
+.tt_inner dt,
+.tt_inner dd {
+    .border-box();
+    display: table-cell;
+    margin:0;
+}
+dt.tt_text {
+    color: @temp-color-item-label-foreground;
+    padding: 2px 5px 2px 0;
+    width: @label-width;
+}
+dd.tt_values {
+    padding: 2px 0 2px 5px;
+
+}
+dd.tt_graph {
+    vertical-align: text-bottom;
+
+}
+#tt_include_subtasks label {
+    color: @temp-color-item-label-foreground;
+    margin-left:0.5em;
+}
+
+
+/* Tab Panel Change History - Fisheye overrides? */
+.activity-name { color: #666; min-width: 150px; }
+.activity-old-val,
+.activity-new-val { min-width: 250px; }
+
+/* The file upload progress bar */
+.file-progress .progress-fill-color {
+    background-color: #cccccc;
+}
+
+.file-progress {
+    position: relative;
+    height: 2px;
+    width: 320px;
+    padding: 5px 0;
+}
+
+/* Fix for Participants custom field in the toolkit plugin See JRADEV-11039 */
+.cf-participant {
+    display: inline-block;
+    max-width:150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    vertical-align: text-top;
+    white-space: nowrap;
+}
+
+.people-details {
+    > dl:first-child {
+        line-height: 24px;
+        + dl {
+            line-height: 24px;
+        }
+    }
+
+    .assign-to-me-link {
+        display: block;
+    }
+
+    .aui-avatar {
+        vertical-align: middle;
+    }
+}
+
+/* Collapsible Comments */
+.collapsed-comments {
+    display: block;
+    background: @aui-color-highlight-primary;
+    border-right: none;
+    text-align: center;
+    border-bottom: 1px solid @aui-border-color;
+    height: 38px;
+
+    &:hover {
+        background: @aui-color-highlight-secondary;
+        .show-more-comments {
+            background: @aui-color-highlight-secondary;
+        }
+    }
+
+    .collapsed-comments-line {
+        display: block;
+        padding-top: 12px;
+        border-bottom: 1px solid @aui-border-color;
+    }
+
+    .show-more-comments {
+        position: relative;
+        top: -17px;
+        background: @aui-color-highlight-primary;
+        padding: 0 20px;
+        color: @jira-color-text;
+    }
+}
+
+.message-container:first-child .collapsed-comments {
+    border-top: 1px solid @aui-border-color;
+}
+
+.collapsed-comments:hover {
+    text-decoration: none;
+}
+
+.issue-data-block {
+    .action-head {
+        cursor: pointer;
+    }
+
+    &.collapsed {
+        background: @aui-color-highlight-primary;
+
+        &:hover {
+            background: @aui-color-highlight-secondary;
+        }
+    }
+}
+
+/* "Responsive" Layout stuff - leave at the end */
+/* THERE SHOULD BE NOTHING AFTER THE RESPONSIVE STUFF IN THIS STYLE SHEET */
+/* using mixins here as the same changes are needed for normal view issue and split-view, but SV uses JS to trigger layout changes */
+@import "responsive/issue-view/responsive-issue-view.less";
+
+@media all and (max-width: 1190px) {
+    .responsive-links();
+
+    #viewissuesidebar {
+        #peopledetails {
+            line-height: 20px;
+        }
+
+        .responsive-item-details();
+
+        .responsive-time-tracking();
+
+    }
+}
+
+/* END "Responsive" Layout stuff - leave at the end
+THERE SHOULD BE NOTHING AFTER THIS IN THIS STYLE SHEET
+*/

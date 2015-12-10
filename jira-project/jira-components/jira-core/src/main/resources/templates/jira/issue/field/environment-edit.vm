@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+## setup some additional parameters
+$!rendererParams.put("class", "long-field")
+$!rendererParams.put("rows", "2")
+$!rendererParams.put("wrap", "virtual")
+## let the renderer display the edit component
+$rendererDescriptor.getEditVM($!environment, $!issue.key, $!fieldLayoutItem.rendererType, $!field.id, $field.name, $rendererParams, false)
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

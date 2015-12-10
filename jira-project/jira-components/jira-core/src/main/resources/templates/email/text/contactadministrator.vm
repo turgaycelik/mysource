@@ -1,0 +1,6 @@
+#disable_html_escaping()
+From: $from
+
+$content
+
+#parse("templates/email/text/includes/footer.vm")

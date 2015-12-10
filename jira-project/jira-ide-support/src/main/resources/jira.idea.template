@@ -1,0 +1,53 @@
+#
+# Edit to change Tomcat-related parameters.
+#
+tomcat.port = 8090
+tomcat.context = /jira
+tomcat.basedir=${project.root.dir}/tomcatBase
+# Leave this in the target directory so that IDEA does not index the tomcat work directory.
+tomcat.workdir = ${project.root.dir}/target/work
+# Uncomment this to specify additional arguments when tomcat runs
+# tomcat.additional.jvmargs = -Djira.rebel.root=${project.root.dir} -Dplugin.resource.directories=${project.root.dir}/jira-components/jira-plugins/jira-project-config-plugin/src/main/resources
+
+#
+# Edit to change the location of the jira home (default: 'jirahome')
+#
+jira.home = ${project.root.dir}/jirahome
+
+#
+# if using a custom IDEA config directory outside of your user home, specify it here
+#
+# idea.custom.config.dir.path= /my/custom/idea/config
+
+
+
+################################################################################
+#                  You should not need to edit below here                      #
+################################################################################
+
+#
+# Where Maven will put downloaded copies of Apache Tomcat for you.
+#
+tomcat.dir=${project.root.dir}/../idea-tomcat
+
+# One of: oracle, hsql, postgres, mssql or mysql
+jira.db.type = hsql
+
+# If you use ampersands, DO NOT escape them using &amp;,
+# example connection strings:
+#
+# MySQL:    jira.db.url = jdbc:mysql://localhost/jiradb?useUnicode=true&characterEncoding=UTF8
+# Oracle:   jira.db.url = jdbc:oracle:thin:@localhost:1521:XE
+# HSQL:     jira.db.url = jdbc:hsqldb:${project.root.dir}/target/jirahome/database/jiradb
+# Postgres: jira.db.url = jdbc:postgresql://localhost:5432/jira
+#
+
+# By default, the following will create a hsql db in jira-ide-support/target/jirahome/database called jiradb
+jira.db.url = jdbc:hsqldb:${jira.home}/database/jiradb
+jira.db.username = sa
+jira.db.password =
+
+# If you are on mssql, you will need to specify a schemaname as well. Uncomment and edit the following line appropriately:
+#jira.db.schemaname = jira_mssql
+
+

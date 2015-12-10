@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE jndi-config PUBLIC "-//OFBiz//DTD JNDI Server Config//EN" "http://www.ofbiz.org/dtds/jndi-config.dtd">
+
+<jndi-config>
+
+    <!-- this jndi-server has no parameters so the factory will use the default
+        InitialContext constructor which gets these values from the jndi.properties file -->
+    <jndi-server name="default"/>
+
+    <!--
+    <jndi-server name="localjndi"
+            context-provider-url="rmi://127.0.0.1:1099"
+            initial-context-factory="com.sun.jndi.rmi.registry.RegistryContextFactory"
+            url-pkg-prefixes="java.naming.rmi.security.manager"
+            security-principal=""
+            security-credentials=""/>
+
+    <jndi-server name="OpenJMS"
+            context-provider-url="rmi://127.0.0.1:1099/JndiServer"
+            initial-context-factory="org.exolab.jms.jndi.rmi.RmiJndiInitialContextFactory"/>
+    -->
+</jndi-config>

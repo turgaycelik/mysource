@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/osgi"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:atlassian-scanner="http://www.atlassian.com/schema/atlassian-scanner"
+             xsi:schemaLocation="http://www.springframework.org/schema/osgi http://www.springframework.org/schema/osgi/spring-osgi.xsd
+                                 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                                 http://www.atlassian.com/schema/atlassian-scanner http://www.atlassian.com/schema/atlassian-scanner/atlassian-scanner.xsd">
+
+    <!-- configure a ResourceFilterFactory for this plugin's REST resources -->
+    <service interface="com.sun.jersey.spi.container.ResourceFilterFactory">
+        <service-properties>
+            <beans:entry key="plugin" value="com.atlassian.plugins.rest"/>
+        </service-properties>
+        <beans:bean class="com.atlassian.jira.rest.filter.RestApiResourceFilterFactory" autowire="constructor"/>
+    </service>
+
+    <atlassian-scanner:scan-indexes/>
+
+</beans:beans>

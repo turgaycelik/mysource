@@ -1,0 +1,43 @@
+#disable_html_escaping()
+#if($legacyBehaviour)
+    ## we only show the field in legacy mode if work has not started (i.e. we are showing Original Estimate) or if
+    ## the WorklogSystemField is not present
+    #if($!{hasWorkStarted} == false || $isWorklogPresent == false)
+        #customControlHeader ($action $field.id $i18n.getText($fieldName) $fieldLayoutItem.required $displayParameters $auiparams)
+        <input class="text short-field" id="$field.id" name="$field.id" type="text" value="#if ($timetracking.estimateDisplayValue)$textutils.htmlEncode($timetracking.estimateDisplayValue)#end" />
+        <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+        #jiraHelpLink ('timetracking_local' '')
+        #customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+    #end
+#else
+    #if ($action.getErrors().get("${field.id}_originalestimate"))
+        #set ($errorForOriginalEstimate = $action.getErrors().get("${field.id}_originalestimate"))
+    #end
+    #if ($action.getErrors().get("${field.id}_remainingestimate"))
+        #set ($errorForRemainingEstimate = $action.getErrors().get("${field.id}_remainingestimate"))
+    #end
+    <td#if($errorForOriginalEstimate || $errorForRemainingEstimate) class="formErrors"#end>
+        <table id="timetracking_container" class="blank">
+            <tr>
+                <td>$textutils.htmlEncode($i18n.getText('common.concepts.original.estimate'))</td>
+                #customControlHeader  ($action "${field.id}_originalestimate" $i18n.getText('common.concepts.original.estimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input class="text short-field" id="${field.id}_originalestimate" name="${field.id}_originalestimate" type="text" value="#if ($timetracking.originalEstimateDisplayValue)$textutils.htmlEncode($timetracking.originalEstimateDisplayValue)#end" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+                #jiraHelpLink ('timetracking_local' '')
+                #customControlFooter ($action "${field.id}_originalestimate" $i18n.getText('timetracking.field.original.estimate.description') $displayParameters $auiparams)
+            </tr>
+            <tr>
+                <td>$textutils.htmlEncode($i18n.getText('common.concepts.remaining.estimate'))</td>
+                #customControlHeader  ($action "${field.id}_remainingestimate" $i18n.getText('common.concepts.remaining.estimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input class="text short-field" id="${field.id}_remainingestimate" name="${field.id}_remainingestimate" type="text" value="#if ($timetracking.remainingEstimateDisplayValue)$textutils.htmlEncode($timetracking.remainingEstimateDisplayValue)#end" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+                #jiraHelpLink ('timetracking_local' '')
+                #customControlFooter ($action "${field.id}_remainingestimate" $i18n.getText('timetracking.field.remaining.estimate.description') $displayParameters $auiparams)
+            </tr>
+        </table>
+    </td>
+#end
+<div class="hidden">
+    <input name="isCreateIssue" type="hidden" value="$!{isCreateIssue}" />
+    <input name="hasWorkStarted" type="hidden" value="$!{hasWorkStarted}" />
+</div>

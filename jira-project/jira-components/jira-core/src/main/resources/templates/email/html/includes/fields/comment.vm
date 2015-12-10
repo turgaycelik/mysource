@@ -1,0 +1,16 @@
+#disable_html_escaping()
+
+## TODO: make use of text-top and comment-top patterns
+#if ($comment)
+    <table class="notification-comment-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td class="notification-comment-pattern-container mobile-resize-text">
+                This pattern is obsolete! Use comment-top instead.
+
+                $htmlComment
+                ## TODO: visibility
+                <div style="color:$textSubtleColour;padding:4px 0 0 0;">#visibilityHtml()</div>
+            </td>
+        </tr>
+    </table>
+#end

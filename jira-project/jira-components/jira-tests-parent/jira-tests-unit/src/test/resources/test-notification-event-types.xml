@@ -1,0 +1,9 @@
+<types>
+	<type id="TEST_TYPE_1">
+		<class>com.atlassian.jira.notification.type.TypeForTesting</class>
+	</type>
+
+    <type id="TEST_TYPE_2">
+		<class>com.atlassian.jira.notification.type.TypeForTesting2</class>
+	</type>
+</types>

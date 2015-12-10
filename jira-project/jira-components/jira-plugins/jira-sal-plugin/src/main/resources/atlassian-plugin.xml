@@ -1,0 +1,99 @@
+<atlassian-plugin key="com.atlassian.sal.jira" name="${project.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <vendor name="Atlassian Software Systems" url="http://www.atlassian.com"/>
+        <version>${pom.version}</version>
+    </plugin-info>
+
+    <component key="i18nResolver" name="I18n Resolver" class="com.atlassian.jira.i18n.JiraI18nResolver" public="true">
+        <interface>com.atlassian.sal.api.message.I18nResolver</interface>
+    </component>
+    <component name="Locale Resolver" key="localeResolver" class="com.atlassian.jira.i18n.JiraLocaleResolver" public="true">
+        <interface>com.atlassian.sal.api.message.LocaleResolver</interface>
+    </component>
+    <component key="helpPathResolver" name="Help Path Resolver" class="com.atlassian.sal.jira.message.JiraHelpPathResolver" public="true">
+        <interface>com.atlassian.sal.api.message.HelpPathResolver</interface>
+    </component>
+    <component key="pluginSettingsFactory" name="Plugin settings factory" class="com.atlassian.sal.jira.pluginsettings.JiraPluginSettingsFactory" public="true">
+        <interface>com.atlassian.sal.api.pluginsettings.PluginSettingsFactory</interface>
+    </component>
+    <component key="componentLocator" name="component locator" class="com.atlassian.sal.jira.component.JiraComponentLocator" public="true">
+        <interface>com.atlassian.sal.api.component.ComponentLocator</interface>
+    </component>
+    <component name="Certificate Factory" key="certificateFactory" class="com.atlassian.sal.jira.trusted.JiraCertificateFactory" public="true">
+        <interface>com.atlassian.sal.core.trusted.CertificateFactory</interface>
+    </component>
+    <component name="Application Properties" key="pluginApplicationProperties" class="com.atlassian.jira.sal.JiraApplicationProperties" public="true">
+        <interface>com.atlassian.sal.api.ApplicationProperties</interface>
+    </component>
+    <component name="XSRF Token Accessor" key="xsrfTokenAccessor" class="com.atlassian.sal.jira.xsrf.JiraXsrfTokenAccessor" public="true">
+        <interface>com.atlassian.sal.api.xsrf.XsrfTokenAccessor</interface>
+    </component>
+    <component name="XSRF Token Validator" key="xsrfTokenValidator" class="com.atlassian.sal.jira.xsrf.JiraXsrfTokenValidator" public="true">
+        <interface>com.atlassian.sal.api.xsrf.XsrfTokenValidator</interface>
+    </component>
+    <component key="pluginUserManager" name="User Manager" class="com.atlassian.sal.jira.user.DefaultUserManager" public="true">
+        <interface>com.atlassian.sal.api.user.UserManager</interface>
+    </component>
+    <component key="pluginTimeZoneManager" name="SAL Time Zone Manager" class="com.atlassian.sal.jira.timezone.JiraTimeZoneManager" public="true">
+        <interface>com.atlassian.sal.api.timezone.TimeZoneManager</interface>
+    </component>
+    <component name="License Handler" key="licenseHandler" class="com.atlassian.sal.jira.license.JiraLicenseHandler" public="true">
+        <interface>com.atlassian.sal.api.license.LicenseHandler</interface>
+    </component>
+    <component name="Plugin Scheduler" key="pluginScheduler" class="com.atlassian.sal.jira.scheduling.JiraPluginScheduler" public="true">
+        <interface>com.atlassian.sal.api.scheduling.PluginScheduler</interface>
+    </component>
+    <component name="NoOp Transaction Template" key="transactionTemplate" class="com.atlassian.sal.core.transaction.HostContextTransactionTemplate" public="true">
+        <interface>com.atlassian.sal.api.transaction.TransactionTemplate</interface>
+    </component>
+    <component name="Jira Search Provider" key="jiraSearchProvider" class="com.atlassian.sal.jira.search.JiraSearchProvider" public="true">
+        <interface>com.atlassian.sal.api.search.SearchProvider</interface>
+    </component>
+    <component name="Search Query Parser" key="searchQueryParser" class="com.atlassian.sal.core.search.query.DefaultSearchQueryParser" public="true">
+        <interface>com.atlassian.sal.api.search.query.SearchQueryParser</interface>
+    </component>
+    <component name="Request Factory" key="requestFactory" class="com.atlassian.sal.core.net.HttpClientRequestFactory" public="true">
+        <interface>com.atlassian.sal.api.net.NonMarshallingRequestFactory</interface>
+    </component>
+    <component name="JIRA Project Manager" key="jiraProjectManager" class="com.atlassian.sal.jira.project.JiraProjectManager" public="true">
+        <interface>com.atlassian.sal.api.project.ProjectManager</interface>
+    </component>
+    <component name="JIRA Thread Local Delegate Executor Factory" key="jiraThreadLocalDelegateExecutorFactory" class="com.atlassian.sal.jira.executor.JiraThreadLocalDelegateExecutorFactory" public="true">
+        <interface>com.atlassian.sal.api.executor.ThreadLocalDelegateExecutorFactory</interface>
+    </component>
+    <component key="loginUriProvider" class="com.atlassian.sal.core.auth.SeraphLoginUriProvider" name="JIRA Login Uri Provider" public="true">
+    	<interface>com.atlassian.sal.api.auth.LoginUriProvider</interface>
+	</component>
+    <component key="oauthRequestVerifierFactory" class="com.atlassian.sal.core.auth.OAuthRequestVerifierFactoryImpl" name="OAuth Request Verifier Factory" public="true">
+        <interface>com.atlassian.sal.api.auth.OAuthRequestVerifierFactory</interface>
+    </component>
+    <component key="authenticationListener" class="com.atlassian.sal.core.auth.SeraphAuthenticationListener" public="true">
+        <interface>com.atlassian.sal.api.auth.AuthenticationListener</interface>
+    </component>
+    <component key="authenticationController" class="com.atlassian.sal.core.auth.SeraphAuthenticationController" public="true">
+        <interface>com.atlassian.sal.api.auth.AuthenticationController</interface>
+    </component>
+    <component key="upgradeTask1" class="com.atlassian.sal.jira.upgrade.UpgradeTo_v1" public="true">
+        <interface>com.atlassian.sal.api.upgrade.PluginUpgradeTask</interface>
+    </component>
+    <component key="upgradeTask2" class="com.atlassian.sal.jira.upgrade.UpgradeTo_v2" public="true">
+        <interface>com.atlassian.sal.api.upgrade.PluginUpgradeTask</interface>
+    </component>
+    <component key="salWebSudoManager" class="com.atlassian.sal.jira.websudo.JIRASalWebSudoManager" name="JIRA's Sal WebSudo Manager" public="true">
+        <interface>com.atlassian.sal.api.websudo.WebSudoManager</interface>
+    </component>
+    <component key="httpContext" class="com.atlassian.sal.jira.web.context.HttpContext" name="JIRA's HttpContent Provider" public="true">
+        <interface>com.atlassian.sal.api.web.context.HttpContext</interface>
+    </component>
+    <component key="threadLocalContextManager" class="com.atlassian.sal.jira.executor.JiraThreadLocalContextManager" name="JIRA's Thread Local Context Manager" public="true">
+        <interface>com.atlassian.sal.api.executor.ThreadLocalContextManager</interface>
+    </component>
+    <component key="salUserSettingsService" class="com.atlassian.sal.jira.usersettings.JiraUserSettingsService" name="JIRA's User Setttings Service" public="true">
+        <interface>com.atlassian.sal.api.usersettings.UserSettingsService</interface>
+    </component>
+    <component key="darkFeaturesManager" class="com.atlassian.sal.jira.features.JiraDarkFeaturesManager" name="JIRA's DarkFeatures Manager" public="true">
+        <interface>com.atlassian.sal.api.features.DarkFeatureManager</interface>
+    </component>
+
+</atlassian-plugin>

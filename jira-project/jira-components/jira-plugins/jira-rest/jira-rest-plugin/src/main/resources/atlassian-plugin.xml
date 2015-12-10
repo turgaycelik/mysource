@@ -1,0 +1,71 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <!-- BND instructions are in pom.xml -->
+    </plugin-info>
+
+    <rest key="JIRA-RESTpoints" path="/api" version="1.0">
+        <description>
+            REST resources that shipped with JIRA 4.0. This will live here for backwards compatibility reasons but
+            you should use the version 2.0+ resources if at all possible since those will be the "real" ones going forward.
+        </description>
+        <package>com.atlassian.jira.rest.v1</package>
+        <package>com.atlassian.jira.rest.exception</package>
+        <package>com.atlassian.jira.rest.util.serializers</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <rest key="JIRA Internal REST" path="/internal" version="1.0">
+        <description>
+            This REST resources are used internally by JIRA. External developers should use them only at their own risk.
+            This will not be documented, versioned, or kept-backwards compatible in anyway. They may change without notice
+            or disappear entirely with no alternative provided.
+        </description>
+        <package>com.atlassian.jira.rest.v1</package>
+        <package>com.atlassian.jira.rest.internal</package>
+        <package>com.atlassian.jira.rest.exception</package>
+        <package>com.atlassian.jira.rest.util.serializers</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <rest key="JIRA REST" path="/api" version="2">
+        <description>
+            JIRA REST resources for consumption by external developers.
+        </description>
+        <package>com.atlassian.jira.rest.v2</package>
+        <package>com.atlassian.jira.rest.exception</package>
+        <package>com.atlassian.jira.rest.util.serializers</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <rest key="JIRA REST Authentication" path="/auth" version="1">
+        <description>
+            JIRA REST resources for authentication (logging and logging out).
+        </description>
+        <package>com.atlassian.jira.rest.auth</package>
+        <package>com.atlassian.jira.rest.exception</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <resource type="i18n" name="i18n" location="i18n-rest" />
+
+    <!--
+        JRA-25405: This filter needs to run before the RestSeraphFilter from atlassian-rest. See filter for details.
+    -->
+    <servlet-filter name="JIRA Rest-Seraph integration" key="rest-seraph-filter" class="com.atlassian.jira.rest.auth.JiraRestSeraphAuthFilter"
+                    location="before-login" weight="500">
+        <url-pattern>/rest/auth/*</url-pattern>
+    </servlet-filter>
+
+</atlassian-plugin>

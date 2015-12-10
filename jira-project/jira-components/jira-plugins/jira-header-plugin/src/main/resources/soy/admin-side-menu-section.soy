@@ -1,0 +1,82 @@
+{namespace JIRA.Templates.Menu.admin.side.navigation}
+
+/**
+ * @param? selectedMenu
+ * @param? title
+ * @param? label
+ * @param sectionId
+ * @param? links
+ * @param sections
+ */
+{template .menusection}
+    <div class="admin-menu-links" {if $selectedMenu != $sectionId} style="display: none;" {/if}>
+        {call .section}
+            {param title: $title /}
+            {param label: $label /}
+            {param sectionId: $sectionId /}
+            {param links: $links /}
+            {param sections: $sections /}
+        {/call}
+    </div>
+{/template}
+
+/**
+ * @param? title
+ * @param? label
+ * @param sectionId
+ * @param links
+ * @param? html
+ * @param sections
+ */
+{template .section}
+    {if $links and length($links)}
+        {if $label}
+            <div class="aui-nav-heading">{$label}</div>
+        {elseif $title}
+            <div class="aui-nav-heading">{$title}</div>
+        {/if}
+        <ul class="aui-nav">
+            {call .webitems}
+                {param links: $links /}
+            {/call}
+        </ul>
+    {elseif $html}
+        {$html|noAutoescape}
+    {/if}
+    {if $sections and length($sections)}
+        {call .subsections}
+            {param sections: $sections /}
+            {param sectionId: $sectionId /}
+        {/call}
+    {/if}
+{/template}
+
+/**
+ * @param links
+ */
+{template .webitems}
+    {foreach $link in $links}
+        <li {if $link.selected} class="aui-nav-selected" {/if} >
+            <a href="{$link.url}" id="{$link.id}" {if $link.accessKey} access-key="{$link.accessKey}" {/if}>{$link.label}</a>
+        </li>
+    {ifempty}
+    {/foreach}
+{/template}
+
+
+/**
+ * @param sections
+ */
+{template .subsections}
+    {foreach $childSection in $sections}
+        {call .section}
+            {param title: $childSection.title /}
+            {param label: $childSection.label /}
+            {param sectionId: $childSection.id /}
+            {param links: $childSection.links /}
+            {param sections: $childSection.sections /}
+            {param html: $childSection.html /}
+        {/call}
+    {ifempty}
+    {/foreach}
+{/template}

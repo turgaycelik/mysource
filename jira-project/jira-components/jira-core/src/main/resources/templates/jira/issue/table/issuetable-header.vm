@@ -1,0 +1,23 @@
+#disable_html_escaping()
+#* @vtlmacrolibrary path="macros.vm" *#
+#* @vtlvariable name="layout" type="com.atlassian.jira.web.component.IssueTableLayoutBean" *#
+#* @vtlvariable name="carrothidden" type="java.lang.String" *#
+## There are columns selected
+#if ($layout.columns.empty == false)
+    ## paginate the issues (ie show links to page 1, page 2 etc).  This is used if there are more issues than can be shown on one page
+    #if($layout.displayHeaderPager)
+        #pages ($pager)
+    #end
+    ## the main issue table (including header, (optional) utility row, and issues )
+    #if ($layout.cellDisplayParams && $layout.cellDisplayParams.get('excel_view'))
+        <table id="issuetable" $carrothidden border="1" cellpadding="3" cellspacing="1" width="100%">
+    #elseif ($layout.cellDisplayParams && $layout.cellDisplayParams.get('email_view'))
+        <table id="issuetable" $carrothidden border="0" cellpadding="2" cellspacing="0" width="100%">
+    #else
+        <table id="issuetable" $carrothidden >
+    #end
+    ## Display header row e.g. key, status, priority
+    #if ($layout.displayHeader)
+        #header ($layout.columns $layout.sortingEnabled $layout.firstSorter $layout.showHeaderDescription $layout.showTableEditHeader $actionColumn)
+    #end
+#end

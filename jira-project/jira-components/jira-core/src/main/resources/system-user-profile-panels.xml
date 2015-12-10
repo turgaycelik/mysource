@@ -1,0 +1,27 @@
+<atlassian-plugin name='User Profile Panels' key='jira.user.profile.panels'
+                  i18n-name-key="webfragments.user.profile.panels.plugin.name" system='true'>
+    <plugin-info>
+        <description key="user.profile.panel.plugin.desc">This library includes the panels included on the user profile page.
+        </description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="4.1" max="4.1"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <view-profile-panel key="user-profile-summary-panel" i18n-name-key="user.profile.summary.panel"
+                        name="User Profile Summary Panel"
+                        class="com.atlassian.jira.user.profile.SummaryUserProfilePanel">
+        <resource type="velocity" name="view" location="templates/plugins/userprofile/summary-panel.vm"/>
+        <param name="noTitle">true</param>
+        <order>1</order>
+    </view-profile-panel>
+
+    <!-- User Dark Features. This panel should be hidden unless the user knows the URL -->
+    <view-profile-panel key="up-darkfeatures-panel" i18n-name-key="admin.darkfeatures"
+                        name="User Profile Dark Features Panel"
+                        class="com.atlassian.jira.plugin.profile.DarkFeaturesUserProfilePanel">
+        <resource type="velocity" name="view" location="templates/plugins/userprofile/darkfeatures-panel.vm"/>
+        <order>100</order>
+    </view-profile-panel>
+
+</atlassian-plugin>

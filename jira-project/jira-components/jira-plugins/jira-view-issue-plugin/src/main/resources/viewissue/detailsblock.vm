@@ -1,0 +1,226 @@
+#* @vtlvariable name="workflowUrl" type="java.lang.String" *#
+#enable_html_escaping()
+#* @vtlvariable name="summaryComponent" type="com.atlassian.jira.plugin.viewissue.DetailsBlockContextProvider" *#
+#* @vtlvariable name="tabs" type="java.util.List<com.atlassian.jira.plugin.viewissue.DetailsBlockContextProvider.SimpleTab>" *#
+#**
+ * The lozenges for the labels system and custom fields (with an optional edit link). Also see labelsLozenges.jsp
+ * which returns the same HTML for the in-line updating of labels fields.
+ *
+ * @param i18n i18n helper
+ * @param remoteUser the user issuing the server request
+ * @param labelUtil labels helper
+ * @param issueId the ID of the issue; may be null for bulk edit preview
+ * @param fieldId the labels field name (e.g., 'labels' or 'customfield_10000')
+ * @param customFieldIdAsLong custom field (numeric) ID or false if it is the labels system field
+ * @param labels the labels to render
+ * @param canEdit true if the edit labels link should be rendered, false otherwise; note that the issue navigator
+ *     currently doesn't allow editing, so if this changes, then the DOM IDs rendered here need to be modified.
+ * @param readOnly true if the labels are read only, false otherwise
+ * @param baseurl the JIRA instance's base URL
+ *#
+#macro(labelsLozenges $i18n $remoteUser $labelUtil $issueId $fieldId $customFieldIdAsLong $labels $canEdit $noLink $readOnly $baseUrl $prefix)
+    <div class="labels-wrap value">
+    #if ($labels && $labels.size() > 0)
+        <ul class="labels" #if ($issueId)id="#if ($prefix)${prefix}#end${fieldId}-${issueId}-value"#end>
+        #foreach($label in $labels)
+            #if ($noLink)
+                <li><a class="lozenge nolink" name="$fieldId" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+            #else
+                #if ($customFieldIdAsLong)
+                    <li><a class="lozenge" href="${baseUrl}/secure/IssueNavigator.jspa?reset=true${labelUtil.getLabelJql($remoteUser, $customFieldIdAsLong, $!label.label)}" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+                #else
+                    <li><a class="lozenge" href="${baseUrl}/secure/IssueNavigator.jspa?reset=true${labelUtil.getLabelJql($remoteUser, $!label.label)}" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+                #end
+            #end
+        #end
+        #if ($canEdit && $readOnly == false)
+            ## Edit links don't appear in issue tables, so id's of the form edit-labels-(labels|customfield_10000) are good enough.
+            <li><a class="icon jira-icon-edit edit-labels" id="edit-labels-${issueId}-${fieldId}" href="${baseUrl}/secure/EditLabels!default.jspa?id=${issueId}&noLink=${noLink}#if ($customFieldIdAsLong)&customFieldId=${customFieldIdAsLong}#end"><span>${i18n.getText('label.edit.title')}</span></a></li>
+        #end
+        </ul>
+    #else
+        <span class="labels" #if ($issueId)id="#if ($prefix)${prefix}#end${fieldId}-${issueId}-value"#end>${i18n.getText('common.words.none')}</span>
+        #if ($canEdit && $readOnly == false)
+            ## Edit links don't appear in issue tables, so id's of the form edit-labels-(labels|customfield_10000) are good enough.
+            <a class="icon jira-icon-edit edit-labels" id="edit-labels-${issueId}-${fieldId}" href="${baseUrl}/secure/EditLabels!default.jspa?id=${issueId}&noLink=${noLink}#if ($customFieldIdAsLong)&customFieldId=${customFieldIdAsLong}#end"><span>${i18n.getText('label.edit.title')}</span></a>
+        #end
+    #end
+    </div>
+#end
+
+<ul id="issuedetails" class="property-list two-cols">
+    <li class="item">
+        <div class="wrap">
+            <strong class="name">$i18n.getText("issue.field.type"):</strong>
+            <span id="type-val" class="value">
+                #set ($type = $issue.getIssueTypeObject())
+                ${issueConstantWebComponent.getHtml($type)} $textutils.htmlEncode($type.nameTranslation, false)
+            </span>
+        </div>
+    </li>
+    <li class="item item-right">
+        <div class="wrap">
+            <strong class="name">$i18n.getText("issue.field.status"):</strong>
+            <span id="status-val" class="value">
+                #set ($simpleStatus = $issue.getStatusObject().getSimpleStatus())
+                #parse("/static/util/issue/status.vm")
+            </span>
+            #if($hasViewWorkflowPermission)
+                <span class="status-view">(<a href="${baseurl}${workflowUrl}" class="issueaction-viewworkflow" title="$textutils.htmlEncode($!{workflowName}): $textutils.htmlEncode($issue.key)">$i18n.getText("viewworkflow.view.title")</a>)</span>
+            #end
+        </div>
+    </li>
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'priority', $issue.issueTypeObject.id) == false && $issue.priority)
+        <li class="item">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.priority"):</strong>
+                <span id="priority-val" class="value">
+                    #set ($priority = $issue.getPriorityObject())
+                    ${issueConstantWebComponent.getHtml($priority)} $textutils.htmlEncode($priority.nameTranslation, false)
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'resolution', $issue.issueTypeObject.id) == false)
+        #if ($issue.getResolutionObject())
+            #set ($resolvedClass = "resolved")
+        #else
+            #set ($resolvedClass = "unresolved")
+        #end
+        <li class="item item-right">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.resolution"):</strong>
+                <span id="resolution-val" class="value ${resolvedClass}" >
+                #if ($issue.getResolutionObject())
+                    #set ($resolution = $issue.getResolutionObject())
+                    ${issueConstantWebComponent.getHtml($resolution)} $textutils.htmlEncode($resolution.nameTranslation, false)
+                #else
+                    $i18n.getText('common.resolution.unresolved')
+                #end
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($projectHasVersions && $fieldVisibility.isFieldHidden('versions', $issue) == false)
+        <li class="item">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.version"):</strong>
+                <span id="versions-val" class="value">
+                    #if( $versions)
+                        <span class="shorten" id="versions-field">
+                            #foreach ($version in $versions)
+                                <span title="$textutils.htmlEncode($version.name) $!textutils.htmlEncode($!version.description)">$textutils.htmlEncode($version.name)</span>#if( $velocityCount < $versions.size() ),#end
+                            #end
+                        </span>
+                    #else
+                        $i18n.getText('common.words.none')
+                    #end
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($projectHasVersions && $fieldVisibility.isFieldHidden('fixVersions', $issue) == false)
+        <li class="item item-right">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.fixversions"):</strong>
+                <span id="fixfor-val" class="value">
+                    #if( $fixVersions)
+                        <span class="shorten" id="fixVersions-field">
+                            #foreach ($fixVersion in $fixVersions)
+                                <a href="${baseurl}/browse/${issue.projectObject.key}/fixforversion/${fixVersion.id}" title="$textutils.htmlEncode($fixVersion.name) $!textutils.htmlEncode($!fixVersion.description)">$textutils.htmlEncode($fixVersion.name)</a>#if( $velocityCount < $fixVersions.size() ),#end
+                            #end
+                        </span>
+                    #else
+                        $i18n.getText('common.words.none')
+                    #end
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($projectHasComponents && $fieldVisibility.isFieldHidden('components', $issue) == false)
+        <li class="item">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.components"):</strong>
+                <span id="components-val" class="value">
+                    #if ($components)
+                        <span class="shorten" id="components-field">
+                            #foreach ($component in $components)
+                                <a href="${baseurl}/browse/${issue.projectObject.key}/component/${component.id}" title="$textutils.htmlEncode($component.name) $!textutils.htmlEncode($!component.description)">$textutils.htmlEncode($component.name)</a>#if( $velocityCount < $components.size() ),#end
+                            #end
+                        </span>
+                    #else
+                        $i18n.getText('common.words.none')
+                    #end
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($fieldVisibility.isFieldHidden('security', $issue) == false && $securitylevel)
+        <li class="item item-right">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.securitylevel"):</strong>
+                <span id="security-val" class="value">
+                    <span class="note">$textutils.htmlEncode($securitylevel.getString('name'))</span>
+                    #if($securitylevel.getString('description') && $securitylevel.getString('description').length() > 0)
+                        ($textutils.htmlEncode($securitylevel.getString('description')))
+                    #end
+                </span>
+            </div>
+        </li>
+    #end
+    #if ($fieldVisibility.isFieldHidden('labels', $issue) == false)
+        <li class="item full-width">
+            <div class="wrap" id="wrap-labels">
+                <strong class="name">$i18n.getText("issue.field.labels"):</strong>
+                #labelsLozenges($i18n $remoteUser $labelUtil $issue.id 'labels' false $labels $canEdit false false $baseurl '')
+            </div>
+        </li>
+    #end
+    #if ($environment)
+        <li class="item full-width">
+            <div class="wrap">
+                <strong class="name">$i18n.getText("issue.field.environment"):</strong>
+                <div id="environment-val" class="value">
+                    $renderedEnvironmentHtml
+                </div>
+            </div>
+        </li>
+    #end
+</ul>
+
+#if (!${tabs.empty})
+<div id="customfieldmodule">
+    <div class="aui-tabs horizontal-tabs" id="customfield-tabs">
+        #if (${tabs.size()} > 1)
+## Show tab headings
+            <ul class="tabs-menu">
+                #foreach (${tab} in ${tabs})
+                <li class="menu-item#if(${velocityCount} == 1) active-tab#end">
+                    <a href="#customfield-panel-${velocityCount}"><strong>${tab.name}</strong></a>
+                </li>
+                #end
+            </ul>
+        #end
+## Show the actual tabs with their fields
+    #foreach (${tab} in ${tabs})
+        <div id="customfield-panel-${velocityCount}" class="tabs-pane#if(${velocityCount} == 1) active-pane#end">
+            ## Show tab's fields
+            <ul class="property-list">
+            #foreach(${field} in ${tab.fields})
+                #if (${field.showField})
+                    <li id="rowFor${field.id}" class="item">
+                        <div class="wrap">
+                            <strong title="${field.name}" class="name">${field.name}:</strong>
+                            <div id="${field.id}-val" class="value ${field.styleClass}" data-fieldtype="${field.fieldType}" data-fieldtypecompletekey="${field.fieldTypeCompleteKey}">
+                                ${field.fieldHtml}
+                            </div>
+                        </div>
+                    </li>
+                #end
+            #end
+            </ul>
+        </div>
+    #end
+    </div>## aui-tabs
+</div>
+#end

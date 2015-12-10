@@ -1,0 +1,4 @@
+#disable_html_escaping()
+<div>
+    <h3 id="resource-value">$action.resourceValue</h3>
+</div>

@@ -1,0 +1,49 @@
+#disable_html_escaping()
+#controlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters.get('noHeader'))
+
+#if ($versions && !$versions.empty)
+<table class="blank">
+    #foreach ($sourceVersionEntry in $valuesToMap.entrySet())
+        #set ($sourceVersionEntryValue = $sourceVersionEntry.getValue())
+        #set ($sourceVersionName = $sourceVersionEntryValue.getValueName())
+        #set ($sourceProjectNameEscaped = $textutils.htmlEncode($sourceVersionEntryValue.getProjectName()))
+        #set ($sourceVersionId = $sourceVersionEntry.getKey())
+        <tr id="rowFor_${field.id}_${sourceVersionId}">
+            <td width="1%" nowrap>#if ($sourceVersionName != '')$textutils.htmlEncode($sourceVersionName)#else $i18n.getText('common.filters.noversion')#end
+                #if ($sourceVersionId != $unknownVersionId)<small>[<strong>$i18n.getText('common.concepts.project'):</strong> $sourceProjectNameEscaped]</small>#end
+            </td>
+            <td width="1%"><img src="${req.contextPath}/images/icons/arrow_right_small.gif" height="16" width="16" border="0" align="absmiddle"></td>
+            <td>
+
+                <select name="${field.id}_${sourceVersionId}" id="${field.id}_${sourceVersionId}">
+                    #if (!$fieldLayoutItem.required)
+                    <option value="$!unknownVersionId">$i18n.getText('common.words.unknown')</option>
+                    #end
+                    #foreach ($version in $versions)
+                        #if ($version.key == $unreleasedVersionId || $version.key == $releasedVersionId)
+                            #if ($optGroupOpen)
+                    </optgroup>
+                            #else
+                                #set ($optGroupOpen = true)
+                            #end
+                    <optgroup label="$textutils.htmlEncode($version.value)">
+                        #else
+                        <option value="$!version.key"
+                            #if ($bulkMoveHelper.needsSelection($sourceVersionEntryValue, $version.key, $version.value))selected#end
+                            >$textutils.htmlEncode($version.value)</option>
+                        #end
+                    #end
+                    #if ($optGroupOpen)
+                    </optgroup>
+                    #end
+                </select>
+            </td>
+        </tr>
+    #end
+</table>
+
+#else
+    $i18n.getText('common.words.none')
+#end
+
+#controlFooter ($action $fieldLayoutItem.getFieldDescription() $displayParameters.get('noHeader'))

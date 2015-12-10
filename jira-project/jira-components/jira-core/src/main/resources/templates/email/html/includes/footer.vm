@@ -1,0 +1,54 @@
+#disable_html_escaping()
+#* @vtlvariable name="build" type="com.atlassian.jira.util.BuildUtilsInfo" *#
+#* @vtlvariable name="attachmentsManager" type="com.atlassian.jira.mail.util.MailAttachmentsManager" *#
+#parse("templates/email/html/includes/emailconstants.vm")
+                    <!-- there needs to be content in the cell for it to render in some clients -->
+                    <tr>
+                        <td class="email-content-rounded-bottom mobile-expand">&nbsp;</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        #if ($extraFooterContent)
+            #parse("templates/email/html/includes/patterns/extra-footer-content.vm")
+        #end
+
+        ## footer pattern
+        <tr>
+            <td id="footer-pattern">
+                <table id="footer-pattern-container" cellspacing="0" cellpadding="0" border="0">
+                    ## Footer links + desktop logo
+                    <tr>
+                        <td id="footer-pattern-text" class="mobile-resize-text" width="100%">
+                            $i18n.getText("template.jira.footer.generated.by")
+
+                            #set ($commitId = "")
+                            #if ($textutils.stringSet($build.commitId))
+                            ## shorten the Git SHA
+                                #set ($commitId = "-<span title='$!{build.commitId}' data-commit-id='${build.commitId}}'>sha1:${build.commitId.substring(0, 7)}</span>")
+                            #end
+
+                            #set ($partnerName = "")
+                            #if ($textutils.stringSet($build.buildPartnerName))
+                                #set ($partnerName = "-$build.buildPartnerName")
+                            #end
+
+                            <span id="footer-build-information">(v${build.version}#${build.currentBuildNumber}${commitId}${partnerName})</span>
+                        </td>
+                        <td id="footer-pattern-logo-desktop-container" valign="top">
+                            <table>
+                                <tr>
+                                    <td id="footer-pattern-logo-desktop-padding">
+                                        <img id="footer-pattern-logo-desktop" src="$attachmentsManager.getImageUrl("/images/mail/footer-desktop-logo.png")" alt="Atlassian logo" title="Atlassian logo" width="169" height="36" class="image_fix"  />
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

@@ -1,0 +1,105 @@
+{namespace JIRA.Templates.LookandFeelProperty}
+
+/**
+ * @param? name
+ * @param? desc
+ */
+{template .key}
+    <strong class="property-name">{$name}</strong>
+    {if $desc}
+        <div class="application-property-description description">{$desc}</div>
+    {/if}
+{/template}
+
+/**
+* @param key
+* @param value
+* @param allowedValues
+*/
+{template .editValue}
+
+    {if $allowedValues}
+        <select name="value" value="{$value ? $value : ''}" id="{$key}-select">
+        {foreach $allowedValue in $allowedValues}
+            <option value="{$allowedValue}" {if $value == $allowedValue}selected="selected"{/if}>{$allowedValue}</option>
+        {/foreach}
+    {else}
+        <input name="value" type="text" class="text" value="{$value ? $value : ''}"  />
+    {/if}
+{/template}
+
+/**
+* @param colourHexValue
+* @param defaultColourHexValue
+*/
+{template .colourRead}
+         <span class="value color-picker">{$colourHexValue}</span>
+   <div class="jira-swatch-colour"
+         data-colour="{$colourHexValue}"
+         {if $defaultColourHexValue}data-default-colour="{$defaultColourHexValue}"{/if}
+    >
+        <span class="swatch" style="background-color: {$colourHexValue};"></span>
+    </div>
+{/template}
+
+/**
+* @param value
+* @param defaultValue
+*/
+{template .colourEdit}
+    <span>
+        <input name="value" type="text" class="text color-picker" value="{$value ? $value : ''}"  />
+        <div class="jira-swatch-colour"
+             data-colour="{$value}"
+             {if $defaultValue}data-default-colour="{$defaultValue}"{/if}
+        >
+            <span class="swatch" style="background-color: {$value};"></span>
+    </div>
+    <span>
+{/template}
+
+/**
+* @param value
+*/
+{template .booleanRead}
+    <strong class="property-name">
+        {if $value == 'true'}{getText('common.words.yes')}{/if}
+        {if $value == 'false'}{getText('common.words.no')}{/if}
+    </strong>
+{/template}
+
+/**
+* @param value
+* @param key
+*/
+{template .booleanEdit}
+        <input name="value" type="checkbox" class="checkbox" value="{$key}" {if $value == 'true'}checked{/if} />
+{/template}
+
+
+/**
+* @param value
+* @param? example
+*/
+{template .dateFormatRead}
+    <strong class="property-name">{$value}</strong>
+    <br />
+    {if $example}
+        <span class="property-example">{getText('admin.globalsettings.lookandfeel.eg',$example)}</span>
+    {else}
+        <span class="property-example">{getText('admin.globalsettings.lookandfeel.no.eg')}</span>
+    {/if}
+
+{/template}
+
+
+/**
+* @param defaultValue
+* @param value
+*/
+{template .operations}
+{if $defaultValue and ($value != $defaultValue)}
+    <input type="hidden" value="{$defaultValue}" class="application-property-value-default"/>
+    <input class="aui-button application-property-revert" type="button" value="{getText('admin.advancedconfiguration.revert')}" />
+{/if}
+{/template}

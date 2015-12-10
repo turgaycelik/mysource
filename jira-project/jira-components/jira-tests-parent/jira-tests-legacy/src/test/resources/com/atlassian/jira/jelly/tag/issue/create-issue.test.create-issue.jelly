@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:CreateIssue project-key="ABC" summary="Issue summary" issueIdVar="issue.id" issueKeyVar="issue.key">
+    </jira:CreateIssue>
+    ${issue.id}:${issue.key}
+</JiraJelly>

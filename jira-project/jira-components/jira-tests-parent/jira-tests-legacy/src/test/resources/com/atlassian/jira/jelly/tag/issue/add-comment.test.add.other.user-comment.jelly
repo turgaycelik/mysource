@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:AddComment comment="Issue comment" issue-key="ABC-1" commenter="not-logged-in-user" created="2005-09-25 12:12:12.0" groupLevel="admin-group"/>
+</JiraJelly>

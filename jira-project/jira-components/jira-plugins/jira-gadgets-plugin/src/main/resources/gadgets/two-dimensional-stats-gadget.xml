@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.twodimensionalfilterstats.title__"
+                 directory_title="__MSG_gadget.twodimensionalfilterstats.title__"
+                 description="__MSG_gadget.twodimensionalfilterstats.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:two-dimensional-stats-gadget", "twoDimensionalStats-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:two-dimensional-stats-gadget", "twoDimensionalStats-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs"/>
+        <Require feature="views"/>
+        <Optional feature="atlassian.util"/>
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup"/>
+        #oauth
+        #supportedLocales("gadget.common,gadget.twodimensionalfilterstats")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false"/>
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="filterId" datatype="hidden"/>
+    <UserPref name="xstattype" datatype="hidden" default_value="assignees"/>
+    <UserPref name="ystattype" datatype="hidden" default_value="assignees"/>
+    <UserPref name="sortBy" datatype="hidden" default_value="natural"/>
+    <UserPref name="sortDirection" datatype="hidden" default_value="asc"/>
+    <UserPref name="showTotals" datatype="hidden" default_value="false"/>
+    <UserPref name="numberToShow" datatype="hidden" default_value="5"/>
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="more" datatype="hidden" default_value="false"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home,default">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #requireResource("com.atlassian.jira.gadgets:g-two-dimensional-stats")
+        #includeResources()
+
+        <script type="text/javascript">
+        gadgets.window.setTitle("__MSG_gadget.twodimensionalfilterstats.title__");
+        (function ()
+        {
+            var gadget = AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "/rest/gadget/1.0/currentUser",
+                config: {
+                    descriptor: function (args)
+                    {
+                        var gadget = this;
+                        var statType = function(name)
+                        {
+                            return {
+                                userpref: name,
+                                label: gadget.getMsg("gadget.twodimensionalfilterstats." + name + ".label"),
+                                type: "select",
+                                selected: gadget.getPref(name),
+                                options: args.statType.stats
+                            };
+                        };
+                        var option = function(type, value)
+                        {
+                            return {
+                                label:gadget.getMsg("gadget.twodimensionalfilterstats." + type + "." + value + ".label"),
+                                value: value
+                            };
+                        };
+                        return  {
+                            action: "/rest/gadget/1.0/twodimensionalfilterstats/validate",
+                            theme : function ()
+                            {
+                                if (gadgets.window.getViewportDimensions().width < 450)
+                                {
+                                    return "gdt top-label";
+                                }
+                                else
+                                {
+                                    return "gdt";
+                                }
+                            }(),
+
+                            fields: [
+                                AJS.gadget.fields.filterPicker(gadget, "filterId"),
+                                statType("xstattype"),
+                                statType("ystattype"),
+                                {
+                                    userpref: "sortBy",
+                                    label: gadget.getMsg("gadget.twodimensionalfilterstats.sort.by.label"),
+                                    description: gadget.getMsg("gadget.twodimensionalfilterstats.sort.by.description"),
+                                    type: "select",
+                                    selected: gadget.getPref("sortBy"),
+                                    options: [
+                                        option("sort.by", "natural"),
+                                        option("sort.by", "total")
+                                    ]
+                                },
+                                {
+                                    userpref: "sortDirection",
+                                    label: gadget.getMsg("gadget.twodimensionalfilterstats.sort.direction.label"),
+                                    type: "select",
+                                    selected: gadget.getPref("sortDirection"),
+                                    options: [
+                                        option("sort.direction", "asc"),
+                                        option("sort.direction", "desc")
+                                    ]
+                                },
+                                {
+                                    userpref: "showTotals",
+                                    label: gadget.getMsg("gadget.twodimensionalfilterstats.show.totals.label"),
+                                    description: gadget.getMsg("gadget.twodimensionalfilterstats.show.totals.description"),
+                                    type: "select",
+                                    selected: gadget.getPref("showTotals"),
+                                    options: [
+                                        option("show.totals", "true"),
+                                        option("show.totals", "false")
+                                    ]
+                                },
+                                {
+                                    userpref: "numberToShow",
+                                    label: gadget.getMsg("gadget.common.num.label"),
+                                    description:gadget.getMsg("gadget.twodimensionalfilterstats.num.description"),
+                                    type: "text",
+                                    value: gadget.getPref("numberToShow")
+                                },
+                                AJS.gadget.fields.nowConfigured()
+                            ]
+                        };
+                    },
+                    args: [
+                        {
+                            key: "statType",
+                            ajaxOptions:  "/rest/gadget/1.0/statTypes"
+                        }
+                    ]
+                },
+                view: {
+                    enableReload: true,
+                    template: function (args)
+                    {
+                        var gadget = this;
+                        // reset view
+                        gadget.getView().empty();
+                        gadget.getView().addClass("g-two-d-stats");
+
+                        var filter = args.twod_stats.filter;
+                        gadgets.window.setTitle(AJS.format("__MSG_gadget.twodimensionalfilterstats.title.specific__", filter.filterTitle));
+
+                        // This is used to pass the name of filter or project to the picker
+                        gadget.projectOrFilterName = filter.filterTitle;
+
+                        if (args.twod_stats.filter.empty)
+                        {
+                            gadget.getView().append(AJS.$("<div/>").text(gadget.getMsg("gadget.twodimensionalfilterstats.nodata")));
+                            return;
+                        }
+
+                        var makeCellMarkup = function(ele, cell)
+                        {
+                            if (cell.classes)
+                            {
+                                ele.addClass(cell.classes.join(" "));
+                            }
+                            ele.html(cell.markup);
+                        };
+
+                        var buildTable = function (headingsRow, xHeading, yHeading, rows)
+                        {
+                            var table = AJS.$("<table><tbody></tbody></table>").attr("id", "twodstatstable").addClass("basic");
+                            var tableHeaderRow = AJS.$("<tr/>");
+                            tableHeaderRow.append(AJS.$("<th/>").attr("rowspan", "2").addClass("twodstatstable_table_header").text(yHeading));
+                            tableHeaderRow.append(AJS.$("<th/>").attr("colSpan", headingsRow.cells.length).text(xHeading));
+                            table.append(tableHeaderRow);
+                            addTableRow(table, headingsRow, "<th/>");
+
+                            for (var row in rows)
+                            {
+                                addTableRow(table, rows[row], "<td/>");
+                            }
+                            return table;
+                        };
+
+                        /*
+                         Add a new table row to the bottom of the table
+                         */
+
+                        var addTableRow = function addTableRow(jQtable, theRow, elementMarkup)
+                        {
+                            jQtable.each(function()
+                            {
+                                var row = AJS.$("<tr/>");
+                                var cells = theRow.cells;
+                                for (var j = 0; j < cells.length; j++)
+                                {
+                                    var cell = cells[j];
+                                    var col = AJS.$(elementMarkup);
+                                    makeCellMarkup(col, cell);
+                                    row.append(col);
+                                }
+                                jQtable.append(row);
+                            });
+                        };
+
+                        var getRowsDisplayed = function()
+                        {
+
+                            if (args.twod_stats.rows)
+                            {
+                                if (args.twod_stats.showTotals)
+                                {
+                                    return args.twod_stats.rows.length - 1;
+                                }
+                                else
+                                {
+                                    return args.twod_stats.rows.length;
+                                }
+                            }
+                            return 0;
+                        };
+
+                        var getMoreLink = function()
+                        {
+
+                            var numPref = parseInt(gadget.getPref("numberToShow"));
+                            if (getRowsDisplayed() > numPref)
+                            {
+                                return AJS.$("<a/>").text(gadget.getMsg("gadget.twodimensionalfilterstats.less")).click(function()
+                                {
+                                    gadget.savePref("more", "false");
+                                    gadget.showView(true);
+                                });
+
+                            }
+                            if (getRowsDisplayed() < args.twod_stats.totalRows)
+                            {
+                                return AJS.$("<a/>").text(gadget.getMsg("gadget.twodimensionalfilterstats.more")).click(function()
+                                {
+                                    gadget.savePref("more", "true");
+                                    gadget.showView(true);
+                                });
+                            }
+                        };
+
+                        var gagView = gadget.getView();
+                        var desc = filter.filterDescription;
+                        var title = filter.filterTitle;
+                        if (desc && desc !== "")
+                        {
+                            title += " - " + desc;
+                        }
+                        gagView.append(AJS.$("<div id=\"content\" />").append(AJS.$("<div/>").addClass("overflow").append(
+                                buildTable(args.twod_stats.firstRow, args.twod_stats.xHeading, args.twod_stats.yHeading, args.twod_stats.rows)
+                                ).append(
+                                AJS.$("<p/>").addClass("more").append(
+                                        getMoreLink()
+                                        )
+                                ).append(
+                                AJS.$("<div/>").addClass("table-footer").append(
+                                        AJS.$("<div/>").append(AJS.format(gadget.getMsg("gadget.twodimensionalfilterstats.showing"), "<strong>" + getRowsDisplayed() + "</strong>", "<strong>" + args.twod_stats.totalRows + "</strong>"))
+                                        ).append(
+                                        AJS.$("<div/>").text(gadget.getMsg("gadget.common.filter") + " ").append(
+                                                AJS.$("<a/>").attr({
+                                                    href: filter.filterUrl,
+                                                    title: title,
+                                                    target: "_parent"
+                                                }).text(filter.filterTitle)
+                                                )
+                                        )
+                                )));
+                    },
+                    args: [
+                        {
+                            key: "twod_stats",
+                            ajaxOptions: function ()
+                            {
+                                var gadget = this;
+                                return {
+                                    url: "/rest/gadget/1.0/twodimensionalfilterstats/generate",
+                                    data:  {
+                                        filterId : gadgets.util.unescapeString(this.getPref("filterId")),
+                                        xstattype: gadgets.util.unescapeString(this.getPref("xstattype")),
+                                        showTotals: gadgets.util.unescapeString(this.getPref("showTotals")),
+                                        sortDirection: gadgets.util.unescapeString(this.getPref("sortDirection")),
+                                        sortBy: gadgets.util.unescapeString(this.getPref("sortBy")),
+                                        ystattype: gadgets.util.unescapeString(this.getPref("ystattype")),
+                                        numberToShow: function()
+                                        {
+                                            if (gadget.getPref("more") === "true")
+                                            {
+                                                return "9999";
+                                            }
+                                            return gadgets.util.unescapeString(gadget.getPref("numberToShow"));
+                                        }()
+                                    }
+                                };
+                            }
+                        }
+                    ]
+                }
+            });
+        })();
+        </script>
+
+        ]]>
+
+
+    </Content>
+</Module>

@@ -1,0 +1,14 @@
+#disable_html_escaping()
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.common.words.event"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        <select name="eventTypeId">
+          #foreach ($entry in $eventTypes.entrySet())
+            <option value="$entry.key" #if ($entry.key.equals($eventTypeId)) selected#end >$textutils.htmlEncode($entry.getValue().getTranslatedName($user))</option>
+          #end
+        </select>
+        <br><font size="1">$i18n.getText("admin.workflow.function.fireevent.input")</font>
+    </td>
+</tr>

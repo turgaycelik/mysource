@@ -1,0 +1,34 @@
+#disable_html_escaping()
+<div class="wiki-edit">
+    <div id="${fieldId}-wiki-edit" class="wiki-edit-content">
+        #if($!class) #set ($class = " ${class}") #else #set ($class = '') #end
+            #if($singleLine)
+            <input class="text full-width-field wiki-textfield${class}" id="$fieldId" #if($maxlength)maxlength="$maxlength"#end name="$fieldId" type="text" value="$textutils.htmlEncode($!value)" />
+            #else
+            <textarea #if($accesskey)accesskey="$accesskey"#end class="textarea long-field wiki-textfield${class}#if($mentionable) mentionable#end" #if($cols)cols="$cols"#end id="$fieldId" #if($maxlength)maxlength="$maxlength"#end name="$fieldId" #if($rows)rows="$rows"#end #if($wrap)wrap="$wrap"#end #if($data-projectkey)data-projectkey="$data-projectkey"#end #if($data-issuekey)data-issuekey="$data-issuekey"#end>$textutils.htmlEncode($!value)</textarea>
+        #end
+        <div class="content-inner">            
+        </div>
+    </div>
+</div>
+<div class="field-tools">
+    <dl id="wiki-prefs" class="wiki-js-prefs" style="display:none">
+        <dt>trigger</dt>
+        <dd>${fieldId}-preview_link</dd>
+        <dt>fieldId</dt>
+        <dd>$!fieldId</dd>
+        <dt>fieldName</dt>
+        <dd>$textutils.htmlEncode($!fieldName)</dd>
+        <dt>rendererType</dt>
+        <dd>$!rendererType</dd>
+        <dt>issueKey</dt>
+        <dd>$!issueKey</dd>
+    </dl>
+    <button class="jira-icon-button fullscreen" id="${fieldId}-preview_link" type="button"><span class="aui-icon wiki-renderer-icon">${i18n.getText("renderer.preview", $fieldId)}</span></button>
+    $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.Links.helpLink", {
+        "id": "viewHelp",
+        "url": "${baseurl}/secure/WikiRendererHelpAction.jspa?section=texteffects",
+        "title": ${i18n.getText('renderer.notation-help')},
+        "isLocal": true
+    })
+</div>

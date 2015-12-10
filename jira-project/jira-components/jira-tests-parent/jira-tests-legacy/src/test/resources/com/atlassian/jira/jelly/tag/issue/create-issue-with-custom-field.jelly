@@ -1,0 +1,44 @@
+<JiraJelly
+ xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib"
+ xmlns:core="jelly:core"
+ xmlns:util="jelly:util"
+>
+<jira:CreateProject key="ABC" name="abc project" lead="logged-in-user">
+    <jira:AddVersion name="V1" versionIdVar="versionId"/>
+
+    <jira:CreateCustomField
+            fieldType="multiversion"
+            fieldScope="global"
+            fieldName="aversion"
+            description="a version custom field"
+            searcher="versionsearcher"
+            customFieldIdVar="aversionCustomField"
+    />
+    <jira:AddFieldToScreen fieldId="${aversionCustomField.id}" screen="Default Screen"/>
+    <!-- jira:AddPermission schemeId="0" permissions="create" type="group" group="jira-users"/ -->
+
+    <!--
+     setting up loop to see that multiple issues can be created without
+     carry-over attribute values polluting the next create value
+     -->
+    <core:forEach indexVar="summary" begin="1" end="3">
+
+            <jira:CreateIssue
+             project-key="ABC"
+             issueType="Bug"
+             summary="issue test ${summary}"
+             assignee="-1"
+             reporter="logged-in-user"
+             description="mister description"
+             issueIdVar="newIssueId"
+             issueKeyVar="newIssueKey"
+             priority="${currentIssuePriority}"
+            >
+                <core:if test="true">
+                    <jira:AddCustomFieldValue name="aversion" value="${versionId}"/>
+                </core:if>
+            </jira:CreateIssue>
+        issueKey: ${newIssueKey} versionId: ${versionId}
+    </core:forEach>
+</jira:CreateProject>
+</JiraJelly>

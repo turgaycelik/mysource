@@ -1,0 +1,91 @@
+#disable_html_escaping()
+#* @vtlvariable name="string" type="org.apache.commons.lang.StringUtils" *#
+#* @vtlvariable name="nodeId" type="java.lang.String" *#
+#* @vtlvariable name="build" type="com.atlassian.jira.util.BuildUtilsInfo" *#
+<ul class="atlassian-footer">
+    <li>
+        Atlassian JIRA <a class="seo-link" href="$externalLinkUtil.getProperty('external.link.seo.project.management.software')">Project Management Software</a>
+
+        #set ($commitId = "")
+        #if ($string.isNotBlank($build.commitId))
+            ## shorten the Git SHA
+            #set ($commitId = "-<span title='$!{build.commitId}' data-commit-id='${build.commitId}}'>sha1:${build.commitId.substring(0, 7)}</span>")
+        #end
+
+        #set ($partnerName = "")
+        #if ($string.isNotBlank($build.buildPartnerName))
+            #set ($partnerName = "-$build.buildPartnerName")
+        #end
+        #if ($string.isNotBlank($nodeId))
+            #set ($nodeId = ":${nodeId}")
+        #end
+
+        <span id="footer-build-information">(v${build.version}#${build.currentBuildNumber}${commitId}$!{nodeId}${partnerName})</span>
+    </li>
+    <li>
+        <a id="about-link" href="${req.contextPath}/secure/AboutPage.jspa">About JIRA</a>
+    </li>
+    <li>
+        #if ($isSysAdmin)
+            #set ($url = "${req.contextPath}/plugins/servlet/stp/view/")
+        #elseif ($showContactAdminForm)
+            #set ($url = "${req.contextPath}/secure/ContactAdministrators!default.jspa")
+        #else
+            #set ($url = "${req.contextPath}/secure/CreateIssue!default.jspa")
+        #end
+        <a id="footer-report-problem-link" href="$url">Report a problem</a>
+    </li>
+</ul>
+#if($licenseMessageClass)
+    <ul class="atlassian-footer">
+        <li class="$licenseMessageClass">
+            #if($unlicensed)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.license.evaluate.from.unlicensed", $version, $buildNumber, $serverid))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.request.evaluation.license', $externalLink, '</a>')
+
+            #elseif($evaluation)
+                #set ($externalHref1 = $externalLinkUtil.getProperty("external.link.jira.product.site"))
+                #set ($externalLink1 = "<a href='$externalHref1'>")
+                #set ($externalHref2 = $externalLinkUtil.getProperty("external.link.jira.license.purchase.from.evaluation", $version, $buildNumber, $serverid))
+                #set ($externalLink2 = "<a href='$externalHref2'>")
+                $i18n.getText('system.footer.consider.purchsing.license', $externalLink1, '</a>', $externalLink2, '</a>')
+
+            #elseif($confirmedWithOldLicense)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.license.extend.from.old", $version, $buildNumber, $serverid))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.consider.extending.license', $externalLink, '</a>')
+
+            #elseif($community)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.product.site"))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.free.community.license', $externalLink, '</a>', $organisation, $externalLink, '</a>', '<i>', '</i>')
+
+            #elseif($opensource)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.product.site"))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.open.source.license', $externalLink, '</a>', $organisation, $externalLink, '</a>', '<i>', '</i>')
+
+            #elseif($nonprofit)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.product.site"))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.non.profit.license', $externalLink, '</a>', $organisation, $externalLink, '</a>', '<i>', '</i>')
+
+            #elseif($demonstration)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.license.evaluate.from.unlicensed", $version, $buildNumber, $serverid))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.demonstration.license', $externalLink, '</a>')
+
+            #elseif($developer)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.product.site"))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.developer.license', $externalLink, '</a>')
+
+            #elseif($personal)
+                #set ($externalHref = $externalLinkUtil.getProperty("external.link.jira.personal.site"))
+                #set ($externalLink = "<a href='$externalHref'>")
+                $i18n.getText('system.footer.personal.license', $externalLink, '</a>')
+            #end
+        </li>
+    </ul>
+#end

@@ -1,0 +1,36 @@
+@import "../aui-colours";
+@import "border-radius";
+
+// Borders
+// -------------------------
+.bordered (@width: 1px, @style: solid, @colour: @aui-border-color) {
+    border: @width @style @colour;
+}
+.bordered (@colour) when (iscolor(@colour)) {
+    .bordered(1px, solid, @colour);
+}
+.bordered (@top, @right, @bottom, @left) {
+    .bordered();
+    border-width: @top @right @bottom @left;
+}
+.bordered (@top, @right, @bottom, @left, @style, @colour) {
+    .bordered(1px, @style, @colour);
+    border-width: @top @right @bottom @left;
+}
+.border-top (@colour: @aui-border-color) {
+    border-top: 1px solid @colour;
+}
+.border-right (@colour: @aui-border-color) {
+    border-right: 1px solid @colour;
+}
+.border-bottom (@colour: @aui-border-color) {
+    border-bottom: 1px solid @colour;
+}
+.border-left (@colour: @aui-border-color) {
+    border-left: 1px solid @colour;
+}
+
+// @deprecated
+.rounded(@radius-tl: @default-border-radius, @radius-tr: @default-border-radius, @radius-br: @default-border-radius, @radius-bl: @default-border-radius) {
+    .border-radius(@radius-tl, @radius-tr, @radius-br, @radius-bl);
+}

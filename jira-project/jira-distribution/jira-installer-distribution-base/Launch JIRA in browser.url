@@ -1,0 +1,5 @@
+[DEFAULT]
+BASEURL=http://localhost:@httpPort@/
+[InternetShortcut]
+URL=http://localhost:@httpPort@/
+Modified=8002EAAE714AC7019D

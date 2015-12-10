@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($resolutiondate)
+    $dateTimeFormatter.format($resolutiondate)
+#else
+    &nbsp;
+#end

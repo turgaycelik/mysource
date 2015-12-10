@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#if($singleLine)
+<input class="textfield text long-field#if($class) $class#end" id="$fieldId" name="$fieldId" #if($maxlength)maxlength="$maxlength"#end type="text" value="$textutils.htmlEncode($!value)" />
+#else
+<textarea #if($accesskey)accesskey="$accesskey"#end class="textarea long-field#if($class) $class#end#if($mentionable) mentionable#end" #if($cols)cols="$cols"#end id="$fieldId" name="$fieldId" #if($maxlength)maxlength="$maxlength"#end #if($rows)rows="$rows"#end #if($data-projectkey)data-projectkey="$data-projectkey"#end #if($data-issuekey)data-issuekey="$data-issuekey"#end>
+## The new line above solves JRA-11257, TextAreas ignore the first newline of their inner HTML when displaying.
+## This caused the TextArea to 'eat' a line of whitespace from content that was preceded by one or more newline chars
+$textutils.htmlEncode($!value)</textarea>
+#end

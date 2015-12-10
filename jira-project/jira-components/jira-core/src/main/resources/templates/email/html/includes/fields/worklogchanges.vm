@@ -1,0 +1,41 @@
+##deprecated- not used
+#disable_html_escaping()
+#if ($worklog)
+    #if($originalworklog && $startDateUpdated)
+    <tr>
+        <th>#text("template.issue.worklog.start.date"):</th>
+        <td>$!diffutils.diff($dateformatter.formatDMYHMS($originalworklog.getStartDate()), "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $dateformatter.formatDMYHMS($worklog.getStartDate()), "background-color:${auiSuccessBackgroundColour};")
+        </td>
+    </tr>
+    #end
+    #if($originalworklog && $timeSpentUpdated)
+    <tr>
+        <th>#text("template.issue.worklog.time.spent"):</th>
+        <td>
+            $!diffutils.diff($context.getTimeLogged($originalworklog, $i18n), "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $context.getTimeLogged($worklog, $i18n), "background-color:${auiSuccessBackgroundColour};")
+        </td>
+    </tr>
+    #end
+    #if($originalworklog.getRoleLevelId() || $originalworklog.getGroupLevel() || $worklog.getRoleLevelId() || $worklog.getGroupLevel())
+        #if ($originalworklog && $visibilityUpdated)
+        <tr>
+            <th>#text("template.issue.worklog.visibility"):</th>
+            <td>
+                #set ($oldVisibilityText = "#originalvisibilityHtml()")
+                #set ($newVisibilityText = "#visibilityHtml()")
+                $!diffutils.diff($oldVisibilityText, "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $newVisibilityText, "background-color:${auiSuccessBackgroundColour};")
+            </td>
+        </tr>
+        #end
+    #end
+    #if($textutils.stringSet($originalworklog.getComment()) || $textutils.stringSet($worklog.getComment()))
+        #if ($originalworklog && $commentUpdated)
+        <tr>
+            <th>#text("template.issue.worklog.comment"):</th>
+            <td>
+                $!diffutils.diff($originalworklog.getComment(), "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $worklog.getComment(), "background-color:${auiSuccessBackgroundColour};")
+            </td>
+        </tr>
+        #end
+    #end
+#end

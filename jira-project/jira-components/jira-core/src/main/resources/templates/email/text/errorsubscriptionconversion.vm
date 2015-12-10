@@ -1,0 +1,21 @@
+#disable_html_escaping()
+$i18n.getText("template.filters.schedule.changed.hi", ${subscriberFullName})
+
+$i18n.getText("template.filters.schedule.changed.jira.upgraded")
+
+$i18n.getText("template.filters.schedule.changed.for.details.see")
+${helpUtil.getHelpPath('issue_filters_subscribing').url}
+
+$i18n.getText("template.filters.schedule.changed.error.converting")
+#foreach ($sub in ${subscriptions})
+    - $!{sub.filterName}: $i18n.getText("template.filters.schedule.changed.old.period") - ${sub.oldPrettyInterval}        
+#end
+
+$i18n.getText("template.filters.schedule.changed.error.check.subscriptions")
+
+$i18n.getText("template.filters.schedule.changed.error.apologise")
+
+$i18n.getText("template.filters.schedule.changed.cheers")
+  The Atlassian Team
+
+#parse("templates/email/text/includes/footer.vm")

@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($customField.customFieldType.isUseNow($value))
+      Current date will be used
+    #else
+      <span title="$dateFieldFormat.format($value)"><time datetime="$iso8601Formatter.format($value)">$dateFieldFormat.format($value)</time></span>
+    #end
+#end

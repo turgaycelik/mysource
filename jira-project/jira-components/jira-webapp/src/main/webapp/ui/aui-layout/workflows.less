@@ -1,0 +1,467 @@
+@import "../imports/aui-colours";
+@import "../imports/jira-colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/borders";
+@import "../imports/mixins/plainlist";
+
+/* used only by viewschemes.jsp */
+#WorkflowSchemes {
+    .list-workflow-table {
+        .workflow-scheme-name {
+            width: 25%;
+        }
+
+        .workflow-scheme-details {
+            width: 35%;
+        }
+
+        .workflow-scheme-operations {
+            width: 15%;
+        }
+
+        .item-details dl {
+            > dd.rarr {
+                text-align: center;
+                width: 2em;
+            }
+
+            > dt {
+                font: inherit;
+                color: inherit;
+                width: auto;
+            }
+        }
+
+        img {
+            vertical-align: text-bottom;
+        }
+    }
+}
+
+/* used only by listworkflows.jsp */
+#ViewWorkflows {
+    .list-workflow-table {
+        .workflow-name {
+            width: 35%;
+        }
+
+        .workflow-steps {
+            width: 10%;
+            text-align: center;
+        }
+
+        .workflow-operations {
+            width: 15%;
+        }
+    }
+}
+
+/* used only by viewschemes.jsp and listworkflows.jsp */
+#ViewWorkflows, #WorkflowSchemes {
+    .module + .module {
+        border-top: 0;
+    }
+
+    .list-workflow-table {
+        table-layout: fixed;
+    }
+
+    .icon-draft {
+        color: @jira-color-subtle-text;
+        vertical-align: middle;
+    }
+}
+
+#workflow-links {
+    padding: 10px 0;
+}
+
+#edit-workflow-trigger {
+    vertical-align: baseline;
+}
+
+.page-type-workflow-view {
+    .workflow-container {
+        box-sizing: border-box;
+        width: 100%;
+    }
+
+    #workflow-diagram-container {
+        overflow: hidden;
+    }
+
+    #workflow-view-diagram {
+        padding: 2px;
+        border: 1px solid rgb(229, 229, 229);
+    }
+
+    .ui-draggable {
+        display: inline-block;
+        cursor: move;
+    }
+
+    .webkit .ui-draggable {
+        cursor: -webkit-grab;
+    }
+
+    .mozilla .ui-draggable {
+        cursor: -moz-grab;
+    }
+
+    .ui-draggable.ui-draggable-dragging {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+    }
+
+    .top {
+        box-shadow: inset 0 2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .right {
+        box-shadow: inset -2px 0 4px -1px rgba(0,0,0,.1);
+    }
+
+    .bottom {
+        box-shadow: inset 0 -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .left {
+        box-shadow: inset 2px 0 4px -1px rgba(0,0,0,.1);
+    }
+
+    .top.right {
+        box-shadow: inset -2px 2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .top.bottom {
+        box-shadow: inset 0 2px 4px -1px rgba(0,0,0,.1), inset 0 -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .top.left {
+        box-shadow: inset 2px 2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .right.bottom {
+        box-shadow: inset -2px -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .right.left {
+        box-shadow: inset 2px 0 4px -1px rgba(0,0,0,.1), inset -2px 0 4px -1px rgba(0,0,0,.1);
+    }
+
+    .bottom.left {
+        box-shadow: inset 2px -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .top.right.bottom {
+        box-shadow: inset 0 2px 4px -1px rgba(0,0,0,.1), inset -2px -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .right.bottom.left {
+        box-shadow: inset -2px -2px 4px -1px rgba(0,0,0,.1), inset 2px 0 4px -1px rgba(0,0,0,.1);
+    }
+
+    .bottom.left.top {
+        box-shadow: inset 2px 2px 4px -1px rgba(0,0,0,.1), inset 0 -2px 4px -1px rgba(0,0,0,.1);
+    }
+
+    .left.top.right {
+        box-shadow: inset 2px 2px 4px -1px rgba(0,0,0,.1), inset -2px 0 4px -1px rgba(0,0,0,.1);
+    }
+
+    .top.right.bottom.left {
+        box-shadow: inset 2px 2px 4px -1px rgba(0,0,0,.1), inset -2px -2px 4px -1px rgba(0,0,0,.1);
+    }
+}
+
+.draft-workflow-message.aui-message {
+    border-radius: 0;
+    border-width: 0 0 1px;
+    margin: -20px -20px 20px;
+
+    .aui-button {
+        margin-bottom: -5px;
+        margin-top: -5px;
+    }
+}
+
+table.aui > tbody > tr.focused {
+    background-color: @jira-color-selection-background;
+}
+
+// used on viewworkflowtransition.jsp and viewworkflowstep.jsp
+#workflow-transition-info {
+    margin: 20px 0 0 0;
+}
+
+.workflow-browser {
+    .rounded();
+    .border-box();
+    border: 1px solid #ccc;
+    margin: 20px 0;
+    padding: 10px;
+    width: 100%;
+}
+.workflow-browser-items {
+    border-collapse: collapse;
+    border-spacing: 0;
+    display: table;
+    margin: 10px 0 0 0;
+    table-layout: fixed;
+    width: 100%;
+
+    &:first-child {
+        margin: 0;
+    }
+}
+.workflow-current-origin,
+.workflow-current-context,
+.workflow-current-destination {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.workflow-current-origin {
+    padding: 10px 0 10px 10px;
+
+    li {
+        &:before {
+            content: "";
+            border-top: 1px solid #ccc;
+            width: 50%;
+            top: 50%;
+            right: 0;
+            height: 0;
+            position: absolute;
+        }
+        &:after {
+            border: 1px solid #ccc;
+            border-width: 0 1px 0 0;
+            content: "";
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            position: absolute;
+        }
+        &:first-child {
+            &:before {
+                right: 3px;
+            }
+            &:after {
+                border-width: 1px 1px 0 0;
+                border-radius: 0 3px 0 0;
+                height: 50px;
+                width: 3px;
+                top: 50%;
+            }
+        }
+        &:last-child {
+            &:before {
+                right: 3px;
+            }
+            &:after {
+                border-width: 0 1px 1px 0;
+                border-radius: 0 0 3px 0;
+                margin-bottom: -1px;
+                height: 50px;
+                width: 3px;
+                bottom: 50%;
+                top: auto;
+            }
+        }
+        &:first-child:last-child {
+            &:before {
+                right: 0;
+            }
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+.workflow-current-context {
+    padding: 10px 0;
+}
+.workflow-current-destination {
+    padding: 10px 10px 10px 0;
+
+    li {
+        &:before {
+            content: "";
+            border-top: 1px solid #ccc;
+            width: 50%;
+            top: 50%;
+            left: 0;
+            height: 0;
+            position: absolute;
+        }
+        &:after {
+            border: 1px solid #ccc;
+            border-width: 0 1px 0 0;
+            content: "";
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            position: absolute;
+        }
+        &:first-child {
+            &:before {
+                left: 3px;
+            }
+            &:after {
+                border-width: 1px 0 0 1px;
+                border-radius: 3px 0 0 0;
+                height: 50px;
+                width: 3px;
+                top: 50%;
+            }
+        }
+        &:last-child {
+            &:before {
+                left: 3px;
+            }
+            &:after {
+                border-width: 0 0 1px 1px;
+                border-radius: 0 0 0 3px;
+                margin-bottom: -1px;
+                height: 50px;
+                width: 3px;
+                bottom: 50%;
+                top: auto;
+            }
+        }
+        &:first-child:last-child {
+            &:before {
+                left: 0;
+            }
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+
+.workflow-inbound-step:before {
+    border: 5px solid transparent;
+    border-width: 5px 0 5px 10px;
+    border-left-color: #ccc;
+    content: "";
+    height: 0;
+    margin-right: 1px;
+    margin-top: -5px;
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 0;
+}
+
+.workflow-browser ol {
+    .plainlist();
+    > li {
+        display: block;
+        overflow: hidden;
+        padding: 5px 10px;
+        position: relative;
+        vertical-align: top;
+    }
+}
+
+.workflow-current-context {
+    li {
+        &:before {
+            content: "";
+            border-top: 1px solid #ccc;
+            height: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 50%;
+        }
+    }
+}
+
+.workflow-transition-lozenge,
+.workflow-step-lozenge {
+    display: inline-block;
+}
+
+.workflow-transition-lozenge {
+    background: #fff;
+    border-radius: 3px;
+    color: #333;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 1;
+    margin: 0;
+    padding: 2px 5px 2px 5px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+
+    a,
+    a:hover,
+    a:focus {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
+.workflow-transition-not-found {
+    background-color: #f5f5f5;
+    color: #999;
+}
+
+.workflow-transition-global {
+    background: #000;
+    color: #fff;
+}
+
+.workflow-transition-initial {
+    background: #ccc;
+    border-radius: 100px;
+    color: #333;
+    display: inline-block;
+    font-size: 12px;
+    font-weight: bold;
+    height: 0;
+    line-height: 1;
+    margin: 0;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    vertical-align: top;
+    width: 0;
+}
+
+.workflow-transition-step {
+    position: relative;
+    a,
+    a:hover,
+    a:focus {
+        color: inherit;
+        text-decoration: none;
+    }
+}
+
+
+#dest_steps .workflow-transition-lozenge {
+    position: relative;
+}
+
+#dest_steps .workflow-transition-lozenge:before {
+    background: -webkit-linear-gradient(left, #ccc 50%, #fff 100%);
+    background: transparent linear-gradient(to right, #ccc 50%, #fff 100%) repeat-y 0 0;
+    border-top: 1px dashed #fff;
+    content: "";
+    height: 0;
+    left: 100%;
+    position: absolute;
+    top: 50%;
+    width: 40px;
+    z-index: 0;
+}

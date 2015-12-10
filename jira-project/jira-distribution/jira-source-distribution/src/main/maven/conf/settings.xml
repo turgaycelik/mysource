@@ -1,0 +1,30 @@
+<settings>
+    <localRepository></localRepository>
+    <profiles>
+        <profile>
+            <id>atlassian-repositories</id>
+            <repositories>
+                <repository>
+                    <id>atlassian-proxy</id>
+                    <name>Atlassian Maven 2 Proxy</name>
+                    <url>https://maven.atlassian.com/repository/public</url>
+                </repository>
+                <repository>
+                    <id>atlassian-contrib</id>
+                    <name>Atlassian Contrib Repository</name>
+                    <url>https://maven.atlassian.com/contrib</url>
+                </repository>
+            </repositories>
+	    <pluginRepositories>
+		<pluginRepository>
+                    <id>atlassian-proxy</id>
+                    <name>Atlassian Maven 2 Proxy</name>
+                    <url>https://maven.atlassian.com/repository/public</url>
+                </pluginRepository>
+	    </pluginRepositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>atlassian-repositories</activeProfile>
+    </activeProfiles>
+</settings>

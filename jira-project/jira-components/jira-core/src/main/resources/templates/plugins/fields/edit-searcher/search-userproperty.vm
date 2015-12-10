@@ -1,0 +1,6 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-userproperty")}
+#searcherEditHeader ($customField.id $customField.name)
+    <input class="text" id="searcher-$customField.id" name="$customField.id" type="text" #if ($configs.styles.style) style="$configs.styles.style" #end value="$textutils.htmlEncode($!value)" />
+#searcherEditFooter ($customField.id $customField.description)
+$!{auiparams.clear()}

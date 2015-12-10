@@ -1,0 +1,413 @@
+@import "webstatic:/ui/global.less";
+
+
+html body {
+    font-size: 12px;
+    line-height: 1.3333333;
+    background-color: #fff;
+}
+
+.gadget,
+.config {
+    a {
+        color: @jira-color-link;
+        text-decoration: none;
+
+        &:hover,
+        &:focus,
+        &:active {
+            color: @jira-color-active-link;
+            text-decoration: underline;
+        }
+    }
+}
+
+/** global resets */
+.gadget .aui-dd-parent .aui-dropdown {border:1px solid #ccc;background-color:#fff;margin-top:0;}
+
+/* override styling to cause dropdown to appear above trigger rather then default below */
+.footer .aui-dd-parent .aui-dropdown {top:auto!important;bottom:18px;margin:0;}
+.footer .aui-dd-parent .aui-shadow-parent {top:auto!important;bottom:34px;}
+.footer .aui-dd-parent .dropdown-shim {display:none!important;}
+
+.gadget #issuetable {margin:0 0 0.25em;width:100%;}
+.gadget .results-wrap {margin:0;}
+.gadget .paging-table {margin-bottom:1.4em;}
+.gadget .count-pagination {padding:6px;}
+.gadget .empty-results {margin-top:0.5em;}
+.gadget form.aui.top-label .buttons-container .buttons { padding: 0 0 5px 0; }
+.gadget form.aui .form-message.error { background: #ffe7e7 url("../../../images/icons/icon-error.png") no-repeat 0.75em 0.75em; border: 1px solid #d04437; color: #333; margin: 0 0 10px 0; padding: .75em .75em .75em 2.5em;  }
+.view {
+    .results-wrap > div {
+        margin-bottom: 0;
+        overflow-x: auto;
+    }
+}
+
+
+.gadget #issuetable td.summary p {margin:0;min-width:100px;}
+
+/* override styling for borked notifications in gadgets JRADEV-3353 */
+#message {overflow:auto;position:absolute;left:0;top:0;height:100%;width:100%!important;margin:0!important;}
+#message .error-inner {height:100%;width:auto!important;margin:0!important;padding-bottom:0!important;}
+
+/* override font-size for pagination to match gadget body font */
+.gadget .count-pagination .pagination a,
+.gadget .count-pagination .pagination strong,
+.gadget .count-pagination .pagination span {
+    font-size: 12px;
+}
+
+/* gadget specific */
+.g-admin {padding:.5em 1em;}
+.g-admin .nearExpiry {background-color:#fffdf6;color:#333;}
+.g-admin .notNearExpiry {background-color:#f3f9f4;color:#333;}
+.g-admin .userLimitExceeded {color:#d04437;}
+.g-admin .notUserLimitExceeded {color:#333;}
+.g-admin .userLimitColor {background-color:#fff;}
+.g-admin #warningMessages em,
+.g-admin .red-highlight {color:#d04437;font-style:normal;}
+.g-admin #licenseExpiryStatusMessage br {display:none;}
+
+#admin-getting-started-content,
+#admin-do-more-content,
+#admin-license,
+#admin-docs,
+#admin-warnings,
+#unhide-section {
+    position: relative;
+    content: "";
+    display: block;
+    float: left;
+    margin-right: 0;
+    width: 100%
+}
+
+#admin-getting-started-img,
+#admin-do-more-img,
+#admin-docs-img,
+#admin-license-img,
+#admin-warnings-img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    float: left;
+}
+
+.admin-item-content {
+    margin-left: 72px;
+}
+
+#admin-license,
+#admin-docs  {
+    margin-bottom: 15px;
+}
+
+.license-content {
+    text-align:center;
+    padding-top: 1.5em;
+}
+
+.license-title {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.license-warning {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.g-admin .admin-task-list {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}
+.g-admin ul.admin-task-list {
+    list-style: none;
+    padding:0;
+    margin: 0 0 1em;
+}
+.g-admin .admin-task {
+    background-color: #fffdf6;
+    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #fff;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+.g-admin .admin-task:hover {
+    background-color: #fff;
+}
+.g-admin .admin-task:active {
+    background-color: #fff;
+}
+.g-admin .admin-task .admin-task-content {
+    cursor: pointer;
+    overflow:hidden;
+    vertical-align: middle;
+    display: inline;
+    width: 85%;
+    white-space: nowrap;
+    padding: 10px 5px;
+}
+.g-admin .admin-task-completed .admin-task-content {
+    text-decoration: line-through;
+}
+.g-admin .admin-task a.admin-task-content,
+.g-admin .admin-task a.admin-task-content:hover,
+.g-admin .admin-task a.admin-task-content:focus {
+    text-decoration: none;
+}
+.g-admin .admin-task-completed a.admin-task-content,
+.g-admin .admin-task-completed a.admin-task-content:hover,
+.g-admin .admin-task-completed a.admin-task-content:focus {
+    text-decoration: line-through;
+}
+.g-admin .admin-task-disabled a.admin-task-content,
+.g-admin .admin-task-disabled a.admin-task-content:hover,
+.g-admin .admin-task-disabled a.admin-task-content:focus {
+    text-decoration: none;
+    color: #707070;
+}
+.g-admin .admin-task-checkbox-w {
+    display: inline;
+    width: 24px;
+    vertical-align: middle;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.g-admin .admin-task-checkbox {
+    outline-width: 0;
+    background: url("checkbox-24-normal.png") no-repeat;
+    cursor: pointer;
+    height: 24px;
+    width: 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.g-admin .admin-task-completed .admin-task-checkbox {
+    background-image: url("checkbox-24-checked.png");
+}
+.g-admin .hide-admin-tasks,
+.g-admin .admin-unhide-section {
+    text-align: right;
+}
+
+.g-average-age {padding:0.5em 1em 0.25em;}
+
+.g-bugzilla {padding:0.5em 1em;}
+.g-bugzilla #bugzilla-search {margin:0.5em 0;}
+.g-bugzilla #bugId {margin:0 0.5em 0.25em 0;}
+.g-bugzilla label.bug-label {margin-right:0.5em;}
+
+.g-created-resolved {padding:0.5em 1em 0.25em;}
+
+.g-favourite-filters {padding:0.5em 1em;}
+.g-favourite-filters .config-options {border-top:1px solid #ccc;clear:both;padding-top:3px;}
+.g-favourite-filters .config-options span {font-size:11px;padding-right:6px;}
+.g-favourite-filters .config-options span.secondary {border-left:1px solid #ccc;padding-left:6px;}
+.g-favourite-filters #filter-list {list-style:none;margin:0;padding:0;}
+.g-favourite-filters #filter-list li {border-bottom:1px solid #ccc;}
+.g-favourite-filters #filter-list:last-child {border-bottom:none;}
+.g-favourite-filters #filter-list li a {display:block;overflow:hidden;width:100%;}
+.g-favourite-filters #filter-list li a span {padding:4px;}
+.g-favourite-filters #filter-list li a:hover  {cursor:pointer;background-color:#e6e6e6;text-decoration:none;}
+.g-favourite-filters #filter-list .filter-name {float:left;padding-left:1px;width:auto;}
+.g-favourite-filters #filter-list .filter-count{float:right;padding-right:1px;text-align:right;width:20%}
+
+.g-heatmap {padding:0.5em 1em 0.25em;text-align:center;}
+.g-heatmap ul.heatmap {margin:0;list-style-type:none;list-style-postion:outside;margin-bottom:1em;overflow:hidden;}
+.g-heatmap ul.heatmap li {display:inline;line-height:1.1;margin-right:0.5em;}
+
+.g-intro {padding:8px;}
+.g-intro .intro {margin-left:72px;position:relative;}
+.g-intro .intro .intro-logo {position:absolute;height:64px;left:-72px;top:0;width:64px;}
+
+.g-labels {
+    padding: 10px;
+    h3 {
+        margin-top:10px;
+    }
+}
+.mmg-labels {padding:.5em 1em;}
+
+form.aui .error {
+    clear: none !important;
+}
+.g-login {margin-top: 0.5em;}
+.g-login #loginform fieldset {margin-bottom: 0;}
+.g-login form.aui div#captcha.hidden {display:none;}
+.g-login form.aui div.field-group {clear:both;position:relative;}
+
+
+form.aui {
+    font-size: 14px;
+    line-height: 1.42857142857143;
+
+    .description:empty,
+    .error:empty {
+        display: none;
+    }
+}
+
+.g-login.view {
+    color: @jira-color-text;
+
+    a {
+        color: @jira-color-link;
+        &:hover,
+        &:focus,
+        &:active {
+            color: @jira-color-active-link;
+        }
+    }
+    form.gdt .buttons {
+        padding-bottom: 0;
+        padding-left: 0;
+    }
+}
+
+.g-piechart {padding:0.5em 1em 0.25em;}
+
+.g-project {padding:0;}
+.g-project .category-list,
+.g-project .project-list {list-style:none outside;margin:0;padding:0;}
+.g-project .project-avatar {margin-right:0.25em;vertical-align:middle;}
+.g-project .category-item {margin-bottom:0.25em;}
+.g-project .category-item h4 {clear:both;background-color:#f5f5f5;border-top:1px solid #ccc;color:#205081;font-size:1.3em;margin:0;padding: 0.166em 0.25em 0.166em 0.5em;}
+.g-project .project-title {color:inherit;line-height:1.2;margin-top:0;padding:.5em 0;text-transform: none;}
+.g-project .project-title span {font-size:.9em;font-weight:400;margin-left:.25em;}
+.g-project .project-item dl {clear:both;}
+.g-project .project-item dt {clear:left;float:left;font-weight:bold;width:8em;}
+.g-project .project-item dd {float:left;width:auto;}
+.g-project .project-property-title-small {display:block;font-size:.9em;font-weight:normal;line-height:1;}
+.g-project .project-property-value table {margin:0.25em 0 0;font-size:2px;}
+.g-project .status-bar {display:block;height:10px;}
+.g-project .project-list {width:100%;padding-top:0.5em}
+.g-project li.project-item {.border-box;background-color:#f5f5f5;display:block;padding:3px;zoom:1;}
+.g-project li.project-item:after,
+.g-project .project-list:after {content: ".";display: block; height: 0; clear: both; visibility: hidden;}
+.g-project .single-col li.project-item {clear:both;margin:0 0.5em 0.5em;}
+.g-project .two-col li.project-item,
+.g-project .three-col li.project-item {float:left;margin:0;overflow:hidden;}
+.g-project .two-col li.project-item {margin:0 0 0.5em 1%;width:49%;}
+.g-project .three-col li.project-item {margin:0 0 0.5em 1%;width:32%}
+.g-project ul.operations {float:right;list-style-type:none;margin:0;}
+.g-project ul.operations li {display:block;float:left;margin:0;}
+.g-project ul.operations li .aui-dd-link ~ ul {padding:0}
+.g-project ul.operations li a.lnk {display:block;float:left;padding:3px 2px 4px 20px;margin-left:.25em;}
+.g-project ul.operations li a.lnk span {text-indent:-9999px;background-position:97% 55%!important;}
+.g-project ul.operations li a:hover.lnk,
+.g-project ul.operations li a.active {background-color:#e9e9e9;}
+.g-project ul.operations li a.lnk span {background: url("../../../images/menu_indicator_for_light_backgrounds.gif") no-repeat 50% 55%;display:block;height:16px;padding-right:10px;width:1px;}
+.g-project ul.operations li a.lnk span em {left:-9000em;position:absolute;top:-9000em;}
+.g-project .icon-filters {background:url("../../../images/icons/ico_filters.png") no-repeat 2px 2px;}
+.g-project .icon-reports {background:url("../../../images/icons/ico_reports.png") no-repeat 2px 2px;}
+.g-project ul.operations li ul {background-color:#fff;margin:0;}
+.g-project .project-message {background:#fcfcfc url("../../../images/icons/icon-information.png") no-repeat .75em .75em;border:1px solid #aab8c6;color:#333;padding:.75em .75em .5em 2.5em;}
+.g-project .project-no-projects { padding: 0.5em; margin-top: 0.5em; }
+
+.g-qlinks {padding:0.5em 1em 0;}
+.g-qlinks ul.horizontal {margin:0 0 0.5em 0;}
+.g-qlinks ul.horizontal li {display:inline;}
+
+.g-quick-create #summary {margin-top:4px;}
+.g-quick-create {min-height: 110px; overflow:hidden;padding:3px;}
+.g-quick-create div.submit {width: auto; text-align: right; padding: 10px 1em;}
+.g-quick-create div.summary input {width: 100%}
+.g-quick-create div.type-div img {padding: 12px 5px;}
+.g-quick-create form.aui {margin-bottom: 0; padding:5px 5px 0;}
+.g-quick-create form.aui div {margin: 0; padding: 0; position:relative}
+.g-quick-create form.aui div.submit {text-align:right; border:none}
+.g-quick-create form.aui div.submit input{width: auto; margin:10px}
+.g-quick-create form.aui div label{margin: 0; padding: 0; top:0; left:0}
+.g-quick-create form.aui div input{width:100%;}
+.g-quick-create form.aui div select{width:100%}
+.g-quick-create select.imagebacked option {background-position:1px 2px; background-repeat:no-repeat; padding:2px 0 2px 20px; vertical-align:middle; }
+.g-quick-create div.ctx-display {padding: 0; margin: 0; cursor:pointer;  background-image:url("../../../images/images/menu_indicator_for_light_backgrounds.gif"); background-position:97% 0.7em; background-repeat:no-repeat;}
+.g-quick-create div.ctx-display img {vertical-align:top; float:left;}
+.g-quick-create span.ctx-name {padding-left: 5px; margin-right:14px;  margin-left:20px; display:block; overflow:hidden;}
+.g-quick-create div.ctx-group {position: relative}
+.g-quick-create div.ctx-group select {display: block; position: absolute; top:0; opacity:0; cursor:pointer}
+
+.g-recently-created {padding:0.5em 1em 0.25em;}
+
+.g-resolution-time {padding:0.5em 1em 0.25em;}
+
+.g-stats {padding:0.5em 1em;}
+.g-stats .stats-gadget-heading {border-bottom:1px solid #ccc;margin-bottom:0.5em;}
+.g-stats #stats-gadget-stat-type {font-weight:400;margin-left:0.25em;}
+.g-stats #stats-gadget-list {clear:both;margin:0;padding:0;list-style-type:none;border-bottom:1px solid #eee;}
+.g-stats .stats-row {clear:both;margin-bottom:0.75em;overflow:hidden;}
+.g-stats .stats-gadget-total {text-align:right;width:50%;}
+.g-stats .stats-gadget-total span {font-weight:700;margin-left:0.25em;}
+.g-stats .stats-title {float:left;width:50%;}
+.g-stats .stats-count {float:right;width:auto;}
+.g-stats .stats-percentage {float:left;width:49%;}
+.g-stats .stats-percentage table {float:right;width:95%;}
+.g-stats .stats-percentage table td {padding-top:0.083em;vertical-align:top;}
+.g-stats .stats-percentage .colour-bar {border-top:13px solid #3c78b5;display:block;height:0;overflow:hidden;}
+.g-stats .stats-percentage .percent-val {padding:0 0.333em;}
+.g-stats .archived_version a:link{color:#999;}
+/* type icons */
+.g-stats .default_image {background-position:0 50%;background-repeat:no-repeat;padding-left:1.66em;}
+.g-stats .default_image_component {background-image:url("../../../images/images/icons/icon16-components.png");}
+.g-stats .unreleased_archived_version {background-image:url("../../../images/icons/box_fade_16.gif");}
+.g-stats .released_unarchived_version {background-image:url("../../../images/icons/package_16.gif");}
+.g-stats .unreleased_unarchived_version {background-image:url("../../../images/icons/box_16.gif");}
+.g-stats .released_archived_version {background-image:url("../../../images/icons/package_fade_16.gif");}
+
+.g-text {padding:1em;}
+
+.g-timesince {padding:0.5em 1em 0.25em;}
+
+.g-two-d-stats {padding-bottom: 0.25em;}
+.g-two-d-stats .overflow {overflow-x: auto;}
+.g-two-d-stats .basic {clear: both;width: 99.99%;}
+.g-two-d-stats .basic td,
+.g-two-d-stats .basic th {border: 1px solid #ccc;padding: 4px;}
+.g-two-d-stats .basic th {background-color: #f5f5f5;text-align: left;vertical-align: bottom;}
+.g-two-d-stats .basic th small {font-weight: 400;}
+.g-two-d-stats .basic .gadget_image img {border: 0;float: left;margin-right: 4px;}
+.g-two-d-stats .basic .default_image {background-position: 4px 50%;background-repeat: no-repeat;padding-left: 2em;}
+.g-two-d-stats .basic .default_image_component {background-image: url("../../../images/icons/icon16-components.png");}
+.g-two-d-stats .basic .unreleased_archived_version {background-image: url("../../../images/icons/box_fade_16.gif");}
+.g-two-d-stats .basic .released_unarchived_version {background-image: url("../../../images/icons/package_16.gif");}
+.g-two-d-stats .basic .unreleased_unarchived_version {background-image: url("../../../images/icons/box_16.gif");}
+.g-two-d-stats .basic .released_archived_version {background-image: url("../../../images/icons/package_fade_16.gif");}
+.g-two-d-stats .archived_version a:link {color: #999;}
+.g-two-d-stats .more {float: right;margin: 3px 6px 0 0}
+.g-two-d-stats .table-footer {margin: 3px 0 0 6px;float: left}
+.g-two-d-stats .totals {background-color: #f5f5f5;font-weight: 700;}
+
+
+.canvas table.aui {width:50%;}
+.canvas #chart {margin-right:1%;width:49%;}
+.msie .canvas table.aui {width:49%;}
+
+.msie #issuetable .tt_graph td {border:none;font-size:0;height:0;line-height:0;padding:0;}
+
+.msie .atlassian-autocomplete {z-index:1;}
+
+.g-two-d-stats {
+    .jira-issue-status-icon {
+        vertical-align: middle;
+    }
+}
+
+.g-stats {
+    .jira-issue-status-icon {
+        vertical-align: top;
+    }
+}
+
+// JDEV-25701 this fixes the dragging bug which occurs when repaint lags behind the mouse.
+// Setting pointer-events to none while dragging stops all clicks/hovers/etc from being fired when the mouse is over
+// the gadget content.
+.gadget.dragging .dashboard-item-content {
+    pointer-events: none;
+}
+
+/* overrides for TF-286 */
+#quickfind-container.atlassian-autocomplete .suggestions .aui-list-item {padding: 0px;}
+#quickfind-container.atlassian-autocomplete .suggestions .aui-list-item-link span {padding: 0px;}

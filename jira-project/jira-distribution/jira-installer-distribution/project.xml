@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<project xmlns:j="jelly:core" xmlns:deploy="deploy" xmlns:ant="jelly:ant" xmlns:util="jelly:util" xmlns:m="jelly:maven">
+    <pomVersion>3</pomVersion>
+    <name>Atlassian JIRA Installer</name>
+    <!-- the version comes from the ../../project.xml -->
+    <id>jira-installer</id>
+    <organization>
+        <name>Atlassian</name>
+        <url>http://www.atlassian.com</url>
+    </organization>
+    <inceptionYear>2007</inceptionYear>
+
+    <shortDescription>Installer for JIRA</shortDescription>
+    <description>Installer for JIRA</description>
+    <url>http://www.atlassian.com/software/jira</url>
+    <issueTrackingUrl>http://jira.atlassian.com</issueTrackingUrl>
+
+</project>
+        <!-- vim: set sw=4 expandtab: -->

@@ -1,0 +1,73 @@
+{namespace JIRA.Templates.About}
+
+/**
+ * Prints the about page for JIRA.
+ * @param copyrightSince copyright since year
+ * @param copyrightUntil copyright until year
+ * @param requestContext request context
+ * @param buildVersion build version
+ * @param pluginModules plugin modules
+ * @param showLicenses if licenses section should be expanded (not during development)
+ * @param pluginModulesExist whether or not there are any plugin modules with licenses
+ */
+{template .success}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
+        <title> {getText('aboutpage.title')} </title>
+    </head>
+
+    <body class="aui-layout aui-theme-default">
+        <section id="content" role="main">
+            <header class="aui-page-header">
+                <div class="aui-page-header-inner">
+                    <div class="aui-page-header-main">
+                        <h1>{getText('aboutpage.section.title')}</h1>
+                    </div>
+                </div>
+            </header>
+            <div class="aui-page-panel">
+                <div class="aui-page-panel-inner">
+                    <section class="aui-page-panel-content">
+
+                        <img class="main-about-jira-logo" src="{$requestContext}/images/atlassian-jira-logo-large.png">
+
+                        <h2>{getText('aboutpage.header.licensing')}</h2>
+
+                        <h3>{getText('aboutpage.product.version', $buildVersion)}</h3>
+
+                        <p> {getText('aboutpage.copyright', $copyrightSince, $copyrightUntil)|noAutoescape} </p>
+
+                        <p>{getText('aboutpage.copyright.eua')|noAutoescape}</p>
+
+                        <p>{getText('aboutpage.copyright.apache')|noAutoescape}</p>
+
+                        {if $showLicenses}
+                        <p id="lgpl-libs">
+                            {getText('aboutpage.copyright.lgpl')}
+                            {call .lgpl/}
+                        </p>
+                        {/if}
+
+                        <p>{getText('aboutpage.copyright.other')}</p>
+
+                        <p>{getText('aboutpage.copyright.additional')}</p>
+
+                        {if $pluginModulesExist}
+                            <h2>{getText('aboutpage.plugins.header.licensing')}</h2>
+
+                            {foreach $pluginEntryHtml in $pluginModules}
+                                {$pluginEntryHtml|noAutoescape}
+                            {ifempty}
+                            {/foreach}
+                        {/if}
+                    </section>
+                </div>
+            </div>
+        </section>
+    </body>
+</html>
+{/template}
+

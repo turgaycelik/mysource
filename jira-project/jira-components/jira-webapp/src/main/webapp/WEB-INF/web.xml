@@ -1,0 +1,1111 @@
+<?xml version="1.0"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+          version="2.4">
+    <!-- General -->
+    <display-name>Atlassian JIRA Web Application</display-name>
+    <description>The Atlassian JIRA web application - see http://www.atlassian.com/software/jira for more information
+    </description>
+
+    <!-- Filters -->
+
+    <!-- =====================================================
+         THIS MUST BE THE FIRST FILTER IN THE DEFINED CHAIN
+         ===================================================== -->
+    <!-- This *has* to come first to ensure no other filter runs before this trying to access the ComponentManager
+         since that can cause deadlocks during a data import -->
+    <filter>
+        <filter-name>JiraImportProgressFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraImportProgressFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>JiraFirstFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraFirstFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>MultipartBoundaryCheckFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.MultipartBoundaryCheckFilter</filter-class>
+    </filter>
+
+    <!-- This filter is used to serve static files without using the whole filter chain -->
+    <filter>
+        <filter-name>JiraStaticAssetsFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraStaticAssetsFilter</filter-class>
+    </filter>
+
+    <!-- If serious problems were encountered on Startup, this filter will display an
+            appropriate error message for any requests. Basically it locks JIRA. -->
+    <filter>
+        <filter-name>JiraStartupChecklist</filter-name>
+        <filter-class>com.atlassian.jira.startup.JiraStartupChecklistFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>headersanitising</filter-name>
+        <filter-class>com.atlassian.core.filters.HeaderSanitisingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>prevent-ie-accept-css-vulnerability</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.XContentTypeOptionsNoSniffFilter</filter-class>
+    </filter>
+
+    <!--This filter is used to determine is there are any Application Errors before any pages are accessed    -->
+    <filter>
+        <filter-name>consistency</filter-name>
+        <filter-class>com.atlassian.johnson.filters.JohnsonFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>consistency503</filter-name>
+        <filter-class>com.atlassian.johnson.filters.Johnson503Filter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>consistencySoap</filter-name>
+        <filter-class>com.atlassian.johnson.filters.JohnsonSoapFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>consistencyXmlRpc</filter-name>
+        <filter-class>com.atlassian.johnson.filters.JohnsonXmlRpcFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <filter-class>org.tuckey.web.filters.urlrewrite.UrlRewriteFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>profiling</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JIRAProfilingFilter</filter-class>
+        <init-param>
+            <!-- specify the which HTTP parameter to use to turn the filter on or off -->
+            <!-- if not specified - defaults to "profile.filter" -->
+            <param-name>activate.param</param-name>
+            <param-value>jira_profile</param-value>
+        </init-param>
+        <init-param>
+            <!-- specify the whether to start the filter automatically -->
+            <!-- if not specified - defaults to "true" -->
+            <param-name>autostart</param-name>
+            <param-value>false</param-value>
+        </init-param>
+    </filter>
+
+
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-decoration-request</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-decoration</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>REQUEST</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-decoration-forward</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-decoration</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>FORWARD</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-decoration-include</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-decoration</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>INCLUDE</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-decoration-error</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-decoration</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>ERROR</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>decoratingFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraDecoratingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.SitemeshPageFilter</filter-class>
+        <init-param>
+            <param-name>exclude.paths</param-name>
+            <param-value>
+                /secure/attachment,
+                /secure/thumbnail,
+                /secure/applet*
+            </param-value>
+        </init-param>
+        <init-param>
+            <param-name>exclude.headers</param-name>
+            <param-value>
+                X-PJAX,
+                X-SITEMESH-OFF
+            </param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>encoding</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.PathMatchingEncodingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>postencoding</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraPostEncodingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>filter-plugin-dispatcher-after-encoding-request</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>after-encoding</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>REQUEST</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-after-encoding-forward</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>after-encoding</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>FORWARD</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-after-encoding-include</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>after-encoding</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>INCLUDE</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-after-encoding-error</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>after-encoding</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>ERROR</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>caching</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraCachingFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-login-request</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-login</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>REQUEST</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-login-forward</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-login</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>FORWARD</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-login-include</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-login</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>INCLUDE</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-login-error</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-login</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>ERROR</param-value>
+        </init-param>
+    </filter>
+
+    <filter>
+        <filter-name>login</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraLoginFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>trustedapps</filter-name>
+        <filter-class>com.atlassian.jira.security.auth.trustedapps.TrustedApplicationFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>security</filter-name>
+        <filter-class>com.atlassian.jira.security.JiraSecurityFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>gzip</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.gzip.JiraGzipFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>xsrf-token-addition</filter-name>
+        <filter-class>com.atlassian.jira.security.xsrf.XsrfTokenAdditionRequestFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>access</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.accesslog.AccessLogFilter</filter-class>
+    </filter>
+
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-request</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-dispatch</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>REQUEST</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-forward</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-dispatch</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>FORWARD</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-include</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-dispatch</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>INCLUDE</param-value>
+        </init-param>
+    </filter>
+    <filter>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-error</filter-name>
+        <filter-class>com.atlassian.plugin.servlet.filter.ServletFilterModuleContainerFilter</filter-class>
+        <init-param>
+            <param-name>location</param-name>
+            <param-value>before-dispatch</param-value>
+        </init-param>
+        <init-param>
+            <param-name>dispatcher</param-name>
+            <param-value>ERROR</param-value>
+        </init-param>
+    </filter>
+
+    <!-- =====================================================
+         THIS MUST BE THE LAST FILTER IN THE DEFINED CHAIN
+         ===================================================== -->
+    <filter>
+        <filter-name>JiraLastFilter</filter-name>
+        <filter-class>com.atlassian.jira.web.filters.JiraLastFilter</filter-class>
+    </filter>
+
+    <!-- =====================================================
+         FILTER MAPPINGS FOLLOW :
+         ===================================================== -->
+
+    <!-- This *has* to come first to ensure no other filter runs before this trying to access the ComponentManager
+         since that can cause deadlocks during a data import -->
+    <filter-mapping>
+        <filter-name>JiraImportProgressFilter</filter-name>
+        <url-pattern>/importprogress</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>JiraFirstFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>MultipartBoundaryCheckFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>JiraStaticAssetsFilter</filter-name>
+        <url-pattern>/static-assets/*</url-pattern>
+    </filter-mapping>
+
+    <!-- If serious problems were encountered on Startup, this filter will display an
+            appropriate error message for any requests. Basically it locks JIRA. -->
+    <filter-mapping>
+        <filter-name>JiraStartupChecklist</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- THIS MUST REMAIN AS THE TOP FILTER SO THAT THE ENCODING CAN BE SET BEFORE ANYTHING ELSE TOUCHES IT -->
+    <filter-mapping>
+        <filter-name>encoding</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>caching</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>postencoding</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-after-encoding-request</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-after-encoding-forward</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-after-encoding-include</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-after-encoding-error</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <!-- gzip *must* be before UrlRewriteFilter as the rewrite filter sends 'forwards' -->
+    <filter-mapping>
+        <filter-name>gzip</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>UrlRewriteFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <!-- These mapping are for URL's that can handle an HTML error message when JIRA is unavailable -->
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>*.jspa</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>/browse/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>/logout</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>*.vm</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>/issues/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency</filter-name>
+        <url-pattern>/i</url-pattern>
+    </filter-mapping>
+
+    <!--
+        These mapping are for URL's that can NOT handle an HTML error message when JIRA is unavailable, these will
+        get a 503 Service Unavailable response instead.
+    -->
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/sr/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/si/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/download/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/plugins/servlet/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/secure/attachment/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>consistency503</filter-name>
+        <url-pattern>/rest/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+        This mapping is for the Soap endpoint URL's that can NOT handle an HTML error message when JIRA is unavailable,
+        these will get a proper SoapFault packet instead.
+    -->
+    <filter-mapping>
+        <filter-name>consistencySoap</filter-name>
+        <url-pattern>/rpc/soap/*</url-pattern>
+    </filter-mapping>
+
+    <!--
+        This mapping is for the XML-RPC endpoint URL's that can NOT handle an HTML error message when JIRA is unavailable,
+        these will get a proper XML-RPC Fault packet instead.
+    -->
+    <filter-mapping>
+        <filter-name>consistencyXmlRpc</filter-name>
+        <url-pattern>/rpc/xmlrpc</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>*.jspa</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>/browse/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>/rpc/*</url-pattern>
+    </filter-mapping>
+
+    <!-- profiling filter should be mapped to search request &amp; single issue -->
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>/si/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>/sr/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>profiling</filter-name>
+        <url-pattern>/plugins/servlet/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-login-request</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-login-forward</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-login-include</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-login-error</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>login</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher> <!-- we want security/login to be applied after urlrewrites, for example -->
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>trustedapps</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>security</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher> <!-- we want security to be applied after urlrewrites, for example -->
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-decoration-request</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-decoration-forward</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-decoration-include</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-decoration-error</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <!-- decoratingFilter must be before sitemesh -->
+    <filter-mapping>
+        <filter-name>decoratingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>*.jsp</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/logout.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/login.jsp</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/secure/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/view/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/browse/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/plugins/servlet/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/issues/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>/i</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>xsrf-token-addition</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>access</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-request</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-forward</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>FORWARD</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-include</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>INCLUDE</dispatcher>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>filter-plugin-dispatcher-before-dispatch-error</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>headersanitising</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>prevent-ie-accept-css-vulnerability</filter-name>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>ERROR</dispatcher>
+    </filter-mapping>
+
+    <filter-mapping>
+        <filter-name>JiraLastFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+
+    <!-- SERVLET CONTEXT LISTENERS -->
+
+    <!-- This goes before the LauncherContextListener because parts of the LauncherContextListener expect
+         the ServletContextProvider to work. And this listener it was makes that work. -->
+    <listener>
+        <listener-class>com.atlassian.jira.web.ServletContextProviderListener</listener-class>
+    </listener>
+
+    <!-- Start up JIRA. This listener actually delegates to a bunch of JiraLaunchers to ensure
+         that JIRA starts as intended. -->
+    <listener>
+        <listener-class>com.atlassian.jira.startup.LauncherContextListener</listener-class>
+    </listener>
+
+    <!-- ========================================
+         DO NOT ADD ANY SERVLET CONTEXT LISTENERS
+
+         Unless you really know what you're doing. And if you think you do, you're probably wrong.
+         Because everything you thought you knew is wrong! Multitenancy is like (The Crying Game + The Usual Suspects) * 42.
+
+         The right place to add many context-listeners is now in the DefaultJiraLauncher which has to know when to do
+         what to make tenants happy.
+         ========================================
+    -->
+
+    <!-- SESSION LISTENERS
+         Session listeners are multi-tenant copacetic. -->
+
+    <!-- XML-RPC / SOAP Listener -->
+    <listener>
+        <listener-class>com.atlassian.jira.soap.axis.JiraAxisHttpListener</listener-class>
+    </listener>
+
+    <!-- The JIRA user session tracker support. -->
+    <listener>
+        <listener-class>com.atlassian.jira.web.session.currentusers.JiraUserSessionDestroyListener</listener-class>
+    </listener>
+
+    <!-- The JIRA instrumentation support. -->
+    <listener>
+        <listener-class>com.atlassian.jira.instrumentation.httpsession.HttpSessionInstrumentationSupport</listener-class>
+    </listener>
+
+
+    <!-- servlets -->
+    <servlet>
+        <servlet-name>appstatus</servlet-name>
+        <servlet-class>com.atlassian.jira.servlet.ApplicationStatusServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>com.atlassian.jira.web.dispatcher.JiraWebworkActionDispatcher</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewattachment</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewAttachmentServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewthumbnail</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewThumbnailServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewprojectavatar</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewProjectAvatarServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewUniversalAvatarServlet</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewUniversalAvatarServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewuseravatar</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewUserAvatarServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>viewtemporaryavatar</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.ViewTemporaryAvatarServlet</servlet-class>
+    </servlet>
+
+    <!-- Used for tricking WebSphere 6.1.0.5 to push requests through the filter chain. This servlet
+    should never receive the actual requests as the requests should be intercepted, by e.g. URLRewrite filter.
+    Fixes JRA-12039 -->
+    <servlet>
+        <servlet-name>noopservlet</servlet-name>
+        <servlet-class>com.atlassian.jira.servlet.NoOpServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>xmlrpc</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.rpc.XmlRpcServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>servlet-module-container-servlet</servlet-name>
+        <servlet-class>com.atlassian.jira.plugin.servlet.ServletModuleContainerServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>logout</servlet-name>
+        <servlet-class>com.atlassian.jira.security.login.JiraLogoutServlet</servlet-class>
+    </servlet>
+
+    <!-- Axis SOAP Servlet -->
+    <servlet>
+        <servlet-name>axis-soap</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.rpc.LazyAxisDecoratorServlet</servlet-class>
+        <init-param>
+            <param-name>httpRegistryRoot</param-name>
+            <param-value>/</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet>
+        <servlet-name>DisplayChart</servlet-name>
+        <servlet-class>com.atlassian.jira.charts.jfreechart.DisplayChartServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>file-server</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.FileServerServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>issue-view</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.IssueViewServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>searchrequest-view</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.SearchRequestViewServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+
+    <!-- Sitemesh velocity decorator -->
+    <servlet>
+        <servlet-name>velocity-decorator</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.VelocityDecoratorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>attachmentzip</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.AttachmentZipServlet</servlet-class>
+    </servlet>
+
+    <!-- JCAPTCHA -->
+    <servlet>
+        <servlet-name>captcha</servlet-name>
+        <servlet-class>com.atlassian.jira.servlet.JiraCaptchaServlet</servlet-class>
+        <load-on-startup>0</load-on-startup>
+    </servlet>
+
+    <servlet>
+        <servlet-name>display-error-servlet</servlet-name>
+        <servlet-class>com.atlassian.jira.web.filters.DisplayErrorServlet</servlet-class>
+    </servlet>
+
+    <servlet>
+        <servlet-name>internal-error-servlet</servlet-name>
+        <servlet-class>com.atlassian.jira.web.servlet.InternalServerErrorServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>appstatus</servlet-name>
+        <url-pattern>/status</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>display-error-servlet</servlet-name>
+        <url-pattern>/display-error</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>internal-error-servlet</servlet-name>
+        <url-pattern>/internal-error</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>captcha</servlet-name>
+        <url-pattern>/captcha</url-pattern>
+    </servlet-mapping>
+
+    <!-- end:JCAPTCHA -->
+
+    <servlet-mapping>
+        <servlet-name>attachmentzip</servlet-name>
+        <url-pattern>/secure/attachmentzip/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>file-server</servlet-name>
+        <url-pattern>/download/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>servlet-module-container-servlet</servlet-name>
+        <url-pattern>/plugins/servlet/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>axis-soap</servlet-name>
+        <url-pattern>/rpc/soap/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>action</servlet-name>
+        <url-pattern>*.jspa</url-pattern>
+    </servlet-mapping>
+
+    <!-- These are dummy servlet mappings to trick WebSphere 6.1.0.5 to push the request through the filter chain, such
+    that the URLRewrite filter can rewrite the URLs. Fixes JRA-12039 -->
+    <servlet-mapping>
+        <servlet-name>noopservlet</servlet-name>
+        <url-pattern>/s/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>noopservlet</servlet-name>
+        <url-pattern>/databaseLockedError</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>noopservlet</servlet-name>
+        <url-pattern>/JiraLockedError</url-pattern>
+    </servlet-mapping>
+
+    <!-- This are dummy servlet mappings to trick WebSphere 6.1.0.5 to push the request through the filter chain, such
+    that the TrustedApplicationFilter filter can respond to the request. -->
+    <servlet-mapping>
+        <servlet-name>noopservlet</servlet-name>
+        <url-pattern>/admin/appTrustCertificate</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewattachment</servlet-name>
+        <url-pattern>/secure/attachment/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewthumbnail</servlet-name>
+        <url-pattern>/secure/thumbnail/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewprojectavatar</servlet-name>
+        <url-pattern>/secure/projectavatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewUniversalAvatarServlet</servlet-name>
+        <url-pattern>/secure/viewavatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewuseravatar</servlet-name>
+        <url-pattern>/secure/useravatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>viewtemporaryavatar</servlet-name>
+        <url-pattern>/secure/temporaryavatar</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>xmlrpc</servlet-name>
+        <url-pattern>/rpc/xmlrpc</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>logout</servlet-name>
+        <url-pattern>/logout</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>DisplayChart</servlet-name>
+        <url-pattern>/charts</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>issue-view</servlet-name>
+        <url-pattern>/si/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>searchrequest-view</servlet-name>
+        <url-pattern>/sr/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet-mapping>
+        <servlet-name>velocity-decorator</servlet-name>
+        <url-pattern>*.vmd</url-pattern>
+    </servlet-mapping>
+
+    <!-- session config -->
+    <session-config>
+        <session-timeout>300</session-timeout>
+    </session-config>
+
+    <!-- mime mapping -->
+    <!-- currently the W3C havent settled on a media type for WSDL;
+    http://www.w3.org/TR/2003/WD-wsdl12-20030303/#ietf-draft
+    for now we go with the basic 'it's XML' response -->
+    <mime-mapping>
+        <extension>wsdl</extension>
+        <mime-type>text/xml</mime-type>
+    </mime-mapping>
+
+    <mime-mapping>
+        <extension>xsd</extension>
+        <mime-type>text/xml</mime-type>
+    </mime-mapping>
+
+    <!-- welcome files -->
+    <welcome-file-list>
+        <welcome-file>default.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+
+    <!-- error pages -->
+    <error-page>
+        <error-code>401</error-code>
+        <location>/display-error</location>
+    </error-page>
+
+    <error-page>
+        <error-code>403</error-code>
+        <location>/display-error</location>
+    </error-page>
+
+    <error-page>
+        <error-code>404</error-code>
+        <location>/secure/404.jspa</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/internal-error</location>
+    </error-page>
+
+    <!-- tag libraries -->
+    <jsp-config>
+        <taglib>
+            <taglib-uri>webwork</taglib-uri>
+            <taglib-location>/WEB-INF/tld/webwork.tld</taglib-location>
+
+        </taglib>
+        <taglib>
+            <taglib-uri>sitemesh-page</taglib-uri>
+            <taglib-location>/WEB-INF/tld/sitemesh-page.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>sitemesh-decorator</taglib-uri>
+            <taglib-location>/WEB-INF/tld/sitemesh-decorator.tld</taglib-location>
+        </taglib>
+        <taglib>
+            <taglib-uri>jiratags</taglib-uri>
+            <taglib-location>/WEB-INF/tld/atlassian-jira-tags.tld</taglib-location>
+        </taglib>
+    </jsp-config>
+</web-app>

@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if($renderedValue)
+<customfieldvalue>$xmlutils.escape($renderedValue)</customfieldvalue>
+#elseif ($value)
+<customfieldvalue><![CDATA[$xmlutils.escapeForCdata($value.toString())]]></customfieldvalue>
+#end

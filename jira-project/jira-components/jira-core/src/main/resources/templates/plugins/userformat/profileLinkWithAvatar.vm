@@ -1,0 +1,34 @@
+#disable_html_escaping()
+#if ($avatarURL && !$avatarURL.empty())
+    #set ($avatarCssClass = " jira-user-avatar")
+#end
+
+#if ($user)
+    <a class="jira-user-name user-hover$!{avatarCssClass}" rel="${textutils.htmlEncode($username)}" id="$!{id}_${textutils.htmlEncode($username)}" href="${baseurl}/secure/ViewProfile.jspa?name=${velocityhelper.urlencode($username)}">
+        #if ($avatarURL && !$avatarURL.empty())
+            $soyRenderer.render("com.atlassian.auiplugin:aui-experimental-soy-templates","aui.avatar.avatar", {
+                "avatarImageUrl": $avatarURL,
+                "size": 'xsmall',
+                "tagName": 'span',
+                "accessibilityText" : $textutils.htmlEncode($username)
+            })
+        #end
+        ${textutils.htmlEncode($fullname)}
+    </a>
+#elseif ($username)
+    <span class="jira-user-name user-hover$!{avatarCssClass}" id="$!{id}_${textutils.htmlEncode($username)}" rel="${textutils.htmlEncode($username)}">
+        #if ($avatarURL && !$avatarURL.empty())
+            $soyRenderer.render("com.atlassian.auiplugin:aui-experimental-soy-templates","aui.avatar.avatar", {
+                "avatarImageUrl": $avatarURL,
+                "size": 'xsmall',
+                "tagName": 'span',
+                "accessibilityText" : $textutils.htmlEncode($username)
+            })
+        #end
+        ${textutils.htmlEncode($username)}
+    </span>
+#else
+    <span class="jira-user-name">
+        $defaultFullName
+    </span>
+#end

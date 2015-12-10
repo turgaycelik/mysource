@@ -1,0 +1,17 @@
+#disable_html_escaping()
+#if ($value.get(null))
+    #set ($parentValue = $value.get(null))
+#end
+#if ($value.get('1'))
+    #set ($childValue = $value.get('1'))
+#end
+##value: $value <br />
+##value.cl: $value.class <br />
+##selpar: : $parentValue.class : <br/>
+##selchild: : $childValue.class : <br/>
+#if ($parentValue)
+    $cfValueEncoder.encodeForHtml($!parentValue.value)
+    #if ($childValue)
+         - $cfValueEncoder.encodeForHtml($!childValue.value)
+    #end
+#end

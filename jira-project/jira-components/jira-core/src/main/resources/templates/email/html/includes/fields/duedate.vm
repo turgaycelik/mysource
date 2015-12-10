@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#if ($issue.getDueDate())
+<tr>
+    <th>#text("issue.field.duedate"):</th>
+    <td>$dateformatter.formatDMY($issue.getDueDate())</td>
+</tr>
+#end

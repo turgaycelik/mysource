@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if($legacyBehaviour)
+#if ($timetracking.estimateDisplayValue)
+    $textutils.htmlEncode($timetracking.estimateDisplayValue)
+#end
+#else
+$i18n.getText('common.concepts.original.estimate') :
+#if ($timetracking.originalEstimateDisplayValue)
+    $textutils.htmlEncode($timetracking.originalEstimateDisplayValue)
+#end
+<br>$i18n.getText('common.concepts.remaining.estimate') :
+#if ($timetracking.remainingEstimateDisplayValue)
+    $textutils.htmlEncode($timetracking.remainingEstimateDisplayValue)
+#end
+#end

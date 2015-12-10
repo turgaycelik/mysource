@@ -1,0 +1,1321 @@
+#* @vtlvariable name="avatarServiceHelper" type="com.atlassian.jira.avatar.AvatarServiceHelper" *#
+#macro (esc $text)$textutils.htmlEncode($text)#end
+
+#macro(minSelectSize $options $headerSize $defaultValue)
+#if ( !$headerSize )
+    #set ( $headerSize = 0)
+#end
+#set ($optionsSize = 0)
+#if($options && $options.size())
+    #set ($optionsSize = $options.size())
+#end
+#set ( $totalSize =  $optionsSize + $headerSize)
+#if ( !$totalSize )${defaultValue}#elseif( $totalSize < $defaultValue )${totalSize}#else${defaultValue}#end
+#end
+
+#macro(versionStatus $version $size)
+    #if ($version.isReleased() == true && $version.isArchived() == false)
+        ## Released & Unarchived
+        #set ( $versionCssClass = "jira-icon-version-released")
+        #set ( $text = $i18n.getText('common.filters.versionstatus.released'))
+    #elseif ($version.isReleased() == true && $version.isArchived() == true)
+        ## Released & Archived
+        #set ( $versionCssClass = "jira-icon-version-archived-released")
+        #set ( $text = $i18n.getText('common.filters.versionstatus.released.and.archived'))
+    #elseif ($version.isReleased() == false && $version.isArchived() == false)
+        ## Unreleased & Unarchived
+        #set ( $versionCssClass = "jira-icon-version")
+        #set ( $text = $i18n.getText('common.filters.versionstatus.unreleased'))
+    #elseif ($version.isReleased() == false && $version.isArchived() == true)
+        ## Unreleased & Archived
+        #set ( $versionCssClass = "jira-icon-version-archived")
+        #set ( $text = $i18n.getText('common.filters.versionstatus.unreleased.and.archived'))
+    #end
+    #if ($versionCssClass)
+        <span class="aui-icon ${versionCssClass}" title="${text}">${text}</span>
+    #end
+#end
+
+#macro(localHelp $aboutTextKey $anchorName)
+  $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.Links.helpLink", {
+      "isLocal": true,
+      "url": "${req.contextPath}/secure/ShowConstantsHelp.jspa?decorator=popup#${anchorName}",
+      "title": $i18n.getText($aboutTextKey)
+  })
+#end
+
+#macro(localTimeTrackingHelp $aboutTextKey $anchorName)
+  $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.Links.helpLink", {
+      "isLocal": true,
+      "url": "${req.contextPath}/secure/ShowTimeTrackingHelp.jspa?decorator=popup#${anchorName}",
+      "title": $i18n.getText($aboutTextKey)
+  })
+ #end
+
+#macro(jiraHelpLink $helpURL $helpURLFragment)
+  #set ($helpPath = $helpUtil.getHelpPath($helpURL))
+  #if ($helpPath.local)
+    #set($helpUrl = "${baseurl}${helpPath.url}")
+  #else
+    #set($helpUrl = "${helpPath.url}")
+  #end
+  $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.Links.helpLink", {
+      "isLocal": $helpPath.local,
+      "url": $helpUrl,
+      "fragmentIdentifier": $!{helpURLFragment},
+      "title": ${i18n.getText($helpPath.title)}
+  })
+#end
+
+#macro(spacer)
+	<tr class="spacer">
+		<td class="fieldLabelArea">&nbsp;</td>
+		<td class="fieldValueArea">&nbsp;</td>
+	</tr>
+#end
+
+
+#macro (versionName $version)
+    #if ($version.isArchived())
+        <font color="#999999">$textutils.htmlEncode($version.name)</font>
+    #else
+        $textutils.htmlEncode($version.name)
+    #end
+#end
+
+#macro (selectMap $selectName $map)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($entry in $map.entrySet())
+            <option value="$textutils.htmlEncode($entry.key)">$textutils.htmlEncode($entry.value)</option>
+        #end
+    </select>
+#end
+
+#macro (selectMapI18N $selectName $map)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($entry in $map.entrySet())
+            <option value="$textutils.htmlEncode($entry.key)">$i18n.getText($entry.value.nameKey)</option>
+        #end
+    </select>
+#end
+
+## $map is a Map of i18n keys to Maps. The i18n key is the label for the option group. The Map is the key-value pairs
+## of options for that group.
+#macro (selectMapGrouped $selectName $map)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($group in $map.entrySet())
+            <optgroup label="$i18n.getText($group.key)">
+            #foreach ($entry in $group.value.entrySet())
+                <option value="$textutils.htmlEncode($entry.key)">$textutils.htmlEncode($entry.value)</option>
+            #end
+            </optgroup>
+        #end
+    </select>
+#end
+
+#macro (selectMapGroupedSelected $selectName $map $selectedKey)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($group in $map.entrySet())
+            <optgroup label="$i18n.getText($group.key)">
+            #foreach ($entry in $group.value.entrySet())
+                <option value="$textutils.htmlEncode($entry.key)"
+                    #if (${selectedKey} && ${selectedKey.equals($entry.key)})
+                        SELECTED
+                    #end
+                >$textutils.htmlEncode($entry.value)</option>
+            #end
+            </optgroup>
+        #end
+    </select>
+#end
+
+#macro (selectMapSelected $selectName $map $selectedKey)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($entry in $map.entrySet())
+            <option value="$textutils.htmlEncode($entry.key)"
+            #if (${selectedKey} && ${selectedKey.equals($entry.key)})
+                SELECTED
+            #end
+            >$textutils.htmlEncode($entry.value)</option>
+        #end
+    </select>
+#end
+
+#macro (selectMapSelectedI18N $selectName $map $selectedKey)
+    <select name="$textutils.htmlEncode($selectName)">
+        #foreach ($entry in $map.entrySet())
+            <option value="$textutils.htmlEncode($entry.key)"
+                #if (${selectedKey} && ${selectedKey.equals($entry.key)})
+                    SELECTED
+                #end
+                    >$i18n.getText($entry.value.nameKey)</option>
+        #end
+    </select>
+#end
+
+## ----------------------------------------
+##      Form field headers and footers
+## ----------------------------------------
+
+
+#macro(normalHeader $action $id $name $required)
+    #if ($action.getErrors().get($id))
+      <tr class="formErrors">
+        <td>&nbsp;</td>
+        <td>
+            <span class="errMsg">$textutils.htmlEncode($action.getErrors().get($id))</span>
+        </td>
+      </tr>
+    #end
+    ## Sending this in so fields still get the class on the <tr> in the old jiraforms. This allows us to hook up behaviour for the jira-fields js
+    #if ($!auiparams.controlHeaderClass)
+        #set ($controlHeaderClass = " ${auiparams.controlHeaderClass}")
+    #else
+        #set ($controlHeaderClass = "")
+    #end
+    <tr class="fieldArea$!{controlHeaderClass}" id="${id}FieldArea">
+    <td #if ($action.getErrors().get($id)) class="fieldLabelArea formErrors" #else class="fieldLabelArea" #end>
+    #if ($textutils && !$textutils.stringSet($name))
+      &nbsp;
+    #else
+        <label for="$id">
+        #if ($required)
+            <span class="required" title="$action.getText("common.forms.requiredfields")"><sup>*</sup>
+            $textutils.htmlEncode($name):
+            </span>
+        #else
+            $textutils.htmlEncode($name):
+        #end
+        </label>
+    #end
+    </td>
+    #if ($action.getErrors().get($id))
+        <td class="fieldValueArea formErrors">
+    #else
+        <td class="fieldValueArea">
+    #end
+#end
+
+#macro(singleFooter $action $description)
+    #if ($description && $description != '')
+        <div class="fieldDescription">$description</div>
+    #end
+    </td>
+#end
+
+#macro(normalFooter $action $description)
+    #singleFooter ($action $description)
+    </tr>
+#end
+
+## ----------------------------------------
+
+## #AUImessage("warning" "" "woot" "" "" "" "true")
+## #AUImessage($messageType $titleText $messageHtml $id $cssClass $iconText $hideIcon)
+#macro(AUImessage $messageType $titleText $messageHtml $id $cssClass $iconText $hideIcon)
+    #set($q = '"')
+    #if ($messageType != '')
+        #set ($typeClass = " $messageType")
+        #if ($hideIcon != 'true')
+            #set ($icon = "<span class=${q}aui-icon icon-${messageType}${q}>$!{iconText}</span>")
+        #end
+    #end
+    #if ($id != '')
+        #set ($varId = " id=${q}${id}${q}")
+    #else
+        #set ($varId = "")
+    #end
+    #if ($cssClass != '')
+        #set ($varCssClass = " $cssClass")
+    #else
+        #set ($varCssClass = "")
+    #end
+    #if ($titleText != '')
+        #set ($varTitleText = "<p class=${q}title${q}>${titleText}</p>")
+    #else
+        #set ($varTitleText = "")
+    #end
+    <div$!{varId} class="aui-message$!{typeClass}$!{varCssClass}">
+        $!{icon}$!{varTitleText}$!{messageHtml}
+    </div>
+#end
+
+#macro(displayFieldWarning $displayParams $text)
+    #if ($displayParameters.get("showBulkEditWarning"))
+        <div class="description"><span class="aui-icon aui-icon-warning">Warning</span> $text</div>
+    #end
+#end
+
+#macro(customControlHeader $action $id $name $required $displayParameters $auiparams)
+    #if ($!auiparams.controlHeaderType)
+        #set ($AUIfieldgroupType = ${auiparams.controlHeaderType})
+    #else
+        #set ($AUIfieldgroupType = "field-group")
+    #end
+    #if ($!auiparams.controlHeaderClass)
+        #set ($AUIfieldgroupClass = " ${auiparams.controlHeaderClass}")
+    #else
+        #set ($AUIfieldgroupClass = "")
+    #end
+    #if ($!displayParameters.get('theme') && $!displayParameters.get('theme') == 'aui')
+        <div class="$!{AUIfieldgroupType}$!{AUIfieldgroupClass}" #if ($!auiparams.controlHeaderId)id="${auiparams.controlHeaderId}" #end>
+            ## if the noLabel param is not set or it's set to false, we should show the label.
+            #set ($isDPShowLabel = (!$!displayParameters.noLabel || $!displayParameters.noLabel == "false"))
+            #set ($isAPShowLabel = (!$!auiparams.noLabel || $!auiparams.noLabel == "false"))
+            ## if both the displayParams and AUI params specify the label should be shown then show it!  If either says
+            ## it should be hidden then hide it!
+            #if ($isDPShowLabel && $isAPShowLabel)
+            ## Need the following all on one line as IE7 doesn't ignore the white space.
+            <label#if ($id && $id != "") for="$id"#end>$textutils.htmlEncode($name)#if ($required)<span class="aui-icon icon-required">$action.getText("admin.common.words.required")</span>#end</label>
+            #end
+    #else
+        #if ($!displayParameters.get("noHeader"))
+            #set ($error = false)
+            #if ($action.getErrors().get($id))
+                #set ($error = $action.getErrors().get($id))
+            #end
+            <td class="$!{AUIfieldgroupClass}#if ($error) formErrors#end" id="${id}_container">#if ($error)<span class="errMsg">$textutils.htmlEncode($error)</span><br>#end
+        #else
+            #normalHeader ($action $id $name $required)
+        #end
+    #end
+#end
+
+#macro(controlHeader $action $id $name $required $noHeader)
+    #if ($!displayParameters.get('theme') && $!displayParameters.get('theme') == 'aui')
+    ## hack to ensure all fields can use the new aui stuff if required.
+        #customControlHeader($action $id $name $required $!displayParameters $auiparams)
+    #else
+        #if ($!auiparams.controlHeaderClass)
+            #set ($AUIfieldgroupClass = " ${auiparams.controlHeaderClass}")
+        #else
+            #set ($AUIfieldgroupClass = "")
+        #end
+        #if ($noHeader)
+            #if ($action.getErrors().get($id))
+              #set ($error= $action.getErrors().get($id))
+            #end
+            #if ($error)
+                <td class="formErrors"><span class="errMsg">$textutils.htmlEncode($error)</span><br>
+            #else
+                <td class="$!{AUIfieldgroupClass}" id="${id}_container">
+            #end
+        #else
+            #normalHeader ($action $id $name $required)
+        #end
+    #end
+#end
+
+#macro(customControlFooterDescription $description)
+    #if ($description && $description != '')
+        <div class="description">$description</div>
+    #end
+#end
+
+#macro(customControlFooter $action $id $description $displayParameters $auiparams)
+    #if ($!displayParameters.get('theme') && $!displayParameters.get('theme') == 'aui')
+        #if ($!displayParameters.iconText)
+            #if ($!displayParameters.iconURI)
+                <a href="$!{displayParameters.iconURI}" id="$!{id}-icon"#if ($!displayParameters.iconTitle) title="$!{displayParameters.iconTitle}"#end>
+                    <span class="aui-icon#if($!displayParameters.iconCssClass) $!{displayParameters.iconCssClass}#end">$!{displayParameters.iconText}</span>
+                </a>
+            #else
+                <span id="$!{id}-icon"#if ($!displayParameters.iconTitle) title="$!{displayParameters.iconTitle}"#end>
+                    <span class="aui-icon#if($!displayParameters.iconCssClass) $!{displayParameters.iconCssClass}#end">$!{displayParameters.iconText}</span>
+                </span>
+            #end
+        #end
+        #if ($action.getErrors().get($id))
+           <div class="error">$textutils.htmlEncode($action.getErrors().get($id))</div>
+        #end
+        #if ($description && $description != '')
+           <div class="description">$description</div>
+        #end
+        </div>
+    #else
+        #if ($!displayParameters.get('noHeader'))
+           #singleFooter ($action $description)
+        #else
+           #normalFooter ($action $description)
+        #end
+    #end
+#end
+
+#macro(controlFooter $action $description $noHeader)
+    #if ($!field && $!field.id)
+        #customControlFooter($action $field.id $description $!displayParameters $auiparams)
+    #elseif($!customField && $!customField.id)
+        #customControlFooter($action $customField.id $description $!displayParameters $auiparams)
+    #else
+        #customControlFooter($action '' $description $!displayParameters $auiparams)
+    #end
+#end
+
+
+## ----------------------------------------
+
+
+#macro(AUIformFieldsetHeader $name $required $displayParameters $auiparams)
+    <fieldset#if ($!{auiparams.fieldsetClass}) class="${auiparams.fieldsetClass}"#end#if ($!{auiparams.fieldsetId}) id="${auiparams.fieldsetId}"#end>
+        #if ($!name && $!name != '')
+        <legend><span>$textutils.htmlEncode($name)#if($required) <span class="aui-icon icon-required">$action.getText("admin.common.words.required")</span>#end</span></legend>
+        #end
+#end
+#macro(AUIformFieldsetFooter $action $id $description $displayParameters $auiparams)
+    #if ($action.getErrors().get($id))
+       #set ($error = $action.getErrors().get($id))
+    #end
+    #if ($error)
+       <div class="error">$textutils.htmlEncode($error)</div>
+    #end
+    #if ($description && $description != '')
+       <div class="description">$description</div>
+    #end
+    #if ($!auiparams.fieldsetId)
+        #set ($fieldsetId = "#${auiparams.fieldsetId}")
+    #else
+        #set($fieldsetId = '')
+    #end
+    #if ($!auiparams.fieldsetClass)
+        #set ($fieldsetClass = " .${auiparams.fieldsetClass}")
+    #else
+        #set($fieldsetClass = '')
+    #end
+    #set ($fieldsetHtmlComment = "<!--${fieldsetId}${fieldsetClass}-->")
+    </fieldset>#if ($!auiparams.fieldsetClass || $!auiparams.fieldsetId) $!{fieldsetHtmlComment}#end
+#end
+
+## ----------------------------------------
+
+
+#macro(hiddenControlHeader $id)
+    <tr class="hidden" id="${id}FieldArea"><td colspan="2">
+#end
+#macro(hiddenControlFooter)
+    </td></tr>
+#end
+
+
+## ----------------------------------------
+
+
+#macro(inlineControlHeader $action $id)
+    #if ($action.getErrors().get($id))
+      #set ($formError= $action.getErrors().get($id))
+    #end
+    #if ($formError)
+        <div class="formErrors"><span class="errMsg">$formError</span><br>
+    #else
+        <div id="${id}_container">
+    #end
+#end
+#macro(inlineControlFooter)
+    </div>
+#end
+
+
+## ----------------------------------------
+##      Complex controls
+## ----------------------------------------
+
+#macro(userPicker $action $fieldName $fieldValue $multiselect $imageName $style $canPerformAjaxSearch $ajaxLimit)
+    #userPickerWithFieldConfig($action $fieldName $fieldValue $null $null $multiselect $imageName $style $canPerformAjaxSearch $ajaxLimit)
+#end
+
+#macro(userPickerWithFieldConfig $action $fieldName $fieldValue $fieldConfigId $projectIdList $multiselect $imageName $style $canPerformAjaxSearch $ajaxLimit)
+    <fieldset rel="$fieldName" class="hidden user-picker-params">
+        <input title="fieldName" type="hidden" value="$fieldName" />
+        #if ($fieldConfigId)<input title="fieldConfigId" type="hidden" value="$fieldConfigId" />#end
+        #if ($projectIdList)
+            #foreach($projectId in $projectIdList)
+                <input title="projectId" type="hidden" value="$projectId" />
+            #end
+        #end
+        <input title="multiSelect" type="hidden"#if($multiselect) value="true"#else value="false"#end />
+        #if ($canPerformAjaxSearch)<input title="userPickerEnabled" type="hidden" value="true" />#end
+    </fieldset>
+    <div class="ajax_autocomplete" id="${fieldName}_container">
+        #if ($multiselect)
+            <textarea class="textarea long-field userpickerfield" cols="40" id="$fieldName" name="$fieldName" rows="4" #if($style)style="$style"#end wrap="virtual">$cfValueEncoder.encodeForHtml($!fieldValue)</textarea>
+        #else
+            <input class="text long-field userpickerfield" id="$fieldName" name="$fieldName"#if($style) style="$style"#end type="text" value="$textutils.htmlEncode($!fieldValue)" />
+        #end
+        #if ($action.isHasPermission("pickusers"))
+            <a href="#" class="popup-trigger">
+            #if ($multiselect)
+                #set ($imgTitle = $action.getText("user.picker.select.users"))
+            #else
+                #set ($imgTitle = $action.getText("user.picker.select.user"))
+            #end
+            #if ($imageName)
+                #set ($imgName = ${imageName})
+            #else
+                #set ($imgName = "assigneeImage")
+            #end
+            <span class="aui-icon icon-userpicker" title="${imgTitle}"></span></a>
+        #else
+            <span class="aui-icon icon-userpicker-disabled" title="$i18n.getText('user.picker.no.permission')"></span>
+        #end
+        #if ($canPerformAjaxSearch)
+            <div class="ajax_results" id="${fieldName}_results"></div>
+            <div class="description">${i18n.getText('user.picker.ajax.desc')}</div>
+        #end
+    </div>
+#end
+
+#macro(newGroupPicker $action $fieldId $fieldName $fieldValue $multiselect $imageName $style)
+    #if ($multiselect)
+        <textarea class="textarea long-field" cols="40" id="$fieldId" name="$fieldName" rows="4"#if($style) style="$style"#end wrap="virtual">$textutils.htmlEncode($!fieldValue)</textarea>
+    #else
+        <input class="text long-field" id="$fieldId" name="$fieldName"#if($style) style="$style"#end type="text" value="$textutils.htmlEncode($!fieldValue)" />
+    #end
+    #if ($action.isHasPermission("pickusers"))
+        #if ($multiselect)
+            #set($imgTitle = $action.getText('grouppicker.select.groups'))
+        #else
+            #set($imgTitle = $action.getText('grouppicker.select.group'))
+        #end
+        <a class="grouppicker-trigger" id="${fieldId}-trigger" href="$req.contextPath/secure/popups/GroupPickerBrowser.jspa?multiSelect=${multiselect}&element=${fieldId}"><span class="aui-icon icon-userpicker" title="${imgTitle}"></span></a>
+    #else
+        <span class="aui-icon icon-userpicker-disabled" title="$action.getText('grouppicker.nopermissions')"></span>
+    #end
+#end
+
+#macro(groupPicker $action $fieldName $fieldValue $multiselect $imageName $style)
+    #newGroupPicker($action $fieldName $fieldName $fieldValue $multiselect $imageName $style)
+#end
+
+
+#macro (genericMultiPicker $canPick $name $formname $value $cols $rows $id $actionToOpen $iconTooltip $multiselect $windowName $canPerformAjaxSearch $ajaxLimit)
+    <fieldset rel="$!name" class="hidden user-picker-params">
+        <input title="formName" type="hidden" value="$formname" />
+        <input title="fieldName" type="hidden" value="$!name" />
+        <input title="actionToOpen" type="hidden" value="${actionToOpen}" />
+        <input title="multiSelect" type="hidden" #if ($multiselect) value="true" #else value="false" #end />
+        #if ($canPerformAjaxSearch)<input title="userPickerEnabled" type="hidden" value="true" />#end
+    </fieldset>
+    <div class="ajax_autocomplete" id="${id}_container">
+    #if ($multiselect)
+        <textarea class="textarea long-field" cols="$cols" id="$id" name="$!name" rows="$rows" wrap="virtual">$!value</textarea>
+    #else
+        <input class="text long-field" id="$!id" name="$!name" type="text" value="$textutils.htmlEncode($!value)" />
+    #end
+    #if ($canPick)
+        <a class="popup-trigger" href="#">
+            <span class="aui-icon icon-userpicker" title="$i18n.getText($iconTooltip)"></span>
+        </a>
+    #else
+       <span class="aui-icon icon-userpicker-disabled" title="$i18n.getText('grouppicker.nopermissions')"></span>
+    #end
+    #if ($canPerformAjaxSearch)
+        <div id="${id}_results" class="ajax_results"></div>
+        <div class="description"">${i18n.getText('user.picker.ajax.desc')}</div>
+    #end
+    </div>
+#end
+
+#macro(displayConstantIcon $constant)
+    #if ($constant.getIconUrl())
+        #if ($constant.getIconUrl().startsWith("http://") || $constant.getIconUrl().startsWith("https://"))
+            <img alt="$textutils.htmlEncode($constant.getNameTranslation(), false)" height="16" src="$constant.iconUrlHtml" title="$textutils.htmlEncode($constant.getNameTranslation(), false) - $textutils.htmlEncode($!constant.getDescTranslation(), false)" width="16" />
+        #else
+            <img alt="$textutils.htmlEncode($constant.getNameTranslation(), false)" height="16" src="$baseurl$constant.iconUrlHtml" title="$textutils.htmlEncode($constant.getNameTranslation(), false) - $textutils.htmlEncode($!constant.getDescTranslation(), false)" width="16" />
+        #end
+    #end
+#end
+
+#macro(getNormalizedUrl $iconurl)
+#if ($iconurl.startsWith('http://') || $iconurl.startsWith('https://'))$iconurl#else${baseurl}${iconurl}#end
+#end
+
+#macro(getNormalizedUrlXmlEscaped $iconurl)
+#if ($iconurl.startsWith('http://') || $iconurl.startsWith('https://'))$xmlutils.escape($iconurl)#else$xmlutils.escape($baseurl)$xmlutils.escape($iconurl)#end
+#end
+
+#macro(displayIssueKey $issue)
+<a href="$req.contextPath/browse/$issue.getKey()" class="issue-link" data-issue-key="$issue.getKey()">$issue.getKey()</a>
+#end
+
+#macro(displayIssueSummary $issue)
+<a href="$req.contextPath/browse/${issue.getKey()}" class="issue-link" data-issue-key="$issue.getKey()">$textutils.htmlEncode($issue.getSummary())</a>
+#end
+
+#macro(displayTypeNoLink $issue)
+#displayConstantIcon($issue.getIssueTypeObject())
+#end
+
+## $issue is an object of type Issue
+#macro(displayType $issue)
+<a href="$req.contextPath/browse/$issue.getKey()">#displayTypeNoLink($issue)</a>
+#end
+
+## $issue is an object of type Issue
+#macro(displayPriorityNoLink $issue)
+#displayConstantIcon($issue.getPriorityObject())
+#end
+
+## $issue is an object of type Issue
+#macro(issueLineItem $issue)
+<td class="cell-type-icon" data-type="issuetype">#displayType($issue)</td>
+<td class="cell-type-collapsed" data-type="issuekey"><a href="$req.contextPath/browse/$issue.getKey()">$issue.getKey()</a></td>
+<td class="cell-type-collapsed" data-type="resolution">
+
+    #if ($fieldVisibility && $fieldVisibility.isFieldHidden("resolution", $issue) == false)
+        #if ($issue.getResolutionObject())
+            $textutils.htmlEncode($!issue.getResolutionObject().getNameTranslation().toUpperCase(), false)
+        #else
+            <em>$i18n.getText("common.status.unresolved")</em>
+        #end
+    #end
+
+</td>
+<td data-type="details">
+
+        #if ($issue.isSubTask())
+            #set ($parentIssue = $issue.getParentObject())
+            #if ($permissionCheck && $permissionCheck.isIssueVisible($parentIssue) == true)
+                <a href="$req.contextPath/browse/$parentIssue.getKey()" style="text-decoration: none;" title="$textutils.htmlEncode($parentIssue.getSummary())">$parentIssue.getKey()</a><br/>
+            #else
+                <span class="smallgrey">$parentIssue.getKey()</span><br/>
+            #end
+            <img src="$req.contextPath/images/icons/link_out_bot.gif" width="16" height="16" border="0" align="absmiddle" alt="" />
+        #end
+    <a href="$req.contextPath/browse/$issue.getKey()">$textutils.htmlEncode($issue.getSummary())</a>
+
+</td>
+<td class="cell-type-icon" data-type="priority">
+#if ($fieldVisibility && $fieldVisibility.isFieldHidden("priority", $issue) == false)
+    #if ($issue.getPriorityObject())
+        #displayConstantIcon($issue.getPriorityObject())
+    #end
+#end
+</td>
+<td class="cell-type-icon" data-type="status" style="text-align: right;">
+    #set ($simpleStatus = $issue.getStatusObject().getSimpleStatus())
+    #if ("$!isIssueStatusCompact" == "")
+        #set ($isIssueStatusCompact = true)
+    #end
+    #parse("/static/util/issue/status.vm")
+</td>
+#end
+
+#macro(versionReleaseDate $versionManager $version)
+#if ($version.releaseDate)
+    #if ($version.isArchived() == true)
+        <span class="grey" title="$i18n.getText("version.releasedate")">$dateTimes.formatDMY($version.releaseDate)</span>
+    #elseif ($versionManager.isVersionOverDue($version) == true && $version.isReleased() == false)
+        <span class="warning" title="$i18n.getText("version.releasedate.past")">$dateTimes.formatDMY($version.releaseDate)</span>
+    #else
+        <span title="$i18n.getText("version.releasedate")">$dateTimes.formatDMY($version.releaseDate)</span>
+    #end
+#end
+#end
+
+#macro(percentageGraph $graphModel)
+    #if (!$graphModel || $graphModel.rows.size() == 0)
+        <td width="100">$i18n.getText("common.concepts.noissues").</td>
+    #else
+        #foreach ($row in $graphModel.rows)
+            #if ($graphModel.getPercentage($row) != 0)
+            <td width="$graphModel.getPercentage($row)" bgcolor="$row.color" >
+                #if ($row.statuses)
+                    <a href="$baseurl/secure/IssueNavigator.jspa?reset=true$row.statuses"
+                        title="$row.description - $graphModel.getPercentage($row)% ($row.number issues)"
+                    ><img src="$baseurl/images/border/spacer.gif" class="hideOnPrint"
+                        height=10 width="$graphModel.getPercentage($row)" border="0" alt=""
+                        title="$row.description - $graphModel.getPercentage($row)% ($row.number issues)"></a>
+                #else
+                    <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint"
+                        height=10 width="$graphModel.getPercentage($row)" border="0" alt=""
+                        title="$row.description - $graphModel.getPercentage($row)% ($row.number issues)">
+                #end
+            </td>
+            #end
+        #end
+    #end
+#end
+
+#macro(percentageGraphDiv $graphModel)
+    #if (!$graphModel || $graphModel.rows.size() == 0)
+        <span class="subText">$i18n.getText('common.concepts.noissues')</span>
+    #else
+        <div class="percentageGraph">
+        #foreach ($row in $graphModel.rows)
+            #if ($graphModel.getPercentage($row) != 0)
+            #if ($row.statuses)
+                <a class="barSection" style="width:${graphModel.getPercentage($row)}%;border-color:${row.color};"
+                   href="$req.contextPath/secure/IssueNavigator.jspa?reset=true$row.statuses"
+                   title="$row.description - $graphModel.getPercentage($row)% ($row.number issues)"
+                ><span>$row.description - $graphModel.getPercentage($row)%</span></a>
+            #else
+                <div class="barSection" style="width:${graphModel.getPercentage($row)}%;border-color:${row.color};"
+                     title="$row.description - $graphModel.getPercentage($row)% ($row.number issues)"
+                ><span>$row.description - $graphModel.getPercentage($row)%</span></div>
+            #end
+            #end
+        #end
+        </div>
+    #end
+#end
+
+#macro (histogram $percentage)
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    #if ($percentage.intValue() != 0)
+        #set ($newPercentage = 5)
+        #if ($percentage.intValue() > 5)
+            #set ($newPercentage = $percentage.intValue())
+        #end
+    <tr>
+        <td style="width:${newPercentage}%" class="colour-bar-cont" valign="center">
+            <div class="colour-bar"></div>
+        </td>
+        #set ($remainder = 100 - $newPercentage)
+        <td  style="width:$remainder%">&nbsp;&nbsp;&nbsp;$percentage%</td>
+    </tr>
+    #else
+    <tr>
+        <td width="1px" class="colour-bar-cont" valign="center">
+            <div class="colour-bar"></div>
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    #end
+</table>
+#end
+
+
+
+## renders statistic value links based on the given url
+#macro (statHeading $type $value $customFieldManager $urlPrefix)
+    #if ($type == 'project')
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.getString('name'))</a>
+    #elseif ($type == 'assignees')
+       #if ($value)
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.displayName)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.assignee.unassigned")</a>
+       #end
+    #elseif ($type == 'reporter')
+       #if ($value)
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.displayName)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.reporter.unknown")</a>
+       #end
+    #elseif ($type == 'resolution')
+       #if ($value)
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.getNameTranslation(), false)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("common.resolution.unresolved")</a>
+       #end
+    #elseif ($type == 'statuses')
+       #set ($simpleStatus = $value.getSimpleStatus())
+       #set ($isIssueStatusCompact = false)
+       #set ($isIssueStatusSubtle = true)
+       #parse("/static/util/issue/status.vm")
+    #elseif ($type == 'issuetype')
+       #if ($value)
+        #displayConstantIcon($value)
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.getNameTranslation(), false)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("common.words.none")</a>
+       #end
+    #elseif ($type == 'priorities')
+       #if ($value)
+        #displayConstantIcon($value)
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.getNameTranslation(), false)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.priority.nopriority")</a>
+       #end
+    #elseif ($type == 'components')
+       #if ($value)
+        <span class="aui-icon jira-icon-components"></span>
+        <a href="${urlPrefix}">$textutils.htmlEncode($value.getString('name'))</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.component.nocomponent")</a>
+       #end
+    #elseif ($type == 'version' || $type == 'allVersion')
+        #if ($value)
+           #versionStatus ($value 16)
+        <a href="${urlPrefix}">#versionName ($value)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.raisedin.unscheduled")</a>
+       #end
+   #elseif ($type == 'fixfor' || $type == 'allFixfor')
+        #if ($value)
+           #versionStatus ($value 16)
+        <a href="${urlPrefix}">#versionName ($value)</a>
+       #else
+        <a href="${urlPrefix}">$i18n.getText("gadget.filterstats.fixfor.unscheduled")</a>
+       #end
+    #elseif ($type == 'labels')
+        #if ($value)
+           $i18n.getText("common.concepts.label"): $value
+        #end
+    #else    ## must be a custom field
+        #if ($value)
+            #if ($customFieldManager.getCustomFieldObject($type))
+                $customFieldManager.getCustomFieldObject($type).getCustomFieldSearcher().getDescriptor().getStatHtml($customFieldManager.getCustomFieldObject($type), $value, $urlPrefix)
+            #else
+                $type: $value
+            #end
+        #else
+            $i18n.getText("common.words.none")
+        #end
+    #end
+#end
+
+## A macro to display searcher headers
+#macro (searcherHeaderNoField $fieldId $fieldName $spanClass)
+    ## @todo This doesn't quite work for all fields. Screws up for multiple valued fields such as dates & users. Need to delegate to the IssueSearcher object
+    #if ($fieldValuesHolder && $displayParameters.currentFieldValuesHolder && !$displayParameters.currentFieldValuesHolder.containsKey($fieldId) && $fieldValuesHolder.containsKey($fieldId))
+        <div class="searcherValue paramRemoved">
+    #elseif ($fieldValuesHolder && $displayParameters.dbFieldValuesHolder && !$displayParameters.dbFieldValuesHolder.containsKey($fieldId) && $fieldValuesHolder.containsKey($fieldId))
+        <div class="searcherValue paramAdded">
+    #elseif ($fieldValuesHolder && $displayParameters.dbFieldValuesHolder && $displayParameters.dbFieldValuesHolder.containsKey($fieldId) && $displayParameters.dbFieldValuesHolder.get($fieldId) != $fieldValuesHolder.get($fieldId))
+        <div class="searcherValue paramChanged">
+    #else
+        <div class="searcherValue">
+    #end
+
+    #if($spanClass)
+        <label class="fieldLabel" for="field${fieldId}">$textutils.htmlEncode($fieldName):</label><span id="field${fieldId}" class="fieldValue $spanClass">
+    #else
+        <label class="fieldLabel" for="field${fieldId}">$textutils.htmlEncode($fieldName):</label><span id="field${fieldId}" class="fieldValue">
+    #end
+
+#end
+
+#macro (searcherHeader $field)
+    #searcherHeaderNoField ($field.id $field.name)
+#end
+
+#macro (searcherFooter $field)
+</span></div>
+#end
+
+#macro(searcherEditHeader $id $name)
+    #customControlHeader ($action "searcher-$id" $name false $!displayParameters $!auiparams)
+#end
+
+#macro(searcherEditFooter $id $description)
+    #customControlFooter($action $id $description $!displayParameters $!auiparams)
+#end
+
+#macro(searchContextDescriptionTitle $searcherNameKey $value $contextProjectNames $contextIssueTypeNames)
+    title="$i18n.getText("jira.search.context.invalid.generic", $i18n.getText($searcherNameKey), $textutils.htmlEncode($value))"
+#end
+
+#macro (searchContextDescriptionTitleGeneral $searcherNameKey $value $contextProjectNames $contextIssueTypeNames)
+    #if ($contextProjectNames.length() == 0 && $contextIssueTypeNames.length() == 0)
+        title="$i18n.getText("jira.search.context.general", $i18n.getText($searcherNameKey), $textutils.htmlEncode($value))"
+    #else
+        #searchContextDescriptionTitle($searcherNameKey $value $contextProjectNames $contextIssueTypeNames)
+    #end
+#end
+
+#macro(searchContextDescriptionTitleProjectOnly $searcherNameKey $value $contextProjectNames)
+    #if ($contextProjectNames.length() > 0)
+    title="$i18n.getText("jira.search.context.invalid.project.only", $i18n.getText($searcherNameKey), $textutils.htmlEncode($value))"
+    #end
+#end
+
+#macro (searchContextDescriptionTitleProjectOrGeneral $searcherNameKey $value $contextProjectNames)
+    #if ($contextProjectNames.length() > 0)
+        #searchContextDescriptionTitleProjectOnly($searcherNameKey $value $contextProjectNames)
+    #else
+        title="$i18n.getText("jira.search.context.general", $i18n.getText($searcherNameKey), $textutils.htmlEncode($value))"
+    #end
+#end
+
+#macro (configureIndexing $ctxPath)
+    $i18n.getText("gadget.common.indexing")<br>&nbsp;<br>
+    #if ($admin)
+        $i18n.getText("gadget.common.indexing.configure", "<a href='$ctxPath/secure/admin/jira/IndexAdmin.jspa'>", "</a>")
+    #else
+        $i18n.getText("gadget.common.indexing.admin")
+    #end
+#end
+
+## This displays a list of issues
+#macro (displayRelatedIssues $issues)
+    #if ($issues)
+        #set ($size = $issues.size())
+        #foreach ($issue in $issues)
+            #set ($showComma = ($velocityCount != $size))
+            #if ($displayParams && $displayParams.get('nolink') && !${displayParams.excel_view})
+                #if ($issue.getResolution())
+                    <strike>$issue.getKey()</strike>#if($showComma),#end
+                #else
+                    $issue.getKey()#if($showComma),#end
+                #end
+            #elseif($displayParams && ${displayParams.excel_view})
+                $issue.getKey()#if($showComma),#end
+            #else
+                #if ($issue.getResolution())
+                    <a href="${requestContext.baseUrl}/browse/$issue.getKey()" title="$textutils.htmlEncode($issue.getSummary())"><strike>$issue.getKey()</strike></a>#if($showComma),#end
+                #else
+                    <a href="${requestContext.baseUrl}/browse/$issue.getKey()" title="$textutils.htmlEncode($issue.getSummary())">$issue.getKey()</a>#if($showComma),#end
+                #end
+            #end
+        #end
+    #else
+    &nbsp;
+    #end
+#end
+
+#macro (comma $list)
+#if ($velocityCount == ($list.size() - 1)) $i18n.getText('common.words.and') #elseif ($velocityCount < $list.size()), #end
+#end
+
+#macro (commaor $list)
+#if ($velocityCount == ($list.size() - 1)) $i18n.getText('common.words.or') #elseif ($velocityCount < $list.size()), #end
+#end
+
+#macro (commaonly $list)
+#if ($velocityCount < $list.size()), #end
+#end
+
+#macro (datePopupOptions $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+$calendarIncluder.includeForLocale($i18n.getLocale())
+#set ($firstDay = $currentCalendar.firstDayOfWeek - 1)
+#set ($rfc822Formatter = $dateFormatter.withStyle($dateTimeStyle.RSS_RFC822_DATE_TIME))
+<fieldset class="hidden datepicker-params">
+    <input title="firstDay" type="hidden" value="$firstDay" /> ## first day of the week
+    <input title="align" type="hidden" value="Br" /> ## alignment (defaults to "Bl")
+    <input title="singleClick" type="hidden" value="true" />
+    ## pass the current date as a String to get around Javascript's time zone suckiness. we truncate the time zone
+    ## suffix because we need to fool the browser into thinking this string is a local time.
+    #set ($rfc822DateWithTzAsString = $rfc822Formatter.format($dateutils.date($currentMillis)))
+    #set ($rfc822DateStrNoTzEndIndex = $rfc822DateWithTzAsString.length() - 5) ## Calculate the start position of TZ Offset
+    <input title="date" type="hidden" value="$rfc822DateWithTzAsString.substring(0, $rfc822DateStrNoTzEndIndex)" />
+    <input title="useISO8601WeekNumbers" type="hidden" value="$currentCalendar.useISO8601" /> ## use ISO8601 date/time standard?
+    #if($!{dateTimePicker})
+        <input title="ifFormat" type="hidden" value="$textutils.htmlEncode($dateTimeFormat)" /> ## our date and time format
+        <input title="showsTime" type="hidden" value="true" /> ## display the time selector
+        <input title="timeFormat" type="hidden" value="$textutils.htmlEncode($timeFormat)" /> ## 12 or 24 hours format
+    #else
+        <input title="ifFormat" type="hidden" value="$textutils.htmlEncode($dateFormat)" /> ## our date only format
+    #end
+</fieldset>
+#end
+
+#macro (datePopup $inputField $inputButton $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+    $calendarIncluder.includeForLocale($i18n.getLocale())
+    #set ($firstDay = $currentCalendar.firstDayOfWeek - 1)
+    #set ($rfc822Formatter = $dateFormatter.withStyle($dateTimeStyle.RSS_RFC822_DATE_TIME))
+
+    <fieldset class="hidden datepicker-params">
+        <input title="firstDay" type="hidden" value="$firstDay" /> ## first day of the week
+        <input title="inputField" type="hidden" value="$inputField" /> ## id of the input field
+        <input title="button" type="hidden" value="$inputButton" /> ## trigger for the calendar (button ID)
+        <input title="align" type="hidden" value="Br" /> ## alignment (defaults to "Bl")
+        <input title="singleClick" type="hidden" value="true" />
+        ## pass the current date as a String to get around Javascript's time zone suckiness. we truncate the time zone
+        ## suffix because we need to fool the browser into thinking this string is a local time.
+        #set ($rfc822DateWithTzAsString = $rfc822Formatter.format($dateutils.date($currentMillis)))
+        #set ($rfc822DateStrNoTzEndIndex = $rfc822DateWithTzAsString.length() - 5) ## Calculate the start position of TZ Offset
+        <input title="date" type="hidden" value="$rfc822DateWithTzAsString.substring(0, $rfc822DateStrNoTzEndIndex)" /> ## Remove TZ Offset
+        <input title="useISO8601WeekNumbers" type="hidden" value="$currentCalendar.useISO8601" /> ## use ISO8601 date/time standard?
+        #if($!{dateTimePicker})
+            <input title="ifFormat" type="hidden" value="$textutils.htmlEncode($dateTimeFormat)" /> ## our date and time format
+            <input title="showsTime" type="hidden" value="true" /> ## display the time selector
+            <input title="timeFormat" type="hidden" value="$textutils.htmlEncode($timeFormat)" /> ## 12 or 24 hours format
+        #else
+            <input title="ifFormat" type="hidden" value="$textutils.htmlEncode($dateFormat)" /> ## our date only format
+        #end
+    </fieldset>
+#end
+
+#macro (jiraform $title $description $cancelLinkURL $cancelLinkText)
+<table class="jiraform maxWidth">
+<tbody>
+    <tr>
+      <td class="jiraformheader">
+      <h3 class="formtitle">$title</h3></td>
+    </tr>
+    <tr>
+      <td class="jiraformheader">$description</td>
+    </tr>
+    #if($cancelLinkURL)
+    <tr>
+        <td>
+            <ul class="optionslist">
+                <li><a id="return_link" href="$cancelLinkURL">$cancelLinkText</a></li>
+            </ul>
+        </td>
+    </tr>
+    #end
+    #if ($action.hasAnyErrors())
+    <tr>
+		<td colspan="2">
+            <div class="aui-message error">
+                <span class="aui-icon icon-error"></span>
+                <p class="title">$i18n.getText('common.words.errors')</p>
+                <ul>
+                    #foreach ($error in $action.getErrorMessages())
+                        <li>$textutils.htmlEncode(${error})</li>
+                    #end
+                    #foreach ($error in $action.errors)
+                        <li>$textutils.htmlEncode(${error})</li>
+                    #end
+                </ul>
+            </div>
+        </td>
+    </tr>
+    #end
+</tbody>
+</table>
+#end
+
+#* @vtlvariable name="comment" type="com.atlassian.jira.issue.comments.Comment" *#
+#* @vtlvariable name="commentAction" type="com.atlassian.jira.issue.tabpanels.CommentAction" *#
+
+## This does not belong here but is here to fix JRA-12066 till we move to velocity 1.5
+#macro (actionDetailsBody $commentAction $i18n $suffix)
+    #set ($comment = $commentAction.comment)
+    #if ($comment.authorApplicationUser)
+        #set($authorKey = $comment.authorApplicationUser.key )
+    #end
+    #set ($author = $comment.authorApplicationUser)
+
+    #if ($comment.groupLevel)
+        #set ($level = $textutils.htmlEncode($comment.groupLevel))
+    #elseif ($comment.roleLevel)
+        #set ($level = $textutils.htmlEncode($comment.roleLevel.name))
+    #end
+
+    #if(!$comment.created.equals($comment.updated))
+        #set ($formattedUpdateDate = "$action.formatDisplayHtml($comment.updated)")
+
+        #if ($author)
+            #set ($quote = '"')
+            #if ($comment.updateAuthorFullName)
+                #set ($updateInfo = "$textutils.htmlEncode($comment.updateAuthorFullName) - $formattedUpdateDate")
+            #else
+                #set ($updateInfo = "$comment.updateAuthorApplicationUser.name - $formattedUpdateDate")
+            #end
+        #else
+            #set ($updateInfo = "$i18n.getText('common.words.anonymous') - $formattedUpdateDate")
+        #end
+    #end
+
+    #set ($prettyCreateDate = "$action.formatDisplayHtml(${comment.created})")
+    #set ($iso8601CreateDate = "$action.formatIso8601Html(${comment.created})")
+    #set ($createdDate = " - <span class='commentdate_${comment.id}_$!{suffix} subText'><span class='date user-tz' title='$prettyCreateDate'><time class='livestamp' datetime='$iso8601CreateDate'>$prettyCreateDate</time></span></span>")
+
+    #if ($level)
+        #set ($visibilityLevel = "<span class='icon icon-locked'></span><span class=subText>$i18n.getText('viewissue.comment.visibleby') <span class=redText>$level</span></span>")
+    #end
+    $i18n.getText('issue.tabpanels.comment.action.header', $userformat.formatUserkey($authorKey, 'profileLinkActionHeader', "commentauthor_${comment.id}_$!{suffix}"), $createdDate) #if($visibilityLevel) - $visibilityLevel #end #if($updateInfo) - <span class="redText subText" title="$updateInfo">$i18n.getText('common.concepts.edited')</span> #end
+#end
+
+## Displays header
+#macro(pagerHeader $i18n $issueCount $totalCount $navigatorURL)
+    #if($totalIssuesCount > 0)
+        #if($totalCount > $issueCount)
+            <span class="small">$i18n.getText("browseproject.unresolvedissues.more", "$issueCount", "<u><a id='unresolved_link' href='$navigatorURL'>", "$totalCount", "</a></u>")</span>
+        #else
+            <span class="small">$i18n.getText("browseproject.unresolvedissues", "<u><a id='unresolved_link' href='$navigatorURL'>", "$totalCount", "</a></u>")</span>
+        #end
+    #end
+#end
+
+## Helper to print the More issues footer.
+#macro(pagerFooterIfNeeded $i18n $issueCount $totalCount $navigatorURL)
+    #if($totalCount > $issueCount)
+        <tr >
+            <td bgcolor="white">&nbsp;</td>
+            <td colspan="6" bgcolor="white">$i18n.getText('browseproject.openissues.more.footer', "$issueCount", "$totalCount", "<a id='pager_footer_link' href='$navigatorURL'>", '</a>')</td>
+        </tr>
+    #end
+#end
+
+#macro(userProfileLinks $category $webInterfaceManager $location $helper)
+
+#set ($displayableLinks  = $webInterfaceManager.getDisplayableItems("$location/$category", $user, $helper))
+#if (!$displayableLinks.isEmpty())
+<ul class="item-details">
+    #foreach ($item in $displayableLinks)
+    <li>
+        #if ($item.params.get("actionName"))
+            #set ($linkActionName = $item.params.get("actionName"))
+        #else
+            #set ($linkActionName = $item.link.getDisplayableUrl($user, $helper))
+        #end
+
+        #if ($item.params.get("showLinkWhenNotMe"))
+            #set ($showLinkNormal = $user.equals($layout.profileUser))
+        #else
+            #set ($showLinkNormal = true)
+        #end
+
+        #if ($layout.getActionName() && $linkActionName.indexOf($layout.getActionName()) != -1 && $showLinkNormal)
+            $item.label.getDisplayableLabel($user, $helper)
+        #else
+            <a id="$item.link.id" href="$item.link.getDisplayableUrl($user, $helper)#if($item.params.get('includeUser') && $item.params.get('includeUser') == 'true')?name=$urlcodec.encode($layout.profileUser.name)#end" title="$item.tooltip.getDisplayableLabel($user, $helper)">$item.label.getDisplayableLabel($user, $helper)</a>
+        #end
+    </li>
+    #end
+</ul>
+#end
+#end
+
+#macro(safeMenuAccessKey $i18n $accessKeyHelper $accessKeyI18nKey $layoutModifierKey)
+#set ($i18nKey = "menu.accesskey.$accessKeyI18nKey")
+#if ($i18n.isKeyDefined($i18nKey) && $accessKeyHelper.isAccessKeySafe($i18n.getText($i18nKey))) (${layoutModifierKey}+${i18n.getText($i18nKey)})#end
+#end
+
+#**
+ * The <select> et al. for the labels frother control when rendering the labels sysytem and custom fields
+ * (except in the edit labels page and edit labels dialog, for that see labelsform.jsp).
+ *
+ * @param $i18n i18n helper
+ * @param $issue optional issue (will typically be null for create issue)
+ * @param $fieldId the labels field ID (system or custom field)
+ * @param $labels the labels associated with the field
+ *#
+#macro(labelsSelect $i18n $issue $fieldId $labels)
+    <fieldset class="hidden labelpicker-params">
+        <input type="hidden" title="id" value="${fieldId}">
+        #if ($issue && $issue.id)
+            <input title="issueId" type="hidden" value="${issue.id}">
+        #end
+    </fieldset>
+    <div class="ajs-multi-select-placeholder textarea long-field"></div>
+    <select class="multi-select long-field hidden edit-labels-inline" id="${fieldId}" multiple="multiple" name="${fieldId}"#if ($issue && $issue.key) title="${textutils.htmlEncode($issue.key)}"#end>
+        #foreach ($label in $labels)
+            <option selected="selected" value="${textutils.htmlEncode($label.label)}">${textutils.htmlEncode($label.label)}</option>
+        #end
+    </select>
+    <div class="description">${i18n.getText('label.edit.start.typing')}</div>
+#end
+
+#**
+ * The lozenges for the labels system and custom fields (with an optional edit link). Also see labelsLozenges.jsp
+ * which returns the same HTML for the in-line updating of labels fields.
+ *
+ * @param i18n i18n helper
+ * @param remoteUser the user issuing the server request
+ * @param labelUtil labels helper
+ * @param issueId the ID of the issue; may be null for bulk edit preview
+ * @param fieldId the labels field name (e.g., 'labels' or 'customfield_10000')
+ * @param customFieldIdAsLong custom field (numeric) ID or false if it is the labels system field
+ * @param labels the labels to render
+ * @param canEdit true if the edit labels link should be rendered, false otherwise; note that the issue navigator
+ *     currently doesn't allow editing, so if this changes, then the DOM IDs rendered here need to be modified.
+ * @param readOnly true if the labels are read only, false otherwise
+ * @param baseurl the JIRA instance's base URL
+ *#
+#macro(labelsLozenges $i18n $remoteUser $labelUtil $issueId $fieldId $customFieldIdAsLong $labels $canEdit $noLink $readOnly $baseUrl $prefix)
+    <div class="labels-wrap value">
+    #if ($labels && $labels.size() > 0)
+        <ul class="labels" #if ($issueId)id="#if ($prefix)${prefix}#end${fieldId}-${issueId}-value"#end>
+        #foreach($label in $labels)
+            #if ($noLink)
+                <li><a class="lozenge nolink" name="$fieldId" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+            #else
+                #if ($customFieldIdAsLong)
+                    <li><a class="lozenge" href="${baseUrl}/secure/IssueNavigator.jspa?reset=true${labelUtil.getLabelJql($remoteUser, $customFieldIdAsLong, $!label.label)}" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+                #else
+                    <li><a class="lozenge" href="${baseUrl}/secure/IssueNavigator.jspa?reset=true${labelUtil.getLabelJql($remoteUser, $!label.label)}" title="${textutils.htmlEncode($!label.label)}"><span>${textutils.htmlEncode($!label.label)}</span></a></li>
+                #end
+            #end
+        #end
+        #if ($canEdit && $readOnly == false)
+            ## Edit links don't appear in issue tables, so id's of the form edit-labels-(labels|customfield_10000) are good enough.
+            <li><a class="icon jira-icon-edit edit-labels" id="edit-labels-${issueId}-${fieldId}" href="${baseUrl}/secure/EditLabels!default.jspa?id=${issueId}&noLink=${noLink}#if ($customFieldIdAsLong)&customFieldId=${customFieldIdAsLong}#end"><span>${i18n.getText('label.edit.title')}</span></a></li>
+        #end
+        </ul>
+    #else
+        <span class="labels" #if ($issueId)id="#if ($prefix)${prefix}#end${fieldId}-${issueId}-value"#end>${i18n.getText('common.words.none')}</span>
+        #if ($canEdit && $readOnly == false)
+            ## Edit links don't appear in issue tables, so id's of the form edit-labels-(labels|customfield_10000) are good enough.
+            <a class="icon jira-icon-edit edit-labels" id="edit-labels-${issueId}-${fieldId}" href="${baseUrl}/secure/EditLabels!default.jspa?id=${issueId}&noLink=${noLink}#if ($customFieldIdAsLong)&customFieldId=${customFieldIdAsLong}#end"><span>${i18n.getText('label.edit.title')}</span></a>
+        #end
+    #end
+    </div>
+#end
+
+
+#macro(avatarPicker $defaultId $avatarOwnerId $avatarOwnerKey $title $id $src $width $height)
+
+    <span id="attach-max-size" class="hidden">130000000</span>
+    <span id="default-avatar-id" class="hidden">$defaultId</span>
+    <span id="avatar-owner-id" class="hidden">$textutils.htmlEncode($avatarOwnerId)</span>
+    #if ($avatarOwnerKey)<span id="avatar-owner-key" class="hidden">$avatarOwnerKey</span>#end
+    <span id="avatar-type" class="hidden">user</span>
+    <img class="jira-avatar-picker-trigger avatar-image"
+         title="$title"
+         alt="$title"
+         id="$id"
+         src="$src"
+         width="$width"
+         height="$height" />
+#end
+
+
+
+#**
+ * gets avatar url for given user
+ *#
+#macro (getAvatarURL $displayUser)$avatarServiceHelper.renderURL($authcontext.getLoggedInUser(), $displayUser, $avatarSize)#end
+
+#**
+ * Renders a group <option>. This is parsed then rendered by javscript as a suggestion in sparkler controls/
+ *#
+#macro (renderGroup $group $isSelected $removeOnUnselect $usePrefix)
+<option data-icon="$baseurl/images/icons/icon_groups_16.png" #if ($isSelected) selected="selected" #end #if ($removeOnUnselect) data-remove-on-unselect="true" #end value="#if($usePrefix)group:#end$textutils.htmlEncode($group.getName())" title="$textutils.htmlEncode($group.getName())">$textutils.htmlEncode($group.getName())</option>
+#end
+
+#**
+ * Renders a user <option>. This is parsed then rendered by javscript as a suggestion in sparkler controls/
+ *#
+#macro (renderUser $user $isSelected $removeOnUnselect $usePrefix)
+<option data-icon="#getAvatarURL($user)" #if ($isSelected) selected="selected" #end #if ($removeOnUnselect) data-remove-on-unselect="true" #end value="#if($usePrefix)user:#end$textutils.htmlEncode($user.getName())" title="$textutils.htmlEncode($user.getDisplayName())">$textutils.htmlEncode($user.getDisplayName())</option>
+#end
+
+#**
+ * These hidden inputs sumbit back to the server all the previously selected values, so we know what changed
+ *#
+#macro(prevValues $userField $values)
+<input type="hidden" name="check_prev_${userField}" value="true">
+    #if ($values && !$values.empty)
+        #foreach ($value in $values)
+            #if ($value.isGroup())
+            <input type="hidden" name="prev_${userField}" value="group:$textutils.htmlEncode($value.getObject().getName())">
+            #elseif ($value.isUser())
+            <input type="hidden" name="prev_${userField}" value="user:$textutils.htmlEncode($value.getObject().getName())">
+            #end
+        #end
+    #end
+#end
+
+#**
+ * Renders user suggestions. This optgroup represents what user are displayed when the control is initialized.
+ *#
+#macro(userSuggestionsGroup $hasPermissionToPickUsers $suggestedUsers $hasEmpty $emptyValueKey $usePrefix $allowCurrentUser $hasCurrentUser)
+    #if ($emptyValueKey || $hasCurrentUser)
+    <optgroup>
+        #if ($allowCurrentUser && $authcontext.isLoggedInUser())
+            #set ($user = $authcontext.getLoggedInUser())
+            <option class="headerOption" data-icon="#getAvatarURL($user)" #if ($hasCurrentUser) selected="selected" #end value="issue_current_user" title="${i18n.getText('assignee.types.currentuser')}">${i18n.getText('assignee.types.currentuser')}</option>
+        #end
+        #if ($emptyValueKey)
+            <option class="headerOption" data-icon="#getAvatarURL($!null)" #if ($hasEmpty) selected="selected" #end value="empty" title="$i18n.getText($emptyValueKey)">$i18n.getText($emptyValueKey)</option>
+        #end
+    </optgroup>
+    #end
+    #if ($hasPermissionToPickUsers && $suggestedUsers && !$suggestedUsers.empty)
+    <optgroup label="${i18n.getText('assignee.section.suggestedusers')}">
+        #foreach ($user in $suggestedUsers)
+            #renderUser($user false, false, $usePrefix)
+        #end
+    </optgroup>
+    #end
+#end
+
+#**
+ * Renders group suggestions. This optgroup represents what groups are displayed when the control is initialized.
+ *#
+#macro (groupSuggestionsGroup $hasPermissionToPickUsers $suggestedGroups $usePrefix)
+    #if ($hasPermissionToPickUsers && $suggestedGroups && !$suggestedGroups.empty)
+    <optgroup label="${i18n.getText('assignee.section.suggestedgroups')}">
+        #foreach ($group in $suggestedGroups)
+            #renderGroup($group false, false $usePrefix)
+        #end
+    </optgroup>
+    #end
+#end
+
+#**
+ * Renders selected suggestions. This optgroup represents what suggestions are currently selected.
+ *#
+#macro(selectedGroup $values $usePrefix)
+<optgroup>
+    #if ($values && !$values.empty)
+        #foreach ($value in $values)
+        #if ($value.isGroup())
+            #renderGroup($value.getObject() true false $usePrefix)
+        #elseif ($value.isUser())
+            #renderUser($value.getObject() true false $usePrefix)
+        #end
+    #end
+    #end
+</optgroup>
+#end
+
+#**
+ * Renders users ONLY searcher
+ *#
+#macro(userSearcher $id $name $values $hasPermissionToPickUsers $suggestedUsers $placeholderText $hasEmpty $emptyValueKey $description)
+    $!{auiparams.put("controlHeaderClass", "aui-field-userlist")}
+    #searcherEditHeader (${id} ${name})
+    <select class="js-user-checkboxmultiselect" multiple="multiple" id="${id}" name="${id}" data-placeholder-text="${placeholderText}">
+        #userSuggestionsGroup($hasPermissionToPickUsers $suggestedUsers $hasEmpty $emptyValueKey false, false, false)
+        #if ($values && !$values.empty)
+            <optgroup>
+            #foreach ($value in $values)
+                #renderUser($value true true false)
+            #end
+            </optgroup>
+        #end
+    </select>
+    #prevValues($id $values)
+    #searcherEditFooter (${id} ${description})
+    $!{auiparams.clear()}
+#end
+
+#**
+ * Renders group ONLY searcher
+ *#
+#macro(groupSearcher $id $name $values $hasPermissionToPickUsers $suggestedGroups $placeholderText $hasEmpty $emptyValueKey $description)
+    $!{auiparams.put("controlHeaderClass", "aui-field-userlist")}
+    #searcherEditHeader (${id} ${name})
+    <select class="js-group-checkboxmultiselect" multiple="multiple" id="${id}" name="${id}" data-placeholder-text="${placeholderText}">
+        #groupSuggestionsGroup($hasPermissionToPickUsers $suggestedGroups false)
+        #if ($values && !$values.empty)
+            <optgroup>
+            #foreach ($value in $values)
+                #renderGroup($value true true false)
+            #end
+            </optgroup>
+        #end
+    </select>
+    #prevValues($id $values)
+    #searcherEditFooter (${id} ${description})
+    $!{auiparams.clear()}
+#end
+
+
+#**
+ * Renders users and groups searcher
+ *#
+#macro(userGroupSearcher $id $name $fieldName $values $hasPermissionToPickUsers $suggestedUsers $suggestedGroups $hasEmpty $emptyValueKey $hasCurrentUser $description)
+    #userGroupSearcherWithFieldValues (${id} ${name} ${fieldName} ${values} $null ${hasPermissionToPickUsers} ${suggestedUsers} ${suggestedGroups} ${hasEmpty} ${emptyValueKey} ${hasCurrentUser} ${description})
+#end
+
+#macro(userGroupSearcherWithFieldValues $id $name $fieldName $fieldValuesMap $values $hasPermissionToPickUsers $suggestedUsers $suggestedGroups $hasEmpty $emptyValueKey $hasCurrentUser $description)
+    $!{auiparams.put("controlHeaderClass", "aui-field-userlist")}
+    #searcherEditHeader (${id} ${name})
+    <fieldset rel="$fieldName" class="hidden user-group-searcher-params">
+        #if ($fieldValuesMap && !$fieldValuesMap.empty)
+            #foreach ($fieldValue in $fieldValuesMap.entrySet())
+                #if ($fieldValue.value.size())
+                    #foreach($fieldValueItem in $fieldValue.value)
+                        <input title="$fieldValue.key" type="hidden" value="$fieldValueItem" />
+                    #end
+                #else
+                    <input title="$fieldValue.key" type="hidden" value="$fieldValue.value" />
+                #end
+            #end
+        #end
+    </fieldset>
+    <select class="js-usergroup-checkboxmultiselect" multiple="multiple" id="${fieldName}" name="${fieldName}" data-placeholder-text="${placeholderText}">
+        #userSuggestionsGroup($hasPermissionToPickUsers $suggestedUsers $hasEmpty $emptyValueKey true true $hasCurrentUser)
+        #groupSuggestionsGroup($hasPermissionToPickUsers $suggestedGroups true)
+        #selectedGroup($values true)
+    </select>
+    #prevValues($userField $values)
+    #searcherEditFooter (${userSelect} ${description})
+    $!{auiparams.clear()}
+#end

@@ -1,0 +1,12 @@
+# robots.txt for JIRA
+# You may specify URLs in this file that will not be crawled by search engines (Google, MSN, etc)
+#
+# By default, all SearchRequestViews in the IssueNavigator (e.g.: Word, XML, RSS, etc) and all IssueViews
+# (XML, Printable and Word) are excluded by the /sr/ and /si/ directives below.
+
+User-agent: *
+Disallow: /sr/
+Disallow: /si/
+Disallow: /charts
+Disallow: /secure/ConfigureReport.jspa
+Disallow: /secure/ConfigureReport!default.jspa

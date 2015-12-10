@@ -1,0 +1,23 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2" state="disabled">
+
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${reference.language.pack.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/" />
+    </plugin-info>
+
+    <language name="Polish" key="pl_PL" language="pl" country="PL">
+        <resource name="pl_PL.gif" type="download" location="templates/languages/pl_PL/pl_PL.gif">
+            <property key="content-type" value="image/gif"/>
+        </resource>
+    </language>
+
+    <language name="Holy Reference" key="en_VA" language="en" country="VA">
+        <resource name="en_VA.png" type="download" location="templates/languages/en_VA/en_VA.png">
+            <property key="content-type" value="image/png"/>
+        </resource>
+    </language>
+
+    <resource type="helpPaths" location="Help" name="helpPaths"/>
+
+</atlassian-plugin>

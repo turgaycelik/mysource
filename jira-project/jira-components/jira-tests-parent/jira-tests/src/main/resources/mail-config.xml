@@ -1,0 +1,3 @@
+<mail-config>
+	<manager class="com.atlassian.mail.server.managers.OFBizMailServerManager"/>
+</mail-config>

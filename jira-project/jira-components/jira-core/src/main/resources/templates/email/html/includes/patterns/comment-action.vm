@@ -1,0 +1,22 @@
+#disable_html_escaping()
+
+#set ($commentActionText = "${i18n.getText('jira.mentions.email.comment.add')}")
+#* @vtlvariable name="attachmentsManager" type="com.atlassian.jira.mail.util.MailAttachmentsManager" *#
+<table id="actions-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td id="actions-pattern-container" valign="middle">
+            <table align="left">
+                <tr>
+                    <td class="actions-pattern-action-icon-container">
+                        <a href="${baseurl}/browse/${issue.getKey()}#add-comment" target="_blank" title="$commentActionText">
+                            <img class="actions-pattern-action-icon-image" src="$attachmentsManager.getImageUrl("/images/mail/comment-icon.png")" alt="$commentActionText" title="$commentActionText" height="16" width="16" border="0" />
+                        </a>
+                    </td>
+                    <td class="actions-pattern-action-text-container">
+                        <a href="${baseurl}/browse/${issue.getKey()}#add-comment" target="_blank" title="$commentActionText">$commentActionText</a>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

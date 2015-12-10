@@ -1,0 +1,108 @@
+{namespace JIRA.Templates.Dialogs.Share}
+
+/**
+ * @param shareData
+ * @param modifierKey
+ * @param showForm
+ * @param isAdmin
+ */
+{template .contentPopup}
+    <form action="#" method="post" class="aui recipients-form share-content-popup {if $shareData.issue} viewissue {elseif $shareData.filter} issuenav {/if}">
+        {call .shareLink data="all" /}
+
+        <fieldset class="padding">
+            {if $showForm}
+                {call .shareForm data="all" /}
+            {else}
+                {call .disabledMailMessage data="$isAdmin"}
+                    {param isAdmin:$isAdmin/}
+                {/call}
+            {/if}
+        </fieldset>
+    </form>
+{/template}
+
+/**
+ * @param modifierKey
+ */
+{template .shareForm}
+    <label for="sharenames-multi-select">{getText('jira-share-plugin.dialog.form.who')}</label>
+    <div class="autocomplete-user-target">
+        <select id="sharenames" name="sharenames" class="share-user-picker hidden" multiple="multiple"></select>
+    </div>
+    <ol class="recipients">
+    </ol>
+    <div><label for="note">{getText('jira-share-plugin.dialog.form.note')}</label></div>
+    <textarea class="textarea long-field" id="note" placeholder="{getText('jira-share-plugin.dialog.form.note.placeholder')}"/>
+
+    <div class="button-panel">
+        <div class="status">
+            <div class="icon"></div>
+            <div class="progress-messages"></div>
+        </div>
+
+        <div class="buttons">
+            <input accesskey="{getText('AUI.form.submit.button.accesskey')}"
+                   id="submitShare"
+                   title="{getText('AUI.form.submit.button.tooltip', getText('AUI.form.submit.button.accesskey'), $modifierKey)}"
+                   class="button submit" type="submit"
+                   value="{getText('jira-share-plugin.dialog.form.share')}" disabled/>
+            {sp}<a accesskey="{getText('AUI.form.cancel.link.accesskey')}"
+                   id="cancelShare"
+                   title="{getText('AUI.form.cancel.link.tooltip', getText('AUI.form.cancel.link.accesskey'), $modifierKey)}"
+                   class="close-dialog" href="javascript:">{getText('jira-share-plugin.dialog.form.cancel')}</a>
+        </div>
+    </div>
+{/template}
+
+/**
+ * @param isAdmin
+ */
+{template .disabledMailMessage}
+    {if not $isAdmin}
+        {call aui.message.generic}
+            {param content}
+                <p>{getText('jira-share-plugin.outgoing.mail.disabled')}</p>
+            {/param}
+            {param extraClasses}
+                disabled-mail-message
+            {/param}
+        {/call}
+    {else}
+        {call aui.message.generic}
+             {param content}
+                 <p>{getText('jira-share-plugin.outgoing.mail.enable')}
+                    <a class="aui-list-item-link" id="configure_mail_server" href="{contextPath()}/secure/admin/OutgoingMailServers.jspa">
+                        <em> {getText('jira-share-plugin.outgoing.mail.link')}</em>
+                     </a>
+                     .
+                 </p>
+             {/param}
+             {param extraClasses}
+                 disabled-mail-message
+             {/param}
+        {/call}
+    {/if}
+{/template}
+
+/**
+ * @param shareData
+ */
+{template .shareLink}
+    {if $shareData.permlink}
+        <div class="issuenav-permalink padding">
+            <label>
+                {if $shareData.issue}
+                    {getText('jira-share-plugin.dialog.issue.permlink.title')}
+                {elseif $shareData.filter}
+                    {getText('jira-share-plugin.dialog.search.permlink.title')}
+                {/if}
+            </label>
+
+            //<div class="permalink-container">
+            //    <a class="permalink" href={$shareData.permlink}>{$shareData.permlink}</a>
+            //</div>
+            <input class="permalink text long-field" value="{$shareData.permlink}" readonly>
+        </div>
+    {/if}
+{/template}

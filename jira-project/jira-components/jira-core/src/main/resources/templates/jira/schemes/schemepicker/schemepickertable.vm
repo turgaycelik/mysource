@@ -1,0 +1,35 @@
+#disable_html_escaping()
+<p>
+<div style="width:100%;padding:5px 0px;" class="jiraformSectionBreak">
+    <span class="jiraformSectionBreak" style="margin-left:5px;font-weight:bold;">&nbsp;$i18n.getText('admin.scheme.picker.step.1')</span>
+</div>
+</p>
+<select id="selectedSchemeType" name="selectedSchemeType" style="margin:5px;">
+    #foreach ($schemeTypeDisplayName in $schemePickerWebComponent.schemeTypes.keySet())
+        #set ($schemeType = $schemePickerWebComponent.schemeTypes.get($schemeTypeDisplayName))
+        <option #if($schemeType.equals($schemePickerWebComponent.selectedSchemeType))selected#end id="$schemeType" value="$schemeType">$schemeTypeDisplayName</option>
+    #end
+</select>
+
+<p>
+<div style="width:100%;padding:5px 0px;" class="jiraformSectionBreak">
+    <span class="jiraformSectionBreak" style="margin-left:5px;font-weight:bold">&nbsp;$i18n.getText('admin.scheme.picker.step.2')</span>
+</div>
+</p>
+#if ($schemePickerWebComponent.schemes.size() != 0)
+<select id="selectedSchemeIds" name="selectedSchemeIds" multiple size="10" style="margin:5px;width:500px">
+    #foreach ($schemeType in $schemePickerWebComponent.schemes.keySet())
+        #foreach ($scheme in $schemePickerWebComponent.schemes.get($schemeType))
+            <option class="$schemeType" id="$scheme.id" value="$scheme.id" #if ($schemePickerWebComponent.isSchemeSelected($scheme.id))selected#end>$textutils.htmlEncode($scheme.name)</option>
+        #end
+    #end
+</select>
+#else
+$i18n.getText('admin.scheme.no.schemes')
+#end
+
+<script>
+    AJS.$(function() {
+        dynamicSelect("selectedSchemeType", "selectedSchemeIds");
+    });
+</script>

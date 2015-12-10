@@ -1,0 +1,23 @@
+<exportservice id="exportservice">
+<description/>
+<properties>
+    <property>
+        <key>USE_DEFAULT_DIRECTORY</key>
+        <name>admin.service.export.use.default.directory</name>
+        <description>admin.service.export.use.default.directory.desc</description>
+        <type>checkbox</type>
+    </property>
+	<property>
+		<key>DIR_NAME</key>
+		<name>admin.service.file.dir.name</name>
+        <description>admin.service.export.dir.name.desc</description>
+		<type>string</type>
+	</property>
+	<property>
+		<key>OPT_DATE_FORMAT</key>
+		<name>admin.service.export.date.format</name>
+        <description>admin.service.export.date.format.desc</description>
+		<type>string</type>
+	</property>
+</properties>
+</exportservice>

@@ -1,0 +1,43 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.comment-panel" i18n-name-key="admin.comment.field.renderer.plugin.name" name="Comment Panel Plugin">
+    <plugin-info>
+        <description key="admin.comment.field.renderer.plugin.desc">System Comment Field Rendering</description>
+        <version>1.0</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!-- Expanding hidden comments -->
+    <web-resource key="expandablecomments">
+        <context>jira.view.issue</context>
+
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+
+        <resource type="download" name="comments-expanding.js" location="js/plugin/comment/comments-expanding.js"/>
+    </web-resource>
+
+    <!-- Add Comment panel -->
+    <web-panel key="addcommentmodule" location="atl.jira.view.issue.left.context" weight="999">
+        <context-provider class="com.atlassian.jira.comment.AddCommentContextProvider" />
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+            <param name="permission">comment</param>
+        </condition>
+
+        <param name="headless">true</param>
+
+        <resource name="view" type="velocity" location="templates/plugin/comment/addcomment.vm"/>
+    </web-panel>
+
+    <comment-field-renderer key="system-comment-field-renderer" system="true" weight="-1">
+        <context-provider class="com.atlassian.jira.plugin.comment.SystemCommentViewIssueContextProvider" />
+
+        <resource type="velocity" name="issue-page-edit" location="templates/plugin/comment/system-comment-issue-page-edit.vm"/>
+        <resource type="velocity" name="issue-page-view" location="templates/plugin/comment/system-comment-issue-page-view.vm"/>
+
+        <resource type="velocity" name="field-edit" location="templates/plugin/comment/system-comment-field-edit.vm"/>
+        <resource type="velocity" name="field-view" location="templates/plugin/comment/system-comment-field-view.vm"/>
+
+    </comment-field-renderer>
+
+</atlassian-plugin>

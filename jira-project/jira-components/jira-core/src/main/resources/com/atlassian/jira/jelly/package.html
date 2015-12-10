@@ -1,0 +1,56 @@
+<html>
+<body>
+Methods called when executing a Jelly Tag.
+<br>
+<table valign="top" border="1">
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#preContextValidation}</td>
+<td>Allows you to setup expected context variables, e.g. for an issue a project key is required this can come from the tag or a parent tag but it should always be in the context when running context validation</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#contextValidation(XMLOutput)}</td>
+<td>Calls the {@link com.atlassian.jira.jelly.ActionTagSupport#getRequiredContextVariables()} function and checks all keys in the list are in the context</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#prePropertyValidation(XMLOutput)}</td>
+<td>Similar to preContextValidation, allows you to set properties from the tag (if they have different keys)</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#propertyValidation(XMLOutput)}</td>
+<td>Calls the {@link com.atlassian.jira.jelly.ActionTagSupport#getRequiredProperties()} function and checks all keys in the list are in the properties</td>
+</tr>
+<tr>
+<td>run the action</td>
+<td>Actually runs the action</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#postTagExecution(XMLOutput)}</td>
+<td>Copies variables from the response url to the context or properties</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#postTagValidation(XMLOutput)}</td>
+<td>Checks that keys in {@link com.atlassian.jira.jelly.ActionTagSupport#getRequiredContextVariablesAfter()} function are in the context. e.g. after Issue Create you want the the Issue Key/Id to be in the context so it can be used by other tags.</td>
+</tr>
+<tr>
+<td>invoke nested tag</td>
+<td>Runs any nested jelly.</td>
+</tr>
+<tr>
+<td>{@link com.atlassian.jira.jelly.ActionTagSupport#endTagExecution(XMLOutput)}</td>
+<td>Removes variables from the context that are no longer required. e.g. at the end of createproject tag the project key/id that was created is removed and replaced by the previous value.</td>
+</tr>
+</table>
+<br>
+<br>
+Keeping track of which variables where in the context before tag execution is handled by ContextAccessors.<br>
+e.g. ProjectContextAccessor interface allows you to set a project and load a previous one.<br>
+I have implemented simple Impls of these to be used from classes that require this functionality e.g. CreateProject<br>
+All they do is call through to an instance of this object as we want the same code for all ProjectContextAccessors.<br>
+(N.B. I would have multi inherited really but, of course, i'm not allowed in Java. )<br>
+<br>
+Not all tag do this yet but you can see the patern of ProjectAware, ProjectContextAccessor and there implementation of the validation functions.<br>
+<br>
+<br>
+If this doesn't make sense or you have anymore question please raise a support request at http://support.atlassian.com or ask on the forums at http://forums.atlassian.com
+</body>
+</html>

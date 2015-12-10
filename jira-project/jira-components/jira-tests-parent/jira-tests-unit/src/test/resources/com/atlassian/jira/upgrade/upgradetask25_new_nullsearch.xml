@@ -1,0 +1,27 @@
+<searchrequest name='nullsearch'>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ProjectParameter'>
+    <projid andQuery='false'>
+        <value>10240</value>
+    </projid>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ResolutionParameter'>
+    <resolution andQuery='false'>
+      <value>-1</value>
+    </resolution>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.FixForParameter'>
+    <fixfor andQuery='false'>
+      <value>-1</value>
+    </fixfor>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ComponentParameter'>
+    <component andQuery='false'>
+      <value>-1</value>
+    </component>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.VersionParameter'>
+    <version andQuery='false'>
+      <value>-1</value>
+    </version>
+  </parameter>
+</searchrequest>

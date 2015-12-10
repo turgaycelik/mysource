@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#if ($versions && $versions.empty == false)
+  #set ($size = $versions.size())
+  #foreach ($version in $versions)
+    ${textutils.htmlEncode(${version.name})}#if ($displayParameters.get('showProject')) <small>[<strong>$i18n.getText('common.concepts.project'):</strong> ${textutils.htmlEncode($version.getProjectObject().getName())}]</small>#end#if ($velocityCount != $size),#end
+  #end
+#end

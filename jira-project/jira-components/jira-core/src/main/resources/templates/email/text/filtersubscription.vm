@@ -1,0 +1,30 @@
+#disable_html_escaping()
+$i18n.getText("template.subscription.issue.sub")
+#if (${actualIssueCount} == ${totalIssueCount})
+    #set ($countText = $i18n.getText("template.subscription.filter.count", ${totalIssueCount}))
+#else
+    #set ($countText = $i18n.getText("template.subscription.filter.subcount", "${actualIssueCount}", "${totalIssueCount}"))
+#end
+#text("template.subscription.filter"): ${searchRequest.getName()} (${countText})
+#if (${searchRequest.getDescription()})
+${searchRequest.getDescription()}
+#end
+#text("template.subscription.subscriber"): $username
+#if (${issues.empty} == false)
+
+${StringUtils.rightPad($i18n.getText("common.concepts.key"), 12)}$i18n.getText("common.words.summary")
+#foreach ($issue in $issues)
+${StringUtils.rightPad($issue.getKey(), 12)}${issue.getSummary()}
+${StringUtils.rightPad("", 12)}${baseurl}/browse/${issue.getKey()}
+#end
+#end
+#if (${actualIssueCount} != ${totalIssueCount})
+
+$i18n.getText("template.subscription.filter.text.subset", "${actualIssueCount}", "${totalIssueCount}")
+${baseurl}/secure/IssueNavigator.jspa?mode=hide&requestId=${subscription.getString('filterID')}
+#end
+#if (${recipientIsAuthor})
+
+$i18n.getText("template.subscription.filter.text.edit")
+${baseurl}/secure/FilterSubscription!default.jspa?subId=${subscription.getString('id')}&filterId=${subscription.getString('filterID')}
+#end

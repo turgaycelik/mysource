@@ -1,0 +1,55 @@
+#! /bin/sh
+
+if [ -f $HOME/.antrc ] ; then 
+  . $HOME/.antrc
+fi
+
+# OS specific support.  $var _must_ be set to either true or false.
+cygwin=false;
+darwin=false;
+case "`uname`" in
+  CYGWIN*) cygwin=true ;;
+  Darwin*) darwin=true ;;
+esac
+
+if [ -z "$JIRA_HOME" ] ; then
+  if [ -d /opt/ant ] ; then 
+    JIRA_HOME=/opt/ant
+  fi
+
+  if [ -d ${HOME}/opt/ant ] ; then 
+    JIRA_HOME=${HOME}/opt/ant
+  fi
+
+  ## resolve links - $0 may be a link to ant's home
+  PRG=$0
+  progname=`basename $0`
+  
+  while [ -h "$PRG" ] ; do
+    ls=`ls -ld "$PRG"`
+    link=`expr "$ls" : '.*-> \(.*\)$'`
+    if expr "$link" : '.*/.*' > /dev/null; then
+	PRG="$link"
+    else
+	PRG="`dirname $PRG`/$link"
+    fi
+  done
+  
+  JIRA_HOME=`dirname "$PRG"`/..
+
+fi
+
+# For Cygwin, ensure paths are in UNIX format before anything is touched
+if $cygwin ; then
+  [ -n "$JIRA_HOME" ] &&
+    JIRA_HOME=`cygpath --unix "$JIRA_HOME"`
+  [ -n "$JAVA_HOME" ] &&
+    JAVA_HOME=`cygpath --unix "$JAVA_HOME"`
+  [ -n "$CLASSPATH" ] &&
+    CLASSPATH=`cygpath --path --unix "$CLASSPATH"`
+fi
+
+echo "Fetching list of available JIRA updates..."
+
+$JIRA_HOME/updater/ant -q -f $JIRA_HOME/updater/scripts/get-updater.xml
+$JIRA_HOME/updater/ant -q -f $JIRA_HOME/updater/scripts/updater.xml "$@"

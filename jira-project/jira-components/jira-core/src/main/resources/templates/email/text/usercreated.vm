@@ -1,0 +1,21 @@
+#disable_html_escaping()
+#set($setpasswordUrl    = "${baseurl}/secure/ResetPassword!default.jspa?os_username=${velocityhelper.urlencode($user.name)}&token=${params.get('password.token')}")
+#set($forgotpasswordUrl = "${baseurl}/secure/ForgotLoginDetails.jspa?username=${velocityhelper.urlencode($user.name)}")
+$i18n.getText('template.jira.user.created.person.createdaccount', "${initiatingUser.displayName} (${initiatingUser.emailAddress})")
+
+    $baseurl
+
+#parse("templates/email/text/includes/userdetails.vm")
+
+$i18n.getText("template.jira.user.created.intro")
+
+$i18n.getText("template.jira.user.created.setyourpassword")
+
+    $setpasswordUrl
+
+$i18n.getText("template.user.created.lastshowlong", $params.get("password.hours"))
+$i18n.getText("template.user.created.requestnewpassword", "", "")
+
+    $forgotpasswordUrl
+
+#parse("templates/email/text/includes/footer.vm")

@@ -1,0 +1,12 @@
+<div class="mod-content plugged-comment-view">
+    <p>custom-comment-rendering</p>
+
+    <p>Properties:</p>
+    <ul>
+    #foreach($property in $action.commentProperties)
+        <li>$property.key $property.value</li>
+    #end
+    </ul>
+
+    $action.comment.body
+</div>

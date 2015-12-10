@@ -1,0 +1,14 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <!-- imports -->
+    <component-import key="applicationProperties" interface="com.atlassian.jira.config.properties.ApplicationProperties" />
+    <component-import key="currentApplicationFactory" interface="com.atlassian.jira.security.auth.trustedapps.CurrentApplicationFactory" />
+
+    <!-- For remaining component definitions see META-INF/spring/spring-components.xml -->
+</atlassian-plugin>

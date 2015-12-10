@@ -1,0 +1,4 @@
+#disable_html_escaping()
+
+#set ($worklogDeleted = true)
+#genericChangelogMailWithWorklog("jira.email.title.worklog.deleted")

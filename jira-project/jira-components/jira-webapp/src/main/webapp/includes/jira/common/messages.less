@@ -1,0 +1,13 @@
+.global-msg {
+    left: 50%;
+    max-width: 500px;
+    position: fixed;
+    z-index: 1000;
+}
+
+/* Shadows removed from AUI for messages so adding them explicitly for this use case */
+.global-msg .aui-message {
+    -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+}

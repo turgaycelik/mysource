@@ -1,0 +1,195 @@
+## This file contains macros that are useful to issue link plugins.
+
+##
+## Issue Link Dialog Macros
+##
+
+## Default <head> for issue link actions
+#macro (issueLinkHeader $action $i18n $webResourceManager $keyboardShortcutManager)
+    #if (${action.validToView})
+        <title>${i18n.getText("linkissue.title")}</title>
+        <meta name="decorator" content="issueaction" />
+        ${keyboardShortcutManager.requireShortcutsForContext(${action.keyboardShortcutContext})}
+        <link rel="index" href="${action.issuePath}" />
+    #else
+        <title>$i18n.getText("common.words.error")</title>
+        <meta name="decorator" content="message" />
+    #end
+#end
+
+## Show global errors messages
+#macro (issueLinkErrorMessages $action)
+    #if (${action.hasErrorMessages})
+        <div class="aui-message error">
+            <span class="aui-icon icon-error"></span>
+            #foreach ($errorMsg in ${action.flushedErrorMessages})
+                <p>$errorMsg</p>
+            #end
+        </div>
+    #end
+#end
+
+## Default hidden fields
+#macro (issueLinkHiddenFields $action)
+    <div class="hidden">
+        <input name="atl_token" type="hidden" value="${action.xsrfToken}"/>
+    </div>
+    <div class="hidden">
+        <input name="id" type="hidden" value="${action.id}"/>
+    </div>
+#end
+
+## In dialog mode, this will be the heading of the dialog.
+## In non-dialog mode, this heading will appear on the page.
+#macro (issueLinkTitle $i18n)
+    <h2 class="dialog-title">${i18n.getText("linkissue.title")}</h2>
+#end
+
+## Display a standard description for the action
+#macro (issueLinkDescription $i18n $i18nKey)
+    <div class="action-description">${i18n.getText($i18nKey)}</div>
+#end
+
+## Indicates that a field is required
+#macro (issueLinkFieldRequired)
+    <span class="aui-icon icon-required"> required</span>
+#end
+
+## Show inline error for a field
+#macro (issueLinkFieldError $action $fieldName $textutils)
+    #if ($action.getErrors().get($fieldName))
+       <div class="error">$textutils.htmlEncode($action.getErrors().get($fieldName).toString())</div>
+    #end
+#end
+
+#macro (issueLinkWarningMessage $message)
+    <div class="aui-message warning">
+        <span class="aui-icon icon-warning"></span>
+        <p>$message</p>
+    </div>
+#end
+
+## OAuth authentication message placeholder
+#macro (appLinksAuthenticationMessage $action $applicationType)
+    <div class="issue-link-applinks-authentication-message applinks-message-bar#if ($action.requiresCredentials) required#end"></div>
+    <div class="hidden">
+        <input class="issue-link-applinks-application-type" type="hidden" value="$applicationType"/>
+    </div>
+#end
+
+## Default comment section
+#macro (issueLinkCommentSection $action)
+    #if (${action.issueExists} && ${action.isHasIssuePermission("comment", ${action.issue})})
+        $!{action.commentSectionHtml}
+    #end
+#end
+
+## Default footer for issue link actions
+## should be included at the bottom of the <form>
+#macro (issueLinkFooter $action $req $i18n)
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            #if (${action.getHint("link")})
+                #set($hint = ${action.getHint("link")})
+
+                #set($hintTooltip = $hint.tooltip.trim())
+                #if ($hint.text)
+                    #set($hintTooltip = $hint.text.trim())
+                #end
+
+                <p title="${hintTooltip}" class="hint-container overflow-ellipsis">
+                    <a tabindex="-1" class="shortcut-tip-trigger" href="#" title="${i18n.getText("usage.hints.title")}">${i18n.getText("usage.hints.label")}</a> $!{hint.text}
+                </p>
+            #elseif (${action.randomHint})
+                #set($randomHint = ${action.randomHint})
+
+                #set($hintTooltip = ${randomHint.tooltip.trim()})
+
+                <p title="${hintTooltip}" class="hint-container overflow-ellipsis">
+                    <a tabindex="-1" class="shortcut-tip-trigger" href="#" title="${i18n.getText("usage.hints.title")}">${i18n.getText("usage.hints.label")}</a> $!{randomHint.text}
+                </p>
+            #end
+
+            #set ($submitAccessKey = ${i18n.getText("AUI.form.submit.button.accesskey")})
+            #set ($cancelAccessKey = ${i18n.getText("AUI.form.cancel.link.accesskey")})
+
+            #set ($disabledText = "")
+            #if ($action.validToView == false)
+                #set ($disabledText = "disabled='disabled'")
+            #end
+            <input accesskey="$submitAccessKey" class="aui-button"
+                name="Link"
+                title="${i18n.getText("AUI.form.submit.button.tooltip", "${submitAccessKey}", "${action.modifierKey}")}"
+                type="submit" value="${i18n.getText("linkissue.submitname")}" $disabledText/>
+            <a accesskey="${cancelAccessKey}"
+                class="aui-button aui-button-link cancel"
+                href="${req.contextPath}${action.issuePath}"
+                title="${i18n.getText("AUI.form.cancel.link.tooltip", "${cancelAccessKey}", "${action.modifierKey}")}">
+                ${i18n.getText("AUI.form.cancel.link.text")}</a>
+        </div>
+    </div>
+#end
+
+## Show error messages for when action.validToView is false
+## Should be included at the bottom of the <body>
+#macro (issueLinkNotValidToView $action $req $i18n $jirautils $urlcodec)
+    <header>
+        <h1>${i18n.getText("common.words.error")}</h1>
+    </header>
+
+    #if ($action.hasErrorMessages)
+        <div class="aui-message error">
+            <span class="aui-icon icon-error"></span>
+            #foreach ($errorMsg in ${action.flushedErrorMessages})
+                <p>$errorMsg</p>
+            #end
+        </div>
+    #end
+
+    #if ($action.issueExists)
+        <div class="aui-message warning">
+            <span class="aui-icon icon-warning"></span>
+            <p>${i18n.getText("perm.violation.desc")}</p>
+
+            #if (!${action.remoteUser})
+                <p>
+                    #set ($loginText = ${i18n.getText("login.required.login")})
+                    #set ($destination = ${urlcodec.encode("/browse/${action.key}")})
+                    #set ($loginUrl = "<a class='lnk' rel='nofollow' href='${req.contextPath}/login.jsp?os_destination=${destination}&permissionViolation=true'>$loginText</a>")
+                    #if (${jirautils.publicMode})
+                        #set ($signUpUrl = "<a href='${req.contextPath}/secure/Signup!default.jspa'>")
+                        ${i18n.getText("login.required.signup.description", $loginUrl, $signUpUrl, "</a>")}
+                    #else
+                        ${i18n.getText("login.required.description")}
+                        $loginUrl
+                    #end
+                </p>
+            #end
+
+            <p>
+                ${i18n.getText("contact.admin.for.perm", ${action.administratorContactLink})}
+            </p>
+        </div>
+    #end
+#end
+
+##
+## Issue Link Rendering Macros
+##
+
+## Only render the icon if the $url is not null
+#macro (renderIssueLinkIcon $url $title $alt $textutils)
+    #if ($url)
+    <img src="$url" width="16" height="16" title="${textutils.htmlEncode($!title)}" alt="${textutils.htmlEncode($!alt)}" />
+    #end
+#end
+
+## Default loading issue template
+#macro (loadingIssueLink $url $title $i18n $urlModeAbsolute $webResourceUrlProvider)
+    <p>
+        <span class="link-throbber">
+            <img src="${webResourceUrlProvider.getStaticPluginResourceUrl("com.atlassian.jira.jira-view-issue-plugin:linkingmodule", "throbber", ${urlModeAbsolute})}" width="16" height="16" title="" alt="" />
+        </span>
+        <a href="${url}" class="link-title">${title}</a> <span class="link-loading">${i18n.getText("common.concepts.loading")}</span>
+    </p>
+#end

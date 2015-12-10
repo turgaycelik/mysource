@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml>
+    <Action id="10000" issue="10000" author="admin" type="comment" created="2008-01-10 16:16:40.55" updateauthor="admin" updated="2008-01-10 16:16:40.55"/>
+    <Issue id="10000" key="MKY-1" project="10001" reporter="fred" assignee="admin" type="1" summary="test" priority="3"
+           status="1" created="2008-01-07 16:24:43.46" updated="2008-01-24 16:03:39.836" votes="0" timeestimate="0"
+           timespent="72000" workflowId="10000" security="10001">
+    </Issue>
+    <Project id="10001" name="monkey" lead="admin" description="project for monkeys" key="MKY" counter="1" assigneetype="2"/>
+</entity-engine-xml>

@@ -1,0 +1,26 @@
+#disable_html_escaping()
+#if($searcher)
+    #if ($searcher.getLinkedUser($fieldValuesHolder))
+        #if($user)
+            <a id="$id" class="user-hover" rel="$textutils.htmlEncode(${searcher.getLinkedUser($fieldValuesHolder)})" href="ViewProfile.jspa?name=$urlcodec.encode(${searcher.getLinkedUser($fieldValuesHolder)})">$textutils.htmlEncode(${searcher.getTextForuser($fieldValuesHolder)})</a>
+        #else
+            $textutils.htmlEncode(${searcher.getTextForuser($fieldValuesHolder)})
+        #end
+    #elseif ($searcher.getLinkedGroup($fieldValuesHolder))
+        <a id="$id" href="$baseurl/secure/admin/user/ViewGroup.jspa?name=$urlcodec.encode($searcher.getLinkedGroup($fieldValuesHolder))">$textutils.htmlEncode(${searcher.getLinkedGroup($fieldValuesHolder)})</a>
+    #else
+        $textutils.htmlEncode($!searcher.getTextForuser($fieldValuesHolder))
+    #end
+#else
+    #if ($linkedUser)
+        #if($user)
+            <a id="$id" class="user-hover" rel="$textutils.htmlEncode(${linkedUser})" href="ViewProfile.jspa?name=$urlcodec.encode(${linkedUser})">$textutils.htmlEncode(${textForuser})</a>
+        #else
+            $textutils.htmlEncode(${textForuser})
+        #end
+    #elseif ($linkedGroup)
+        <a id="$id" href="$baseurl/secure/admin/user/ViewGroup.jspa?name=$urlcodec.encode($linkedGroup)">$textutils.htmlEncode(${linkedGroup})</a>
+    #else
+        $textutils.htmlEncode($!textForuser)
+    #end
+#end

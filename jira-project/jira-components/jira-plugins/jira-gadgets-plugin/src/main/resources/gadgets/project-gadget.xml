@@ -1,0 +1,507 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.project.title__" directory_title="__MSG_gadget.project.title__" description="__MSG_gadget.project.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" title_url="http://www.atlassian.com/" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:project-gadget", "project-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:project-gadget", "project-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.project")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="refresh" datatype="hidden" default_value="false" />
+    <UserPref name="projectsOrCategories" datatype="hidden" default_value="allprojects"/>
+    <UserPref name="viewType" datatype="hidden" default_value="brief"/>
+    <UserPref name="cols" datatype="hidden" default_value="single-col"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #requireResource("jira.webresources:dropdown")
+        #includeResources()
+
+        <script type="text/javascript">
+
+        var contextPath = "__ATLASSIAN_BASE_URL__"; // Adding context path as it is required for actions dropdowns
+
+        gadgets.window.setTitle("__MSG_gadget.project.title__");
+
+        AJS.Gadget({
+            baseUrl: "__ATLASSIAN_BASE_URL__",
+            useOauth: "/rest/gadget/1.0/currentUser",
+            config: {
+                descriptor: function (args)
+                {
+
+                    var gadget = this;
+
+                    return  {
+                        action: "/rest/gadget/1.0/project/validate",
+                        theme : function ()
+                        {
+                            if (gadgets.window.getViewportDimensions().width < 450){
+                                return "gdt top-label";
+                            }
+                            else
+                            {
+                                return "gdt";
+                            }
+                        }(),
+
+                        fields: [
+                            AJS.gadget.fields.projectsOrCategoriesPicker(gadget, "projectsOrCategories", args.options),
+                            {
+                                userpref: "viewType",
+                                label: gadget.getMsg("gadget.project.view.type.label"),
+                                description: gadget.getMsg("gadget.project.view.type.desc"),
+                                type: "radio",
+                                selected: gadget.getPref("viewType"),
+                                options:[
+                                    {
+                                        label: gadget.getMsg("gadget.project.view.type.collapsed"),
+                                        value:"collapsed"
+                                    },
+                                    {
+                                        label: gadget.getMsg("gadget.project.view.type.brief"),
+                                        value:"brief"
+                                    },
+                                    {
+                                        label: gadget.getMsg("gadget.project.view.type.detailed"),
+                                        value:"detailed"
+                                    }
+                                ]
+                            },
+                            {
+                                userpref: "cols",
+                                label: gadget.getMsg("gadget.project.view.type.cols.label"),
+                                description: gadget.getMsg("gadget.project.view.type.cols.desc"),
+                                type: "radio",
+                                selected: gadget.getPref("cols"),
+                                options:[
+                                    {
+                                        label:gadget.getMsg("gadget.project.view.type.cols.one"),
+                                        value:"single-col"
+                                    },
+                                    {
+                                        label:gadget.getMsg("gadget.project.view.type.cols.two"),
+                                        value:"two-col"
+                                    },
+                                    {
+                                        label:gadget.getMsg("gadget.project.view.type.cols.three"),
+                                        value:"three-col"
+                                    }
+                                ]
+                            },
+                            AJS.gadget.fields.nowConfigured()
+                        ]
+                    };
+                },
+                args: function()
+                    {
+                        return [
+                            {
+                                key: "options",
+                                ajaxOptions: "/rest/gadget/1.0/projectsAndProjectCategories"
+                            }
+                        ];
+                    }()
+            },
+            view: {
+                enableReload: true,
+                onResizeReload: true,
+
+                /* NOTE! This gadget is different to most as it uses setTimeout to divide up processing of view.
+                 See detailed comment below */
+
+                template: function (args)
+                {
+                    var gadget = this,
+                        $content = AJS.$("<div />").addClass("g-project"),
+                        columns = 1;
+
+                    if (gadget.getPref("cols") === "two-col") {
+                        columns = 2;
+                    } else if (gadget.getPref("cols") === "three-col") {
+                        columns = 3;
+                    }
+
+                    var buildOpenIssuesProperty = function(project) {
+                        if (project.openIssues){
+                            var tr = AJS.$("<tr/>");
+                            AJS.$(project.openIssues).each(function(){
+                                var td  = AJS.$("<td/>").attr("height", 10 ,"width", this.width);
+                                if (this.colour != "none"){
+                                    td.attr("bgColor", this.colour);
+                                } else {
+                                    td.addClass("noStatusColour");
+                                }
+                                td.append(
+                                    AJS.$("<a/>").addClass("status-bar").attr(
+                                    {
+                                        href: gadget.getBaseUrl() + "/secure/IssueNavigator.jspa?reset=true" + this.url,
+                                        title: this.altText
+                                    }).css(
+                                        {
+                                            width: this.width + "px"
+                                        }
+                                    )
+                                );
+                                tr.append(td);
+                            });
+                            return AJS.$("<table/>").append(tr);
+                        } else {
+                            return AJS.$("<em/>").text(gadget.getMsg("gadget.project.no.open.issues"));
+                        }
+                    };
+
+                    // create a set of ul and li that are suitable for an AJS dropdown
+                    var buildReports = function(project) {
+                        return AJS.$("<li/>").addClass("aui-list").append(
+                            AJS.$("<a/>").attr("href", gadget.getBaseUrl() + "/rest/gadget/1.0/project/reports?projectId=" + project.id).addClass("lnk aui-dd-link standard icon-reports").append(
+                                AJS.$("<span/>").append(AJS.$("<em/>").text(gadget.getMsg("gadget.project.title.reports")))
+                            )
+                        ).append(
+                            AJS.$("<ul/>")
+                        );
+                    };
+
+                    var buildFilters = function(project) {
+                        return AJS.$("<li/>").addClass("aui-list").append(
+                            AJS.$("<a/>").attr("href", gadget.getBaseUrl() + "/rest/gadget/1.0/project/filters?projectId=" + project.id).addClass("lnk aui-dd-link standard icon-filters").append(
+                                AJS.$("<span/>").append(AJS.$("<em/>").text(gadget.getMsg("gadget.project.title.filters")))
+                            )
+                        ).append(
+                            AJS.$("<ul/>")
+                        );
+
+                    };
+
+                    var renderLead = function(project){
+                        var name;
+
+                        if (project.leadFullName){
+                            name = AJS.$("<a/>").attr("href", gadget.getBaseUrl() + "/secure/ViewProfile.jspa?name=" + project.leadUserName).append(
+                                AJS.$("<span/>").text(project.leadFullName)
+                            );
+                        } else{
+                            name = AJS.$("<a/>").attr("href", gadget.getBaseUrl() + "/secure/ViewProfile.jspa?name=" + project.leadUserName).append(
+                                AJS.$("<span/>").text(project.leadFullName)
+                            );
+
+                        }
+
+                        return AJS.$("<dl/>").append(
+                            AJS.$("<dt/>").addClass("project-property-title").text(gadget.getMsg("gadget.project.title.lead"))
+                        ).append(
+                            AJS.$("<dd/>").addClass("project-property-value").append(name)
+                        );
+
+                    };
+
+                    var renderOpenIssues = function(project){
+                        if (project.showOpen){
+                            return AJS.$("<dl/>").append(
+                                AJS.$("<dt/>").addClass("project-property-title").append(
+                                    AJS.$("<span/>").text(gadget.getMsg("gadget.project.title.open.issues")).append(
+                                        AJS.$("<span/>").addClass("project-property-title-small").text("(" + (gadget.getMsg("gadget.project.title.by.priority") + ")"))
+                                    )
+                                )
+                            ).append(
+                                AJS.$("<dd/>").addClass("project-property-value").append(buildOpenIssuesProperty(project))
+                            );
+                        }
+                    };
+
+                    var renderProjectDescription = function(project){
+                        if(project.showDescription){
+                            return AJS.$("<dl/>").append(
+                                AJS.$("<dt/>").addClass("project-property-title").text(gadget.getMsg("gadget.project.title.description"))
+                            ).append(
+                                AJS.$("<dd/>").addClass("project-property-value").html(project.projectDescription)
+                            );
+                        }
+                    };
+
+                    var createProjectDetails = function(project){
+
+                        var details = AJS.$("<div/>").append(
+                                renderLead(project)
+                                );
+
+                        if(gadget.getPref("viewType") === "detailed"){
+                            details.append(renderOpenIssues(project));
+                            details.append(renderProjectDescription(project))
+                        }
+                        return details;
+                    };
+
+                    var renderAvatar = function(project){
+                        if (gadget.isLocal()){
+                            var avatar = AJS.$("<img/>").addClass("project-avatar")
+                                .attr("id", project.name + "_avatar")
+                                .attr("src", gadget.getBaseUrl() + '/secure/projectavatar?pid=' + project.id + '&avatarId=' + project.avatarId + '&size=small')
+                                .attr("width","16");
+                            return avatar;
+                        }else{
+                            return "";
+                        }
+                    };
+
+                    var renderCategories = function(categories){
+                        
+                        var catList = AJS.$("<ul/>").addClass("category-list"),
+                            count = 0;
+
+                         function escapeLongRunningScript(category, callback) {
+                            renderProcceding();
+                            window.setTimeout(function () {
+                                catList.append(renderCategory(category));
+                                callback();
+                            }, 0);
+                        }
+
+                        escapeLongRunningScript(categories[count], function () {
+                            ++count;
+                            if (categories[count]) {
+                                if (!categories[count].name){
+                                    categories[count].name = gadget.getMsg("gadget.project.no.categories");
+                                    categories[count].id = "none";
+                                }
+                                escapeLongRunningScript(categories[count], arguments.callee);
+                            } else {
+                                $content.append(catList);
+                                renderComplete();
+                            }
+                        });
+                    };
+
+                    var renderCategory = function(category){
+                        var parentDiv = AJS.$("<li/>").addClass("category-item");
+                        parentDiv.append(
+                            AJS.$("<h4/>").append(
+                                AJS.$("<a/>").text(category.name).attr("href", gadget.getBaseUrl() + "/secure/BrowseProjects.jspa#" + category.id)
+                            )
+                        ).append(
+                            renderProjects(category.projects, parentDiv)
+                        );
+
+                        return parentDiv;
+
+                    };
+
+                    var renderProjects = function(projects, target){
+                        var projectList = AJS.$("<ul/>").addClass("project-list").addClass(gadget.getPref("cols")),
+                            count = 0;
+
+                        function escapeLongRunningScript(project, callback) {
+                            renderProcceding();
+                            window.setTimeout(function () {
+                                var elem = renderProject(project);
+                                if (columns && count%columns === 0) {
+                                    elem.css("clear", "left");
+                                }
+                                projectList.append(elem);
+                                callback();
+                            }, 0);
+                        }
+
+                        escapeLongRunningScript(projects[count], function () {
+                            ++count;
+                            if (projects[count]) {
+                                escapeLongRunningScript(projects[count], arguments.callee);
+                            } else {
+
+                                if (target) {
+                                    target.append(projectList)
+                                } else {
+                                    $content.append(projectList);
+                                }
+
+                                renderComplete();
+                            }
+                        });
+                    };
+
+                    var renderProject = function(project){
+                        var listItem = AJS.$("<li/>").addClass("project-item");
+                        listItem.append(
+                            AJS.$("<ul/>").addClass("operations").append(
+                                buildReports(project)
+                            ).append(
+                                buildFilters(project)
+                            )
+                        ).append(
+                            AJS.$("<h5/>").addClass("project-title").append(
+                                renderAvatar(project)
+                            ).append(
+                                AJS.$("<a/>").text(project.name).attr("href", gadget.getBaseUrl() + '/browse/' + project.key)
+                            ).append(
+                                AJS.$("<span/>").text("(" + project.key + ")")
+                            )
+                        );
+
+                        if (gadget.getPref("viewType") !== "collapsed"){
+                            listItem.append(createProjectDetails(project));
+                        }
+
+                        return listItem;
+
+                    };
+
+
+                    /* We have a problem with long running scripts in Internet Explorer 7 (JRA-23357). If this gadget renders 300+
+                    Projects the user will get a prompt to abort the script. In order to prevent this we use a bunch of
+                     setTimeouts to break up the execution. This isn't great as the ajs-gadget framework expects that after
+                     the view function is executed the view will be fully rendered (IN DOM). With this expection it then
+                     does such things as resize the gadget and hide loading indicator. To prevent this from happening we
+                     override these methods temporarily until our renderComplete function is called. Then we manually trigger
+                     the functions.*/
+
+                    var oldGadgetResize,
+                        oldHideLoading;
+
+                    var renderComplete = function () {
+
+                        gadget.getView().html($content);
+
+                        gadget.hideLoading = oldHideLoading;
+                        gadget.hideLoading();
+
+                        if(columns != 1){
+                            var maxHeight = -1;
+                            AJS.$("li.project-item").each(function(){
+                                var el = AJS.$(this);
+                                var height = el.height();
+                                if (height > maxHeight){
+                                    maxHeight = height;
+                                }
+                            });
+
+                            // browser sniffing (deprectated) because jQuery has support property for minHeight
+                            if (AJS.$.browser.msie && AJS.$.browser.version <= 6) {
+                                AJS.$("li.project-item").css("height", maxHeight);
+                            } else {
+                                AJS.$("li.project-item").css("minHeight", maxHeight);
+                            }
+                        }
+
+                        AJS.$(document.body).delegate("a.aui-dd-link", "click", function (e) {
+
+                            var $this = AJS.$(this);
+
+                            if (!$this.data("dropdown-bound")) {
+
+                                $this.data("dropdown-bound", true);
+
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                AJS.Dropdown.create({
+                                    trigger: this,
+                                    autoScroll: false,
+                                    ajaxOptions:
+                                    {
+                                        formatSuccess: function (response) {
+                                            var html= AJS.$("<div class='aui-list' />");
+                                            var list = AJS.$("<ul />").appendTo(html);
+                                            AJS.$(response.options).each(function(){
+                                                var listItemNode = AJS.$("<li/>").addClass("aui-list-item");
+                                                var linkNode = AJS.$("<a/>").addClass("aui-list-item-link").attr("href", gadget.getBaseUrl() + this.key).text(this.title);
+                                                listItemNode.append(linkNode);
+                                                list.append(listItemNode);
+
+                                            });
+
+                                            return html;
+                                        }
+                                    }
+                                });
+
+                                $this.click();
+                            }
+                        });
+
+                        gadget.resize = oldGadgetResize;
+                        gadget.resize();
+
+                    };
+
+                    var renderStarted = function () {
+                        oldGadgetResize = gadget.resize;
+                        oldHideLoading = gadget.hideLoading;
+                        gadget.resize = function () {};
+                        gadget.hideLoading = function () {};
+                    };
+
+                    var renderProcceding = function () {
+                        if (!/loading/.test(document.body.className)) {
+                            gadget.showLoading();
+                        }
+                    };
+
+                    renderStarted();
+
+                    var categories = args.data.categories;
+
+                    if (categories && categories.length > 0){
+                        if (categories.length === 1 && !categories[0].id){
+                            // no categories, just projects
+                            renderProjects(categories[0].projects);
+                        } else {
+                            // categories with projects
+                            renderCategories(categories);
+                        }
+                    } else {
+                        var msgHtml;
+                        var createProjectHtml = "<a class=\"add-project-trigger\">";
+                        if (args.data.doAnyProjectsExist) {
+                            if (args.data.isAdmin) {
+                                msgHtml = gadget.getMsg("gadget.project.no.projects.visible.admin", createProjectHtml, "</a>");
+                            } else {
+                                msgHtml = gadget.getMsg("gadget.project.no.projects.visible.nonadmin");
+                            }
+                        } else {
+                            // Note: it is not possible for non-admins to see this gadget when no projects exist, as the gadget has roles-required=browse
+                            msgHtml = gadget.getMsg("gadget.project.no.projects.exist.admin", createProjectHtml, "</a>");
+                        }
+                        $content.append(AJS.$("<div/>").addClass("project-no-projects").html(msgHtml));
+                        renderComplete();
+                        AJS.$(".add-project-trigger").click(function(event) {
+                            event.preventDefault();
+                            parent.postMessage('createproject', '*');
+                            });
+                    }
+
+                },
+                args: [{
+                    key: "data",
+                    ajaxOptions: function () {
+                        var gadget = this;
+                        return {
+                            url: "/rest/gadget/1.0/project/generate",
+                            data:  {
+                                projectsOrCategories: this.getPref("projectsOrCategories"),
+                                showStats: function(){return gadget.getPref("viewType") === "detailed";}()
+                            }
+                        };
+                    }
+                }]
+            }
+        });
+        </script>
+        ]]>
+    </Content>
+</Module>

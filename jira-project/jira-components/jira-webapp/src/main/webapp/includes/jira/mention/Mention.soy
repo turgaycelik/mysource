@@ -1,0 +1,91 @@
+{namespace JIRA.Templates}
+
+/**
+ * Renders mentions suggestions
+ * @param  suggestions
+ * @param? query the query used to generate the suggestions
+ * @param? activity whether the mentions control is actively retrieving data or not
+ */
+{template .mentionsSuggestions}
+<div class="aui-list">
+    {if length($suggestions) > 0}
+        <ul>
+            {foreach $suggestion in $suggestions}
+            <li class="aui-list-item">
+                <a class="aui-list-item-link aui-iconised-link"
+                   style="background-image: url({$suggestion.avatarUrls['16x16']}); overflow:hidden; text-overflow: ellipsis"
+                   rel="{$suggestion.username}"
+                   href="#">
+                   {call .highlitEntry}
+                       {param displayName: $suggestion.displayName /}
+                       {param emailAddress: $suggestion.emailAddress /}
+                       {param name: $suggestion.name /}
+                   {/call}
+                   </a>
+            </li>
+            {/foreach}
+        <ul>
+    {else}
+        {call .noSuggestions}
+            {param activity: $activity/}
+            {param query}{$query}{/param}
+        {/call}
+    {/if}
+</div>
+{/template}
+
+
+/**
+ * @param? query the query used to generate the suggestions
+ * @param? activity whether the mentions control is actively retrieving data or not
+ */
+{template .noSuggestions}
+    {if length($query) == 0}
+        <div class="no-suggestions">{getText('jira.mentions.startsearch')}</div>
+    {elseif $activity}
+         <div class="no-suggestions searching">{getText('jira.mentions.searching', '<strong>', $query, '</strong>')|noAutoescape}</div>
+     {else}
+         <div class="no-suggestions">{getText('jira.mentions.nomatch', '<strong>', $query, '</strong>')|noAutoescape}</div>
+     {/if}
+{/template}
+
+/**
+ * Prints the display name, email address and name of a user (and highlights if necessary)
+ *
+ * @param displayName
+ * @param emailAddress
+ * @param name
+ */
+{template .highlitEntry}
+    {call .highlightMention}
+        {param match: $displayName /}
+    {/call}
+    {call .highlightMention}
+        {param prefix}{sp}-{sp}{/param}
+        {param match: $emailAddress /}
+    {/call}
+    {call .highlightMention}
+        {param prefix}{sp}({/param}
+        {param match: $name /}
+        {param suffix}){/param}
+    {/call}
+{/template}
+
+/**
+ * Prints highlit text (if any).
+ *
+ * @param match
+ * @param? prefix
+ * @param? suffix
+ */
+{template .highlightMention}
+    {if $match.text or $match.match}
+        {if $prefix}{$prefix}{/if}
+        {if $match.match}
+            {$match.prefix}<em>{$match.match}</em>{$match.suffix}
+        {else}
+            {$match.text}
+        {/if}
+        {if $suffix}{$suffix}{/if}
+    {/if}
+{/template}

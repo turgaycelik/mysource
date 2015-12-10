@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#* @vtlvariable name="string" type="org.apache.commons.lang.StringUtils" *#
+#* @vtlvariable name="build" type="com.atlassian.jira.util.BuildUtilsInfo" *#
+--
+$i18n.getText("template.jira.footer.generated.by")
+#set ($commitId = "")
+#if ($string.isNotBlank($build.commitId))
+## shorten the Git SHA
+    #set ($commitId = "-sha1:${build.commitId.substring(0, 7)}")
+#end
+#set ($partnerName = "")
+#if ($string.isNotBlank($build.buildPartnerName))
+    #set ($partnerName = "-$build.buildPartnerName")
+#end
+(v${build.version}#${build.currentBuildNumber}${commitId}${partnerName})

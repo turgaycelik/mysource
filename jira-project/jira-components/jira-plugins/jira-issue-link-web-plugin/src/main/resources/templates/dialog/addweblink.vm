@@ -1,0 +1,58 @@
+#* @vtlmacrolibrary path="../../../../../../../jira-core/src/main/resources/templates/plugins/jira/issuelinks/macros.vm" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="urlcodec" type="com.atlassian.jira.util.JiraUrlCodec" *#
+#* @vtlvariable name="keyboardShortcutManager" type="com.atlassian.jira.plugin.keyboardshortcut.KeyboardShortcutManager" *#
+#* @vtlvariable name="jirautils" type="com.atlassian.jira.util.JiraUtils" *#
+#* @vtlvariable name="req" type="javax.servlet.http.HttpServletRequest" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.util.I18nHelper" *#
+#* @vtlvariable name="action" type="com.atlassian.jira.plugin.link.web.AddWebLink" *#
+#* @vtlvariable name="webResourceManager" type="com.atlassian.plugin.webresource.WebResourceManager" *#
+<html>
+<head>
+    #issueLinkHeader ($action $i18n $webResourceManager $keyboardShortcutManager)
+</head>
+<body>
+    <form action="AddWebLink.jspa" method="post" id="web-issue-link" class="aui">
+
+        <input type="hidden" id="web-link-icon-url" name="iconUrl" value="$textutils.htmlEncode($!{action.iconUrl})"/>
+
+        <div class="form-body">
+            #issueLinkHiddenFields ($action)
+
+            #if (${action.validToView})
+
+                #issueLinkErrorMessages ($action)
+                #issueLinkTitle ($i18n)
+                #issueLinkDescription ($i18n "addweblink.desc")
+
+                <div class="field-group">
+                    <label for="web-link-url">
+                        ${i18n.getText("remotelink.service.url")}
+                        #issueLinkFieldRequired ()
+                    </label>
+                    <input type="text" class="text full-width-field" id="web-link-url" name="url" value="$textutils.htmlEncode($!{action.url})"/>
+                    <div class="description">${i18n.getText("addweblink.url.desc")}</div>
+                    #issueLinkFieldError ($action "url" $textutils)
+                </div>
+
+                <div class="field-group">
+                    <label for="web-link-title">
+                        ${i18n.getText("remotelink.service.title")}
+                        #issueLinkFieldRequired ()
+                    </label>
+                    <input type="text" class="text full-width-field" id="web-link-title" name="title" value="$textutils.htmlEncode($!{action.title})"/>
+                    #issueLinkFieldError ($action "title" $textutils)
+                </div>
+
+                #issueLinkCommentSection ($action)
+
+            #else
+                #issueLinkNotValidToView ($action $req $i18n $jirautils $urlcodec)
+            #end
+        </div>
+
+        #issueLinkFooter ($action $req $i18n)
+
+    </form>
+</body>
+</html>

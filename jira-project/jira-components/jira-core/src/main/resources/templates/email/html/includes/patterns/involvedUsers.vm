@@ -1,0 +1,90 @@
+#macro(avatarNameTable $involvedUser)
+    <table class="mobile-resize-text" valign="middle">
+        <tr>
+            <td class="users-involved-pattern-avatar-container">
+                <table class="users-involved-pattern-avatar-table">
+                    <tr>
+                        <td class="users-involved-pattern-avatar-table-cell">
+                            #if ($involvedUser.user)
+                                <img src="$attachmentsManager.getAvatarUrl($involvedUser.user.name)" height="16" width="16"  class="users-involved-pattern-avatar-image"/>
+                            #else
+                                <img src="$attachmentsManager.getImageUrl("/images/icons/statuses/email.png")" alt="Email icon" title="Email icon" width="16" height="16" class="users-involved-pattern-avatar-image"  />
+                            #end
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td class="users-involved-pattern-name-container mobile-resize-text">
+                <span style="word-wrap:normal; overflow-wrap: normal;">
+                #if($involvedUser.user)
+                        #authorlinkname($involvedUser.user.name $linkstyle)
+                    #else
+                        <a href="mailto:$involvedUser.email" title="$involvedUser.email">$involvedUser.email</a>
+                #end
+                </span>
+            </td>
+        </tr>
+    </table>
+#end
+
+#macro(userInvolvedColumn $involvedUsers $columNumber $amountOfColumns $isMostRightColumn)
+    #if($isMostRightColumn)
+        #set($tableStyleAndAlign = 'class="users-involved-pattern-column-table-no-right-padding mobile-single-column"')
+    #else
+        #set($tableStyleAndAlign = 'class="users-involved-pattern-column-table mobile-single-column" align="left"')
+    #end
+
+    <table id="" $tableStyleAndAlign>
+        <tbody>
+            <tr>
+                <td class="users-involved-pattern-column-container">
+                    #foreach($involvedUser in $involvedUsers)
+                        #set($currentTableColumn = ($velocityCount % $amountOfColumns))
+                        #if( $currentTableColumn == $columNumber)
+                            #avatarNameTable($involvedUser)
+                        #end
+                    #end
+                </td>
+            </tr>
+        </tbody>
+    </table>
+#end
+
+#macro(singleUserInvolvedColumn $involvedUsers)
+    #foreach($involvedUser in $involvedUsers)
+        #avatarNameTable($involvedUser)
+    #end
+#end
+
+#macro(tripleUserInvolvedColumn $involvedUsers)
+    #set($amountOfColumns = 3)
+    #userInvolvedColumn($involvedUsers 1 $amountOfColumns false)
+    #userInvolvedColumn($involvedUsers 2 $amountOfColumns false)
+    #userInvolvedColumn($involvedUsers 0 $amountOfColumns true)
+#end
+
+#if($involvedUsers && $involvedUsers.size() > 0)
+    <table id="users-involved-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td id="users-involved-pattern-container-top" class="users-involved-pattern-content mobile-resize-text" valign="middle">
+                $i18n.getText('jira-share-plugin.email.issue.shared.with')
+            </td>
+        </tr>
+        <tr>
+            <td id="users-involved-pattern-container" class="users-involved-pattern-content mobile-resize-text" valign="middle">
+                #if($involvedUsers.size() > 5)
+                    #tripleUserInvolvedColumn($involvedUsers)
+                #else
+                    #singleUserInvolvedColumn($involvedUsers)
+                #end
+            </td>
+        </tr>
+        <tr>
+            <td id="users-involved-pattern-container-bottom" class="users-involved-pattern-content mobile-resize-text" valign="middle">
+                #if ($afterUsersInvolved)
+                    $afterUsersInvolved
+                #end
+            </td>
+        </tr>
+    </table>
+#end

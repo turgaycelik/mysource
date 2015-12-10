@@ -1,0 +1,67 @@
+{namespace JIRA.Templates.Fields.Pickers.User}
+
+/**
+ * Renders a Picker component for a single user.
+ *
+ * See initSingleUserPickers.js for how the component is initialized.
+ *
+ * @param field (Map) a map representation of the Field rendering this template. Contains:
+ *          - id (String) the id of the element for use by JavaScript
+ *          - name (String the name of the form field, for submission
+ * @param? type (String) the type of Component this should be registered as, e.g. single-user-picker - HACK
+ * @param? options (List) list of Map representations of SelectChild instances
+ * @param? inputText (String) text indicating what the user should enter in the field (e.g. "Select an Assignee")
+ * @param? editValue (String) the value to be displayed instead of the selected option (e.g. for invalid values)
+ * @param? showDropdownButton (boolean) true if this user picker should should show a suggestion dropdown button
+ * @param? userType (String) an optional type of User for this picker, e.g. "assignee"
+ * @param? containerClass (String) an optional class or space-sepaarated classes to add to the picker container
+  */
+{template .single}
+<select id="{$field.id}" name="{$field.name}" class="single-user-picker js-{if $type}{$type}{else}default-user-picker{/if}"
+    {if $inputText} data-input-text="{$inputText}"{/if}
+    {if $editValue} data-edit-value="{$editValue}"{/if}
+    {if $showDropdownButton} data-show-dropdown-button="true"{/if}
+    {if $userType} data-user-type="{$userType}"{/if}
+    {if $containerClass} data-container-class="{$containerClass}"{/if}
+    >
+    {foreach $option in $options}
+        {if $option.optionGroup}
+            <optgroup id="{$field.id}-group-{$option.id}" label="{$option.display}"
+                {if $option.footer} data-footer-text="{$option.footer}"{/if}
+                {if $option.weight != -1} data-weight="{$option.weight}"{/if}
+            >
+                {foreach $groupOption in $option.groupOptions}
+                    {call .option data="$groupOption"/}
+                {/foreach}
+            </optgroup>
+        {else}
+            {call .option data="$option"/}
+        {/if}
+    {/foreach}
+</select>
+{/template}
+
+/**
+ * Renders a single User option element.
+ *
+ * @param optionName (String) the username
+ * @param displayName (String) the display name for this user - full name or username as necessary
+ * @param emailAddress (String) the email address for this user
+ * @param avatarURL (String) the URL of the user's avatar
+ * @param? loggedInUser (boolean) true if this option refers to the currently-logged-in user
+ * @param? selected (boolean) true if this option is the one currently chosen for the <select> element
+  */
+{template .option private="true"}
+    <option {if $loggedInUser}class="current-user" {/if}
+            {if $selected}selected="selected" {/if}
+            value="{$optionName}"
+            data-field-text="{$displayName}"
+            data-field-label="{$displayName}{if $optionName and $optionName != '-1'} - {$emailAddress} ({$optionName}){/if}"
+            data-icon="{$avatarURL}"
+            >{$displayName}</option>
+{/template}
+
+
+
+
+

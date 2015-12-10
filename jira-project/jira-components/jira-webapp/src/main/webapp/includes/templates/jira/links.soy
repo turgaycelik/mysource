@@ -1,0 +1,61 @@
+{namespace JIRA.Templates.Links}
+
+/**
+ * Server side soy template that renders a help link from a HelpPath object.
+ * Usage:
+ *  Obtain the HelpPath object on server side and add it into the context:
+ *     context.put("helpPath", HelpUtil.getInstance().getHelpPath("configcustomfield");
+ *  In soy, just call this template with the object
+ *     {call JIRA.Templates.Links.helpLinkFromHelpPath}
+ *         {param helpPath: $helpPath /}
+ *     {/call}
+ *
+ * @param helpPath the HelpPath object corresponding to the help link
+ * @param? fragmentIdentifier the fragment, if any
+ */
+{template .helpLinkFromHelpPath}
+    {call .helpLink}
+        {param isLocal: $helpPath.local /}
+        {param title: $helpPath.title /}
+        {param description: $helpPath.alt /}
+        {param url: $helpPath.url /}
+        {param fragmentIdentifier}
+            {if $fragmentIdentifier}{$fragmentIdentifier}{/if}
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * Render a link to a help document.
+ * @param isLocal
+ * @param url the relative or absolute URL to the help document.
+ * @param title the name of the help document you will be linking to.
+ * @param? id
+ * @param? description optional longer descriptive text.
+ * @param? fragmentIdentifier the ID of an anchor or section in the help document you are linking to. Be sure to include the hash (#) character.
+ * @param? extraClasses
+ * @param? extraAttributes
+ */
+{template .helpLink}
+    <a class="help-lnk{if $extraClasses}{call aui.renderExtraClasses data="all"/}{/if}"
+       {if $id}{sp}id="{$id}"{/if}
+       {sp}href="{$url}{if $fragmentIdentifier}{$fragmentIdentifier}{/if}"
+       {sp}title="{if $isLocal}{getText('local.help.for.topic',$title)|id}{else}{getText('online.help.for.topic',$title)|id}{/if}"
+       {sp}data-helplink="{if $isLocal}local{else}online{/if}"
+       {if not $isLocal}{sp}target="_jirahelp"{/if}
+       {call aui.renderExtraAttributes data="all"/}
+    >
+        <span class="aui-icon aui-icon-small aui-iconfont-help">{if $description}{$description}{/if}</span>
+    </a>
+{/template}
+
+/**
+ * Link button
+ * @param url the URL for the link.
+ */
+{template .button}
+    {call aui.buttons.button data="all"}
+        {param tagName: 'a'/}
+        {param extraAttributes}href="{$url}"{/param}
+    {/call}
+{/template}

@@ -1,0 +1,254 @@
+## comment-edit.vm
+
+#macro (createLevelSelect $roleLevels $groupLevels $selected)
+    #set($currentSelection = "$i18n.getText('security.level.viewable.by.all')")
+    #set($locked = false)
+    #if ($isRolePresent)
+        #foreach ($level in $roleLevels)
+            #if($level.id && $selected == "role:${level.id.toString()}")
+                #set($currentSelection = "$i18n.getText('security.level.restricted.to', ${textutils.htmlEncode($level.name)})")
+                #set($locked = true)
+            #end
+        #end
+    #end
+    #if ($isGroupPresent)
+        #foreach ($level in $groupLevels)
+            #if($level && $selected == "group:${level}")
+                #set($currentSelection = "$i18n.getText('security.level.restricted.to', ${textutils.htmlEncode($level)})")
+                #set($locked = true)
+            #end
+        #end
+    #end
+    <div class="security-level">
+        <fieldset class="hidden parameters">
+            <input type="hidden" title="securityLevelViewableByAll" value="$i18n.getText('security.level.viewable.by.all')">
+            <input type="hidden" title="securityLevelViewableRestrictedTo" value="$i18n.getText('security.level.restricted.to')">
+        </fieldset>
+        <a class="drop" href="#"><span class="icon #if($locked)icon-locked #else icon-unlocked#end">$i18n.getText('security.level.explanation', $currentSelection)</span><span class="icon drop-menu"></span></a>
+        <select name="commentLevel" id="commentLevel">
+            <option value="">$textutils.htmlEncode($i18n.getText('comment.constants.allusers'))</option>
+            #if ($isRolePresent)
+                <optgroup label="$i18n.getText('common.words.project.roles')">
+                    #foreach ($level in $roleLevels)
+                        <option value="role:${level.id}" #if($level.id && $selected == "role:${level.id.toString()}")selected="selected"#end>$textutils.htmlEncode($level.name)</option>
+                     #end
+                </optgroup>
+            #end
+            #if ($isGroupPresent)
+                <optgroup label="$i18n.getText('common.words.groups')">
+                    #foreach ($level in $groupLevels)
+                        <option value="group:${textutils.htmlEncode($level)}" #if($level && $selected == "group:${level}")selected="selected"#end>$textutils.htmlEncode($level)</option>
+                    #end
+                </optgroup>
+            #end
+        </select>
+        <span class="current-level">$currentSelection</span>
+    </div>
+#end
+
+
+##releasenotes-html.vm
+
+#macro (doubleEncode $html)
+        $textUtils.htmlEncode($textUtils.htmlEncode($html))
+#end
+
+
+##worklog.vm
+
+#macro (worklogDetailsBody $worklog $i18n $dateFormatter)
+    #if ($worklog.groupLevel)
+        #set ($level = $textutils.htmlEncode($worklog.groupLevel))
+    #elseif ($worklog.roleLevel)
+        #set ($level = $textutils.htmlEncode($worklog.roleLevel.name))
+    #end
+
+    #if(!$worklog.created.equals($worklog.updated))
+        #set ($formattedUpdateDate = "$textutils.htmlEncode($dateFormatter.format(${worklog.updated}))")
+        #if ($worklog.updateAuthor)
+            #set ($quote = '"')
+            #if ($worklog.updateAuthorFullName)
+                #set ($updateInfo = "$textutils.htmlEncode($worklog.updateAuthorFullName) - $formattedUpdateDate")
+            #else
+                #set ($updateInfo = "$worklog.updateAuthor - $formattedUpdateDate")
+            #end
+        #else
+            #set ($updateInfo = "$i18n.getText('common.words.anonymous') - $formattedUpdateDate")
+        #end
+    #end
+
+    #set ($startDateToolTip = "$i18n.getText('viewissue.worklog.created', $dateFormatter.format(${worklog.created}))")
+    #set ($startDate = " - <span title='$textutils.htmlEncode($startDateToolTip)' class=subText><span class=date>$textutils.htmlEncode($dateFormatter.format(${worklog.startDate}))</span></span>")
+
+    #if ($level)
+        #set ($visibilityLevel = "<span class='icon icon-locked'></span><span class=subText>$i18n.getText('viewissue.worklog.visibleby') <span class=redText>$level</span></span>")
+    #end
+    $i18n.getText('issue.tabpanels.worklog.action.header', $userformat.formatUserkey($worklog.authorKey, 'profileLinkActionHeader', "worklogauthor_${worklog.id}"), $startDate) #if($visibilityLevel) - $visibilityLevel #end #if($updateInfo) - <span class="redText subText" title="$updateInfo">$i18n.getText('common.concepts.edited')</span> #end
+#end
+
+
+
+
+
+##roadmap.vm
+
+#macro (versions $versions $overdue)
+    #foreach ($version in $versions)
+        #set ($trCssClass = "")
+        #if ($portlet.isOverdue($version))
+            #set ($trCssClass = "overdue")
+        #end
+        #if ($velocityCount % 2 == 0)
+            #set ($trCssClass = "$trCssClass rowAlternateLightGray")
+        #else
+            #set ($trCssClass = "$trCssClass rowNormal")
+        #end
+        <tr class="$trCssClass head vevent">
+            <td class="icon first">#versionStatus ($version 16)</td>
+            <td class="version"><a href="$baseurl/browse/$version.projectObject.key">$version.projectObject.name</a>&nbsp;:&nbsp;<a href="$baseurl/browse/$version.projectObject.key/fixforversion/$version.id" title="$textutils.htmlEncode($!version.description)"><span class="summary">$version.name</span></a>
+            <td class="relDate" #if ($portlet.isOverdue($version)) style="color:red; font-weight:bold;" #end>$outlookDate.formatDMY($version.releaseDate)
+                <span class="dtstart dtend mf-hidden">$outlookDate.formatIso8601($version.releaseDate)</span>
+            </td>
+            <td class="progress last">
+                <table class="bar" cellspacing="0" cellpadding="0">
+                <tr><td style="vertical-align:middle;padding:0;text-align:right;" class="nowrap">
+                    #set ($graphModel = $portlet.getGraphModelForVersion($version))
+                    #percentageGraphDiv ($graphModel)
+                </td></tr>
+                </table>
+            </td>
+        </tr>
+        <tr class="$trCssClass desc">
+            <td class="icon first">&nbsp;</td>
+            <td class="small" colspan="2" style="width:auto;">$!version.description &nbsp;</td>
+            <td class="progressDesc last">&nbsp;#if (!$graphModel.rows.empty) <span class="small nowrap">$i18n.getText("portlet.roadmap.progress", [$graphModel.rows.get(0).number, $graphModel.total])</span>#end </td>
+        </tr>
+    #end
+#end
+
+##single-word.vm
+#macro (listwithnavlink $issue $list $name)
+    #if ($list && !$list.isEmpty())
+        #foreach ($item in $list)
+            <a title="$textutils.htmlEncode($item.name)#if ($item.description && $item.description != '') - $textutils.htmlEncode($item.description)#end"
+                href="${baseurl}/secure/IssueNavigator.jspa?reset=true&mode=hide&sorter/order=ASC&sorter/field=priority&pid=$issue.project.id&$name=$item.id"
+            >$textutils.htmlEncode($item.name)</a>#if ($velocityCount != $list.size()),#end
+        #end
+    #else
+        $i18n.getText('common.words.none')
+    #end
+#end
+
+#macro (printIssueLinks $issues $linkName)
+    #foreach ($issue in $issues)
+        <tr>
+            <td>
+                $textutils.htmlEncode($linkName)
+            </td>
+            <td>
+                <a href="${baseurl}/browse/$textutils.htmlEncode($encoder.encode($issue.key))">
+                    #if($issue.resolution) <strike>$textutils.htmlEncode($issue.key)</strike> #else $textutils.htmlEncode($issue.key) #end
+                </a>
+            </td>
+            <td>
+                $textutils.htmlEncode($stringUtils.abbreviate($issue.summary, 40))
+            </td>
+            <td>
+                $textutils.htmlEncode($issue.statusObject.nameTranslation, false)
+            </td>
+        </tr>
+    #end
+#end
+
+##single-xml.vm
+#macro (xmlEscape $text)$xmlutils.escape($text)#end
+#macro (escCdata $text)$xmlutils.escapeForCdata($text)#end
+#macro (printIssueLinksXML $issues)
+    #foreach ($issue in $issues)
+        <issuelink>
+            <issuekey id="$issue.id">#xmlEscape($issue.key)</issuekey>
+        </issuelink>
+    #end
+#end
+
+##wiki-renderer-notation-help.vm
+#macro (sectionheading $heading)
+
+        <div class="helpheading">
+            <img src="$req.contextPath/images/icons/help_16.gif" height="16" width="16" border="0" align="absmiddle" vspace="0" hspace="0" title="$action.getText('wiki.renderer.help.help.icon.title')">
+        $heading
+        </div>
+
+        <div class="helpcontent">
+#end
+
+#macro(sectionfooter)
+    </div>
+#end
+
+#macro(tableheading)
+            <div align=center>
+                <table class="grid" cellpadding="0" cellspacing="0" width="95%">
+                    <tr>
+                        <th width="250">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                        <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                    </tr>
+#end
+
+#macro(tablefooter)
+                </table>
+            </div>
+#end
+
+#macro(helptab $section $title)
+    #set ($tabstyle = "optionPadded")
+
+    #if ($action.section == $section)
+        #set ($tabstyle = "optionSelected")
+    #end
+
+            <div class="$tabstyle">
+                <a href="$req.contextPath/secure/WikiRendererHelpAction.jspa?section=$section">$title</a>
+            </div>
+#end
+
+#macro(auiNavItem $section $title)
+    #set ($tabstyle = "")
+    #if ($action.section == $section)
+        #set ($tabstyle = "aui-nav-selected")
+    #end
+    <li class="$tabstyle">
+        <a href="$req.contextPath/secure/WikiRendererHelpAction.jspa?section=$section">$title</a>
+    </li>
+#end
+
+##summary-topleft.vm
+
+#macro (makeopifenabled $key $prop)
+    #if( $!mailPluginsHelper.isPluginModuleEnabled("${key}") )
+                <tr>
+                    <td>
+                        <img src="${baseurl}/images/icons/bullet_creme.gif" height="8" width="8" border="0" align="absmiddle" alt=""/>
+                        &nbsp;<b>$i18n.getText("${prop}", "<a href='${baseurl}/browse/${issue.getKey()}?page=${key}'>", "</a>")</b>
+                    </td>
+                </tr>
+    #end
+#end
+
+##searchrequest-rss-comment-header.vm
+##searchrequest-comments-rss.vm
+##searchrequest-rss-header.vm
+##searchrequest-xml-header.vm
+##searchrequest-rss.vm
+###macro (esc $text)$xmlutils.escape($text)#end
+
+##system-preset-filters.vm
+#macro (listItem $item)
+    ## <!-- TODO: This URL should encode & to &amp; for correct HTML encoding -->
+    #set ($filterUrl = $item.link.getDisplayableUrl($user, $helper))
+    #if ($item.link.id)
+    <a id="$item.link.id" href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+    #else
+    <a href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+    #end
+#end

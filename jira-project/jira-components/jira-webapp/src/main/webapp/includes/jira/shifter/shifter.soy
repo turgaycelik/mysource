@@ -1,0 +1,28 @@
+{namespace JIRA.Templates.Shifter}
+
+/**
+ * @param id
+ */
+{template .dialog}
+    <div class="shifter-dialog" id="{$id}">
+        <form class="aui ajs-dirty-warning-exempt">
+            <div id="{$id}-suggestions" class="aui-list"></div>
+        </form>
+        <div class="hint-container overflow-ellipsis" title="{getText('shifter.shortcut.hint.tooltip')}">
+            {getText('shifter.shortcut.hint')|noAutoescape}
+        </div>
+    </div>
+{/template}
+
+/**
+ * @param groupName
+ * @param groupContext
+ */
+{template .groupHeading}
+    <div class="shifter-group-heading">
+        <h5>{$groupName}</h5>
+        {if $groupContext}
+            <span class="shifter-group-context">{$groupContext}</span>
+        {/if}
+    </div>
+{/template}

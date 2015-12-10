@@ -1,0 +1,31 @@
+{namespace JIRA.Templates.Menu.admin.breadcrumbs}
+
+/**
+ * @param breadcrumblevels
+ */
+{template .breadcrumbtrail}
+    <div class="admin-breadcrumb-trail">
+        <ol class="aui-nav aui-nav-breadcrumbs">
+        {foreach $level in $breadcrumblevels}
+            {call .breadcrumb}
+                {param name : $level.name /}
+                {param link : $level.link /}
+            {/call}
+        {/foreach}
+         </ol>
+    </div>
+{/template}
+
+/**
+ * @param? link
+ * @param name
+ */
+{template .breadcrumb}
+    <li>
+        {if $link}
+           <a href="{$link}">{$name}</a>
+        {else}
+           <a href="#">{$name}</a>
+        {/if}
+    </li>
+{/template}

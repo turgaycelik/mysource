@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($customField.customFieldType.isUseNow($value))
+      Current date will be used
+    #else
+        <span title="$titleFormatter.format($value)"><time class="livestamp allow-future" datetime="$iso8601Formatter.format($value)">$datePickerFormatter.format($value)</time></span>
+    #end
+#end

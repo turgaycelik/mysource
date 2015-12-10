@@ -1,0 +1,31 @@
+<atlassian-plugin name='JIRA Workflow Transition Tabs' key='com.atlassian.jira.plugin.system.workfloweditor.transition.tabs' i18n-name-key="webfragments.workfloweditor.transition.tabs.plugin.name" system='true'>
+    <plugin-info>
+        <description key="webfragments.workfloweditor.transition.tabs.plugin.desc">Includes web items for tabs displayed in workflow transition edition screen</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-panel key="conditions" name="view_conditions" location="workflow.transition.tabs" weight="100" class="com.atlassian.jira.plugin.webfragment.EmptyWebPanel">
+        <label key="admin.workflowtransition.conditions" />
+        <context-provider class="com.atlassian.jira.web.action.admin.workflow.tabs.WorkflowTransitionConditionsContextProvider"/>
+        <param name="count">$count</param>
+        <condition class="com.atlassian.jira.web.action.admin.workflow.tabs.WorkflowTransitionConditionsCondtion"/>
+    </web-panel>
+
+    <web-panel key="validators" name="view_validators" location="workflow.transition.tabs" weight="200" class="com.atlassian.jira.plugin.webfragment.EmptyWebPanel">
+        <label key="admin.workflowtransition.validators" />
+        <context-provider class="com.atlassian.jira.web.action.admin.workflow.tabs.WorkflowTransitionValidatorsContextProvider"/>
+        <param name="count">$count</param>
+    </web-panel>
+
+    <web-panel key="postfunctions" name="view_post_functions" location="workflow.transition.tabs" weight="300" class="com.atlassian.jira.plugin.webfragment.EmptyWebPanel">
+        <label key="admin.workflowtransition.post.functions" />
+        <context-provider class="com.atlassian.jira.web.action.admin.workflow.tabs.WorkflowTransitionPostFunctionsContextProvider"/>
+        <param name="count">$count</param>
+    </web-panel>
+
+    <web-panel key="other" name="view_other" location="workflow.transition.tabs" weight="400" class="com.atlassian.jira.plugin.webfragment.EmptyWebPanel">
+        <label key="admin.workflowtransition.other" />
+        <condition class="com.atlassian.jira.web.action.admin.workflow.tabs.WorkflowTransitionOtherCondition"/>
+    </web-panel>
+</atlassian-plugin>

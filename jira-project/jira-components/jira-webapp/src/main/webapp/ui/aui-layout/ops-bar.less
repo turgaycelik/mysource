@@ -1,0 +1,40 @@
+@import "../imports/mixins/opacity";
+
+.command-bar {
+    clear: both;
+}
+.ops-cont { clear: both; overflow: hidden; display: block; }
+.ops-cont .ops {float:left;}
+.ops {list-style-type:none;margin:0;padding:0;}
+.ops li {display:block;float:left;white-space:nowrap;}
+.ops li.last {margin-right: 10px;}
+.ops li .disabled {.opacity(0.5);}
+.ops li.info {float:right;white-space:nowrap;width:auto;}
+.ops li a#back-lnk {padding-left: 0.249em;}
+.ops li .button {background:#fff url(../../../images/button_bg.png) repeat-x scroll 0 100%;border:1px solid #ddd;color:#111;display:block;float:left;padding:2px 8px;border-left-color:#fff;}
+.ops li .button.first {-moz-border-radius-topleft:0.25em;-moz-border-radius-bottomleft:0.25em;-webkit-border-top-left-radius:0.25em;-webkit-border-bottom-left-radius:0.25em;border-top-left-radius:0.25em;border-bottom-left-radius:0.25em;border-left-color:#ddd;}
+.ops li .button.last {-moz-border-radius-topright:0.25em;-moz-border-radius-bottomright:0.25em;-webkit-border-top-right-radius:0.25em;-webkit-border-bottom-right-radius:0.25em;border-top-right-radius:0.25em;border-bottom-right-radius:0.25em;}
+.ops li a.button:focus,
+.ops li a.button:hover {border-color:#999;text-decoration:none;}
+.ops li .button .icon {margin:0;vertical-align:text-top;line-height:1.5em;}
+.ops li a.button:active,
+.ops li .active .button,
+.ops li .active.button {background-color:#3c78b5;background-image:none;color:#fff;text-decoration:none;}
+.ops li .drop-menu { width: 16px; margin-left: 0; }
+.page-type-admin #content > header > .ops-cont { float: right; }
+
+.mod-header {
+    .ops {
+        float: right;
+    }
+}
+
+/* drop arrow only */
+.ops li.drop {border-left:1px dotted #ddd;margin-left: 8px;padding-left:2px;}
+.ops li a.drop-menu.active,
+.ops li a.drop-menu.active:hover,
+.ops li a.drop-menu:hover {background-color:#ccc;}
+
+.ops-general {float:right;}
+
+.release-notes .ops-cont {float:right;}

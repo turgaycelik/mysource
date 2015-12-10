@@ -1,0 +1,11 @@
+#disable_html_escaping()
+<tr>
+    <th>#text("issue.field.reporter"):</th>
+    <td>
+        #if ($issue.reporterId)
+            #authorlinkkey($issue.reporterId $linkstyle)
+        #else
+            #text("common.concepts.no.reporter")
+        #end
+    </td>
+</tr>

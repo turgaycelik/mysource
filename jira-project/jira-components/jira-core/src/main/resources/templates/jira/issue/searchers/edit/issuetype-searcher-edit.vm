@@ -1,0 +1,112 @@
+#disable_html_escaping()
+## Issue type searcher section
+#macro (renderOption $option)
+    #set ($hasImage = $option.imagePath)
+    #set ($isInvalid = $invalidOptions && $invalidOptions.contains($option))
+    #set ($isSelected = $selectedOptions && $selectedOptions.contains($option.id))
+    #set ($name = $textutils.htmlEncode($option.name, false))
+
+    <option class="
+                #if ($hasImage) imagebacked $!{optionCSSClasses.get($option)} #end
+                #if ($isInvalid) invalid_sel #end"
+            #if ($hasImage)
+                data-icon="#getNormalizedUrl($option.imagePathHtml)"
+                data-fallback-icon="#getNormalizedUrl("/images/icons/issuetypes/blank.png")"
+            #end
+            id="type_$option.id"
+            #if ($isSelected) selected="selected" #end
+            #if ($isInvalid)
+                #searchContextDescriptionTitleProjectOrGeneral("navigator.filter.issuetype", $option.name, $contextProjectNames)
+            #else
+                title="$name"
+            #end
+            value="$option.id">
+        $name
+    </option>
+#end
+
+$!{auiparams.put("controlHeaderClass", "aui-field-issuetype")}
+#searcherEditHeader ("type" ${i18n.getText('navigator.filter.issuetype')})
+    #if ($isKickass)
+    <select class="select js-default-checkboxmultiselect" data-placeholder-text="${i18n.getText("common.filters.find.types")}" id="searcher-type" multiple="multiple" name="type" size="#minSelectSize ($visibleIssueTypes 1 5)">
+        <optgroup>
+            #foreach ($option in $specialOptions)
+                #renderOption($option)
+            #end
+        </optgroup>
+
+        <optgroup label="$i18n.getText("common.filters.standardissuetypes")">
+            #foreach ($option in $standardOptions)
+                #renderOption($option)
+            #end
+        </optgroup>
+
+        <optgroup label="$i18n.getText("common.filters.subtaskissuetypes")">
+            #foreach ($option in $subtaskOptions)
+                #renderOption($option)
+            #end
+        </optgroup>
+    </select>
+    #else
+    <select class="select" id="searcher-type" multiple="multiple" name="type" size="#minSelectSize ($visibleIssueTypes 1 5)">
+        <option class="headerOption"#if (!$selectedIssueTypes || $selectedIssueTypes.empty) selected="selected"#end value="">${i18n.getText('common.filters.any')}</option>
+        #foreach ($option in $visibleIssueTypes)
+        <option #if ($option.cssClass) class="headerOption $option.cssClass"#end
+                #if ($option.imagePath) class="imagebacked $visibleIssueTypeStyles.get($option)" style="background-image: url('#getNormalizedUrl($option.imagePathHtml)');"#end
+                id="type_$option.id"
+                #if ($selectedIssueTypes && $selectedIssueTypes.contains($option.id)) selected="selected"#end
+                title="$textutils.htmlEncode($option.name, false)"
+                value="$option.id">$textutils.htmlEncode($option.name, false)</option>
+        #end
+    </select>
+    #jiraHelpLink ('issuetype_local' '')
+
+    #AUImessage("info" "" ${i18n.getText('navigator.filter.context.stale.text', '<a id="refresh-dependant-fields" href="#" onclick="refreshDependentFields();return false;">', "</a>")} "projectRefreshPanel" "hidden" "" "false")
+
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        var projectSelectList   = document.getElementById("searcher-pid");
+        var originalProjectValue = getMultiSelectValues(projectSelectList).replace(" -1", ""); // remove the "all projects flag"
+
+        var issueTypeSelectList = document.getElementById("searcher-type");
+        var originalIssueTypeValue = getMultiSelectValues(issueTypeSelectList);
+
+        function refreshDependentFields()
+        {
+            var refreshFilter = document.getElementById("issue-filter-refreshFilter");
+            refreshFilter.value = 'true';
+            refreshFilter.form.submit();
+
+        }
+
+        function toggleRefresh()
+        {
+            if(originalProjectValue   == getMultiSelectValues(projectSelectList).replace(" -1", "") && // remove the "all projects flag"
+               originalIssueTypeValue == getMultiSelectValues(issueTypeSelectList))
+            {
+                jQuery("#projectRefreshPanel").addClass("hidden");
+            }
+            else
+            {
+                jQuery("#projectRefreshPanel").removeClass("hidden");
+            }
+        }
+
+        projectSelectList.onchange = toggleRefresh;
+        issueTypeSelectList.onchange = toggleRefresh;
+
+        toggleRefresh();
+    //-->
+    </script>
+    <script language="JavaScript" type="text/javascript" src="$!{baseurl}/includes/jira/issue/searchIssueTypes.js"></script>
+    <script language="JavaScript" type="text/javascript">
+    <!--
+        #foreach ($entry in $projectToConfig.entrySet())
+           addEntry('$entry.key','$entry.value');
+        #end
+        dynamicMultiIssueTypeSelect("searcher-pid", "searcher-type");
+    //-->
+</script>
+    #end
+#searcherEditFooter ("type" '')
+$!{auiparams.clear()}

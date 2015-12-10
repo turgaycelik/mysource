@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if ($priority)
+#if ($displayParams.textOnly)
+   $textutils.htmlEncode($!priority.nameTranslation, false)
+#else
+    #set ($iconurl = $priority.iconUrlHtml)
+    #if ($iconurl.startsWith('http://') || $iconurl.startsWith('https://'))
+        <img src="$iconurl" height="16" width="16" border="0" align="absmiddle" alt="$textutils.htmlEncode($priority.getNameTranslation(), false)" title="$textutils.htmlEncode($priority.getNameTranslation(), false) - $textutils.htmlEncode($!priority.getDescTranslation(), false)">
+    #else
+        <img src="${requestContext.baseUrl}${iconurl}" height="16" width="16" border="0" align="absmiddle" alt="$textutils.htmlEncode($priority.getNameTranslation(), false)" title="$textutils.htmlEncode($priority.getNameTranslation(), false) - $textutils.htmlEncode($!priority.getDescTranslation(), false)">
+    #end
+#end
+#else
+    &nbsp;
+#end

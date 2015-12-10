@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($duedate)
+    $dueDateFormatter.format($duedate)
+#else
+    &nbsp;
+#end

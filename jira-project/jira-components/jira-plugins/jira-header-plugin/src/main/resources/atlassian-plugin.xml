@@ -1,0 +1,268 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <resource name="jira-header-plugin.i18n" type="i18n" location="i18n/jira-header-plugin"/>
+
+    <component-import key="avatarService" interface="com.atlassian.jira.avatar.AvatarService"/>
+    <component-import key="i18nResolver" interface="com.atlassian.sal.api.message.I18nResolver"/>
+    <component-import key="jiraAuthenticationContext" interface="com.atlassian.jira.security.JiraAuthenticationContext"/>
+    <component-import key="simpleLinkManager" interface="com.atlassian.jira.plugin.webfragment.SimpleLinkManager"/>
+    <component-import key="project-manager" interface="com.atlassian.jira.project.ProjectManager"/>
+    <component-import key="salProjectManager" interface="com.atlassian.sal.api.project.ProjectManager"/>
+    <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory"/>
+    <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
+    <component-import key="user-manager" interface="com.atlassian.sal.api.user.UserManager"/>
+    <component-import key="applicationLinkService" interface="com.atlassian.applinks.api.ApplicationLinkService"/>
+    <component-import key="jqlStringSupport" interface="com.atlassian.jira.jql.util.JqlStringSupport"/>
+
+    <top-navigation key="sean-standard-navigation-top" i18n-name-key="top.navigation.plugin.standard.name"
+                    name="Standard Top Navigation Bar"
+                    class="com.atlassian.jira.plugin.headernav.ModernPluggableTopNavigation" state='enabled'>
+        <resource type="velocity" name="view" location="templates/topnav.vm"/>
+        <order>10</order>
+    </top-navigation>
+
+    <web-section key="create-menu-section" location="system.user.create.options" weight="10">
+    </web-section>
+
+    <web-item key="create-issue" name="Create Issue Menu Item" section="system.user.create.options/create-menu-section"
+              i18n-name-key="webfragments.navigation.bar.issues.item.new.issue" weight="10">
+        <label key="alt.text.createnewissue"/>
+        <tooltip key="tooltip.createnewissue"/>
+        <link linkId="create_link" accessKey="$authcontext.i18nHelper.getText('alt.text.createnewissue.accessKey')">/secure/CreateIssue!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserHasVisibleProjectsCondition">
+            <param name="permission">create</param>
+        </condition>
+    </web-item>
+
+    <web-panel key="main-header-links" location="com.atlassian.jira.plugin.headernav.left.context" weight="20" i18n-name-key="common.header.main.header.links.panel">
+        <label key="common.header.main.header.links.panel"/>
+        <resource type="velocity" name="view" location="templates/main-header-links.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.MainHeaderLinksContextProvider">
+            <!-- list of all link ids that should appear in the top level header menu. everything not listed here lands in the 'more' dropdown -->
+            <param name="toplevel-item-dashboard" value="home_link"/>
+            <param name="toplevel-item-projects" value="browse_link"/>
+            <param name="toplevel-item-issues" value="find_link"/>
+            <param name="toplevel-item-greenhopper" value="greenhopper_menu"/>
+            <param name="toplevel-item-greenhopper-no-project" value="greenhopper_menu_no_project"/>
+        </context-provider>
+    </web-panel>
+
+    <web-panel key="create-menu" location="com.atlassian.jira.plugin.headernav.left.context" weight="30" i18n-name-key="common.header.create.menu.panel">
+        <label key="common.header.create.menu.panel"/>
+        <resource type="velocity" name="view" location="templates/create-menu.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.CreateMenuContextProvider"/>
+    </web-panel>
+
+    <web-panel key="quick-search" location="com.atlassian.jira.plugin.headernav.right.context" weight="1" i18n-name-key="common.header.quicksearch.panel">
+        <label key="common.header.quicksearch.panel"/>
+        <resource type="velocity" name="view" location="templates/quick-search.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider"/>
+    </web-panel>
+
+    <web-panel key="help-menu" location="com.atlassian.jira.plugin.headernav.right.context" weight="10" i18n-name-key="common.header.help.menu.panel">
+        <label key="common.header.help.menu.panel"/>
+        <resource type="velocity" name="view" location="templates/help-menu.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.HelpMenuContextProvider"/>
+    </web-panel>
+
+    <web-panel key="admin-menu" location="com.atlassian.jira.plugin.headernav.right.context" weight="20" i18n-name-key="common.header.admin.menu.panel">
+        <label key="common.header.admin.menu.panel"/>
+        <resource type="velocity" name="view" location="templates/admin-menu.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.AdminMenuContextProvider"/>
+        <conditions type="OR">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsProjectAdminCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsSysAdminCondition"/>
+        </conditions>
+    </web-panel>
+
+    <component-import key="velocity-request-context-factory" interface="com.atlassian.jira.util.velocity.VelocityRequestContextFactory"/>
+    <component-import key="xsrf-factory" interface="com.atlassian.jira.security.xsrf.XsrfTokenGenerator" />
+
+    <web-panel key="user-menu" location="com.atlassian.jira.plugin.headernav.right.context" weight="30" i18n-name-key="common.header.user.menu.panel">
+        <label key="common.header.user.menu.panel"/>
+        <resource type="velocity" name="view" location="templates/user-profile.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.headernav.AvatarUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.headernav.UserProfileContextProvider</param>
+            <param name="ctxProvider-4">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
+        </context-provider>
+    </web-panel>
+
+    <web-resource key="admin-side-nav-menu" i18n-name-key="common.header.admin.menu.panel">
+        <resource type="soy" name="view" location="soy/admin-side-menu-section.soy"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.AdminMenuContextProvider"/>
+    </web-resource>
+
+    <web-resource key="jira-header">
+        <dependency>jira.webresources:global-static</dependency>
+        <dependency>com.atlassian.auiplugin:aui-header</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-soy-templates</dependency>
+        <dependency>com.atlassian.plugins.atlassian-nav-links-plugin:rotp-menu</dependency>
+
+        <context>jira.global</context>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <resource type="download" name="layout-overrides.css" location="css/layout-overrides.less"/>
+        <resource type="download" name="header-dropdown.js" location="soy/headerDropdown.soy"/>
+        <resource type="download" name="init-dropdown2.js" location="js/init-dropdown2.js"/>
+    </web-resource>
+
+    <web-resource key="admin-quicksearch-link">
+        <context>jira.admin</context>
+        <resource type="download" name="init-admin-quicksearch-link.js" location="js/init-admin-quicksearch-link.js"/>
+    </web-resource>
+
+    <web-resource key="jira-header-theme">
+        <description>Apply JIRA's look and feel values -- colours, logos etc. -- to the header.</description>
+        <dependency>com.atlassian.jira.jira-header-plugin:jira-header</dependency>
+
+        <context>jira.global</context>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="header-theme.css" location="css/theme.less"/>
+    </web-resource>
+
+    <capability key="capability-content-link">
+        <name>content-links</name>
+        <url>/rest/content-links/1.0/local/</url>
+    </capability>
+
+    <navigation-link key="home" menu-key="home" self="true">
+        <link>/</link>
+        <label key="navigation.home.page"/>
+    </navigation-link>
+
+    <navigation-link key="admin" menu-key="admin" self="true">
+        <label key="navigation.administration.name"/>
+        <link>/secure/project/ViewProjects.jspa</link>
+    </navigation-link>
+
+    <navigation-link key="profile" menu-key="profile" self="true">
+        <label key="navigation.profile.name" />
+        <link>/secure/ViewProfile.jspa</link>
+    </navigation-link>
+
+    <content-link key="browse-project-summary-shortcut">
+        <label>Project Summary</label>
+        <link>/browse/${key}</link>
+        <entityType>jira.project</entityType>
+        <condition class="com.atlassian.jira.plugin.contentlinks.conditions.IsKeyDefinedInAnExistingProject"/>
+    </content-link>
+
+    <content-link key="open-issues-shortcut">
+        <context-provider class="com.atlassian.jira.plugin.contentlinks.contextproviders.AllOpenIssuesShortcutContextProvider"/>
+        <label>All open issues</label>
+        <link>/secure/IssueNavigator.jspa?reset=true&amp;mode=hide&amp;jqlQuery=${openIssuesQuery}</link>
+        <entityType>jira.project</entityType>
+        <condition class="com.atlassian.jira.plugin.contentlinks.conditions.IsKeyDefinedInAnExistingProject"/>
+    </content-link>
+
+    <content-link key="my-issues-shortcut">
+        <context-provider class="com.atlassian.jira.plugin.contentlinks.contextproviders.MyUnresolvedIssuesShortcutContextProvider"/>
+        <label>My open issues</label>
+        <link>/secure/IssueNavigator.jspa?reset=true&amp;mode=hide&amp;jqlQuery=${myUnresolvedIssuesQuery}</link>
+        <entityType>jira.project</entityType>
+        <condition class="com.atlassian.jira.plugin.contentlinks.conditions.IsKeyDefinedInAnExistingProject"/>
+    </content-link>
+
+    <component key="customContentLinkServiceFactory" name="customContentLinkServiceFactory" class="com.atlassian.jira.plugin.headernav.customcontentlinks.CustomContentLinkServiceFactory"/>
+    <component key="readOnlyStudioTabManager" name="readOnlyStudioTabManager" class="com.atlassian.jira.plugin.headernav.legacy.DefaultReadOnlyStudioTabManager"/>
+    <component key="studioTabMigrator" name="studioTabMigrator" class="com.atlassian.jira.plugin.headernav.legacy.StudioTabMigrator" public="true" interface="com.atlassian.sal.api.lifecycle.LifecycleAware"/>
+    <component key="contentLinkAdminDescriptionProvider" class="com.atlassian.jira.plugin.headernav.customcontentlinks.admin.ContentLinkAdminDescriptionProvider"/>
+    <component key="projectAdminPermissionChecker" class="com.atlassian.jira.plugin.headernav.customcontentlinks.admin.ProjectAdminPermissionChecker"/>
+
+    <!-- navlinks spi components -->
+    <component
+            key="navlinksProjectManager"
+            name="Navlinks SPI ProjectManager Implementation"
+            class="com.atlassian.jira.plugin.headernav.navlinks.spi.NavlinksProjectManager"
+            public="true"
+            interface="com.atlassian.plugins.navlink.spi.ProjectManager"
+            />
+    <component
+            key="navlinksProjectPermissionManager"
+            name="Navlinks SPI ProjectPermissionManager Implementation"
+            class="com.atlassian.jira.plugin.headernav.navlinks.spi.NavlinksProjectPermissionManager"
+            public="true"
+            interface="com.atlassian.plugins.navlink.spi.ProjectPermissionManager"
+            />
+    <component
+            key="jiraWeights"
+            name="Weights SPI implementation for JIRA"
+            class="com.atlassian.jira.plugin.headernav.navlinks.spi.JiraWeights"
+            public="true"
+            interface="com.atlassian.plugins.navlink.spi.weights.ApplicationWeights"
+            />
+
+
+    <servlet name="Custom Content Links Admin UI Servlet" key="custom-content-links-admin-ui"
+             class="com.atlassian.jira.plugin.headernav.customcontentlinks.admin.AdminServlet">
+        <description>Provides the administration UI for Custom Content Links</description>
+        <url-pattern>/custom-content-links-admin</url-pattern>
+    </servlet>
+
+    <rest key="custom-content-links" path="/custom-content-links" version="1.0">
+        <description>REST endpoint for custom content links administration</description>
+        <package>com.atlassian.jira.plugin.headernav.customcontentlinks.admin</package>
+    </rest>
+
+    <web-resource name="Custom Content Links Admin UI Resources" key="custom-content-links-admin-ui-resources">
+        <transformation extension="soy">
+            <transformer key="soyTransformer" />
+        </transformation>
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+
+        <resource type="download" name="custom-content-links-admin.js" location="js/custom-content-links-admin.js"/>
+        <!--<resource type="download" name="custom-content-links-admin-ui.css" location="css/custom-content-links-admin-ui.css"/>-->
+    </web-resource>
+
+    <web-resource name="Custom Content Links Admin Page Template" key="custom-content-links-admin-page-template">
+        <resource type="download" name="customContentLinksAdminPage.soy" location="soy/customContentLinksAdminPage.soy"/>
+    </web-resource>
+
+    <web-section key="custom-content-links-admin-page-group" name="Custom Content Links Admin Page Group" location="atl.jira.proj.config" i18n-name-key="admin.project.custom.content.links.section" weight="100"/>
+    <web-section-alias key="custom-content-links-admin-page-alias" section="atl.jira.proj.config/custom-content-links-admin-page-group" alias="issues.admin/projects_section" weight="100" name="Custom Content Links Admin Section alias for Cloud">
+        <description>Not used on Behind the Firewall JIRAs</description>
+    </web-section-alias>
+    <web-item key="custom-content-links-admin-page-link" name="Custom Content Links Admin Page Link" section="atl.jira.proj.config/custom-content-links-admin-page-group" i18n-name-key="admin.project.custom.content.links" weight="100">
+        <label key="admin.project.custom.content.links.label" />
+        <link linkId="custom-content-links-admin-page-link">/plugins/servlet/custom-content-links-admin?entityKey=$projectKeyEncoded</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFeatureEnabledCondition">
+            <param name="featureKey">rotp.project.shortcuts</param>
+        </condition>
+    </web-item>
+
+    <web-panel key="summary-custom-content-links" location="webpanels.admin.summary.right-panels" weight="500">
+        <resource name="view" type="velocity" location="velocity/customContentLinksSummaryPanel.vm"/>
+        <context-provider class="com.atlassian.jira.plugin.headernav.customcontentlinks.admin.SummaryContextProvider"/>-->
+        <label key="summary-custom-content-links" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFeatureEnabledCondition">
+            <param name="featureKey">rotp.project.shortcuts</param>
+        </condition>
+    </web-panel>
+
+</atlassian-plugin>

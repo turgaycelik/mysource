@@ -1,0 +1,140 @@
+#disable_html_escaping()
+#* @vtlvariable name="checker" type="com.atlassian.jira.appconsistency.db.DatabaseChecker" *#
+<html>
+<head>
+    <title>JIRA Unavailable - Database Locked</title>
+    <style type="text/css">
+
+        .jiraform {
+            border: 1px solid #bbbbbb;
+            margin: 0 auto;
+            border-collapse: collapse;
+            border-spacing: 0px;
+        }
+
+        /* Sub form titles are a little smaller */
+
+        .jiraform .jiraform .formtitle, .jiraformSectionBreak .formtitle {
+            padding-top: 0.3em;
+            font-size: 14px;
+        }
+
+        .jiraform .jiraform {
+            margin: 10px auto;
+        }
+
+        .jiraformheader, .jiraformSectionBreak {
+            background-color: #f0f0f0;
+        }
+
+        .grid, .bordered {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border: 1px solid #cccccc;
+        }
+
+        .grid th, .grid td {
+            border: 1px solid #cccccc;
+            padding: 4px;
+            vertical-align: top;
+        }
+
+        .bordered th, .bordered td {
+            border: none;
+        }
+
+        .grid th {
+            background-color: #f0f0f0;
+        }
+
+        TD.colHeaderLink {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+        }
+
+        .colHeaderLink a {
+            text-decoration: none;
+        }
+
+        .colHeaderOver a {
+            text-decoration: none;
+        }
+
+        .colHeaderHighlight a {
+            text-decoration: none;
+        }
+
+        BODY, P, UL, OL, DL, LI, TD, TEXTAREA, INPUT, SELECT, BUTTON, option, optgroup {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            color: black;
+        }
+
+
+    </style>
+</head>
+
+<body leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" link="#003366" vlink="#003366" alink="#660000">
+<table border="0" cellpadding="0" cellspacing="0" width="100%">
+    <tr>
+        <td bgcolor="#003366">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td valign="top" width="5%" nowrap>
+                        <div style="font-weight: bold; font-size:18pt; color: white; margin-left: 15px;">
+                            JIRA
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td bgcolor="#3c78b5" align="left">&nbsp;</td>
+    </tr>
+</table>
+<table border="0" cellpadding="10" cellspacing="0" width="100%">
+    <tr>
+        <td height="10" align="center">
+            <table class="jiraform" width="80%">
+                <tr>
+                    <td class="jiraformheader">
+                        <h3 class="formtitle">JIRA Unavailable - Database Locked</h3>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="jiraformheader">
+                        <font color="#cc0000">You cannot access JIRA at present. Look at the table below to identify the reasons</font>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="jiraformbody">
+                        <br />
+                        <table class="grid" width="100%">
+
+                            <tr bgcolor="#f0f0f0">
+                                <td class="colHeaderLink" width="40%">
+                                    <b>Description</b>
+                                </td>
+                            </tr>
+                            <tr bgcolor="#fffff0">
+                                <td>
+                                    #if (${checker} && !${checker.isDatabaseOk()} && ${checker.getFailedCheck()})
+                                        ${checker.getFailedCheck().getHTMLFaultDescription()}
+                                    #end
+                                </td>
+                            </tr>
+                        </table>
+                        <br />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

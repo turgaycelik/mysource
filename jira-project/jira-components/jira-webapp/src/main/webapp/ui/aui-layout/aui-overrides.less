@@ -1,0 +1,132 @@
+@import "../imports/mixins/clearfix";
+
+/* @aui-override for all toolbars */
+.aui-toolbar {
+    padding-top: 0;
+}
+
+/* @aui-override for interop between aui-page and aui-toolbar */
+#content > header,
+.aui-page-panel-main > header {
+    .clearfix();
+
+    > .aui-toolbar {
+        float: right;
+        width: auto;
+    }
+}
+
+.aui-toolbar + h2 { // sort-of interop styles...
+    margin-top: 0;
+}
+
+/* @aui-override for interop between aui-page-header and aui-dropdown1 */
+.aui-page-header-actions .aui-dropdown {
+    text-align: left;
+}
+
+/* @aui-override for JRADEV-15812, AUI-1127 */
+form.aui .aui-button-link.cancel {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* @aui-override to fix broken avatar images JRADEV-16439, AUI-1182 */
+.aui-avatar img:-moz-broken {
+    -moz-force-broken-image-icon: 1;
+}
+
+/* @aui-override for JRADEV-16906 JRADEV-16907 JRADEV-16908 */
+.aui-message > .aui-icon:first-child + * {
+    margin-top: 0;
+}
+
+/* @aui-override to un-stick use of help icons within AUI messages JRADEV-20335, AUI-435 */
+.aui-message .help-lnk .aui-icon {
+    position: relative; // Using relative such that aui-iconfont-* icons still work.
+    top: auto;
+    left: auto;
+}
+
+/* @aui-override for link width in dropdowns AUI-1257 */
+.aui-dd-parent .aui-dropdown a.item-link,
+.aui-dropdown a.item-link { display: block; }
+
+/* @aui-override for inline dialog padding JRADEV-17814 */
+.aui-inline-dialog .contents {
+    padding: 0;
+}
+
+/* @aui-overrride for label positioning in attachment lists JRADEV-17707 */
+form.aui .file-input-list {
+    input[type="checkbox"],
+    input[type="radio"] {
+        + label {
+            display: inline;
+            float: none;
+            left: 0;
+            margin: 0 0 0 3px;
+            padding: 0;
+            width: auto;
+        }
+    }
+    > .field-group:first-child {
+        margin-top: 0;
+        padding-top: 0;
+    }
+}
+
+/* @aui-overrride for Breadcrumb navigation JRADEV-17939 */
+.issue-header-content {
+    .aui-nav-breadcrumbs > li {
+        position: relative;
+        float:none;
+        display: inline;
+    }
+    .aui-nav-breadcrumbs > li + li {
+        padding-left: 10px
+    }
+    .aui-nav-breadcrumbs > li + li:before {
+        content: "";
+        display: block;
+        background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBzdGFuZGFsb25lPSJubyI/Pg08IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPg08c3ZnIGlkPSJVbnRpdGxlZC1QYWdlJTIwMSIgdmlld0JveD0iMCAwIDQgMTAiIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgdmVyc2lvbj0iMS4xIg0JeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSINCXg9IjBweCIgeT0iMHB4IiB3aWR0aD0iNHB4IiBoZWlnaHQ9IjEwcHgiDT4NCTxnIGlkPSJMYXllciUyMDEiPg0JCTxwYXRoIGQ9Ik0gMSAxMCBMIDQgMCBMIDMgMCBMIDAgMTAgTCAxIDEwIEwgMSAxMCBaIiBmaWxsPSIjNzA3MDcwIi8+DQk8L2c+DTwvc3ZnPg==") no-repeat 0 0;
+        padding: 0;
+        width: 4px;
+        height: 1em;
+        position: absolute;
+        top: 3px;
+        left: -4px;
+    }
+}
+
+/** @aui-override until JRADEV-20165 is done and we have a circular avatar picker.
+    Relinquishing to the eccentricities of design and their stalwart refusal to provide avatars that can be rounded in the browser. */
+.aui-avatar-project {
+    &, & img, &:before {
+        background-color: transparent !important;
+        border: 0 !important;
+        border-radius: 3px !important;
+        box-shadow: none !important;
+    }
+}
+
+/** @aui-override because JIRA lets you create multi-checkboxes with a space as the value in the label. The group then has zero height and breaks the form */
+form.aui .group .radio + label,
+form.aui .group .checkbox + label {
+    display: inline-block;
+    min-height: 14px;
+}
+
+/** @aui-override not rendering the background image for the footer body because after doing the aui upgrade, we have inserted an anchor which renders the logo. */
+#footer .footer-body {
+  background-image: none;
+}
+
+/** @aui-override CAS-568 - removing 100% height hack from restfultable. Can remove once AUI-2077 is fixed. */
+#jira .aui-restfultable .aui-restfultable-row .aui-restfultable-draghandle {
+    height: auto;
+}
+
+#jira .aui-restfultable-readonly .aui-restfultable-editable {
+    height: auto;
+}

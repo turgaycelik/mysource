@@ -1,0 +1,53 @@
+#disable_html_escaping()
+#*
+  -- WebWork, Web Application Framework
+  --
+  -- Distributable under LGPL license.
+  -- See terms of license at opensource.org
+  --
+  --
+  -- radiomap.jsp
+  --
+  -- Required Parameters:
+  --   * label     - The description that will be used to identfy the control.
+  --   * name      - The name of the attribute to put and pull the result from.
+  --                 Equates to the NAME parameter of the HTML tag INPUT.
+  --   * list      - Iterator that will provide the options for the control.
+  --                 Equates to the HTML LABEL tags.
+  --   * listKey   - Where to get the values for the INPUT tag.  Equates to
+  --                 the VALUE parameter of the INPUT tag.
+  --   * listValue - The value displayed next to the radio control.  Equates to the body
+  --                 of the enclosing HTML LABEL tag.
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  --   * disabled        - DISABLED parameter of the HTML INPUT tag.
+  --   * tabindex        - tabindex parameter of the HTML INPUT tag.
+  --   * onchange        - onkeyup parameter of the HTML INPUT tag.
+  --
+    *#
+#parse("/template/standard/controlheader.vm")
+## What I really want to do is:       #set ( $listKey = ${param.${parameters.listKey}} )
+## However, velocity doesn't allow nested ${'s.  So we have to go to all this effort!
+## see http://www.mail-archive.com/velocity-user@jakarta.apache.org/msg09369.html for more information
+
+#set ($param_prefix = '$param.')  ## This is because we use $param in the foreach block below
+#set ($prefix_key = "$param_prefix$parameters.listKey")
+#set ($prefix_value = "$param_prefix$parameters.listValue")
+
+#foreach( $param in $parameters.list )
+#set ($listKey = $webwork.evaluate("$prefix_key"))
+#set ($listValue = $webwork.evaluate("$prefix_value"))
+
+    <label>$!listValue</label>
+    <input type="radio"
+        #if ($parameters.nameValue == $listKey) checked="checked"   #end
+        #if ($parameters.name)      name="$parameters.name"         #end
+        #if ($listKey)              value="$!listKey"               #end
+        #if ($parameters.disabled)  disabled="disabled"             #end
+        #if ($parameters.tabindex)  tabindex="$parameters.tabindex" #end
+        #if ($parameters.onchange)  onchange="$parameters.onchange" #end
+    />
+#end
+#parse("/template/standard/controlfooter.vm")

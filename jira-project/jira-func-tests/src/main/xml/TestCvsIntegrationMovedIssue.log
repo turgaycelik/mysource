@@ -1,0 +1,65 @@
+
+RCS file: /cvsroot/atlassian/jira-build-scripts/test-source-release.sh,v
+Working file: test-source-release.sh
+head: 1.10
+branch:
+locks: strict
+access list:
+symbolic names:
+	scripts_working_against_cvs: 1.5.0.2
+	atlassian_jira_3_6_polycom_tag: 1.4
+	atlassian_jira_3_6_branch: 1.4.0.2
+	atlassian_jira_3_6: 1.4
+	atlassian_jira_3_5_3: 1.4
+	atlassian_jira_3_5_2: 1.4
+	initial: 1.1.1.1
+	atlassian: 1.1.1
+keyword substitution: kv
+total revisions: 11;	selected revisions: 11
+description:
+----------------------------
+revision 1.10
+date: 2007/08/01 23:36:52;  author: devuser;  state: Exp;  lines: +2 -2
+HSP-2 re-ordered sourcing the base_build_jira script such that the current directory is set correctly
+----------------------------
+revision 1.9
+date: 2007/08/01 23:20:57;  author: devuser;  state: Exp;  lines: +3 -1
+HSP-2 Hopefully fixed maven2 build by explicitly setting the path
+----------------------------
+revision 1.8
+date: 2007/07/23 04:42:44;  author: detkin;  state: Exp;  lines: +5 -1
+HSP-2: Use maven2 to build source release if a pom.xml file exists
+----------------------------
+revision 1.7
+date: 2007/07/23 02:29:45;  author: jwesleysmith;  state: Exp;  lines: +1 -3
+JRA-13138 removed Andreas's hack to pass in the releaseInfo flag - release.info is now written into src/java and shares its lifecycle with BuildUtils.java
+----------------------------
+revision 1.6
+date: 2007/07/20 02:18:20;  author: devuser;  state: Exp;  lines: +3 -1
+Added releaseInfo flag to the source release
+----------------------------
+revision 1.5
+date: 2006/10/20 05:36:27;  author: devuser;  state: Exp;  lines: +2 -4
+remove the temp dir deletion if the build failed
+----------------------------
+revision 1.4
+date: 2006/01/06 08:34:50;  author: cmountford;  state: Exp;  lines: +1 -1
+removing verbose flag on tar zxvf to reduce distracting build log bloat
+----------------------------
+revision 1.3
+date: 2006/01/06 08:12:24;  author: cmountford;  state: Exp;  lines: +1 -1
+massaging temp dir path AHSP-2 references to use absolute rendition of working directory
+----------------------------
+revision 1.2
+date: 2006/01/05 03:53:42;  author: cmountford;  state: Exp;  lines: +2 -2
+moving to use tmp dir HSP-1 local to build root
+----------------------------
+revision 1.1
+date: 2005/12/22 06:50:51;  author: cmountford;  state: Exp;
+branches:  1.1.1;
+HSP-1 Initial revision
+----------------------------
+revision 1.1.1.1
+date: 2005/12/22 06:50:51;  author: cmountford;  state: Exp;  lines: +0 -0
+initial import of jira-build-scripts
+=============================================================================

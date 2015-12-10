@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.introduction.title__" directory_title="__MSG_gadget.introduction.title__" description="__MSG_gadget.introduction.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:introduction-gadget", "text-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:introduction-gadget", "text-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="dynamic-height"/>
+        <Require feature="settitle"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.introduction")
+    </ModulePrefs>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    view: {
+                        enableReload: true,
+                        onResizeReload: true,
+                        template: function (args) {
+                            var gadget = this;
+                            gadget.getView().addClass("g-intro");
+                            gadget.getView().html(args.intro);
+                            gadgets.window.setTitle("__MSG_gadget.introduction.title__");
+                            AJS.$("form").attr("target", "_parent");
+                            gadget.resize();
+                        },
+                        args: [
+                            {
+                                key: "intro",
+                                ajaxOptions: function () {
+                                    return {
+                                        url: "/rest/gadget/1.0/intro",
+                                        dataType: "html"
+                                    };
+                                }
+                            }
+                        ]
+                    }
+                });
+            })();
+        </script>
+        ]]>
+    </Content>
+</Module>

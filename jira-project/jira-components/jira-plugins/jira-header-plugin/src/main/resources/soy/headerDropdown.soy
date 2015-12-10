@@ -1,0 +1,64 @@
+{namespace JIRA.Templates.Menu.Dropdowns}
+
+/**
+ * @param sections
+ */
+{template .dropdown2Fragment}
+    {foreach $section in $sections}
+        {let $hasItems : $section.items and length($section.items) > 0 /}
+
+        <div class="aui-dropdown2-section">
+            {if $hasItems and $section.label}
+                <strong>{$section.label}</strong>
+            {/if}
+
+            <ul class='aui-list-truncate'
+                {if $section.id}{sp}id="{$section.id}"{/if}
+                {if $section.style}{sp}class="{$section.style}"{/if}
+            >
+                {if $hasItems}
+                    {foreach $item in $section.items}
+                        {call .dropdown2Item data="$item" /}
+                    {/foreach}
+                {/if}
+            </ul>
+        </div>
+    {/foreach}
+{/template}
+
+/**
+ * @param? id
+ * @param? style
+ * @param? title
+ * @param? label
+ * @param url
+ * @param? iconUrl
+ * @param? parameters object of extra attributes, where the keys are attribute names.
+ */
+{template .dropdown2Item private="true"}
+    <li
+        {if $id}{sp}id="{$id}"{/if}
+        {if $style}{sp}class="{$style}"{/if}
+    >
+        <a href="{$url}"
+            {if $id}{sp}id="{$id}_lnk"{/if}
+            {if $title}{sp}title="{$title}"{/if}
+            {sp}class="
+                {if $iconUrl}aui-icon-container{/if}
+                {if $parameters and $parameters.class}{sp}{$parameters.class}{/if}
+            "
+            {if $parameters}
+                {foreach $key in keys($parameters)}/* we're given an object, not an array! */
+                    {if $key != 'class'}
+                    {sp}{$key}="{$parameters[$key]}"
+                    {/if}
+                {/foreach}
+            {/if}
+        >
+            {if $iconUrl}
+                <img class="icon" src="{$iconUrl}" />
+            {/if}
+            {$label}
+        </a>
+    </li>
+{/template}

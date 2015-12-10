@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:LinkIssue key="ABC-1" linkKey="ABC-2" linkDesc="duplicates"/>
+</JiraJelly>

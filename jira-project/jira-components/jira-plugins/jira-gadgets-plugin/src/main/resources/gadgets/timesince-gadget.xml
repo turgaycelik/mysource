@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.time.since.title__" directory_title="__MSG_gadget.time.since.title__" description="__MSG_gadget.time.since.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:time-since-chart-gadget", "timeSince-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:time-since-chart-gadget", "timeSince-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Charts
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.time.since")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="projectOrFilterId" datatype="hidden" />
+    <UserPref name="daysprevious" datatype="hidden" default_value="30"/>
+    <UserPref name="dateField" datatype="hidden" default_value="created"/>
+    <UserPref name="periodName" datatype="hidden" default_value="daily"/>
+    <UserPref name="isCumulative" datatype="hidden" default_value="30"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+
+
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #includeResources()
+
+        <script type="text/javascript">
+            gadgets.window.setTitle("__MSG_gadget.time.since.title__");
+            AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "/rest/gadget/1.0/currentUser",
+                config: {
+                    descriptor: function (args) {
+                        var gadget = this;
+                        var searchParam ;
+                        if (/^jql-/.test(this.getPref("projectOrFilterId")) || this.getPref("isPopup") === "true"){
+                            searchParam =
+                                {
+                                    userpref: "projectOrFilterId",
+                                    type: "hidden",
+                                    value: gadgets.util.unescapeString(this.getPref("projectOrFilterId"))
+                                };
+                        }
+                        else{
+                            searchParam = AJS.gadget.fields.projectOrFilterPicker(gadget, "projectOrFilterId", args.options);
+                        }
+
+                        return  {
+                            action: "/rest/gadget/1.0/timeSince/validate",
+                            theme : function(){
+                                if (gadgets.window.getViewportDimensions().width < 450){
+                                    return "gdt top-label";
+                                }
+                                else
+                                {
+                                    return "gdt";
+                                }
+                            }(),
+                            fields: [
+                                searchParam,
+                                {
+                                    userpref: "dateField",
+                                    label: this.getMsg("gadget.time.since.date.label"),
+                                    description:this.getMsg("gadget.time.since.date.description"),
+                                    type: "select",
+                                    selected: this.getPref("dateField"),
+                                    options: args.dateFields
+                                },
+                                AJS.gadget.fields.period(gadget, "periodName"),
+                                AJS.gadget.fields.days(gadget, "daysprevious"),
+                                AJS.gadget.fields.cumulative(gadget, "isCumulative"),
+                                AJS.gadget.fields.nowConfigured()
+                            ]
+                        };
+                    },
+                    args: [
+                    {
+                        key: "dateFields",
+                        ajaxOptions: "/rest/gadget/1.0/dateFields"
+                    }]
+                },
+                view: {
+                    enableReload: true,
+                    onResizeReload: true,
+                    template: function (args) {
+                        var gadget = this;
+                        gadget.getView().addClass("g-timesince");
+                        gadget.getView().addClass("chart").empty();
+                        gadget.getGadget().addClass("loading");
+                        var requiresTitle = function() {
+                            return args.chart.filterTitle && args.chart.filterTitle !== "" && args.chart.filterTitle !== "gadget.common.anonymous.filter" && gadget.getPref("isPopup") === "false";
+                        };
+                        if (requiresTitle()) {
+                            // This is used to pass the name of filter or project to the picker
+                            gadget.projectOrFilterName = args.chart.filterTitle;
+
+                            gadgets.window.setTitle(AJS.format("__MSG_gadget.time.since.title.specific__", args.chart.filterTitle));
+                        } else {
+                            this.getView().html("");
+                        }
+                        this.getView().append(args.chart.imageMap);
+                        AJS.$("area").each(function(){
+                            var $this = AJS.$(this);
+                            if ($this.attr("href")){
+                                $this.attr({
+                                    target: "_parent",
+                                    href: $this.attr("href")
+                                });
+                            }
+                        });
+
+                        var safeEscapeString = function(text) {
+                            if(text) {
+                                return gadgets.util.escapeString(text);
+                            } else {
+                                return '';
+                            }
+                        };
+
+                        var chart = AJS.$("<div id='chart'/>");
+                        chart.append(AJS.$("<img />").attr({
+                            src: args.chart.base64Image,
+                            alt: safeEscapeString(args.chart.filterTitle),
+                            width: args.chart.width,
+                            height: args.chart.height,
+                            usemap: "\#" + args.chart.imageMapName
+                        }).hide().load(function(){
+                            AJS.$(this).show();
+                            gadget.getGadget().removeClass("loading");
+                            gadgets.window.adjustHeight(); //AJS.$("body").outerHeight());
+                        }));
+                        var linkStart = "";
+                        var linkEnd = "";
+                        var filterOrProjectLinkMessageKey = "__MSG_gadget.time.since.filter__";
+                        if(args.chart.isProject) {
+                            filterOrProjectLinkMessageKey = "__MSG_gadget.time.since.project__";
+                        }
+                        var fOrPLinkStart = "";
+                        var fOrPLinkEnd = "";
+                        var fOrPLink = "";
+                        if(requiresTitle()) {
+                            linkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.chart.chartFilterUrl + "\" target=\"_parent\">";
+                            linkEnd = "</a>";
+                            fOrPLinkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.chart.filterUrl + "\" target=\"_parent\">";
+                            fOrPLinkEnd = "</a>";
+                            fOrPLink = AJS.format(filterOrProjectLinkMessageKey, fOrPLinkStart, "<strong>", safeEscapeString(args.chart.filterTitle), "</strong>", fOrPLinkEnd);
+                        }
+
+                        chart.append(AJS.$("<p/>").append(
+                                AJS.format("__MSG_gadget.time.since.issues__", linkStart, "<strong>", args.chart.issueCount, "</strong>", linkEnd) +
+                                "&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                AJS.format("__MSG_gadget.time.since.field__", "<strong>", args.chart.fieldName, "</strong>") +
+                                "&nbsp;&nbsp;&nbsp;&nbsp;" + fOrPLink));
+                        chart.append(AJS.$("<p/>").append(AJS.format("__MSG_gadget.common.chart.period__", "<strong>", gadget.getPref("daysprevious"), "</strong>", "<strong>", gadget.getMsg("gadget.common.period." + gadget.getPref("periodName")), "</strong>")));
+                        this.getView().append(chart);
+                    },
+                    args: [{
+                        key: "chart",
+                        ajaxOptions: function () {
+                            var width = Math.round(gadgets.window.getViewportDimensions().width * 0.9);
+                            if (width < 150){
+                                width = 150;
+                            }
+                            var height = Math.round(width*2/3);
+
+                            return {
+                                url: "/rest/gadget/1.0/timeSince/generate",
+                                data:  {
+                                    projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                    periodName: this.getPref("periodName"),
+                                    daysprevious: this.getPref("daysprevious"),
+                                    dateField: gadgets.util.unescapeString(this.getPref("dateField")),
+                                    isCumulative: this.getPref("isCumulative"),
+                                    width: width,
+                                    height: height,
+                                    inline: true
+                                }
+                            };
+                        }
+                    }]
+                }
+            });
+        </script>
+        ]]>
+    </Content>
+</Module>

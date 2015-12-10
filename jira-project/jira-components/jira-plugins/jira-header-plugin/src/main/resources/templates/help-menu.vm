@@ -1,0 +1,29 @@
+#disable_html_escaping()
+#* @vtlvariable name="displayableSections" type="java.util.List<com.atlassian.jira.plugin.webfragment.model.SimpleLinkSection>" *#
+#* @vtlvariable name="completeSectionKeyToDisplayableItems" type="java.util.Map<java.lang.String,java.util.List<com.atlassian.jira.plugin.webfragment.model.SimpleLink>>" *#
+#* @vtlvariable name="user" type="com.atlassian.crowd.embedded.api.User" *#
+#* @vtlvariable name="rootHelpMenuItem" type="com.atlassian.jira.plugin.webfragment.model.SimpleLink" *#
+#if (!$displayableSections.isEmpty() && $rootHelpMenuItem)
+    <li id="system-help-menu">
+        <a class="aui-nav-link aui-dropdown2-trigger" id="help_menu" aria-haspopup="true" aria-owns="system-help-menu-content" href="$rootHelpMenuItem.url" #if ($rootHelpMenuItem.params.target) target="$textUtils.htmlEncode($rootHelpMenuItem.params.target)" #end title="$i18n.getText('common.header.menu.help')"><span class="aui-icon aui-icon-small aui-iconfont-help">$i18n.getText('common.header.menu.help')</span></a>
+        <div id="system-help-menu-content" class="aui-dropdown2 aui-style-default">
+            #foreach ($section in $displayableSections)
+                #set ($displayableItems = $completeSectionKeyToDisplayableItems.get($section.id))
+                <div class="aui-dropdown2-section">
+                    #if ($section.label)
+                        <strong>$section.label</strong>
+                    #end
+                    #if (!$displayableItems.empty)
+                        <ul id="$section.id" class="aui-list-truncate">
+                            #foreach ($item in $displayableItems)
+                                <li>
+                                    <a #if ($item.id) id="$item.id" #end #if ($item.styleClass) class="$item.styleClass" #end #if ($item.title)title="$item.title"#end href="$item.url" #if ($item.params.containsKey("target")) target="$item.params.get("target")" #end>$item.label</a>
+                                </li>
+                            #end
+                        </ul>
+                    #end
+                </div>
+            #end
+        </div>
+    </li>
+#end

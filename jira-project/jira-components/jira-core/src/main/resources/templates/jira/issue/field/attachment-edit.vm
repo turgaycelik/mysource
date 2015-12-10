@@ -1,0 +1,32 @@
+#disable_html_escaping()
+#if ($displayParameters.theme && $displayParameters.theme == 'aui') #set ($theme = true) #else #set ($theme = false)  #end
+#if ($theme)
+$!{auiparams.put("fieldsetClass", "group")}
+#AUIformFieldsetHeader ($i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+    $!{auiparams.clear()}
+    $!{auiparams.put("controlHeaderClass", "file-input-list")}
+    $!{auiparams.put("noLabel", "true")}
+    #customControlHeader ($action "${field.id}_field_header" $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+        $!{auiparams.clear()}
+        $!{auiparams.put("controlHeaderId", "attachment_div")}
+        $!{auiparams.put("noLabel", "true")}
+#else
+    $!{auiparams.clear()}
+#end
+        #customControlHeader ($action "attachment_field" $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+            #foreach($tempFile in $tempFiles)
+                #if(!$checkedFiles || $checkedFiles.contains($tempFile.id))
+                    #set ($checked = "checked")
+                #else
+                    #set ($checked = "")
+                #end
+                <div class="field-group"><input type="checkbox" name="filetoconvert" id="filetoconvert-$tempFile.id" value="$tempFile.id" $!{checked} /><label for="filetoconvert-$tempFile.id">$textutils.htmlEncode(${tempFile.filename})</label></div>
+            #end
+            <div class='field-group'><input class="upfile" id="${field.id}_box" name="tempFilename" type="file" value="$!attachment_field" /></div>
+            <div class="description">$i18n.getText('attachfile.filebrowser.warning', $maxSize)</div>
+            <div id='attach-max-size' class="hidden">$maxSizeRaw</div>
+        #customControlFooter ($action "attachment_field" $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+#if ($theme)
+    #customControlFooter ($action "${field.id}_field_header" "" $displayParameters $auiparams)
+#AUIformFieldsetFooter ($action $field.id "" $displayParameters $auiparams)
+#end

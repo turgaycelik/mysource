@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#* @vtlvariable name="dateConfig" type="com.atlassian.jira.issue.search.searchers.util.DateSearcherConfig" *#
+## Date after
+
+ ## Only kickass and due date fields for now
+<div data-field-name="$!textutils.htmlEncode($fieldName)" class="js-${searcherId}-searcher date-searcher #if($searcherId.startsWith("customfield_"))js-customdate-searcher#end #if (!$action.getErrors().isEmpty())has-errors#end" >
+    #datePopupOptions($dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+    <fieldset class="js-date-picker-errors">
+        #foreach ($error in $action.getErrors().entrySet())
+            <input type="hidden" title="$error.getKey()" value="$textutils.htmlEncode($error.getValue())" />
+        #end
+    </fieldset>
+    <input type="text" class="js-date-picker-start-date" name="${afterField}" value="$!fieldValuesHolder.getEscaped($afterField)" />
+    <input type="text" class="js-date-picker-end-date" name="${beforeField}" value="$!fieldValuesHolder.getEscaped($beforeField)" />
+    <input type="text" class="js-date-picker-from" name="${previousField}" value="$!fieldValuesHolder.getEscaped($previousField)" />
+    <input type="text" class="js-date-picker-to" name="${nextField}" value="$!fieldValuesHolder.getEscaped($nextField)" />
+</div>
+#customControlFooterDescription (${description})
+
+$!{auiparams.clear()}

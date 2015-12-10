@@ -1,0 +1,10 @@
+#disable_html_escaping()
+#if ($assigneeUserkey)
+    #if ($displayParams && $displayParams.nolink)
+        $userformat.formatUserkey($assigneeUserkey, 'fullName', 'assignee')
+    #else
+        <span class="tinylink">$userformat.formatUserkey($assigneeUserkey, 'profileLink', 'assignee')</span>
+    #end
+#else
+    <em>$i18n.getText('common.concepts.unassigned')</em>
+#end

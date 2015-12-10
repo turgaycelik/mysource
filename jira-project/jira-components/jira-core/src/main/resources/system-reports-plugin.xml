@@ -1,0 +1,461 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.reports" i18n-name-key="admin.report.plugin.name" name="Reports Plugin">
+    <plugin-info>
+        <description key="admin.report.plugin.desc">JIRA's system reports.</description>
+        <version>1.0</version>
+        <application-version min="3.0" max="3.0" />
+        <vendor name="Atlassian" url="http://www.atlassian.com" />
+    </plugin-info>
+
+    <report key="developer-workload" i18n-name-key="report.developerworkload.label" name="User Workload Report" class="com.atlassian.jira.plugin.report.impl.DeveloperWorkloadReport">
+        <description key="report.developerworkload.description">This report shows the details of a user's current workload, showing the number of unresolved issues assigned and workload remaining on a per project basis.</description>
+        <label key="report.developerworkload.label" />
+
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/developer-workload-report.vm" />
+
+        <properties>
+            <property>
+                <key>developer</key>
+                <name>report.developerworkload.developer</name>
+                <description>report.developerworkload.developer.description</description>
+                <type>user</type>
+            </property>
+            <property>
+                <key>subtaskInclusion</key>
+                <name>report.subtask.include</name>
+                <description>report.subtask.include.description</description>
+                <type>select</type>
+                <i18n>false</i18n>
+                <values class="com.atlassian.jira.plugin.report.impl.UserSubTaskIncludeValuesGenerator"/>
+                <enabled-condition class="com.atlassian.jira.plugin.report.impl.AllowUnassignedAndSubTasksEnabledCondition"/>
+            </property>
+        </properties>
+    </report>
+
+    <report key="time-tracking" i18n-name-key="report.timetracking.label" name="Time Tracking Report" class="com.atlassian.jira.plugin.report.impl.TimeTrackingReport">
+        <description key="report.timetracking.description">This report shows the time tracking details for a specific project.</description>
+        <label key="report.timetracking.label" />
+
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/time-tracking-report.vm" />
+        <resource type="velocity" name="excel" location="templates/plugins/jira/reports/time-tracking-report-excel.vm" />
+
+        <properties>
+            <property>
+                <key>versionId</key>
+                <name>timetracking.version</name>
+                <description>report.timetracking.version.description</description>
+                <type>select</type>
+                <i18n>false</i18n>
+                <values class="com.atlassian.jira.portal.VersionOptionalValuesGenerator"/>
+            </property>
+            <property>
+                <key>sortingOrder</key>
+                <name>report.timetracking.sortingorder</name>
+                <description>report.timetracking.sortingorder.description</description>
+                <type>select</type>
+                <values class="com.atlassian.jira.portal.SortingValuesGenerator"/>
+            </property>
+            <property>
+                <key>completedFilter</key>
+                <name>report.timetracking.filter</name>
+                <description>report.timetracking.filter.description</description>
+                <type>select</type>
+                <i18n>false</i18n>
+                <values class="com.atlassian.jira.portal.FilterValuesGenerator"/>
+            </property>
+            <property>
+                <key>subtaskInclusion</key>
+                <name>report.subtask.include</name>
+                <description>report.subtask.include.description</description>
+                <type>select</type>
+                <i18n>false</i18n>
+                <values class="com.atlassian.jira.plugin.report.impl.SubTaskIncludeValuesGenerator"/>
+                <enabled-condition class="com.atlassian.jira.plugin.report.impl.SubTasksEnabledCondition"/>
+            </property>
+        </properties>
+    </report>
+
+    <report key="singlelevelgroupby" i18n-name-key="report.singlelevelgroupby.label" name="Group By Report" class="com.atlassian.jira.plugin.report.impl.SingleLevelGroupByReport">
+        <description key="report.singlelevelgroupby.description">This report allows you to group data by a certain field</description>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/single-groupby-report.vm" />
+        <label key="report.singlelevelgroupby.label" />
+        <properties>
+            <property>
+                <key>filterid</key>
+                <name>report.singlelevelgroupby.filterId</name>
+                <description>report.singlelevelgroupby.filterId.description</description>
+                <type>filterpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>mapper</key>
+                <name>report.singlelevelgroupby.mapper</name>
+                <description>report.singlelevelgroupby.mapper.description</description>
+                <type>select</type>
+                <values class="com.atlassian.jira.issue.statistics.FilterStatisticsValuesGenerator"/>
+            </property>
+        </properties>
+    </report>
+
+    <!-- CHARTING -->
+    <report key="createdvsresolved-report" name="Created vs Resolved Issues Report" class="com.atlassian.jira.charts.report.CreatedVsResolvedReport">
+        <description key="report.createdvsresolved.description"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/createdvsresolved-report.vm"/>
+        <label key="report.createdvsresolved.label"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>periodName</key>
+                <name>portlet.chart.field.periodname.name</name>
+                <description>portlet.chart.field.periodname.description</description>
+                <type>select</type>
+                <default>daily</default>
+                <values>
+                    <value>
+                        <key>hourly</key>
+                        <value>portlet.chart.field.periodname.hourly</value>
+                    </value>
+                    <value>
+                        <key>daily</key>
+                        <value>portlet.chart.field.periodname.daily</value>
+                    </value>
+                    <value>
+                        <key>weekly</key>
+                        <value>portlet.chart.field.periodname.weekly</value>
+                    </value>
+                    <value>
+                        <key>monthly</key>
+                        <value>portlet.chart.field.periodname.monthly</value>
+                    </value>
+                    <value>
+                        <key>quarterly</key>
+                        <value>portlet.chart.field.periodname.quarterly</value>
+                    </value>
+                    <value>
+                        <key>yearly</key>
+                        <value>portlet.chart.field.periodname.yearly</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>daysprevious</key>
+                <name>portlet.chart.field.daysprevious.name</name>
+                <description>portlet.chart.field.daysprevious.description</description>
+                <type>long</type>
+                <default>30</default>
+            </property>
+            <property>
+                <key>cumulative</key>
+                <name>portlet.chart.field.cumulative.name</name>
+                <description>portlet.chart.field.cumulative.description</description>
+                <type>select</type>
+                <default>true</default>
+                <values>
+                    <value>
+                        <key>true</key>
+                        <value>common.words.yes</value>
+                    </value>
+                    <value>
+                        <key>false</key>
+                        <value>common.words.no</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>versionLabels</key>
+                <name>portlet.chart.field.versionLabels.name</name>
+                <description>portlet.chart.field.versionLabels.description</description>
+                <type>select</type>
+                <default>major</default>
+                <values>
+                    <value>
+                        <key>all</key>
+                        <value>portlet.chart.field.versionLabels.allVersions</value>
+                    </value>
+                    <value>
+                        <key>major</key>
+                        <value>portlet.chart.field.versionLabels.majorVersions</value>
+                    </value>
+                    <value>
+                        <key>none</key>
+                        <value>portlet.chart.field.versionLabels.noVersions</value>
+                    </value>
+                </values>
+            </property>
+        </properties>
+    </report>
+
+    <report key="resolutiontime-report" name="Resolution Time Report"
+            class="com.atlassian.jira.charts.report.ResolutionTimeReport">
+        <description key="report.resolutiontime.description"/>
+        <label key="report.resolutiontime.label"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/resolutiontime-report.vm"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>periodName</key>
+                <name>portlet.chart.field.periodname.name</name>
+                <description>portlet.chart.field.periodname.description</description>
+                <type>select</type>
+                <default>daily</default>
+                <values>
+                    <value>
+                        <key>hourly</key>
+                        <value>portlet.chart.field.periodname.hourly</value>
+                    </value>
+                    <value>
+                        <key>daily</key>
+                        <value>portlet.chart.field.periodname.daily</value>
+                    </value>
+                    <value>
+                        <key>weekly</key>
+                        <value>portlet.chart.field.periodname.weekly</value>
+                    </value>
+                    <value>
+                        <key>monthly</key>
+                        <value>portlet.chart.field.periodname.monthly</value>
+                    </value>
+                    <value>
+                        <key>quarterly</key>
+                        <value>portlet.chart.field.periodname.quarterly</value>
+                    </value>
+                    <value>
+                        <key>yearly</key>
+                        <value>portlet.chart.field.periodname.yearly</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>daysprevious</key>
+                <name>portlet.chart.field.daysprevious.name</name>
+                <description>portlet.chart.field.daysprevious.description</description>
+                <type>long</type>
+                <default>30</default>
+            </property>
+        </properties>
+    </report>
+
+    <report key="pie-report" name="Pie Chart Report" class="com.atlassian.jira.charts.report.PieReport">
+        <description key="report.singlefieldpie.description"/>
+        <label key="report.singlefieldpie.label"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/pie-report.vm"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>statistictype</key>
+                <name>gadget.filterstats.field.statistictype.name</name>
+                <description>gadget.filterstats.field.statistictype.description</description>
+                <type>select</type>
+                <values class="com.atlassian.jira.issue.statistics.FilterStatisticsValuesGenerator"/>
+            </property>
+        </properties>
+    </report>
+
+    <report key="averageage-report" name="Average Age Report" class="com.atlassian.jira.charts.report.AverageAgeReport">
+        <description key="report.averageage.description"/>
+        <label key="report.averageage.label"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/averageage-report.vm"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>periodName</key>
+                <name>portlet.chart.field.periodname.name</name>
+                <description>portlet.chart.field.periodname.description</description>
+                <type>select</type>
+                <default>daily</default>
+                <values>
+                    <value>
+                        <key>hourly</key>
+                        <value>portlet.chart.field.periodname.hourly</value>
+                    </value>
+                    <value>
+                        <key>daily</key>
+                        <value>portlet.chart.field.periodname.daily</value>
+                    </value>
+                    <value>
+                        <key>weekly</key>
+                        <value>portlet.chart.field.periodname.weekly</value>
+                    </value>
+                    <value>
+                        <key>monthly</key>
+                        <value>portlet.chart.field.periodname.monthly</value>
+                    </value>
+                    <value>
+                        <key>quarterly</key>
+                        <value>portlet.chart.field.periodname.quarterly</value>
+                    </value>
+                    <value>
+                        <key>yearly</key>
+                        <value>portlet.chart.field.periodname.yearly</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>daysprevious</key>
+                <name>portlet.chart.field.daysprevious.name</name>
+                <description>portlet.chart.field.daysprevious.description</description>
+                <type>long</type>
+                <default>30</default>
+            </property>
+        </properties>
+    </report>
+
+    <report key="recentlycreated-report" name="Recently Created Issues Report" class="com.atlassian.jira.charts.report.RecentlyCreatedReport">
+        <description key="report.recentlycreated.description"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/recentlycreated-report.vm"/>
+        <label key="report.recentlycreated.label"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>periodName</key>
+                <name>portlet.chart.field.periodname.name</name>
+                <description>portlet.chart.field.periodname.description</description>
+                <type>select</type>
+                <default>daily</default>
+                <values>
+                    <value>
+                        <key>hourly</key>
+                        <value>portlet.chart.field.periodname.hourly</value>
+                    </value>
+                    <value>
+                        <key>daily</key>
+                        <value>portlet.chart.field.periodname.daily</value>
+                    </value>
+                    <value>
+                        <key>weekly</key>
+                        <value>portlet.chart.field.periodname.weekly</value>
+                    </value>
+                    <value>
+                        <key>monthly</key>
+                        <value>portlet.chart.field.periodname.monthly</value>
+                    </value>
+                    <value>
+                        <key>quarterly</key>
+                        <value>portlet.chart.field.periodname.quarterly</value>
+                    </value>
+                    <value>
+                        <key>yearly</key>
+                        <value>portlet.chart.field.periodname.yearly</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>daysprevious</key>
+                <name>portlet.chart.field.daysprevious.name</name>
+                <description>portlet.chart.field.daysprevious.description</description>
+                <type>long</type>
+                <default>30</default>
+            </property>
+        </properties>
+    </report>
+
+    <report key="timesince-report" name="Time Since Report" class="com.atlassian.jira.charts.report.TimeSinceReport">
+        <description key="report.timesince.description"/>
+        <resource type="velocity" name="view" location="templates/plugins/jira/reports/charts/timesince-report.vm"/>
+        <label key="report.timesince.label"/>
+        <properties>
+            <property>
+                <key>projectOrFilterId</key>
+                <name>portlet.chart.field.project.or.filter.name</name>
+                <description>portlet.chart.field.project.or.filter.description</description>
+                <type>filterprojectpicker</type>
+                <i18n>false</i18n>
+            </property>
+            <property>
+                <key>dateField</key>
+                <name>portlet.chart.field.dateField.name</name>
+                <description>portlet.chart.field.dateField.description</description>
+                <type>select</type>
+                <i18n>false</i18n>
+                <values class="com.atlassian.jira.charts.portlet.DateFieldValuesGenerator"/>
+            </property>
+            <property>
+                <key>periodName</key>
+                <name>portlet.chart.field.periodname.name</name>
+                <description>portlet.chart.field.periodname.description</description>
+                <type>select</type>
+                <default>daily</default>
+                <values>
+                    <value>
+                        <key>hourly</key>
+                        <value>portlet.chart.field.periodname.hourly</value>
+                    </value>
+                    <value>
+                        <key>daily</key>
+                        <value>portlet.chart.field.periodname.daily</value>
+                    </value>
+                    <value>
+                        <key>weekly</key>
+                        <value>portlet.chart.field.periodname.weekly</value>
+                    </value>
+                    <value>
+                        <key>monthly</key>
+                        <value>portlet.chart.field.periodname.monthly</value>
+                    </value>
+                    <value>
+                        <key>quarterly</key>
+                        <value>portlet.chart.field.periodname.quarterly</value>
+                    </value>
+                    <value>
+                        <key>yearly</key>
+                        <value>portlet.chart.field.periodname.yearly</value>
+                    </value>
+                </values>
+            </property>
+            <property>
+                <key>daysprevious</key>
+                <name>portlet.chart.field.daysprevious.name</name>
+                <description>portlet.chart.field.daysprevious.description</description>
+                <type>long</type>
+                <default>30</default>
+            </property>
+            <property>
+                <key>cumulative</key>
+                <name>portlet.chart.field.cumulative.name</name>
+                <description>portlet.chart.field.cumulative.description</description>
+                <type>select</type>
+                <default>true</default>
+                <values>
+                    <value>
+                        <key>true</key>
+                        <value>common.words.yes</value>
+                    </value>
+                    <value>
+                        <key>false</key>
+                        <value>common.words.no</value>
+                    </value>
+                </values>
+            </property>
+        </properties>
+    </report>
+
+</atlassian-plugin>

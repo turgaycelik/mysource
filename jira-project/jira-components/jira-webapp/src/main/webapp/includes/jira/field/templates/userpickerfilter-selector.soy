@@ -1,0 +1,140 @@
+{namespace JIRA.Templates.Admin.CustomFields.UserPickerFilter}
+// all client side templates
+
+/**
+ * renders the filter selector panel. expected to be placed into div#filter-selector-panel.
+ *
+ * @param groups all groups in the system
+ * @param projectRoles all project roles in the system
+ * @param userFilter the current values in the filter
+ */
+{template .renderSelectorPanel}
+    <div id="filter-disabled-msg" class="filter-message" style="display: none">
+        {call aui.message.info}
+            {param closeable : false /}
+            {param content}
+                {getText('admin.issuefields.customfields.edit.userpickerfilter.disabled.info')}
+            {/param}
+        {/call}
+    </div>
+    <div id="filter-none-msg" class="filter-message" style="display: none">
+        {call aui.message.warning}
+            {param closeable : false /}
+            {param content}
+                {getText('admin.issuefields.customfields.edit.userpickerfilter.nofilter.warning')}
+            {/param}
+        {/call}
+    </div>
+    <div id="filter-checkbox-div">
+        {call aui.form.input}
+            {param id : 'filter-checkbox' /}
+            {param type : 'checkbox' /}
+            {param isChecked : $userFilter.enabled /}
+        {/call}
+        <span for="filter-checkbox" class="filter-checkbox-label">
+            {getText('admin.issuefields.customfields.edit.userpickerfilter.checkbox.label')}
+        </span>
+    </div>
+    <div id="filter-selector-selection-panel" {if not $userFilter.enabled}style="display: none"{/if}>
+        {call aui.form.fieldGroup}
+            {param id : 'filter-display' /}
+            {param content}
+                {call aui.form.label}
+                    {param forField: 'filter-display-div' /}
+                    {param content: getText('admin.issuefields.customfields.edit.userpickerfilter.filters.label') /}
+                {/call}
+                <div id="filter-display-div">
+                    <div class="filter-entry" style="display: none" id="filter-entry-div-none">
+                        <div id="filter-entry-div-none-inner" title="{getText('admin.issuefields.customfields.edit.userpickerfilter.entry.nofilter.tooltip')}">
+                            {getText('admin.issuefields.customfields.edit.userpickerfilter.entry.nofilter.title')}
+                        </div>
+                    </div>
+                </div>
+            {/param}
+        {/call}
+        {call aui.form.fieldGroup}
+            {param id : 'filter-selector' /}
+            {param content}
+                {call aui.form.label}
+                    {param forField: 'filter-select-div' /}
+                    {param content: getText('admin.issuefields.customfields.edit.userpickerfilter.add.label') /}
+                {/call}
+                <div id="filter-selector-div">
+                    {call aui.form.select}
+                        {param id: 'filter-selector-type' /}
+                        {param extraClasses: 'medium-field' /}
+                        {param options: [[ 'text' : getText('admin.common.words.group'), 'value' : 'group'],
+                                         [ 'text' : getText('admin.common.words.projectrole'), 'value' : 'role']] /}
+                    {/call}
+                    <img class="arrow" src="{contextPath()}/images/icons/hierarchy_arrow.gif" alt="{getText('common.words.arrow')}" width="10px" height="10px"/>
+                    <select id="filter-selector-group" class="select filter-selector">
+                        {foreach $group in $groups}
+                            <option value="{$group.name |escapeHtml}">
+                                {$group.name |escapeHtml}
+                            </option>
+                        {/foreach}
+                    </select>
+                    <select id="filter-selector-role" class="select filter-selector" style="display: none">
+                        {foreach $projectRole in $projectRoles}
+                            <option value="{$projectRole.id |escapeHtml}">
+                                {$projectRole.name |escapeHtml}
+                            </option>
+                        {/foreach}
+                    </select>
+                    <span class="add-filter" id="add-filter"><span class="icon jira-icon-add"></span>
+                        {sp}{getText('common.words.add')}
+                    </span>
+                </div>
+            {/param}
+        {/call}
+    </div>
+{/template}
+
+/**
+ * renders a single filter entry like a group or a project role
+ * @param name name of group or project role
+ * @param seq sequence number
+ * @param tooltip tooltip
+ * @param type group or role
+ * @param typeLabel group or project role to display
+ * @param value name of group or id of project role
+ */
+{template .showFilterEntry}
+    <div class="filter-entry" style="" id="filter-entry-div-{$seq}" data-value="{$value}" data-type="{$type}">
+        <div id="filter-entry-div-{$seq}-inner">
+            <span title="{$tooltip |escapeHtml}"><b>{$typeLabel}</b>: {$name |escapeHtml}</span>
+            <span class="icon icon-delete delete-filter" style="">{getText('admin.issuefields.customfields.edit.userpickerfilter.delete.action.label')}</span>
+        </div>
+    </div>
+{/template}
+
+/**
+ * renders a single filter entry for a group
+ * @param name name of group
+ * @param seq sequence number
+ */
+{template .showGroupFilterEntry}
+    {call .showFilterEntry data="all"}
+        // somehow AJS.format could not recognize "'{0}'"
+        {param tooltip : getText('admin.issuefields.customfields.edit.userpickerfilter.entry.group.tooltip', '\'' + $name + '\'') /}
+        {param type : 'group' /}
+        {param typeLabel : getText('admin.common.words.group') /}
+        {param value : $name /}
+    {/call}
+{/template}
+
+/**
+ * renders a single filter entry for a project role
+ * @param name name of project role to display
+ * @param roleId id of project role
+ * @param seq sequence number
+ */
+{template .showRoleFilterEntry}
+    {call .showFilterEntry data="all"}
+        // somehow AJS.format could not recognize "'{0}'"
+        {param tooltip : getText('admin.issuefields.customfields.edit.userpickerfilter.entry.role.tooltip', '\'' + $name + '\'') /}
+        {param type : 'role' /}
+        {param typeLabel : getText('admin.common.words.projectrole') /}
+        {param value : $roleId /}
+    {/call}
+{/template}

@@ -1,0 +1,122 @@
+#disable_html_escaping()
+## Container for the whole set of fields so that we can employ borders
+<div class="#if ($!{displayParameters.get('isFirstField')} == false)grouped-fields-top#end #if ($!{displayParameters.get('isLastField')} == false)grouped-fields-bottom#end">
+
+    #if($isTimeTrackingPresentAndShouldBeRendered == true)
+        ## "Log Work" checkbox needs to be rendered only when Time Tracking is on the screen
+        $!{auiparams.put("controlHeaderType", "checkbox")}
+        $!{auiparams.put("fieldsetClass", "group")}
+        #AUIformFieldsetHeader ("" false $displayParameters $auiparams)
+            #customControlHeader ($action "${field.id}_activate" "" false $displayParameters $auiparams)
+                <input #if($!{isLogWorkActivated} == true)checked="checked"#end value="true" class="checkbox" id="log-work-activate" name="${field.id}_activate" type="checkbox" />
+                <label for="log-work-activate">$i18n.getText('logwork.title')</label>
+            #customControlFooter ($action "" "" $displayParameters $auiparams)
+        #AUIformFieldsetFooter ($action "${field.id}_activate" "" $displayParameters $auiparams)
+        $!{auiparams.clear()}
+
+        ## Time Tracking proxy field -- same template as in timetracking-edit.vm
+        <div id="${field.id}-timetrackingcontainer"#if($!{isLogWorkActivated} == true) class="hidden"#end>
+            #customControlHeader  ($action $timeTrackingFieldId $i18n.getText('common.concepts.remaining.estimate') $isTimeTrackingRequired $displayParameters $auiparams)
+                <input class="text short-field" id="$timeTrackingFieldId" name="$timeTrackingFieldId" type="text" value="#if ($remainingEstimateDisplayValue)$textutils.htmlEncode($!{remainingEstimateDisplayValue})#end" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+                #jiraHelpLink ('timetracking_local' '')
+            #customControlFooter ($action $timeTrackingFieldId $i18n.getText('timetracking.field.remaining.estimate.description') $displayParameters $auiparams)
+        </div>
+    #else
+        <div class="hidden">
+            <input checked="checked" value="true" class="checkbox" name="${field.id}_activate" type="hidden" />
+        </div>
+    #end
+
+    ## Start of container for Log Work fields - defaults to Hidden when Time Tracking is on the screen
+    <div id="${field.id}-logworkcontainer"#if($!{isLogWorkActivated} == false && $isTimeTrackingPresentAndShouldBeRendered == true) class="hidden"#end>
+
+        ## Time Logged
+        #customControlHeader ($action "${field.id}_timeLogged" $i18n.getText('common.concepts.time.spent') $fieldLayoutItem.required $displayParameters $auiparams)
+            <input class="text short-field" id="log-work-time-logged" name="${field.id}_timeLogged" type="text" value="#if($worklog.timeLogged())$textutils.htmlEncode($worklog.timeLogged())#end" />
+            <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+            #jiraHelpLink ('loggingwork_local' '')
+        #customControlFooter ($action "${field.id}_timeLogged" "" $displayParameters $auiparams)
+
+        ## Start Date
+        $!{auiparams.put("controlHeaderClass", "aui-field-datepicker")}
+        #customControlHeader ($action "${field.id}_startDate" $i18n.getText('logwork.date.started') $fieldLayoutItem.required $displayParameters $auiparams)
+            <input class="text medium-field" id="log-work-date-logged-date-picker" name="${field.id}_startDate" type="text" value="#if($startDate)$textutils.htmlEncode($startDate)#end" />
+            <a href="#" id="${field.id}-trigger" title="$i18n.getText('date.picker.select.date')">
+                <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+            </a>
+            #datePopup("log-work-date-logged-date-picker" "${field.id}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+        #customControlFooter ($action "${field.id}_startDate" "" $displayParameters $auiparams)
+        $!{auiparams.clear()}
+
+        ## Adjust Estimate
+        #set ($checked = "auto")
+        #if ($!{adjustEstimate})
+            #if ($!{adjustEstimate} == "leave") #set ($checked = "leave") #end
+            #if ($!{adjustEstimate} == "manual") #set ($checked = "manual") #end
+            #if ($!{adjustEstimate} == "new") #set ($checked = "new") #end
+        #end
+        $!{auiparams.put("controlHeaderType", "radio")}
+        $!{auiparams.put("fieldsetClass", "group")}
+        $!{auiparams.put("noLabel", "true")}
+        #AUIformFieldsetHeader ($i18n.getText('common.concepts.remaining.estimate') $fieldLayoutItem.required $displayParameters $auiparams)
+
+            ## Radio 1
+            #customControlHeader ($action "${field.id}_adjustEstimate" $i18n.getText('logwork.adjustestimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input#if($checked == "auto") checked="checked"#end class="radio" id="log-work-adjust-estimate-auto" name="${field.id}_adjustEstimate" type="radio" value="auto" />
+                <label for="log-work-adjust-estimate-auto">$i18n.getText('logwork.bullet1.adjust.automatically')</label>
+            #customControlFooter ($action "" "" $displayParameters $auiparams)
+
+            ## Radio 2
+            #customControlHeader ($action "${field.id}_adjustEstimate" $i18n.getText('logwork.adjustestimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input#if($checked == "leave") checked="checked"#end class="radio" id="log-work-adjust-estimate-leave" name="${field.id}_adjustEstimate" type="radio" value="leave" />
+                <label for="log-work-adjust-estimate-leave">#if ($!{currentEstimate}) $i18n.getText('logwork.bullet2.use.existing.estimate', $currentEstimate) #else $i18n.getText('logwork.bullet2.leave.unset') #end</label>
+            #customControlFooter ($action "" "" $displayParameters $auiparams)
+
+            ## Radio 3 - has a text input after it
+            $!{auiparams.put("controlHeaderClass", "radio-text")}
+            #customControlHeader ($action "${field.id}_adjustEstimate" $i18n.getText('logwork.adjustestimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input#if($checked == "new") checked="checked"#end class="radio" id="log-work-adjust-estimate-new" name="${field.id}_adjustEstimate" type="radio" value="new" />
+                <label for="log-work-adjust-estimate-new">$i18n.getText('logwork.bullet3.set.to')</label>
+                <input class="text short-field" id="log-work-adjust-estimate-new-value" name="${field.id}_newEstimate" type="text" value="#if($worklog.newEstimate())$textutils.htmlEncode($worklog.newEstimate())#end" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+            #customControlFooter ($action "${field.id}_newEstimate" "" $displayParameters $auiparams)
+
+            ## Radio 4 - has a text input after it
+            #customControlHeader ($action "${field.id}_adjustEstimate" $i18n.getText('logwork.adjustestimate') $fieldLayoutItem.required $displayParameters $auiparams)
+                <input#if($checked == "manual") checked="checked"#end class="radio" id="log-work-adjust-estimate-manual" name="${field.id}_adjustEstimate" type="radio" value="manual" />
+                <label for="log-work-adjust-estimate-manual">$i18n.getText('logwork.bullet4.reduce.by')</label>
+                <input class="text short-field" id="log-work-adjust-estimate-manual-value" name="${field.id}_adjustmentAmount" type="text" value="#if($worklog.adjustmentAmount())$textutils.htmlEncode($worklog.adjustmentAmount())#end" />
+                <span class="aui-form example">${i18n.getText('logwork.example', '3w 4d 12h')}</span>
+            #customControlFooter ($action "${field.id}_adjustmentAmount" "" $displayParameters $auiparams)
+
+        #AUIformFieldsetFooter ($action "${field.id}_adjustEstimate" "" $displayParameters $auiparams)
+        $!{auiparams.clear()}
+
+        ## Work Description - only on Create Screen
+        #if ($!isCreateIssue == true)
+            $!rendererParams.put("rows", "10")
+            $!rendererParams.put("cols", "60")
+            $!rendererParams.put("wrap", "virtual")
+            $!rendererParams.put("class", "long-field")
+            #customControlHeader ($action "${field.id}_comment" $i18n.getText('logwork.workdesc') false $displayParameters $auiparams)
+                $rendererDescriptor.getEditVM($!{worklog.comment()}, $!issue.key, $!fieldLayoutItem.rendererType, "comment", "comment", $rendererParams, false)
+                #set ($isGroupPresent = !$groupLevels.isEmpty())
+                #set ($isRolePresent = !$roleLevels.isEmpty())
+                #if ($worklog.commentLevel())
+                    #set ($selectedCommentLevel = $worklog.commentLevel())
+                #else
+                    #set ($selectedCommentLevel = "")
+                #end
+                #if($isGroupPresent || $isRolePresent)
+                    #createLevelSelect($roleLevels $groupLevels $selectedCommentLevel)
+                #end
+            #customControlFooter ($action "${field.id}_comment" "" $displayParameters $auiparams)
+        #end
+
+        ## Meta information we need to store for validation
+        <input name="isCreateIssue" type="hidden" value="$!{isCreateIssue}" />
+        <input name="isEditIssue" type="hidden" value="$!{isEditIssue}" />
+    </div>
+
+</div>

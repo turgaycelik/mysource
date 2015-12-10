@@ -1,0 +1,28 @@
+@import "../../../ui/imports/colours";
+@import "../../../ui/imports/mixins/shadow";
+@import "../dropdown/dropdown-variables.less";
+
+.ajs-layer {
+    background-color: @jira-dropdown-background-color;
+    border: 1px solid @jira-dropdown-divider-color;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    margin-top: 1px;
+    min-width: 200px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 12000;
+
+    &.box-shadow {
+        .shadow(0, 3px, 6px, @jira-dropdown-shadow-color);
+    }
+
+    &.limited {
+        max-height: @jira-dropdown-max-height;
+    }
+}
+
+.ajs-layer-placeholder {
+    display: none;
+    position: relative;
+}

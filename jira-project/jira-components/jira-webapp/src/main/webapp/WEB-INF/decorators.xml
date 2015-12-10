@@ -1,0 +1,123 @@
+<decorators>
+    <!-- No decorator -->
+    <decorator name="none">
+        <url-pattern>/includes/js/*</url-pattern>
+        <url-pattern>/secure/attachment*</url-pattern>
+        <url-pattern>/secure/views/navigator/navigator-rss.jsp</url-pattern>
+        <url-pattern>/secure/views/issue/viewissue-rss.jsp</url-pattern>
+        <url-pattern>/secure/RunPortlet*</url-pattern>
+        <url-pattern>/secure/views/runportlet*</url-pattern>
+        <url-pattern>/styles/*</url-pattern>
+        <!-- All servlet plugins have a servlet path of "/plugins/servlet" at the sitemesh decorator point in time,
+            changing this to /plugins/servlet/* will break it -->
+        <url-pattern>/plugins/servlet</url-pattern>
+        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/osd.jsp</url-pattern>
+        <url-pattern>/secure/setup-license-json.jsp</url-pattern>
+        <url-pattern>/secure/SetupLicense!validate*</url-pattern>
+        <url-pattern>/secure/ConfirmNewInstallationWithOldLicense*</url-pattern>
+        <url-pattern>/secure/ImportResult*</url-pattern>
+        <url-pattern>/secure/Errors*.jspa</url-pattern>
+    </decorator>
+
+    <decorator name="admin" page="/decorators/admin.jsp">
+        <url-pattern>/secure/admin/*</url-pattern>
+        <url-pattern>/secure/project/*</url-pattern>
+    </decorator>
+
+    <decorator name="general" page="/decorators/general.jsp">
+        <url-pattern>/*</url-pattern>
+        <!-- frontpage  -->
+        <url-pattern>/default.jsp</url-pattern>
+        <url-pattern>/login.jsp</url-pattern>
+        <url-pattern>/alreadyloggedout.jsp</url-pattern>
+        <url-pattern>/secure/Logout.jspa</url-pattern>
+        <url-pattern>/secure/Logout!default.jspa</url-pattern>
+        <url-pattern>/secure/admin/WebSudoAuthenticate*.jspa</url-pattern>
+        <url-pattern>/secure/Signup*</url-pattern>
+        <url-pattern>/secure/ForgotLoginDetails*</url-pattern>
+        <url-pattern>/secure/ResetPassword*</url-pattern>
+        <url-pattern>/views/signup.jsp</url-pattern>
+        <url-pattern>/views/signup-success.jsp</url-pattern>
+        <!-- genericaction -->
+        <url-pattern>/secure/CreateIssue*</url-pattern>
+        <url-pattern>/secure/views/createissue-start.jsp</url-pattern>
+        <url-pattern>/secure/views/createissue-details.jsp</url-pattern>
+        <url-pattern>/secure/CreateSubTaskIssue*</url-pattern>
+        <url-pattern>/secure/CloneIssue*</url-pattern>
+        <!-- navigator -->
+        <url-pattern>/secure/MoveIssue*</url-pattern>
+        <url-pattern>/secure/views/issue/*</url-pattern>
+        <url-pattern>/secure/views/user/*</url-pattern>
+        <url-pattern>/secure/views/filter/*</url-pattern>
+        <url-pattern>/secure/*</url-pattern>
+        <!-- general -->
+        <url-pattern>/secure/BrowseProject*</url-pattern>
+        <url-pattern>/secure/views/browser/*</url-pattern>
+        <!-- notitle -->
+        <url-pattern>/secure/views/viewprofile.jsp</url-pattern>
+    </decorator>
+
+    <decorator name="setup" page="/decorators/setup.jsp">
+        <url-pattern>/secure/Setup*</url-pattern>
+        <url-pattern>/secure/VerifySmtpServerConnection*</url-pattern>
+        <url-pattern>/secure/VerifyPopServerConnection*</url-pattern>
+    </decorator>
+
+    <decorator name="setupgh" page="/decorators/setup-greenhopper.jsp" >
+        <url-pattern>/secure/SetupGreenHopper*</url-pattern>
+    </decorator>
+
+    <decorator name="setupbonfire" page="/decorators/setup-bonfire.jsp" >
+        <url-pattern>/secure/SetupBonfire*</url-pattern>
+    </decorator>
+
+    <decorator name="setupondemand" page="/decorators/setup-ondemand.jsp" />
+
+    <decorator name="blank" page="/decorators/blank.jsp"/>
+    <decorator name="inline" page="/decorators/inline.jsp"/><!-- Only used by the workflow designer -->
+
+    <decorator name="dialog" page="/decorators/dialog.jsp"/>
+
+    <decorator name="error" page="/decorators/error.jsp"/>
+    <decorator name="message" page="/decorators/message.jsp" />
+
+    <decorator name="login" page="/decorators/login.jsp" />
+
+    <decorator name="panel-admin" page="/decorators/panel-admin.jsp" />
+    <decorator name="panel-general" page="/decorators/panel-general.jsp" />
+
+    <decorator name="content-panel-only" page="/decorators/content-panel-only.jsp" />
+
+    <decorator name="issueaction" page="/decorators/issueaction.jsp" />
+
+    <decorator name="navigator" page="/decorators/navigator.jsp" />
+
+    <decorator name="printable" page="/decorators/printable.jsp" />
+
+    <decorator name="popup" page="/decorators/popups.jsp">
+        <url-pattern>/secure/popups/*</url-pattern>
+        <url-pattern>/secure/FilterPickerPopup*</url-pattern>
+    </decorator>
+
+    <!-- Bulk edit decorators -->
+    <decorator name="bulkops-general" page="/decorators/bulkops/bulkops-layout.jsp"/>
+    <decorator name="bulkops-subtask" page="/decorators/bulkops/bulkops-layout.jsp"/>
+
+    <!-- Panel decorators to deprecate -->
+    <decorator name="jiraform" page="/decorators/panels/jiraform.jsp"/>
+    <decorator name="jirapanel" page="/decorators/panels/jirapanel.jsp"/>
+    <decorator name="bulkpanel" page="/decorators/panels/bulkpanel.jsp"/>
+    <decorator name="jiratable" page="/decorators/panels/jiratable.jsp"/>
+
+    <!-- Panel decorators -->
+    <decorator name="auiform" page="/decorators/panels/auiform.jsp"/>
+    <decorator name="auifieldset" page="/decorators/panels/auifieldset.jsp"/>
+    <decorator name="auifieldgroup" page="/decorators/panels/auifieldgroup.jsp"/>
+
+    <!-- Plugins-2 -->
+    <decorator name="atl.admin" page="/decorators/admin.jsp"/>
+    <decorator name="atl.general" page="/decorators/general.jsp"/>
+    <decorator name="atl.popup" page="/decorators/popups.jsp"/>
+    <decorator name="atl.userprofile" page="/decorators/userprofile.jsp"/>
+</decorators>

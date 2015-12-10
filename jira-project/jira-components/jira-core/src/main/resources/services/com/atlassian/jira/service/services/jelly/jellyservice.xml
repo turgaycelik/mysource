@@ -1,0 +1,17 @@
+<jellyservice id="jellyservice">
+  <description>
+    admin.service.jelly.desc
+  </description>
+  <properties>
+    <property>
+      <key>input-file</key>
+      <name>admin.service.jelly.input</name>
+      <type>string</type>
+    </property>
+    <property>
+      <key>output-file</key>
+      <name>admin.service.jelly.output</name>
+      <type>string</type>
+    </property>
+  </properties>
+</jellyservice>

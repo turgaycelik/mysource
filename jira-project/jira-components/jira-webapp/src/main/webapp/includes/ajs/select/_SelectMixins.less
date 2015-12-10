@@ -1,0 +1,116 @@
+@import "../../../ui/global.less";
+
+@temp-dropdown-arrow-color: @aui-color-mid;
+@temp-dropdown-arrow-hover-color: @aui-color-text;
+@temp-dropdown-arrow-disabled-color: @aui-color-mid;
+
+.autocomplete-container() {
+    .border-box();
+    display: inline-block;
+    overflow: visible;
+    position: relative;
+
+    &.aui-disabled > .aui-disabled-blanket {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1;
+    }
+}
+
+.autocomplete-dropdown-button-layout() {
+    .border-box();
+    .border-left-radius(0);
+    border-top: 0;
+    border-right: 0;
+    border-bottom: 0;
+    bottom: 1px;
+    display: block;
+    height: auto;
+    margin: 0;
+    padding: 4px 0;
+    position: absolute;
+    right: 1px;
+    top: 1px;
+    width: 23px;
+
+    &:after {
+        border: 4px solid transparent;
+        bottom: 50%;
+        content: "";
+        height: 0;
+        margin-bottom: -5px;
+        position: absolute;
+        right: 8px;
+        width: 0;
+    }
+}
+
+.autocomplete-dropdown-button(normal) {
+    &.drop-menu {
+        .aui-button-style(normal);
+        .autocomplete-dropdown-button-layout();
+
+        &:hover {
+            border-color: #ccc; // i.e., the border colour doesn't change on hover.
+        }
+
+        &:after {
+            border-top-color: @temp-dropdown-arrow-color;
+        }
+
+        &:hover:after {
+            border-top-color: @temp-dropdown-arrow-hover-color;
+        }
+    }
+}
+
+.autocomplete-dropdown-button(active) {
+    &.drop-menu {
+        .aui-button-style(toggled);
+        .autocomplete-dropdown-button-layout();
+
+        &:after {
+            border-top-color: @temp-dropdown-arrow-color;
+        }
+
+        &:hover:after {
+            border-top-color: @temp-dropdown-arrow-hover-color;
+        }
+    }
+}
+
+.autocomplete-dropdown-button(disabled) {
+    &.drop-menu {
+        .aui-button-style(disabled);
+        .autocomplete-dropdown-button-layout();
+
+        &:after {
+            border-top-color: @temp-dropdown-arrow-disabled-color;
+        }
+    }
+}
+
+.autocomplete-dropdown-button(...) {
+    display: none;
+
+    &.loading {
+        .autocomplete-dropdown-button-layout();
+
+        // For most fields, they should inherit the background-image of .icon.loading
+
+        &.drop-menu:after {
+            background-image: inlineimageunoptim("images/icons/wait.gif");
+            background-position: 0 0;
+            background-repeat: no-repeat;
+            border: 0;
+            height: 16px;
+            margin: 0 auto -8px auto;
+            padding: 0;
+            right: 4px;
+            width: 16px;
+        }
+    }
+}

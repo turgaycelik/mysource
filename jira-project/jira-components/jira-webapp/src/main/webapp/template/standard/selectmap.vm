@@ -1,0 +1,63 @@
+#disable_html_escaping()
+#*
+  -- selectmap.vm
+  --
+  -- Required Parameters:
+  --   * label  - The description that will be used to identfy the control.
+  --   * name   - The name of the attribute to put and pull the result from.
+  --              Equates to the NAME parameter of the HTML SELECT tag.
+  --   * list   - Iterator that will provide the options for the control.
+  --              Equates to the HTML OPTION tags in the SELECT and supplies
+  --              both the NAME and VALUE parameters of the OPTION tag.
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  --   * size            - SIZE parameter of the HTML SELECT tag.
+  --   * disabled        - DISABLED parameter of the HTML SELECT tag.
+  --   * tabindex        - tabindex parameter of the HTML SELECT tag.
+  --   * onchange        - onkeyup parameter of the HTML SELECT tag.
+  --   * size            - SIZE parameter of the HTML SELECT tag.
+  --   * multiple        - MULTIPLE parameter of the HTML SELECT tag.
+  --   * headerKey       - Combined with headerValue parameter specifies the top of select list
+  --   * headerValue     - see above
+  --
+    *#
+
+#bean ("webwork.util.ContainUtil" $contain)
+
+#parse("/template/standard/controlheader.vm")
+
+<select name="$parameters.name"
+#if ($parameters.size)             size="$parameters.size"            #end
+#if ($parameters.disabled == true) disabled="disabled"                #end
+#if ($parameters.tabindex)         tabindex="$parameters.tabindex"    #end
+#if ($parameters.onchange)         onchange="$parameters.onchange"    #end
+#if ($parameters.id)               id="$parameters.id"                #end
+#if ($parameters.multiple)         multiple="multiple"                #end
+>
+
+#if ($parameters.headerKey && $parameters.headerValue)
+    <option value="$parameters.headerKey">$parameters.headerValue</option>
+#end
+
+## What I really want to do is:       #set ( $listKey = ${param.${parameters.listKey}} )
+## However, velocity doesn't allow nested ${'s.  So we have to go to all this effort!
+## see http://www.mail-archive.com/velocity-user@jakarta.apache.org/msg09369.html for more information
+
+#set ($param_prefix = '$param.')  ## This is because we use $param in the foreach block below
+#set ($prefix_key = "$param_prefix$parameters.listKey")
+#set ($prefix_value = "$param_prefix$parameters.listValue")
+
+#foreach ($param in $parameters.list)
+    #set ($listKey = $webwork.evaluate("$prefix_key"))
+    #set ($listValue = $webwork.evaluate("$prefix_value"))
+
+    <option value="$listKey"
+        #if ($contain.contains($parameters.nameValue, $listKey) == true)
+            selected="selected"
+        #end
+    >$listValue</option>
+#end
+</select>
+#parse("/template/standard/controlfooter.vm")

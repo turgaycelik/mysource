@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log">
+
+    <jira:GetProjectRoles var="roles" >
+        <core:forEach var="role" items="${roles}">
+            ${role.name}
+        </core:forEach>
+    </jira:GetProjectRoles>
+</JiraJelly>

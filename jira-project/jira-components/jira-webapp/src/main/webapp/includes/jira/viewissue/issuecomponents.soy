@@ -1,0 +1,85 @@
+{namespace JIRA.Templates.Issue}
+
+/**
+* @param watchers
+*/
+{template .watchersWithBrowse}
+    <form action="#" method="post" class="aui recipients-form">
+        <a href="#" class="cancel aui-icon aui-icon-close" role="button">{getText('common.words.close')}</a>
+        <fieldset>
+            <label class="js-add-watchers-label">{getText('watcher.manage.add.watcher')}</label>
+                <div class="autocomplete-user-target">
+                    <select id="watchers" name="watchers" data-description="{getText('user.picker.ajax.short.desc')}" class="watchers-user-picker hidden" multiple="multiple">
+                        {foreach $watcher in $watchers}
+                        <option style="background-image:url('{$watcher.avatarUrls['16x16']}')" selected="selected" value="{$watcher.name}">{$watcher.displayName}</option>
+                        {/foreach}
+                    </select>
+                </div>
+        </fieldset>
+    </form>
+{/template}
+
+/**
+* @param watchers
+*/
+{template .watchersNoBrowse}
+<form action="#" method="post" class="aui recipients-form">
+    <a href="#" class="cancel aui-icon aui-icon-close" role="button">{getText('common.words.close')}</a>
+    <fieldset>
+        <label for="watchers-multi-select">{getText('watcher.manage.add.watcher')}</label>
+        <div>
+            <input type="text" class="text" id="watchers-nosearch" />
+            <div class="description">{getText('user.picker.noajax.short.desc')}</div>
+        </div>
+        <div class="recipients">
+            <ol class="watchers">
+                {foreach $watcher in $watchers}
+                    {call JIRA.Templates.Fields.recipientUsername}
+                        {param username: $watcher.name /}
+                        {param icon: $watcher.avatarUrls['16x16'] /}
+                        {param displayName: $watcher.displayName /}
+                        {param escape: true /}
+                    {/call}
+                {/foreach}
+            </ol>
+        </div>
+    </fieldset>
+</form>
+{/template}
+
+/**
+* @param errors
+* @param msg
+*/
+{template .error}
+<p>{$msg}</p>
+<ul>
+    {foreach $message in $errors}
+    <li>{$message}</li>
+    {/foreach}
+</ul>
+{/template}
+
+/**
+* @param users
+*/
+{template .usersListReadOnly}
+<form class="aui recipients-form">
+    <a href="#" class="cancel aui-icon aui-icon-close"></a>
+    <fieldset>
+    <div class="recipients">
+        <ol class="voters">
+            {foreach $voter in $users}
+                {call JIRA.Templates.Fields.recipientUsername}
+                    {param username: $voter.name /}
+                    {param icon: $voter.avatarUrls['16x16'] /}
+                    {param displayName: $voter.displayName /}
+                    {param readOnly: true /}
+                    {param escape: true /}
+                {/call}
+            {/foreach}
+        </ol>
+    </div>
+    </fieldset>
+</form>
+{/template}

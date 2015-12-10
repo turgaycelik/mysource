@@ -1,0 +1,5 @@
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.enterprise.JiraTagLib">
+    <jira:CreateIssueSecurityScheme name="DUDE">
+        <jira:AddIssueSecurityLevel name="seclevel" description="Defines visibility"/>
+    </jira:CreateIssueSecurityScheme>
+</JiraJelly>

@@ -1,0 +1,98 @@
+@import "../../../ui/global.less";
+@import "../dropdown/dropdown-variables.less";
+
+.aui-list {
+    ul {
+        .dropdown-list();
+    }
+
+    .aui-list-item-link {
+        .dropdown-item-block();
+        .text-overflow();
+
+        em { // Things that are "marked" when performing autocomplete are wrapped in <em>
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        &.aui-iconised-link {
+            background-position: 10px 5px;
+            background-repeat: no-repeat;
+            -moz-background-size: 16px;
+            background-size: 16px;
+            padding-left: 31px;
+            .icon {
+                float: left;
+                margin: 2px 0 0 -21px;
+            }
+        }
+
+        &.aui-indented-link {
+            padding-left: 25px;
+        }
+    }
+
+    .aui-list-section-footer {
+        .dropdown-item-block();
+        .text-overflow();
+        font-style: italic;
+    }
+
+    .no-suggestions {
+        .dropdown-item-block();
+        font-style: italic;
+
+        .view-all {
+          display: block;
+          margin: 0px;
+          padding: 0px;
+        }
+    }
+
+    a:link,
+    a:visited {
+        .dropdown-item-style(normal);
+    }
+
+    a:hover,
+    a:focus {
+        text-decoration: none;
+    }
+
+    a.active,
+    .aui-list-item.active > a {
+        .dropdown-item-style(focus);
+    }
+
+    a.disabled {
+        .dropdown-item-style(disabled);
+    }
+
+    .aui-list-checked  {
+        padding-left:20px;
+        &.aui-checked {
+            background: inlineimage("images/icons/ico_option.gif") no-repeat 4px 7px;
+        }
+    }
+
+    .aui-list-scroll {
+        max-height: @jira-dropdown-max-height;
+    }
+}
+
+/* section styles */
+.aui-list {
+    h5 { // section title
+        .dropdown-heading();
+
+        + .aui-list-section {
+            padding-top: 0;
+        }
+    }
+    .aui-list-section { // section dividers
+        + h5,
+        + .aui-list-section {
+            border-top: 1px solid @jira-dropdown-divider-color;
+        }
+    }
+}

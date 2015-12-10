@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:Login username="invalid-user" password="password">
+        
+    </jira:Login>
+</JiraJelly>

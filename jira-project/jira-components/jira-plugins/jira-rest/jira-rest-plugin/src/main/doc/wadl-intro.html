@@ -1,0 +1,122 @@
+<p>
+    This is the reference document for the REST API and resources provided by JIRA. The REST APIs are developers who
+    want to integrate JIRA with other standalone or web applications, and administrators who want to script interactions
+    with the JIRA server.
+</p>
+
+<p>
+    If you are after an introductory, high-level view of the JIRA REST API, rather than an exhaustive reference
+    document, then the best place to start is the
+    <a href="https://developer.atlassian.com/display/JIRADEV/JIRA+REST+APIs">JIRA REST API home</a>.
+</p>
+
+<h2 id="gettingstarted">Getting started</h2>
+<p>
+    Because the REST API is based on open standards, you can use any web development language to access the API. If you
+    are using Java, however, the easiest way to get started using the JIRA REST API is to download with the
+    <a href="https://studio.atlassian.com/wiki/display/JRJC/Home">JIRA REST Java Client</a> (JRJC) and use it as a
+    library within your own application. For other languages, refer to the
+    <a href="https://developer.atlassian.com/display/JIRADEV/JIRA+REST+APIs">JIRA REST API home</a> for code examples.
+</p>
+
+<h2><a name="JIRA4.2RESTAPIdiscussionpoints-StructureoftheRESTURIs"></a>Structure of the REST URIs</h2>
+
+<p>
+    JIRA's REST APIs provide access to resources (data entities) via URI paths. To use a REST API, your application will
+    make an HTTP request and parse the response. The JIRA REST API uses
+    <a href="http://en.wikipedia.org/wiki/JSON">JSON</a> as its communication format, and the standard HTTP methods like
+    <code>GET</code>, <code>PUT</code>, <code>POST</code> and <code>DELETE</code> (see API descriptions below for which
+    methods are available for each resource). URIs for JIRA's REST API resource have the following structure:
+</p>
+
+<pre>
+http://host:port/context/rest/api-name/api-version/resource-name
+</pre>
+
+<p>
+    Currently there are two API names available, which will be discussed further below:
+</p>
+<ul>
+    <li><code>auth</code> - for authentication-related operations, and</li>
+    <li><code>api</code> - for everything else.</li>
+</ul>
+
+<p>
+    The current API version is <code>2</code>. However, there is also a symbolic version, called <code>latest</code>,
+    which resolves to the latest version supported by the given JIRA instance. As an example, if you wanted to retrieve
+    the JSON representation of issue <a href="https://jira.atlassian.com/browse/JRA-9">JRA-9</a> from Atlassian's public
+    issue tracker, you would access:
+</p>
+
+<pre>
+    <a href="https://jira.atlassian.com/rest/api/latest/issue/JRA-9" class="external-link" rel="nofollow">https://jira.atlassian.com/rest/api/latest/issue/JRA-9</a>
+</pre>
+
+<p>
+    There is a <a href="http://en.wikipedia.org/wiki/Web_Application_Description_Language">WADL</a> document that
+    contains the documentation for each resource in the JIRA REST API. It is available
+    <a href="jira-rest-plugin.wadl">here</a>.
+</p>
+
+<h2 id="expansion">Expansion in the REST APIs</h2>
+
+<p>
+    In order to minimise network traffic and server CPU usage, the JIRA REST API sometimes uses a technique called
+    expansion. When a REST resource uses expansion then parts of that resource will not be included in the JSON response
+    unless explicitly requested. The way to request those fragments to be included is by using the <code>expand</code>
+    query parameter.
+</p>
+
+<p>
+    You can use the <code>expand</code> query parameter to specify a comma-separated list of entities that you want
+    expanded, identifying each of them by name. For example, appending <code>?expand=names,renderedFields</code> to an
+    issue's URI requests the inclusion of the translated field names and the HTML-rendered field values in the response.
+    Continuing with our example above, we would use the following URL to get that information for JRA-9:
+</p>
+
+<pre>
+    <a href="https://jira.atlassian.com/rest/api/latest/issue/JRA-9?expand=names,renderedFields" class="external-link" rel="nofollow">https://jira.atlassian.com/rest/api/latest/issue/JRA-9?expand=names,renderedFields</a>
+</pre>
+
+<p>
+    To discover the identifiers for each entity, look at the <code>expand</code> property in the parent object. In the
+    JSON example below, the resource declares widgets as being expandable.
+</p>
+
+<div class="methods">
+    <pre><code>{"expand":"widgets", "self":"http://www.example.com/jira/rest/api/resource/KEY-1", "widgets":{"widgets":[],"size":5}}</code></pre>
+</div>
+
+<p>
+    You can use the dot notation to specify expansion of entities within another entity. For example
+    <code>?expand=widgets.fringels</code> would expand the widgets collection and also the fringel property on each
+    widget.
+</p>
+
+<h2 id="authentication">Authentication</h2>
+
+<p>
+    Any authentication that works against JIRA will work against the REST API. <b>The prefered authentication methods
+    are OAuth and HTTP Basic (when using SSL)</b>, which are both documented in the
+    <a href="https://developer.atlassian.com/display/JIRADEV/JIRA+REST+API+Tutorials">JIRA REST API Tutorials</a>. Other
+    supported methods include: HTTP Cookies, and Trusted Applications.
+</p>
+
+<p>
+    The log-in page uses cookie-based authentication, so if you are using JIRA in a browser you can call REST from
+    Javascript on the page and rely on the authentication that the browser has established. Callers wanting to reproduce
+    the behaviour of the JIRA log-in page (for example, to display authentication error messages to users) or who are
+    calling both the REST and SOAP API can <code>POST</code> to the <code>/auth/1/session</code> resource as per the
+    documentation below.
+</p>
+
+<p>
+    You can find OAuth code samples in several programming languages at
+    <a href="https://bitbucket.org/atlassian_tutorial/atlassian-oauth-examples/src">bitbucket.org/atlassian_tutorial/atlassian-oauth-examples</a>.
+</p>
+
+<h2 id="experimental">Experimental methods</h2>
+
+<p>
+    Methods marked as experimental may change without an earlier notice. We are looking for your feedback for these methods.
+</p>

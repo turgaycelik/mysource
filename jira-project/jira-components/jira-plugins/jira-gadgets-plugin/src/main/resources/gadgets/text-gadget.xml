@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.text.title__" directory_title="__MSG_gadget.text.title__" description="__MSG_gadget.text.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:text-gadget", "text-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:text-gadget", "text-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.text")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="html" datatype="hidden" default_value=""/>
+    <UserPref name="title" datatype="hidden" default_value=""/>
+    <UserPref name="refresh" datatype="hidden" default_value="false" />
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function ()
+            {
+                gadgets.window.setTitle("__MSG_gadget.text.title__");                
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+
+                            return  {
+                                theme : function(){
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    {
+                                        id: "title",
+                                        userpref: "title",
+                                        label: gadget.getMsg("gadget.text.field.title"),
+                                        description:gadget.getMsg("gadget.text.field.title.description"),
+                                        type: "text",
+                                        value: gadget.getPref("title")
+                                    },
+                                    {
+                                        id: "html",
+                                        userpref: "html",
+                                        styleClass: "textarea",
+                                        label: gadget.getMsg("gadget.text.field.html"),
+                                        description:gadget.getMsg("gadget.text.field.html.description"),
+                                        type: "textarea",
+                                        value: gadget.getPref("html")
+                                    },
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        }
+                    },
+                    view: {
+                        enableReload: true,
+                        onResizeReload: true,
+                        template: function (args) {
+                            var gadget = this;
+                            gadget.getView().addClass("g-text");
+                            var changedTitle = gadget.getPref("title");
+                            if(changedTitle != ""){
+                                gadgets.window.setTitle(changedTitle);
+                            }else{
+                                gadgets.window.setTitle(gadget.getMsg("gadget.text.title"));
+                            }
+                            var htmlText = gadgets.util.unescapeString(gadget.getPref("html"));
+                            gadget.getView().empty().html(htmlText);
+                        },
+                        args: [{
+                        }]
+
+                    }
+                });
+
+            })();
+
+        </script>
+
+
+        ]]>
+    </Content>
+</Module>

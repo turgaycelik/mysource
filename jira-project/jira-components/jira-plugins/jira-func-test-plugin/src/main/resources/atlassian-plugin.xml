@@ -1,0 +1,288 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <rest key="functest-rest-service-resources" path="/func-test" version="1.0">
+        <package>com.atlassian.jira.dev</package>
+        <description>Provides the REST resource for the func-test plugin.</description>
+    </rest>
+
+    <servlet name="TimeZone Servlet" key="functest-timezone-servlet" class="com.atlassian.jira.dev.backdoor.sal.TimeZoneServlet">
+        <description>A servlet that uses the sal TimeZoneManager</description>
+        <url-pattern>/functest-timezone-servlet</url-pattern>
+    </servlet>
+
+    <servlet-filter name="Slow Motion Filter" key="slomo-filter" class="com.atlassian.jira.dev.slomo.SlowMotionFilter" location="after-encoding" weight="200">
+        <description>Slows down responses to simulate slower response server deployments for the purpose of locating overly timing-dependent tests.</description>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </servlet-filter>
+
+    <component key="qunitLocaleSwitcher" class="com.atlassian.jira.dev.i18n.QunitLocaleSwitcher"/>
+
+    <servlet-filter key="qunit-locale-filter" class="com.atlassian.jira.dev.i18n.QunitTranslationSwitcherFilter"
+                    location="before-decoration" weight="10">
+        <url-pattern>/qunit/run*</url-pattern>
+        <dispatcher>REQUEST</dispatcher>
+    </servlet-filter>
+
+    <web-resource key="qunit-locale-banner">
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <data key="show-qunit-banner" class="com.atlassian.jira.dev.i18n.QunitBannerDataProvider" />
+
+        <resource type="download" name="qunit-banner-init.js" location="js/qunit-banner-init.js" />
+    </web-resource>
+
+    <web-resource key="slomo-ui">
+
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="snail.png" location="images/snail.png">
+            <property key="content-type" value="image/png"/>
+        </resource>
+
+        <resource type="download" name="slomo-styles.css" location="css/slomo.less" />
+
+        <resource type="download" name="slomo.soy.js" location="js/slomo.soy" />
+
+        <resource type="download" name="slomo.js" location="js/slomo.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="websudo-js">
+
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <resource type="download" name="websudo.js" location="js/websudo.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="user-js">
+
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <resource type="download" name="user.js" location="js/user.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="rest">
+
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <resource type="download" name="rest.js" location="js/rest.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="devmode">
+        <resource type="download" name="devmode.js" location="js/devmode.js"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.BooleanSystemPropertyCondition">
+            <param name="property">jira.dev.mode</param>
+        </condition>
+    </web-resource>
+
+    <web-resource key="errortracker">
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <resource type="download" name="errortracker.js" location="js/errortracker.js"/>
+    </web-resource>
+
+    <web-resource key="func-test-tracer">
+
+        <context>atl.general</context>
+        <context>atl.admin</context>
+
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <resource type="download" name="trace.js" location="js/trace.js" />
+
+    </web-resource>
+
+    <web-resource key="sinon">
+        <resource type="download" name="sinon.js" location="js/sinon-1.3.2.js"/>
+    </web-resource>
+
+    <keyboard-shortcut key="slomo.activate" i18n-name-key="keyboard.shortcut.slomo.activate" name="Slo-mo" state='enabled'>
+        <order>99</order>
+        <description key="Activate Slomo">Activate Slow Motion</description>
+        <shortcut>@</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                JIRA.Slomo.activate();
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <!--<keyboard-shortcut key="websudo-disable" name="Websudo Disable">-->
+        <!--<order>99</order>-->
+        <!--<description key="Websudo Disable">Websudo Disable</description>-->
+        <!--<shortcut>[wd</shortcut>-->
+        <!--<operation type="execute">-->
+            <!--<![CDATA[-->
+                <!--JIRA.Func.Websudo.disable();-->
+            <!--]]>-->
+        <!--</operation>-->
+    <!--</keyboard-shortcut>-->
+
+    <!--<keyboard-shortcut key="websudo-enable" name="Websudo Enable">-->
+        <!--<order>99</order>-->
+        <!--<description key="Websudo Enable">Websudo Enable</description>-->
+        <!--<shortcut>[we</shortcut>-->
+        <!--<operation type="execute">-->
+            <!--<![CDATA[-->
+                <!--JIRA.Func.Websudo.enable();-->
+            <!--]]>-->
+        <!--</operation>-->
+    <!--</keyboard-shortcut>-->
+
+    <!--<keyboard-shortcut key="websudo-drop-access" name="Websudo Drop Access">-->
+        <!--<order>99</order>-->
+        <!--<description key="Websudo Drop">Websudo Drop</description>-->
+        <!--<shortcut>[ww</shortcut>-->
+        <!--<operation type="execute">-->
+            <!--<![CDATA[-->
+                <!--JIRA.Func.Websudo.drop();-->
+            <!--]]>-->
+        <!--</operation>-->
+    <!--</keyboard-shortcut>-->
+
+    <!--<keyboard-shortcut key="logout" name="Logout">-->
+        <!--<order>99</order>-->
+        <!--<description key="Logout">Logout</description>-->
+        <!--<shortcut>[lo</shortcut>-->
+        <!--<operation type="execute">-->
+            <!--<![CDATA[-->
+                <!--JIRA.Func.User.logout();-->
+            <!--]]>-->
+        <!--</operation>-->
+    <!--</keyboard-shortcut>-->
+
+    <!--<keyboard-shortcut key="destroy-session" name="Destroy Session">-->
+        <!--<order>99</order>-->
+        <!--<description key="Destroy Session">Destroy Session</description>-->
+        <!--<shortcut>[ds</shortcut>-->
+        <!--<operation type="execute">-->
+            <!--<![CDATA[-->
+                <!--JIRA.Func.User.destorySession();-->
+            <!--]]>-->
+        <!--</operation>-->
+    <!--</keyboard-shortcut>-->
+
+    <component-import key="lifeCycleManager" interface="com.atlassian.sal.api.lifecycle.LifecycleManager"/>
+
+    <component-import key="pluginTimeZoneManager" interface="com.atlassian.sal.api.timezone.TimeZoneManager"/>
+
+    <component-import key="systemProperties" interface="com.atlassian.jira.config.properties.JiraProperties"/>
+
+    <component interface="com.atlassian.jira.dev.backdoor.Log4JHackery" key="log4jHackery"
+               name="Log4J modifications for func testing" class="com.atlassian.jira.dev.backdoor.Log4JHackeryImpl"/>
+
+    <ao key="ao-module" name="Active Objects module">
+        <entity>com.atlassian.jira.dev.functest.ao.BlogAO</entity>
+        <entity>com.atlassian.jira.dev.functest.ao.CommentAO</entity>
+    </ao>
+
+    <component-import key="ao" name="Active Objects service" interface="com.atlassian.activeobjects.external.ActiveObjects">
+        <description>Component to access Active Objects functionality from the plugin</description>
+    </component-import>
+
+    <component-import key="funcTestWorkflowSchemeDataFactory" interface="com.atlassian.jira.testkit.plugin.workflows.WorkflowSchemeDataFactory"/>
+
+    <renderer-component-factory key="func-test-renderer-component-factory" name="Plugin Renderer Component Factory"
+                                class="com.atlassian.jira.dev.functest.renderer.FuncTestRendererComponentFactory">
+        <order>1000</order>
+    </renderer-component-factory>
+
+    <component key="slowmo" class="com.atlassian.jira.dev.slomo.SlowMotion"/>
+
+    <component key="noalert-bean" class="com.atlassian.jira.dev.backdoor.noalert.NoAlertMode"/>
+    <web-resource key="noalert-js">
+        <dependency>com.atlassian.auiplugin:ajs</dependency>
+        <resource type="download" name="noalert.js" location="js/noalert.js">
+            <property key="content-type" value="text/javascript" />
+        </resource>
+    </web-resource>
+    <servlet-filter key="noalert-filter" class="com.atlassian.jira.dev.backdoor.noalert.NoAlertFilter" location="after-encoding" weight="210">
+        <url-pattern>/*</url-pattern>
+    </servlet-filter>
+
+    <web-resource key="about-introduction-func-test-plugin">
+        <resource type="soy" name="about-introduction.soy" location="templates/about-intro.soy"/>
+    </web-resource>
+
+    <web-resource key="about-conclusion-func-test-plugin">
+        <resource type="soy" name="about-conclusion.soy" location="templates/about-conclusion.soy"/>
+    </web-resource>
+
+    <about-page-panel name="about-page-section-func-test-plugin" key="about-page-section-func-test-plugin">
+        <introduction module-key="${atlassian.plugin.key}:about-introduction-func-test-plugin" function="about.introduction"/>
+        <licenses location="examplebom.csv"/>
+        <conclusion module-key="${atlassian.plugin.key}:about-conclusion-func-test-plugin" function="about.conclusion"/>
+    </about-page-panel>
+
+    <jql-function key="echo-jql-function" i18n-name-key="jql.function.echo.name" name="Echo Function"
+            class="com.atlassian.jira.dev.jql.function.EchoFunction">
+        <description key="jql.function.echo.desc">Returns its arguments as its values.</description>
+        <fname>echo</fname>
+        <list>false</list>
+    </jql-function>
+
+    <index-document-configuration entity-key="IssueProperty" key="index-doc-conf">
+        <key property-key="func.test.prop">
+            <extract path="func" type="string">
+            </extract>
+        </key>
+    </index-document-configuration>
+
+    <translation-transform key="translationTransform-disable-translation" name="Translation Transform - Disable translation" class="com.atlassian.jira.dev.i18n.DisableTranslation">
+        <order>10</order>
+        <description>Disables any translation, used for QUnit tests</description>
+    </translation-transform>
+
+    <global-permission key="func.test.global.permission"
+                       i18n-name-key="func.test.global.permission.name"
+                       i18n-description-key="func.test.global.permission.description"
+                       anonymous-allowed="false"/>
+
+    <global-permission key="func.global.permission.anon.allowed"
+                       i18n-name-key="com.atlassian.jira.functest.plugin.global.permission.anon.name"
+                       i18n-description-key="com.atlassian.jira.functest.plugin.global.permission.anon.description"
+                       anonymous-allowed="true"/>
+
+    <project-permission key="func.test.project.permission"
+                        i18n-name-key="func.test.project.permission.name"
+                        i18n-description-key="func.test.project.permission.description"
+                        category="PROJECTS" />
+
+</atlassian-plugin>

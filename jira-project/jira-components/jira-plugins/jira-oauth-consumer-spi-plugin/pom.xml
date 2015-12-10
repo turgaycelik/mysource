@@ -1,0 +1,67 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-plugins</artifactId>
+    <version>6.3.15</version>
+  </parent>
+  <artifactId>jira-oauth-consumer-spi-plugin</artifactId>
+  <name>Atlassian JIRA - Plugins - OAuth Consumer SPI</name>
+  <description>Provides the Consumer SPI implementation required for OAuth in JIRA.</description>
+  <packaging>bundle</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>1.4.3</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>${atlassian.plugin.key}</Bundle-SymbolicName>
+            <Private-Package>com.atlassian.jira.oauth.consumer.*,
+                            com.atlassian.oauth.consumer.core.*,
+                            com.atlassian.oauth.bridge.*,
+                            com.atlassian.oauth.shared.*
+             </Private-Package>
+             <Export-Package>
+                 net.oauth.*;version=20090617
+             </Export-Package>
+             <!-- Ensure plugin is spring powered - see https://extranet.atlassian.com/x/xBS9hQ -->
+             <Spring-Context>*</Spring-Context>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.twdata.maven</groupId>
+        <artifactId>maven-cli-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+      <dependency>
+          <groupId>com.atlassian.jira</groupId>
+          <artifactId>jira-core</artifactId>
+          <scope>provided</scope>
+      </dependency>
+    <dependency>
+      <groupId>com.atlassian.oauth</groupId>
+      <artifactId>atlassian-oauth-consumer-core</artifactId>
+    </dependency>
+      <dependency>
+        <groupId>com.atlassian.oauth</groupId>
+        <artifactId>atlassian-oauth-consumer-spi</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-tests</artifactId>
+      </dependency>
+  </dependencies>
+  <properties>
+    <atlassian.plugin.key>com.atlassian.jira.oauth.consumer</atlassian.plugin.key>
+  </properties>
+</project>

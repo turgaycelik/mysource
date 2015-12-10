@@ -1,0 +1,27 @@
+#disable_html_escaping()
+#set ($quote = '"')
+#if ($username)
+    #set ($userHoverAttributes = "class=${quote}user-hover user-avatar${quote} rel=${quote}${textutils.htmlEncode($username)}${quote}")
+    #if ($user)
+        #set ($author = $textutils.htmlEncode($fullname))
+    #else
+        #set ($author = $textutils.htmlEncode($username))
+    #end
+#else
+    #set ($author = $defaultFullName)
+#end
+
+#set ($renderedAvatarImg = $!{soyRenderer.render('jira.webresources:soy-templates', 'aui.avatar.avatar', {
+        'size': $!avatarSize,
+        'avatarImageUrl': $!avatarURL,
+        'tagName': 'span',
+        'accessibilityText' : $textutils.htmlEncode($username)
+})})
+
+#if ($user)
+    <a $!{userHoverAttributes} id="$!{id}" href="${baseurl}/secure/ViewProfile.jspa?name=${velocityhelper.urlencode($username)}">${renderedAvatarImg} ${author}</a>
+#elseif ($username)
+    <span $!{userHoverAttributes}>${renderedAvatarImg} ${author}</span>
+#else
+    <span class="user-hover user-avatar">${renderedAvatarImg} ${author}</span>
+#end

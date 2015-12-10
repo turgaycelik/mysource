@@ -1,0 +1,83 @@
+#enable_html_escaping()
+#if ($searchRequest)
+    #set ($urlPrefix = "${req.contextPath}/secure/IssueNavigator.jspa?reset=true")
+#end
+<table width="100%" class="aui" id="single_groupby_report_table">
+    <thead>
+        <tr>
+            <th colspan="6">
+                <h2>$i18n.getText('report.singlelevelgroupby.mapper.filterid.name'): $textutils.htmlEncode($searchRequest.name)</h2>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        #foreach ($option in $statsGroup.entrySet())
+            #set ($issues = $option.value)
+            #set ($graphModel = $statsGroup.getResolvedIssues($option.key))
+            <tr>
+                <th colspan="6" class="stat-heading">
+                    <div class="stat-progress">
+                        <span class="graphLabel">$i18n.getText("common.words.progress"):</span>
+                        #percentageGraphDiv ($graphModel)
+                        #if ($issues.size() > 0)
+                            <span class="graphDescription">$i18n.getText("roadmap.issuesresolved", "$statsGroup.getResolvedIssueCount($issues)", "$issues.size()")</span>
+                        #end
+                    </div>
+
+                    #if (!$urlPrefix)
+                        #set ($urlPrefix = "")
+                    #end
+                    ## JRA-29105: we need to use String.contact instead of "$concat$like$this" to avoid double html escaping
+                    <h3>#statHeading ($mapperType $option.key $customFieldManager $urlPrefix.concat($!searchService.getQueryString($user, $statsGroup.getMapper().getSearchUrlSuffix($option.key, $searchRequest).getQuery())))</h3>
+                </th>
+            </tr>
+            #if ($issues.size() > 0)
+                #foreach ($issue in $issues)
+                    <tr>
+                        #set ($isIssueStatusCompact = false)
+                        #set ($isIssueStatusSubtle = true)
+                        #issueLineItem ($issue)
+                    </tr>
+                #end
+            #else
+                <tr>
+                    <td colspan="6">
+                        <span class="subText">$action.getText("common.concepts.noissues").</span>
+                    </td>
+                </tr>
+            #end
+        #end
+        ## Render the Irrelevant issues if there are any
+        #if($statsGroup.getIrrelevantIssues().size() > 0)
+            #set ($issues = $statsGroup.getIrrelevantIssues())
+            #set ($graphModel = $statsGroup.getIrrelevantResolvedIssues())
+            <tr>
+                <th colspan="6">
+                    <div class="stat-progress">
+                        <span class="graphLabel">$i18n.getText("common.words.progress"):</span>
+                        #percentageGraphDiv ($graphModel)
+                        #if ($issues.size() > 0)
+                            <span class="graphDescription">$i18n.getText("roadmap.issuesresolved", "$statsGroup.getResolvedIssueCount($issues)", "$issues.size()")</span>
+                        #end
+                    </div>
+                    <h3><span title="$i18n.getText('common.concepts.irrelevant.desc')">$i18n.getText('common.concepts.irrelevant')</span></h3>
+                </th>
+            </tr>
+            #if ($issues.size() > 0)
+                #foreach ($issue in $issues)
+                    <tr>
+                        #set ($isIssueStatusCompact = false)
+                        #set ($isIssueStatusSubtle = true)
+                        #issueLineItem ($issue)
+                    </tr>
+                #end
+            #else
+                <tr>
+                    <td colspan="6">
+                        <span class="subText">$action.getText("common.concepts.noissues").</span>
+                    </td>
+                </tr>
+            #end
+        #end
+    </tbody>
+</table>

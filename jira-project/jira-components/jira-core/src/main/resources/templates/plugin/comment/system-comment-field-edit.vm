@@ -1,0 +1,36 @@
+#disable_html_escaping()
+## setup some additional parameters
+$!rendererParams.put("rows", "10")
+$!rendererParams.put("cols", "60")
+$!rendererParams.put("wrap", "virtual")
+#if ($mentionable)
+    $!rendererParams.put("mentionable", true)
+    #if ($issue.project.key && $issue.project.key != "")
+        $!rendererParams.put("data-projectkey", "$!issue.project.key")
+    #end
+    #if ($issue.key && $issue.key != "")
+        $!rendererParams.put("data-issuekey", "$!issue.key")
+    #end
+#end
+#set ($isGroupPresent = $groupLevels && !$groupLevels.isEmpty())
+#set ($isRolePresent = $roleLevels && !$roleLevels.isEmpty())
+
+#if ($commentLevel)
+    #set ($selectedCommentLevel = $commentLevel)
+#else
+    #set ($selectedCommentLevel = "")
+#end
+#if ($!fieldLayoutItem.rendererType == "atlassian-wiki-renderer")
+    $!{auiparams.put("controlHeaderClass", "aui-field-wikiedit comment-input")}
+#else
+    $!{auiparams.put("controlHeaderClass", "comment-input")}
+#end
+## Display the comment levels as a separate row
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+$!{auiparams.clear()}
+## let the renderer display the edit component
+$rendererDescriptor.getEditVM($!comment, $!issue.key, $!fieldLayoutItem.rendererType, $!field.id, $!field.name, $rendererParams, false)
+#if($isGroupPresent || $isRolePresent)
+    #createLevelSelect($roleLevels $groupLevels $selectedCommentLevel)
+#end
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

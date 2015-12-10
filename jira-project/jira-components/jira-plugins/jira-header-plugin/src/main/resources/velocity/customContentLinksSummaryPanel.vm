@@ -1,0 +1,31 @@
+#* @vtlvariable name="manageCustomContentLinksLink" type="java.lang.String" *#
+#* @vtlvariable name="links" type="java.util.Collection<com.atlassian.plugins.navlink.producer.contentlinks.customcontentlink.CustomContentLink>" *#
+#* @vtlvariable name="link" type="com.atlassian.plugins.navlink.producer.contentlinks.customcontentlink.CustomContentLink" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.util.I18nHelper" *#
+#* @vtlvariable name="description" type="java.lang.String" *#
+
+#enable_html_escaping()
+<div class="project-config-webpanel-content project-config-icon48-custom-content-links">
+    <div class="project-config-webpanel-help">
+        <p>${description}</p>
+    </div>
+    #if (!$links.empty)
+        <ul id="project-config-summary-custom-content-links-list" class="project-config-list project-config-itemlist">
+            #foreach($link in $links)
+                <li>
+                    <span class="project-config-list-label">
+                        ${link.linkLabel}
+                    </span>
+                    <span class="project-config-list-value">${link.linkUrl}</span>
+                </li>
+            #end
+        </ul>
+        #if ($totalSize > $shownSize)
+            <p class="project-config-list-note"><span>$i18n.getText("admin.project.config.summary.custom-content-links.some", "$shownSize", "$totalSize")</span> <a href="${manageCustomContentLinksLink}">$i18n.getText("common.concepts.showall")</a></p>
+        #else
+            <a class="project-config-more-link" href="${manageCustomContentLinksLink}" title="${i18n.getText("admin.project.config.summary.custom-content-links.manage")}">${i18n.getText("common.concepts.more")}</a>
+        #end
+    #else
+        <p class="project-config-list-empty"><span>$i18n.getText("admin.project.config.summary.custom-content-links.none")</span> <a href="${manageCustomContentLinksLink}">$i18n.getText("admin.project.config.summary.custom-content-links.add")</a></p>
+    #end
+</div>

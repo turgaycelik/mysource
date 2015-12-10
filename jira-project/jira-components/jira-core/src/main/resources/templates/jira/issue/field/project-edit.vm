@@ -1,0 +1,25 @@
+#disable_html_escaping()
+#customControlHeader ($action "$!{displayParameters.fieldNamePrefix}$field.id" $i18n.getText($field.nameKey) true $displayParameters $auiparams)
+<select data-container-class="project-ss" class="select project-field" id="$!{displayParameters.fieldNamePrefix}$field.id" name="$!{displayParameters.fieldNamePrefix}pid">
+    #if (!$recentProjects.empty)
+        <optgroup label="$i18n.getText('menu.project.recent')">
+            #foreach ($pr in $recentProjects)
+                #set ($avatarUrl = "/secure/projectavatar?pid=$!{pr.id}&size=small" )
+                <option style="background-image:url(#getNormalizedUrl($avatarUrl))" #if ($project && $project == $pr.id) selected="selected"#end value="$!{pr.id}">
+                    $textutils.htmlEncode($pr.name)
+                </option>
+            #end
+        </optgroup>
+    #end
+    #if (!$projects.emtpy)
+        #if(!$recentProjects.empty)<optgroup label="$i18n.getText('menu.project.all')">#end
+            #foreach ($pr in $projects)
+                #set ($avatarUrl = "/secure/projectavatar?pid=$!{pr.id}&size=small" )
+                <option style="background-image:url(#getNormalizedUrl($avatarUrl))" #if ($project && $project == $pr.id) selected="selected"#end value="$!{pr.id}">
+                    $textutils.htmlEncode($pr.name)
+                </option>
+            #end
+        #if(!$recentProjects.empty)</optgroup>#end
+    #end
+</select>
+#customControlFooter ($action "$!{displayParameters.fieldNamePrefix}$field.id" "" $displayParameters $auiparams)

@@ -1,0 +1,2 @@
+#disable_html_escaping()
+$i18n.getText('jira-share-plugin.email.saved.search.subject', $remoteUser.displayName, $filterName)

@@ -1,0 +1,38 @@
+.module > .mod-content .issues {
+    display: block;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+
+    > li {
+        margin: 0;
+        padding: 0;
+        padding-left: 26px; // to cover the width of a 16px icon
+        position: relative;
+
+        + li {
+            margin-top: 5px; // inherits line-height from typography for an effective height of 25px
+        }
+
+        .aui-icon,
+        img {
+            left: 0;
+            margin-top: 2px; // for a 16px icon, this adjusts its effective "vertical align" to 'text-bottom'.
+            position: absolute;
+        }
+        .issue {
+            &:after {
+                content: ".";
+            }
+        }
+    }
+}
+
+.issue-list {
+    .issue-list-key {
+        width: 15%;
+    }
+    .issue-list-date {
+        width: 35%;
+    }
+}

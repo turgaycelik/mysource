@@ -1,0 +1,846 @@
+#disable_html_escaping()
+<html>
+<head>
+    <title>$i18n.getText("renderer.notation-help.title")</title>
+    <meta name="decorator" content="popup"/>
+    <script language="JavaScript">
+        function toggleNavMenu()
+        {
+            jQuery("#lefthand-nav").toggle();
+        }
+    </script>
+    <style>
+        pre,
+        code {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            font-size: 12px;
+            line-height: 1.66666666666667;
+        }
+        .code pre,
+        pre code {
+            background-color: transparent;
+            border: none;
+        }
+        pre {
+            padding: 9px 12px;
+        }
+        .code pre {
+            padding: 0;
+        }
+        .wiki-syntax-examples {
+            table-layout: fixed
+        }
+        .wiki-syntax-examples pre {
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+<header class="aui-page-header">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h1>$i18n.getText("renderer.notation-help.title")</h1>
+        </div>
+    </div>
+</header>
+<div class="aui-page-panel">
+    <div class="aui-page-panel-inner">
+        <div class="aui-page-panel-nav" id="lefthand-nav">
+            <nav class="aui-navgroup aui-navgroup-vertical">
+                <div class="aui-navgroup-inner">
+                    <div class="aui-navgroup-primary">
+                        <ul class="aui-nav">
+                            #auiNavItem ("all" $action.getText("wiki.renderer.help.navigation.all"))
+                            #auiNavItem ("texteffects" $action.getText("wiki.renderer.help.navigation.text.effects"))
+                            #auiNavItem ("headings" $action.getText("wiki.renderer.help.navigation.text.headings"))
+                            #auiNavItem ("breaks" $action.getText("wiki.renderer.help.navigation.text.breaks"))
+                            #auiNavItem ("links" $action.getText("wiki.renderer.help.navigation.text.links"))
+                            #auiNavItem ("lists" $action.getText("wiki.renderer.help.navigation.text.lists"))
+                            #auiNavItem ("images" $action.getText("wiki.renderer.help.navigation.text.images"))
+                            #auiNavItem ("attachments" $action.getText("wiki.renderer.help.navigation.text.attachments"))
+                            #auiNavItem ("tables" $action.getText("wiki.renderer.help.navigation.text.tables"))
+                            #auiNavItem ("advanced" $action.getText("wiki.renderer.help.navigation.text.advanced.formatting"))
+                            #auiNavItem ("miscellaneous" $action.getText("wiki.renderer.help.navigation.text.advanced.miscellaneous"))
+                            #if ($action.macroHelpNoSection.size() > 0)
+                                #auiNavItem ("macros" $action.getText("wiki.renderer.help.navigation.text.advanced.macros"))
+                            #end
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div><!-- .aui-page-panel-nav -->
+        <section class="aui-page-panel-content">
+            #if ($action.section == "headings" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.headings")</h2>
+                <p>$action.getText("wiki.renderer.help.headings.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><pre><code>h1. $action.getText("wiki.renderer.help.headings.biggest")</code></pre></td>
+                            <td><h1>$action.getText("wiki.renderer.help.headings.biggest")</h1></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>h2. $action.getText("wiki.renderer.help.headings.bigger")</code></pre></td>
+                            <td><h2>$action.getText("wiki.renderer.help.headings.bigger")</h2></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>h3. $action.getText("wiki.renderer.help.headings.big")</code></pre></td>
+                            <td><h3>$action.getText("wiki.renderer.help.headings.big")</h3></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>h4. $action.getText("wiki.renderer.help.headings.normal")</code></pre></td>
+                            <td><h4>$action.getText("wiki.renderer.help.headings.normal")</h4></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>h5. $action.getText("wiki.renderer.help.headings.small")</code></pre></td>
+                            <td><h5>$action.getText("wiki.renderer.help.headings.small")</h5></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>h6. $action.getText("wiki.renderer.help.headings.smallest")</code></pre></td>
+                            <td><h6>$action.getText("wiki.renderer.help.headings.smallest")</h6></td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("headings"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("headings"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("headings"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "texteffects" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.effects")</h2>
+                <p>$action.getText("wiki.renderer.help.text.effects.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><pre><code>*$action.getText("wiki.renderer.help.text.effects.strong")*</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.strong", "<b>", "</b>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>_$action.getText("wiki.renderer.help.text.effects.emphasis")_</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.emphasis", "<em>", "</em>").</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>??$action.getText("wiki.renderer.help.text.effects.citation")??</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.citation", "<cite>", "</cite>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>-$action.getText("wiki.renderer.help.text.effects.deleted")-</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.deleted", "<del>", "</del>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>+$action.getText("wiki.renderer.help.text.effects.inserted")+</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.inserted", "<ins>", "</ins>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>^$action.getText("wiki.renderer.help.text.effects.superscript")^</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.superscript", "<sup>", "</sup>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>~$action.getText("wiki.renderer.help.text.effects.subscript")~</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.subscript", "<sub>", "</sub>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>{{$action.getText("wiki.renderer.help.text.effects.monospaced")}}</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.text.effects.makes.monospaced", "<tt class='monospaced'>", "</tt>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>bq. $action.getText("wiki.renderer.help.text.effects.block.quote")</code></pre></td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.text.effects.makes.block.quote")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <blockquote> $action.getText("wiki.renderer.help.text.effects.block.quote")</blockquote>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>{quote}
+    $action.getText("wiki.renderer.help.text.effects.block.quote.para", "<br/>")
+{quote}
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.text.effects.block.quote.para.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <blockquote>
+                                    $action.getText("wiki.renderer.help.text.effects.block.quote.para", "<br/>")
+                                </blockquote>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>{color:red}
+    $action.getText("wiki.renderer.help.text.effects.red.text")
+{color}
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.text.effects.red.text.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <p><span style="color:red;">$action.getText("wiki.renderer.help.text.effects.red.text")</span></p>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("texteffects"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("texteffects"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpNoSection())
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("texteffects"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "breaks" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.breaks")</h2>
+                <p>$action.getText("wiki.renderer.help.breaks.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><pre><code>($action.getText("wiki.renderer.help.breaks.empty"))</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.breaks.empty.desc")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>\\</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.breaks.line.desc")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>----</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.breaks.hr.desc")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>---</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.breaks.dash.desc", "<b>", "</b>")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>--</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.breaks.dash1.desc", "<b>", "</b>")</td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("breaks"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("breaks"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("breaks"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "links" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.links")</h2>
+                <p>$action.getText("wiki.renderer.help.links.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>[#anchor]
+[^attachment.ext]
+</code></pre>
+                            </td>
+                            <td>$action.getText("wiki.renderer.help.links.anchor.desc")</td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>[http://jira.atlassian.com]
+[Atlassian|http://atlassian.com]
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.links.external.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.links.external.note")</p>
+                                <p>$action.getText("wiki.renderer.help.common.examples"):</p>
+                                <p>
+                                    <a href="http://jira.atlassian.com">&#104;ttp://jira.atlassian.com</a><br/>
+                                    <a href="http://atlassian.com">Atlassian</a>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>[mailto:legendaryservice@atlassian.com]</code></pre></td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.links.email.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <p>
+                                    <span style="white-space: nowrap;">
+                                        <img src="$req.contextPath/images/icons/mail_small.gif" height="12" width="13" align="absmiddle" alt="&gt;&gt;" border="0"/><a href="#">legendaryservice@atlassian.com</a>
+                                    </span>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>[file:///c:/temp/foo.txt]
+[file:///z:/file/on/network/share.txt]
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.links.file.desc")</p>
+                                #set ($extLink =  $action.externalLinkUtils.getProperty('external.link.local.file.link'))
+                                <p>$action.getText("wiki.renderer.help.links.file.note", "<a target='_blank' href='$extLink'>", "</a>")</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>{anchor:anchorname}</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.links.anchor.bookmark.desc")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>[~username]</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.links.user.profile.desc")</td>
+                        </tr>
+                        #foreach ($descriptor in $action.contentLinkHelpNoSection)
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getMacroHelpForSection("links"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("links"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("links"))
+                            $descriptor.help
+                        #end
+                     </tbody>
+                </table>
+            #end
+            #if ($action.section == "lists" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.lists")</h2>
+                <p>$action.getText("wiki.renderer.help.lists.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>* $action.getText("wiki.renderer.help.lists.some")
+* $action.getText("wiki.renderer.help.lists.bullet")
+** $action.getText("wiki.renderer.help.lists.indented")
+** $action.getText("wiki.renderer.help.lists.bullets")
+* $action.getText("wiki.renderer.help.lists.points")
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.lists.bullets.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <ul class="star">
+                                    <li>$action.getText("wiki.renderer.help.lists.some")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.bullet")
+                                        <ul class="star">
+                                            <li>$action.getText("wiki.renderer.help.lists.indented")</li>
+                                            <li>$action.getText("wiki.renderer.help.lists.bullets")</li>
+                                        </ul>
+                                    </li>
+                                    <li>$action.getText("wiki.renderer.help.lists.points")</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>- $action.getText("wiki.renderer.help.lists.different")
+- $action.getText("wiki.renderer.help.lists.bullet")
+- $action.getText("wiki.renderer.help.lists.types")
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.lists.types.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <ul type="square" class="minus">
+                                    <li>$action.getText("wiki.renderer.help.lists.different")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.bullet")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.types")</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code># $action.getText("wiki.renderer.help.lists.a")
+# $action.getText("wiki.renderer.help.lists.numbered")<br/>
+# $action.getText("wiki.renderer.help.lists.list")
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.lists.numbered.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <ol>
+                                    <li>$action.getText("wiki.renderer.help.lists.a")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.numbered")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.list")</li>
+                                </ol>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code># $action.getText("wiki.renderer.help.lists.a")
+# $action.getText("wiki.renderer.help.lists.numbered")
+&#35;* $action.getText("wiki.renderer.help.lists.with")
+&#35;* $action.getText("wiki.renderer.help.lists.nested")
+&#35;* $action.getText("wiki.renderer.help.lists.bullet")
+# $action.getText("wiki.renderer.help.lists.list")
+</code></pre>
+<pre><code>* $action.getText("wiki.renderer.help.lists.a")
+* $action.getText("wiki.renderer.help.lists.bulletted")
+*# $action.getText("wiki.renderer.help.lists.with")
+*# $action.getText("wiki.renderer.help.lists.nested")
+*# $action.getText("wiki.renderer.help.lists.numbered")
+* $action.getText("wiki.renderer.help.lists.list")
+</code></pre>
+                             </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.lists.mixed.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <ol>
+                                    <li>$action.getText("wiki.renderer.help.lists.a")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.numbered")
+                                        <ul class="star">
+                                            <li>$action.getText("wiki.renderer.help.lists.with")</li>
+                                            <li>$action.getText("wiki.renderer.help.lists.nested")</li>
+                                            <li>$action.getText("wiki.renderer.help.lists.bullet")</li>
+                                        </ul>
+                                    </li>
+                                    <li>$action.getText("wiki.renderer.help.lists.list")</li>
+                                </ol>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <ul class="star">
+                                    <li>$action.getText("wiki.renderer.help.lists.a")</li>
+                                    <li>$action.getText("wiki.renderer.help.lists.bulletted")
+                                        <ol>
+                                            <li>$action.getText("wiki.renderer.help.lists.with")</li>
+                                            <li>$action.getText("wiki.renderer.help.lists.nested")</li>
+                                            <li>$action.getText("wiki.renderer.help.lists.numbered")</li>
+                                        </ol>
+                                    </li>
+                                    <li>$action.getText("wiki.renderer.help.lists.list")</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("lists"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("lists"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("lists"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "images" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.images")</h2>
+                <p>$action.getText("wiki.renderer.help.images.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>!http://www.host.com/image.gif!
+$action.getText("wiki.renderer.help.common.or")
+!attached-image.gif!
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.images.attached.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.images.attached.full.qualified.desc")</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>!image.jpg|thumbnail!</code></pre></td>
+                            <td><p>$action.getText("wiki.renderer.help.images.thumbnail.desc")</p></td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>!image.gif|align=right, vspace=4!</code></pre></td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.images.attributes.desc")</p>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("images"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("images"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("images"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "attachments" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.attachments")</h2>
+                <p>$action.getText("wiki.renderer.help.attachments.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>!quicktime.mov!
+!spaceKey:pageTitle^attachment.mov!
+!quicktime.mov|width=300,height=400!
+!media.wmv|id=media!
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.attachments.embed.desc")</p>
+                                <p>$action.getText("wiki.renderer.help.attachments.formats"):</p>
+                                <ul>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.flash") (.swf)</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.quicktime") (.mov)</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.windows.media") (.wma, .wmv)</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.real.media") (.rm, .ram)</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.mp3") (.mp3)</li>
+                                </ul>
+                                <p>$action.getText("wiki.renderer.help.attachments.formats.other.files")</p>
+                                <p>$action.getText("wiki.renderer.help.attachments.formats.common.props"):</p>
+                                <ul>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.common.props.width") - $action.getText("wiki.renderer.help.attachments.formats.common.props.width.desc")</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.common.props.height") - $action.getText("wiki.renderer.help.attachments.formats.common.props.height.desc")</li>
+                                    <li>$action.getText("wiki.renderer.help.attachments.formats.common.props.id") - $action.getText("wiki.renderer.help.attachments.formats.common.props.id.desc")</li>
+                                </ul>
+                                <p>$action.getText("wiki.renderer.help.attachments.formats.desc2", "<br>")</p>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("attachments"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("attachments"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("attachments"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+
+            #if ($action.section == "tables" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.tables")</h2>
+                <p>$action.getText("wiki.renderer.help.tables.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>||$action.getText("wiki.renderer.help.tables.heading1")||$action.getText("wiki.renderer.help.tables.heading2")||$action.getText("wiki.renderer.help.tables.heading3")||
+|$action.getText("wiki.renderer.help.tables.col") A1|$action.getText("wiki.renderer.help.tables.col") A2|$action.getText("wiki.renderer.help.tables.col") A3|
+|$action.getText("wiki.renderer.help.tables.col") B1|$action.getText("wiki.renderer.help.tables.col") B2|$action.getText("wiki.renderer.help.tables.col") B3|
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.tables.desc1")</p>
+                                <p>$action.getText("wiki.renderer.help.tables.desc2"):</p>
+                                <table class="wikitable">
+                                    <tr>
+                                        <th>$action.getText("wiki.renderer.help.tables.heading1")</th>
+                                        <th>$action.getText("wiki.renderer.help.tables.heading2")</th>
+                                        <th>$action.getText("wiki.renderer.help.tables.heading3")</th>
+                                    </tr>
+                                    <tr>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") A1</td>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") A2</td>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") A3</td>
+                                    </tr>
+                                    <tr>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") B1</td>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") B2</td>
+                                        <td>$action.getText("wiki.renderer.help.tables.col") B3</td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("tables"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("tables"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("tables"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.section == "advanced" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.advanced.formatting")</h2>
+                <p>$action.getText("wiki.renderer.help.advanced.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+<pre><code>{noformat}
+$action.getText("wiki.renderer.help.advanced.noformat", "<br/>")
+{noformat}
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.advanced.noformat.desc")</p>
+                                <ul>
+                                    <li><b>$action.getText("wiki.renderer.help.advanced.nopanel"):</b> $action.getText("wiki.renderer.help.advanced.nopanel.desc")
+                                </ul>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <div class="preformatted panel">
+                                    <div class="preformattedContent panelContent">
+                                        <pre>$action.getText("wiki.renderer.help.advanced.noformat", "")</pre>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>{panel}
+$action.getText("wiki.renderer.help.advanced.panel.some.text")
+{panel}
+</code></pre>
+
+<pre><code>{panel:title=$action.getText("wiki.renderer.help.advanced.panel.my.title")}
+$action.getText("wiki.renderer.help.advanced.panel.some.text.with.title")
+{panel}
+</code></pre>
+
+<pre><code>{panel:title=$action.getText("wiki.renderer.help.advanced.panel.my.title")|borderStyle=dashed|borderColor=#ccc|titleBGColor=#F7D6C1|bgColor=#FFFFCE}
+$action.getText("wiki.renderer.help.advanced.panel.body", "*", "*")
+$action.getText("wiki.renderer.help.advanced.panel.body.another.line", "_", "_")
+{panel}
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.advanced.nopanel.desc")</p>
+                                <ul>
+                                    <li><b>title:</b> $action.getText("wiki.renderer.help.advanced.title.desc")</li>
+                                    <li><b>borderStyle:</b> $action.getText("wiki.renderer.help.advanced.border.style.desc")</li>
+                                    <li><b>borderColor:</b> $action.getText("wiki.renderer.help.advanced.border.color.desc")</li>
+                                    <li><b>borderWidth:</b> $action.getText("wiki.renderer.help.advanced.border.width.desc")</li>
+                                    <li><b>bgColor:</b> $action.getText("wiki.renderer.help.advanced.bg.color.desc")</li>
+                                    <li><b>titleBGColor:</b> $action.getText("wiki.renderer.help.advanced.title.bg.color.desc")</li>
+                                </ul>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <div style="margin: 10px 0 10px 0; border-style: dashed; border-width: 1px; border-color: #ccc; ">
+                                    <div style="border-style: dashed; border-width: 0 0 1px 0; border-color: #ccc; background-color: #F7D6C1; padding: 3px;">
+                                        <b>$action.getText("wiki.renderer.help.advanced.panel.my.title")</b>
+                                    </div>
+                                    <div style="padding: 5px; background-color: #FFFFCE; ">
+                                        $action.getText("wiki.renderer.help.advanced.panel.body", "<b>", "</b>")<br/>
+                                        $action.getText("wiki.renderer.help.advanced.panel.body.another.line", "<em class='emphasis'>", "</em>")
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+<pre><code>{code:title=Bar.java|borderStyle=solid}
+// Some comments here
+public String getFoo()
+{
+    return foo;
+}
+{code}
+</code></pre>
+<pre><code>{code:xml}
+    &lt;test&gt;
+        &lt;another tag=&quot;attribute&quot;/&gt;
+    &lt;/test&gt;
+{code}
+</code></pre>
+                            </td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.advanced.code.desc", "<b>", "</b>")</p>
+                                <p>$action.getText("wiki.renderer.help.common.example"):</p>
+                                <div class="code panel" style="border-style: solid; ">
+                                    <div class="codeHeader panelHeader" style="border-bottom-style: solid; ">
+                                        <b>Bar.java</b>
+                                    </div>
+                                    <div class="codeContent panelContent">
+                                        <pre>&#10;<span class="java-comment">// Some comments here</span>&#10;<span class="java-keyword">public</span>&#160;<span class="java-object">String</span> getFoo()&#10;&#123;&#10;    <span class="java-keyword">return</span> foo;&#10;&#125;&#10;</pre>
+                                    </div>
+                                </div>
+                                <div class="code panel">
+                                    <div class="codeContent panelContent">
+                                        <pre>&#10;<span class="xml-tag">&lt;test&gt;</span>&#10;    <span class="xml-tag">&lt;another tag=<span class="xml-quote">&quot;attribute&quot;</span>/&gt;</span>&#10;<span class="xml-tag">&lt;/test&gt;</span>&#10;</pre>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("advanced"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("advanced"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("advanced"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+
+            #if ($action.section == "miscellaneous" || $action.section == "all")
+                <h2>$action.getText("wiki.renderer.help.navigation.text.advanced.miscellaneous")</h2>
+                <p>$action.getText("wiki.renderer.help.misc.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><pre><code>\X</code></pre></td>
+                            <td>$action.getText("wiki.renderer.help.misc.escape")</td>
+                        </tr>
+                        <tr>
+                            <td><pre><code>:)</code></pre>, <pre><code>:(</code></pre> etc</td>
+                            <td>
+                                <p>$action.getText("wiki.renderer.help.misc.emoticons")</p>
+                                <table>
+                                    <tr>
+                                        <th>Notation</th>
+                                        <td>:)</td>
+                                        <td>:(</td>
+                                        <td>:P</td>
+                                        <td>:D</td>
+                                        <td>;)</td>
+                                        <td>(y)</td>
+                                        <td>(n)</td>
+                                        <td>(i)</td>
+                                        <td>(/)</td>
+                                        <td>(x)</td>
+                                        <td>(!)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Image</th>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/smile.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/sad.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/tongue.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/biggrin.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/wink.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/thumbs_up.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/thumbs_down.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/information.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/check.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/error.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/warning.gif"></td>
+                                    </tr>
+                                </table>
+                                <table>
+                                    <tr>
+                                        <th>$action.getText("wiki.renderer.help.common.notation")</th>
+                                        <td>(+)</td>
+                                        <td>(-)</td>
+                                        <td>(?)</td>
+                                        <td>(on)</td>
+                                        <td>(off)</td>
+                                        <td>(*)</td>
+                                        <td>(*r)</td>
+                                        <td>(*g)</td>
+                                        <td>(*b)</td>
+                                        <td>(*y)</td>
+                                    </tr>
+                                    <tr>
+                                        <th>$action.getText("wiki.renderer.help.common.image")</th>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/add.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/forbidden.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/help_16.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/lightbulb_on.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/lightbulb.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/star_yellow.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/star_red.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/star_green.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/star_blue.gif"></td>
+                                        <td><img src="$req.contextPath/images/icons/emoticons/star_yellow.gif"></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                        #foreach ($descriptor in $action.getMacroHelpForSection("misc"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getContentLinkHelpForSection("misc"))
+                            $descriptor.help
+                        #end
+                        #foreach ($descriptor in $action.getRendererComponentFactoriesHelpForSection("misc"))
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+            #if ($action.macroHelpNoSection.size() > 0 && ($action.section == "macros" || $action.section == "all"))
+                <h2>$action.getText("wiki.renderer.help.navigation.text.advanced.macros")</h2>
+                <p>$action.getText("wiki.renderer.help.macros.desc")</p>
+                <table class="aui wiki-syntax-examples">
+                    <thead>
+                        <tr>
+                            <th style="min-width: 250px;width: 50%;">$i18n.getText("renderer.notation-help.heading.notation")</th>
+                            <th>$i18n.getText("renderer.notation-help.heading.comment")</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        #foreach ($descriptor in $action.macroHelpNoSection)
+                            $descriptor.help
+                        #end
+                    </tbody>
+                </table>
+            #end
+        </section>
+    </div>
+</div>
+</body>
+</html>

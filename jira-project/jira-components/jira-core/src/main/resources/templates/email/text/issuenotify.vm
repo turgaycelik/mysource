@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if($remoteUser.displayName)
+$i18n.getText("adhoc.notification.email.issue.activity", $remoteUser.displayName, $issue.getKey())
+#dashes($!remoteUser.displayName)--------------#dashes($issue.getKey())-
+#end
+
+$!textBody
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

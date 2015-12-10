@@ -1,0 +1,10 @@
+#disable_html_escaping()
+#if ($issueTypeObject)
+#set ($iconurl = $issueTypeObject.iconUrlHtml)
+#if ($iconurl.startsWith('http://') || $iconurl.startsWith('https://'))
+    <img alt="$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false)" height="16" src="$iconurl" title="$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false) - $textutils.htmlEncode($issueTypeObject.getDescTranslation(), false)" width="16" />
+#else
+    <img alt="$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false)" height="16" src="${req.getContextPath()}${iconurl}" title="$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false) - $textutils.htmlEncode($issueTypeObject.getDescTranslation(), false)" width="16" />
+#end
+$textutils.htmlEncode($issueTypeObject.getNameTranslation(), false)
+#end

@@ -1,0 +1,44 @@
+ <types>
+	<type id="reporter" enterprise="true">
+		<class>com.atlassian.jira.security.type.CurrentReporter</class>
+	</type>
+	<type id="group" enterprise="false">
+		<class>com.atlassian.jira.security.type.GroupDropdown</class>
+	</type>
+    <type id="user" enterprise="true">
+		<class>com.atlassian.jira.security.type.SingleUser</class>
+	</type>
+    <type id="lead" enterprise="true">
+		<class>com.atlassian.jira.security.type.ProjectLead</class>
+	</type>
+    <type id="assignee" enterprise="true">
+		<class>com.atlassian.jira.security.type.CurrentAssignee</class>
+	</type>
+    <type id="userCF" enterprise="true">
+         <class>com.atlassian.jira.security.type.UserCF</class>
+    </type>
+    <type id="projectrole" enterprise="false">
+         <class>com.atlassian.jira.notification.type.ProjectRoleSecurityAndNotificationType</class>
+    </type>
+    <type id="groupCF" enterprise="true">
+        <class>com.atlassian.jira.security.type.GroupCF</class>
+    </type>
+
+    <!--  Uncomment & use this permission to show only projects where the user has create permission and issues within that where they are the reporter. -->
+    <!--  This permission type should only ever be assigned to the "Browse Projects" permission. -->
+    <!--  Other permissions can use the "reporter" or "create" permission type as appropriate. -->
+    <!--
+    <type id="reportercreate" enterprise="true">
+        <class>com.atlassian.jira.security.type.CurrentReporterHasCreatePermission</class>
+    </type>
+    -->
+
+     <!--  Uncomment & use this permission to show only projects where the user has the assignable permission and issues within that where they are the assignee -->
+     <!--  This permission type should only ever be assigned to the "Browse Projects" permission. -->
+     <!--  Other permissions can use the "reporter" or "create" permission type as appropriate. -->
+     <!--
+     <type id="assigneeassignable" enterprise="true">
+         <class>com.atlassian.jira.security.type.CurrentAssigneeHasAssignablePermission</class>
+     </type>
+     -->
+</types>

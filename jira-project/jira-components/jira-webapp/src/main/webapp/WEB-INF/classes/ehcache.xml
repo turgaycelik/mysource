@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- This is the configuration file for Ehcache in JIRA.
+     Caches requiring special handling are configured in this file.
+
+     Most configuration is done programmatically within JIRA including:
+              * Most caches,
+              * The CacheManagerPeerProviderFactory for peer discovery and
+              * The RMICacheManagerPeerListenerFactory for cache replication.
+-->
+
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="false" monitoring="autodetect" dynamicConfig="true">
+
+    <defaultCache maxEntriesLocalHeap="0"/>
+
+    <!-- JIRA requires these caches to be fully-populated, hence they are pinned and eternal -->
+    <cache name="com.atlassian.jira.task.TaskManagerImpl.taskMap" eternal="true" maxEntriesLocalHeap="0">
+        <cacheEventListenerFactory
+                class="com.atlassian.cache.ehcache.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false, replicatePuts=true, replicateUpdates=true,
+                    replicateUpdatesViaCopy=true, replicateRemovals=true "/>
+        <!-- Ensure the cache gets initialised on secondary nodes before we try and use it, otherwise tasks in progress
+             may go unnoticed for a while. -->
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
+                properties="bootstrapAsynchronously=false" />
+        <pinning store="inCache" />
+    </cache>
+    <cache name="com.atlassian.jira.task.TaskManagerImpl.futureMap" eternal="true" maxEntriesLocalHeap="0">
+        <pinning store="inCache" />
+    </cache>
+
+    <!-- JIRA requires this cache to be fully-populated, hence it's pinned and eternal -->
+    <cache name="com.atlassian.jira.crowd.embedded.ofbiz.OfBizGroupDao.groupCache" eternal="true" maxEntriesLocalHeap="0">
+        <cacheEventListenerFactory
+                class="com.atlassian.cache.ehcache.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false, replicatePuts=true, replicateUpdates=true,
+                    replicateUpdatesViaCopy=true, replicateRemovals=true "/>
+        <!-- Ensure the cache gets initialised on secondary nodes before we try and use it. Not doing this means we would
+             have a race in the code where we are aggressively reloading from the database while the node is trying to refresh
+             its content from other nodes in the cluster. -->
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
+                properties="bootstrapAsynchronously=false" />
+        <pinning store="inCache" />
+    </cache>
+
+    <!-- JIRA requires this cache to be fully-populated, hence it's pinned and eternal -->
+    <cache name="com.atlassian.jira.crowd.embedded.ofbiz.OfBizUserDao.userCache" eternal="true" maxEntriesLocalHeap="0">
+        <cacheEventListenerFactory
+                class="com.atlassian.cache.ehcache.RMICacheReplicatorFactory"
+                properties="replicateAsynchronously=false, replicatePuts=true, replicateUpdates=true,
+                    replicateUpdatesViaCopy=true, replicateRemovals=true "/>
+        <!-- Ensure the cache gets initialised on secondary nodes before we try and use it. Not doing this means we would
+             have a race in the code where we are aggressively reloading from the database while the node is trying to refresh
+             its content from other nodes in the cluster. -->
+        <bootstrapCacheLoaderFactory
+                class="net.sf.ehcache.distribution.RMIBootstrapCacheLoaderFactory"
+                properties="bootstrapAsynchronously=false" />
+        <pinning store="inCache" />
+    </cache>
+
+</ehcache>

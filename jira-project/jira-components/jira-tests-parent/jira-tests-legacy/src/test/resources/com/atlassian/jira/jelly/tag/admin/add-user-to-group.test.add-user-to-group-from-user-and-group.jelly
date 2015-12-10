@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:CreateUser username="new-user" password="password" confirm="password" fullname="Full name" email="test@test.com">
+        ${jelly.new.username}
+        <jira:CreateGroup group-name="new-group">
+            <jira:AddUserToGroup/>
+        </jira:CreateGroup>
+    </jira:CreateUser>
+</JiraJelly>

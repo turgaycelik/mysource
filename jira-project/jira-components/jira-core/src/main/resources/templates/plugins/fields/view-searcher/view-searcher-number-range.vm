@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#searcherHeader ($customField)
+    <span class="lead">$i18n.getText('common.words.between')</span> 
+    #if ($value.getFirstValueForKey('greaterThan')) $value.getFirstValueForKey('greaterThan') #else ${i18n.getText("common.filters.any.value")} #end
+    ${i18n.getText("common.words.and")}
+    #if ($value.getFirstValueForKey('lessThan'))  $value.getFirstValueForKey('lessThan') #else ${i18n.getText("common.filters.any.value")} #end
+#searcherFooter ($customField)

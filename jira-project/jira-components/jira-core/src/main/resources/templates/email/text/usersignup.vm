@@ -1,0 +1,12 @@
+#disable_html_escaping()
+$i18n.getText("template.${product}.user.signup.heading")
+
+   $baseurl
+
+#parse("templates/email/text/includes/userdetails.vm")
+
+$i18n.getText("template.user.retrievepassword")
+
+   ${baseurl}/secure/ForgotLoginDetails.jspa?username=$velocityhelper.urlencode($user.name)
+
+#parse("templates/email/text/includes/footer.vm")

@@ -1,0 +1,105 @@
+<johnson-config>
+    <setupconfig class="com.atlassian.jira.appconsistency.JiraSetupConfig"/>
+    <container-factory class="com.atlassian.johnson.setup.DefaultContainerFactory"/>
+
+    <setup>
+        <path>/secure/SetupWelcome!default.jspa</path>
+    </setup>
+
+    <error>
+        <path>/secure/errors.jsp</path>
+    </error>
+
+    <ignore>
+        <path>/secure/errors.jsp</path>
+        <path>/secure/SetupLicense!default.jspa</path>
+        <path>/secure/SetupLicense.jspa</path>
+        <path>/secure/ConfirmNewInstallationWithOldLicense!default.jspa</path>
+        <path>/secure/ConfirmNewInstallationWithOldLicense.jspa</path>
+        <path>/secure/popups/UserPickerBrowser.jspa</path>
+        <path>/secure/CleanData!default.jspa</path>
+        <path>/secure/CleanData.jspa</path>
+        <path>/secure/admin/fixes/*</path>
+        <path>/secure/admin/jira/IndexProgress.jspa</path>
+        <path>/importprogress</path>
+        <path>/secure/admin/ProjectImportProgress.jspa</path>
+        <path>/secure/VerifySmtpServerConnection!setup.jspa</path>
+        <path>/rest/usermanagement/*</path>
+        <path>/rest/api/*/reindex*</path>
+        <path>/rest/userprovisioning/*/upgrade</path>
+        <path>/rest/auth/1/session</path>
+    </ignore>
+
+    <eventlevels>
+        <eventlevel key="fatal">
+            <description>Fatal</description>
+        </eventlevel>
+        <eventlevel key="error">
+            <description>Error</description>
+        </eventlevel>
+        <eventlevel key="warning">
+            <description>Warning</description>
+        </eventlevel>
+    </eventlevels>
+
+    <eventtypes>
+        <eventtype key="jdk">
+            <description>JDK Incompatibility</description>
+        </eventtype>
+        <eventtype key="database">
+            <description>Database</description>
+        </eventtype>
+        <eventtype key="upgrade">
+            <description>Upgrade</description>
+        </eventtype>
+        <eventtype key="export">
+            <description>Data Export</description>
+        </eventtype>
+        <eventtype key="export-illegal-xml">
+            <description>Illegal XML Characters</description>
+        </eventtype>
+        <eventtype key="import">
+            <description>Data Import</description>
+        </eventtype>
+        <eventtype key="setup">
+            <description>Setup</description>
+        </eventtype>
+        <eventtype key="project-import">
+            <description>Project Import</description>
+        </eventtype>
+        <eventtype key="license-too-old">
+            <description>License Too Old For Build</description>
+        </eventtype>
+        <eventtype key="subscription-expired">
+            <description>Subscription License Too Old For Build</description>
+        </eventtype>
+        <eventtype key="restart">
+            <description>Restart Needed</description>
+        </eventtype>
+        <eventtype key="reindex">
+            <description>Reindex</description>
+        </eventtype>
+        <eventtype key="license-invalid">
+            <description>Invalid License</description>
+        </eventtype>
+        <eventtype key="locale-build-mismatch">
+            <description>Locale Build Mismatch</description>
+        </eventtype>
+        <eventtype key="index-lock-already-exists">
+            <description>An index lock file was unexpectedly found.</description>
+        </eventtype>
+        <eventtype key="outdated-plugins-installed">
+            <description>Plugins are not compatible with this version of JIRA</description>
+        </eventtype>
+        <eventtype key="startup-unexpected">
+            <description>An unexpected error has occured during startup.</description>
+        </eventtype>
+        <eventtype key="clustering">
+            <description>Clustering</description>
+        </eventtype>
+        <eventtype key="clustering-unlicensed">
+            <description>Clustering Invalid License</description>
+        </eventtype>
+    </eventtypes>
+
+</johnson-config>

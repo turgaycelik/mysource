@@ -1,0 +1,56 @@
+#* @implicitly included *#
+
+## These Velocity settings allow devs to click from Velocity refs to Java classes, fields and methods.
+
+#* @vtlvariable name="action" type="com.atlassian.jira.web.action.JiraWebActionSupport" *#
+#* @vtlvariable name="applicationProperties" type="com.atlassian.jira.config.properties.ApplicationProperties" *#
+#* @vtlvariable name="atl_token" type="java.lang.String" *#
+#* @vtlvariable name="auiparams" type="java.util.HashMap<java.lang.String, java.lang.Object>" *#
+#* @vtlvariable name="authcontext" type="com.atlassian.jira.security.JiraAuthenticationContextImpl" *#
+#* @vtlvariable name="avatarService" type="com.atlassian.jira.avatar.AvatarService" *#
+#* @vtlvariable name="baseurl" type="java.lang.String" *#
+#* @vtlvariable name="build" type="com.atlassian.jira.util.BuildUtilsInfo" *#
+#* @vtlvariable name="constantsManager" type="com.atlassian.jira.config.ConstantsManager" *#
+#* @vtlvariable name="currentCalendar" type="com.atlassian.jira.util.JiraVelocityUtils.LazyCalendar" *#
+#* @vtlvariable name="currentMillis" type="java.lang.Long" *#
+#* @vtlvariable name="customFieldManager" type="com.atlassian.jira.issue.CustomFieldManager" *#
+#* @vtlvariable name="dateFormatter" type="com.atlassian.jira.datetime.DateTimeFormatter" *#
+#* @vtlvariable name="dateTimes" type="com.atlassian.jira.datetime.DateTimeVelocityUtils" *#
+#* @vtlvariable name="dates" type="com.atlassian.jira.datetime.DateVelocityUtils" *#
+#* @vtlvariable name="dateutils" type="com.atlassian.jira.util.JiraVelocityUtils.DateUtils" *#
+#* @vtlvariable name="displayParameters" type="java.util.Map" *#
+#* @vtlvariable name="externalLinkUtil" type="com.atlassian.jira.web.util.ExternalLinkUtil" *#
+#* @vtlvariable name="featureManager" type="com.atlassian.jira.config.FeatureManager" *#
+#* @vtlvariable name="field" type="com.atlassian.jira.issue.fields.AbstractField" *#
+#* @vtlvariable name="fieldLayoutItem" type="com.atlassian.jira.issue.fields.layout.field.FieldLayoutItemImpl" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.action.JiraActionSupport" *#
+#* @vtlvariable name="issue" type="com.atlassian.jira.issue.Issue" *#
+#* @vtlvariable name="issueConstantWebComponent" type="com.atlassian.jira.web.component.IssueConstantWebComponent" *#
+#* @vtlvariable name="jiraUserUtils" type="com.atlassian.jira.user.util.UserUtil" *#
+#* @vtlvariable name="jirakeyutils" type="com.atlassian.jira.util.JiraKeyUtils" *#
+#* @vtlvariable name="jirautils" type="com.atlassian.jira.util.JiraUtils" *#
+#* @vtlvariable name="keyboardShortcutManager" type="com.atlassian.jira.plugin.keyboardshortcut.KeyboardShortcutManager" *#
+#* @vtlvariable name="lfbean" type="com.atlassian.jira.config.properties.LookAndFeelBean" *#
+#* @vtlvariable name="mailPluginsHelper" type="com.atlassian.jira.mail.JiraMailPluginsHelper" *#
+#* @vtlvariable name="map" type="com.atlassian.core.util.map.EasyMap" *#
+#* @vtlvariable name="outlookdate" type="com.atlassian.jira.web.util.OutlookDate" *#
+#* @vtlvariable name="permissionCheck" type="com.atlassian.jira.web.bean.PermissionCheckBean" *#
+#* @vtlvariable name="projectManager" type="com.atlassian.jira.project.ProjectManager" *#
+#* @vtlvariable name="req" type="javax.servlet.http.HttpServletRequest" *#
+#* @vtlvariable name="requestContext" type="com.atlassian.jira.util.velocity.VelocityRequestContext" *#
+#* @vtlvariable name="soyRenderer" type="com.atlassian.soy.renderer.SoyTemplateRenderer" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="urlModeAbsolute" type="com.atlassian.plugin.webresource.UrlMode" *#
+#* @vtlvariable name="urlcodec" type="com.atlassian.jira.util.JiraUrlCodec" *#
+#* @vtlvariable name="userformat" type="com.atlassian.jira.plugin.profile.UserFormatManager" *#
+#* @vtlvariable name="userFormatter" type="com.atlassian.jira.plugin.userformat.UserFormatter" *#
+#* @vtlvariable name="userutils" type="com.atlassian.jira.user.UserUtils" *#
+#* @vtlvariable name="velocityhelper" type="com.atlassian.jira.util.JiraVelocityHelper" *#
+#* @vtlvariable name="webResourceManager" type="com.atlassian.plugin.webresource.WebResourceManager" *#
+#* @vtlvariable name="webResourceUrlProvider" type="com.atlassian.plugin.webresource.WebResourceUrlProvider" *#
+#* @vtlvariable name="worklog" type="com.atlassian.jira.issue.worklog.Worklog" *#
+#* @vtlvariable name="xmlutils" type="com.atlassian.core.util.XMLUtils" *#
+## This Velocity setting allows devs to click from a Velocity macro usage to its declaration.
+
+#* @vtlmacrolibrary path="templates/plugins/jira/macros.vm" *#
+#* @vtlmacrolibrary path="templates/email/macros.vm" *#

@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($issue.fixVersions && $issue.fixVersions.size() >0)
+<tr>
+    <th>#text("template.fix.versions"):</th>
+    <td>
+        #foreach ($fixfor in $issue.fixVersions)
+            $fixfor.getString("name")#if ($velocityCount != $issue.fixVersions.size()), #end
+        #end
+    </td>
+</tr>
+#end

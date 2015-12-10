@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($worklog)
+    <table class="keyvalue-table">
+        #parse('templates/email/html/includes/patterns/worklog-row.vm')
+    </table>
+#end

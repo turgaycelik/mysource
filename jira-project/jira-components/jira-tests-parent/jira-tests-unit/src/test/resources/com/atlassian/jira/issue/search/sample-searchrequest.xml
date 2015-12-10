@@ -1,0 +1,83 @@
+<searchrequest name='big filter'>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ProjectParameter'>
+    <projid andQuery='false'>
+        <value>10240</value>
+    </projid>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.IssueTypeParameter'>
+    <type andQuery='false'>
+      <value>2</value>
+    </type>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.MultipleFieldSingleValueLuceneParameter'>
+    <multifieldlucene>
+      <field>summary</field>
+      <field>description</field>
+      <field>body</field>
+      <field>environment</field>
+      <query>qrytxt</query>
+    </multifieldlucene>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.IssueConstantsParameter'>
+    <priority andQuery='false'>
+      <value>1</value>
+      <value>2</value>
+    </priority>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.IssueConstantsParameter'>
+    <resolution andQuery='false'>
+      <value>-1</value>
+      <value>1</value>
+    </resolution>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.IssueConstantsParameter'>
+    <status andQuery='false'>
+      <value>1</value>
+      <value>2</value>
+    </status>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.AbsoluteDateRangeParameter'>
+    <created name='created:absolute'>
+      <fromDate>1037858400000</fromDate>
+      <toDate>1037944800000</toDate>
+    </created>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.AbsoluteDateRangeParameter'>
+    <updated name='updated:absolute'>
+      <fromDate>1038031200000</fromDate>
+      <toDate>1038117600000</toDate>
+    </updated>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.RelativeDateRangeParameter'>
+      <created name='created:relative'>
+          <previousOffset>3600000</previousOffset>
+      </created>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.RelativeDateRangeParameter'>
+      <updated name='updated:relative'>
+          <nextOffset>86400000</nextOffset>
+      </updated>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.UserParameter'>
+    <issue_author name='issue_author' value='mike@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.UserParameter'>
+    <issue_assignee name='issue_assignee' value='scott@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.FixForParameter'>
+    <fixfor andQuery='false'>
+      <value>10370</value>
+    </fixfor>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ComponentParameter'>
+    <component andQuery='false'>
+      <value>10120</value>
+      <value>10121</value>
+    </component>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.VersionParameter'>
+    <version andQuery='false'>
+      <value>10370</value>
+    </version>
+  </parameter>
+</searchrequest>

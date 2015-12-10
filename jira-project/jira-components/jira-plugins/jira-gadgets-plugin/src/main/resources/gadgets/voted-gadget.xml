@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.voted.title__" directory_title="__MSG_gadget.voted.title__" description="__MSG_gadget.voted.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:voted-gadget", "filterResults-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:voted-gadget", "filterResults-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.voted,gadget.issuetable.common")
+    </ModulePrefs>
+    <UserPref name="num" datatype="hidden" default_value="10"/>
+    <UserPref name="showTotalVotes" datatype="hidden" default_value="false"/>
+    <UserPref name="showResolved" datatype="hidden" default_value="false"/>
+    <UserPref name="columnNames" datatype="hidden" default_value="--Default--" />
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #requireContext("jira.webresources:issue-table")
+        #requireResource("com.atlassian.jira.gadgets:g-voted")
+        #includeResources()
+
+        <script type="text/javascript">
+
+            var contextPath = "__ATLASSIAN_BASE_URL__"; // Adding context path as it is required for actions dropdowns
+
+            gadgets.window.setTitle("__MSG_gadget.voted.title__");
+            AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "/rest/gadget/1.0/currentUser",
+                config: {
+                    descriptor: function (args) {
+                        var gadget = this;
+
+                        return {
+                            action: "/rest/gadget/1.0/issueTable/jql/validate",
+                            theme : function(){
+                                if (gadgets.window.getViewportDimensions().width < 450){
+                                    return "gdt top-label";
+                                } else{
+                                    return "gdt";
+                                }
+                            }(),
+                            fields: [
+                                AJS.gadget.fields.numberToShow(gadget, "num"),
+                                columnGadgetFieldType(gadget, "columnNames", args.columnChoices.availableColumns),
+                                {
+                                    type: "checkbox",
+                                    options: [{id: 1, label: this.getMsg("gadget.voted.field.showtotal.name")}],
+                                    userpref: "showTotalVotes",
+                                    value: gadget.getPref("showTotalVotes")
+                                },
+                                {
+                                    type: "checkbox",
+                                    options: [{id: 2, label: this.getMsg("gadget.voted.field.showresolved.name")}],
+                                    userpref: "showResolved",
+                                    value: gadget.getPref("showResolved")
+                                },
+                                AJS.gadget.fields.nowConfigured()
+                            ]
+                        };
+                    },
+                    args: [{
+                            key: "columnChoices",
+                            ajaxOptions:  "/rest/gadget/1.0/availableColumns"
+                        }
+                    ]
+                },
+                view: {
+                    onResizeAdjustHeight: true,
+                    enableReload: true,
+                    template: function (args) {
+                        var gadget = this;
+                        this.getView().empty();
+                        this.getView().attr("id", "voted-content");
+                        var view = AJS.$("<div/>").attr("id", "jira").appendTo(this.getView());
+
+                        var linkStart = "<a href=\"__ATLASSIAN_BASE_URL__/secure/IssueNavigator!executeAdvanced.jspa?clear=true&runQuery=true&jqlQuery=issuekey+in+votedIssues%28%29\" target=\"_parent\" title=\"" + args.issueTable.title +"\">";
+                        var linkEnd = "</a>";
+                        if (args.issueTable.displayed != 0){
+                            if (args.issueTable.displayed === args.issueTable.total){
+                                view.append(
+                                    AJS.$("<div/>").addClass("results-wrap").append(
+                                        AJS.$("<div/>").html(args.issueTable.table)));
+                            } else {
+                                view.append(
+                                    AJS.$("<div/>").addClass("results-wrap").append(
+                                        AJS.$("<div/>").addClass("paging-table").html(args.issueTable.table)));
+                            }
+
+                            $resultCountLink = view.find(".results-count-link");
+                            $resultCountLink.replaceWith(AJS.$(linkStart + $resultCountLink.html() + linkEnd));
+
+                            AJS.$("th.sortable").each(function(){
+                                this.onclick = null;
+                            }).click(function(){
+                                gadget.sortBy = AJS.$(this).attr("rel");
+                                gadget.showView(true);
+                            });
+
+                            AJS.$(".pagination a").click(function(event){
+                                event.preventDefault();
+                                gadget.startIndex = AJS.$(this).attr("rel");
+                                gadget.showView(true);
+                            });
+                            if (gadget.isLocal()){
+                                if (typeof contextPath === "undefined"){
+                                    contextPath = "__ATLASSIAN_BASE_URL__";
+                                }
+                                AJS.Dropdown.create({
+                                    trigger: ".issue-actions-trigger",
+                                    autoScroll: false,
+                                    ajaxOptions: {
+                                        dataType: "json",
+                                        cache: false,
+                                        formatSuccess: JIRA.FRAGMENTS.issueActionsFragment
+                                    }
+                                });
+                            }
+
+                        } else {
+                            gadget.getView().empty();
+                            gadget.getView().append(
+                                AJS.$("<div/>").addClass("empty-results").append(
+                                    AJS.format("__MSG_gadget.voted.novotes__", linkStart, "</a>")
+                                )
+                            );
+                        }
+
+                        // Apply hover class to issuetable
+                        jQuery("#issuetable tr").hover(function ()
+                        {
+                            jQuery(this).addClass("hover");
+                        }, function () {
+                            if (!AJS.dropDown.current) {
+                                jQuery(this).removeClass("hover");
+                            }
+                        });
+
+                        gadget.resize();
+                    },
+                    args: [{
+                        key: "issueTable",
+                        ajaxOptions: function () {
+                            var gadget = this;
+                            if (!this.sortBy){
+                                this.sortBy = null;
+                            }
+                            // JQL queries
+                            var showResolvedQuery = 'issue in votedIssues()';
+                            var showUnresolvedQuery = 'issue in votedIssues() AND resolution = EMPTY';
+
+                            if (!this.sortBy){
+                                this.sortBy = "votes";
+                            }
+                            var columnNames = gadget.getPrefArray("columnNames");
+                            var hasDefault = false;
+                            var indexOf = -1;
+                            for (var i = 0; i < columnNames.length; i++)
+                            {
+                                if (columnNames[i] == "--Default--")
+                                {
+                                    hasDefault = true;
+                                    indexOf = i;
+                                    break;
+                                }
+                            }
+                            if (hasDefault)
+                            {
+                                columnNames.splice(indexOf, 1);
+                            }
+                            if (gadget.getPref("showTotalVotes") == 'true') {
+                                columnNames.push("votes");
+                            }
+                            var jql = gadget.getPref("showResolved") == 'true' ? showResolvedQuery : showUnresolvedQuery;
+                            return {
+                                url: "/rest/gadget/1.0/issueTable/jql",
+                                data:  {
+                                    jql: jql,
+                                    title: gadget.getMsg("gadget.voted.title"),
+                                    num: this.getPref("num"),
+                                    tableContext: "jira.table.cols.voted",
+                                    enableSorting: true,
+                                    columnNames: columnNames,
+                                    sortBy: function() {
+                                        if (gadget.sortBy && gadget.sortBy !== "") {
+                                            return gadget.sortBy;
+                                        } else {
+                                            return null;
+                                        }
+                                    }(),
+                                    paging: true,
+                                    startIndex: function () {
+                                        if (gadget.startIndex && gadget.startIndex !== "") {
+                                            return gadget.startIndex;
+                                        } else {
+                                            return "0";
+                                        }
+                                    }(),
+                                    showActions:gadget.isLocal(),
+                                    addDefault: hasDefault
+                                }
+                            };
+                        }
+                    }]
+                }
+            });
+        </script>
+        ]]>
+    </Content>
+</Module>

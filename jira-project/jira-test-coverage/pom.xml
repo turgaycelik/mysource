@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-project</artifactId>
+    <version>6.3.15</version>
+  </parent>
+  <artifactId>jira-test-coverage</artifactId>
+  <name>Atlassian JIRA - Coverage - Saving and Restoring</name>
+  <profiles>
+    <profile>
+      <id>unit-coverage</id>
+      <properties>
+        <coverage.artifact>jira-coverage-unit-history</coverage.artifact>
+      </properties>
+    </profile>
+    <profile>
+      <id>func-and-unit-coverage</id>
+      <properties>
+        <coverage.artifact>jira-coverage-func-and-unit-history</coverage.artifact>
+      </properties>
+    </profile>
+  </profiles>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.atlassian.jira.maven.plugins.savetorepo</groupId>
+        <artifactId>save-to-repo-plugin</artifactId>
+        <version>1.0-beta3</version>
+        <configuration>
+          <repoArtifact>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>${coverage.artifact}</artifactId>
+            <version>${project.version}</version>
+            <packaging>zip</packaging>
+          </repoArtifact>      
+          <useProjectRoot>true</useProjectRoot>
+          <restoreToLocation>${maven.clover.historyDir}</restoreToLocation>
+          <saveFromLocation>${maven.clover.historyDir}</saveFromLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

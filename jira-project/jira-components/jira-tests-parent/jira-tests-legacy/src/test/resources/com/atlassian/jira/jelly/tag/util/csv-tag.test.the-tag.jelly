@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:j="jelly:core" xmlns:test="jelly:junit" xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:csv var="mycsv" uri="mycsv.csv" />
+
+    <test:assert test="${mycsv != null}">
+        The mycsv variable should not be null.
+    </test:assert>
+
+    <j:forEach items="${mycsv}" var="row">
+        <row>
+        <j:forEach items="${row}" var="column">
+                <column>${column}</column>
+        </j:forEach>
+        </row>
+    </j:forEach>
+
+</JiraJelly>

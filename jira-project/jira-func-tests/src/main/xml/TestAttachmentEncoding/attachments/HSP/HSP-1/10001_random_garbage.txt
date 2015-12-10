@@ -1,0 +1,6 @@
+# used for hsql
+
+urlid jira
+url jdbc:hsqldb:file:/tmp/jiradb
+username sa
+password

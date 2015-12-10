@@ -1,0 +1,12 @@
+Update of /cvsroot/atlassian/jira-docs/web/src/documentation/content/xdocs/config
+In directory CPE-144-132-174-210:/tmp/cvs-serv15907/config
+
+Removed Files:
+	dashboard.xml
+Log Message:
+Move dashboard out of config/
+
+--- dashboard.xml DELETED ---
+
+
+

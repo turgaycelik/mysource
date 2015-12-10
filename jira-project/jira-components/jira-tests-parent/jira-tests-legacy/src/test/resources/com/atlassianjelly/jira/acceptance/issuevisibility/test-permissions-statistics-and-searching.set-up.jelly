@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<JiraJellyTests xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <!-- Set managers that are used in this test -->
+    <jira:LoadManager var="permissionManager" manager="PermissionManager"/>
+    <jira:RunSearchRequest var="allIssues"/>
+    <!-- Load the project for this test -->
+    <jira:LoadProject var="project" project-name="a-project"/>
+</JiraJellyTests>

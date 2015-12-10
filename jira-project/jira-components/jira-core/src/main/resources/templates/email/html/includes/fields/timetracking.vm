@@ -1,0 +1,44 @@
+#disable_html_escaping()
+#if ($applicationProperties.getOption('jira.option.timetracking'))
+    #if ($issue.getOriginalEstimate() || $issue.getAggregateOriginalEstimate())
+    <tr>
+        <th>#text("common.concepts.original.estimate"):</th>
+        <td>$issue.getNiceTimeOriginalEstimate($i18n)</td>
+    </tr>
+    #end
+
+    #if ($issue.getEstimate() || $issue.getAggregateRemainingEstimate())
+    <tr>
+        <th>#text("common.concepts.remaining.estimate"): </th>
+        <td>$issue.getNiceTimeEstimate($i18n)</td>
+    </tr>
+    #end
+
+    #if ($issue.getTimeSpent() || $issue.getAggregateTimeSpent())
+    <tr>
+        <th>#text("common.concepts.time.spent"):</th>
+        <td>$issue.getNiceTimeSpent($i18n)</td>
+    </tr>
+    #end
+
+    #if ($issue.isAnyAggregateDifferent())
+        #if ($issue.getOriginalEstimate() || $issue.getAggregateOriginalEstimate())
+        <tr>
+            <th>#text("common.concepts.aggregate.original.estimate"):</th>
+            <td>$issue.getNiceTimeAggregateOriginalEstimate($i18n)</td>
+        </tr>
+        #end
+        #if ($issue.getEstimate() || $issue.getAggregateRemainingEstimate())
+        <tr>
+            <th>#text("common.concepts.aggregate.remaining.estimate"):</th>
+            <td>$issue.getNiceTimeAggregateRemainingEstimate($i18n)</td>
+        </tr>
+        #end
+        #if ($issue.getTimeSpent() || $issue.getAggregateTimeSpent())
+        <tr>
+            <th>#text("common.concepts.aggregate.time.spent"):</th>
+            <td>$issue.getNiceTimeAggregateTimeSpent($i18n)</td>
+        </tr>
+        #end
+    #end
+#end

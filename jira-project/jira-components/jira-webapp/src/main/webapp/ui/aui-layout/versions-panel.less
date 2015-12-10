@@ -1,0 +1,95 @@
+@import "../imports/aui-colours";
+@import "../imports/jira-colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/clearfix";
+@import "../imports/mixins/plainlist";
+
+@temp-h3-line-height: 1.5625em;
+.h3-style() {
+    font-size: 16px;
+    font-weight: bold;
+    font-family: inherit;
+    line-height: @temp-h3-line-height;
+}
+
+// These are displayed on both a Browse Project's Roadmap tab and a User Profile Roadmap tab.
+// They are also displayed in the changelog tab and the Reports tab.
+.versions-list {
+    .plainlist();
+
+    .version-block-container {
+        .clearfix();
+        border-bottom: 1px solid @aui-border-color;
+        display: block;
+        padding: 10px 0;
+        position: relative;
+
+        > .version-block {
+            padding: 0;
+        }
+
+        .version-metadata {
+            .plainlist();
+
+            > li {
+                display: block;
+            }
+
+            .key {
+                color: @jira-color-subtle-text;
+            }
+            .key + .value {
+                color: @jira-color-text;
+            }
+        }
+
+        .version-title {
+            .h3-style();
+            margin-top: 0;
+        }
+
+        .version-description,
+        .version-metadata {
+            margin: 0;
+        }
+
+        .version-title + .version-description,
+        .version-title + .version-metadata,
+        .version-progress-description {
+            margin-top: 0;
+        }
+
+        .version-progress {
+            min-width: 200px;
+            width: 30%;
+
+            > .percentageGraph { // Markup comes from the "percentageGraphDiv" macro.
+                @bar-height: 4px;
+                .h3-style();
+                .clearfix();
+                height: @temp-h3-line-height;
+                overflow: auto;
+                position: relative;
+                width: 100%;
+
+                > .barSection {
+                    .border-box();
+                    border-width: @bar-height 0;
+                    height: 0;
+                    line-height: 0;
+                    margin-top: 0 - @bar-height;
+                    position: relative;
+                    top: 50%;
+                }
+            }
+        }
+    }
+
+    .version-issue-table {
+        margin: 10px 0;
+
+        table.aui > tbody > tr:last-child {
+            border-bottom: 0;
+        }
+    }
+}

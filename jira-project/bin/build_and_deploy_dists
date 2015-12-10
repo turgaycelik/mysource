@@ -1,0 +1,65 @@
+#!/bin/bash
+
+if [ $# == 0 ]
+then
+  printf "\nUsage: build_and_deploy_standalone <jira version> \n\n"
+  exit -1;
+fi
+
+if [ -f "${M2_HOME}/bin/mvn" ]; then
+  MVN=${M2_HOME}/bin/mvn
+else
+  MVN=mvn
+fi
+
+# First of all - set the right names for files and versions to deploy
+export DEV_VERSION="$1";
+
+
+#-Djira.build.rpcplugin=false   
+# maven clean jira:standalone-enterprise-tomcat -Dmaven.test.skip=true -Djira.build.bundle.plugins=false -Dedition=enterprise -Dstandalone.tomcat.location=$TOMCAT_LOCATION -Dstandalone.jira.tomcat.version=$TOMCAT_VERSION
+${MVN} clean verify -pl jira-distribution/jira-standalone-distribution -am -Dmaven.test.skip=true -Dmaven.test.func.skip=true -Dmaven.test.unit.skip=true -Pdistribution
+result=$?
+echo "Result from standalone build: ${result}"
+
+# Don't need the following since I will put this in the plugins chain, thus the func tests pass
+# Only deploy the jar if the func tests actually pass. It appears that maven actually returns 0 only when the tests pass.
+#if test ${result} -ne 0; then
+#	exit ${result}
+#fi
+
+#
+# Deploy JIRA standalone zip
+#
+# sed -e 's/<artifactId>atlassian-jira<\/artifactId>/<artifactId>atlassian-jira-standalone<\/artifactId>/' pom.xml > standalone_pom.xml
+
+# mvn deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=atlassian-jira-standalone -Dversion=$DEV_VERSION -Dpackaging=tgz -Dfile=release/atlassian-jira-enterprise-$DEV_VERSION/atlassian-jira-enterprise-$DEV_VERSION-standalone.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=davs://maven.atlassian.com/private-snapshot -DpomFile=standalone_pom.xml
+
+
+
+if [ $result == 0 ]; then
+     echo "Deploying to Maven..."
+    ${MVN} deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=atlassian-jira-standalone -Dversion=$DEV_VERSION -Dpackaging=tgz -Dclassifier=standalone -Dfile=jira-distribution/jira-standalone-distribution/target/atlassian-jira-$DEV_VERSION-standalone.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=https://maven.atlassian.com/private-snapshot
+#    ${MVN} deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=atlassian-jira-standalone -Dversion=$DEV_VERSION -Dpackaging=tgz -Dfile=jira-distribution/jira-standalone-distribution/target/atlassian-jira-$DEV_VERSION-standalone.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=https://maven.atlassian.com/private-snapshot
+
+else
+    echo "===================================================================="
+    echo "ERROR: the build failed so the standalone deploy did not try to run."
+    echo "===================================================================="
+fi
+
+# WAR Distribution Build
+${MVN} verify -pl jira-distribution/jira-war-distribution -am -Dmaven.test.skip=true -Dmaven.test.func.skip=true -Dmaven.test.unit.skip=true -Pdistribution
+result=$?
+echo "Result from war distribution build: ${result}"
+
+if [ $result == 0 ]; then
+     echo "Deploying to Maven..."
+    ${MVN} deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=jira-war-distribution -Dclassifier=war -Dversion=$DEV_VERSION -Dpackaging=tar.gz -Dfile=jira-distribution/jira-war-distribution/target/atlassian-jira-$DEV_VERSION-war.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=https://maven.atlassian.com/private-snapshot
+   # until i can get something better it seems that maven-dependency-plugin:get does not support a classifier so I'll deploy it a second time without the war classifier
+#   ${MVN} deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=jira-war-distribution -Dversion=$DEV_VERSION -Dpackaging=tar.gz -Dfile=jira-distribution/jira-war-distribution/target/atlassian-jira-$DEV_VERSION-war.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=https://maven.atlassian.com/private-snapshot
+else
+    echo "===================================================================="
+    echo "ERROR: the build failed so the war deploy did not try to run."
+    echo "===================================================================="
+fi

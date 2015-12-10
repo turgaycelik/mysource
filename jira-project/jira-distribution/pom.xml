@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+
+  <groupId>com.atlassian.jira</groupId>
+  <artifactId>jira-distribution</artifactId>
+  <version>6.3.15</version>
+
+    <licenses>
+        <license>
+            <name>Atlassian 3.0 End User License Agreement</name>
+            <url>http://www.atlassian.com/end-user-agreement/</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <name>Atlassian JIRA - zDistribution</name>
+    <packaging>pom</packaging>
+    <modules>
+        
+        
+        
+        
+        <module>jira-webapp-dist</module>
+        
+        
+        
+        
+        
+    </modules>
+    <profiles>
+        <profile>
+            <id>installer</id>
+            <activation>
+                <property>
+                    <name>install4j.home</name>
+                </property>
+            </activation>
+            <modules>
+                
+            </modules>
+        </profile>
+        <profile>
+            <id>relase-func-tests</id>
+            <activation>
+                <property>
+                    <name>release-func-tests</name>
+                </property>
+            </activation>
+            <modules>
+                
+            </modules>
+        </profile>
+        <profile>
+            <id>webapp-dist-runner</id>
+            <activation>
+                <property>
+                    <name>run-webapp-dist</name>
+                </property>
+            </activation>
+            <modules>
+                
+            </modules>
+        </profile>
+        <profile>
+            <id>fork-compilation</id>
+            <build>
+                <pluginManagement>
+                    <plugins>
+                        <plugin>
+                            <artifactId>maven-compiler-plugin</artifactId>
+                            <configuration>
+                                <fork>true</fork>
+                            </configuration>
+                        </plugin>
+                    </plugins>
+                </pluginManagement>
+            </build>
+        </profile>
+        <profile>
+            <id>maven3-statistics</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.atlassian.maven.plugins</groupId>
+                        <artifactId>statistics-maven-plugin</artifactId>
+                        <version>0.1.3</version>
+                        <extensions>true</extensions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>deploy-distribution-base</id>
+            <activation>
+                <property>
+                    <name>deploy.distribution.base</name>
+                </property>
+            </activation>
+            <modules>
+                
+                
+                
+                
+            </modules>
+        </profile>
+    </profiles>
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <version>2.1</version>
+                    <configuration>
+                        <preparationGoals>clean</preparationGoals>
+                        <suppressCommitBeforeTag>true</suppressCommitBeforeTag>
+                        <remoteTagging>false</remoteTagging>
+                        <tagBase>https://svn.atlassian.com/svn/private/atlassian/jira/tags/distribution-tags</tagBase>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.2</version>
+                    <configuration>
+                        <finalName>${project.build.finalName}-${project.version}</finalName>
+                        <tarLongFileMode>gnu</tarLongFileMode>
+                        <archive>
+                            <compress>true</compress>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.cargo</groupId>
+                    <artifactId>cargo-maven2-plugin</artifactId>
+                    <version>${cargo.plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-enforcer-plugin</artifactId>
+                    <version>1.2</version>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-resources-plugin</artifactId>
+                    <version>2.5</version>
+                    <configuration>
+                        <escapeWindowsPaths>true</escapeWindowsPaths>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>sandbox-maven-plugin</artifactId>
+                <version>2.1-beta15</version>
+                <executions>
+                    <execution>
+                        <id>enable-sandbox</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>sandbox</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>maven-clover2-plugin</artifactId>
+                <version>${clover.version}</version>
+                <configuration>
+                    <jdk>${jdkLevel}</jdk>
+                    <singleCloverDatabase>true</singleCloverDatabase>
+                    <licenseLocation>${maven.clover.licenseLocation}</licenseLocation>
+                    <generateJson>true</generateJson>
+                    <generateHtml>true</generateHtml>
+                    <generateXml>true</generateXml>
+                    <generateHistorical>true</generateHistorical>
+                    <outputDirectory>${project.build.directory}/site/clover</outputDirectory>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>docsversion-maven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <id>set-docs-version-property</id>
+                        <phase>initialize</phase>
+                        <goals>
+                            <goal>set-property</goal>
+                        </goals>
+                        <configuration>
+                            <property>jira.docs.version</property>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    <properties>
+
+        <!-- BEGIN.KEEP.THOSE.IN.SYNC with the base project pom (this is automatically validated) -->
+        <!-- These must be kept in synch with the base project pom and updated at release time -->
+        <jira.build.number>6346</jira.build.number>
+        <!-- These must be kept in synch with the base project pom and updated at release time -->
+        <!-- leave blank for no downgrade version -->
+        <jira.downgrade.minimum.build.version>6.2.6</jira.downgrade.minimum.build.version>
+
+        <atlassian.test.suite.batch>1</atlassian.test.suite.batch>
+        <atlassian.test.suite.numbatches>1</atlassian.test.suite.numbatches>
+
+        <jira.minimum.upgradable.build.number>466</jira.minimum.upgradable.build.number>
+        <jira.minimum.upgradable.version>4.0</jira.minimum.upgradable.version>
+        <jira.release.info>EAR/WAR</jira.release.info>
+        <maven.test.unit.skip>${maven.test.skip}</maven.test.unit.skip>
+        <maven.test.func.skip>${maven.test.skip}</maven.test.func.skip>
+        <maven.test.selenium.skip>${maven.test.skip}</maven.test.selenium.skip>
+        <clover.version>3.0.2</clover.version>
+        <project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
+        <hallelujah.version>3.1-alpha-8</hallelujah.version>
+        <jdkLevel>1.6</jdkLevel>
+        <rpc.version>6.3</rpc.version>
+        <slf4j.version>1.6.4</slf4j.version>
+        <junit.version>4.10</junit.version>
+        <easymock.version>2.5.2</easymock.version>
+        <testkit.version>6.3.11</testkit.version>
+        <log4j.version>1.2.16</log4j.version>
+        <hsql.jdbc.version>1.8.0.5</hsql.jdbc.version>
+        <inception.version>1.10</inception.version>
+        <commons.codec.version>1.4</commons.codec.version>
+        <commons.compress.version>1.8.1</commons.compress.version>
+        <commons.lang.version>2.6</commons.lang.version>
+        <commons.httpclient.version>3.0.1</commons.httpclient.version>
+        <apache.httpclient.version>4.2.6</apache.httpclient.version>
+        <mssql.jdbc.version>1.3.1</mssql.jdbc.version>
+        <!-- END.KEEP.THOSE.IN.SYNC -->
+
+        <!-- base JVM args for JIRA test runners -->
+        <!-- BEGIN.KEEP.THOSE.IN.SYNC with the base project pom (this is automatically validated) -->
+        <jira.user.extra.jvmargs/>
+        <jira.user.jvmargs>-Djira.scheduler.RamJobStore=true -Dupm.pac.disable=true -Duser.language=en -Duser.region=AU -Duser.timezone=Australia/Sydney ${jira.user.extra.jvmargs}</jira.user.jvmargs>
+        <!-- END.KEEP.THOSE.IN.SYNC -->
+        <jira.test.runner.jvmargs>-Dfile.encoding=utf-8 -Djira.dangermode=false ${jira.user.jvmargs}</jira.test.runner.jvmargs>
+
+        <cargo.plugin.version>1.1.2</cargo.plugin.version>
+
+        <VERSION>${project.version}</VERSION>
+        <BUILD_NUMBER>${jira.build.number}</BUILD_NUMBER>
+        <BUILD_DATE>${maven.build.timestamp}</BUILD_DATE>
+        <tomcat.dist.version>7.0.55</tomcat.dist.version>
+        <!-- the version we distribute in standalone -->
+        <tomcat.dist.flavour>tomcat-7x</tomcat.dist.flavour>
+        <!-- the version we distribute in standalone -->
+        <TOMCAT_VERSION>${tomcat.dist.version}</TOMCAT_VERSION>
+        <DOCS_VERSION>${jira.docs.version}</DOCS_VERSION>
+        <JIRAVERSION>${project.version}</JIRAVERSION>
+        <maven.build.timestamp.format>dd-MM-yyyy</maven.build.timestamp.format>
+        <atlassian.test.suite.parallel>false</atlassian.test.suite.parallel>
+        <atlassian.test.suite.mode/>
+
+        <!-- JIRA options for running func tests -->
+        <jira.functest.maxMemory>768m</jira.functest.maxMemory>
+        <jira.functest.minMemory>128m</jira.functest.minMemory>
+        <jira.functest.maxPermSize>512m</jira.functest.maxPermSize>
+        <jira.functest.jvmargs>-server -Dmail.mime.decodeparameters=true -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Xmx${jira.functest.maxMemory} -Xms${jira.functest.minMemory} -XX:MaxPermSize=${jira.functest.maxPermSize} -XX:+HeapDumpOnOutOfMemoryError -Djira.plugins.bundled.disable=false ${jira.user.jvmargs} -Djira.jelly.on=true -Dfile.encoding=utf-8 -Djira.dump=true -Djira.websudo.is.disabled=true -Djira.dangermode=false -Djira.fisheye.reloadOnClearCache=false</jira.functest.jvmargs>
+
+        <maven.test.skip>false</maven.test.skip>
+        <maven.clover.licenseLocation/>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.atlassian.buildeng.hallelujah</groupId>
+                <artifactId>server</artifactId>
+                <version>${hallelujah.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-grizzly</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.atlassian.buildeng.hallelujah</groupId>
+                <artifactId>client</artifactId>
+                <version>${hallelujah.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.sun.jersey</groupId>
+                        <artifactId>jersey-grizzly</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-log4j12</artifactId>
+                <version>${slf4j.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sourceforge.jtds</groupId>
+                <artifactId>jtds</artifactId>
+                <version>${mssql.jdbc.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

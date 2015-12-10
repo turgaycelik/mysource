@@ -1,0 +1,18 @@
+#disable_html_escaping()
+#searcherHeader ($customField)
+#if ($isKickass)
+    #if ($values)
+        #foreach ($group in $values)
+            $textutils.htmlEncode($group.name)#commaonly($values)
+        #end
+    #end
+#else
+    #if ($value)
+        #if ($hasAdminPermission)
+        <a href="$baseurl/secure/admin/user/ViewGroup.jspa?name=$urlcodec.encode($value)">$textutils.htmlEncode($value)</a>
+        #else
+            $textutils.htmlEncode($value)
+        #end
+    #end
+#end
+#searcherFooter ($customField)

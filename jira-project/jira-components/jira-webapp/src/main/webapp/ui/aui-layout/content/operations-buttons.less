@@ -1,0 +1,61 @@
+@import "../../imports/aui-colours";
+@import "../../imports/mixins/aui/buttons";
+
+@temp-color-operation-foreground: @aui-color-text;
+
+.operations {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    > li { // Putting it on the li (not <a>), because it makes it simpler to place the icons.
+        .aui-button-style-subtle(normal);
+        margin: 0;
+        padding: 0; // the clickable inner link needs to encompass the entire area of the <li>.
+        position: relative;
+
+        &.active {
+            .aui-button-style(toggled);
+        }
+
+        div, li {
+            text-shadow: none;
+        }
+    }
+
+    > li > a {
+        background-position: 6px 6px; // to override the icon background pos of 2x2
+        color: inherit;
+        display: block;
+        margin: 0;
+        padding: 4px 10px; // from the button styles
+        padding-left: 28px; // to make room for an icon, unless...
+
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        &.no-icon {
+            padding-left: 10px; // if there's no icon, use normal left padding.
+        }
+
+        &.aui-dd-link { // make room for the dropdown icon.
+            padding-right: 21px;
+
+            &:after {
+                border: 4px solid transparent;
+                border-top-color: @temp-color-operation-foreground;
+                content: "";
+                height: 0;
+                margin-top: -1px;
+                position: absolute;
+                right: 8px;
+                top: 50%;
+                width: 0;
+            }
+        }
+    }
+}

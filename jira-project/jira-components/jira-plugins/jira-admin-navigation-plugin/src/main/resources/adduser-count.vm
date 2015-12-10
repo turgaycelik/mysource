@@ -1,0 +1,10 @@
+#if ($hasReachedUserLimit)
+<div class="aui-message warning">
+    <span class="aui-icon icon-warning"></span>
+    <p>$limitWarningHtml</p>
+</div>
+#end
+<div class="aui-message info">
+    <span class="aui-icon icon-info"></span>
+    <p>$userCountHtml</p>
+</div>

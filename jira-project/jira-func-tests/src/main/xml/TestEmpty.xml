@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+suppresscheck: upgrade
+suppresscheck: attachhome
+suppresscheck: indexhome
+suppresscheck: indexenabled
+
+     JIRA Build                                    : 6.0-SNAPSHOT#6050-sha1:2ba1d494e442837f2a37557be8dd75671d0a752d
+     Build Date                                    : Thu Feb 28 00:00:00 EST 2013
+ -->
+
+<entity-engine-xml>
+    <Application id="1" name="crowd-embedded" lowerName="crowd-embedded" createdDate="2013-02-28 11:57:51.302" updatedDate="2013-02-28 11:57:51.302" active="1" description="" applicationType="CROWD" credential="X"/>
+    <Avatar id="10000" fileName="codegeist.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10001" fileName="eamesbird.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10002" fileName="jm_black.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10003" fileName="jm_brown.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10004" fileName="jm_orange.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10005" fileName="jm_red.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10006" fileName="jm_white.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10007" fileName="jm_yellow.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10008" fileName="monster.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10009" fileName="rainbow.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10010" fileName="kangaroo.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10011" fileName="rocket.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10100" fileName="Avatar-1.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10101" fileName="Avatar-2.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10102" fileName="Avatar-3.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10103" fileName="Avatar-4.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10104" fileName="Avatar-5.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10105" fileName="Avatar-6.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10106" fileName="Avatar-7.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10107" fileName="Avatar-8.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10108" fileName="Avatar-9.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10109" fileName="Avatar-10.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10110" fileName="Avatar-11.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10111" fileName="Avatar-12.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10112" fileName="Avatar-13.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10113" fileName="Avatar-14.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10114" fileName="Avatar-15.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10115" fileName="Avatar-16.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10116" fileName="Avatar-17.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10117" fileName="Avatar-18.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10118" fileName="Avatar-19.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10119" fileName="Avatar-20.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10120" fileName="Avatar-21.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10121" fileName="Avatar-22.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10122" fileName="Avatar-default.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10123" fileName="Avatar-unknown.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <ConfigurationContext id="10000" key="issuetype" fieldconfigscheme="10000"/>
+    <Directory id="1" directoryName="JIRA Internal Directory" lowerDirectoryName="jira internal directory" createdDate="2013-02-28 11:57:51.308" updatedDate="2013-02-28 11:57:51.308" active="1" description="JIRA default internal directory" implementationClass="com.atlassian.crowd.directory.InternalDirectory" lowerImplementationClass="com.atlassian.crowd.directory.internaldirectory" type="INTERNAL" position="0"/>
+    <DirectoryAttribute directoryId="1" name="user_encryption_method" value="plaintext"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_GROUP_ATTRIBUTE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_ROLE_ATTRIBUTE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_USER_ATTRIBUTE"/>
+    <EventType id="1" name="Issue Created" description="This is the &apos;issue created&apos; event." type="jira.system.event.type"/>
+    <EventType id="2" name="Issue Updated" description="This is the &apos;issue updated&apos; event." type="jira.system.event.type"/>
+    <EventType id="3" name="Issue Assigned" description="This is the &apos;issue assigned&apos; event." type="jira.system.event.type"/>
+    <EventType id="4" name="Issue Resolved" description="This is the &apos;issue resolved&apos; event." type="jira.system.event.type"/>
+    <EventType id="5" name="Issue Closed" description="This is the &apos;issue closed&apos; event." type="jira.system.event.type"/>
+    <EventType id="6" name="Issue Commented" description="This is the &apos;issue commented&apos; event." type="jira.system.event.type"/>
+    <EventType id="7" name="Issue Reopened" description="This is the &apos;issue reopened&apos; event." type="jira.system.event.type"/>
+    <EventType id="8" name="Issue Deleted" description="This is the &apos;issue deleted&apos; event." type="jira.system.event.type"/>
+    <EventType id="9" name="Issue Moved" description="This is the &apos;issue moved&apos; event." type="jira.system.event.type"/>
+    <EventType id="10" name="Work Logged On Issue" description="This is the &apos;work logged on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="11" name="Work Started On Issue" description="This is the &apos;work started on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="12" name="Work Stopped On Issue" description="This is the &apos;work stopped on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="13" name="Generic Event" description="This is the &apos;generic event&apos; event." type="jira.system.event.type"/>
+    <EventType id="14" name="Issue Comment Edited" description="This is the &apos;issue comment edited&apos; event." type="jira.system.event.type"/>
+    <EventType id="15" name="Issue Worklog Updated" description="This is the &apos;issue worklog updated&apos; event." type="jira.system.event.type"/>
+    <EventType id="16" name="Issue Worklog Deleted" description="This is the &apos;issue worklog deleted&apos; event." type="jira.system.event.type"/>
+    <FieldConfigScheme id="10000" name="Default Issue Type Scheme" description="Default issue type scheme is the list of global issue types. All newly created issue types will automatically be added to this scheme." fieldid="issuetype"/>
+    <FieldConfigSchemeIssueType id="10100" fieldconfigscheme="10000" fieldconfiguration="10000"/>
+    <FieldConfiguration id="10000" name="Default Configuration for Issue Type" description="Default configuration generated by JIRA" fieldid="issuetype"/>
+    <FieldLayout id="10000" name="Default Field Configuration" description="The default field configuration" type="default"/>
+    <FieldLayoutItem id="10000" fieldlayout="10000" fieldidentifier="summary" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10001" fieldlayout="10000" fieldidentifier="issuetype" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10002" fieldlayout="10000" fieldidentifier="security" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10003" fieldlayout="10000" fieldidentifier="priority" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10004" fieldlayout="10000" fieldidentifier="duedate" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10005" fieldlayout="10000" fieldidentifier="components" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10006" fieldlayout="10000" fieldidentifier="versions" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10007" fieldlayout="10000" fieldidentifier="fixVersions" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10008" fieldlayout="10000" fieldidentifier="assignee" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10009" fieldlayout="10000" fieldidentifier="reporter" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10010" fieldlayout="10000" fieldidentifier="environment" description="For example operating system, software platform and/or hardware specifications (include as appropriate for the issue)." ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10011" fieldlayout="10000" fieldidentifier="description" ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10012" fieldlayout="10000" fieldidentifier="timetracking" description="An estimate of how much work remains until this issue will be resolved.&lt;br&gt;The format of this is &apos; *w *d *h *m &apos; (representing weeks, days, hours and minutes - where * can be any number)&lt;br&gt;Examples: 4d, 5h 30m, 60m and 3w.&lt;br&gt;" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10013" fieldlayout="10000" fieldidentifier="resolution" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10014" fieldlayout="10000" fieldidentifier="attachment" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10015" fieldlayout="10000" fieldidentifier="comment" ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10016" fieldlayout="10000" fieldidentifier="labels" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10017" fieldlayout="10000" fieldidentifier="worklog" description="Allows work to be logged whilst creating, editing or transitioning issues." ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10018" fieldlayout="10000" fieldidentifier="issuelinks" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldScreen id="1" name="Default Screen" description="Allows to update all system fields."/>
+    <FieldScreen id="2" name="Workflow Screen" description="This screen is used in the workflow and enables you to assign issues"/>
+    <FieldScreen id="3" name="Resolve Issue Screen" description="Allows to set resolution, change fix versions and assign an issue."/>
+    <FieldScreenLayoutItem id="10000" fieldidentifier="summary" sequence="0" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10001" fieldidentifier="issuetype" sequence="1" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10002" fieldidentifier="security" sequence="2" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10003" fieldidentifier="priority" sequence="3" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10004" fieldidentifier="duedate" sequence="4" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10005" fieldidentifier="components" sequence="5" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10006" fieldidentifier="versions" sequence="6" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10007" fieldidentifier="fixVersions" sequence="7" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10008" fieldidentifier="assignee" sequence="8" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10009" fieldidentifier="reporter" sequence="9" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10010" fieldidentifier="environment" sequence="10" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10011" fieldidentifier="description" sequence="11" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10012" fieldidentifier="timetracking" sequence="12" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10013" fieldidentifier="attachment" sequence="13" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10014" fieldidentifier="assignee" sequence="0" fieldscreentab="10001"/>
+    <FieldScreenLayoutItem id="10015" fieldidentifier="resolution" sequence="0" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10016" fieldidentifier="fixVersions" sequence="1" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10017" fieldidentifier="assignee" sequence="2" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10018" fieldidentifier="worklog" sequence="3" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10100" fieldidentifier="labels" sequence="14" fieldscreentab="10000"/>
+    <FieldScreenScheme id="1" name="Default Screen Scheme" description="Default Screen Scheme"/>
+    <FieldScreenSchemeItem id="10000" fieldscreen="1" fieldscreenscheme="1"/>
+    <FieldScreenTab id="10000" name="Field Tab" sequence="0" fieldscreen="1"/>
+    <FieldScreenTab id="10001" name="Field Tab" sequence="0" fieldscreen="2"/>
+    <FieldScreenTab id="10002" name="Field Tab" sequence="0" fieldscreen="3"/>
+    <GadgetUserPreference id="10000" portletconfiguration="10002" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10001" portletconfiguration="10003" userprefkey="keys" userprefvalue="__all_projects__"/>
+    <GadgetUserPreference id="10002" portletconfiguration="10003" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10003" portletconfiguration="10003" userprefkey="title" userprefvalue="Your Company JIRA"/>
+    <GadgetUserPreference id="10004" portletconfiguration="10003" userprefkey="numofentries" userprefvalue="5"/>
+    <GenericConfiguration id="10000" datatype="DefaultValue" datakey="10000" xmlvalue="&lt;string&gt;1&lt;/string&gt;"/>
+    <Group id="10000" groupName="jira-administrators" lowerGroupName="jira-administrators" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <Group id="10001" groupName="jira-developers" lowerGroupName="jira-developers" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <Group id="10002" groupName="jira-users" lowerGroupName="jira-users" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <IssueLinkType id="10000" linkname="Blocks" inward="is blocked by" outward="blocks"/>
+    <IssueLinkType id="10001" linkname="Cloners" inward="is cloned by" outward="clones"/>
+    <IssueLinkType id="10002" linkname="Duplicate" inward="is duplicated by" outward="duplicates"/>
+    <IssueLinkType id="10003" linkname="Relates" inward="relates to" outward="relates to"/>
+    <IssueLinkType id="10100" linkname="jira_subtask_link" inward="jira_subtask_inward" outward="jira_subtask_outward" style="jira_subtask"/>
+    <IssueType id="1" sequence="1" name="Bug" description="A problem which impairs or prevents the functions of the product." iconurl="/images/icons/bug.gif"/>
+    <IssueType id="2" sequence="2" name="New Feature" description="A new feature of the product, which has yet to be developed." iconurl="/images/icons/newfeature.gif"/>
+    <IssueType id="3" sequence="3" name="Task" description="A task that needs to be done." iconurl="/images/icons/task.gif"/>
+    <IssueType id="4" sequence="4" name="Improvement" description="An improvement or enhancement to an existing feature or task." iconurl="/images/icons/improvement.gif"/>
+    <IssueType id="5" sequence="0" name="Sub-task" style="jira_subtask" description="The sub-task of the issue" iconurl="/images/icons/issuetypes/subtask_alternate.png"/>
+    <IssueTypeScreenScheme id="1" name="Default Issue Type Screen Scheme" description="The default issue type screen scheme"/>
+    <IssueTypeScreenSchemeEntity id="10000" scheme="1" fieldscreenscheme="1"/>
+    <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
+    <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.history.IssueAssignHistoryListener" name="Issue Assignment Listener"/>
+    <ListenerConfig id="10002" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <Notification id="10000" scheme="10000" eventTypeId="1" type="Current_Assignee"/>
+    <Notification id="10001" scheme="10000" eventTypeId="1" type="Current_Reporter"/>
+    <Notification id="10002" scheme="10000" eventTypeId="1" type="All_Watchers"/>
+    <Notification id="10003" scheme="10000" eventTypeId="2" type="Current_Assignee"/>
+    <Notification id="10004" scheme="10000" eventTypeId="2" type="Current_Reporter"/>
+    <Notification id="10005" scheme="10000" eventTypeId="2" type="All_Watchers"/>
+    <Notification id="10006" scheme="10000" eventTypeId="3" type="Current_Assignee"/>
+    <Notification id="10007" scheme="10000" eventTypeId="3" type="Current_Reporter"/>
+    <Notification id="10008" scheme="10000" eventTypeId="3" type="All_Watchers"/>
+    <Notification id="10009" scheme="10000" eventTypeId="4" type="Current_Assignee"/>
+    <Notification id="10010" scheme="10000" eventTypeId="4" type="Current_Reporter"/>
+    <Notification id="10011" scheme="10000" eventTypeId="4" type="All_Watchers"/>
+    <Notification id="10012" scheme="10000" eventTypeId="5" type="Current_Assignee"/>
+    <Notification id="10013" scheme="10000" eventTypeId="5" type="Current_Reporter"/>
+    <Notification id="10014" scheme="10000" eventTypeId="5" type="All_Watchers"/>
+    <Notification id="10015" scheme="10000" eventTypeId="6" type="Current_Assignee"/>
+    <Notification id="10016" scheme="10000" eventTypeId="6" type="Current_Reporter"/>
+    <Notification id="10017" scheme="10000" eventTypeId="6" type="All_Watchers"/>
+    <Notification id="10018" scheme="10000" eventTypeId="7" type="Current_Assignee"/>
+    <Notification id="10019" scheme="10000" eventTypeId="7" type="Current_Reporter"/>
+    <Notification id="10020" scheme="10000" eventTypeId="7" type="All_Watchers"/>
+    <Notification id="10021" scheme="10000" eventTypeId="8" type="Current_Assignee"/>
+    <Notification id="10022" scheme="10000" eventTypeId="8" type="Current_Reporter"/>
+    <Notification id="10023" scheme="10000" eventTypeId="8" type="All_Watchers"/>
+    <Notification id="10024" scheme="10000" eventTypeId="9" type="Current_Assignee"/>
+    <Notification id="10025" scheme="10000" eventTypeId="9" type="Current_Reporter"/>
+    <Notification id="10026" scheme="10000" eventTypeId="9" type="All_Watchers"/>
+    <Notification id="10027" scheme="10000" eventTypeId="10" type="Current_Assignee"/>
+    <Notification id="10028" scheme="10000" eventTypeId="10" type="Current_Reporter"/>
+    <Notification id="10029" scheme="10000" eventTypeId="10" type="All_Watchers"/>
+    <Notification id="10030" scheme="10000" eventTypeId="11" type="Current_Assignee"/>
+    <Notification id="10031" scheme="10000" eventTypeId="11" type="Current_Reporter"/>
+    <Notification id="10032" scheme="10000" eventTypeId="11" type="All_Watchers"/>
+    <Notification id="10033" scheme="10000" eventTypeId="12" type="Current_Assignee"/>
+    <Notification id="10034" scheme="10000" eventTypeId="12" type="Current_Reporter"/>
+    <Notification id="10035" scheme="10000" eventTypeId="12" type="All_Watchers"/>
+    <Notification id="10036" scheme="10000" eventTypeId="13" type="Current_Assignee"/>
+    <Notification id="10037" scheme="10000" eventTypeId="13" type="Current_Reporter"/>
+    <Notification id="10038" scheme="10000" eventTypeId="13" type="All_Watchers"/>
+    <Notification id="10100" scheme="10000" eventTypeId="14" type="Current_Assignee"/>
+    <Notification id="10101" scheme="10000" eventTypeId="14" type="Current_Reporter"/>
+    <Notification id="10102" scheme="10000" eventTypeId="14" type="All_Watchers"/>
+    <Notification id="10103" scheme="10000" eventTypeId="15" type="Current_Assignee"/>
+    <Notification id="10104" scheme="10000" eventTypeId="15" type="Current_Reporter"/>
+    <Notification id="10105" scheme="10000" eventTypeId="15" type="All_Watchers"/>
+    <Notification id="10106" scheme="10000" eventTypeId="16" type="Current_Assignee"/>
+    <Notification id="10107" scheme="10000" eventTypeId="16" type="Current_Reporter"/>
+    <Notification id="10108" scheme="10000" eventTypeId="16" type="All_Watchers"/>
+    <NotificationScheme id="10000" name="Default Notification Scheme"/>
+    <OSPropertyEntry id="1" entityName="jira.properties" entityId="1" propertyKey="jira.version.patched" type="5"/>
+    <OSPropertyEntry id="3" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.default.id" type="5"/>
+    <OSPropertyEntry id="5" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.user.default.id" type="5"/>
+    <OSPropertyEntry id="6" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.user.anonymous.id" type="5"/>
+    <OSPropertyEntry id="7" entityName="jira.properties" entityId="1" propertyKey="jira.scheme.default.issue.type" type="5"/>
+    <OSPropertyEntry id="8" entityName="jira.properties" entityId="1" propertyKey="jira.constant.default.resolution" type="5"/>
+    <OSPropertyEntry id="9" entityName="jira.properties" entityId="1" propertyKey="jira.whitelist.disabled" type="1"/>
+    <OSPropertyEntry id="10" entityName="jira.properties" entityId="1" propertyKey="jira.whitelist.rules" type="6"/>
+    <OSPropertyEntry id="11" entityName="jira.properties" entityId="1" propertyKey="jira.option.timetracking" type="1"/>
+    <OSPropertyEntry id="12" entityName="jira.properties" entityId="1" propertyKey="jira.timetracking.estimates.legacy.behaviour" type="1"/>
+    <OSPropertyNumber id="9" value="0"/>
+    <OSPropertyNumber id="11" value="1"/>
+    <OSPropertyNumber id="12" value="0"/>
+    <OSPropertyString id="1" value="6050"/>
+    <OSPropertyString id="3" value="10011"/>
+    <OSPropertyString id="5" value="10122"/>
+    <OSPropertyString id="6" value="10123"/>
+    <OSPropertyString id="7" value="10000"/>
+    <OSPropertyString id="8" value="1"/>
+    <OSPropertyText id="10">
+        <value><![CDATA[http://www.atlassian.com/*
+]]></value>
+    </OSPropertyText>
+    <OptionConfiguration id="10100" fieldid="issuetype" optionid="1" fieldconfig="10000" sequence="0"/>
+    <OptionConfiguration id="10101" fieldid="issuetype" optionid="2" fieldconfig="10000" sequence="1"/>
+    <OptionConfiguration id="10102" fieldid="issuetype" optionid="3" fieldconfig="10000" sequence="2"/>
+    <OptionConfiguration id="10103" fieldid="issuetype" optionid="4" fieldconfig="10000" sequence="3"/>
+    <OptionConfiguration id="10104" fieldid="issuetype" optionid="5" fieldconfig="10000" sequence="4"/>
+    <PermissionScheme id="0" name="Default Permission Scheme" description="This is the default Permission Scheme. Any new projects that are created will be assigned this scheme."/>
+    <PortalPage id="10000" pagename="System Dashboard" sequence="0" favCount="0" layout="AA" version="0"/>
+    <Priority id="1" sequence="1" name="Blocker" description="Blocks development and/or testing work, production could not run." iconurl="/images/icons/priority_blocker.gif" statusColor="#cc0000"/>
+    <Priority id="2" sequence="2" name="Critical" description="Crashes, loss of data, severe memory leak." iconurl="/images/icons/priority_critical.gif" statusColor="#ff0000"/>
+    <Priority id="3" sequence="3" name="Major" description="Major loss of function." iconurl="/images/icons/priority_major.gif" statusColor="#009900"/>
+    <Priority id="4" sequence="4" name="Minor" description="Minor loss of function, or other problem where easy workaround is present." iconurl="/images/icons/priority_minor.gif" statusColor="#006600"/>
+    <Priority id="5" sequence="5" name="Trivial" description="Cosmetic problem like misspelt words or misaligned text." iconurl="/images/icons/priority_trivial.gif" statusColor="#003300"/>
+    <ProjectRole id="10000" name="Users" description="A project role that represents users in a project"/>
+    <ProjectRole id="10001" name="Developers" description="A project role that represents developers in a project"/>
+    <ProjectRole id="10002" name="Administrators" description="A project role that represents administrators in a project"/>
+    <ProjectRoleActor id="10000" projectroleid="10000" roletype="atlassian-group-role-actor" roletypeparameter="jira-users"/>
+    <ProjectRoleActor id="10001" projectroleid="10001" roletype="atlassian-group-role-actor" roletypeparameter="jira-developers"/>
+    <ProjectRoleActor id="10002" projectroleid="10002" roletype="atlassian-group-role-actor" roletypeparameter="jira-administrators"/>
+    <Resolution id="1" sequence="1" name="Fixed" description="A fix for this issue is checked into the tree and tested."/>
+    <Resolution id="2" sequence="2" name="Won&apos;t Fix" description="The problem described is an issue which will never be fixed."/>
+    <Resolution id="3" sequence="3" name="Duplicate" description="The problem is a duplicate of an existing issue."/>
+    <Resolution id="4" sequence="4" name="Incomplete" description="The problem is not completely described."/>
+    <Resolution id="5" sequence="5" name="Cannot Reproduce" description="All attempts at reproducing this issue failed, or not enough information was available to reproduce the issue. Reading the code produces no clues as to why this behavior would occur. If more information appears later, please reopen the issue."/>
+    <SchemePermissions id="10000" permission="0" type="group" parameter="jira-administrators"/>
+    <SchemePermissions id="10001" permission="1" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10002" permission="27" type="group" parameter="jira-developers"/>
+    <SchemePermissions id="10003" permission="24" type="group" parameter="jira-developers"/>
+    <SchemePermissions id="10004" scheme="0" permission="23" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10005" scheme="0" permission="10" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10006" scheme="0" permission="11" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10007" scheme="0" permission="15" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10008" scheme="0" permission="19" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10009" scheme="0" permission="13" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10010" scheme="0" permission="17" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10011" scheme="0" permission="14" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10012" scheme="0" permission="21" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10013" scheme="0" permission="12" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10014" scheme="0" permission="16" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10015" scheme="0" permission="18" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10016" scheme="0" permission="25" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10017" scheme="0" permission="28" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10018" scheme="0" permission="30" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10019" scheme="0" permission="20" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10020" scheme="0" permission="43" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10021" scheme="0" permission="42" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10022" scheme="0" permission="41" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10023" scheme="0" permission="40" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10024" scheme="0" permission="31" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10025" scheme="0" permission="32" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10026" scheme="0" permission="34" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10027" scheme="0" permission="35" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10028" scheme="0" permission="36" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10029" scheme="0" permission="37" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10030" scheme="0" permission="38" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10031" scheme="0" permission="39" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10032" permission="22" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10033" scheme="0" permission="29" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10100" permission="33" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10101" permission="44" type="group" parameter="jira-administrators"/>
+    <SchemePermissions id="10200" scheme="0" permission="45" type="projectrole" parameter="10000"/>
+    <SequenceValueItem seqName="Avatar" seqId="10200"/>
+    <SequenceValueItem seqName="ConfigurationContext" seqId="10100"/>
+    <SequenceValueItem seqName="FieldConfigScheme" seqId="10100"/>
+    <SequenceValueItem seqName="FieldConfigSchemeIssueType" seqId="10200"/>
+    <SequenceValueItem seqName="FieldConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="FieldLayout" seqId="10100"/>
+    <SequenceValueItem seqName="FieldLayoutItem" seqId="10100"/>
+    <SequenceValueItem seqName="FieldScreen" seqId="10000"/>
+    <SequenceValueItem seqName="FieldScreenLayoutItem" seqId="10200"/>
+    <SequenceValueItem seqName="FieldScreenScheme" seqId="10000"/>
+    <SequenceValueItem seqName="FieldScreenSchemeItem" seqId="10100"/>
+    <SequenceValueItem seqName="FieldScreenTab" seqId="10100"/>
+    <SequenceValueItem seqName="GadgetUserPreference" seqId="10100"/>
+    <SequenceValueItem seqName="GenericConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="Group" seqId="10010"/>
+    <SequenceValueItem seqName="IssueLinkType" seqId="10200"/>
+    <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10100"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10100"/>
+    <SequenceValueItem seqName="Notification" seqId="10200"/>
+    <SequenceValueItem seqName="NotificationScheme" seqId="10100"/>
+    <SequenceValueItem seqName="OAuthConsumer" seqId="10100"/>
+    <SequenceValueItem seqName="OSPropertyEntry" seqId="10400"/>
+    <SequenceValueItem seqName="OptionConfiguration" seqId="10200"/>
+    <SequenceValueItem seqName="PortalPage" seqId="10100"/>
+    <SequenceValueItem seqName="PortletConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="ProjectRole" seqId="10100"/>
+    <SequenceValueItem seqName="ProjectRoleActor" seqId="10100"/>
+    <SequenceValueItem seqName="SchemePermissions" seqId="10300"/>
+    <SequenceValueItem seqName="ServiceConfig" seqId="10200"/>
+    <SequenceValueItem seqName="SharePermissions" seqId="10100"/>
+    <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
+    <ServiceConfig id="10100" time="28800000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="Service Provider Session Remover"/>
+    <ServiceConfig id="10101" time="86400000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="LocalPluginLicenseNotificationPluginJob-job"/>
+    <ServiceConfig id="10102" time="3600000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="RemotePluginLicenseNotificationPluginJob-job"/>
+    <ServiceConfig id="10103" time="3600000" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="PluginRequestCheckPluginJob-job"/>
+    <ServiceConfig id="10104" time="46925764" clazz="com.atlassian.sal.jira.scheduling.JiraPluginSchedulerService" name="PluginUpdateCheckPluginJob-job"/>
+    <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
+    <Status id="1" sequence="1" name="Open" description="The issue is open and ready for the assignee to start work on it." iconurl="/images/icons/status_open.gif"/>
+    <Status id="3" sequence="3" name="In Progress" description="This issue is being actively worked on at the moment by the assignee." iconurl="/images/icons/status_inprogress.gif"/>
+    <Status id="4" sequence="4" name="Reopened" description="This issue was once resolved, but the resolution was deemed incorrect. From here issues are either marked assigned or resolved." iconurl="/images/icons/status_reopened.gif"/>
+    <Status id="5" sequence="5" name="Resolved" description="A resolution has been taken, and it is awaiting verification by reporter. From here issues are either reopened, or are closed." iconurl="/images/icons/status_resolved.gif"/>
+    <Status id="6" sequence="6" name="Closed" description="The issue is considered finished, the resolution is correct. Issues which are closed can be reopened." iconurl="/images/icons/status_closed.gif"/>
+</entity-engine-xml>

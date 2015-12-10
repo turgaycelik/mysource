@@ -1,0 +1,5 @@
+<popservice id="vcsservice">
+    <description>Version Control System service</description>
+    <properties>
+    </properties>
+</popservice>

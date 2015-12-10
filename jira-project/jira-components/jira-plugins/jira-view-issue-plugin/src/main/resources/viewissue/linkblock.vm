@@ -1,0 +1,96 @@
+#enable_html_escaping()
+#* @vtlvariable name="i18n" type="com.atlassian.sal.api.message.I18nResolver" *#
+#* @vtlvariable name="atl_token" type="java.lang.String" *#
+#* @vtlvariable name="canLink" type="java.lang.Boolean" *#
+#* @vtlvariable name="hasIssueLinks" type="java.lang.Boolean" *#
+#* @vtlvariable name="issueLinkTypeContexts" type="java.util.List<com.atlassian.jira.plugin.viewissue.issuelink.IssueLinkTypeContext>" *#
+#* @vtlvariable name="defaultLinkIcon" type="java.lang.String" *#
+
+#if ($hasIssueLinks)
+    #set ($linkCount = 0)
+    #foreach (${issueLinkTypeContext} in ${issueLinkTypeContexts})
+    <dl class="links-list #if ($linkCount >= $displayedLinkCount)collapsed-links-list#end">
+        <dt title="${issueLinkTypeContext.relationship}">${issueLinkTypeContext.relationship}</dt>
+        #foreach (${issueLinkContext} in ${issueLinkTypeContext.issueLinkContexts})
+            #set ($linkCount = $linkCount + 1)
+            <dd id="${issueLinkContext.htmlElementId}"
+            #if (${issueLinkContext.remote} || $linkCount > $displayedLinkCount) class="
+                #if (${issueLinkContext.remote})remote-link#end
+                #if ($linkCount > $displayedLinkCount)collapsed-link#end
+            "#end
+                >
+            <div class="link-content">
+                #if (${issueLinkContext.remote})
+                    ${issueLinkContext.html}
+                #else
+                    #parse("/issuelink/localissuelink.vm")
+                #end
+            </div>
+            #if ($canLink)
+            <div class="delete-link" id="delete_${issueLinkContext.htmlElementId}">
+                <a class="icon icon-delete" title="${i18n.getText("managelinks.delete.this.link")}" id="delete-link_${issueLinkContext.htmlElementId}" href="${issueLinkContext.deleteUrl}&atl_token=${atl_token}"><span>${i18n.getText("managelinks.delete.this.link")}</span></a>
+            </div>
+            #end
+        </dd>
+        #end
+    </dl>
+    #end
+    #if ($linkCount > $displayedLinkCount)
+        #set ($hiddenLinkCount = $linkCount - $displayedLinkCount)
+        <div id="show-more-links">
+            <a id="show-more-links-link" href="#">${i18n.getText("managelinks.show.more.links", $hiddenLinkCount )}</a> <span>($hiddenLinkStats)</span>
+        </div>
+    #end
+
+    <script type="text/javascript">
+        function updateRemoteLink(id, htmlElementId) {
+            JIRA.SmartAjax.makeRequest({
+                error: function(jqXHR, textStatus, errorThrown) {
+                    AJS.$("#" + htmlElementId + " div.link-content .link-loading").
+                            removeClass("link-loading").
+                            addClass("link-loading-failed").
+                            html("${i18n.getText("common.concepts.loading.failed")}");
+                    AJS.$("#" + htmlElementId + " div.link-content .link-throbber").html("<img src='$defaultLinkIcon' width='16' height='16' title='' alt='' />")
+                },
+                success: function(data) {
+                    AJS.$("#" + htmlElementId + " div.link-content").html(data);
+                },
+                url: "${baseurl}/rest/viewIssue/1/remoteIssueLink/render/" + id
+            });
+        }
+
+        ## Load only visible links
+        #set ($linkCount = 0)
+        #foreach (${issueLinkTypeContext} in ${issueLinkTypeContexts})
+            #foreach (${issueLinkContext} in ${issueLinkTypeContext.issueLinkContexts})
+                #set ($linkCount = $linkCount + 1)
+                #if ($linkCount <= $displayedLinkCount && ${issueLinkContext.remote} && ${issueLinkContext.requiresAsyncLoading})
+                    updateRemoteLink("${issueLinkContext.id}", "${issueLinkContext.htmlElementId}");
+                #end
+            #end
+        #end
+
+        #if ($linkCount > $displayedLinkCount)
+            AJS.$(document).delegate("#show-more-links-link", "click", function(e) {
+                e.preventDefault();
+
+                ## Hide the trigger and display hidden links
+                AJS.$(this).parent().hide();
+                AJS.$(".collapsed-links-list").removeClass("collapsed-links-list");
+                AJS.$(".collapsed-link").removeClass("collapsed-link");
+
+                ## Loads previously hidden links that require async loading
+                #set ($linkCount = 0)
+                #foreach (${issueLinkTypeContext} in ${issueLinkTypeContexts})
+                    #foreach (${issueLinkContext} in ${issueLinkTypeContext.issueLinkContexts})
+                        #set ($linkCount = $linkCount + 1)
+                        #if ($linkCount > $displayedLinkCount && ${issueLinkContext.remote} && ${issueLinkContext.requiresAsyncLoading})
+                            updateRemoteLink("${issueLinkContext.id}", "${issueLinkContext.htmlElementId}");
+                        #end
+                    #end
+                #end
+            });
+        #end
+    </script>
+
+#end

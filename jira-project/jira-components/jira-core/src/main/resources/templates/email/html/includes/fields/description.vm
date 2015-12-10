@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#if ($issue.getDescription() && $issue.getDescription().length() != 0)
+<tr>
+    <th>#text("common.concepts.description"):</th>
+    <td>$issue.htmlDescription</td>
+</tr>
+#end

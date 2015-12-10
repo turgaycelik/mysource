@@ -1,0 +1,19 @@
+#disable_html_escaping()
+
+#set ($resolution = "<strong>$textutils.htmlEncode(${issue.getResolutionObject().getNameTranslation($i18n)}, false)</strong>")
+#defaultMailHeaderWithParam("email.event.activity.closed.issue", $changelogauthor, $resolution)
+
+#parse('templates/email/html/includes/patterns/comment-top.vm')
+
+#set ($issueTitleBody="#parse('templates/email/html/includes/patterns/issue-title.vm')")
+#rowWrapperNormal($issueTitleBody)
+
+#if ($changelog)
+    #set ($changelogBody="#parse('templates/email/html/includes/fields/changelog.vm')")
+    #rowWrapperNormal($changelogBody)
+#end
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+#parse("templates/email/html/includes/footer.vm")

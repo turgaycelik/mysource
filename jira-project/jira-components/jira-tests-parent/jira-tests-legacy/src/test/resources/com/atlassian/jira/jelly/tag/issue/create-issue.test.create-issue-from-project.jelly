@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:CreateProject key="ABC" name="A Project" lead="logged-in-user">
+        <jira:CreatePermissionScheme name="admin-scheme">
+            <jira:AddPermission permissions="Assignable,Browse,Create,Assign,ModifyReporter" type="group"/>
+            <jira:SelectProjectScheme/>
+        </jira:CreatePermissionScheme>
+        <jira:CreateIssue summary="Issue summary" reporter="logged-in-user" issueIdVar="issue.id" issueKeyVar="issue.key">
+        </jira:CreateIssue>
+        ${issue.id}:${issue.key}
+    </jira:CreateProject>
+</JiraJelly>

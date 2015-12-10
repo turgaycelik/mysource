@@ -1,0 +1,145 @@
+table.related-tables {
+    table-layout: fixed;
+}
+
+tr.totals {background-color:#fafafa;}
+tr.column-order {background-color:#f0f0f0;}
+tr.column-order td {white-space:nowrap;vertical-align:top;}
+
+/* Column styles to be applied to <td> elements in aui tables */
+.cell-type-icon { width: 16px; }
+.cell-type-key { max-width: 300px; min-width: 300px; width: 300px; word-wrap: break-word; }
+.cell-type-value { word-wrap: break-word; }
+.cell-type-collapsed { width: 1px; white-space: nowrap; }
+.cell-type-actions { width: 32px; }
+table.aui > thead > tr > .cell-type-centered,
+table.aui > tbody > tr > .cell-type-centered { // specificity required to trump text-align: left in aui
+    text-align: center;
+}
+
+/* ellipsis on links - Cannot apply to tds in IE */
+.cell-type-user a,
+.cell-type-email a,
+.cell-type-url a {max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; float:left;}
+
+/* row hover */
+table.aui.aui-table-rowhover > tbody tr:hover { background-color:#f0f0f0;}
+/* for IE */
+table.aui th a {color:#999;}
+table.aui th a:hover {color:#333;text-decoration:none;}
+table.aui th.colHeaderOver,
+table.aui th.colHeaderOver a {color:#333;cursor:pointer;}
+table.aui,
+table.aui p,
+table.aui img {vertical-align:top;}
+table.aui img.sortArrow {vertical-align:middle;}
+
+table.blank { border: none !important; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; vertical-align: top; }
+table.blank td, table.blank th { border: none !important; margin: 0; padding: 0 5px 5px 5px; vertical-align: top; }
+table.blank th { background-color: #f0f0f0; }
+table.noPadding, table.noPadding tr, .noPadding { border: none; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0 !important; vertical-align: top; }
+td.noPaddingCron { margin: 0; padding: 0; }
+table.minColumns td, table.minColumns th { width: 1%; }
+td.normal, th.normal { width: auto !important; }
+
+#project-list thead th { white-space: nowrap; }
+/* Legacy Styles - try to remove these */
+.jiratable { margin: 0 auto 16px; }
+.tableBorder {background-color:#bbb;}
+.rowHeader {background-color:#e2e2e2;}
+.rowNormal {background-color:#fcfcfc;}
+.rowAlternate {background-color:#f2f2f2;}
+.rowAlternateLightGray {background-color:#fafafa;}
+.rowHover {background-color:#f0f0f0;cursor:pointer;}
+tr.rowSelectable:hover {background-color:#eeb;}
+.rowHighlighted {background-color:#eeb;}
+.cellHover {background-color:#fffff0;cursor:pointer;}
+tr.disabled td {color:#ccc !important;}
+.mod-content .rowNormal,
+.mod-content .rowAlternate {background-color:transparent;}
+
+/* Try to remove
+this makes a nicely 'gridded' table.  However, you will also need to following params:
+<table class="gridBox" cellpadding="3" cellspacing="1" width="90%" align="center">
+If you are just using a table to create a border around something - see the 'borderedBox' style
+*/
+.gridBox { border: 0; padding: 0; }
+
+/* Try to remove
+   - Only used by the "two-dimensional-stats-gadget.xml"
+*/
+.basic {border-collapse:collapse;width:100%;}
+.basic td, .basic th {border:1px solid #d2d2d2;padding:.333em;}
+.basic th {background-color:#e2e2e2;text-align:left;vertical-align:bottom;}
+.basic th small {font-weight:normal;}
+
+/* Try to remove
+    - Only used by the project list table on Browse Projects. */
+table.p-list {width:100%;overflow:auto;overflow-y:hidden;padding-bottom:1.5em;}
+tbody.projects-list td {white-space:nowrap;}
+
+/* Try to remove - can be updated to AUI tables
+    - Table layout for Project Components (components-panel.vm) */
+#components_panel { width:100%; }
+#components_panel td.component-icon { width:16px; }
+#components_panel td.component-name { white-space:nowrap; width:20px; }
+#components_panel td.component-lead { font-size: 0.8em; line-height: 1.5; padding-left: 20px; vertical-align: middle; white-space: nowrap; width: 15em; }
+
+/* Try to remove
+    - User picker table */
+.item-picker {float:left;width:49%;}
+.link-wrap form.aui {margin-right:28px;}
+/*#main-content .link-wrap form.aui .long-field,*/
+/*.link-wrap form.aui .long-field {min-width:300px;width:90%;}*/
+
+/* Table descriptions font override */
+table .fieldDescription,
+form .fieldDescription,
+table div.description { font-size: 12px; }
+
+/* JRADEV-6405 */
+table div.description { clear: left; }
+
+/* Misc - remove */
+form.lbaction + form.lbaction { margin:5px 10px 10px 20px; }
+
+/* admin */
+.field-name {font-weight:700;}
+.field-required {color:#900;}
+.field-renderer {color:#505050;display:block;}
+.field-description {margin-bottom:0;}
+
+.custom-field-types { table-layout: fixed; }
+.custom-field-types .field-group { padding: 0 0 0 24px; }
+.custom-field-types td:hover { background-color: #f0f0f0; }
+.custom-field-types input { float: left; margin: 2px 0 0 -20px; }
+.custom-field-types label { font-weight: bold; }
+
+#license_table .item-label {color:#505050;}
+
+
+table.report { border: none; border-collapse: collapse; border-spacing: 0; margin: 0; padding: 0; vertical-align: top; }
+table.report td, table.report th { font-weight:normal; margin: 0; padding: 3px; vertical-align: top; }
+table.report th.reportHeading { background-color: #f0f0f0; }
+table.report .graphLabel, table.report .graphDescription, table.report .percentageGraph { float: right; }
+.autotrim { table-layout: fixed; width: 100%; }
+.autotrim td,.autotrim p { margin:0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+
+.changehistory th,
+.changehistory td {vertical-align:top;padding:0.166em 0.5em 0.166em 0;}
+/* Conditional Overrides */
+.action-body.changehistory {margin:0;}/* Changehistory may have headers inside the actionbody, which require 0px margin. */
+
+/* Time tracking bars legacy - some still used */
+td.tt_values { font-weight: normal; padding-right: 10px; padding-left: 10px; text-align: right; white-space: nowrap; width: 10%; }
+td.tt_text { padding-right: 10px; white-space: nowrap; width: 10%; }
+td.tt_graph { width: 100%; }
+table.tt_graph { border-width: 0; height: 4px; vertical-align: middle; width: 100%; }
+table.tt_graph td, tr.tt_graph td { border: 0; font-size: 0; height: 4px; }
+table.tt_graph td img { border: 0; height: 4px; width: 100%; }
+tr.tt_graph { height: 4px; }
+td.tt_graph_percentage { min-width: 3em; text-align: right; padding-right: 3px; width: 3em; }
+td.tt_spacer { font-size: 0; max-width: 1px; width: 1px; }
+table.tt_graph td.tt_spacer img { width: 1px; }
+
+.clickable:hover { background-color: #e2effa; cursor: pointer; }

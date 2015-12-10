@@ -1,0 +1,84 @@
+Copyright: (c) 1998-2013 Roedy Green, Canadian Mind Products, http://mindprod.com
+
+CSV 2.0 contains CSVReader and CSVWriter for
+reading and wring CSV (Comma Separated Value)
+formatted files.  Also handles tab-separated and
+semicolon-separated files.  This is the format use
+by Microsoft Word and other Microsoft products.
+Version 2.0 adds a getInt, getLong, getFloat and
+getDouble method to read and convert the text.
+
+
+Non-Military Use Only All Canadian Mind Products software is effectively
+public domain with a non-military use restriction. It is free. Well 
+commented source is provided. You may reuse the source in any way you 
+please with the exception anything that uses it must be marked to indicate 
+is contains non-military use only components. All the software I write is 
+marked, for non-military use only. This would include any use by the 
+military, not just battle. It also includes work by contractors for the 
+military such as interrogation or torture or even managing a payroll. This 
+obviously includes the Afghanistan or Iraq wars which are both illegal wars 
+of aggression. The way I look at it, the military has become bloated out of 
+all plausible motive for defense. It is a parasite on the planet. I don’t 
+in any way want to contribute to it. The way I look at it, if a nuclear war 
+kills all six billion of us, the 1,000,000 people who had any hand in it, 
+however indirect, each killed 6,000 people, dwarfing Timothy McVeigh’s 
+crime. I want absolutely no part of such criminality. People often get very 
+angry about this restriction. I find it odd that they have no quarrel with 
+software that restricts its use to non-commercial purposes. I find that 
+baffling. Why would you want to discourage commerce and encourage killing? 
+The angriest I have ever been in my life was when a military contractor, 
+Rockwell, refused to stop using my RESTORE software to distribute theirs. 
+Their representative asked for special exemption. I said "No He said, Fuck 
+you! we are going to use it anyway.. Some years later, Rockwell apologised 
+and said they would not use it. People are welcome to include any of my 
+code in their programs. But of course that requires that new code bear the 
+same restriction. A Zen master presented his student with a valuable box, 
+with the stipulation that it must always face east. The student took the 
+box and placed it in his room. However to place the box east, he had to 
+place the table against the wall on the opposite side of the room. This 
+meant he had to move the bed. This made getting in and out of the room 
+awkward, so he had to move the doorway in the wall. This caused a 
+structural weakness in the house which required… You may incorporate my 
+code into your own products so long as those products are not primarily for 
+military use. If you used my code in your drafting program for example, and 
+the military used it, you would be ok. If you used it in a drafting program 
+for nuclear submarines, then you would not. You are not required to enforce 
+the non-military use-only clause, just leave it visible in the programs 
+distributed. The onus is on the military, not you. If you distribute 
+source, just leave the non-military clause in my software. If you don’t, 
+just insert the phrase for non-military use only in your program 
+documentation or licence agreement. You are not required to make the user 
+sign off on the restriction, though that might be wise to avoid having them 
+come back at you later. I don’t require you to determine the military 
+status of all your customers, though if you knowingly sold to the military, 
+you would be breaking the spirit of the agreement. I strongly don’t want my 
+code used for military purposes, and I don’t want to inconvenience you. I 
+want you to be able to use my code as freely as possible for non-military 
+purposes. I am not about to pounce on you for some minor misinterpretation 
+of this request. I am providing gifts that took much more labour to produce 
+than you would ever guess and I believe I have the right to decide whom I 
+want to give them to. I consider military use considerably more egregious 
+than theft. To me, it is the same as if you forced me to kill a child. You 
+put blood on my hands. People often try to talk me out of my non-military 
+use restriction. How would you feel if you discovered software you wrote 
+were being used to run a child pornography ring? I feel even more revolted 
+by the military. I simply can’t aid and abet that sort of illegal actvity 
+which so many people, especially Americans, consider perfectly acceptable, 
+namely maiming, killing and torturing children. I am baffled that so many 
+people put their creations out into the world with blanket permission to 
+use them for any imaginable or illegal purpose. A few examples: You write a 
+program to control a wiener machine. Everyone eats the wieners, including 
+soldiers. This is not military use. You write a program to manage a fleet 
+of trucks to deliver parcels. The military is one of the potential 
+customers of the delivery service. This is not military use. You write a 
+custom program to manage a fleet of trucks to deliver supplies for the 
+army. This is military use, even if the trucks are unarmed. Basically ask 
+yourself, is the purpose of your software using CMP (Canadian Mind 
+Products) components to serve the military (forbidden), or is it of general 
+utility that the military might incidentally use (permitted). It is not 
+your responsibility to enforce what your customers do with the software, 
+just to label it with the non-military use restriction. Many people 
+consider me highly wicked for putting this restriction on my software. They 
+might note that probably they too refuse to write free software for the 
+military. We do the same thing. It is just our motivations differ.

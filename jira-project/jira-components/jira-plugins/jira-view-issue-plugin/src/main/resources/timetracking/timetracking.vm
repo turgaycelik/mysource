@@ -1,0 +1,65 @@
+#enable_html_escaping()
+#if ($hasData == true)
+    #macro (renderGraph $model)
+        #if ($model && $model.getRows().isEmpty() == false && $model.isTotalZero() == false)
+            #foreach ($row in $model.getRows())
+                #if ($model.getPercentage($row) != 0)
+                <td style="width:${model.getPercentage($row)}%; background-color:${row.getColor()}" >
+                    <img src="${baseurl}/images/border/spacer.gif" style="height:10px; width:100%; border-width:0" class="hideOnPrint" title="${row.description}" alt="${row.description}" >
+                </td>
+                #end
+            #end
+        #else
+            <td style="width:100%; background-color:#f0f0f0;"><img src="${baseurl}/images/border/spacer.gif" style="height:10px; width:100%; border-width:0" alt="" /></td>
+        #end
+    #end
+
+    #macro (renderSection $name $sectionName $labelKey $tooltip $estimateStr $graph)
+    <dl>
+        <dt id="${name}_text_${sectionName}" class="tt_text" title="${tooltip}">
+            $i18n.getText($labelKey):
+        </dt>
+        <dd class="tt_graph">
+            <table id="${name}_graph_${sectionName}" cellspacing="0" cellpadding="0" class="tt_graph" >
+                <tr class="tt_graph">
+                    #renderGraph($graph)
+                </tr>
+            </table>
+        </dd>
+        <dd id="${name}_values_${sectionName}" class="tt_values" title="${tooltip}">
+            #if ($estimateStr)
+                $estimateStr
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+        </dd>
+    </dl>
+    #end
+
+    #macro (renderInfo $name $graphBean)
+        <div id="${name}_table_info" class="tt_inner">
+            #if ($graphBean.hasData() == false)
+                <h4>$i18n.getText('viewissue.timetracking.unknown')</h4>
+            #else
+                #renderSection($name 'orig' 'viewissue.timetracking.estimated' $graphBean.getOriginalEstimateTooltip() $graphBean.getOriginalEstimateStr() $graphBean.getOriginalEstimateGraph())
+                #renderSection($name 'remain' 'viewissue.timetracking.remaining' $graphBean.getRemainingEstimateTooltip() $graphBean.getRemainingEstimateStr() $graphBean.getRemainingEstimateGraph())
+                #renderSection($name 'spent' 'viewissue.timetracking.logged' $graphBean.getTimeSpentTooltip() $graphBean.getTimeSpentStr() $graphBean.getTimeSpentGraph())
+            #end
+        </div>
+    #end
+
+    #if ($aggregateTimeTrackingGraphBean)
+        <div id="tt_info_aggregate">
+            #renderInfo ('tt_aggregate' $aggregateTimeTrackingGraphBean)
+        </div>
+        <div id="tt_info_single" style="display:none;">
+            #renderInfo ('tt_single' $timeTrackingGraphBean)
+        </div>
+        <div id="tt_include_subtasks" title="${i18n.getText('timetracking.include.subtasks.tooltip')}">
+            <input id="cb_include_subtasks" type="checkbox" checked="CHECKED"/><label for="cb_include_subtasks">${i18n.getText('timetracking.include.subtasks')}</label>
+        </div>
+    #else
+        #renderInfo ('tt_single' $timeTrackingGraphBean)
+    #end
+#end
+

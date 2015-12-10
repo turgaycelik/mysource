@@ -1,0 +1,116 @@
+{namespace JIRA.Templates.RemoteJiraIssueSearch}
+
+
+/**
+* Renders the form for remote JIRA issue search
+*/
+{template .dialog}
+<h2>{getText('linkjiraissue.search.desc')}</h2>
+
+    <form class="aui search-form" id="remote-jira-simple-search-form" action="#" method="post">
+        <div class="field-group">
+            <label for="link-search-text">{getText('linkjiraissue.search')}:</label>
+            <input id="link-search-text" type="text" tabindex="0" class="text" size="50">
+            {sp}<input type="submit" tabindex="0" class="button" id="simple-search-panel-button" value="{getText('linkjiraissue.search')}">
+            {sp}<a id="advanced-search-toggle" href="#" title="{getText('linkjiraissue.search.advanced.desc')}">{getText('linkjiraissue.search.advanced')}</a>
+            <span id="link-search-loading" class="icon loading throbber hidden"/>
+        </div>
+    </form>
+
+    <form class="aui search-form" id="remote-jira-advanced-search-form" action="#" method="post">
+        <div class="field-group">
+            <label for="jql-search-text">
+                {getText('linkjiraissue.search.jql')}
+                <span id="autocomplete-loading" class="hidden">
+                    <span class="icon loading throbber"/>
+                    {getText('linkjiraissue.search.autocomplete.loading')}
+                </span>
+                <span id="autocomplete-failed" class="hidden">
+                    {getText('linkjiraissue.search.autocomplete.failed.to.load')}
+                </span>
+            </label>
+            <div id="jql-search-container">
+                <span id="jql-search-error" class="icon jqlgood" />
+                <div class="atlassian-autocomplete">
+                    <textarea id="jql-search-text" class="text full-width-field" tabindex="0" />
+                </div>
+                <button class="aui-button aui-button-primary search-button" id="advanced-search-panel-button" type="submit"><span class="aui-icon aui-icon-small aui-iconfont-search" title="{getText('linkjiraissue.search')}"></span></button>
+            </div>
+            {sp}<a id="simple-search-toggle" href="#" title="{getText('linkjiraissue.search.simple.desc')}">{getText('linkjiraissue.search.simple')}</a>
+            <span id="link-search-loading" class="icon loading throbber hidden"/>
+        </div>
+    </form>
+
+    <div class="message-panel hidden"></div>
+    <div id="search-results-table" class="data-table"></div>
+
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <button type="button" class="aui-button" id="linkjiraissue-add-selected">{getText('common.forms.add')}</button>
+            <button class="aui-button aui-button-link cancel" href="#" id="remote-jira-link-cancel" title="{getText('linkjiraissue.search.close.hint')}">{getText('common.words.close')}</button>
+        </div>
+    </div>
+{/template}
+
+
+/**
+* Renders the form for remote JIRA search results
+* @param result the search results
+*/
+{template .resultsTable}
+{if $result.issues.length > 0}
+    <table id="remote-jira-searchresult" class="aui">
+        <thead>
+            <tr>
+                <th class="selection" ><input id="linkjiraissue-select-all" type="checkbox"/></th>
+                <th class="type">{getText('linkjiraissue.search.result.type')}</th>
+                <th class="key">{getText('linkjiraissue.search.result.key')}</th>
+                <th class="summary">{getText('linkjiraissue.search.result.summary')}</th>
+                <th class="status">{getText('linkjiraissue.search.result.status')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $issue in $result.issues}
+                <tr title="{$issue.key}">
+                    <td class="selection" data-key="{$issue.key}"><input type="checkbox"/></td>
+                    <td class="type">
+                        {call .issueType}
+                            {param issueType: $issue.fields.issuetype/}
+                        {/call}
+                    </td>
+                    <td class="key" title="{$issue.key}">{$issue.key}</td>
+                    <td class="summary" title="{$issue.fields.summary}">{$issue.fields.summary}</td>
+                    <td class="status">
+                        {call .status}
+                            {param status: $issue.fields.status/}
+                        {/call}
+                    </td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+{else}
+    <div class="aui-message info">
+        <span class="aui-icon icon-info"></span>
+        <p>{getText('linkjiraissue.search.result.empty')}</p>
+    </div>
+{/if}
+{/template}
+
+/**
+* Renders the issue type icon
+* @param issueType the issue type object
+*/
+{template .issueType}
+<img src="{$issueType.iconUrl}" alt="{$issueType.name}" title="{$issueType.name} - {$issueType.description}"/>
+{/template}
+
+/**
+* Renders the status icon
+* @param status the status object
+*/
+{template .status}
+    {call JIRA.Template.Util.Issue.Status.issueStatusResolver}
+        {param issueStatus: $status /}
+    {/call}
+{/template}

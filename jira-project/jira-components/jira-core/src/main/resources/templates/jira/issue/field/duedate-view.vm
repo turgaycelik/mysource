@@ -1,0 +1,4 @@
+#disable_html_escaping()
+#if ($duedate)
+  $textutils.plainTextToHtml($!duedate.toString())
+#end

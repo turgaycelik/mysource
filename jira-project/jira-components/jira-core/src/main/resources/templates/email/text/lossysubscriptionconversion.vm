@@ -1,0 +1,21 @@
+#disable_html_escaping()
+$i18n.getText("template.filters.schedule.changed.hi", ${subscriberFullName})
+
+$i18n.getText("template.filters.schedule.changed.jira.upgraded")
+
+$i18n.getText("template.filters.schedule.changed.for.details.see")
+${helpUtil.getHelpPath('issue_filters_subscribing').url}
+
+$i18n.getText("template.filters.schedule.changed.please.note.upgrade")
+#foreach ($sub in ${subscriptions})
+    - $!{sub.filterName}: ${baseurl}/secure/FilterSubscription!default.jspa?subId=${sub.subscriptionId}&filterId=${sub.filterId}
+        $i18n.getText("template.filters.schedule.changed.old.period"): ${sub.oldPrettyInterval}
+        $i18n.getText("template.filters.schedule.changed.new.schedule"): ${sub.newCronTrigger}
+#end
+
+$i18n.getText("template.filters.schedule.changed.you.may.check.subscriptions")
+
+$i18n.getText("template.filters.schedule.changed.cheers")
+  The Atlassian Team
+
+#parse("templates/email/text/includes/footer.vm")

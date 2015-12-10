@@ -1,0 +1,10 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-labels")}
+#searcherEditHeader ($searcherId ${i18n.getText('issue.field.labels')})
+    <select class="js-label-checkboxmultiselect" multiple="multiple" id="searcher-$searcherId" name="$searcherId" data-placeholder-text="$i18n.getText("common.filters.find.labels")">
+        #foreach ($label in $labels)
+            <option value="$textutils.htmlEncode($!label)" title="$textutils.htmlEncode($!label)" selected="selected">$textutils.htmlEncode($!label)</option>
+        #end
+    </select>
+#searcherEditFooter ($searcherId '')
+$!{auiparams.clear()}

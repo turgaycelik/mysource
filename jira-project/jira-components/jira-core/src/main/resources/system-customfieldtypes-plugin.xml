@@ -1,0 +1,460 @@
+<!-- Note that the keys used here are also used on UpgradeTask_Build67.  If any of the keys change here, we will need
+     to create both another upgrade task, and also change that upgrade task -->
+
+<atlassian-plugin key="com.atlassian.jira.plugin.system.customfieldtypes" i18n-name-key="admin.customfield.plugin.name" name="Custom Field Types &amp; Searchers">
+    <plugin-info>
+        <description key="admin.customfield.plugin.desc">JIRA's system custom field types.</description>
+        <version>1.0</version>
+        <application-version min="3.0" max="3.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+
+    <customfield-type key="textfield" name="Text Field (single line)"
+        i18n-name-key="admin.customfield.type.textfield.name"
+        class="com.atlassian.jira.issue.customfields.impl.RenderableTextCFType">
+        <description key="admin.customfield.type.textfield.desc">A basic single line text box custom field to allow simple text input.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/textfield.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-basictext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-maxlengthtext.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="textarea" name="Text Field (multi-line)"
+        i18n-name-key="admin.customfield.type.textarea.name"
+        class="com.atlassian.jira.issue.customfields.impl.TextAreaCFType">
+        <description key="admin.customfield.type.textarea.desc">A multiline text area custom field to allow input of longer text strings.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/textarea.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-textarea.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-basictext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-textarea.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="datepicker" name="Date Picker"
+        i18n-name-key="admin.customfield.type.datepicker.name"
+        class="com.atlassian.jira.issue.customfields.impl.DateCFType">
+        <description key="admin.customfield.type.datepicker.desc">A custom field that stores dates &amp; uses a date picker to view them</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/datepicker.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-date.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-datepicker.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-date.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="datetime" name="Date Time Picker"
+        i18n-name-key="admin.customfield.type.datetime.name"
+        class="com.atlassian.jira.issue.customfields.impl.DateTimeCFType">
+        <description key="admin.customfield.type.datetime.desc">A custom field that stores dates with a time component</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/datetime.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-datetime.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-datepicker.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-datetime.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="float" name="Number Field"
+        i18n-name-key="admin.customfield.type.float.name"
+        class="com.atlassian.jira.issue.customfields.impl.NumberCFType">
+        <description key="admin.customfield.type.float.desc">A custom field that stores and validates numeric (floating point) input.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/number.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-number.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-number.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-number.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="importid" name="Import Id"
+        i18n-name-key="admin.customfield.type.importid.name"
+        class="com.atlassian.jira.issue.customfields.impl.ImportIdLinkCFType"
+        managed-access-level="locked" managed-description-key="admin.customfield.type.importid.locked.desc">
+        <description key="admin.customfield.type.importid.desc">A read-only custom field that points back to the previously imported bug id.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-importid.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-importid-column.vm"/>
+<!--        there is no edit template, as this field is readonly-->
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-integer.vm"/>
+    </customfield-type>
+
+    <customfield-type key="select" name="Select List (single choice)"
+        i18n-name-key="admin.customfield.type.select.name"
+        class="com.atlassian.jira.issue.customfields.impl.SelectCFType">
+        <description key="admin.customfield.type.select.desc">A single select list with a configurable list of options.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/select.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-select.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-select.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-select.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="radiobuttons" name="Radio Buttons"
+        i18n-name-key="admin.customfield.type.radiobuttons.name"
+        class="com.atlassian.jira.issue.customfields.impl.SelectCFType">
+        <description key="admin.customfield.type.radiobuttons.desc">A list of radio buttons</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/radio.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-select.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-radio.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-select.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="project" name="Project Picker (single project)"
+        i18n-name-key="admin.customfield.type.project.name"
+        class="com.atlassian.jira.issue.customfields.impl.ProjectCFType">
+        <description key="admin.customfield.type.project.desc">Choose from projects that the user can view in the system.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-project.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-project.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-project.vm"/>
+    </customfield-type>
+
+    <customfield-type key="multiversion" name="Version Picker (multiple versions)"
+        i18n-name-key="admin.customfield.type.version.name"
+        class="com.atlassian.jira.issue.customfields.impl.VersionCFType">
+        <description key="admin.customfield.type.version.desc">Choose multiple versions from available versions in the project.</description>
+        <param name="multiple" value="true" />
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-version.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-version.vm"/>
+        <resource type="velocity" name="bulk-move" location="templates/plugins/fields/edit/bulkmove-version.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-version.vm"/>
+    </customfield-type>
+
+    <customfield-type key="version" name="Version Picker (single version)"
+        i18n-name-key="admin.customfield.type.version.single.name"
+        class="com.atlassian.jira.issue.customfields.impl.VersionCFType">
+        <description key="admin.customfield.type.version.single.desc">Choose a single from available versions in the project.</description>
+        <param name="multiple" value="false"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-version.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-version.vm"/>
+        <resource type="velocity" name="bulk-move" location="templates/plugins/fields/edit/bulkmove-version.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-version.vm"/>
+    </customfield-type>
+
+    <customfield-type key="userpicker" name="User Picker (single user)"
+        i18n-name-key="admin.customfield.type.userpicker.name"
+        class="com.atlassian.jira.issue.customfields.impl.UserCFType">
+        <description key="admin.customfield.type.userpicker.desc">Choose a user from the user base via a popup picker window.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/userpicker.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/column-view-user.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-user.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-userpicker.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-user.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="url" name="URL Field"
+        i18n-name-key="admin.customfield.type.url.name"
+        class="com.atlassian.jira.issue.customfields.impl.URLCFType">
+        <description key="admin.customfield.type.url.desc">Allow the user to input a single URL</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/url.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-url.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-basictext.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <!-- multiple types -->
+    <customfield-type key="multiselect" name="Select List (multiple choices)"
+        i18n-name-key="admin.customfield.type.multiselect.name"
+        class="com.atlassian.jira.issue.customfields.impl.MultiSelectCFType">
+        <description key="admin.customfield.type.multiselect.desc">Choose multiple values in a select list.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/multiselect.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multiselect.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multiselect.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multiselect.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="multicheckboxes" name="Checkboxes"
+        i18n-name-key="admin.customfield.type.multicheckboxes.name"
+        class="com.atlassian.jira.issue.customfields.impl.MultiSelectCFType">
+        <description key="admin.customfield.type.multicheckboxes.desc">Choose multiple values using checkboxes.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/checkbox.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multiselect.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multicheckboxes.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multiselect.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <customfield-type key="multiuserpicker" name="User Picker (multiple users)"
+        i18n-name-key="admin.customfield.type.multiuserpicker.name"
+        class="com.atlassian.jira.issue.customfields.impl.MultiUserCFType">
+        <description key="admin.customfield.type.multiuserpicker.desc">Choose multiple users from the user base via a popup picker window.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multiuser.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/column-view-multiuser.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multiuser.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multiuser.vm"/>
+
+    </customfield-type>
+
+    <customfield-type key="multigrouppicker" name="Group Picker (multiple groups)"
+        i18n-name-key="admin.customfield.type.multigrouppicker.name"
+        class="com.atlassian.jira.issue.customfields.impl.MultiGroupCFType">
+        <description key="admin.customfield.type.multigrouppicker.desc">Choose multiple user groups using a popup picker window.</description>
+        <param name="multiple" value="true" />
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multigroup.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multigroup.vm"/>
+    </customfield-type>
+
+    <customfield-type key="grouppicker" name="Group Picker (single group)"
+        i18n-name-key="admin.customfield.type.grouppicker.name"
+        class="com.atlassian.jira.issue.customfields.impl.MultiGroupCFType">
+        <description key="admin.customfield.type.grouppicker.desc">Choose a user group using a popup picker window.</description>
+        <param name="multiple" value="false" />
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multigroup.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multigroup.vm"/>
+    </customfield-type>
+
+    <!-- cascading drop-downs -->
+    <customfield-type key="cascadingselect" name="Select List (cascading)"
+        i18n-name-key="admin.customfield.type.cascadingselect.name"
+        class="com.atlassian.jira.issue.customfields.impl.CascadingSelectCFType">
+        <description key="admin.customfield.type.cascadingselect.desc">Choose multiple values using two select lists.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/cascadingselect.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-cascadingselect.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-cascadingselect.vm"/>
+        <!--        <resource type="velocity" name="edit-javascript" location="templates/plugins/fields/.vm" />-->
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-cascadingselect.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+
+    <customfield-type key="readonlyfield" name="Text Field (read only)"
+        i18n-name-key="admin.customfield.type.readonlyfield.name"
+        class="com.atlassian.jira.issue.customfields.impl.ReadOnlyCFType">
+        <description key="admin.customfield.type.readonlyfield.desc">A read-only text label. Only possible to create values programatically (Used internally for imports from Mantis).</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-rawtext.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="labels" name="Labels"
+        i18n-name-key="admin.customfield.type.labels.name"
+        class="com.atlassian.jira.issue.customfields.impl.LabelsCFType">
+        <description key="admin.customfield.type.labels.desc">Add arbitrary labels to issues.</description>
+
+        <resource type="download" name="customfieldpreview.png" location="images/customfieldpreview/label.png">
+            <param name="source" value="webContextStatic"/>
+        </resource>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-label.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/column-view-label.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-label.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-label.vm"/>
+
+        <category>STANDARD</category>
+    </customfield-type>
+
+    <!-- ================================== Custom Field Type Searchers ============================================ -->
+
+
+    <customfield-searcher key="textsearcher" name="Free Text Searcher"
+        i18n-name-key="admin.customfield.searcher.textsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.TextSearcher">
+        <description key="admin.customfield.searcher.textsearcher.desc">Search for values using a free text search.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="textfield"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="textarea"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="readonlyfield"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="exacttextsearcher" name="Exact Text Searcher"
+        i18n-name-key="admin.customfield.searcher.exacttextsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.ExactTextSearcher">
+        <description key="admin.customfield.searcher.exacttextsearcher.desc">Search for values exactly matching the input</description>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="url"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="daterange" name="Date Range picker"
+        i18n-name-key="admin.customfield.searcher.daterange.name"
+        class="com.atlassian.jira.issue.customfields.searchers.DateRangeSearcher">
+        <description key="admin.customfield.searcher.daterange.desc">Allow searching for a date that is between two other dates</description>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="datepicker"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="datetimerange" name="Date Time Range picker"
+        i18n-name-key="admin.customfield.searcher.datetimerange.name"
+        class="com.atlassian.jira.issue.customfields.searchers.DateTimeRangeSearcher">
+        <description key="admin.customfield.searcher.datetimerange.desc">Allow searching for a date and time that is between two other dates and times</description>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="datetime"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="exactnumber" name="Number Searcher"
+        i18n-name-key="admin.customfield.searcher.exactnumber.name"
+        class="com.atlassian.jira.issue.customfields.searchers.ExactNumberSearcher">
+        <description key="admin.customfield.searcher.exactnumber.desc">Allow searching for a number which exactly matches.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="float"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="importid"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="numberrange" name="Number range searcher"
+        i18n-name-key="admin.customfield.searcher.numberrange.name"
+        class="com.atlassian.jira.issue.customfields.searchers.NumberRangeSearcher">
+        <description key="admin.customfield.searcher.numberrange.desc">Allow searching for a number that is in a given range</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-number-range.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-number-range.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="float"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="importid"/>
+    </customfield-searcher>    
+
+    <customfield-searcher key="versionsearcher" name="Version Dropdown Searcher"
+        i18n-name-key="admin.customfield.searcher.versionsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.VersionPickerSearcher">
+        <description key="admin.customfield.searcher.versionsearcher.desc">Allow to search for versions using a dropdown list.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit/edit-version.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-version.vm"/>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-version.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="version"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multiversion"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="projectsearcher" name="Project Dropdown Searcher"
+        i18n-name-key="admin.customfield.searcher.projectsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.ProjectSearcher">
+        <description key="admin.customfield.searcher.projectsearcher.desc">Allow to search for a project using a dropdown list.</description>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-project.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-project.vm"/>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-project.vm"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="project"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="userpickergroupsearcher" name="User Picker &amp; Group Searcher"
+        i18n-name-key="admin.customfield.searcher.userpickergroupsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.UserPickerGroupSearcher">
+        <description key="admin.customfield.searcher.userpickergroupsearcher.desc">Allow to search for a user using a userpicker or a list of users groups.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-groupdropdown.vm" />
+        <resource type="velocity" name="label"
+                  location="templates/plugins/fields/view-searcher/label-searcher-user.vm"/>
+        
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="userpicker" />
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multiuserpicker" />
+    </customfield-searcher>
+
+    <customfield-searcher key="grouppickersearcher" name="Group Picker Searcher"
+        i18n-name-key="admin.customfield.searcher.grouppickersearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.GroupPickerSearcher">
+        <description key="admin.customfield.searcher.grouppickersearcher.desc">Allow to search for a group using a group picker.</description>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-group.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-grouppicker.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-grouppicker.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multigrouppicker"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="grouppicker"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="cascadingselectsearcher" name="Cascading Select Searcher"
+        i18n-name-key="admin.customfield.searcher.cascadingselectsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.CascadingSelectSearcher">
+        <description key="admin.customfield.searcher.cascadingselectsearcher.desc">Search for multiple values using two select lists.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-cascadingselect.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-option.vm"/>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-cascadingoption.vm"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="cascadingselect"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="multiselectsearcher" name="Multi Select Searcher"
+        i18n-name-key="admin.customfield.searcher.multiselectsearcher.name"
+        class="com.atlassian.jira.issue.customfields.searchers.MultiSelectSearcher">
+        <description key="admin.customfield.searcher.multiselectsearcher.desc">Search for multiple values using a single select list.</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-multiselect.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-multioption.vm"/>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-htmltext.vm"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multiselect"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="select"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="radiobuttons"/>
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="multicheckboxes"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="labelsearcher" name="Labels Searcher"
+        i18n-name-key="admin.customfield.searcher.labels.name"
+        class="com.atlassian.jira.issue.customfields.searchers.CustomFieldLabelsSearcher">
+        <description key="admin.customfield.searcher.labels.desc">Search for values matching labels.</description>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-label.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+
+        <valid-customfield-type package="com.atlassian.jira.plugin.system.customfieldtypes" key="labels"/>
+    </customfield-searcher>
+</atlassian-plugin>

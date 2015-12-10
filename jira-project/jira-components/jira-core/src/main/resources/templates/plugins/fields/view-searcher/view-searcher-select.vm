@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#searcherHeader ($customField)
+#if ($valueObject)
+    $cfValueEncoder.encodeForHtml($!valueObject.toString())
+#end
+#searcherFooter ($customField)

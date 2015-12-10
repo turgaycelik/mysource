@@ -1,0 +1,71 @@
+{namespace JIRA.Templates.AvatarPicker}
+
+/**
+* Renders all avatars and furniture
+*
+* @param avatars
+*/
+{template .picker}
+<form class="jira-avatar-upload-form" action="#">
+    <input name="id" value="10000" type="hidden" >
+    <input name="pid" value="10000" type="hidden" >
+    <div class="field-group">
+        <label for="jira-avatar-uploader">{getText('avatarpicker.upload.message')}</label>
+        <input type="file" class="ignore-inline-attach" name="avatar" id="jira-avatar-uploader"/>
+        <div class="error"></div>
+    </div>
+</form>
+<div class="form-body">
+    <ul class="jira-avatars">
+        {foreach $avatar in $avatars.system}
+            <li class="jira-avatar jira-system-avatar {if $avatar.isSelected}jira-selected-avatar{/if}" title="Select this Avatar" data-id="{$avatar.id}">
+                <button id="select-avatar-button" data-id="{$avatar.id}" class="jira-icon-button" title="{getText('avatarpicker.select.avatar.title')}">
+                    <img id="avatar-{$avatar.id}" src="{$avatar.src}" width="{$avatar.width}"
+            height="{$avatar.height}" alt="{getText('avatarpicker.select.avatar.title')}"/>
+                </button>
+            </li>
+        {/foreach}
+        {foreach $avatar in $avatars.custom}
+            <li class="jira-avatar jira-custom-avatar {if $avatar.isSelected}jira-selected-avatar{/if}" title="Select this avatar" data-id="{$avatar.id}">
+            <button id="select-avatar-button" data-id="{$avatar.id}" class="jira-icon-button" title="{getText('avatarpicker.select.avatar.title')}">
+                <img id="avatar-{$avatar.id}" src="{$avatar.src}" width="{$avatar.width}"
+            height="{$avatar.height}" alt="{getText('avatarpicker.select.avatar.title')}" />
+            </span>
+            <button class="jira-delete-avatar jira-icon-button" data-id="{$avatar.id}" title="{getText('avatarpicker.delete.avatar.title')}">{getText('avatarpicker.delete.avatar.title')}</button></li>
+        {/foreach}
+    </ul>
+</div>
+{/template}
+
+/**
+* Avatar cropper
+
+* @param cropperOffsetX - cropperOffsetX
+* @param cropperOffsetY - cropperOffsetY
+* @param cropperWidth - cropperWidth
+* @param url - img src
+*/
+{template .imageEditor}
+
+<form id="avataror" class="jira-avatar-cropper-form aui" action="/jira/secure/project/AvatarPicker.jspa">
+    <input type="hidden" name="cropperOffsetX" id="avatar-offsetX" value="{$cropperOffsetX}">
+    <input type="hidden" name="cropperOffsetY" id="avatar-offsetY" value="{$cropperOffsetY}">
+    <input type="hidden" name="cropperWidth" id="avatar-width"  value="{$cropperWidth}">
+
+    <div class="jira-avatar-cropper-header">
+        <p>{getText('avatarpicker.cropper.instructions')}</p>
+    </div>
+    <div class="form-body">
+        <div class="avataror">
+            <img src="{$url}" height="300" />
+        </div>
+    </div>
+    <div class="form-footer buttons-container">
+        <div class="buttons">
+            <input type="submit" class="aui-button" value="{getText('admin.common.words.confirm')}">
+            <a class="aui-button aui-button-link cancel" href="#">{getText('admin.common.words.cancel')}</a>
+        </div>
+    </div>
+</form>
+
+{/template}

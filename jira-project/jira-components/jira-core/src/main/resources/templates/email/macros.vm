@@ -1,0 +1,323 @@
+#* @vtlvariable name="metadataHelper" type="com.atlassian.jira.issue.changehistory.metadata.renderer.HistoryMetadataRenderHelper" *#
+#* @vtlvariable name="author" type="com.atlassian.jira.user.ApplicationUser" *#
+#* @vtlvariable name="remoteuser" type="com.atlassian.jira.user.ApplicationUser" *#
+#* @vtlvariable name="attachmentsManager" type="com.atlassian.jira.mail.util.MailAttachmentsManager" *#
+#macro (authorlinkkey $userkey $style)
+    #if ($userkey)
+        $userformat.formatUserkey($userkey, 'profileLinkExternal', 'email', ${velocityhelper.newMap('style', $style)})
+    #else
+        $i18n.getText("common.concepts.unassigned")
+    #end
+#end
+
+#macro (authorlinkname $username $style)
+    #if ($username)
+        $userformat.formatUsername($username, 'profileLinkExternal', 'email', ${velocityhelper.newMap('style', $style)})
+    #else
+        $i18n.getText("common.concepts.unassigned")
+    #end
+#end
+
+#* @deprecated Please use authorlinkkey or authorlinkname instead.  Since v6.0 *#
+#macro (authorlink2 $username $style)
+    #authorlinkname($username $style)
+#end
+
+#* @deprecated Please use authorlinkkey or authorlinkname instead.  Since v6.0 *#
+#macro (authorlink $username)
+    #authorlinkname($username "")
+#end
+
+#macro (makelinkedhtml $string)
+    $!jirakeyutils.linkBugKeys($textutils.plainTextToHtml($string))
+#end
+
+
+#macro (dashes $variable)
+#set ( $numdashes = $!variable.toString().length() )
+#foreach ($i in [1..$numdashes])-#end
+#end
+
+#macro (changesIncludingStatus $ignored)#if($changelog)$!{velocityhelper.printChangelog($changelog, $i18n, $ignored, false)}#end#end
+#macro (changes $ignored)#if($changelog)$!{velocityhelper.printChangelog($changelog, $i18n, $ignored)}#end#end
+
+#macro (comment)
+#if ($comment)
+
+$!comment.getBody()
+#end
+#end
+
+#macro (text $key)${i18n.getText($key)}#end
+
+#macro (originalcomment)
+#* *##if($originalcomment)
+#*     *##text("template.changelog.was") (#text("template.common.author"): $comment.author):
+#*     *#$!originalcomment.body
+#* *##end
+#end
+
+#macro(visibilityHtml)#visibility(false)#end
+
+#macro(visibilityText)#visibility(true)#end
+
+#macro(originalvisibilityHtml)#originalvisibility(false)#end
+
+#macro(originalvisibilityText)#originalvisibility(true)#end
+
+##indentation is kept as comment so that in text emails does not get mixed up
+#macro(visibility $isText)
+#if($comment)
+#* *##if($groupVisibilityLevel)
+#*     *##visibilityNotification('viewissue.comment.restricted', 'viewissue.comment.visibleby.group', $groupVisibilityLevel, $isText)
+#* *##elseif($roleVisibilityLevel)
+#*     *##visibilityNotification('viewissue.comment.restricted', 'viewissue.comment.visibleby.role', $roleVisibilityLevel, $isText)
+#* *##end
+#elseif($worklog)
+#* *##if($groupVisibilityLevel)
+#*     *##visibilityNotification('viewissue.worklog.restricted', 'viewissue.worklog.visibleby.group', $groupVisibilityLevel, $isText)
+#* *##elseif($roleVisibilityLevel)
+#*     *##visibilityNotification('viewissue.worklog.restricted', 'viewissue.worklog.visibleby.role', $roleVisibilityLevel, $isText)
+#* *##end
+#end
+#end
+
+##indentation is kept as comment so that in text emails does not get mixed up
+#macro(originalvisibility $isText)
+#if($originalcomment)
+#* *##if($originalgroupVisibilityLevel)
+#*     *##visibilityNotification('viewissue.comment.restricted', 'viewissue.comment.visibleby.group', $originalgroupVisibilityLevel, $isText)
+#* *##elseif($originalroleVisibilityLevel)
+#*     *##visibilityNotification('viewissue.comment.restricted', 'viewissue.comment.visibleby.role', $originalroleVisibilityLevel, $isText)
+#* *##end
+#elseif($originalworklog)
+#* *##if($originalgroupVisibilityLevel)
+#*     *##visibilityNotification('viewissue.worklog.restricted', 'viewissue.worklog.visibleby.group', $originalgroupVisibilityLevel, $isText)
+#* *##elseif($originalroleVisibilityLevel)
+#*     *##visibilityNotification('viewissue.worklog.restricted', 'viewissue.worklog.visibleby.role', $originalroleVisibilityLevel, $isText)
+#* *##end
+#end
+#end
+
+
+## This is all one line so that in text emails the indentation does not get mixed up
+#macro(visibilityNotification $altI18nKey, $textI18nKey, $visibilityTarget $isText)
+#if($isText)(${i18n.getText($textI18nKey, $textutils.htmlEncode($visibilityTarget))})#else
+<p class="restrictions-active"><img src="${baseurl}/images/icons/ic_locked.png" title="${i18n.getText($altI18nKey)} icon" width="16" height="16" class="restrictions-active-icon"  />${i18n.getText($textI18nKey, "<span>$textutils.htmlEncode($visibilityTarget)</span>")}</p>
+#end
+#end
+
+#macro (key)${issue.getString("key")}#end
+
+## Currently uses $actionerUser.name so that either User or ApplicationUser can be provided.
+## Eventually, we should require that it be an ApplicationUser and pass that to avatarService
+## instead of the username.
+#macro (commonEmailBanner $actionerUser $titleHtml $verbkey $verba1 $verba2 $verba3)
+<table align="left" border="0" cellpadding="0" cellspacing="0" width="100%" style="width:100%;">
+    <tr valign="top">
+        <td style="color:${textSubtleColour};font-family:${textFontFamily};padding:0;">
+            #if ($actionerUser)
+            ## TODO at the moment, an avatar appears only if avatars can be seen by anon (null) users fixthis
+                <img id="email-avatar" src="$attachmentsManager.getAvatarUrl($actionerUser.name)" alt="" height="48" width="48" border="0" align="left" style="padding:0;margin: 0 16px 16px 0;" />
+            #else
+                &nbsp; ##TODO no avatar to show
+            #end
+            <div id="email-action" style="padding: 0 0 8px 0;font-size:12px;line-height:18px;">
+                ${i18n.getText($verbkey, $verba1, $verba2, $verba3)}
+            </div>
+            #if ($titleHtml)
+            <div id="email-summary" style="font-size:16px;line-height:20px;padding:2px 0 16px 0;">
+                $titleHtml
+            </div>
+            #end
+        </td>
+    </tr>
+</table>
+#end
+
+#macro (emailbanner $actionerUser $verbkey $verba1 $verba2 $verba3)
+    #set($issueTitleHtml = "<a style='color:${textLinkColour};text-decoration:none;' href='${baseurl}/browse/${issue.getKey()}'><strong>$textutils.htmlEncode($issue.getSummary())</strong></a>")
+    #commonEmailBanner($actionerUser $issueTitleHtml $verbkey $verba1 $verba2 $verba3)
+#end
+
+## ===========================================================================================
+## Macros for new email templates; only temporarily here - to be moved to separate file
+
+## Macro used to wrap some already rendered content (for example content of rendered pattern)
+## by table row and cell
+#macro (rowWrapperNormal $content $id $classes)
+    #rowWrapperNormalBegin($id $classes)
+    $content
+    #rowWrapperNormalEnd($id $classes)
+#end
+
+#macro (rowWrapperNormalBegin $id $classes)
+    #if(!$id)
+        #set($id='')
+    #end
+
+    #if(!$classes)
+        #set($classes='')
+    #end
+
+<tr>
+    <td #if($id != '')id="$id"#end class="email-content-main mobile-expand #if($classes != '') $classes#end">
+#end
+
+#macro (rowWrapperNormalEnd)
+    </td>
+</tr>
+#end
+
+
+#macro(titleHeader $content)
+    #rowWrapperNormalBegin()
+    <table id="page-title-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+        <tr>
+            <td id="page-title-pattern-header-container">
+                <span id="page-title-pattern-header">$content</span>
+            </td>
+        </tr>
+    </table>
+   #rowWrapperNormalEnd()
+#end
+
+#macro(textParagraph $content)
+    #set ($textParagraph = $content)
+    #parse("templates/email/html/includes/patterns/text-paragraph.vm")
+#end
+
+## Renders the HistoryMetadataParticipant's info
+#macro(emailHistoryMetadataParticipant $participant, $html)
+    #set($participantId = $metadataHelper.getParticipantName($participant))
+    #if($participantId)
+        #if ($html)
+        #if($participant.url)<a href="$textutils.htmlEncode($participant.url)">$textutils.htmlEncode($participantId)</a>#else$textutils.htmlEncode($participantId)#end
+        #else
+        $velocityhelper.removeHtmlTags($participantId)
+        #end
+    #end
+#end
+
+## Renders the title header text for text emails - uses a passed i18ned string by default, replacing with metadata if appropriate
+## Indentation is kept as comment so that in text emails does not get mixed up
+#macro (headerTitleText $defaultMessage $authorName)
+#if ("$!authorName" == "")
+#* *##set($defaultMessage = "")
+#end
+#if($i18n.isKeyDefined($changelogmetadata.emailDescriptionKey))
+#* *##if ("$!changelogauthor" != "" || "$!changelogmetadata.actor" == "")
+#*   *##set ($metadataactor = $authorName)
+#* *##else
+#*   *##set ($metadataactor = "#emailHistoryMetadataParticipant($changelogmetadata.actor, false)")
+#* *##end
+#* *##set ($metadatagenerator = "#emailHistoryMetadataParticipant($changelogmetadata.generator, false)")
+#* *##set ($metadatacause = "#emailHistoryMetadataParticipant($changelogmetadata.cause, false)")
+#* *##set ($textHeaderTitle = $i18n.getText($changelogmetadata.emailDescriptionKey, $metadataactor.trim(), $metadatagenerator.trim(), $metadatacause.trim()))
+#elseif($changelogmetadata.emailDescription)
+#* *##set ($textHeaderTitle = "$defaultMessage $velocityhelper.removeHtmlTags($changelogmetadata.emailDescription)")
+#else
+#* *##set ($textHeaderTitle = "$defaultMessage")
+#end
+$!textHeaderTitle.trim()
+#dashes($!textHeaderTitle.trim())
+#end
+
+## Sets the header title for html emails, using the default i18n string or metadata as appropriate
+#macro(setHeaderTitle $defaultMessage $authorLink)
+    #if($i18n.isKeyDefined($changelogmetadata.emailDescriptionKey))
+        #if ("$!changelogauthor" != "" || "$!changelogmetadata.actor" == "")
+            #set ($metadataactor = $authorLink)
+        #else
+            #set ($metadataactor = "#emailHistoryMetadataParticipant($changelogmetadata.actor, true)")
+        #end
+        #set ($metadatagenerator = "#emailHistoryMetadataParticipant($changelogmetadata.generator, true)")
+        #set ($metadatacause = "#emailHistoryMetadataParticipant($changelogmetadata.cause, true)")
+        #set ($headerTitle = $i18n.getText($changelogmetadata.emailDescriptionKey, $metadataactor.trim(), $metadatagenerator.trim(), $metadatacause.trim()))
+    #elseif($changelogmetadata.emailDescription)
+        #set ($headerTitle = "$defaultMessage $textutils.htmlEncode($changelogmetadata.emailDescription)")
+    #else
+        #set ($headerTitle = $defaultMessage)
+    #end
+#end
+
+#macro(defaultMailHeader $headerI18nString $author)
+    #parse("templates/email/html/includes/emailconstants.vm")
+
+    #set ($issueLink = "")
+    #if ($issue)
+        #set ($issueType = $issue.getIssueTypeObject())
+        #set ($issueLink = "<a href='${baseurl}/browse/${issue.getKey()}'>#renderIcon(${issueType.iconUrlHtml} ${issueType.getNameTranslation($i18n)}) $textutils.htmlEncode($issue.getKey())</a>")
+    #end
+
+    #if ($author)
+        #set($actionerUser = $author)
+        #set ($authorLink = "#authorlinkname($author.name $linkstyle)")
+    #else
+        #set($actionerUser = $remoteUser)
+        #set ($authorLink = "#authorlinkname($remoteUser.name $linkstyle)")
+    #end
+
+    #setHeaderTitle($i18n.getText($headerI18nString, $authorLink, "<strong>", "</strong>", $issueLink), $authorLink)
+    #parse("templates/email/html/includes/header.vm")
+#end
+
+#macro(defaultMailHeaderWithParam $headerI18nString $author $param )
+    #parse("templates/email/html/includes/emailconstants.vm")
+
+    #if ($author)
+        #set($actionerUser = $author)
+        #set ($authorLink = "#authorlinkname($author.name $linkstyle)")
+    #else
+        #set($actionerUser = $remoteUser)
+        #set ($authorLink = "#authorlinkname($remoteUser.name $linkstyle)")
+    #end
+
+    #setHeaderTitle($i18n.getText($headerI18nString, $authorLink, $param, "<strong>", "</strong>"), $authorLink)
+    #parse("templates/email/html/includes/header.vm")
+#end
+
+#macro(genericChangelogMailWithComment $i18nTitle)
+
+    #defaultMailHeader($i18nTitle, $changelogauthor)
+
+    #if ($comment)
+        #parse('templates/email/html/includes/patterns/comment-top.vm')
+    #end
+
+    #rowWrapperNormal("#parse('templates/email/html/includes/patterns/issue-title.vm')")
+
+    #if ($changelog)
+        #rowWrapperNormal("#parse('templates/email/html/includes/fields/changelog.vm')")
+    #end
+
+    #set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+    #rowWrapperNormal($commentActionBody)
+
+    #parse("templates/email/html/includes/footer.vm")
+
+#end
+
+#macro(genericChangelogMailWithWorklog $i18nTitle)
+
+    #defaultMailHeader($i18nTitle, $changelogauthor)
+
+    #if ($worklog)
+        #parse('templates/email/html/includes/patterns/worklog-top.vm')
+    #end
+
+    #if ($changelog)
+        #rowWrapperNormal("#parse('templates/email/html/includes/fields/changelog.vm')" '' 'wrapper-special-margin')
+    #end
+
+    #set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+    #rowWrapperNormal($commentActionBody)
+
+##    #set($extraFooterContent = "#parse('templates/email/html/includes/set-issue-details-context.vm')")
+
+    #parse("templates/email/html/includes/footer.vm")
+
+#end
+
+## This is all one line so that we don't get extra underlines when this is inside anchor tag - JRA-15502
+#macro(renderIcon $url $altText)<img src="$attachmentsManager.getImageUrl($url)" height="16" width="16" border="0" align="absmiddle" alt="$textutils.htmlEncode(${altText}, false)">#end

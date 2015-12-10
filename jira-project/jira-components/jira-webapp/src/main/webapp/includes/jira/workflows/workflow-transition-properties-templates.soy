@@ -1,0 +1,26 @@
+{namespace JIRA.Templates.WorkflowTransitionPropertiesTemplates}
+
+/**
+ * Used to display the transition property key in the RESTful table
+ * @param value
+ */
+{template .key}
+    <strong class="workflow-transition-properties-key">{$value}</strong>
+{/template}
+
+
+/**
+ * Used to display the transition property value in the RESTful table
+ * @param value
+ */
+{template .value}
+    <span class="workflow-transition-properties-value">{$value}</span>
+{/template}
+
+
+/**
+ * Used to override the allowEdit: false behaviour of the RESTful table. This text field gets used in the Create row.
+ */
+{template .createKey}
+    <input type="text" class="text" name="key" />
+{/template}

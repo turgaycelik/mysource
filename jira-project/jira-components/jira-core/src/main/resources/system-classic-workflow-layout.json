@@ -1,0 +1,724 @@
+{
+    "edgeMap": {
+        "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1806.5,
+                    "y": 434.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1801.0,
+                    "y": 115.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1801.0,
+                "y": 115.0
+            },
+            "endStepId": 4,
+            "id": "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1776.85,
+                "y": 355.25
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1806.5,
+                "y": 434.0
+            },
+            "startStepId": 5
+        },
+        "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1492.25,
+                "y": 154.25
+            },
+            "lineType": "straight",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "startStepId": 1
+        },
+        "483797F1-1BF4-5E0F-86C6-4D19CE6023A2": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "endStepId": 4,
+            "id": "483797F1-1BF4-5E0F-86C6-4D19CE6023A2",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1551.0,
+                "y": 104.0
+            },
+            "lineType": "straight",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "startStepId": 1
+        },
+        "517D7F32-20FB-309E-8639-4D19CE2ACB54": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1434.0,
+                    "y": 435.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1435.0,
+                    "y": 490.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1947.0,
+                    "y": 494.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1950.0,
+                    "y": 118.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1435.0,
+                    "y": 490.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1947.0,
+                    "y": 494.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1950.0,
+                    "y": 118.0
+                }
+            ],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "endStepId": 4,
+            "id": "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1631.25,
+                "y": 479.5
+            },
+            "lineType": "poly",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1434.0,
+                "y": 435.0
+            },
+            "startStepId": 3
+        },
+        "58BD4605-5FB9-84EA-6952-4D19CE7B454B": {
+            "actionId": 1,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1470.0,
+                    "y": 16.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "endStepId": 1,
+            "id": "58BD4605-5FB9-84EA-6952-4D19CE7B454B",
+            "label": "Create Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1475.5,
+                "y": 48.5
+            },
+            "lineType": "straight",
+            "startNodeId": "15174530-AE75-04E0-1D9D-4D19CD200835",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1470.0,
+                "y": 16.0
+            },
+            "startStepId": 1
+        },
+        "92D3DEFD-13AC-06A7-E5D8-4D19CE537791": {
+            "actionId": 4,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1439.5,
+                    "y": 116.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1393.0,
+                    "y": 116.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1390.0,
+                    "y": 434.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1393.0,
+                    "y": 116.0
+                }
+            ],
+            "endNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1390.0,
+                "y": 434.0
+            },
+            "endStepId": 3,
+            "id": "92D3DEFD-13AC-06A7-E5D8-4D19CE537791",
+            "label": "Start Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1323.65,
+                "y": 193.75
+            },
+            "lineType": "poly",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1439.5,
+                "y": 116.0
+            },
+            "startStepId": 1
+        },
+        "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F": {
+            "actionId": 3,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1677.0,
+                    "y": 227.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1767.05,
+                    "y": 230.05
+                },
+                {
+                    "positiveController": null,
+                    "x": 1773.5,
+                    "y": 425.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1767.05,
+                    "y": 230.05
+                }
+            ],
+            "endNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1773.5,
+                "y": 425.0
+            },
+            "endStepId": 5,
+            "id": "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F",
+            "label": "Reopen Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1703.85,
+                "y": 218.5
+            },
+            "lineType": "poly",
+            "startNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1677.0,
+                "y": 227.0
+            },
+            "startStepId": 6
+        },
+        "C9EA1792-2332-8B56-A04D-4D19CD725367": {
+            "actionId": 301,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1465.0,
+                    "y": 436.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "endStepId": 1,
+            "id": "C9EA1792-2332-8B56-A04D-4D19CD725367",
+            "label": "Stop Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1407.8,
+                "y": 308.5
+            },
+            "lineType": "straight",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1465.0,
+                "y": 436.0
+            },
+            "startStepId": 3
+        },
+        "CAF37138-6321-E03A-8E41-4D19CDD7DC78": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1764.5,
+                    "y": 430.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1677.65,
+                "y": 365.0
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1764.5,
+                "y": 430.0
+            },
+            "startStepId": 5
+        },
+        "E1F8462A-8B0A-87EA-4F70-4D19CE423C83": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1488.0,
+                    "y": 430.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "E1F8462A-8B0A-87EA-4F70-4D19CE423C83",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1492.0,
+                "y": 345.0
+            },
+            "lineType": "straight",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1488.0,
+                "y": 430.0
+            },
+            "startStepId": 3
+        },
+        "E27D8EB8-8E49-430B-8FCB-4D19CE127171": {
+            "actionId": 3,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1840.0,
+                    "y": 130.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1846.5,
+                    "y": 428.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1846.5,
+                "y": 428.0
+            },
+            "endStepId": 5,
+            "id": "E27D8EB8-8E49-430B-8FCB-4D19CE127171",
+            "label": "Reopen Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1814.05,
+                "y": 169.5
+            },
+            "lineType": "straight",
+            "startNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1840.0,
+                "y": 130.0
+            },
+            "startStepId": 4
+        },
+        "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C": {
+            "actionId": 4,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1806.5,
+                    "y": 434.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1434.0,
+                    "y": 435.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1434.0,
+                "y": 435.0
+            },
+            "endStepId": 3,
+            "id": "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C",
+            "label": "Start Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1607.25,
+                "y": 423.5
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1806.5,
+                "y": 434.0
+            },
+            "startStepId": 5
+        },
+        "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1": {
+            "actionId": 701,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1635.75,
+                "y": 152.25
+            },
+            "lineType": "straight",
+            "startNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "startStepId": 4
+        }
+    },
+    "nodeMap": {
+        "0740FFFA-2AA1-C90A-38ED-4D19CD61899B": {
+            "id": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "inLinkIds": [
+                "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C",
+                "92D3DEFD-13AC-06A7-E5D8-4D19CE537791"
+            ],
+            "isInitialAction": false,
+            "label": "In Progress",
+            "outLinkIds": [
+                "C9EA1792-2332-8B56-A04D-4D19CD725367",
+                "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+                "E1F8462A-8B0A-87EA-4F70-4D19CE423C83"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 146.0,
+                "x": 1373.0,
+                "y": 419.0
+            },
+            "stepId": 3
+        },
+        "15174530-AE75-04E0-1D9D-4D19CD200835": {
+            "id": "15174530-AE75-04E0-1D9D-4D19CD200835",
+            "inLinkIds": [],
+            "isInitialAction": true,
+            "label": "Create Issue",
+            "outLinkIds": [
+                "58BD4605-5FB9-84EA-6952-4D19CE7B454B"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 157.0,
+                "x": 1405.0,
+                "y": 0.0
+            },
+            "stepId": 1
+        },
+        "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34": {
+            "id": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "inLinkIds": [
+                "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+                "E1F8462A-8B0A-87EA-4F70-4D19CE423C83",
+                "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+                "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230"
+            ],
+            "isInitialAction": false,
+            "label": "Closed",
+            "outLinkIds": [
+                "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 120.0,
+                "x": 1569.0,
+                "y": 210.0
+            },
+            "stepId": 6
+        },
+        "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D": {
+            "id": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "inLinkIds": [
+                "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+                "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+                "483797F1-1BF4-5E0F-86C6-4D19CE6023A2"
+            ],
+            "isInitialAction": false,
+            "label": "Resolved",
+            "outLinkIds": [
+                "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+                "E27D8EB8-8E49-430B-8FCB-4D19CE127171"
+            ],
+            "rect": {
+                "height": 44.0,
+                "positiveController": null,
+                "width": 137.0,
+                "x": 1709.0,
+                "y": 97.0
+            },
+            "stepId": 4
+        },
+        "778534F4-7595-88B6-45E1-4D19CD518712": {
+            "id": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "inLinkIds": [
+                "C9EA1792-2332-8B56-A04D-4D19CD725367",
+                "58BD4605-5FB9-84EA-6952-4D19CE7B454B"
+            ],
+            "isInitialAction": false,
+            "label": "Open",
+            "outLinkIds": [
+                "92D3DEFD-13AC-06A7-E5D8-4D19CE537791",
+                "483797F1-1BF4-5E0F-86C6-4D19CE6023A2",
+                "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 106.0,
+                "x": 1429.5,
+                "y": 97.0
+            },
+            "stepId": 1
+        },
+        "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB": {
+            "id": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "inLinkIds": [
+                "E27D8EB8-8E49-430B-8FCB-4D19CE127171",
+                "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F"
+            ],
+            "isInitialAction": false,
+            "label": "Reopened",
+            "outLinkIds": [
+                "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+                "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+                "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 142.0,
+                "x": 1749.5,
+                "y": 418.0
+            },
+            "stepId": 5
+        }
+    },
+    "rootIds": [
+        "15174530-AE75-04E0-1D9D-4D19CD200835"
+    ],
+    "width": 1136
+}

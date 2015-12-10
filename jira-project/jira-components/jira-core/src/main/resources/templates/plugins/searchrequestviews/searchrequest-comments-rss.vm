@@ -1,0 +1,48 @@
+#disable_html_escaping()
+###macro (esc $text)$xmlutils.escape($text)#end
+#if ($comment.groupLevel)
+#set ($level = $textutils.htmlEncode($comment.groupLevel))
+#elseif ($comment.roleLevel)
+#set ($level = $textutils.htmlEncode($comment.roleLevel.name))
+#end
+<item>
+    <title>RE: [#xmlEscape($issue.key)] #xmlEscape($issue.summary)</title>
+    <link>
+    #set ($commentHash = "comment-${comment.id}")
+    #xmlEscape($requestContext.baseUrl)/browse/$issue.key?focusedCommentId=${comment.id}#${commentHash}</link>
+    <pubDate>$dateTimes.formatRSS($comment.updated)</pubDate>
+    <author>#xmlEscape($comment.authorFullName)</author>
+    <description>
+        ## this is the html of the actual comment body
+        #xmlEscape($description)
+
+        &lt;br/&gt;
+        &lt;br/&gt;
+
+        &lt;table&gt;
+
+        &lt;tr&gt;
+        &lt;td&gt;$i18n.getText('viewissue.comment.author'):&lt;/td&gt;
+        &lt;td&gt;&lt;a
+        href="#xmlEscape($requestContext.baseUrl)/secure/ViewProfile.jspa?name=${velocityhelper.urlencode($comment.author)}"&gt;#xmlEscape($textutils.htmlEncode($comment.authorFullName))&lt;/a&gt;
+        (&lt;a href="#xmlEscape($requestContext.baseUrl)/browse/$issue.key"&gt;$issue.key&lt;/a&gt;)&lt;/td&gt;
+        &lt;/tr&gt;
+
+        #if (!$comment.created.equals($comment.updated) && $comment.updateAuthor)
+        &lt;tr&gt;
+        &lt;td&gt;$i18n.getText('viewissue.comment.update.author'):&lt;/td&gt;
+        &lt;td&gt;&lt;a href="#xmlEscape($requestContext.baseUrl)/secure/ViewProfile.jspa?name=#xmlEscape($xmlutils.escape(${velocityhelper.urlencode($comment.updateAuthor)}))"&gt;#xmlEscape($textutils.htmlEncode($comment.updateAuthorFullName))&lt;/a&gt;&lt;/td&gt;
+        &lt;/tr&gt;
+        #end
+
+        #if ($level)
+        &lt;tr&gt;
+        &lt;td&gt;$i18n.getText('viewissue.comment.visibleby'):&lt;/td&gt;
+        &lt;td&gt;$level&lt;/td&gt;
+        &lt;/tr&gt;
+        #end
+
+        &lt;/table&gt;
+    </description>
+    <guid>#xmlEscape($requestContext.baseUrl)/browse/${issue.key}?page=com.atlassian.jira.plugin.system.issuetabpanels:comment-tabpanel&amp;focusedCommentId=${comment.id}\#worklog-${comment.id}</guid>
+</item>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="__MSG_gadget.login.title__" description="__MSG_gadget.login.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:login-gadget", "login-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:login-gadget", "login-thumb.png")'>
+        <Require feature="dynamic-height"/>
+        <Require feature="views"/>
+        <Optional feature="atlassian.util"/>
+        <Optional feature='auth-refresh'/>
+        <Require feature="oauthpopup"/>
+        #oauth
+        #supportedLocales("gadget.common,gadget.login")
+    </ModulePrefs>
+    <UserPref name="isPublicMode" datatype="hidden"/>
+    <UserPref name="isElevatedSecurityCheckShown" datatype="hidden"/>
+    <UserPref name="loginFailedByPermissions" datatype="hidden"/>
+    <UserPref name="externalUserManagement" datatype="hidden"/>
+    <UserPref name="loginSucceeded" datatype="hidden"/>
+    <UserPref name="allowCookies" datatype="hidden"/>
+    <UserPref name="externalPasswordManagement" datatype="hidden"/>
+    <UserPref name="captchaFailure" datatype="hidden"/>
+    <UserPref name="isAdminFormOn" datatype="hidden"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #requireResource("com.atlassian.jira.gadgets:g-login")
+        #includeResources()
+
+        <script type="text/javascript">
+            AJS.Gadget({
+
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+
+                view: {
+
+                    enableReload: false,
+
+                    template: function () {
+
+                        var gadget = this;
+
+                        var args = {
+                            "login":{
+                                "isPublicMode":this.getPrefs().getBool("isPublicMode"),
+                                "isElevatedSecurityCheckShown":this.getPrefs().getBool("isElevatedSecurityCheckShown"),
+                                "loginFailedByPermissions":this.getPrefs().getBool("loginFailedByPermissions"),
+                                "externalUserManagement":this.getPrefs().getBool("externalUserManagement"),
+                                "loginSucceeded":this.getPrefs().getBool("loginSucceeded"),
+                                "allowCookies":this.getPrefs().getBool("allowCookies"),
+                                "externalPasswordManagement":this.getPrefs().getBool("externalPasswordManagement"),
+                                "captchaFailure":this.getPrefs().getBool("captchaFailure"),
+                                "isAdminFormOn":this.getPrefs().getBool("isAdminFormOn")
+                            }
+                        };
+
+                        this.getView().addClass("g-login").html(JIRA.Templates.Gadgets.login({
+                            isPublicMode: args.login.isPublicMode,
+                            baseUrl: "__ATLASSIAN_BASE_URL__",
+                            adminFormOn: args.login.isAdminFormOn
+                        }));
+
+//
+                        var focusOn = function(fieldid) {
+                            setTimeout('AJS.$("' + fieldid + '").focus()', 200);
+                        };
+//
+                        var addLoginError = function(text) {
+                            var arg = '';
+                            arg    += '<div id="usernameerror" class="aui-message error">';
+                            arg    += '<span id="usernamerror-icon" class="aui-icon icon-error"></span>';
+                            arg    += '<p>' + text + '</p></div>';
+                            var error = AJS.$(arg);
+                            AJS.$('#loginform').find('#usernameerror').remove().end().prepend(error);
+                        };
+//
+                        var addCaptchaFields = function() {
+                            var markup = AJS.$("#captcha").removeClass("hidden");
+
+                            // refetch a new image with browser cache busting to ensure we get a new captcha
+                            AJS.$(markup).find("#captchaimg").attr('src', '__ATLASSIAN_BASE_URL__/captcha?ts=' + new Date().getTime());
+                        };
+
+                        var removeCaptchaFields = function() {
+                            AJS.$("#captcha").addClass("hidden");
+                        };
+
+                        var updateLoginFields = function(login) {
+                            if (login.isElevatedSecurityCheckShown) {
+                                addCaptchaFields()
+                            }
+                            else {
+                                removeCaptchaFields();
+                            }
+
+
+                            var rememberMe = AJS.$("#rememberme"), forgotPassword = AJS.$("#forgotpassword");
+                            if (!login.allowCookies) {
+                                rememberMe.hide();
+                            }
+                            if (login.externalUserManagement || args.login.externalPasswordManagement) {
+                                forgotPassword.hide();
+                            }
+                            if (login.isPublicMode) {
+                                AJS.$("#publicmodeoff").remove();
+                            }
+                            else {
+                                AJS.$("#publicmodeon").remove();
+                            }
+                        };
+
+                        var adjustClass = function() {
+                            AJS.$("#loginform").addClass("gdt");
+                            AJS.$("#loginform").removeClass("top-label");
+                            if (gadgets.window.getViewportDimensions().width < 490) {
+                                AJS.$("#loginform").addClass("top-label");
+                            }
+                        };
+
+                        updateLoginFields(args.login);
+
+                        AJS.$("#login").click(function(e) {
+
+                            e.preventDefault();
+                            gadget.showLoading();
+
+                            var postdata = AJS.$("#loginform").serializeArray();
+                            AJS.$(".importErrorBox").hide();
+
+
+                            AJS.$.ajax({
+                                type: "post",
+                                url: "__ATLASSIAN_BASE_URL__/rest/gadget/1.0/login",
+                                data: AJS.$("#loginform").serialize(),
+                                success:function(data) {
+                                    if (data.loginSucceeded) {
+                                        AJS.$("#content").hide();
+                                        //on successful login go to the baseurl (which will make this login gadget disappear).
+                                        window.parent.location = "__ATLASSIAN_BASE_URL__";
+                                    }
+                                    else {
+
+
+                                        var errMsg = "__MSG_gadget.login.invalidlogin__";
+                                        if (data.isElevatedSecurityCheckShown) {
+                                            errMsg = "__MSG_gadget.login.invalidcaptcha__";
+                                        }
+                                        if (data.loginFailedByPermissions) {
+                                            errMsg = AJS.format("__MSG_gadget.login.invalidloginpermissions__", data.contactAdminLink);
+                                        }
+                                        if (data.communicationError) {
+                                            errMsg = "__MSG_gadget.login.error.communication__";
+                                        } else if (data.loginError) {
+                                            errMsg = "__MSG_gadget.login.error.misc__";
+                                        }
+                                        addLoginError(errMsg);
+
+                                        updateLoginFields(data);
+                                        gadget.hideLoading();
+                                        gadget.resize();
+                                        adjustClass();
+
+                                        //JRADEV-2124 focus on username after failure
+                                        focusOn("#login-form-username");
+                                    }
+                                },
+                                error: function(response) {
+                                    addLoginError("__MSG_gadget.login.invalidlogin__");
+                                    gadget.hideLoading();
+                                    gadget.resize();
+                                    adjustClass();
+                                }
+                            });
+                        });
+
+                        adjustClass();
+                        focusOn("#login-form-username");
+                    }
+                }
+            });
+        </script>
+        ]]>
+    </Content>
+</Module>

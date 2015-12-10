@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#if(${issue.priorityObject})
+<tr>
+    <th>#text("issue.field.priority"):</th>
+    <td class="has-icon">
+        #set ($priority = $issue.priorityObject)
+        #if($priority.iconUrlHtml)
+        #renderIcon(${priority.iconUrlHtml} ${priority.getNameTranslation($i18n)})
+        #end
+        $textutils.htmlEncode(${priority.getNameTranslation($i18n)}, false)
+    </td>
+</tr>
+#end

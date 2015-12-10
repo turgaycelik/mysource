@@ -1,0 +1,18 @@
+{namespace Reference.Soy.WebPanel}
+
+/**
+ * @param user
+ * @param issue
+ * @param project
+  */
+{template .viewIssue}
+<div>
+    <p>This is a reference web panel rendered via soy.</p>
+
+    <p>User: {$user ? $user.name : 'anonymous' }</p>
+
+    <p>Issue: {$issue.key}</p>
+
+    <p>Project: {$project.key}</p>
+</div>
+{/template}

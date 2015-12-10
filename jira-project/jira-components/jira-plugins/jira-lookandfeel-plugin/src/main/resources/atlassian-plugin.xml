@@ -1,0 +1,119 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <web-resource-transformer key="logoTransformer" class="com.atlassian.jira.lookandfeel.transformer.LogoTransformer"/>
+
+    <component-import key="pluginSettingsFactory" interface="com.atlassian.sal.api.pluginsettings.PluginSettingsFactory" system="true" />
+
+    <component-import key="featureManager" interface="com.atlassian.jira.config.FeatureManager" system="true" />
+
+    <component-import key="servletContextFactory" interface="com.atlassian.plugin.servlet.ServletContextFactory" system="true" />
+
+    <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer" />
+
+    <!--<component-import key="userFormatTypeConfig" interface="com.atlassian.jira.plugin.userformat.configuration.UserFormatTypeConfiguration" />-->
+
+    <web-item key="lookandfeel" name="Look and Feel Link" section="top_system_section/user_interface"
+              i18n-name-key="webfragments.admin.menu.item.lookandfeel.name" weight="30">
+        <label key="admin.menu.globalsettings.look.and.feel"/>
+        <link linkId="lookandfeel">/secure/admin/LookAndFeel!default.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition"/>
+        <param name="webfragments.keywords">webfragments.keywords.admin.system.lookandfeel</param>
+    </web-item>
+
+    <webwork1 key="lookandfeel.actions" name="Look And Feel Actions">
+        <description key="lookandfeel.actions.desc">Look And Feel Edit Actions</description>
+        <actions>
+            <action name="com.atlassian.jira.lookandfeel.EditLookAndFeel" alias="LookAndFeel" roles-required="admin" >
+                <view name="input">/templates/actions/editlookandfeel.vm</view>
+                <view name="success">/templates/actions/editlookandfeel.vm</view>
+                <view name="error">/templates/actions/editlookandfeel.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <web-resource key="edit-look-and-feel" name="Edit Look and Feel Javascript and CSS" system="true">
+        <transformation extension="logo">
+            <transformer key="logoTransformer"/>
+        </transformation>
+
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+        <transformation extension="less">
+            <transformer key="lessTransformer" />
+        </transformation>
+        <transformation extension="js">
+            <transformer key="jsI18n" />
+        </transformation>
+
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+
+        <resource type="download" name="js/editmode.js" location="js/editmode.js" />
+
+        <resource type="download" name="colorpicker.css" location="css/colorpicker.css" />
+        <resource type="download" name="css/look-and-feel.css" location="css/look-and-feel.less" />
+        <resource type="download" name="css/default-logo.css" location="css/default-logo.logo" />
+        <resource type="download" name="js/edit-look-and-feel.js" location="js/edit-look-and-feel.js" />
+        <resource type="download" name="lookandfeel-templates.js" location="templates/actions/lookandfeel-properties.soy" />
+        <resource type="download" name="js/lookandfeel-properties-table.js" location="js/lookandfeel-properties-table.js" />
+        <resource type="download" name="js/lookandfeel-properties-table-init.js" location="js/lookandfeel-properties-table-init.js" />
+        <resource type="download" name="js/colorpicker.js" location="js/colorpicker.js" />
+
+        <resource type="download" name="images/" location="images/" />
+
+    </web-resource>
+
+    <web-resource key="logoFormSoy">
+        <dependency>com.atlassian.auiplugin:aui-experimental-soy-templates</dependency>
+        <resource type="soy" name="view" location="templates/actions/lookandfeel-logo.soy"/>
+    </web-resource>
+
+    <web-resource key="userFormatFormSoy">
+        <dependency>com.atlassian.auiplugin:aui-experimental-soy-templates</dependency>
+        <resource type="soy" name="view" location="templates/actions/lookandfeel-userformat.soy"/>
+    </web-resource>
+
+    <resource type="i18n" name="lookandfeel.i18n" location="i18n/LookAndFeel" />
+
+    <component key="lookAndFeelProperties" name="Look and Feel Properties" public="true" system="true" class="com.atlassian.jira.lookandfeel.LookAndFeelPropertiesImpl">
+        <interface>com.atlassian.jira.lookandfeel.LookAndFeelProperties</interface>
+    </component>
+
+    <component key="imageScaler" name="Image Scaler" system="true" class="com.atlassian.jira.lookandfeel.ImageScaler">
+        <interface>com.atlassian.jira.lookandfeel.ImageScaler</interface>
+    </component>
+
+    <component key="uploadService" name="Logo Upload Service" public="true" system="true" class="com.atlassian.jira.lookandfeel.upload.UploadServiceImpl">
+        <interface>com.atlassian.jira.lookandfeel.upload.UploadService</interface>
+    </component>
+
+    <component key="autoLookAndFeelManager" name="Automatic Look and Feel Manager" class="com.atlassian.jira.lookandfeel.AutoLookAndFeelManager" />
+
+    <servlet-filter key="logoInterceptor" name="Logo Interceptor" class="com.atlassian.jira.lookandfeel.filter.LogoInterceptor" location="after-encoding" weight="110" system="true">
+        <url-pattern>*/jira-logo-scaled.png</url-pattern>
+    </servlet-filter>
+
+    <servlet-filter key="faviconInterceptor" name="Favicon Interceptor" class="com.atlassian.jira.lookandfeel.filter.FaviconInterceptor" location="after-encoding" weight="110" system="true">
+        <url-pattern>*/favicon.ico</url-pattern>
+        <url-pattern>*/favicon.png</url-pattern>
+        <url-pattern>*/favicon32.png</url-pattern>
+        <url-pattern>*/jira-favicon-scaled.png</url-pattern>
+        <url-pattern>*/jira-favicon-hires.png</url-pattern>
+    </servlet-filter>
+
+    <component key="upgradeTask1" class="com.atlassian.jira.lookandfeel.upgrade.LookAndFeelUpgradeTask1" public="true"
+               name="Upgrade JIRA favicons">
+        <interface>com.atlassian.sal.api.upgrade.PluginUpgradeTask</interface>
+    </component>
+
+    <rest key="lookandfeel-rest" path="/lookandfeel" version="1.0">
+        <package>com.atlassian.jira.lookandfeel.rest</package>
+    </rest>
+
+</atlassian-plugin>

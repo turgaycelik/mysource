@@ -1,0 +1,61 @@
+#enable_html_escaping()
+#* @vtlvariable name="actions" type="java.util.List<com.atlassian.jira.plugin.issuetabpanel.IssueAction>" *#
+#* @vtlvariable name="actionsSortOrder" type="java.lang.String" *#
+#* @vtlvariable name="currentPageKey" type="java.lang.String" *#
+#* @vtlvariable name="currentTab" type="com.atlassian.jira.plugin.issuetabpanel.IssueTabPanelModuleDescriptor" *#
+#* @vtlvariable name="hasActions" type="boolean" *#
+#* @vtlvariable name="hasPanels" type="boolean" *#
+#* @vtlvariable name="isSortable" type="boolean" *#
+#* @vtlvariable name="issue" type="com.atlassian.jira.issue.Issue" *#
+#* @vtlvariable name="tabPanels" type="java.util.List<com.atlassian.jira.plugin.issuetabpanel.IssueTabPanelModuleDescriptor>" *#
+
+## only use "fast tabs" to load issue tab panels that have opted in.
+#set ($ajaxLoadClass = "ajax-activity-content")
+#set ($tabLinkClasses = "")
+#if ($currentTab.supportsAjaxLoad)
+    #set ($tabLinkClasses = "${ajaxLoadClass}")
+#end
+
+#if (${hasPanels})
+    <div class="tabwrap tabs2">
+
+        <ul id="issue-tabs" class="tabs horizontal">
+        #foreach (${tabPanel} in ${tabPanels})
+            #set ($tabLinkClasses = "")
+            #if ($tabPanel.supportsAjaxLoad)
+                #set ($tabLinkClasses = "${ajaxLoadClass}")
+            #end
+
+            <li #if (${tabPanel.completeKey.equals($currentPageKey)}) class="active" id="${tabPanel.key}" #end data-id="${tabPanel.key}" data-key="${tabPanel.completeKey}" data-label="${tabPanel.label}" data-href="${baseurl}/browse/${issue.key}?page=${tabPanel.completeKey}">
+            #if (${tabPanel.completeKey.equals($currentPageKey)})
+                <strong tabindex="0">${tabPanel.label}</strong>
+            #else
+                <a class="${tabLinkClasses}" id="${tabPanel.key}" href="${baseurl}/browse/${issue.key}?page=${tabPanel.completeKey}"><strong>${tabPanel.label}</strong></a>
+            #end
+            </li>
+        #end
+        </ul>
+
+        #if (${isSortable})
+            <div class="sortwrap">
+                #if (${actionsSortOrder} == "asc")
+                    <a class="icon icon-sort-down ${tabLinkClasses}" rel="nofollow" href="${baseurl}/browse/${issue.key}?actionOrder=desc" title="${i18n.getText("navigator.ascending.order")}"><span>${i18n.getText("navigator.ascending.order")}</span></a>
+                #else
+                    <a class="icon icon-sort-up ${tabLinkClasses}" rel="nofollow" href="${baseurl}/browse/${issue.key}?actionOrder=asc" title="${i18n.getText("navigator.descending.order")}"><span>${i18n.getText("navigator.descending.order")}</span></a>
+                #end
+            </div>
+        #end
+    </div>
+    <div class="issuePanelWrapper">
+        <div class="issuePanelProgress"></div>
+        <div class="issuePanelContainer" id="issue_actions_container">
+        #if ($hasActions)
+            #foreach (${action} in ${actions})
+                $!{action.html} ## some actions return null
+            #end
+        #elseif (${actionError})
+            <div class="aui-message warning">$i18n.getText("viewissue.tabs.actions.error")</div>
+        #end
+        </div>
+    </div>
+#end

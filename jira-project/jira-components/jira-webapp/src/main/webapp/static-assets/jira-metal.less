@@ -1,0 +1,237 @@
+body.js-enabled {
+    .js-hidden {
+        display: none;
+    }
+}
+
+.error-page {
+  .aui-page-panel {
+    border-top: none;
+    margin-top: 0;
+  }
+
+  // not rendering the background image for the footer body because after doing the aui upgrade, we have inserted an anchor which renders the logo.
+  #footer .footer-body {
+    background-image: none;
+  }
+}
+
+#error-state {
+  margin: 75px 0 50px;
+  text-align: center;
+
+  .error-type {
+    background: url('../images/errors.png') no-repeat;
+    background-size: 200px 800px;
+    display: block;
+    margin: 0 auto 50px;
+    height: 130px;
+    width: 200px;
+
+    .error401 & {
+      background-position: 0 -135px;
+    }
+
+    .error404 & {
+      background-position: 0 -275px;
+    }
+
+    .error500 & {
+      background-position: 0 -413px;
+    }
+
+    .error503 & {
+      background-position: 0 -550px;
+    }
+
+  }
+
+  ul {
+    display: inline-block;
+    li {
+      text-align: left;
+    }
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+}
+
+
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  #error-state .error-type {
+    background-image: url('../images/hiresolution/errors@2x.png');
+  }
+}
+
+body.error500 {
+    .aui-page-panel-content {
+        padding-bottom: 60px;
+    }
+
+    .help-steps-inner {
+        text-align: left;
+    }
+
+    .technical-details {
+        padding-top: 20px;
+    }
+
+    .technical-details-content {
+        border: 1px dotted #ccc;
+        margin-top: 10px;
+        padding: 20px;
+        text-align: left;
+    }
+
+    .technical-details-header {
+        font-size: 16px;
+        font-weight: normal;
+
+      cursor: pointer;
+        > span {
+          background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHDRPAkXAAAADHRSTlMAESIziJmqu8zd7v+91kxoAAAACXBIWXMAAAsSAAALEgHS3X78AAAAFnRFWHRDcmVhdGlvbiBUaW1lADIxLzEyLzEymvNa/wAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAArSURBVAiZY2DAB1iaoAy2XQZQVvRiKIMVLlQ9AU0EpoZjhwLUnEa81iABAFHzB8GYPzdNAAAAAElFTkSuQmCC") no-repeat 0 2px;
+          padding-left:15px;
+//            cursor: pointer;
+//            position: relative;
+//            &:after,
+//            &:before {
+//                border: 7px solid transparent;
+//                border-left-color: #707070;
+//                border-style: outset outset outset solid;
+//                content: "";
+//                height: 0;
+//                left: -14px;
+//                overflow: hidden;
+//                position: absolute;
+//                top: 2px;
+//                width: 0;
+//                z-index: 100;
+//            }
+//            &:after {
+//                border-left-color: #fff;
+//                left: -17px
+//            }
+        }
+
+      &.opened {
+            > span {
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHDRPAkXAAAADHRSTlMAESIziJmqu8zd7v+91kxoAAAACXBIWXMAAAsSAAALEgHS3X78AAAAFnRFWHRDcmVhdGlvbiBUaW1lADIxLzEyLzEymvNa/wAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAySURBVAiZY2AgCbA0MDCkgBgcWxlYd4AYjN0B0YvAclrbdxmAGcyrF0OVWxqQZjwDAwA8XgfBciyedgAAAABJRU5ErkJggg==");
+
+        //                &:after,
+//                &:before {
+//                    border-left-color: transparent;
+//                    border-top-color: #707070;
+//                    border-style: solid outset outset outset;
+//                    left: -20px;
+//                    top: 6px;
+//                }
+//                &:after {
+//                  border-top-color: #fff;
+//                  top: 3px
+//                }
+            }
+        }
+    }
+
+    .info-section {
+        padding: 20px 0;
+        tr > th {
+          width: 20%;
+        }
+    }
+
+    #error-state {
+        margin-bottom: 0;
+    }
+}
+
+body.new-installation-old-license {
+/* Copied from setup.less */
+
+    .setup-banner {
+        display: block;
+        margin: 2em auto;
+    }
+
+    form.aui .inline-radio-options div.radio {
+        float: left;
+        margin: 5px 16px 0 0;
+    }
+
+    p {
+        margin-bottom: 16px;
+    }
+
+    textarea {
+        resize: none;
+    }
+
+    .field-value {
+        word-wrap: break-word;
+    }
+
+    /* Copied from layout.less */
+
+    .aui-page-panel-content h2 {
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+    }
+
+    .margin-fix {
+        margin-top: 50px;
+        min-height: 0;
+    }
+
+    /* Specific rules */
+
+    #confirm-new-installation-form-area {
+        margin-top: 16px;
+    }
+
+    #confirm-new-installation-radio-options {
+        margin-top: 12px;
+        div.radio:first-child {
+            width: 140px;
+        }
+    }
+
+    .confirm-new-installation-no-margin {
+        margin-bottom: 0px;
+    }
+
+    form.aui .field-group.confirm-new-installation-with-margin {
+        margin-top: 16px;
+    }
+
+    #confirm-new-installation-form {
+        margin-top: 0;
+    }
+}
+
+body.johnson-events {
+    .help-lnk {
+        .aui-iconfont-help {
+            display: inline;
+        }
+    }
+}
+
+/* Progress bar styles */
+.metal-progress {
+    background-color: #f5f5f5;
+    border: 1px solid #ccc;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    margin: 10px 0 0 0;
+    overflow: hidden;
+    width: 100%;
+}
+.metal-progress > .metal-progress-bar {
+    background-color: #4A6785;
+    height: 28px;
+    text-align: left;
+    text-indent: -999em;
+}

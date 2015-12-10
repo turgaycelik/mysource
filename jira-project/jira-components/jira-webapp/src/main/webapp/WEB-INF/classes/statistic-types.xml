@@ -1,0 +1,20 @@
+<types>
+	<type id="status">
+		<class>com.atlassian.jira.project.statistics.type.TypeStatus</class>
+	</type>
+	<type id="openByPriority">
+		<class>com.atlassian.jira.project.statistics.type.TypeOpenByPriority</class>
+	</type>
+    <type id="openByAssignee">
+		<class>com.atlassian.jira.project.statistics.type.TypeOpenByAssignee</class>
+	</type>
+    <type id="openByComponent">
+		<class>com.atlassian.jira.project.statistics.type.TypeOpenByComponent</class>
+	</type>
+    <type id="openByFixVersion">
+		<class>com.atlassian.jira.project.statistics.type.TypeOpenByFixVersion</class>
+	</type>
+    <type id="openByAffectedVersion">
+		<class>com.atlassian.jira.project.statistics.type.TypeOpenByAffectedVersion</class>
+	</type>
+</types>

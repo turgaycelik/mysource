@@ -1,0 +1,40 @@
+#* @vtlvariable name="changelog" type="org.ofbiz.core.entity.GenericValue" *#
+#disable_html_escaping()
+#if ($changelog)
+<table class="keyvalue-table">
+    #if ($worklog)
+        #parse('templates/email/html/includes/patterns/worklog-row.vm')
+    #end
+    <tr>
+        <th>#text("template.change.by"):</th>
+        <td>
+            #if ($changelogauthor)
+                #authorlinkkey($changelogauthor.key $linkstyle)
+            #elseif ($changelogmetadata.actor)
+                #emailHistoryMetadataParticipant($changelogmetadata.actor, true)
+            #else
+                #text("common.words.anonymous")
+            #end
+        </td>
+    </tr>
+    #foreach ($changeitem in $changelog.getRelated("ChildChangeItem"))
+        #if ($changeitem.getString("field").equals("description"))
+            #set ($changelogItemIssueDescription = $changeitem)
+        #end
+        #if(!$changeitem.getString("field").equals("WorklogTimeSpent") && !$changeitem.getString("field").equals("WorklogId") && !$changeitem.getString("field").equals("description"))
+        <tr>
+            <th>$textutils.htmlEncode($velocityhelper.getFieldName($changeitem, $i18n)):</th>
+            <td>
+                #if ($changeitem.getString("field") == "Comment") #set ($oldstringKey = "oldvalue") #set ($newstringKey = "newvalue")
+                #else #set ($oldstringKey = "oldstring") #set ($newstringKey = "newstring")
+                #end
+                #set ($oldText = "") #set ($newText = "")
+                #set ($oldText = $velocityhelper.getPrettyFieldString($changeitem.getString("field"), $changeitem.getString($oldstringKey), $i18n, ""))
+                #set ($newText = $velocityhelper.getPrettyFieldString($changeitem.getString("field"), $changeitem.getString($newstringKey), $i18n, ""))
+                $!diffutils.diff($oldText, "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $newText, "background-color:${auiSuccessBackgroundColour};")
+            </td>
+        </tr>
+        #end
+    #end
+</table>
+#end

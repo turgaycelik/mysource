@@ -1,0 +1,28 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+    #if($comment.getId())[ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-comment}&focusedCommentId=${comment.getId()}\#comment-${comment.getId()} ] #end
+
+
+#if ($comment.updateAuthorFullName)
+    #set ($authorString = $comment.updateAuthorFullName)
+#elseif ($comment.updateAuthor)
+    #set ($authorString = $comment.updateAuthor)
+#else
+    #set ($authorString = $i18n.getText("common.words.anonymous"))
+#end
+$i18n.getText("template.issue.edited.comment.on", $authorString, $issue.getKey(), $comment.updated)
+#dashes($i18n.getText("template.issue.edited.comment.on", $authorString, $issue.getKey(), $comment.updated))-
+#if($changelog)
+
+#changes([])
+#end
+#comment()
+#visibilityText()
+
+
+#originalcomment()
+#originalvisibilityText()
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

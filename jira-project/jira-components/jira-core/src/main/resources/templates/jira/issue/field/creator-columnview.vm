@@ -1,0 +1,10 @@
+#disable_html_escaping()
+#if ($creatorUserkey)
+    #if ($displayParams && $displayParams.nolink)
+        $userformat.formatUserkey($creatorUserkey, 'fullName', 'creator')
+    #else
+    <span class="tinylink">$userformat.formatUserkey($creatorUserkey, 'profileLink', 'creator')</span>
+    #end
+#else
+<em>$i18n.getText('common.words.anonymous')</em>
+#end

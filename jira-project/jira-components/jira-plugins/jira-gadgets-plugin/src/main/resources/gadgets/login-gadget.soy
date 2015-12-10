@@ -1,0 +1,64 @@
+{namespace JIRA.Templates.Gadgets}
+
+/**
+* @param isPublicMode
+* @param baseUrl
+* @param adminFormOn
+*/
+{template .login }
+<div id="content" class="">
+    <form id="loginform" method="post" action="#" name="loginform" class="aui gdt">
+        <div class="field-group">
+            <label accesskey="u" for="login-form-username" id="usernamelabel">{getText('gadget.login.username', '<u>', '</u>')|noAutoescape}</label>
+            <input class="text medium-field" id="login-form-username" name="os_username" type="text">
+        </div>
+        <div class="field-group">
+            <label accesskey="p" for="login-form-password" id="passwordlabel">{getText('gadget.login.password', '<u>', '</u>')|noAutoescape}</label>
+            <input class="text medium-field" id="login-form-password" name="os_password" type="password">
+        </div>
+        <fieldset class="group">
+            <div class="checkbox" id="rememberme">
+                <input class="checkbox" id="login-form-remember-me" name="os_cookie" type="checkbox" value="true">
+                <label accesskey="r" for="login-form-remember-me" id="remembermelabel">{getText('gadget.login.rememberme', '<u>', '</u>')|noAutoescape}</label>
+            </div>
+        </fieldset>
+        <div class="field-group hidden" id="captcha">
+            <label id="captchalabel" for="login-form-captcha" accesskey="c">{getText('gadget.login.captcha.label')}</label>
+            <input type="text" name="os_captcha" id="login-form-captcha" class="text medium-field captcha-response">
+            <div class="captcha-container">
+                <img alt="" class="captcha-image" height="100px" id="captchaimg" src="" width="200px">
+                <a id="os-captcha-icon" href="#login-form-os-captcha" tabindex="-1" class="captcha-trigger" title="{getText('gadget.login.captcha.refresh')}">
+                    <span class="aui-icon captcha-reload icon-reload">{getText('gadget.login.captcha.refresh')}</span>
+                </a>
+            </div>
+        </div>
+
+        {if $isPublicMode}
+            <div class="field-group" id="publicmodeon">
+                <div id="publicmodeonmsg">
+                    {getText('gadget.login.notmember', '<a id="signup" href="' + $baseUrl + '/secure/Signup!default.jspa" tabindex="-1" target="_parent">', 'Sign Up', '</a>')|noAutoescape}
+                </div>
+            </div>
+        {elseif $adminFormOn}
+            <div class="field-group" id="publicmodeooff">
+                <div id="publicmodeoffmsg">
+                    {getText('gadget.login.notmembernotpublic',  getText('common.concepts.contact.administrator', '<a id="contact-admin" href="' + $baseUrl + '/secure/ContactAdministrators!default.jspa">', '</a>'))|noAutoescape}
+                </div>
+            </div>
+        {else}
+            <div class="field-group" id="publicmodeooff">
+                <div id="publicmodeoffmsg">
+                    {getText('gadget.login.notmembernotpublic',  getText('common.concepts.contact.administrator', '', ''))}
+                </div>
+            </div>
+        {/if}
+
+        <div class="buttons-container">
+            <div class="buttons">
+                <input class="button" id="login" name="login" type="submit" value="{getText('gadget.login.login')}">
+                <a class="cancel" href="{$baseUrl}/secure/ForgotLoginDetails.jspa" id="forgotpassword" target="_parent">{getText('gadget.login.forgotpassword')}</a>
+            </div>
+        </div>
+    </form>
+</div>
+{/template}

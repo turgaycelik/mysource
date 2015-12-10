@@ -1,0 +1,30 @@
+@import "../../imports/mixins/grid";
+
+.stat-progress {
+    float: right;
+    .percentageGraph,
+    .graphLabel { float: left; }
+    .graphLabel { margin-right: @grid; }
+    .graphDescription {
+        display: block;
+        clear: both;
+    }
+}
+.graphLabel, .graphDescription, .percentageGraph { font-size: 10px; line-height: 1.4; }
+.percentageGraph { width: 100px; }
+.colour-bar-cont { min-width: 2px; }
+.colour-bar { border-top: 13px solid #3c78b5; height: 0; overflow: hidden; }
+/*.graphLabel { margin-right: 2px; line-height: 1em; }*/
+
+.percentageGraph.fluid .graphLabel { float:right; line-height:1.6em; margin-right:0; padding-left:5px; }
+.percentageGraph .barSection { border-style: solid; border-width: 1.4em 0 0 0; display: block; float: left; height: 0; overflow: hidden; }
+.percentageGraph.fluid .barSection { border-top: 1.6em solid #3c78b5; float: none; height: 0; overflow: hidden; }
+.percentageGraph.fluid span.barSection { float: left; }
+.percentageGraph.fluid span.graphLabel { float: none; }
+.percentageGraph .barSection span { display: block; overflow: hidden; visibility: hidden; width: 1px; }
+.stat-progress + h3 { margin-top: 0; }
+.stat-progress + h3 img { vertical-align: text-bottom; }
+
+.report-section { margin-top: (2*@gutter); }
+.report-section:first-child,
+table.report-individual { margin-top: 0; }

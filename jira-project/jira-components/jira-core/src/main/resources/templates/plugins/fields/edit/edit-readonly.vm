@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($value)
+    <span title="This value cannot be edited">$value</span>
+#else
+    <span title="This value cannot be edited">N/A</span>
+#end
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

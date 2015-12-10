@@ -1,0 +1,53 @@
+#disable_html_escaping()
+#* @vtlvariable name="helper" type="com.atlassian.jira.plugin.webfragment.model.JiraHelper" *#
+#* @vtlvariable name="layout" type="com.atlassian.jira.web.component.webfragment.UserNavContextLayoutBean" *#
+#* @vtlvariable name="location" type="java.lang.String" *#
+#* @vtlvariable name="user" type="com.atlassian.crowd.embedded.api.User" *#
+#set ($displayableSections = $webInterfaceManager.getDisplayableSections($location, $user, $helper))
+<li id="header-details-user" class="aui-dd-parent">
+    #if ($user)
+        #set ($name = "#if($user.displayName)$user.displayName#else$user.name#end")
+        <a id="header-details-user-fullname" data-username="$textutils.htmlEncode($user.name)" class="lnk" href="$baseurl/secure/ViewProfile.jspa">
+            $textutils.htmlEncode($name)
+        </a>
+    #else
+        $layout.getLoginLink($i18n.getText('common.concepts.login'))
+    #end
+    <span class="drop-wrap">
+        <a class="drop aui-dd-link"
+            #if ($headerLink.id)
+                id="${headerLink.id}_drop"
+                accessKey="$i18n.getText("menu.accesskey.${headerLink.id}")"
+                rel="$headerLink.id"
+                title="$i18n.getText('menu.access.more.options') (${layout.modifierKey}+$i18n.getText("menu.accesskey.${headerLink.id}").toUpperCase())"
+            #end
+            href="#"><span>$i18n.getText('menu.access.more.options')</span>
+        </a>
+    </span>
+    <div id="user-options-list" class="aui-list hidden">
+        #set ($firstSection = true)
+        #foreach ($section in $displayableSections)
+            #if ($section.label) <h5>$section.label.getDisplayableLabel($user, $helper)</h5> #end
+            #set ($sectionKey = "$location/$section.key")
+            #set ($displayableItems = $webInterfaceManager.getDisplayableItems($sectionKey, $user, $helper))
+            #if (! $displayableItems.empty)
+                <ul id="$section.key" class="aui-list-section #if( $firstSection ) aui-first #set ($firstSection = false) #end  #if($velocityCount == $displayableSections.size()) aui-last #end ">
+                    #foreach ($item in $displayableItems)
+                        #if ($section.key == "set_my_jira_home")
+                            #set ($sectionContextProvider = $section.getContextProvider())
+                            #set ($sectionContextMap = $sectionContextProvider.getContextMap({"user": $user, "helper": $helper}))
+                            #set ($currentMyJiraHome = $sectionContextMap.get("currentMyJiraHome"))
+                            #set ($isSelected = $item.completeKey == $currentMyJiraHome)
+
+                            #set ($targetUrl = "$baseurl/secure/UpdateMyJiraHome.jspa?target=$velocityhelper.urlencode($item.completeKey)&atl_token=${atl_token}")
+                            <li class="aui-list-checked #if ($isSelected) aui-checked #end"><a #if ($item.link.id) id="$item.link.id" #end #if ($item.styleClass) class="aui-list-item-link $item.styleClass" #end #if ($item.tooltip)title="$item.tooltip.getDisplayableLabel($user, $helper)"#end href="$targetUrl">$item.label.getDisplayableLabel($user, $helper)</a></li>
+                        #else
+                            <li class="aui-list-item"><a #if ($item.link.id) id="$item.link.id" #end #if ($item.styleClass) class="aui-list-item-link $item.styleClass" #end #if ($item.tooltip)title="$item.tooltip.getDisplayableLabel($user, $helper)"#end href="$item.link.getDisplayableUrl($user, $helper)">$item.label.getDisplayableLabel($user, $helper)</a></li>
+                        #end
+                    #end
+                </ul>
+            #end
+        #end
+    </div>
+
+</li>

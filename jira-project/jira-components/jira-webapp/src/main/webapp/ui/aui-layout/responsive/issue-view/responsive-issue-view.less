@@ -1,0 +1,57 @@
+/* Mixins for view issue when in 'responsive' mode */
+/* Using these as normal view uses media queries, but Split View uses JS due to the issue list and filters taking up browser width  */
+
+.responsive-links() {
+    .links-list {
+        padding-left:0;
+        dt {
+            float: none;
+            margin: 0 0 6px 0;
+            width: 100%;
+            + dd {
+                  border-top: 1px solid #ccc;
+            }
+        }
+        dd {
+            margin-left: 0;
+        }
+        + .links-list {
+              padding-top:10px;
+        }
+    }
+}
+
+.responsive-item-details() {
+    ul.item-details {
+        dl + dl {
+            margin-top: 8px;
+        }
+        dl dt {
+            display: block;
+            text-align: left;
+            width: 100%;
+        }
+        dl dd {
+            display: block;
+            margin: 0;
+            padding: 2px 0;
+            width: 100%;
+        }
+    }
+}
+
+.responsive-time-tracking() {
+    .tt_inner > dl {
+        display: block;
+    }
+    .tt_inner dt {
+        display: block;
+    }
+    .tt_inner dt ~ dd {
+        display: inline-block;
+        vertical-align: middle;
+    }
+    dd.tt_graph {
+        width:50%;
+    }
+}

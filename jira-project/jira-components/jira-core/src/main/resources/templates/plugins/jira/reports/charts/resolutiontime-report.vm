@@ -1,0 +1,78 @@
+#disable_html_escaping()
+<table width="100%" class="report">
+<tr><th class="reportHeading">
+#if ($project)
+    <h3 class="formtitle">$i18n.getText("common.concepts.project"): <a href="$baseurl/browse/$project.key">$textutils.htmlEncode($project.name)</a></h3>
+#elseif ($searchRequest)
+    <h3 class="formtitle">$i18n.getText("report.chart.filter"): <a href="$baseurl/secure/IssueNavigator.jspa?requestId=${searchRequest.id}&mode=hide">$textutils.htmlEncode($searchRequest.name)</a></h3>
+#end
+</th></tr>
+
+    #if ($numIssues == 0)
+        <tr><td>$i18n.getText("report.noissues")</td></tr>
+    #else
+        <tr>
+            <th class="subHeading">
+                <h3 class="bluetext">$i18n.getText("report.chart.chart"):</h3>
+            </th>
+        </tr>
+        <tr>
+            <td>
+                $i18n.getText("report.resolutiontime.numdays").<br />
+                $i18n.getText("report.resolutiontime.prevdays", "<b>$daysPrevious</b>").<br/>
+
+                #if ($base64Image)
+                    #if ($imagemap)
+                        $imagemap
+                    #end
+                    <p class="report-chart">
+                       <img src='$base64Image' border='0' #if ($imagemap) usemap="\#$imagemapName" #end/>
+                    </p>
+                #else
+                    $i18n.getText("portlet.chart.nochart")
+                #end
+            </td>
+        </tr>
+        #if ($completeDataset)
+        <tr>
+            <th class="subHeading">
+                <a name="dataTable"></a>
+                <h3 class="bluetext">$i18n.getText("report.chart.datatable")</h3>
+            </th>
+        </tr>
+        <tr>
+            <td align="center">
+                <table class="grid" id="resolutiontime-report-datatable">
+                    <tr>
+                        <th>$i18n.getText("portlet.chart.field.periodname.name")</th>
+                        #foreach ($series in $completeDataset.series)
+                        <th>
+                            $series.key
+                        </th>
+                        #end
+                    </tr>
+                    #set ($seriesIssues = $completeDataset.getSeries(0))
+                    #set ($seriesTotal = $completeDataset.getSeries(1))
+                    #set ($seriesAvg = $completeDataset.getSeries(2))
+                    #set ($colMax = ($seriesIssues.items.size() - 1))
+                    #foreach ($col in [0 .. $colMax])
+                        <tr>
+                            <th>$timePeriods.prettyPrint($seriesIssues.getTimePeriod($col))</th>
+                            <td>
+                                #if ($completeDatasetUrlGenerator)
+                                    #set ($generatedUrl = $completeDatasetUrlGenerator.generateURL($completeDataset, 0, $col))
+                                #end
+                                #if ($generatedUrl)<a href="$generatedUrl">#end$seriesIssues.getValue($col).intValue()#if ($generatedUrl)</a>#end
+                            </td>
+                            <td>$seriesTotal.getValue($col).intValue()</td>
+                            <td>$seriesAvg.getValue($col).intValue()</td>
+                        </tr>
+                    #end
+                </table>
+
+                ($i18n.getText("report.resolutiontime.daysresolution"))
+            </td>
+        </tr>
+        #end
+    #end
+</table>

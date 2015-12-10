@@ -1,0 +1,3599 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entitymodel PUBLIC "-//OFBiz//DTD Entity Model//EN" "http://www.ofbiz.org/dtds/entitymodel.dtd">
+
+<!--
+
+Are you going to add a new column?
+
+Check fieldtype-postgres.xml and others to know exactly what given type means, and you could be surprised!
+
+For example long-varchar is not very long :-)
+
+-->
+<entitymodel>
+    <title>Entity Model for JIRA</title>
+    <description>None</description>
+    <copyright>Copyright (c) 2002-2006 Atlassian</copyright>
+    <author>The Atlassian Dev Team</author>
+    <version>1.0</version>
+
+    <!-- sequence generator table -->
+    <entity entity-name="SequenceValueItem" table-name="SEQUENCE_VALUE_ITEM" package-name="">
+        <field name="seqName" type="id-long-ne"/>
+        <field name="seqId" type="numeric"/>
+        <prim-key field="seqName"/>
+    </entity>
+
+    <!-- User implementation -->
+    <entity entity-name="User" table-name="cwd_user" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+        <field name="userName" col-name="user_name" type="long-varchar"/>
+        <field name="lowerUserName" col-name="lower_user_name" type="long-varchar"/>
+        <field name="active" col-name="active" type="integer"/>
+        <field name="createdDate" col-name="created_date" type="date-time"/>
+        <field name="updatedDate" col-name="updated_date" type="date-time"/>
+        <field name="firstName" col-name="first_name" type="long-varchar"/>
+        <field name="lowerFirstName" col-name="lower_first_name" type="long-varchar"/>
+        <field name="lastName" col-name="last_name" type="long-varchar"/>
+        <field name="lowerLastName" col-name="lower_last_name" type="long-varchar"/>
+        <field name="displayName" col-name="display_name" type="long-varchar"/>
+        <field name="lowerDisplayName" col-name="lower_display_name" type="long-varchar"/>
+        <field name="emailAddress" col-name="email_address" type="long-varchar"/>
+        <field name="lowerEmailAddress" col-name="lower_email_address" type="long-varchar"/>
+        <field name="credential" type="long-varchar"/>
+        <field name="deletedExternally" col-name="deleted_externally" type="integer"/>
+        <field name="externalId" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index unique="true" name="uk_user_name_dir_id">
+            <index-field name="lowerUserName"/>
+            <index-field name="directoryId"/>
+        </index>
+
+        <index name="uk_user_externalid_dir_id">
+            <index-field name="externalId"/>
+            <index-field name="directoryId"/>
+        </index>
+
+        <index name="idx_first_name">
+            <index-field name="lowerFirstName"/>
+        </index>
+
+        <index name="idx_last_name">
+            <index-field name="lowerLastName"/>
+        </index>
+
+        <index name="idx_display_name">
+            <index-field name="lowerDisplayName"/>
+        </index>
+
+        <index name="idx_email_address">
+            <index-field name="lowerEmailAddress"/>
+        </index>
+    </entity>
+
+    <!-- Maps UserKey to username for renaming users -->
+    <entity entity-name="ApplicationUser" table-name="app_user" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="userKey" col-name="user_key" type="long-varchar"/>
+        <field name="lowerUserName" col-name="lower_user_name" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index unique="true" name="uk_user_key">
+            <index-field name="userKey"/>
+        </index>
+        <index unique="true" name="uk_lower_user_name">
+            <index-field name="lowerUserName"/>
+        </index>
+    </entity>
+
+    <entity entity-name="UserAttribute" table-name="cwd_user_attributes" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="userId" col-name="user_id" type="numeric"/>
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <field name="name" col-name="attribute_name" type="long-varchar"/>
+        <field name="value" col-name="attribute_value" type="long-varchar"/>
+        <field name="lowerValue" col-name="lower_attribute_value" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="idx_user_attr_dir_name_lval">
+            <index-field name="directoryId"/>
+            <index-field name="name"/>
+            <index-field name="lowerValue"/>
+        </index>
+
+        <index name="uk_user_attr_name_lval">
+            <index-field name="userId"/>
+            <index-field name="name"/>
+        </index>
+
+        <!-- MySQL does not allow to index more than 500 characters.
+        <index unique="true" name="uk_user_attr_name_lval">
+            <index-field name="userId"/>
+            <index-field name="name"/>
+            <index-field name="lowerValue"/>
+        </index>
+        -->
+    </entity>
+
+    <entity entity-name="Group" table-name="cwd_group" package-name="">
+
+        <field name="id" type="numeric"/>
+        <field name="groupName" col-name="group_name" type="long-varchar"/>
+        <field name="lowerGroupName" col-name="lower_group_name" type="long-varchar"/>
+        <field name="active" col-name="active" type="integer"/>
+        <field name="local" col-name="local" type="integer"/>
+        <field name="createdDate" col-name="created_date" type="date-time"/>
+        <field name="updatedDate" col-name="updated_date" type="date-time"/>
+        <field name="description" col-name="description" type="long-varchar"/>
+        <field name="lowerDescription" col-name="lower_description" type="long-varchar"/>
+        <field name="type" col-name="group_type" type="short-varchar"/>
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index unique="true" name="uk_group_name_dir_id">
+            <index-field name="lowerGroupName"/>
+            <index-field name="directoryId"/>
+        </index>
+
+        <index name="idx_group_active">
+            <index-field name="lowerGroupName"/>
+            <index-field name="active"/>
+        </index>
+
+        <index name="idx_group_dir_id">
+            <index-field name="directoryId"/>
+        </index>
+
+    </entity>
+
+    <entity entity-name="GroupAttribute" table-name="cwd_group_attributes" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="groupId" col-name="group_id" type="numeric"/>
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <field name="name" col-name="attribute_name" type="long-varchar"/>
+        <field name="value" col-name="attribute_value" type="long-varchar"/>
+        <field name="lowerValue" col-name="lower_attribute_value" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="idx_group_attr_dir_name_lval">
+            <index-field name="directoryId"/>
+            <index-field name="name"/>
+            <index-field name="lowerValue"/>
+        </index>
+
+        <index unique="true" name="uk_group_attr_name_lval">
+            <index-field name="groupId"/>
+            <index-field name="name"/>
+            <index-field name="lowerValue"/>
+        </index>
+    </entity>
+
+    <!-- OSUser implementation. Deprecated - used for importing previous version data-->
+    <entity entity-name="OSUser" table-name="userbase" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="username" type="long-varchar"/>
+        <field name="passwordHash" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <index name="osuser_name">
+            <index-field name="name"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OSMembership" table-name="membershipbase" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="userName" type="long-varchar"/>
+        <field name="groupName" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <index name="mshipbase_user">
+            <index-field name="userName"/>
+        </index>
+
+        <index name="mshipbase_group">
+            <index-field name="groupName"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OSGroup" table-name="groupbase" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" col-name="groupname" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <index name="osgroup_name">
+            <index-field name="name"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Membership" table-name="cwd_membership" package-name="">
+
+        <field name="id" type="numeric"/>
+
+        <field name="parentId" col-name="parent_id" type="numeric"/>
+        <field name="childId" col-name="child_id" type="numeric"/>
+        <field name="membershipType" col-name="membership_type" type="short-varchar"/>
+        <field name="groupType" col-name="group_type" type="short-varchar"/>
+
+        <field name="parentName" col-name="parent_name" type="long-varchar"/>
+        <field name="lowerParentName" col-name="lower_parent_name" type="long-varchar"/>
+        <field name="childName" col-name="child_name" type="long-varchar"/>
+        <field name="lowerChildName" col-name="lower_child_name" type="long-varchar"/>
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index unique="true" name="uk_mem_parent_child_type">
+            <index-field name="parentId"/>
+            <index-field name="childId"/>
+            <index-field name="membershipType"/>
+        </index>
+
+        <index name="idx_mem_dir_parent_child">
+            <index-field name="lowerParentName"/>
+            <index-field name="lowerChildName"/>
+            <index-field name="membershipType"/>
+            <index-field name="directoryId"/>
+        </index>
+
+        <index name="idx_mem_dir_parent">
+            <index-field name="lowerParentName"/>
+            <index-field name="membershipType"/>
+            <index-field name="directoryId"/>
+        </index>
+
+        <index name="idx_mem_dir_child">
+            <index-field name="lowerChildName"/>
+            <index-field name="membershipType"/>
+            <index-field name="directoryId"/>
+        </index>
+    </entity>
+
+    <!-- Directory implementation -->
+    <entity entity-name="Directory" table-name="cwd_directory" package-name="">
+
+        <field name="id" type="numeric"/>
+
+        <field name="directoryName" col-name="directory_name" type="long-varchar"/>
+        <field name="lowerDirectoryName" col-name="lower_directory_name" type="long-varchar"/>
+
+        <field name="createdDate" col-name="created_date" type="date-time"/>
+        <field name="updatedDate" col-name="updated_date" type="date-time"/>
+        <field name="active" col-name="active" type="integer"/>
+
+        <field name="description" col-name="description" type="long-varchar"/>
+
+        <field name="implementationClass" col-name="impl_class" type="long-varchar"/>
+        <field name="lowerImplementationClass" col-name="lower_impl_class" type="long-varchar"/>
+
+        <field name="type" col-name="directory_type" type="short-varchar"/>
+        <field name="position" col-name="directory_position" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index name="uk_directory_name">
+            <index-field name="lowerDirectoryName"/>
+        </index>
+
+        <index name="idx_directory_active">
+            <index-field name="active"/>
+        </index>
+
+        <index name="idx_directory_impl">
+            <index-field name="lowerImplementationClass"/>
+        </index>
+
+        <index name="idx_directory_type">
+            <index-field name="type"/>
+        </index>
+
+    </entity>
+
+    <entity entity-name="DirectoryAttribute" table-name="cwd_directory_attribute" package-name="">
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <field name="name" col-name="attribute_name" type="long-varchar"/>
+
+        <field name="value" col-name="attribute_value" type="long-varchar"/>
+
+        <prim-key field="directoryId"/>
+        <prim-key field="name"/>
+
+        <relation type="one" rel-entity-name="Directory" fk-name="fk_directory_attribute">
+            <key-map field-name="directoryId" rel-field-name="id"/>
+        </relation>
+
+    </entity>
+
+    <entity entity-name="DirectoryOperation" table-name="cwd_directory_operation" package-name="">
+
+        <field name="directoryId" col-name="directory_id" type="numeric"/>
+
+        <field name="operationType" col-name="operation_type" type="short-varchar"/>
+
+        <prim-key field="directoryId"/>
+        <prim-key field="operationType"/>
+
+        <relation type="one" rel-entity-name="Directory" fk-name="fk_directory_operation">
+            <key-map field-name="directoryId" rel-field-name="id"/>
+        </relation>
+
+    </entity>
+
+    <!-- Application implementation -->
+    <entity entity-name="Application" table-name="cwd_application" package-name="">
+
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="application_name" type="long-varchar"/>
+        <field name="lowerName" col-name="lower_application_name" type="long-varchar"/>
+
+        <field name="createdDate" col-name="created_date" type="date-time"/>
+        <field name="updatedDate" col-name="updated_date" type="date-time"/>
+        <field name="active" col-name="active" type="integer"/>
+
+        <field name="description" col-name="description" type="long-varchar"/>
+        <field name="applicationType" col-name="application_type" type="long-varchar"/>
+
+        <field name="credential" col-name="credential" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index unique="true" name="uk_application_name">
+            <index-field name="lowerName"/>
+        </index>
+
+    </entity>
+
+    <!-- Crowd Application implementation -->
+    <entity entity-name="RemoteAddress" table-name="cwd_application_address" package-name="">
+
+        <field name="applicationId" col-name="application_id" type="numeric"/>
+
+        <field name="address" col-name="remote_address" type="long-varchar"/>
+        <field name="encodedAddressBytes" col-name="encoded_address_binary" type="long-varchar"/>
+        <field name="mask" col-name="remote_address_mask" type="integer"/>
+
+        <prim-key field="applicationId"/>
+        <prim-key field="address"/>
+
+        <relation type="one" rel-entity-name="Application" fk-name="fk_application_remote_address">
+            <key-map field-name="applicationId" rel-field-name="id"/>
+        </relation>
+
+    </entity>
+
+
+    <!-- External User Management -->
+    <entity entity-name="ExternalEntity" table-name="external_entities" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" type="long-varchar"/>
+        <field name="type" col-name="entitytype" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <index name="ext_entity_name">
+            <index-field name="name"/>
+        </index>
+    </entity>
+
+    <!-- Entity Properties (JSON clobs) -->
+    <entity entity-name="EntityProperty" table-name="entity_property" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="entityName" type="long-varchar"/>
+        <field name="entityId" type="numeric"/>
+        <field name="propertyKey" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+        <field name="updated" type="date-time"/>
+        <field name="value" col-name="json_value" type="extremely-long"/>
+
+        <prim-key field="id"/>
+        <index name="entityproperty_identiti">
+            <index-field name="entityName"/>
+            <index-field name="entityId"/>
+            <index-field name="propertyKey"/>
+        </index>
+    </entity>
+
+    <entity entity-name="EntityPropertyIndexDocument" table-name="entity_property_index_document" package-name="">
+        <field name="id" type="numeric" />
+        <field name="pluginKey" type="long-varchar" />
+        <field name="moduleKey" type="long-varchar" />
+        <field name="entityKey" type="long-varchar" />
+        <field name="updated" type="date-time" />
+        <field name="document" type="extremely-long" />
+
+        <prim-key field="id" />
+
+        <index name="entpropindexdoc_module" unique="true">
+            <index-field name="pluginKey" />
+            <index-field name="moduleKey" />
+        </index>
+    </entity>
+
+    <!-- PropertySet implementation -->
+    <entity entity-name="OSPropertyEntry" table-name="propertyentry" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="entityName" type="long-varchar"/>
+        <field name="entityId" type="numeric"/>
+        <field name="propertyKey" type="long-varchar"/>
+        <field name="type" col-name="propertytype" type="integer"/>
+        <prim-key field="id"/>
+        <index name="osproperty_all">
+            <index-field name="entityId"/>
+        </index>
+        <index name="osproperty_entityName">
+            <index-field name="entityName"/>
+        </index>
+        <index name="osproperty_propertyKey">
+            <index-field name="propertyKey"/>
+        </index>
+
+        <!--  It would be nice to use the index below instead of the one above. However MySQL does not allow to index more than 500 characters.
+              As entityName and propertyKey are both 255 characters each (long-varchar for MySQl is 255 chars) the index goes over the 500 limit. -->
+        <!--        <index name="osproperty_key">-->
+        <!--            <index-field name="entityName"/>-->
+        <!--            <index-field name="entityId"/>-->
+        <!--            <index-field name="propertyKey"/>-->
+        <!--        </index>-->
+    </entity>
+
+    <entity entity-name="OSPropertyString" table-name="propertystring" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="very-long"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSPropertyText" table-name="propertytext" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="extremely-long"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSPropertyDate" table-name="propertydate" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="date-time"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSPropertyData" table-name="propertydata" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="blob"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSPropertyDecimal" table-name="propertydecimal" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="floating-point"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSPropertyNumber" table-name="propertynumber" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="value" col-name="propertyvalue" type="numeric"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <!-- OSWorkflow entities -->
+    <entity entity-name="OSWorkflowEntry" table-name="OS_WFENTRY" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="name" col-name="NAME" type="long-varchar"/>
+        <!-- The column is no longer used as of workflow 2.6 -->
+        <field name="initialized" col-name="INITIALIZED" type="integer"/>
+        <!-- This column replaced the 'INITIALIZED' column -->
+        <field name="state" col-name="STATE" type="integer"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="OSCurrentStep" table-name="OS_CURRENTSTEP" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="entryId" col-name="ENTRY_ID" type="numeric"/>
+        <field name="stepId" col-name="STEP_ID" type="integer"/>
+        <field name="actionId" col-name="ACTION_ID" type="integer"/>
+        <field name="owner" col-name="OWNER" type="short-varchar"/>
+        <field name="startDate" col-name="START_DATE" type="date-time"/>
+        <field name="dueDate" col-name="DUE_DATE" type="date-time"/>
+        <field name="finishDate" col-name="FINISH_DATE" type="date-time"/>
+        <field name="status" col-name="STATUS" type="short-varchar"/>
+        <field name="caller" col-name="CALLER" type="short-varchar"/>
+        <prim-key field="id"/>
+
+        <relation type="one" title="Related" rel-entity-name="Issue">
+            <key-map field-name="entryId" rel-field-name="workflowId"/>
+        </relation>
+        <index name="wf_entryid">
+            <index-field name="entryId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OSHistoryStep" table-name="OS_HISTORYSTEP" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="entryId" col-name="ENTRY_ID" type="numeric"/>
+        <field name="stepId" col-name="STEP_ID" type="integer"/>
+        <field name="actionId" col-name="ACTION_ID" type="integer"/>
+        <field name="owner" col-name="OWNER" type="short-varchar"/>
+        <field name="startDate" col-name="START_DATE" type="date-time"/>
+        <field name="dueDate" col-name="DUE_DATE" type="date-time"/>
+        <field name="finishDate" col-name="FINISH_DATE" type="date-time"/>
+        <field name="status" col-name="STATUS" type="short-varchar"/>
+        <field name="caller" col-name="CALLER" type="short-varchar"/>
+        <prim-key field="id"/>
+        <index name="historystep_entryid">
+            <index-field name="entryId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OSCurrentStepPrev" table-name="OS_CURRENTSTEP_PREV" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="previousId" col-name="PREVIOUS_ID" type="numeric"/>
+        <prim-key field="id"/>
+        <prim-key field="previousId"/>
+    </entity>
+
+    <entity entity-name="OSHistoryStepPrev" table-name="OS_HISTORYSTEP_PREV" package-name="">
+        <field name="id" col-name="ID" type="numeric"/>
+        <field name="previousId" col-name="PREVIOUS_ID" type="numeric"/>
+        <prim-key field="id"/>
+        <prim-key field="previousId"/>
+    </entity>
+
+    <!-- JIRA Entities -->
+    <entity entity-name="ListenerConfig" table-name="listenerconfig" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="clazz" type="long-varchar"/>
+        <field name="name" col-name="listenername" type="long-varchar"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="ServiceConfig" table-name="serviceconfig" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="time" type="numeric" col-name="delaytime"/>
+        <field name="clazz" type="long-varchar"/>
+        <field name="name" col-name="servicename" type="long-varchar"/>
+        <field name="cronExpression" type="long-varchar"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="Project" table-name="project" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" col-name="pname" type="long-varchar"/>
+        <field name="url" type="long-varchar"/>
+        <field name="lead" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="key" col-name="pkey" type="long-varchar"/>
+        <field name="counter" col-name="pcounter" type="numeric"/>
+        <field name="assigneetype" type="numeric"/>
+        <field name="avatar" type="numeric"/>
+        <field name="originalkey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="Component">
+            <key-map field-name="id" rel-field-name="project"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Version">
+            <key-map field-name="id" rel-field-name="project"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="project"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="ProjectKey">
+            <key-map field-name="id" rel-field-name="project"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="SearchRequest">
+            <key-map field-name="id" rel-field-name="project"/>
+        </relation>
+        <relation type="one" title="Child" rel-entity-name="Avatar">
+            <key-map field-name="avatar" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_project_key" unique="true">
+            <index-field name="key"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Version" table-name="projectversion" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="project" type="numeric"/>
+        <field name="name" col-name="vname" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="sequence" type="numeric"/>
+        <field name="released" type="very-short"/>
+        <field name="archived" type="very-short"/>
+        <field name="url" type="long-varchar"/>
+        <field name="startdate" type="date-time"/>
+        <field name="releasedate" type="date-time"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="project" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_version_project">
+            <index-field name="project"/>
+        </index>
+
+        <index name="idx_version_sequence">
+            <index-field name="sequence"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Component" table-name="component" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="project" type="numeric"/>
+        <field name="name" col-name="cname" type="long-varchar"/>
+        <field name="description" col-name="description" type="very-long"/>
+        <field name="url" type="long-varchar"/>
+        <field name="lead" type="long-varchar"/>
+        <field name="assigneetype" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="project" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_component_project">
+            <index-field name="project"/>
+        </index>
+
+        <index name="idx_component_name">
+            <index-field name="name"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ProjectCategory" table-name="projectcategory" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" col-name="cname" type="long-varchar"/>
+        <field name="description" col-name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <index name="idx_project_category_name">
+            <index-field name="name"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Issue" table-name="jiraissue" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="key" col-name="pkey" type="long-varchar"/>
+
+        <field name="number" col-name="issuenum" type="numeric"/>
+
+        <field name="project" type="numeric"/>
+
+        <field name="reporter" type="long-varchar"/>
+        <field name="assignee" type="long-varchar"/>
+        <field name="creator" type="long-varchar" />
+
+        <field name="type" col-name="issuetype" type="long-varchar"/>
+        <field name="summary" type="long-varchar"/>
+        <field name="description" type="extremely-long"/>
+        <field name="environment" type="extremely-long"/>
+        <field name="priority" type="long-varchar"/>
+        <field name="resolution" type="long-varchar"/>
+        <field name="status" col-name="issuestatus" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+        <field name="updated" type="date-time"/>
+        <field name="duedate" type="date-time"/>
+        <field name="resolutiondate" type="date-time"/>
+
+        <field name="votes" type="numeric"/>
+        <field name="watches" type="numeric"/>
+        <field name="timeoriginalestimate" type="numeric"/>
+        <field name="timeestimate" type="numeric"/>
+        <field name="timespent" type="numeric"/>
+
+        <field name="workflowId" type="numeric"/>
+        <field name="security" type="numeric"/>
+
+        <!-- deprecated fields - do not use -->
+        <field name="fixfor" type="numeric"/>
+        <field name="component" type="numeric"/>
+
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="project" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Action">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Worklog">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="FileAttachment">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="many" title="Source" rel-entity-name="IssueLink">
+            <key-map field-name="id" rel-field-name="source"/>
+        </relation>
+        <relation type="many" title="Destination" rel-entity-name="IssueLink">
+            <key-map field-name="id" rel-field-name="destination"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="RemoteIssueLink">
+            <key-map field-name="id" rel-field-name="issueid"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="CustomFieldValue">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="ChangeGroup">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Label">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="SchemeIssueSecurityLevels">
+            <key-map field-name="security" rel-field-name="id"/>
+        </relation>
+
+        <relation type="one" title="Related" rel-entity-name="OSWorkflowEntry">
+            <key-map field-name="workflowId" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Related" rel-entity-name="OSCurrentStep">
+            <key-map field-name="workflowId" rel-field-name="entryId"/>
+        </relation>
+        <relation type="one" title="Child" rel-entity-name="TrackbackPing">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </relation>
+
+        <!-- issue_proj_num should be unique, but cannot as long as we support
+             upgrade from 6.0.x until than it is made unique by UpgradeTask_Build6132 -->
+        <index name="issue_proj_num">
+            <index-field name="number"/>
+            <index-field name="project"/>
+        </index>
+        <index name="issue_proj_status">
+            <index-field name="project"/>
+            <index-field name="status"/>
+        </index>
+        <index name="issue_updated">
+            <index-field name="updated"/>
+        </index>
+        <index name="issue_assignee">
+            <index-field name="assignee"/>
+        </index>
+        <index name="issue_reporter">
+            <index-field name="reporter"/>
+        </index>
+        <index name="issue_workflow">
+            <index-field name="workflowId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ProjectKey" table-name="project_key" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="projectId" type="numeric"/>
+        <field name="projectKey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="projectId" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_all_project_keys" unique="true">
+            <index-field name="projectKey"/>
+        </index>
+
+        <index name="idx_all_project_ids">
+            <index-field name="projectId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="MovedIssueKey" table-name="moved_issue_key" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="oldIssueKey" type="long-varchar"/>
+        <field name="issueId" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index name="idx_old_issue_key" unique="true">
+            <index-field name="oldIssueKey"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Label" table-name="label" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="fieldid" type="numeric" />
+        <field name="issue" type="numeric"/>
+        <field name="label" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+        <index name="label_fieldissue">
+            <index-field name="issue"/>
+            <index-field name="fieldid"/>
+        </index>
+        <index name="label_fieldissuelabel">
+            <index-field name="issue"/>
+            <index-field name="fieldid"/>
+            <index-field name="label"/>
+        </index>
+        <index name="label_label">
+            <index-field name="label"/>
+        </index>
+        <index name="label_issue">
+            <index-field name="issue"/>
+        </index>
+    </entity>
+
+    <!--
+    Comments.  Once upon a time, worklogs lived in here, too, but that was before 2007.
+     -->
+    <entity entity-name="Action" table-name="jiraaction" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issue" col-name="issueid" type="numeric"/>
+
+        <field name="author" type="long-varchar"/>
+        <field name="type" col-name="actiontype" type="long-varchar"/>
+        <field name="level" col-name="actionlevel" type="long-varchar"/>
+        <field name="rolelevel" col-name="rolelevel" type="numeric"/>
+        <field name="body" col-name="actionbody" type="extremely-long"/>
+        <field name="created" type="date-time"/>
+        <field name="updateauthor" type="long-varchar"/>
+        <field name="updated" type="date-time"/>
+
+        <!-- an arbitrary number that can be attached to actions used for time log -->
+        <field name="numvalue" col-name="actionnum" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+
+        <index name="action_author_created">
+            <index-field name="author"/>
+            <index-field name="created"/>
+        </index>
+        <index name="action_issue">
+            <index-field name="issue"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Worklog" table-name="worklog" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issue" col-name="issueid" type="numeric"/>
+
+        <field name="author" type="long-varchar"/>
+        <field name="grouplevel" col-name="grouplevel" type="long-varchar"/>
+        <field name="rolelevel" col-name="rolelevel" type="numeric"/>
+        <field name="body" col-name="worklogbody" type="extremely-long"/>
+        <field name="created" type="date-time"/>
+        <field name="updateauthor" type="long-varchar"/>
+        <field name="updated" type="date-time"/>
+        <field name="startdate" type="date-time"/>
+        <field name="timeworked" col-name="timeworked" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+
+        <index name="worklog_issue">
+            <index-field name="issue"/>
+        </index>
+
+        <index name="worklog_author">
+            <index-field name="author"/>
+        </index>
+    </entity>
+
+    <entity entity-name="FileAttachment" table-name="fileattachment" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issue" col-name="issueid" type="numeric"/>
+        <field name="mimetype" type="long-varchar"/>
+        <field name="filename" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+        <field name="filesize" type="numeric"/>
+        <field name="author" type="long-varchar"/>
+        <field name="zip" col-name="zip" type="integer"/>
+        <field name="thumbnailable" col-name="thumbnailable" type="integer"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+
+        <!-- index 'fileattachment_issueid' -->
+        <index name="attach_issue">
+            <index-field name="issue"/>
+        </index>
+    </entity>
+
+
+    <entity entity-name="SearchRequest" table-name="searchrequest" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="filtername" type="long-varchar"/>
+        <field name="author" col-name="authorname" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="user" col-name="username" type="long-varchar"/>
+        <field name="group" col-name="groupname" type="long-varchar"/>
+        <field name="project" col-name="projectid" type="numeric"/>
+        <field name="request" col-name="reqcontent" type="extremely-long"/>
+        <field name="favCount" type="numeric"/>
+        <field name="nameLower" col-name="filtername_lower" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="project" rel-field-name="id"/>
+        </relation>
+
+        <index name="sr_author">
+            <index-field name="author"/>
+        </index>
+
+        <index name="searchrequest_filternameLower">
+            <index-field name="nameLower"/>
+        </index>
+    </entity>
+
+    <entity entity-name="IssueLinkType" table-name="issuelinktype" package-name="">
+        <field name="id" type="numeric"/>
+
+        <!-- the name of the link type -->
+        <field name="linkname" type="long-varchar"/>
+
+        <!-- a description of the 'forward' link -->
+        <field name="inward" type="long-varchar"/>
+
+        <!-- a description of the 'backward' link -->
+        <field name="outward" type="long-varchar"/>
+
+        <!-- a type of the link -->
+        <field name="style" col-name="pstyle" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Child" rel-entity-name="IssueLink">
+            <key-map field-name="id" rel-field-name="linktype"/>
+        </relation>
+
+        <index name="linktypename">
+            <index-field name="linkname"/>
+        </index>
+
+        <index name="linktypestyle">
+            <index-field name="style"/>
+        </index>
+    </entity>
+
+    <entity entity-name="IssueLink" table-name="issuelink" package-name="">
+        <field name="id" type="numeric"/>
+
+        <!-- the name of the link type -->
+        <field name="linktype" type="numeric"/>
+
+        <!-- the id of the source issue -->
+        <field name="source" type="numeric"/>
+
+        <!-- the id of the destination issue -->
+        <field name="destination" type="numeric"/>
+
+        <!-- Used to order links of the same 'style' e.g. sub-tasks -->
+        <field name="sequence" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="IssueLinkType">
+            <key-map field-name="linktype" rel-field-name="id"/>
+        </relation>
+
+        <relation type="one" title="Source" rel-entity-name="Issue">
+            <key-map field-name="source" rel-field-name="id"/>
+        </relation>
+
+        <relation type="one" title="Destination" rel-entity-name="Issue">
+            <key-map field-name="destination" rel-field-name="id"/>
+        </relation>
+
+        <index name="issuelink_src">
+            <index-field name="source"/>
+        </index>
+
+        <index name="issuelink_dest">
+            <index-field name="destination"/>
+        </index>
+
+        <index name="issuelink_type">
+            <index-field name="linktype"/>
+        </index>
+    </entity>
+
+    <entity entity-name="RemoteIssueLink" table-name="remotelink" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="issueid" type="numeric"/>
+        <field name="globalid" type="long-varchar"/>
+        <field name="title" type="long-varchar"/>
+        <field name="summary" type="very-long"/>
+        <field name="url" type="very-long"/>
+        <field name="iconurl" type="very-long"/>
+        <field name="icontitle" type="very-long"/>
+        <field name="relationship" type="long-varchar"/>
+        <field name="resolved" type="indicator"/>
+        <field name="statusname" type="long-varchar"/>
+        <field name="statusdescription" type="very-long"/>
+        <field name="statusiconurl" type="very-long"/>
+        <field name="statusicontitle" type="very-long"/>
+        <field name="statusiconlink" type="very-long"/>
+        <field name="statuscategorykey" type="long-varchar"/>
+        <field name="statuscategorycolorname" type="long-varchar"/>
+        <field name="applicationtype" type="long-varchar"/>
+        <field name="applicationname" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="remotelink_issueid">
+            <index-field name="issueid"/>
+            <index-field name="globalid"/>
+        </index>
+
+        <index name="remotelink_globalid">
+            <index-field name="globalid"/>
+        </index>
+    </entity>
+
+    <entity entity-name="TrackbackPing" table-name="trackback_ping" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="issue" type="numeric"/>
+        <field name="url" type="long-varchar"/>
+        <field name="title" type="long-varchar"/>
+        <field name="blogname" type="long-varchar"/>
+        <field name="excerpt" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+
+    </entity>
+
+
+    <!-- an entity to represent custom priorities -->
+    <entity entity-name="Priority" table-name="priority" package-name="">
+        <!--
+            The ID of this priority, usually just an integer.
+            It is a varchar field for a) backwards compatibility and b) data import from other systems.
+            This means the PK must be created manually.
+        -->
+        <field name="id" type="short-varchar"/>
+
+        <!-- the sequence of this priority. 1 is high, > 1 is low.-->
+        <field name="sequence" type="numeric"/>
+
+        <!-- the name of this priority -->
+        <field name="name" col-name="pname" type="short-varchar"/>
+
+        <!-- a description of this priority -->
+        <field name="description" type="very-long"/>
+
+        <!-- relative URL of an icon for this priority - must be 16x16 -->
+        <field name="iconurl" type="long-varchar"/>
+
+        <!-- hex string or the color for this priority -->
+        <field name="statusColor" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="priority"/>
+        </relation>
+    </entity>
+
+    <!-- an entity to represent custom resolutions -->
+    <entity entity-name="Resolution" table-name="resolution" package-name="">
+        <!--
+            The ID of this resolution, usually just an integer.
+            It is a varchar field for a) backwards compatibility and b) data import from other systems.
+            This means the PK must be created manually.
+        -->
+        <field name="id" type="short-varchar"/>
+
+        <!-- the sequence of this resolution. 1 is high, > 1 is low.-->
+        <field name="sequence" type="numeric"/>
+
+        <!-- the name of this resolution -->
+        <field name="name" col-name="pname" type="short-varchar"/>
+
+        <!-- a description of this resolution -->
+        <field name="description" type="very-long"/>
+
+        <!-- relative URL of an icon for this resolution - must be 16x16 - not used at the moment -->
+        <field name="iconurl" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="resolution"/>
+        </relation>
+    </entity>
+
+    <!-- an entity to represent custom issue types -->
+    <entity entity-name="IssueType" table-name="issuetype" package-name="">
+        <!--
+            The ID of this type, usually just an integer.
+            It is a varchar field for a) backwards compatibility and b) data import from other systems.
+            This means the PK must be created manually.
+        -->
+        <field name="id" type="short-varchar"/>
+
+        <!-- the sequence of this type. 1 is high, > 1 is low.-->
+        <field name="sequence" type="numeric"/>
+
+        <!-- the name of this issue type -->
+        <field name="name" col-name="pname" type="short-varchar"/>
+
+        <!-- the 'type' of this issue type -->
+        <field name="style" col-name="pstyle" type="short-varchar"/>
+
+        <!-- a description of this issue type -->
+        <field name="description" type="very-long"/>
+
+        <!-- relative URL of an icon for this issue type - must be 16x16 -->
+        <field name="iconurl" type="long-varchar"/>
+
+        <field name="avatar" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="type"/>
+        </relation>
+
+        <relation type="many" title="Related" rel-entity-name="FieldConfigSchemeIssueType">
+            <key-map field-name="id" rel-field-name="issuetype"/>
+        </relation>
+
+        <relation type="one" title="Child" rel-entity-name="Avatar">
+            <key-map field-name="avatar" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <!-- an entity to represent issue status -->
+    <entity entity-name="Status" table-name="issuestatus" package-name="">
+        <!--
+            The ID of this resolution, usually just an integer.
+            It is a varchar field for a) backwards compatibility and b) data import from other systems.
+            This means the PK must be created manually.
+        -->
+        <field name="id" type="short-varchar"/>
+
+        <!-- the sequence of this status. 1 is high, > 1 is low.-->
+        <field name="sequence" type="numeric"/>
+
+        <!-- the name of this status -->
+        <field name="name" col-name="pname" type="short-varchar"/>
+
+        <!-- a description of this status -->
+        <field name="description" type="very-long"/>
+
+        <!-- relative URL of an icon for this status - must be 16x16 -->
+        <field name="iconurl" type="long-varchar"/>
+
+        <!-- a category of this status -->
+        <field name="statuscategory" type="numeric" />
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="status"/>
+        </relation>
+    </entity>
+
+
+    <!-- =========================================================================================================== -->
+    <!--                                                                                         Custom Field Tables -->
+    <!-- =========================================================================================================== -->
+
+    <!-- an entity to represent a custom field -->
+    <entity entity-name="CustomField" table-name="customfield" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="customfieldtypekey" type="long-varchar"/>
+        <field name="customfieldsearcherkey" type="long-varchar"/>
+
+        <field name="name" col-name="cfname" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <!-- @deprecated as of 3.0 -->
+        <field name="default" col-name="defaultvalue" type="long-varchar"/>
+        <field name="fieldtype" type="numeric"/>
+        <!-- @deprecated as of 3.1 -->
+        <field name="project" type="numeric"/>
+        <field name="issuetype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="IssueType">
+            <key-map field-name="issuetype" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="Project">
+            <key-map field-name="project" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="CustomFieldValue">
+            <key-map field-name="id" rel-field-name="customfield"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="CustomFieldOption">
+            <key-map field-name="id" rel-field-name="customfield"/>
+        </relation>
+    </entity>
+
+    <!-- an entity to represent custom field values-->
+    <entity entity-name="CustomFieldValue" table-name="customfieldvalue" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="issue" type="numeric"/>
+        <field name="customfield" type="numeric"/>
+        <!-- will store the "parentKey" of the value. Used for cascading drop-downs -->
+        <field name="parentkey" type="long-varchar"/>
+
+        <field name="stringvalue" type="long-varchar"/>
+        <field name="numbervalue" type="floating-point"/>
+        <field name="textvalue" type="extremely-long"/>
+        <field name="datevalue" type="date-time"/>
+
+        <!-- @deprecated as of 3.0 -->
+        <field name="valuetype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="CustomField">
+            <key-map field-name="customfield" rel-field-name="id"/>
+        </relation>
+
+        <index name="cfvalue_issue">
+            <index-field name="issue"/>
+            <index-field name="customfield"/>
+        </index>
+    </entity>
+
+    <!-- an entity to represent custom field options -->
+    <entity entity-name="CustomFieldOption" table-name="customfieldoption" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="customfield" type="numeric"/>
+        <field name="customfieldconfig" type="numeric"/>
+        <field name="parentoptionid" type="numeric"/>
+        <field name="sequence" type="numeric"/>
+
+        <field name="value" col-name="customvalue" type="long-varchar"/>
+        <!-- @deprecated as of 3.1 -->
+        <field name="type" col-name="optiontype" type="short-varchar"/>
+        <!-- since 4.4 -->
+        <field name="disabled" col-name="disabled" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="CustomField">
+            <key-map field-name="customfield" rel-field-name="id"/>
+        </relation>
+
+        <index name="cf_cfoption">
+            <index-field name="customfield"/>
+        </index>
+    </entity>
+
+    <!--user picker related entities-->
+    <!-- an entity to represent user picker user filter -->
+    <entity entity-name="UserPickerFilter" table-name="userpickerfilter" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="customfield" type="numeric"/>
+        <field name="customfieldconfig" type="numeric"/>
+        <field name="enabled" col-name="enabled" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="CustomField">
+            <key-map field-name="customfield" rel-field-name="id"/>
+        </relation>
+
+        <index name="upf_customfield">
+            <index-field name="customfield"/>
+        </index>
+
+        <index name="upf_fieldconfigid">
+            <index-field name="customfieldconfig"/>
+        </index>
+    </entity>
+
+    <!-- an entity to represent user picker user filter by group -->
+    <entity entity-name="UserPickerFilterGroup" table-name="userpickerfiltergroup" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="userpickerfilter" type="numeric"/>
+        <field name="group" col-name="groupname" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="UserPickerFilter">
+            <key-map field-name="userpickerfilter" rel-field-name="id"/>
+        </relation>
+
+        <index name="cf_userpickerfiltergroup">
+            <index-field name="userpickerfilter"/>
+        </index>
+    </entity>
+
+    <!-- an entity to represent user picker user filter by role -->
+    <entity entity-name="UserPickerFilterRole" table-name="userpickerfilterrole" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="userpickerfilter" type="numeric"/>
+        <field name="projectroleid" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="ProjectRole">
+            <key-map field-name="projectroleid" rel-field-name="id"/>
+        </relation>
+
+        <index name="cf_userpickerfilterrole">
+            <index-field name="userpickerfilter"/>
+        </index>
+    </entity>
+
+    <!-- =========================================================================================================== -->
+    <!--                                                                                         Field Configuration -->
+    <!-- =========================================================================================================== -->
+
+
+    <!--
+        Context that stores custom field schemes per context. Note the key is in format customfield_XXXX for custom fields.
+        @since JIRA 3.2
+    -->
+    <entity entity-name="ConfigurationContext" table-name="configurationcontext" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="projectcategory" type="numeric"/>
+        <field name="project" type="numeric"/>
+        <field name="key" col-name="customfield" type="long-varchar"/>
+        <field name="fieldconfigscheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index name="confcontext">
+            <index-field name="projectcategory"/>
+            <index-field name="project"/>
+            <index-field name="key"/>
+        </index>
+        <index name="confcontextprojectkey">
+            <index-field name="project"/>
+            <index-field name="key"/>
+        </index>
+        <index name="confcontextfieldconfigscheme">
+            <index-field name="fieldconfigscheme"/>
+        </index>
+    </entity>
+
+    <!-- Configuration scheme for custom fields @since JIRA 3.2-->
+    <entity entity-name="FieldConfigScheme" table-name="fieldconfigscheme" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="configname" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <field name="fieldid" type="short-varchar"/>
+
+        <!-- @deprecated since JIRA 3.4 -->
+        <field name="customfield" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Related" rel-entity-name="FieldConfigSchemeIssueType">
+            <key-map field-name="id" rel-field-name="fieldconfigscheme"/>
+        </relation>
+
+        <index name="fcs_fieldid">
+            <index-field name="fieldid"/>
+        </index>
+    </entity>
+
+    <!-- Many to many link entity with between schemes and config @since JIRA 3.2-->
+    <entity entity-name="FieldConfigSchemeIssueType" table-name="fieldconfigschemeissuetype" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issuetype" type="long-varchar"/>
+        <field name="fieldconfigscheme" type="numeric"/>
+        <field name="fieldconfiguration" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldConfigScheme">
+            <key-map field-name="fieldconfigscheme" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="FieldConfiguration">
+            <key-map field-name="fieldconfiguration" rel-field-name="id"/>
+        </relation>
+
+        <index name="fcs_issuetype">
+            <index-field name="issuetype"/>
+        </index>
+
+        <index name="fcs_scheme">
+            <index-field name="fieldconfigscheme"/>
+        </index>
+    </entity>
+
+    <!-- Configuration for fields @since JIRA 3.2-->
+    <entity entity-name="FieldConfiguration" table-name="fieldconfiguration" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="configname" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="fieldid" type="short-varchar"/>
+
+        <!-- @deprecated since JIRA 3.4 -->
+        <field name="customfield" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index name="fc_fieldid">
+            <index-field name="fieldid"/>
+        </index>
+    </entity>
+
+
+    <entity entity-name="OptionConfiguration" table-name="optionconfiguration" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="fieldid" type="short-varchar"/>
+        <field name="optionid" type="short-varchar"/>
+
+        <field name="fieldconfig" type="numeric"/>
+
+        <field name="sequence" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <index name="fieldid_optionid">
+            <index-field name="fieldid"/>
+            <index-field name="optionid"/>
+        </index>
+
+        <index name="fieldid_fieldconf">
+            <index-field name="fieldid"/>
+            <index-field name="fieldconfig"/>
+        </index>
+    </entity>
+
+
+    <!-- Stores arbitrary objects as XML @since JIRA 3.2-->
+    <entity entity-name="GenericConfiguration" table-name="genericconfiguration" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="datatype" type="short-varchar"/>
+        <field name="datakey" type="short-varchar"/>
+
+        <field name="xmlvalue" type="very-long"/>
+
+        <prim-key field="id"/>
+        <index name="type_key" unique="true">
+            <index-field name="datatype"/>
+            <index-field name="datakey"/>
+        </index>
+
+    </entity>
+
+    <!-- entity to represent a 'batch' of changes to an issue -->
+    <entity entity-name="ChangeGroup" table-name="changegroup" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issue" col-name="issueid" type="numeric"/>
+        <field name="author" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Issue">
+            <key-map field-name="issue" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="ChangeItem">
+            <key-map field-name="id" rel-field-name="group"/>
+        </relation>
+
+        <index name="chggroup_issue">
+            <index-field name="issue"/>
+        </index>
+
+        <index name="chggroup_author_created">
+            <index-field name="author"/>
+            <index-field name="created"/>
+        </index>
+
+    </entity>
+
+    <!-- entity to represent a single change to an issue. Always part of a change group -->
+    <entity entity-name="ChangeItem" table-name="changeitem" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="group" col-name="groupid" type="numeric"/>
+
+        <!-- whether this is a built in field ('jira') or a custom field ('custom') - basically used to avoid naming scope problems -->
+        <!-- also used for keeping record of the bug_id of a bug from Bugzilla Import-->
+        <!-- and for keeping record of ids in issue move-->
+        <field name="fieldtype" type="long-varchar"/>
+        <field name="field" type="long-varchar"/>
+
+        <field name="oldvalue" type="extremely-long"/>
+        <!-- a string representation of the new value (i.e. "Documentation" instead of "4" for a component which might be deleted) -->
+        <field name="oldstring" type="extremely-long"/>
+
+        <field name="newvalue" type="extremely-long"/>
+        <!-- a string representation of the new value -->
+        <field name="newstring" type="extremely-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="ChangeGroup">
+            <key-map field-name="group" rel-field-name="id"/>
+        </relation>
+
+        <index name="chgitem_chggrp">
+            <index-field name="group"/>
+        </index>
+        <index name="chgitem_field">
+            <index-field name="field"/>
+        </index>
+    </entity>
+
+    <!-- entity to represent a single user history item. -->
+    <entity entity-name="UserHistoryItem" table-name="userhistoryitem" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="type" col-name="entitytype" type="very-short"/>
+        <field name="entityId" col-name="entityid" type="short-varchar"/>
+        <!-- Note: the username column actually stores the user key -->
+        <field name="username" type="long-varchar"/>
+        <field name="lastViewed" col-name="lastviewed" type="numeric"/>
+        <field name="data" col-name="data" type="extremely-long"/>
+
+        <prim-key field="id"/>
+
+        <index name="uh_type_user_entity" unique="true">
+            <index-field name="type"/>
+            <index-field name="username"/>
+            <index-field name="entityId"/>
+        </index>
+
+    </entity>
+
+    <!-- Generic Associative Entity - awesome for M-M mappings between entities -->
+    <entity entity-name="NodeAssociation" table-name="nodeassociation" package-name="">
+        <field name="sourceNodeId" type="numeric"/>
+        <field name="sourceNodeEntity" type="short-varchar"/>
+        <field name="sinkNodeId" type="numeric"/>
+        <field name="sinkNodeEntity" type="short-varchar"/>
+        <field name="associationType" type="short-varchar"/>
+        <field name="sequence" type="integer"/>
+        <prim-key field="sourceNodeId"/>
+        <prim-key field="sourceNodeEntity"/>
+        <prim-key field="sinkNodeId"/>
+        <prim-key field="sinkNodeEntity"/>
+        <prim-key field="associationType"/>
+
+        <index name="node_source">
+            <index-field name="sourceNodeId"/>
+            <index-field name="sourceNodeEntity"/>
+        </index>
+        <index name="node_sink">
+            <index-field name="sinkNodeId"/>
+            <index-field name="sinkNodeEntity"/>
+        </index>
+    </entity>
+
+    <!-- Associative Entity between users entities -->
+    <entity entity-name="UserAssociation" table-name="userassociation" package-name="">
+        <field name="sourceName" type="short-varchar"/>
+        <field name="sinkNodeId" type="numeric"/>
+        <field name="sinkNodeEntity" type="short-varchar"/>
+        <field name="associationType" type="short-varchar"/>
+        <field name="sequence" type="integer"/>
+        <field name="created" type="date-time"/>
+        <prim-key field="sourceName"/>
+        <prim-key field="sinkNodeId"/>
+        <prim-key field="sinkNodeEntity"/>
+        <prim-key field="associationType"/>
+
+        <index name="user_source">
+            <index-field name="sourceName"/>
+        </index>
+        <index name="user_sink">
+            <index-field name="sinkNodeId"/>
+            <index-field name="sinkNodeEntity"/>
+        </index>
+    </entity>
+
+    <entity entity-name="MailServer" table-name="mailserver" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="from" col-name="mailfrom" type="long-varchar"/>
+        <field name="prefix" type="short-varchar"/>
+        <field name="smtpPort" col-name="smtp_port" type="short-varchar"/>
+        <field name="protocol" col-name="protocol" type="short-varchar" />
+        <field name="type" col-name="server_type" type="short-varchar"/>
+        <field name="servername" type="long-varchar"/>
+        <field name="jndilocation" type="long-varchar"/>
+        <field name="username" col-name="mailusername" type="long-varchar"/>
+        <field name="password" col-name="mailpassword" type="long-varchar"/>
+        <field name="istlsrequired" type="short-varchar"/>
+        <field name="timeout" type="numeric" />
+
+        <field name="socksPort" col-name="socks_port" type="short-varchar"/>
+        <field name="socksHost" col-name="socks_host" type="short-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="NotificationScheme" table-name="notificationscheme" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="Notification">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="NotificationInstance" table-name="notificationinstance" package-name="">
+        <field name="id" type="numeric"/>
+        <!-- Notification type - see IssueEventType -->
+        <field name="type" col-name="notificationtype" type="short-varchar"/>
+        <!-- Id of the entity which this mail is about.  Referred-to table deducible from 'type' -->
+        <field name="source" type="numeric"/>
+        <!-- Email address of sent email -->
+        <field name="email" col-name="emailaddress" type="long-varchar"/>
+        <field name="messageid" type="long-varchar"/>
+        <prim-key field="id"/>
+
+        <index name="notif_source">
+            <index-field name="source"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Notification" table-name="notification" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="scheme" type="numeric"/>
+
+        <!--deprecated - eventTypeid is now used -->
+        <field name="event" type="short-varchar"/>
+
+        <field name="eventTypeId" type="numeric"/>
+        <field name="templateId" type="numeric"/>
+        <field name="type" col-name="notif_type" type="short-varchar"/>
+        <field name="parameter" col-name="notif_parameter" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="NotificationScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="ntfctn_scheme">
+            <index-field name="scheme"/>
+        </index>
+    </entity>
+
+    <entity entity-name="EventType" table-name="jiraeventtype" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="templateId" type="numeric"/>
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="type" col-name="event_type" type="short-varchar"/>
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="PermissionScheme" table-name="permissionscheme" package-name="">
+        <!--Default Permission Scheme for this table will have an id of 0 -->
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="SchemePermissions">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="SchemePermissions" table-name="schemepermissions" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="scheme" type="numeric"/>
+        <field name="permission" type="numeric"/>
+        <field name="type" col-name="perm_type" type="long-varchar"/>
+        <field name="parameter" col-name="perm_parameter" type="long-varchar"/>
+        <field name="permissionKey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="PermissionScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="prmssn_scheme">
+            <index-field name="scheme"/>
+        </index>
+    </entity>
+
+    <entity entity-name="GlobalPermissionEntry" table-name="globalpermissionentry" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="permission" type="long-varchar"/>
+        <field name="group_id" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="LicenseRoleGroup" table-name="licenserolesgroup" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="licenseRoleName" type="long-varchar"/>
+        <field name="groupId" type="long-varchar"/>
+        <field name="primaryGroup" type="indicator"/>
+
+        <prim-key field="id"/>
+
+        <index name="licenserolegroup_index" unique="true">
+            <index-field name="licenseRoleName"/>
+            <index-field name="groupId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ProductLicense" table-name="productlicense" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="license" type="extremely-long"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="IssueSecurityScheme" table-name="issuesecurityscheme" package-name="">
+        <!--Default Issue Security Scheme for this table will have an id of 0 -->
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="defaultlevel" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="SchemeIssueSecurities">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+
+        <relation type="many" title="Child" rel-entity-name="SchemeIssueSecurityLevels">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+
+        <relation type="one" title="Parent" rel-entity-name="SchemeIssueSecurityLevels">
+            <key-map field-name="defaultlevel" rel-field-name="id"/>
+        </relation>
+
+    </entity>
+
+    <entity entity-name="SchemeIssueSecurities" table-name="schemeissuesecurities" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="scheme" type="numeric"/>
+        <field name="security" type="numeric"/>
+        <field name="type" col-name="sec_type" type="long-varchar"/>
+        <field name="parameter" col-name="sec_parameter" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="IssueSecurityScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="SchemeIssueSecurityLevels">
+            <key-map field-name="security" rel-field-name="id"/>
+        </relation>
+
+        <index name="sec_scheme">
+            <index-field name="scheme"/>
+        </index>
+
+        <index name="sec_security">
+            <index-field name="security"/>
+        </index>
+    </entity>
+
+    <entity entity-name="SchemeIssueSecurityLevels" table-name="schemeissuesecuritylevels" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+        <field name="scheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="IssueSecurityScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="SchemeIssueSecurities">
+            <key-map field-name="id" rel-field-name="security"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="Issue">
+            <key-map field-name="id" rel-field-name="security"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="IssueSecurityScheme">
+            <key-map field-name="id" rel-field-name="defaultlevel"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="FilterSubscription" table-name="filtersubscription" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="filterID" type="numeric"/>
+        <field name="username" type="short-varchar"/>
+        <field name="group" col-name="groupname" type="short-varchar"/>
+        <field name="lastRun" type="date-time"/>
+        <field name="emailOnEmpty" type="very-short"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="SearchRequest">
+            <key-map field-name="filterID" rel-field-name="id"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="User">
+            <key-map field-name="username" rel-field-name="userName"/>
+        </relation>
+
+        <index name="subscrpt_user">
+            <index-field name="filterID"/>
+            <index-field name="username"/>
+        </index>
+
+        <index name="subscrptn_group">
+            <index-field name="filterID"/>
+            <index-field name="group"/>
+        </index>
+    </entity>
+
+    <!-- Load QUARTZ tables for use in upgrades only -->
+    <entity entity-name="QRTZJobDetails" table-name="qrtz_job_details" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="jobName" type="long-varchar"/>
+        <field name="jobGroup" type="long-varchar"/>
+        <field name="className" type="long-varchar"/>
+        <field name="isDurable" type="short-varchar"/>
+        <field name="isStateful" type="short-varchar"/>
+        <field name="requestsRecovery" type="short-varchar"/>
+        <field name="jobData" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="QRTZTriggers">
+            <key-map field-name="id" rel-field-name="job"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="QRTZJobListeners">
+            <key-map field-name="id" rel-field-name="job"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZJobListeners" table-name="qrtz_job_listeners" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="job" type="numeric"/>
+        <field name="jobListener" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZJobDetails">
+            <key-map field-name="job" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZTriggers" table-name="qrtz_triggers" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="triggerName" type="long-varchar"/>
+        <field name="triggerGroup" type="long-varchar"/>
+        <field name="job" type="numeric"/>
+        <field name="nextFire" type="date-time"/>
+        <field name="triggerState" type="long-varchar"/>
+        <field name="triggerType" type="short-varchar"/>
+        <field name="startTime" type="date-time"/>
+        <field name="endTime" type="date-time"/>
+        <field name="calendarName" type="long-varchar"/>
+        <field name="misfireInstr" type="integer"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZJobDetails">
+            <key-map field-name="job" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZSimpleTriggers" table-name="qrtz_simple_triggers" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="trigger" col-name="trigger_id" type="numeric"/>
+        <field name="repeatCount" type="integer"/>
+        <field name="repeatInterval" type="numeric"/>
+        <field name="timesTriggered" type="integer"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZTriggers">
+            <key-map field-name="trigger" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZCronTriggers" table-name="qrtz_cron_triggers" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="trigger" col-name="trigger_id" type="numeric"/>
+        <field name="cronExpression" col-name="cronExperssion" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZTriggers">
+            <key-map field-name="trigger" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZTriggerListeners" table-name="qrtz_trigger_listeners" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="trigger" col-name="trigger_id" type="numeric"/>
+        <field name="triggerListener" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZTriggers">
+            <key-map field-name="trigger" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZFiredTriggers" table-name="qrtz_fired_triggers" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="entryId" type="long-varchar"/>
+        <field name="trigger" col-name="trigger_id" type="numeric"/>
+        <field name="triggerListener" type="long-varchar"/>
+        <field name="firedTime" type="date-time"/>
+        <field name="triggerState" type="long-varchar"/>
+
+        <prim-key field="entryId"/>
+
+        <relation type="one" title="Parent" rel-entity-name="QRTZTriggers">
+            <key-map field-name="trigger" rel-field-name="id"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="QRTZCalendars" table-name="qrtz_calendars" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="calendarName" type="long-varchar"/>
+        <field name="calendar" type="very-long"/>
+
+        <prim-key field="calendarName"/>
+    </entity>
+
+    <entity entity-name="PortalPage" table-name="portalpage" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="username" type="long-varchar"/>
+        <field name="pagename" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+        <field name="sequence" type="numeric"/>
+        <field name="favCount" type="numeric"/>
+        <field name="layout" type="long-varchar"/>
+        <field name="version" col-name="ppversion" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="PortletConfiguration">
+            <key-map field-name="id" rel-field-name="portalpage"/>
+        </relation>
+
+        <index name="ppage_username">
+            <index-field name="username"/>
+        </index>
+
+    </entity>
+
+    <entity entity-name="PortletConfiguration" table-name="portletconfiguration" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="portalpage" type="numeric"/>
+        <field name="portletId" type="long-varchar"/>
+        <field name="columnNumber" type="integer"/>
+        <field name="position" col-name="positionseq" type="integer"/>
+        <field name="gadgetXml" type="very-long"/>
+        <field name="color" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="PortalPage">
+            <key-map field-name="portalpage" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="GadgetUserPreference">
+            <key-map field-name="id" rel-field-name="portletconfiguration"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="GadgetUserPreference" table-name="gadgetuserpreference" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="portletconfiguration" type="numeric"/>
+        <field name="userprefkey" type="long-varchar"/>
+        <field name="userprefvalue" type="extremely-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="PortletConfiguration">
+            <key-map field-name="portletconfiguration" rel-field-name="id"/>
+        </relation>
+
+        <index name="userpref_portletconfiguration">
+            <index-field name="portletconfiguration"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ExternalGadget" table-name="externalgadget" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="gadgetXml" type="very-long"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="UpgradeHistory" table-name="upgradehistory" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="upgradeclass" type="long-varchar"/>
+        <field name="targetbuild" type="long-varchar"/>
+        <field name="status" type="long-varchar"/>
+
+        <prim-key field="upgradeclass"/>
+    </entity>
+
+    <entity entity-name="UpgradeVersionHistory" table-name="upgradeversionhistory" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="timeperformed" type="date-time"/>
+        <field name="targetbuild" type="long-varchar"/>
+        <field name="targetversion" type="long-varchar"/>
+
+        <prim-key field="targetbuild"/>
+    </entity>
+
+    <entity entity-name="FieldLayoutScheme" table-name="fieldlayoutscheme" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="FieldLayout">
+            <key-map field-name="id" rel-field-name="layoutscheme"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="FieldLayoutSchemeAssociation">
+            <key-map field-name="id" rel-field-name="fieldlayoutscheme"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="FieldLayoutSchemeEntity" table-name="fieldlayoutschemeentity" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="scheme" type="numeric"/>
+        <field name="issuetype" col-name="issuetype" type="long-varchar"/>
+        <field name="fieldlayout" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldLayoutScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="fieldlayout_scheme">
+            <index-field name="scheme"/>
+        </index>
+
+        <index name="fieldlayout_layout">
+            <index-field name="fieldlayout"/>
+        </index>
+    </entity>
+
+    <!-- deprecated. FieldLayoutSchemeEntity table is used to map field layouts to issue types  -->
+    <entity entity-name="FieldLayoutSchemeAssociation" table-name="fieldlayoutschemeassociation" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issuetype" type="long-varchar"/>
+        <field name="project" type="numeric"/>
+        <field name="fieldlayoutscheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldLayoutScheme">
+            <key-map field-name="fieldlayoutscheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="fl_scheme_assoc">
+            <index-field name="project"/>
+            <index-field name="issuetype"/>
+        </index>
+    </entity>
+
+    <entity entity-name="FieldLayout" table-name="fieldlayout" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+
+        <!-- used to record whether the FieldLayout is e.g. system default -->
+        <field name="type" col-name="layout_type" type="long-varchar"/>
+
+        <!-- deprecated -->
+        <field name="layoutscheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldLayoutScheme">
+            <key-map field-name="layoutscheme" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="FieldLayoutItem">
+            <key-map field-name="id" rel-field-name="fieldlayout"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="FieldLayoutItem" table-name="fieldlayoutitem" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="fieldlayout" type="numeric"/>
+        <field name="fieldidentifier" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <!-- deprecated -->
+        <field name="verticalposition" type="numeric"/>
+
+        <field name="ishidden" type="short-varchar"/>
+        <field name="isrequired" type="short-varchar"/>
+
+        <field name="renderertype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldLayout">
+            <key-map field-name="fieldlayout" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_fli_fieldidentifier">
+            <index-field name="fieldidentifier"/>
+        </index>
+    </entity>
+
+    <!-- User field configuration for the columns they want to show on the Issue Navigator -->
+    <entity entity-name="ColumnLayout" table-name="columnlayout" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="username" type="long-varchar"/>
+        <field name="searchrequest" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="User">
+            <key-map field-name="username" rel-field-name="userName"/>
+        </relation>
+        <relation type="one" title="Parent" rel-entity-name="SearchRequest">
+            <key-map field-name="searchrequest" rel-field-name="id"/>
+        </relation>
+        <relation type="many" title="Child" rel-entity-name="ColumnLayoutItem">
+            <key-map field-name="id" rel-field-name="columnlayout"/>
+        </relation>
+
+        <index name="cl_searchrequest">
+            <index-field name="searchrequest"/>
+        </index>
+        <index name="cl_username">
+            <index-field name="username"/>
+        </index>
+
+    </entity>
+
+    <entity entity-name="ColumnLayoutItem" table-name="columnlayoutitem" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="columnlayout" type="numeric"/>
+        <field name="fieldidentifier" type="long-varchar"/>
+        <field name="horizontalposition" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="ColumnLayout">
+            <key-map field-name="columnlayout" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_cli_fieldidentifier">
+            <index-field name="fieldidentifier"/>
+        </index>
+    </entity>
+
+    <!-- Field Screen tables -->
+    <entity entity-name="FieldScreen" table-name="fieldscreen" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+
+    <entity entity-name="FieldScreenTab" table-name="fieldscreentab" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+        <field name="sequence" type="numeric"/>
+        <field name="fieldscreen" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldScreen">
+            <key-map field-name="fieldscreen" rel-field-name="id"/>
+        </relation>
+
+        <index name="fieldscreen_tab">
+            <index-field name="fieldscreen"/>
+        </index>
+    </entity>
+
+    <entity entity-name="FieldScreenLayoutItem" table-name="fieldscreenlayoutitem" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="fieldidentifier" type="long-varchar"/>
+        <field name="sequence" type="numeric"/>
+        <field name="fieldscreentab" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldScreenTab">
+            <key-map field-name="fieldscreentab" rel-field-name="id"/>
+        </relation>
+
+        <index name="fieldscitem_tab">
+            <index-field name="fieldscreentab"/>
+        </index>
+
+        <index name="fieldscreen_field">
+            <index-field name="fieldidentifier"/>
+        </index>
+    </entity>
+
+    <!-- Issue Type Screen Scheme tables -->
+    <entity entity-name="IssueTypeScreenScheme" table-name="issuetypescreenscheme" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="IssueTypeScreenSchemeEntity" table-name="issuetypescreenschemeentity" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="issuetype" type="long-varchar"/>
+        <field name="scheme" type="numeric"/>
+        <field name="fieldscreenscheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="IssueTypeScreenScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <relation type="one" title="Child" rel-entity-name="FieldScreenScheme">
+            <key-map field-name="fieldscreenscheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="fieldscreen_scheme">
+            <index-field name="fieldscreenscheme"/>
+        </index>
+    </entity>
+
+    <!-- Field Screen Scheme tables -->
+    <entity entity-name="FieldScreenScheme" table-name="fieldscreenscheme" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="FieldScreenSchemeItem" table-name="fieldscreenschemeitem" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="operation" type="numeric"/>
+        <field name="fieldscreen" type="numeric"/>
+        <field name="fieldscreenscheme" type="numeric"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="FieldScreenScheme">
+            <key-map field-name="fieldscreenscheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="screenitem_scheme">
+            <index-field name="fieldscreenscheme"/>
+        </index>
+    </entity>
+
+    <!-- This table is deprecated. Use jiraschemeperms   -->
+    <entity entity-name="Permission" table-name="jiraperms" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="type" col-name="permtype" type="numeric"/>
+        <field name="project" col-name="projectid" type="numeric"/>
+        <field name="group" col-name="groupname" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <!--
+         Lists Applications we trust to pass credentials on behalf of their logged in users.
+
+         Note that this is keyed by a String applicationId that is supplied by the requesting application
+         as opposed to a numeric sequence
+      -->
+    <entity entity-name="TrustedApplication" table-name="trustedapp" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="applicationId" type="long-varchar"/>
+        <field name="name" type="long-varchar"/>
+        <field name="publicKey" type="very-long"/>
+        <field name="ipMatch" type="very-long"/>
+        <field name="urlMatch" type="very-long"/>
+        <field name="timeout" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="createdBy" type="long-varchar"/>
+        <field name="updated" type="date-time"/>
+        <field name="updatedBy" type="long-varchar"/>
+
+        <prim-key field="id"/>
+        <index name="trustedapp_id" unique="true">
+            <index-field name="applicationId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="VersionControl" table-name="versioncontrol" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="vcsname" type="long-varchar"/>
+        <field name="description" col-name="vcsdescription" type="long-varchar"/>
+        <field name="type" col-name="vcstype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="Workflow" table-name="jiraworkflows" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="name" col-name="workflowname" type="long-varchar"/>
+        <field name="creator" col-name="creatorname" type="long-varchar"/>
+        <field name="descriptor" type="extremely-long"/>
+        <field name="islocked" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="DraftWorkflow">
+            <key-map field-name="name" rel-field-name="parentname"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="DraftWorkflow" table-name="jiradraftworkflows" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="parentname" type="long-varchar"/>
+        <field name="descriptor" type="extremely-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="Workflow">
+            <key-map field-name="parentname" rel-field-name="name"/>
+        </relation>
+
+    </entity>
+
+    <entity entity-name="WorkflowScheme" table-name="workflowscheme" package-name="">
+        <!--Default Workflow Scheme for this table will have an id of 0 -->
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="WorkflowSchemeEntity">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="WorkflowSchemeEntity" table-name="workflowschemeentity" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="scheme" type="numeric"/>
+        <field name="workflow" type="long-varchar"/>
+        <field name="issuetype" col-name="issuetype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="WorkflowScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="workflow_scheme">
+            <index-field name="scheme"/>
+        </index>
+    </entity>
+
+    <entity entity-name="DraftWorkflowScheme" table-name="draftworkflowscheme" package-name="">
+        <!--Default Workflow Scheme for this table will have an id of 0 -->
+        <field name="id" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <field name="workflowSchemeId" type="numeric"/>
+
+        <field name="lastModifiedDate" type="date-time"/>
+        <field name="lastModifiedUser" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="DraftWorkflowSchemeEntity">
+            <key-map field-name="id" rel-field-name="scheme"/>
+        </relation>
+
+        <relation type="one" title="Parent" rel-entity-name="WorkflowScheme">
+            <key-map field-name="workflowSchemeId" rel-field-name="id"/>
+        </relation>
+
+        <index name="draft_workflow_scheme_parent" unique="true">
+            <index-field name="workflowSchemeId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="DraftWorkflowSchemeEntity" table-name="draftworkflowschemeentity" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="scheme" type="numeric"/>
+        <field name="workflow" type="long-varchar"/>
+        <field name="issuetype" col-name="issuetype" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="DraftWorkflowScheme">
+            <key-map field-name="scheme" rel-field-name="id"/>
+        </relation>
+
+        <index name="draft_workflow_scheme">
+            <index-field name="scheme"/>
+        </index>
+    </entity>
+
+
+    <!-- entities for project roles -->
+    <entity entity-name="ProjectRole" table-name="projectrole" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" type="long-varchar"/>
+        <field name="description" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="ProjectRoleActor">
+            <key-map field-name="id" rel-field-name="projectroleid"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="ProjectRoleActor" table-name="projectroleactor" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="pid" type="numeric"/>
+        <field name="projectroleid" type="numeric"/>
+        <field name="roletype" type="long-varchar"/>
+        <field name="roletypeparameter" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="ProjectRole">
+            <key-map field-name="projectroleid" rel-field-name="id"/>
+        </relation>
+
+        <index name="role_player_idx">
+            <index-field name="projectroleid"/>
+            <index-field name="pid"/>
+        </index>
+    </entity>
+
+    <!-- entity for plugin versions -->
+    <entity entity-name="PluginVersion" table-name="pluginversion" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="name" col-name="pluginname" type="long-varchar"/>
+        <field name="key" col-name="pluginkey" type="long-varchar"/>
+        <field name="version" col-name="pluginversion" type="long-varchar"/>
+        <field name="created" type="date-time"/>
+
+        <prim-key field="id"/>
+    </entity>
+
+    <entity entity-name="PluginState" table-name="pluginstate" package-name="">
+        <field name="key" col-name="pluginkey" type="long-varchar"/>
+        <field name="enabled" col-name="pluginenabled" type="short-varchar"/>
+
+        <prim-key field="key"/>
+    </entity>
+
+    <!-- entity for favourites -->
+    <entity entity-name="FavouriteAssociations" table-name="favouriteassociations" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="username" type="long-varchar"/>
+        <field name="entityType" col-name="entitytype" type="short-varchar"/>
+        <field name="entityId" col-name="entityid" type="numeric"/>
+        <field name="sequence" type="numeric"/>
+
+        <prim-key field="id"/>
+        <index name="favourite_index" unique="true">
+            <index-field name="username"/>
+            <index-field name="entityType"/>
+            <index-field name="entityId"/>
+        </index>
+    </entity>
+
+
+    <!-- entity for sharing -->
+    <entity entity-name="SharePermissions" table-name="sharepermissions" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="entityId" col-name="entityid" type="numeric"/>
+        <field name="entityType" col-name="entitytype" type="short-varchar"/>
+        <field name="type" col-name="sharetype" type="very-short"/>
+        <field name="param1" type="long-varchar"/>
+        <field name="param2" type="short-varchar"/>
+
+        <prim-key field="id"/>
+        <index name="share_index">
+            <index-field name="entityId"/>
+            <index-field name="entityType"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Avatar" table-name="avatar" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="fileName" col-name="filename" type="long-varchar"/>
+        <field name="contentType" col-name="contenttype" type="long-varchar"/>
+        <field name="avatarType" col-name="avatartype" type="short-varchar"/>
+        <field name="owner" col-name="owner" type="long-varchar"/>
+        <field name="systemAvatar" col-name="systemavatar" type="integer"/>
+
+        <prim-key field="id"/>
+        <index name="avatar_index">
+            <index-field name="avatarType"/>
+            <index-field name="owner"/>
+        </index>
+    </entity>
+
+    <!-- OAUTH Consumer-->
+    <entity entity-name="OAuthConsumerToken" table-name="oauthconsumertoken" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="tokenKey" type="long-varchar"/>
+        <field name="token" type="long-varchar"/>
+        <field name="tokenSecret" type="long-varchar"/>
+        <field name="tokenType" type="short-varchar"/>
+        <field name="consumerKey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="oauth_consumer_token_key_index" unique="true">
+            <index-field name="tokenKey"/>
+        </index>
+        <index name="oauth_consumer_token_index">
+            <index-field name="token"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OAuthConsumer" table-name="oauthconsumer" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="name" col-name="consumername" type="long-varchar"/>
+        <field name="consumerKey" type="long-varchar"/>
+        <field name="service" col-name="consumerservice" type="long-varchar"/>
+        <field name="publicKey" type="very-long"/>
+        <field name="privateKey" type="very-long"/>
+        <field name="description" type="very-long"/>
+        <field name="callback" type="very-long"/>
+        <field name="signatureMethod" type="short-varchar"/>
+        <field name="sharedSecret" type="very-long"/>
+
+        <prim-key field="id"/>
+
+        <index name="oauth_consumer_index" unique="true">
+            <index-field name="consumerKey"/>
+        </index>
+        <index name="oauth_consumer_service_index" unique="true">
+            <index-field name="service"/>
+        </index>
+    </entity>
+
+    <!-- OAUTH ServiceProvider-->
+    <entity entity-name="OAuthServiceProviderConsumer" table-name="oauthspconsumer" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="consumerKey" type="long-varchar"/>
+        <field name="name" col-name="consumername" type="long-varchar"/>
+        <field name="publicKey" type="very-long"/>
+        <field name="description" type="very-long"/>
+        <field name="callback" type="very-long"/>
+
+        <!-- OAuth 2LO support introduced in JIRA 5.2 (atlassian-oauth-1.6.1) -->
+        <field name="twoLOAllowed" type="short-varchar"/>
+        <field name="executingTwoLOUser" type="long-varchar"/>
+        <field name="twoLOImpersonationAllowed" type="short-varchar"/>
+
+        <!-- atlassian-oauth-1.8.0 breaks out all auth types -->
+        <field name="threeLOAllowed" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="oauth_sp_consumer_index" unique="true">
+            <index-field name="consumerKey"/>
+        </index>
+    </entity>
+
+    <entity entity-name="OAuthServiceProviderToken" table-name="oauthsptoken" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="token" type="long-varchar"/>
+        <field name="tokenSecret" type="long-varchar"/>
+        <field name="tokenType" type="short-varchar"/>
+        <field name="consumerKey" type="long-varchar"/>
+        <field name="username" type="long-varchar"/>
+        <field name="ttl" type="numeric"/>
+        <field name="auth" col-name="spauth" type="short-varchar"/>
+        <field name="callback" type="very-long"/>
+        <field name="verifier" col-name="spverifier" type="long-varchar"/>
+        <field name="version" col-name="spversion" type="short-varchar"/>
+
+        <!-- OAuth sessions introduced in JIRA 5.1 (atlassian-oauth-1.4.x) -->
+        <field name="sessionHandle" type="long-varchar"/>
+        <field name="sessionCreationTime" type="date-time"/>
+        <field name="sessionLastRenewalTime" type="date-time"/>
+        <!-- should be a numeric, but already shipped to customers as a date-time so we just pull the millis since
+             the epoch out of the Timestamp and treat that as the session TTL -->
+        <field name="sessionTimeToLive" type="date-time"/>
+
+        <prim-key field="id"/>
+
+        <index name="oauth_sp_token_index" unique="true">
+            <index-field name="token"/>
+        </index>
+        <index name="oauth_sp_consumer_key_index">
+            <index-field name="consumerKey"/>
+        </index>
+    </entity>
+
+    <entity entity-name="RememberMeToken" table-name="remembermetoken" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="created" type="date-time"/>
+        <field name="token" type="long-varchar"/>
+        <field name="username" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="remembermetoken_username_index">
+            <index-field name="username"/>
+        </index>
+    </entity>
+
+    <entity entity-name="VoteHistory" table-name="votehistory" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="issue"  col-name="issueid" type="numeric"/>
+        <field name="votes" type="numeric"/>
+        <field name="timestamp" type="date-time"/>
+
+        <prim-key field="id"/>
+
+        <index name="votehistory_issue_index">
+            <index-field name="issue"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ManagedConfigurationItem" table-name="managedconfigurationitem" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="itemId" type="long-varchar"/>
+        <field name="itemType" type="long-varchar"/>
+        <field name="managed" type="very-short"/>
+        <field name="accessLevel" type="long-varchar"/>
+        <field name="source" type="long-varchar"/>
+        <field name="descriptionKey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="managedconfigitem_id_type_idx">
+            <index-field name="itemId"/>
+            <index-field name="itemType"/>
+        </index>
+    </entity>
+
+    <entity entity-name="Feature" table-name="feature" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="featureName" type="long-varchar"/>
+        <field name="featureType" type="very-short"/>
+        <field name="userKey" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <index name="feature_id_userkey">
+            <index-field name="id"/>
+            <index-field name="userKey"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ReplicatedIndexOperation" table-name="replicatedindexoperation" package-name="">
+        <field name="id" type="numeric" />
+        <field name="indexTime" type="date-time" />
+        <field name="nodeId" type="short-varchar" />
+        <field name="affectedIndex" type="short-varchar" />
+        <field name="entityType" type="short-varchar" />
+        <field name="affectedIds" type="extremely-long" />
+        <field name="operation" type="short-varchar" />
+        <field name="filename" type="long-varchar" />
+
+        <prim-key field="id" />
+
+        <index name="node_operation_idx">
+            <index-field name="nodeId" />
+            <index-field name="affectedIndex" />
+            <index-field name="operation" />
+            <index-field name="indexTime" />
+        </index>
+    </entity>
+
+    <entity entity-name="NodeIndexCounter" table-name="nodeindexcounter" package-name="">
+        <field name="id" type="numeric" />
+        <field name="nodeId" type="short-varchar" />
+        <field name="sendingNodeId" type="short-varchar" />
+        <field name="indexOperationId" type="numeric" />
+
+        <prim-key field="id" />
+
+        <index unique="true" name="node_id_idx">
+            <index-field name="nodeId" />
+            <index-field name="sendingNodeId" />
+        </index>
+    </entity>
+
+    <entity entity-name="ClusterMessage" table-name="clustermessage" package-name="">
+        <field name="id" type="numeric" />
+        <field name="sourceNode" type="short-varchar" />
+        <field name="destinationNode" type="short-varchar" />
+        <field name="claimedByNode" type="short-varchar" />
+        <field name="message" type="long-varchar" />
+        <field name="messageTime" type="date-time" />
+
+        <prim-key field="id" />
+
+        <index name="source_destination_node_idx">
+            <index-field name="sourceNode" />
+            <index-field name="destinationNode" />
+        </index>
+    </entity>
+
+    <entity entity-name="ClusterNode" table-name="clusternode" package-name="">
+        <field name="nodeId" type="short-varchar" />
+        <field name="nodeState" type="short-varchar" />
+        <field name="timestamp" type="numeric"/>
+        <field name="ip" type="short-varchar"/>
+        <field name="cacheListenerPort" type="numeric"/>
+
+        <prim-key field="nodeId" />
+    </entity>
+
+    <!--Used by the Beehive clustering library.-->
+    <entity entity-name="ClusterLockStatus" table-name="clusterlockstatus" package-name="">
+        <field name="id" type="numeric" />
+        <field name="lockName" type="long-varchar" />
+        <field name="lockedByNode" type="short-varchar" />
+        <field name="updateTime" type="numeric" />
+
+        <prim-key field="id" />
+
+        <index unique="true" name="cluster_lock_name_idx">
+            <index-field name="lockName" />
+        </index>
+    </entity>
+
+    <!--Used by the Beehive clustering library.-->
+    <entity entity-name="ClusterNodeHeartbeat" table-name="clusternodeheartbeat" package-name="">
+        <field name="nodeId" type="short-varchar" />
+        <field name="heartbeatTime" type="numeric" />
+        <field name="databaseTime" type="numeric" />
+
+        <prim-key field="nodeId" />
+    </entity>
+
+    <entity entity-name="RunDetails" table-name="rundetails" package-name="">
+        <field name="id" type="numeric" />
+        <field name="jobId" type="long-varchar" />
+        <field name="startTime" type="date-time" />
+        <field name="runDuration" type="numeric" />
+        <field name="runOutcome" type="indicator" />
+        <field name="infoMessage" type="long-varchar" />
+
+        <prim-key field="id" />
+
+        <index name="rundetails_jobid_idx">
+            <index-field name="jobId" />
+        </index>
+        <index name="rundetails_starttime_idx">
+            <index-field name="startTime" />
+        </index>
+    </entity>
+
+    <!--
+        QUARTZ job store for use by the SchedulerService.  This should be a common superset of what Quartz 1.x
+        and Quartz 2.x require.
+    -->
+
+    <entity entity-name="JQRTZJobDetails" table-name="JQUARTZ_JOB_DETAILS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="jobName" col-name="JOB_NAME" type="quartz-char-200"/>
+        <field name="jobGroup" col-name="JOB_GROUP" type="quartz-char-200"/>
+        <field name="Description" col-name="DESCRIPTION" type="quartz-char-250"/>
+        <field name="className" col-name="JOB_CLASS_NAME" type="quartz-char-250"/>
+        <field name="isDurable" col-name="IS_DURABLE" type="quartz-boolean"/>
+        <field name="isVolatile" col-name="IS_VOLATILE" type="quartz-boolean"/>
+        <field name="isStateful" col-name="IS_STATEFUL" type="quartz-boolean"/>
+        <field name="isNonconcurrent" col-name="IS_NONCONCURRENT" type="quartz-boolean"/>
+        <field name="isUpdateData" col-name="IS_UPDATE_DATA" type="quartz-boolean"/>
+        <field name="requestsRecovery" col-name="REQUESTS_RECOVERY" type="quartz-boolean"/>
+        <field name="jobData" col-name="JOB_DATA" type="quartz-data"/>
+
+        <prim-key field="jobName"/>
+        <prim-key field="jobGroup"/>
+
+        <index name="idx_qrtz_j_req_recovery">
+            <index-field name="schedName"/>
+            <index-field name="requestsRecovery"/>
+        </index>
+        <index name="idx_qrtz_j_grp">
+            <index-field name="schedName"/>
+            <index-field name="jobGroup"/>
+        </index>
+    </entity>
+
+    <entity entity-name="JQRTZJobListeners" table-name="JQUARTZ_JOB_LISTENERS" package-name="">
+        <field name="jobName" col-name="JOB_NAME" type="quartz-char-200"/>
+        <field name="jobGroup" col-name="JOB_GROUP" type="quartz-char-200"/>
+        <field name="jobListener" col-name="JOB_LISTENER" type="quartz-char-200"/>
+
+        <prim-key field="jobName"/>
+        <prim-key field="jobGroup"/>
+        <prim-key field="jobListener"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZJobDetails">
+            <key-map field-name="jobName" rel-field-name="jobName"/>
+            <key-map field-name="jobGroup" rel-field-name="jobGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZTriggers" table-name="JQUARTZ_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="jobName" col-name="JOB_NAME" type="quartz-char-200"/>
+        <field name="jobGroup" col-name="JOB_GROUP" type="quartz-char-200"/>
+        <field name="isVolatile" col-name="IS_VOLATILE" type="quartz-boolean"/>
+        <field name="description" col-name="DESCRIPTION" type="quartz-char-250"/>
+        <field name="nextFireTime" col-name="NEXT_FIRE_TIME" type="quartz-long-int"/>
+        <field name="prevFireTime" col-name="PREV_FIRE_TIME" type="quartz-long-int"/>
+        <field name="priority" col-name="PRIORITY" type="quartz-int"/>
+        <field name="triggerState" col-name="TRIGGER_STATE" type="quartz-char-16"/>
+        <field name="triggerType" col-name="TRIGGER_TYPE" type="quartz-char-8"/>
+        <field name="startTime" col-name="START_TIME" type="quartz-long-int"/>
+        <field name="endTime" col-name="END_TIME" type="quartz-long-int"/>
+        <field name="calendarName" col-name="CALENDAR_NAME" type="quartz-char-200"/>
+        <field name="misfireInstr" col-name="MISFIRE_INSTR" type="quartz-small-int"/>
+        <field name="jobData" col-name="JOB_DATA" type="quartz-data"/>
+
+        <prim-key field="triggerName"/>
+        <prim-key field="triggerGroup"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZJobDetails">
+            <key-map field-name="schedName" rel-field-name="schedName"/>
+            <key-map field-name="jobName" rel-field-name="jobName"/>
+            <key-map field-name="jobGroup" rel-field-name="jobGroup"/>
+        </relation>
+        <index name="idx_qrtz_t_j">
+            <index-field name="schedName"/>
+            <index-field name="jobName"/>
+            <index-field name="jobGroup"/>
+        </index>
+        <index name="idx_qrtz_t_jg">
+            <index-field name="schedName"/>
+            <index-field name="jobGroup"/>
+        </index>
+        <index name="idx_qrtz_t_c">
+            <index-field name="schedName"/>
+            <index-field name="calendarName"/>
+        </index>
+        <index name="idx_qrtz_j_g">
+            <index-field name="schedName"/>
+            <index-field name="triggerGroup"/>
+        </index>
+        <index name="idx_qrtz_j_state">
+            <index-field name="schedName"/>
+            <index-field name="triggerState"/>
+        </index>
+        <index name="idx_qrtz_t_n_state">
+            <index-field name="schedName"/>
+            <index-field name="triggerName"/>
+            <index-field name="triggerGroup"/>
+            <index-field name="triggerState"/>
+        </index>
+        <index name="idx_qrtz_t_n_g_state">
+            <index-field name="schedName"/>
+            <index-field name="triggerGroup"/>
+            <index-field name="triggerState"/>
+        </index>
+        <index name="idx_qrtz_t_next_fire_time">
+            <index-field name="schedName"/>
+            <index-field name="nextFireTime"/>
+        </index>
+        <index name="idx_qrtz_t_nft_st">
+            <index-field name="schedName"/>
+            <index-field name="triggerState"/>
+            <index-field name="nextFireTime"/>
+        </index>
+        <index name="idx_qrtz_t_nft_misfire">
+            <index-field name="schedName"/>
+            <index-field name="misfireInstr"/>
+            <index-field name="nextFireTime"/>
+        </index>
+        <index name="idx_qrtz_t_nft_st_misfire">
+            <index-field name="schedName"/>
+            <index-field name="misfireInstr"/>
+            <index-field name="nextFireTime"/>
+            <index-field name="triggerState"/>
+        </index>
+        <index name="idx_qrtz_t_nft_st_misfire_grp">
+            <index-field name="schedName"/>
+            <index-field name="misfireInstr"/>
+            <index-field name="nextFireTime"/>
+            <index-field name="triggerGroup"/>
+            <index-field name="triggerState"/>
+        </index>
+    </entity>
+
+    <entity entity-name="JQRTZSimpleTriggers" table-name="JQUARTZ_SIMPLE_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="repeatCount" col-name="REPEAT_COUNT" type="quartz-long-int"/>
+        <field name="repeatInterval" col-name="REPEAT_INTERVAL" type="quartz-long-int"/>
+        <field name="timesTriggered" col-name="TIMES_TRIGGERED" type="quartz-long-int"/>
+
+        <prim-key field="triggerName"/>
+        <prim-key field="triggerGroup"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZTriggers">
+            <key-map field-name="schedName" rel-field-name="schedName"/>
+            <key-map field-name="triggerName" rel-field-name="triggerName"/>
+            <key-map field-name="triggerGroup" rel-field-name="triggerGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZCronTriggers" table-name="JQUARTZ_CRON_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="cronExpression" col-name="CRON_EXPRESSION" type="quartz-char-120"/>
+        <field name="timeZoneId" col-name="TIME_ZONE_ID" type="quartz-char-80"/>
+
+        <prim-key field="triggerName"/>
+        <prim-key field="triggerGroup"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZTriggers">
+            <key-map field-name="schedName" rel-field-name="schedName"/>
+            <key-map field-name="triggerName" rel-field-name="triggerName"/>
+            <key-map field-name="triggerGroup" rel-field-name="triggerGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZSimplePropTriggers" table-name="JQUARTZ_SIMPROP_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="str_prop_1" col-name="STR_PROP_1" type="quartz-char-512"/>
+        <field name="str_prop_2" col-name="STR_PROP_2" type="quartz-char-512"/>
+        <field name="str_prop_3" col-name="STR_PROP_3" type="quartz-char-512"/>
+        <field name="int_prop_1" col-name="INT_PROP_1" type="quartz-int"/>
+        <field name="int_prop_2" col-name="INT_PROP_2" type="quartz-int"/>
+        <field name="long_prop_1" col-name="LONG_PROP_1" type="quartz-long-int"/>
+        <field name="long_prop_2" col-name="LONG_PROP_2" type="quartz-long-int"/>
+        <field name="dec_prop_1" col-name="DEC_PROP_1" type="quartz-numeric"/>
+        <field name="dec_prop_2" col-name="DEC_PROP_2" type="quartz-numeric"/>
+        <field name="bool_prop_1" col-name="BOOL_PROP_1" type="quartz-boolean"/>
+        <field name="bool_prop_2" col-name="BOOL_PROP_2" type="quartz-boolean"/>
+
+        <prim-key field="triggerName"/>
+        <prim-key field="triggerGroup"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZTriggers">
+            <key-map field-name="schedName" rel-field-name="schedName"/>
+            <key-map field-name="triggerName" rel-field-name="triggerName"/>
+            <key-map field-name="triggerGroup" rel-field-name="triggerGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZBlobTriggers" table-name="JQUARTZ_BLOB_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="blobData" col-name="BLOB_DATA" type="quartz-data"/>
+
+        <prim-key field="triggerName"/>
+        <prim-key field="triggerGroup"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZTriggers">
+            <key-map field-name="schedName" rel-field-name="schedName"/>
+            <key-map field-name="triggerName" rel-field-name="triggerName"/>
+            <key-map field-name="triggerGroup" rel-field-name="triggerGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZTriggerListeners" table-name="JQUARTZ_TRIGGER_LISTENERS" package-name="">
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="triggerListener" col-name="TRIGGER_LISTENER" type="quartz-char-200"/>
+
+        <prim-key field="triggerGroup"/>
+        <prim-key field="triggerListener"/>
+
+        <relation type="one" title="Parent" rel-entity-name="JQRTZTriggers">
+            <key-map field-name="triggerName" rel-field-name="triggerName"/>
+            <key-map field-name="triggerGroup" rel-field-name="triggerGroup"/>
+        </relation>
+    </entity>
+
+    <entity entity-name="JQRTZCalendars" table-name="JQUARTZ_CALENDARS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="calendarName" col-name="CALENDAR_NAME" type="quartz-char-200"/>
+        <field name="calendar" col-name="CALENDAR" type="quartz-data"/>
+
+        <prim-key field="calendarName"/>
+
+    </entity>
+
+    <entity entity-name="JQRTZPausedTriggerGroups" table-name="JQUARTZ_PAUSED_TRIGGER_GRPS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+
+        <prim-key field="triggerGroup"/>
+
+    </entity>
+
+    <entity entity-name="JQRTZFiredTriggers" table-name="JQUARTZ_FIRED_TRIGGERS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="entryId" col-name="ENTRY_ID" type="quartz-char-95"/>
+        <field name="triggerName" col-name="TRIGGER_NAME" type="quartz-char-200"/>
+        <field name="triggerGroup" col-name="TRIGGER_GROUP" type="quartz-char-200"/>
+        <field name="isVolatile" col-name="IS_VOLATILE" type="quartz-boolean"/>
+        <field name="instanceName" col-name="INSTANCE_NAME" type="quartz-char-200"/>
+        <field name="firedTime" col-name="FIRED_TIME" type="quartz-long-int"/>
+        <field name="schedTime" col-name="SCHED_TIME" type="quartz-long-int"/>
+        <field name="priority" col-name="PRIORITY" type="quartz-int"/>
+        <field name="triggerState" col-name="STATE" type="quartz-char-16"/>
+        <field name="jobName" col-name="JOB_NAME" type="quartz-char-200"/>
+        <field name="jobGroup" col-name="JOB_GROUP" type="quartz-char-200"/>
+        <field name="isStateful" col-name="IS_STATEFUL" type="quartz-boolean"/>
+        <field name="isNonconcurrent" col-name="IS_NONCONCURRENT" type="quartz-boolean"/>
+        <field name="isUpdateData" col-name="IS_UPDATE_DATA" type="quartz-boolean"/>
+        <field name="requestsRecovery" col-name="REQUESTS_RECOVERY" type="quartz-boolean"/>
+
+        <prim-key field="entryId"/>
+
+        <index name="idx_qrtz_ft_trig_inst_name">
+            <index-field name="schedName"/>
+            <index-field name="instanceName"/>
+        </index>
+        <index name="idx_qrtz_ft_inst_job_req_rcvry">
+            <index-field name="schedName"/>
+            <index-field name="instanceName"/>
+            <index-field name="requestsRecovery"/>
+        </index>
+        <index name="idx_qrtz_ft_j_g">
+            <index-field name="schedName"/>
+            <index-field name="jobName"/>
+            <index-field name="jobGroup"/>
+        </index>
+        <index name="idx_qrtz_ft_jg">
+            <index-field name="schedName"/>
+            <index-field name="jobGroup"/>
+        </index>
+        <index name="idx_qrtz_ft_t_g">
+            <index-field name="schedName"/>
+            <index-field name="triggerName"/>
+            <index-field name="triggerGroup"/>
+        </index>
+        <index name="idx_qrtz_ft_tg">
+            <index-field name="schedName"/>
+            <index-field name="triggerGroup"/>
+        </index>
+    </entity>
+
+    <entity entity-name="JQRTZSchedulerState" table-name="JQUARTZ_SCHEDULER_STATE" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="instanceName" col-name="INSTANCE_NAME" type="quartz-char-200"/>
+        <field name="lastCheckinTime" col-name="LAST_CHECKIN_TIME" type="quartz-long-int"/>
+        <field name="checkinInterval" col-name="CHECKIN_INTERVAL" type="quartz-long-int"/>
+
+        <prim-key field="instanceName"/>
+
+    </entity>
+
+    <entity entity-name="JQRTZLocks" table-name="JQUARTZ_LOCKS" package-name="">
+        <field name="schedName" col-name="SCHED_NAME" type="quartz-char-120"/>
+        <field name="lockName" col-name="LOCK_NAME" type="quartz-char-40"/>
+
+        <prim-key field="lockName"/>
+
+    </entity>
+
+    <entity entity-name="AuditLog" table-name="audit_log" package-name="">
+        <field name="id" type="numeric"/>
+        <field name="remoteAddress" type="short-varchar"/>
+        <field name="created" type="date-time"/>
+        <field name="authorKey" type="long-varchar"/>
+        <field name="summary" type="long-varchar"/>
+        <field name="category" type="long-varchar"/>
+
+        <field name="objectType" type="short-varchar"/>
+        <field name="objectId" type="long-varchar"/>
+        <field name="objectName" type="long-varchar"/>
+        <field name="objectParentId" type="long-varchar"/>
+        <field name="objectParentName" type="long-varchar"/>
+
+        <field name="authorType" type="integer"/>
+        <field name="eventSourceName" type="long-varchar"/>
+
+        <field name="searchField" type="extremely-long"/>
+        <prim-key field="id"/>
+
+        <relation type="many" title="Child" rel-entity-name="AuditItem">
+            <key-map field-name="id" rel-field-name="logId"/>
+        </relation>
+
+        <relation type="many" title="Child" rel-entity-name="AuditChangedValue">
+            <key-map field-name="id" rel-field-name="logId"/>
+        </relation>
+
+        <index name="idx_audit_log_created">
+            <index-field name="created"/>
+        </index>
+    </entity>
+
+    <!-- List of Affected Items -->
+    <entity entity-name="AuditItem" table-name="audit_item" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="logId" type="numeric"/>
+
+        <field name="objectType" type="short-varchar"/>
+        <field name="objectId" type="long-varchar"/>
+        <field name="objectName" type="long-varchar"/>
+        <field name="objectParentId" type="long-varchar"/>
+        <field name="objectParentName" type="long-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="AuditLog">
+            <key-map field-name="logId" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_audit_item_log_id2">
+            <index-field name="logId"/>
+        </index>
+    </entity>
+
+    <!-- List of Changed Values -->
+    <entity entity-name="AuditChangedValue" table-name="audit_changed_value" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="logId" type="numeric"/>
+
+        <field name="name" type="long-varchar"/>
+        <field name="deltaFrom" type="extremely-long"/>
+        <field name="deltaTo" type="extremely-long"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="AuditLog">
+            <key-map field-name="logId" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_changed_value_log_id">
+            <index-field name="logId"/>
+        </index>
+    </entity>
+
+    <entity entity-name="ReindexRequest" table-name="reindex_request" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="type" type="short-varchar"/>
+        <field name="requestTime" type="date-time"/>
+        <field name="startTime" type="date-time"/>
+        <field name="completionTime" type="date-time"/>
+        <field name="status" type="short-varchar"/>
+        <field name="executionNodeId" type="short-varchar" />
+
+        <prim-key field="id" />
+    </entity>
+
+    <entity entity-name="ReindexComponent" table-name="reindex_component" package-name="">
+        <field name="id" type="numeric"/>
+
+        <field name="requestId" type="numeric"/>
+        <field name="affectedIndex" type="short-varchar"/>
+        <field name="entityType" type="short-varchar"/>
+
+        <prim-key field="id"/>
+
+        <relation type="one" title="Parent" rel-entity-name="ReindexRequest">
+            <key-map field-name="requestId" rel-field-name="id"/>
+        </relation>
+
+        <index name="idx_reindex_component_req_id">
+            <index-field name="requestId"/>
+        </index>
+    </entity>
+
+    <!-- Views -->
+    <view-entity entity-name="AuditLogCount" package-name="">
+        <member-entity entity-alias="AL" entity-name="AuditLog"/>
+        <alias entity-alias="AL" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="IssueCount" package-name="">
+        <member-entity entity-alias="I" entity-name="Issue"/>
+        <alias entity-alias="I" field="id" function="count" name="count"/>
+        <alias entity-alias="I" field="project" name="project"/>
+        <alias entity-alias="I" field="assignee" name="assignee"/>
+        <alias entity-alias="I" field="reporter" name="reporter"/>
+    </view-entity>
+
+    <view-entity entity-name="IssueMaxId" package-name="">
+        <member-entity entity-alias="I" entity-name="Issue"/>
+        <alias entity-alias="I" field="id" function="max" name="max"/>
+    </view-entity>
+
+    <view-entity entity-name="IndexOperationMinId" package-name="">
+        <member-entity entity-alias="NI" entity-name="ReplicatedIndexOperation"/>
+        <alias entity-alias="NI" field="id" function="min" name="min"/>
+    </view-entity>
+
+    <view-entity entity-name="IndexOperationMaxIdForNodeId" package-name="">
+        <member-entity entity-alias="NI" entity-name="ReplicatedIndexOperation"/>
+        <alias entity-alias="NI" field="id" function="max" name="max"/>
+        <alias entity-alias="NI" field="nodeId" name="nodeId" group-by="true"/>
+    </view-entity>
+
+    <view-entity entity-name="IssueCountByAssignee" package-name="">
+        <member-entity entity-alias="I" entity-name="Issue"/>
+        <alias entity-alias="I" field="id" function="count" name="count"/>
+        <alias entity-alias="I" field="assignee" name="assignee"/>
+    </view-entity>
+
+    <view-entity entity-name="ProjectCount" package-name="">
+        <member-entity entity-alias="P" entity-name="Project"/>
+        <alias entity-alias="P" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="RememberMeTokenCount" package-name="">
+        <member-entity entity-alias="R" entity-name="RememberMeToken" />
+        <alias entity-alias="R" field="id" function="count" name="count" />
+    </view-entity>
+
+    <view-entity entity-name="CustomFieldCount" package-name="">
+        <member-entity entity-alias="CF" entity-name="CustomField"/>
+        <alias entity-alias="CF" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="WorkflowCount" package-name="">
+        <member-entity entity-alias="WF" entity-name="Workflow"/>
+        <alias entity-alias="WF" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="UserCount" package-name="">
+        <member-entity entity-alias="U" entity-name="User"/>
+        <alias entity-alias="U" field="id" function="count" name="count"/>
+        <alias entity-alias="U" field="directoryId" name="directoryId"/>
+    </view-entity>
+
+    <view-entity entity-name="GroupCount" package-name="">
+        <member-entity entity-alias="G" entity-name="Group"/>
+        <alias entity-alias="G" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="NotificationInstanceCount" package-name="">
+        <member-entity entity-alias="N" entity-name="NotificationInstance"/>
+        <alias entity-alias="N" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="FileAttachmentCount" package-name="">
+        <member-entity entity-alias="FA" entity-name="FileAttachment" />
+        <alias entity-alias="FA" field="id" function="count" name="count" />
+    </view-entity>
+
+    <view-entity entity-name="ActionCount" package-name="">
+        <member-entity entity-alias="A" entity-name="Action"/>
+        <alias entity-alias="A" field="id" function="count" name="count"/>
+        <alias entity-alias="A" field="issue" name="issue"/>
+        <alias entity-alias="A" field="type" name="type"/>
+        <alias entity-alias="A" field="level" name="level"/>
+        <alias entity-alias="A" field="rolelevel" name="rolelevel"/>
+        <alias entity-alias="A" field="author" name="author"/>
+    </view-entity>
+
+    <view-entity entity-name="WorklogCount" package-name="">
+        <member-entity entity-alias="W" entity-name="Worklog"/>
+        <alias entity-alias="W" field="id" function="count" name="count"/>
+        <alias entity-alias="W" field="grouplevel" name="grouplevel"/>
+        <alias entity-alias="W" field="rolelevel" name="rolelevel"/>
+    </view-entity>
+
+    <view-entity entity-name="WorklogMax" package-name="">
+        <member-entity entity-alias="W" entity-name="Worklog"/>
+        <alias entity-alias="W" field="id" function="max" name="max"/>
+    </view-entity>
+
+    <view-entity entity-name="PortalPageCount" package-name="">
+        <member-entity entity-alias="PPC" entity-name="PortalPage"/>
+        <alias entity-alias="PPC" field="id" function="count" name="count"/>
+    </view-entity>
+
+    <view-entity entity-name="SearchRequestCount" package-name="">
+        <member-entity entity-alias="SRC" entity-name="SearchRequest"/>
+        <alias entity-alias="SRC" field="id" function="count" name="count"/>
+        <alias entity-alias="SRC" field="project" name="project"/>
+    </view-entity>
+
+    <view-entity entity-name="IssueResolutionCount" package-name="">
+        <member-entity entity-alias="I" entity-name="Issue"/>
+        <alias entity-alias="I" field="id" function="count" name="count"/>
+        <alias entity-alias="I" field="resolution" name="resolution"/>
+    </view-entity>
+
+    <view-entity entity-name="OSUserPropertySetView" package-name="">
+        <member-entity entity-alias="PE" entity-name="OSPropertyEntry"/>
+        <member-entity entity-alias="PS" entity-name="OSPropertyString"/>
+        <alias entity-alias="PE" field="propertyKey" name="propertyKey"/>
+        <alias entity-alias="PE" field="entityName" name="entityName"/>
+        <alias entity-alias="PE" field="id" name="id"/>
+        <alias entity-alias="PE" field="entityId" name="entityId"/>
+        <alias entity-alias="PS" field="value" name="propertyValue"/>
+        <view-link entity-alias="PE" rel-entity-alias="PS" rel-optional="false">
+            <key-map field-name="id" rel-field-name="id"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="OSUserPropertySetNumberView" package-name="">
+        <member-entity entity-alias="PE" entity-name="OSPropertyEntry"/>
+        <member-entity entity-alias="PN" entity-name="OSPropertyNumber"/>
+        <alias entity-alias="PE" field="propertyKey" name="propertyKey"/>
+        <alias entity-alias="PE" field="entityName" name="entityName"/>
+        <alias entity-alias="PE" field="id" name="id"/>
+        <alias entity-alias="PE" field="entityId" name="entityId"/>
+        <alias entity-alias="PN" field="value" name="propertyValue"/>
+        <view-link entity-alias="PE" rel-entity-alias="PN" rel-optional="false">
+            <key-map field-name="id" rel-field-name="id"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="IssueWorkflowStepView" package-name="">
+        <member-entity entity-alias="jiraissue" entity-name="Issue"/>
+        <member-entity entity-alias="currentStep" entity-name="OSCurrentStep"/>
+        <alias entity-alias="jiraissue" field="id" name="issueid"/>
+        <alias entity-alias="jiraissue" field="number" name="issuenum"/>
+        <alias entity-alias="jiraissue" field="status" name="status"/>
+        <alias entity-alias="jiraissue" field="project" name="project"/>
+        <alias entity-alias="jiraissue" field="type" name="type"/>
+        <alias entity-alias="currentStep" field="stepId" name="stepId"/>
+        <view-link entity-alias="jiraissue" rel-entity-alias="currentStep" rel-optional="true">
+            <key-map field-name="workflowId" rel-field-name="entryId"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="IssueWorkflowEntryView" package-name="">
+        <member-entity entity-alias="JI" entity-name="Issue"/>
+        <member-entity entity-alias="WE" entity-name="OSWorkflowEntry"/>
+        <alias entity-alias="JI" field="id" name="issueId"/>
+        <alias entity-alias="JI" field="project" name="issueProject"/>
+        <alias entity-alias="JI" field="type" name="issueType"/>
+        <alias entity-alias="WE" field="name" name="workflowName"/>
+
+        <view-link entity-alias="JI" rel-entity-alias="WE" rel-optional="false">
+            <key-map field-name="workflowId" rel-field-name="id"/>
+        </view-link>
+    </view-entity>
+
+    <!-- A join of Issue against Worklog, primarily so that they can be queried by Project ID (JRA-23144) -->
+    <view-entity entity-name="IssueWorklogView" package-name="">
+        <member-entity entity-alias="JI" entity-name="Issue"/>
+        <member-entity entity-alias="WL" entity-name="Worklog"/>
+
+        <!-- From Issue -->
+        <alias entity-alias="JI" field="project" name="project"/>
+        <alias entity-alias="JI" field="number" name="number"/>
+        <alias entity-alias="JI" field="timeoriginalestimate" name="timeoriginalestimate"/>
+        <alias entity-alias="JI" field="timeestimate" name="timeestimate"/>
+        <alias entity-alias="JI" field="timespent" name="timespent"/>
+
+        <!-- From Worklog -->
+        <alias entity-alias="WL" field="id" name="id"/>
+        <alias entity-alias="WL" field="issue" name="issue"/>
+        <alias entity-alias="WL" field="author" name="author"/>
+        <alias entity-alias="WL" field="grouplevel" name="grouplevel"/>
+        <alias entity-alias="WL" field="rolelevel" name="rolelevel"/>
+        <alias entity-alias="WL" field="body" name="body"/>
+        <alias entity-alias="WL" field="created" name="created"/>
+        <alias entity-alias="WL" field="updateauthor" name="updateauthor"/>
+        <alias entity-alias="WL" field="updated" name="updated"/>
+        <alias entity-alias="WL" field="startdate" name="startdate"/>
+        <alias entity-alias="WL" field="timeworked" name="timeworked"/>
+
+        <view-link entity-alias="JI" rel-entity-alias="WL" rel-optional="false">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="ChangeGroupChangeItemView" package-name="">
+        <member-entity entity-alias="CG" entity-name="ChangeGroup"/>
+        <member-entity entity-alias="CI" entity-name="ChangeItem"/>
+        <alias entity-alias="CG" field="id" name="changegroupid"/>
+        <alias entity-alias="CG" field="issue" name="issue"/>
+        <alias entity-alias="CG" field="author" name="author"/>
+        <alias entity-alias="CG" field="created" name="created"/>
+        <alias entity-alias="CI" field="id" name="changeitemid"/>
+        <alias entity-alias="CI" field="group" name="group"/>
+        <alias entity-alias="CI" field="fieldtype" name="fieldtype"/>
+        <alias entity-alias="CI" field="field" name="field"/>
+        <alias entity-alias="CI" field="oldvalue" name="oldvalue"/>
+        <alias entity-alias="CI" field="oldstring" name="oldstring"/>
+        <alias entity-alias="CI" field="newvalue" name="newvalue"/>
+        <alias entity-alias="CI" field="newstring" name="newstring"/>
+
+        <view-link entity-alias="CG" rel-entity-alias="CI" rel-optional="false">
+            <key-map field-name="id" rel-field-name="group"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="ChangeGroupChangeItemMax" package-name="">
+        <member-entity entity-alias="CG" entity-name="ChangeGroup"/>
+        <member-entity entity-alias="CI" entity-name="ChangeItem"/>
+        <alias entity-alias="CG" field="created" function="max" name="maxcreated"/>
+        <alias entity-alias="CG" field="issue" name="issue" group-by="true"/>
+        <alias entity-alias="CI" field="field" name="field"/>
+        <alias entity-alias="CI" field="oldvalue" name="oldvalue"/>
+        <alias entity-alias="CI" field="newstring" name="newstring"/>
+
+        <view-link entity-alias="CG" rel-entity-alias="CI" rel-optional="false">
+            <key-map field-name="id" rel-field-name="group"/>
+        </view-link>
+    </view-entity>
+
+    <!-- Views for grouping the upgrade history into distinct versions in time -->
+    <view-entity entity-name="UpgradeHistoryMaxIdForTargetBuild" package-name="">
+        <member-entity entity-alias="UH" entity-name="UpgradeHistory" />
+
+        <alias entity-alias="UH" field="id" function="max" name="id" />
+        <alias entity-alias="UH" field="targetbuild" name="targetbuild" group-by="true" />
+    </view-entity>
+
+    <view-entity entity-name="UpgradeHistoryLastClassForTargetBuild" package-name="">
+        <member-entity entity-alias="UH1" entity-name="UpgradeHistoryMaxIdForTargetBuild" />
+        <member-entity entity-alias="UH2" entity-name="UpgradeHistory" />
+        <alias entity-alias="UH1" field="id" name="id" />
+        <alias entity-alias="UH1" field="targetbuild" name="targetbuild" />
+        <alias entity-alias="UH2" field="upgradeclass" name="upgradeclass" />
+
+        <view-link entity-alias="UH1" rel-entity-alias="UH2" rel-optional="false">
+            <key-map field-name="id" rel-field-name="id" />
+        </view-link>
+    </view-entity>
+
+    <!-- Views for user history used by activity stream -->
+
+    <view-entity entity-name="ChangeGroupIssueView" package-name="">
+        <member-entity entity-alias="cg" entity-name="ChangeGroup"/>
+        <member-entity entity-alias="jiraissue" entity-name="Issue"/>
+        <alias entity-alias="cg" field="id" name="changegroupid"/>
+        <alias entity-alias="cg" field="issue" name="issue"/>
+        <alias entity-alias="cg" field="author" name="author"/>
+        <alias entity-alias="cg" field="created" name="created"/>
+        <alias entity-alias="jiraissue" field="id" name="issueid"/>
+        <alias entity-alias="jiraissue" field="project" name="project"/>
+
+        <view-link entity-alias="jiraissue" rel-entity-alias="cg" rel-optional="false">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="ActionIssueView" package-name="">
+        <member-entity entity-alias="action" entity-name="Action"/>
+        <member-entity entity-alias="jiraissue" entity-name="Issue"/>
+        <alias entity-alias="action" field="id" name="actionid"/>
+        <alias entity-alias="action" field="issue" name="issue"/>
+        <alias entity-alias="action" field="author" name="author"/>
+        <alias entity-alias="action" field="created" name="created"/>
+        <alias entity-alias="jiraissue" field="id" name="issueid"/>
+        <alias entity-alias="jiraissue" field="project" name="project"/>
+
+        <view-link entity-alias="jiraissue" rel-entity-alias="action" rel-optional="false">
+            <key-map field-name="id" rel-field-name="issue"/>
+        </view-link>
+    </view-entity>
+
+
+    <!-- The views for searching Filters. -->
+
+    <view-entity entity-name="SearchRequestShareView" package-name="">
+        <member-entity entity-alias="SR" entity-name="SearchRequest"/>
+        <member-entity entity-alias="SP" entity-name="SharePermissions"/>
+
+        <alias entity-alias="SR" field="id" name="id"/>
+        <alias entity-alias="SR" field="name" name="name"/>
+        <alias entity-alias="SR" field="author" name="author"/>
+        <alias entity-alias="SR" field="description" name="description"/>
+        <alias entity-alias="SR" field="favCount" name="favCount"/>
+        <alias entity-alias="SR" field="request" name="request"/>
+        <alias entity-alias="SP" field="entityId" name="entityId"/>
+        <alias entity-alias="SP" field="entityType" name="entityType"/>
+        <alias entity-alias="SP" field="type" name="type"/>
+        <alias entity-alias="SP" field="param1" name="param1"/>
+        <alias entity-alias="SP" field="param2" name="param2"/>
+
+        <view-link entity-alias="SR" rel-entity-alias="SP" rel-optional="true">
+            <key-map field-name="id" rel-field-name="entityId"/>
+            <key-map field-name="" rel-field-name="entityType" const-value="SearchRequest"/>
+        </view-link>
+    </view-entity>
+
+    <view-entity entity-name="RemoteIssueLinkCount" package-name="">
+        <member-entity entity-alias="RIL" entity-name="RemoteIssueLink"/>
+        <alias entity-alias="RIL" field="id" function="count" name="count"/>
+        <alias entity-alias="RIL" field="globalid" name="globalid"/>
+    </view-entity>
+
+    <view-entity entity-name="UserAssociationCount" package-name="">
+        <member-entity entity-alias="UA" entity-name="UserAssociation" />
+        <alias entity-alias="UA" field="sinkNodeId" name="sinkNodeId" group-by="true" />
+        <alias entity-alias="UA" field="sinkNodeEntity" name="sinkNodeEntity" group-by="true" />
+        <alias entity-alias="UA" field="associationType" name="associationType" group-by="true" />
+        <alias entity-alias="UA" field="sinkNodeId" name="count" function="count" />
+    </view-entity>
+
+    <view-entity entity-name="PermissionSchemeCount" package-name="">
+        <member-entity entity-alias="PC" entity-name="SchemePermissions"/>
+        <alias entity-alias="PC" field="scheme" name="scheme" group-by="true"/>
+        <alias entity-alias="PC" field="id" name="count" function="count"/>
+    </view-entity>
+
+</entitymodel>

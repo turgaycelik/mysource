@@ -1,0 +1,33 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2" >
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.4"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <resource name="jira-reference-dependent-plugin" type="i18n" location="jira-reference-dependent-plugin" />
+   
+    <webwork1 key="reference-actions" name="Reference Dependent Plugin WebWork Actions" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.dev.reference.dependent.plugin.actions.ReferenceComponentImportAction"
+                    alias="ReferenceComponentImportAction">
+                <view name="success">templates/actions/reference-component-import-view.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+    
+    <component-import key="reference-public-component"
+                      name="Reference Component Import"
+                      interface="com.atlassian.jira.dev.reference.plugin.components.ReferencePublicComponent">
+    </component-import>
+
+    <reference-module key="external-reference-module-with-i18n" name="External Reference Module" i18n-name-key="module.moduletype.external.name">
+        <description key="module.moduletype.external.desc">A reference external 'implementation' of reference module type.</description>
+    </reference-module>
+
+    <reference-module key="external-reference-module-without-i18n" name="External Reference Module (without i18n)">
+        <description>A reference external 'implementation' of reference module type (without i18n).</description>
+    </reference-module>
+
+</atlassian-plugin>

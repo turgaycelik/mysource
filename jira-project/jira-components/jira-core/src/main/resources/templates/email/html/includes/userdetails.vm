@@ -1,0 +1,16 @@
+#disable_html_escaping()
+
+<table class="keyvalue-table">
+    <tr>
+        <th>$i18n.getText('template.user.details.username'):</th>
+        <td>$textutils.htmlEncode($user.name)</td>
+    </tr>
+    <tr>
+        <th>$i18n.getText('template.user.details.email'):</th>
+        <td>$textutils.htmlEncode($user.emailAddress)</td>
+    </tr>
+    <tr>
+        <th>$i18n.getText('template.user.details.fullname'):</th>
+        <td>$textutils.htmlEncode($user.displayName)</td>
+    </tr>
+</table>

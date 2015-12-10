@@ -1,0 +1,23 @@
+@import "../../imports/mixins/border-box";
+@import "../../imports/mixins/border-radius";
+@import "../../imports/mixins/borders";
+
+.jira-adbox {
+    .border-radius(3px);
+    .bordered();
+    .border-box();
+    background: transparent none no-repeat bottom right;
+    background-image: inlineimage('images/adbox/page.png');
+    padding: 30px 120px 30px 20px;
+    width: auto;
+    margin: 0 auto;
+
+    &.jira-adbox-medium { max-width: 500px; }
+
+    &.get-started-message {
+        background-image: inlineimage('images/adbox/rocket.png');
+    }
+    &.not-logged-in-message {
+        background-image: inlineimage('images/adbox/lock.png');
+    }
+}

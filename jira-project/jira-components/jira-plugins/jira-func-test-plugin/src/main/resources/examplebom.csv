@@ -1,0 +1,4 @@
+# This is an example bom.csv file. You should ignore anything you see in here except as an example.
+
+test-library-ignore,thisIsAnExampleIgnoreIt,GNU Lesser General Public License 2.1,http://example.com,binary
+another-test-library-ignore,thisIsAnotherExampleIgnoreIt,Apache License 2.0,,

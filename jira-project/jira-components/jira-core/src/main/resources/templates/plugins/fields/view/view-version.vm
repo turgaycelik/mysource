@@ -1,0 +1,12 @@
+#disable_html_escaping()
+#if ($value)
+    <div class="shorten" id="${customField.id}-field">
+        #foreach ($option in $value)
+            #if ($displayParameters && $displayParameters.nolink)
+                $textutils.htmlEncode($option.name)#commaonly($value)
+            #else
+                <a href="$requestContext.baseUrl/secure/IssueNavigator.jspa?reset=true&amp;mode=hide&amp;sorter/order=ASC&amp;sorter/field=priority&amp;pid=$option.project.getLong('id')&amp;$customField.id=$option.id" title="$textutils.htmlEncode($option.name)#if($option.description && $option.description != '') - $textutils.htmlEncode($option.description)#end">$textutils.htmlEncode($option.name)</a>#if ($displayParameters.get('showProject')) <small>[<strong>$i18n.getText('common.concepts.project'):</strong> ${textutils.htmlEncode($option.getProjectObject().getName())}]</small>#end#commaonly($value)
+            #end
+        #end
+    </div>
+#end

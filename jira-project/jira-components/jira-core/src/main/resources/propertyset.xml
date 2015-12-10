@@ -1,0 +1,31 @@
+<propertysets>
+    <!-- WARNING: DefaultJiraPropertySetFactory bypasses this configuration file for efficiency reasons. -->
+    <propertyset name="aggregate" class="com.opensymphony.module.propertyset.aggregate.AggregatePropertySet"/>
+    <propertyset name="cached" class="com.atlassian.jira.propertyset.JiraCachingPropertySet"/>
+    <propertyset name="jdbc" class="com.opensymphony.module.propertyset.database.JDBCPropertySet">
+        <arg name="datasource" value="jdbc/DefaultDS"/>
+        <arg name="table.name" value="OS_PROPERTYENTRY"/>
+        <arg name="col.globalKey" value="GLOBAL_KEY"/>
+        <arg name="col.itemKey" value="ITEM_KEY"/>
+        <arg name="col.itemType" value="ITEM_TYPE"/>
+        <arg name="col.string" value="STRING_VALUE"/>
+        <arg name="col.date" value="DATE_VALUE"/>
+        <arg name="col.data" value="DATA_VALUE"/>
+        <arg name="col.float" value="FLOAT_VALUE"/>
+        <arg name="col.number" value="NUMBER_VALUE"/>
+    </propertyset>
+    <propertyset name="ejb" class="com.opensymphony.module.propertyset.ejb.EJBPropertySet"/>
+    <propertyset name="javabeans" class="com.opensymphony.module.propertyset.javabeans.BeanIntrospectorPropertySet"/>
+    <propertyset name="map" class="com.opensymphony.module.propertyset.map.MapPropertySet"/>
+    <propertyset name="memory" class="com.opensymphony.module.propertyset.memory.MemoryPropertySet"/>
+    <propertyset name="serializable" class="com.opensymphony.module.propertyset.memory.SerializablePropertySet"/>
+    <propertyset name="ofbiz" class="com.opensymphony.module.propertyset.ofbiz.OFBizPropertySet"/>
+    <propertyset name="ofbiz-cached" class="com.atlassian.jira.propertyset.CachingOfBizPropertySet"/>
+    <propertyset name="hibernate" class="com.opensymphony.module.propertyset.hibernate.HibernatePropertySet">
+        <arg name="hibernate.connection.datasource" value="jdbs/DefautDS" />
+        <arg name="hibernate.dialect" value="net.sf.hibernate.dialect.HSQLDialect" />
+    </propertyset>
+    <propertyset name="ojb" class="com.opensymphony.module.propertyset.ojb.OJBPropertySet"/>
+    <propertyset name="xml" class="com.opensymphony.module.propertyset.xml.XMLPropertySet"/>
+    <propertyset name="crowd" class="com.atlassian.crowd.integration.osuser.CrowdPropertySet"/>
+</propertysets>

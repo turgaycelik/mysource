@@ -1,0 +1,1 @@
+#if ($value) <span title="${title}"><time datetime="${iso8601}">${value}</time></span> #else &nbsp; #end

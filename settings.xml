@@ -1,0 +1,46 @@
+<settings>
+    <localRepository>localrepo</localRepository>
+    <profiles>
+        <profile>
+            <id>atlassian-repositories</id>
+            <repositories>
+                <repository>
+                    <id>atlassian-proxy</id>
+                    <name>Atlassian Maven 2 Proxy</name>
+                    <url>https://m2proxy.atlassian.com/repository/public</url>
+                </repository>
+                <repository>
+                    <id>atlassian-contrib</id>
+                    <name>Atlassian Contrib Repository</name>
+                    <url>https://m2proxy.atlassian.com/contrib</url>
+                </repository>
+            </repositories>
+	    <pluginRepositories>
+		<pluginRepository>
+                    <id>atlassian-proxy</id>
+                    <name>Atlassian Maven 2 Proxy</name>
+                    <url>https://m2proxy.atlassian.com/repository/public</url>
+                </pluginRepository>
+	    </pluginRepositories>
+        </profile>
+    </profiles>
+    <activeProfiles>
+        <activeProfile>atlassian-repositories</activeProfile>
+    </activeProfiles>
+
+    <mirrors>
+        <mirror>
+            <id>glassfish-mirror</id>
+            <name>Mirror for glassfish</name>
+            <url>https://maven.atlassian.com/content/repositories/atlassian-3rdparty/</url>
+            <mirrorOf>glassfish-repository</mirrorOf>
+        </mirror>
+        <mirror>
+            <id>laughing-panda-mirror</id>
+            <name>Mirror for laughing panda</name>
+            <url>https://m2proxy.atlassian.com/repository/public</url>
+            <mirrorOf>laughing panda</mirrorOf>
+        </mirror>
+    </mirrors>
+
+</settings>

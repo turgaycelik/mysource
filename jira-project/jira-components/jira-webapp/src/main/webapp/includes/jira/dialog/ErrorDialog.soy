@@ -1,0 +1,18 @@
+{namespace JIRA.Templates.ErrorDialog}
+
+/**
+ * Chrome around the message which is added to a modal dialog when a server error occurs
+ * @param message The message to be added into the AUI error message in the dialog.
+ */
+{template .serverErrorModalDialog}
+<div class="form-body">
+    <div class="aui-message error">
+        <span class="aui-icon icon-error"></span> {$message}
+    </div>
+</div>
+<div class="buttons-container form-footer">
+    <div class="buttons">
+        <a href="#" class="error-dialog-refresh aui-button aui-button-link">{getText('admin.common.words.refresh')}</a>
+    </div>
+</div>
+{/template}

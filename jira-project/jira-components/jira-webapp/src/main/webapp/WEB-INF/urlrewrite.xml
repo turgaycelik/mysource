@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE urlrewrite PUBLIC "-//tuckey.org//DTD UrlRewrite 4.0//EN" "http://www.tuckey.org/res/dtds/urlrewrite4.0.dtd">
+
+<!--
+    URL Rewrite files to make issue navigator URL backwards compatible and some other things
+    @since JIRA 3.3
+-->
+<urlrewrite>
+    <!-- Caching of static resources -->
+    <class-rule class="com.atlassian.jira.plugin.webresource.CachingResourceDownloadRewriteRule"/>
+    <!-- @since 5.0 [KickAss]-->
+    <rule>
+        <from>^/issues(\?.*)?$</from>
+        <to type="permanent-redirect">issues/$1</to>
+    </rule>
+
+</urlrewrite>

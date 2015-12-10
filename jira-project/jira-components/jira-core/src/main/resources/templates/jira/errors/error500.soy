@@ -1,0 +1,391 @@
+{namespace JIRA.Templates.errors.InternalError}
+
+/**
+ * @param helpsteps List of steps for solving this problem
+ * @param errorId Log's referral number
+ * @param fullInfo Decides which version of technical details presentation should be used (boolean)
+ * @param technicalDetails Map with technical details displayed to the user
+ * @param footer Footer content
+ * @param resourcesContent Additional resources which be included under <head> tag
+ */
+{template .page}
+    {call JIRA.Templates.errors.errorPage}
+        {param windowTitle: getText('system.error.main.title') /}
+        {param extraClasses: 'error500' /}
+        {param resourcesContent: $resourcesContent /}
+
+        {param lowerContent}
+            <div id="error-state">
+                <span class="error-type"></span>
+                <h1>{getText('500.title')}</h1>
+                <h2 class="technical-details-header">
+                    <span>{getText('500.request.assistance')}</span>
+                </h2>
+                <div id="technical-details-content" class="technical-details js-hidden">
+                    {if length($helpsteps) > 1}
+                        <ol>
+                        {foreach $line in $helpsteps}
+                            <li>{$line|noAutoescape}</li>
+                        {/foreach}
+                        </ol>
+                    {else}
+                        {foreach $line in $helpsteps}
+                            <p>{$line|noAutoescape}</p>
+                        {/foreach}
+                    {/if}
+                    <div class="technical-details-content" contentEditable readonly>
+                        <h2>{getText('500.technical.details')}</h2>
+                        {if $errorId}
+                            <p class="referral">{getText('500.logs.referral.number')} <strong>{$errorId}</strong></p>
+                        {/if}
+                        {if $fullInfo}
+                            {call .fullMessage data="$technicalDetails" /}
+                        {else}
+                            {call .simpleMessage data="$technicalDetails" /}
+                        {/if}
+                    </div>
+                </div>
+                <p>{getText('500.go.back.to.the.previous.page', '<a href="javascript:window.history.back()">', '</a>')|noAutoescape}</p>
+            </div>
+        {/param}
+        {param footerContent: $footer /}
+    {/call}
+{/template}
+
+/**
+ * @param generalInfo
+ */
+{template .simpleMessage}
+    {call .section}
+        {param title: getText('system.error.cause') /}
+        {param content}
+            {call .cause data="$generalInfo" /}
+        {/param}
+        {param id: 'causePanel' /}
+    {/call}
+{/template}
+
+
+/**
+ * @param generalInfo
+ * @param serverInfo
+ * @param requestInfo
+ * @param requestAttributes
+ * @param loggingEvents
+ * @param? buildInfoData
+ * @param? filePaths
+ * @param? memInfo
+ * @param? sysInfo
+ * @param? languageInfo
+ * @param? listeners
+ * @param? services
+ * @param? plugins
+ */
+{template .fullMessage}
+
+    {call .section}
+        {param title: getText('system.error.cause') /}
+        {param content}
+            {call .cause data="$generalInfo" /}
+        {/param}
+        {param id: 'causePanel' /}
+    {/call}
+
+    {if $buildInfoData}
+        {call .section}
+            {param title: getText('system.error.build.information') /}
+            {param content}
+                {call .simpleTable}
+                    {param params: $buildInfoData  /}
+                {/call}
+            {/param}
+            {param id: 'buildInfoPanel' /}
+        {/call}
+    {/if}
+
+    {call .section}
+        {param title: getText('system.error.server.information') /}
+        {param content}
+            {call .simpleTable}
+                {param params: $serverInfo  /}
+            {/call}
+        {/param}
+        {param id: 'serverInfoPanel' /}
+    {/call}
+
+    {if $filePaths}
+        {call .section}
+            {param title: getText('system.error.file.paths') /}
+            {param content}
+                {call .simpleTable}
+                    {param params: $filePaths  /}
+                {/call}
+            {/param}
+            {param id: 'filePathsPanel' /}
+        {/call}
+    {/if}
+
+    {if $memInfo}
+        {call .section}
+            {param title: getText('system.error.memory.information') /}
+            {param content}
+                {call .simpleTable}
+                    {param params: $memInfo  /}
+                {/call}
+            {/param}
+            {param id: 'memInfoPanel' /}
+        {/call}
+    {/if}
+
+    {if $sysInfo}
+        {call .section}
+            {param title: getText('system.error.system.information') /}
+            {param content}
+                {call .simpleTable}
+                    {param params: $sysInfo  /}
+                {/call}
+            {/param}
+            {param id: 'sysInfoPanel' /}
+        {/call}
+    {/if}
+
+    {if $languageInfo}
+        {call .section}
+            {param title: getText('admin.systeminfo.language.info') /}
+            {param content}
+                {call .languagesTable}
+                    {param languageInfo: $languageInfo  /}
+                {/call}
+            {/param}
+            {param id: 'languageInfoPanel' /}
+        {/call}
+    {/if}
+
+    {call .section}
+        {param title: getText('system.error.request.information') /}
+        {param content}
+            {call .simpleTable}
+                {param params: $requestInfo  /}
+            {/call}
+        {/param}
+        {param id: 'requestInfoPanel' /}
+    {/call}
+
+
+    {call .section}
+        {param title: getText('system.error.request.attributes') /}
+        {param content}
+            {call .simpleTable}
+                {param params: $requestAttributes  /}
+            {/call}
+        {/param}
+        {param id: 'requestAttributesPanel' /}
+    {/call}
+
+    {call .section}
+        {param title: getText('system.error.request.logging') /}
+        {param content}
+             <p><b>{length($loggingEvents)}</b> log statements generated by this request.</p>
+             {foreach $event in $loggingEvents}
+                {call .loggingEvent data="$event" /}
+             {/foreach}
+        {/param}
+        {param id: 'loggingPanel' /}
+    {/call}
+
+
+    {if $listeners}
+        {call .section}
+            {param title: getText('admin.systeminfo.listeners') /}
+            {param content}
+                {call aui.table}
+                    {param content}
+                         {foreach $listener in $listeners}
+                             {call .listener data="$listener" /}
+                         {/foreach}
+                    {/param}
+                {/call}
+            {/param}
+            {param id: 'listenersPanel' /}
+        {/call}
+    {/if}
+
+    {if $services}
+        {call .section}
+            {param title: getText('admin.systeminfo.services') /}
+            {param content}
+                {call aui.table}
+                    {param content}
+                        {foreach $service in $services}
+                            {call .service data="$service" /}
+                        {/foreach}
+                    {/param}
+                {/call}
+            {/param}
+            {param id: 'servicesPanel' /}
+        {/call}
+    {/if}
+
+    {if $plugins}
+        {call .section}
+            {param title: getText('admin.systeminfo.plugins') /}
+            {param content}
+                {call aui.table}
+                    {param content}
+                        {foreach $plugin in $plugins}
+                            {call .plugin data="$plugin" /}
+                        {/foreach}
+                    {/param}
+                {/call}
+            {/param}
+            {param id: 'pluginsPanel' /}
+        {/call}
+    {/if}
+{/template}
+
+
+/**
+ * @param content Content of the section
+ * @param? title Title of the section
+ * @param? id Optional id of the wrapping element
+ */
+{template .section}
+    <div class="info-section" id="{$id}">
+        {if $title}
+            <h2>{$title}</h2>
+        {/if}
+        {$content|noAutoescape}
+    </div>
+{/template}
+
+
+
+/**
+ * @param cause
+ * @param stacktrace
+ * @param servletErrorMessage
+ * @param referer
+ * @param interpretedMsg
+ */
+{template .cause}
+    {if $interpretedMsg}
+        <p>{getText('system.error.known.description')}</p>
+        <p>{getText('system.error.known.resembles')}</p>
+        <p>{$interpretedMsg}</p>
+        <p>{getText('system.error.known.notifyadmin')}</p>
+    {/if}
+    <p>{getText('system.error.referer.url')}: <b>{$referer}</b></p>
+    <pre>{$cause}</pre>
+    {if $stacktrace}
+        <blockquote id="stacktrace" style="overflow-x: auto;"><pre>{$stacktrace}</pre></blockquote>
+    {else}
+        <p>{$servletErrorMessage}</p>
+    {/if}
+{/template}
+
+
+/**
+ * @param params
+ */
+{template .simpleTable}
+{call aui.table}
+    {param content}
+        {foreach $row in $params}
+            <tr>
+                <th>{$row.key}</th>
+                <td>{$row.value}</td>
+            </tr>
+        {/foreach}
+    {/param}
+{/call}
+{/template}
+
+/**
+ * @param languageInfo
+ */
+{template .languagesTable}
+{let $title: getText('admin.generalconfiguration.installed.languages') /}
+{call aui.table}
+    {param id: 'language-info' /}
+    {param content}
+        {let $languages: $languageInfo[$title] /}
+        {foreach $language in $languages}
+        <tr>
+            {if isFirst($language)}<th rowspan="{length($languages)}">{$title}</th>{/if}
+            <td>{$language}</td>
+        </tr>
+        {/foreach}
+        <tr>
+            <th>{getText('admin.generalconfiguration.default.language')}</th>
+            <td>{$languageInfo[getText('admin.generalconfiguration.default.language')]}</td>
+        </tr>
+    {/param}
+{/call}
+{/template}
+
+/**
+ * @param throwableStrRep
+ * @param level
+ * @param date
+ * @param loggerName
+ * @param message
+ */
+{template .loggingEvent}
+<div style="font-family: monospace">
+    <span style="color: #d04437">{$level}</span> <span style="color: #4a6785">{$date}</span> [{$loggerName}] {$message}
+</div>
+{if $throwableStrRep}
+<div style="font-size: 12px; line-height: 1.33333333333333; margin: 0 0 0 20px; font-family: monospace;">
+    {foreach $row in $throwableStrRep}
+        {if index($row) < 20}
+            <div>{$row}</div>
+        {/if}
+    {/foreach}
+</div>
+{/if}
+{/template}
+
+/**
+ * @param clazz
+ * @param name
+ * @param properties
+ */
+{template .listener}
+    <tr><th>{$name}</th><td>{$clazz}</td></tr>
+    {foreach $prop in $properties}
+        <tr><th>{$prop.key}</th><td>{$prop.value}</td></tr>
+    {/foreach}
+{/template}
+
+/**
+ * @param properties
+ * @param name
+ * @param class
+ * @param delay
+ */
+{template .service}
+    <tr><th>{$name}</th><td>{$class}</td><td>{$delay} {getText('core.dateutils.minutes')}</td></tr>
+    {foreach $prop in $properties}
+        <tr><td colspan="3"><small>&mdash; <b>{$prop.key}:</b> {$prop.value}</small></td></tr>
+    {/foreach}
+{/template}
+
+
+/**
+ * @param name
+ * @param version
+ * @param vendor
+ * @param enabled
+ * @param parameters
+ */
+{template .plugin}
+    <tr>
+        <th>{$name}</th>
+        <td>{$version}</td>
+        <td>{$vendor}</td>
+        <td>{if $enabled}{getText('admin.systeminfo.plugin.enabled')}{else}{getText('admin.systeminfo.plugin.disabled')}{/if}</td>
+    </tr>
+    {foreach $param in $parameters}
+        <tr><td colspan="4"><small>&mdash; <b>{$param.key}:</b> {$param.value}</small></td></tr>
+    {/foreach}
+{/template}

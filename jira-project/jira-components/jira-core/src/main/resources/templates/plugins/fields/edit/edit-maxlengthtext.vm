@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($!customField.isRenderable() && $rendererDescriptor)
+    ## setup some additional parameters
+    $!rendererParams.put("maxlength", "254")
+    ## let the renderer display the edit component
+    $rendererDescriptor.getEditVM($!value, $!issue.key, $!fieldLayoutItem.rendererType, $!customField.id, $customField.name, $rendererParams, true)
+#else
+    #set ($style='')
+    #if ($configs.styles.style) #set ($style = ' style="' + $configs.styles.style + '"') #end
+    <input class="text" id="$customField.id" maxlength="254" name="$customField.id"${style} type="text" value="$textutils.htmlEncode($!value)" />
+#end
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

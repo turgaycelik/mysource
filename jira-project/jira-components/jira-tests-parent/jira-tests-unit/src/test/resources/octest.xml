@@ -1,0 +1,55 @@
+<octest id="octest">
+<description>description</description>
+<properties>
+	<property>
+		<key>key1</key>
+		<name>field1</name>
+		<description>description1</description>
+		<type>1</type>
+		<values>
+			<value>
+				<key>selectkey1</key>
+				<value>selectvalue1</value>
+			</value>
+			<value>
+				<key>selectkey2</key>
+				<value>selectvalue2</value>
+			</value>
+			<value>
+				<key>selectkey3</key>
+				<value>selectvalue3</value>
+			</value>
+		</values>
+	</property>
+    <property>
+        <key>key2</key>
+        <name>field2</name>
+        <description>description2</description>
+        <type>2</type>
+        <i18n>false</i18n>
+        <values>
+            <value>
+                <key>selectkey1</key>
+                <value>selectvalue1</value>
+            </value>
+            <value>
+                <key>selectkey2</key>
+                <value>selectvalue2</value>
+            </value>
+            <value>
+                <key>selectkey3</key>
+                <value>selectvalue3</value>
+            </value>
+        </values>
+        <enabled-condition class="com.atlassian.configurable.NotEnabledCondition" />
+    </property>
+    <property>
+        <key>key3</key>
+        <name>field3</name>
+        <description>description3</description>
+        <type>text</type>
+        <i18n>false</i18n>
+        <enabled-condition class="com.atlassian.configurable.NotEnabledCondition" />
+    </property>
+</properties>
+</octest>

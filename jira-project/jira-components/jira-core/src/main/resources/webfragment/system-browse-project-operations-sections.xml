@@ -1,0 +1,22 @@
+<atlassian-plugin name='Browse Project Operations Sections' key='jira.webfragments.browse.project.links'
+                  i18n-name-key="webfragments.browse.project.operations.plugin.name">
+    <plugin-info>
+        <description key="webfragments.browse.project.operations.plugin.desc">This library includes the web fragments for the
+            Browse Project and Browse Projects pages. This should not be disabled.
+        </description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-section key="system.browse.project.operations" name="Browse Project Operations Bar" location="system.browse.project"  i18n-name-key="webfragments.browse.project.operations" />
+
+    <web-section key="system.browse.projects.operations" name="Browse Projects Operations Bar" location="system.browse.projects"  i18n-name-key="webfragments.browse.projects.operations" />
+
+    <web-item key="create_project" name="Create Project" section="system.browse.projects.operations" i18n-name-key="webfragments.browse.projects.operations.item.create.project.name"  weight="10">
+        <label key="webfragments.browse.projects.operations.item.create.project.name" />
+        <link linkId="browse-projects-create-project"></link>
+        <styleClass>add-project-trigger</styleClass>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+    </web-item>
+
+</atlassian-plugin>

@@ -1,0 +1,25 @@
+{namespace com.atlassian.jira.plugin.headernav.customcontentlinks.admin}
+/** Template for admin page
+ * @param title
+ * @param description
+ * @param createInstructions
+ * @param entityKey
+ */
+{template .customContentLinksAdminPage}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>{$title}</title>
+  <meta name='decorator' content='atl.admin'/>
+  <meta name="admin.active.section" content="atl.jira.proj.config"/>
+  <meta name="admin.active.tab" content="custom-content-links-admin-page-link"/>
+  <meta name="projectKey" content="{$entityKey}"/>
+</head>
+<body>
+  <h3 class="formtitle">{$title}</h3>
+  <p>{$description} {$createInstructions}</p>
+  <table id='custom-content-links-admin-content' data-entitykey='{$entityKey}'>
+  </table>
+</body>
+</html>
+{/template}

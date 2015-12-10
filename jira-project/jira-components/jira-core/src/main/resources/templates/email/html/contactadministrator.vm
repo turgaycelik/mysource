@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#parse("templates/email/html/includes/header.vm")
+
+#set ($pageTitle = $i18n.getText('jira.email.new.from.contact.administrators'))
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/page-title.vm')")
+
+#rowWrapperNormalBegin()
+<table class="keyvalue-table">
+    <tr>
+        <th>$i18n.getText('admin.email.from'):</th>
+        <td>$from</td>
+    </tr>
+</table>
+#rowWrapperNormalEnd()
+
+#set ($textParagraphClasses = 'contact-admin-message')
+#set ($textParagraph = $textutils.br($textutils.htmlEncode($content)))
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+
+#parse("templates/email/html/includes/footer.vm")

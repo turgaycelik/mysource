@@ -1,0 +1,61 @@
+/* The main calendar widget.  DIV containing a table. */
+.calendar {z-index:12001;} /* JRADEV-17715 Setting this one higher than ajs-layer */
+div.calendar {padding:2px;position:relative;-moz-box-shadow: 3px 3px 3px #666;-webkit-box-shadow: 3px 3px 3px #666;box-shadow: 3px 3px 3px #666;}
+.calendar,
+.calendar table {background-color:#fff;cursor:default;font-size:12px;}
+.calendar table .wn {background-color:#ccc;color:#666;padding: 2px 4px 2px 2px;}
+.calendar {border: 1px solid #bbb;}
+
+/* buttons */
+/* "<<", "<", ">", ">>" buttons have this class */
+.calendar thead td {font-weight:700;padding:2px;text-align:center;}
+.calendar .nav div {background:transparent url(../../../calendar_menuarrow.gif) no-repeat 100% 60%;}
+
+/* Header part -- contains navigation buttons and day names. */
+    .calendar .headrow {background-color:#f2f2f2;}
+    .calendar .headrow td {border-top:1px solid #bbb;}
+    .calendar .daynames td {background-color:#3C78B5;color:#fff}
+    .calendar .daynames td.wn {background-color:#ccc;color:#888;}
+    .calendar thead .name {font-weight:400;}
+
+     /* buttons hover */
+    .calendar td.hilite,
+    .calendar .combo .hilite,
+    .calendar td.time span.hilite {background-color:#99B5DF;}
+     /* active (pressed) buttons */
+    .calendar td.active,
+    .calendar .combo .active,
+    .calendar td.time span.active{background-color:#369;color:#fff;}
+    /* row hover */
+    .calendar .rowhilite,
+    .calendar .rowhilite .wn {background-color:#f7f7f7;}
+
+/* Combo boxes (menus that display months/years for direct selection) */
+.calendar .combo {background-color:#fff;border:1px solid #bbb;border-top:none;cursor: default;display: none;left: 0;position: absolute;top: 0;width: 4em;z-index: 100;}
+    .calendar .combo .label,
+    .calendar .combo .label-IEfix {text-align:center;padding:2px;}
+
+/* The body part -- contains all the days in month. */
+    .calendar tbody .day {padding:2px 4px 2px 2px;text-align:right;width:2em;}
+    .calendar tbody .day.othermonth {color:#999;}
+    .calendar tbody .day.othermonth.oweekend {color:#f99;}
+    .calendar tbody td.today {font-weight:700;}
+    .calendar tbody td.weekend {color:#c44;}
+    /* Cell showing selected date */
+    .calendar tbody td.selected {background-color:#3C78B5;color:#fff;font-weight:700;}
+    .calendar tbody .disabled {color:#999;}
+    .calendar tbody .emptycell {visibility:hidden;}
+    .calendar tbody .emptyrow {display:none;}
+
+/* time related */
+.calendar td.time {background-color:#f2f2f2;border-top:1px solid #bbb;padding:2px;text-align:center;}
+    .calendar td.time span {background-color:#fff;font-weight:700;padding:2px 5px 2px 6px;}
+    .calendar td.time .colon {background-color:#f2f2f2;}
+
+/* The footer part -- status bar and "Close" button */
+    .calendar tfoot .footrow {text-align:center;}
+    .calendar tfoot .ttip {border-top:1px solid #bbb;padding:2px;}
+    /* Hover style for buttons in footer - is this even used?*/
+    .calendar tfoot .hilite {background: #afa;border: 1px solid #084;color: #000;padding: 1px;}
+    /* Active (pressed) style for buttons in footer - is this even used?*/
+    .calendar tfoot .active {background: #7c7;padding: 2px 0 0 2px;}

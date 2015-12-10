@@ -1,0 +1,31 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    <fieldset rel="$customField.id" class="hidden user-picker-params">
+        <input title="formName" type="hidden" value="jiraform" />
+        <input title="fieldName" type="hidden" value="$customField.id" />
+        <input title="multiSelect" type="hidden" value="true" />
+        #if ($canPerformAjaxSearch)<input title="userPickerEnabled" type="hidden" value="true" />#end
+    </fieldset>
+    #set ($userString = "")
+    #if ($value)
+        #foreach ($selectedValue in $value)
+            #if ($userString == "")
+                #set ($userString=$selectedValue)
+            #else
+                #set ($userString="${userString}, $selectedValue")
+            #end
+        #end
+    #end
+    <div class="ajax_autocomplete" id="${customField.id}_container">
+        <textarea class="textarea long-field" cols="40" id="$customField.id" name="$customField.id" rows="3">$cfValueEncoder.encodeForHtml($userString)</textarea>
+        #if ($action.isHasPermission("pickusers"))
+            <a class="popup-trigger" href="#"><span class="aui-icon icon-userpicker" title="$i18n.getText('user.picker.select.users')"></span></a>
+        #else
+            <span class="aui-icon icon-userpicker-disabled" title="$i18n.getText('user.picker.no.permission')"></span>
+        #end
+        #if ($canPerformAjaxSearch)
+            <div id="${customField.id}_results" class="ajax_results"></div>
+            <div class="description">${i18n.getText('user.picker.ajax.desc')}</div>
+        #end
+    </div>
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

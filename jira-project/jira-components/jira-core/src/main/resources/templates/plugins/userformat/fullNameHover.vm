@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#if ($username)
+    #set ($quote = '"')
+    #if($user)
+        #set ($userHoverAttributes = "class=${quote}user-hover${quote} rel=${quote}${textutils.htmlEncode($username)}${quote}")
+        #set($author = "<span ${userHoverAttributes} id=${quote}$!{id}_${textutils.htmlEncode($username)}${quote}>$textutils.htmlEncode($fullname)</span>")
+    #else
+        #set($author = $textutils.htmlEncode($username))
+    #end
+#else
+    #set($author = $defaultFullName)
+#end
+${author}

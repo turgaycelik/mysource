@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log">
+
+    <jira:GetProjectRoleActors projectkey="MKY" projectroleid="1" var="roleactors" >
+        <core:forEach var="actor" items="${roleactors.users}">
+            ${actor.name}
+        </core:forEach>
+    </jira:GetProjectRoleActors>
+</JiraJelly>

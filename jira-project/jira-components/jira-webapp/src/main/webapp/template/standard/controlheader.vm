@@ -1,0 +1,73 @@
+#disable_html_escaping()
+#if ($errors.get($parameters.name))
+	<tr>
+  #if ($parameters.labelposition == 'top')
+		<td class="fieldLabelArea" colspan="2">
+	#else
+		<td class="fieldLabelArea formErrors">&nbsp;</td>
+		<td class="fieldValueArea formErrors">
+	#end
+		<span class="errMsg">$errors.get($parameters.name)</span>
+		#if ($errors.get($parameters.name.concat('Exception')))
+			 <script language="javascript">
+			 <!--
+			 function toggle(id) {
+					 var element = document.getElementById(id);
+					 with (element.style) {
+							 if ( display == "none" ){
+									 display = ""
+							 } else{
+									 display = "none"
+							 }
+					 }
+					 var text = document.getElementById(id + "-switch").firstChild;
+					 if (text.nodeValue == "[show]") {
+							 text.nodeValue = "[hide]";
+					 } else {
+							 text.nodeValue = "[show]";
+					 }
+			 }
+			 //-->
+			 </script>
+			 <br>
+				<b>Extra Information:</b>
+				<span style="cursor: pointer; margin-left: 5px; text-decoration: underline;" id="$parameters.name.concat('Exception')-switch" onclick="toggle('$parameters.name.concat('Exception')')">[show]</span>
+				<div id="$parameters.name.concat('Exception')" style="display:none">$errors.get($parameters.name.concat('Exception'))</div>
+		#end
+			</td>
+</tr>
+#end
+
+## if the label position is top,
+## then give the label it's own row in the table
+#if ($parameters.nolabel == true)
+
+#else
+    <tr>
+        #if ($parameters.labelposition == 'top')
+            <td class="fieldLabelArea" colspan="2">
+        #else
+            #if ($errors.get($parameters.name))
+                <td class="fieldLabelArea formErrors">
+            #else
+                <td class="fieldLabelArea">
+            #end
+        #end
+
+            #if ($parameters.mandatory == true)
+                $parameters.label<span class="icon icon-required"><span>($i18n.getText('common.forms.requiredfields'))</span></span>
+            #else
+                $parameters.label
+            #end
+            </td>
+#end
+
+#if ($parameters.labelposition == 'top')
+	</tr><tr>
+#end
+
+#if ($errors.get($parameters.name))
+	<td class="fieldValueArea formErrors">
+#else
+	<td class="fieldValueArea">
+#end

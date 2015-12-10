@@ -1,0 +1,4 @@
+#enable_html_escaping()
+<div id="addcomment" class="module">
+    ${commentHtml}
+</div>

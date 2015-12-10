@@ -1,0 +1,2 @@
+#disable_html_escaping()
+Test template defined within an existing file and receives the following parameter:$testParameter.

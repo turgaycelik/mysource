@@ -1,0 +1,39 @@
+<project basedir="." default="compile">
+
+    <property name="jira.home" location=".."/>
+    <property name="jira.webapp" location="${jira.home}/atlassian-jira"/>
+
+    <target name="prepare">
+        <mkdir dir="src"/>
+        <mkdir dir="etc"/>
+        <mkdir dir="lib"/>
+    </target>
+
+    <target name="compile" depends="prepare">
+
+        <javac srcdir="src" destdir="${jira.webapp}/WEB-INF/classes" debug="true">
+            <classpath>
+                <fileset dir="${jira.webapp}/WEB-INF/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <fileset dir="${jira.home}/lib">
+                    <include name="*.jar"/>
+                </fileset>
+                <pathelement location="${jira.webapp}/WEB-INF/classes"/>
+                <fileset dir="lib">
+                    <include name="*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+
+        <copy todir="${jira.webapp}/WEB-INF/classes">
+            <fileset dir="etc/"/>
+        </copy>
+
+        <copy todir="${jira.webapp}/WEB-INF/lib">
+            <fileset dir="lib/"/>
+        </copy>
+
+    </target>
+
+</project>

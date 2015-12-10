@@ -1,0 +1,10 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-datepicker")}
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required  $displayParameters $auiparams)
+    <input class="text medium-field" id="$field.id" name="$field.id" type="text" value="#esc($!duedate)" />
+    <a href="#" id="${field.id}-trigger" title="$i18n.getText('date.picker.select.date')">
+            <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+    </a>
+    #datePopup(${field.id} "${field.id}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+$!{auiparams.clear()}

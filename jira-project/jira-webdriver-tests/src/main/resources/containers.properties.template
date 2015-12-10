@@ -1,0 +1,150 @@
+#cargo.containers = resin3x, orion2x, tomcat5x
+#cargo.containers = geronimo1x, resin3x, orion2x, tomcat5x, tomcat3x, weblogic8x, jo1x, resin2x
+cargo.containers = tomcat5x
+
+#relative to the working directory
+jira.xml.data.location = /home/hbarney/src/atlassian/jira_ui_tests/xml/
+#cargo.container.tomcat5x.containerId = tomcat5x
+#cargo.container.tomcat5x.home = /home/hbarney/dev/servers/apache-tomcat-5.5.15
+#cargo.container.tomcat5x.deployables = JIRAWAR
+#cargo.container.tomcat5x.config.home= /tmp/tomcat5x/config
+#cargo.container.tomcat5x.config.type = standalone
+#cargo.container.tomcat5x.config.standalone.servlet.port = 8280
+#cargo.container.tomcat5x.config.standalone.hostname =localhost
+#cargo.container.tomcat5x.config.standalone.jvmargs = -Xmx256m
+#cargo.container.tomcat5x.config.standalone.tomcat.shutdown.port = 8205
+#cargo.deployable.JIRAWAR.type = war
+#cargo.deployable.JIRAWAR.file = $\{maven.war.build.dir\}/$\{maven.war.final.name\}
+
+
+cargo.tomcat5x.url = https://maven.atlassian.com/content/groups/public/org/apache/tomcat/apache-tomcat/5.5.28/apache-tomcat-5.5.28.zip
+cargo.tomcat5x.port = 8097
+cargo.tomcat5x.jira.tmp = /tmp/tomcat5x/tmp/
+cargo.tomcat5x.jira.edition = enterprise
+cargo.tomcat5x.datasource.jndi = jdbc/JiraDS
+cargo.tomcat5x.datasource.type = javax.sql.DataSource
+cargo.tomcat5x.datasource.driver = org.hsqldb.jdbcDriver
+cargo.tomcat5x.datasource.url = jdbc:hsqldb:.
+cargo.tomcat5x.datasource.username = sa
+cargo.tomcat5x.datasource.password =
+cargo.tomcat5x.jvmArgs =
+cargo.tomcat5x.extraclasspath = /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/carol-1.5.2.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/jonas_timer-1.4.3.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/jotm-jrmp_stubs-1.4.3.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/ots-jts_1.0.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/carol-properties.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/jotm-1.4.3.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/jta-1.0.1.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/xapool-1.3.1.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/hsqldb-1.8.0.5.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/jotm-iiop_stubs-1.4.3.jar, \
+  /home/hbarney/src/atlassian/jira-head/subprojects/func_tests/src/etc/java/jira.bamboo.atlassian-config/jira-jars-tomcat5/objectweb-datasource-1.4.3.jar
+
+
+
+# The directory to download application servers to
+cargo.install.dir = /tmp/cargoinstalls
+#
+##cargo.resin3x.home = /home/sfarquhar/dev/servers/resin-3.0.17/
+#cargo.resin3x.url = http://www.caucho.com/download/resin-3.0.15.zip
+#cargo.resin3x.port = 8091
+### currently not supported
+#cargo.resin3x.rmiport = 7001
+#cargo.resin3x.jira.edition = professional
+#cargo.resin3x.jira.tmp = /tmp/resin3x/tmp/
+#cargo.resin3x.datasource.jndi = jdbc/JiraDS
+#cargo.resin3x.datasource.type = javax.sql.DataSource
+#cargo.resin3x.datasource.driver = org.hsqldb.jdbcDriver
+#cargo.resin3x.datasource.url = jdbc:hsqldb:.
+#cargo.resin3x.datasource.username = sa
+#cargo.resin3x.datasource.password =
+#cargo.resin3x.extraclasspath = /home/sfarquhar/.maven/repository/hsqldb/jars/hsqldb-1.7.1-patched.jar
+#
+#cargo.resin2116.port = 8092
+#cargo.resin2116.url = http://www.caucho.com/download/resin-2.1.16.zip
+#cargo.resin2116.rmiport = 7001
+#cargo.resin2116.jira.edition = professional
+#cargo.resin2116.jira.tmp = /tmp/resin3x/tmp/
+#cargo.resin2116.datasource.jndi = jdbc/JiraDS
+#cargo.resin2116.datasource.type = javax.sql.DataSource
+#cargo.resin2116.datasource.driver = org.hsqldb.jdbcDriver
+#cargo.resin2116.datasource.url = jdbc:hsqldb:.
+#cargo.resin2116.datasource.username = sa
+#cargo.resin2116.datasource.password =
+#cargo.resin2116.extraclasspath = /home/sfarquhar/.maven/repository/hsqldb/jars/hsqldb-1.7.1-patched.jar
+#
+## cargo.orion2x.home = /home/sfarquhar/dev/servers/orion202/
+#cargo.orion205.url = http://www.orionserver.com/distributions/orion2.0.5.zip
+#cargo.orion205.port = 8093
+#cargo.orion205.jira.edition = professional
+#cargo.orion205.jira.tmp = /tmp/orion205/tmp/
+#cargo.orion205.datasource.jndi = jdbc/JiraDS
+#cargo.orion205.datasource.type = javax.sql.DataSource
+#cargo.orion205.datasource.driver = org.hsqldb.jdbcDriver
+#cargo.orion205.datasource.url = jdbc:hsqldb:/tmp/orion-datasource
+#cargo.orion205.datasource.username = sa
+#cargo.orion205.datasource.password =
+#cargo.orion205.extraclasspath = /home/sfarquhar/.maven/repository/hsqldb/jars/hsqldb-1.7.1-patched.jar
+#cargo.orion205.containertype = orion2x
+#
+#cargo.orion1x.port = 8094
+#cargo.orion1x.url = http://www.orionserver.com/distributions/orion1.6.0b.zip
+#
+#cargo.tomcat3x.port = 8095
+#cargo.tomcat3x.url = http://www.apache.org/dist/jakarta/tomcat-3/v3.3.2/bin/jakarta-tomcat-3.3.2.zip
+#
+##cargo.tomcat4x.home = /home/sfarquhar/dev/servers/tomcat-4.1.29/
+#cargo.tomcat4x.url = http://www.apache.org/dist/jakarta/tomcat-4/v4.1.31/bin/jakarta-tomcat-4.1.31.zip
+#cargo.tomcat4x.port = 8096
+#cargo.tomcat4x.jira.tmp = /tmp/tomcat4x/
+#cargo.tomcat4x.jira.edition = professional
+#cargo.tomcat4x.datasource.jndi = jdbc/JiraDS
+#cargo.tomcat4x.datasource.type = javax.sql.DataSource
+#cargo.tomcat4x.datasource.driver = org.hsqldb.jdbcDriver
+#cargo.tomcat4x.datasource.url = jdbc:hsqldb:.
+#cargo.tomcat4x.datasource.username = sa
+#cargo.tomcat4x.datasource.password =
+#cargo.tomcat4x.extraclasspath = /home/sfarquhar/.maven/repository/hsqldb/jars/hsqldb-1.7.1-patched.jar
+
+
+#cargo.tomcat5x.home = /home/sfarquhar/dev/servers/apache-tomcat-5.5.15/
+#cargo.tomcat5x.url = http://www.apache.org/dist/jakarta/tomcat-5/v5.0.30/bin/jakarta-tomcat-5.0.30.zip
+#Note: For Tomcat 5.5.x (requires JDK 1.5), you can use:
+
+
+
+
+#
+#
+#cargo.jetty4xEmbedded.home = /home/sfarquhar/dev/servers/jetty-4.2.25/
+#cargo.jetty4xEmbedded.port = 8098
+#
+#cargo.ocj4j9x.home = /home/sfarquhar/dev/servers/oc4j-904/
+#cargo.ocj4j9x.port = 8099
+#
+## Note: There is no direct download link for WL 8.x. Thus you have to manually install it on your
+## machine and specify where it is installed using the cargo.weblogic8x.home property.
+##cargo.weblogic8x.home = c:/bea/weblogic81
+#cargo.weblogic8x.home = /home/sfarquhar/dev/servers/beahome/weblogic81/
+#cargo.weblogic8x.port = 8100
+#
+#cargo.jboss3x.port = 8101
+#cargo.jboss3x.url = http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-3.2.7.zip
+#
+#cargo.jboss4x.home = /home/sfarquhar/dev/servers/jboss-4.0.2/
+#cargo.jboss4x.url = http://ovh.dl.sourceforge.net/sourceforge/jboss/jboss-4.0.2.zip
+#cargo.jboss4x.port = 8102
+#
+#cargo.geronimo1x.port = 8103
+#cargo.geronimo1x.url = http://www.apache.org/dist/geronimo/1.0/geronimo-tomcat-j2ee-1.0.zip
+#
+#cargo.oc4j9x.port = 8104
+## Note: There is no direct download link for OC4J 9.x. Thus you have to manually install it on your
+## machine and specify where it is installed using the cargo.oc4j9x.home property.
+##cargo.oc4j9x.home = c:/apps/oc4j-9.0.4
+#
+#cargo.jo1x.port = 8105
+## Note: this is a beta version, check for availability of final release
+#cargo.jo1x.url = http://www.tagtraum.com/download/jo1.1beta1.zip
+#
+#

@@ -1,0 +1,9 @@
+<osworkflow>
+    <persistence class="com.opensymphony.workflow.spi.ofbiz.OfbizWorkflowStore">
+    </persistence>
+    <factory class="com.atlassian.jira.workflow.JiraWorkflowFactory">
+        <property key="resource" value="workflows.xml" />
+<!--  Uncomment if you want workflow XML to be reloaded in realtime
+<property key="reload" value="true" />-->
+    </factory>
+</osworkflow>

@@ -1,0 +1,51 @@
+<fileservice id="fileservice">
+<description/>
+<properties>
+	<property>
+		<key>directory</key>
+		<name>admin.service.file.dir.name</name>
+		<type>string</type>
+	</property>
+    <property>
+        <key>handler</key>
+        <name>admin.service.common.handler</name>
+        <type>select</type>
+        <values>
+            <value>
+                <key>com.atlassian.jira.plugins.mail.handlers.NonQuotedCommentHandler</key>
+                <value>admin.service.common.handler.non.quote</value>
+            </value>
+            <value>
+                <key>com.atlassian.jira.plugins.mail.handlers.CreateOrCommentHandler</key>
+                <value>admin.service.common.handler.create.or.comment</value>
+            </value>
+            <value>
+                <key>com.atlassian.jira.plugins.mail.handlers.CreateIssueHandler</key>
+                <value>admin.service.common.handler.create.issue</value>
+            </value>
+            <value>
+                <key>com.atlassian.jira.plugins.mail.handlers.FullCommentHandler</key>
+                <value>admin.service.common.handler.full.comment</value>
+            </value>
+            <value>
+				<key>com.atlassian.jira.plugins.mail.handlers.RegexCommentHandler</key>
+				<value>admin.service.common.handler.regex</value>
+			</value>
+            <value>
+                <key>com.atlassian.jira.plugins.mail.handlers.CVSLogHandler</key>
+                <value>admin.service.common.handler.cvs.log</value>
+            </value>
+        </values>
+    </property>
+	<property>
+		<key>handler.params</key>
+		<name>admin.service.common.handler.params</name>
+		<type>string</type>
+	</property>
+    <property>
+        <key>subdirectory</key>
+        <name>admin.service.file.subdir.name</name>
+        <type>string</type>
+    </property>
+</properties>
+</fileservice>

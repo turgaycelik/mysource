@@ -1,0 +1,12 @@
+#disable_html_escaping()
+
+#if ($changelogItemIssueDescription)
+    #set ($oldstringKey = "oldstring")
+    #set ($newstringKey = "newstring")
+
+    #set ($oldText = $velocityhelper.getPrettyFieldString($changelogItemIssueDescription.getString("field"), $changelogItemIssueDescription.getString($oldstringKey), $i18n, ""))
+    #set ($newText = $velocityhelper.getPrettyFieldString($changelogItemIssueDescription.getString("field"), $changelogItemIssueDescription.getString($newstringKey), $i18n, ""))
+
+    #set($textParagraph = $!diffutils.diff($oldText, "background-color: ${auiErrorBackgroundColour}; text-decoration:line-through;", $newText, "background-color:${auiSuccessBackgroundColour};"))
+    #rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')", '', 'issue-description-container')
+#end

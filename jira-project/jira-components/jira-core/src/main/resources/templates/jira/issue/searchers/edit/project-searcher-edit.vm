@@ -1,0 +1,57 @@
+#disable_html_escaping()
+## @vtlvariable name="visibleProjects" type="java.util.List<org.ofbiz.core.entity.GenericValue>"
+## @vtlvariable name="selectedProjects" type="java.util.List<java.lang.Long>"
+#if ($visibleProjects.isEmpty() == false)
+$!{auiparams.put("controlHeaderClass", "aui-field-project")}
+#searcherEditHeader ("pid" ${i18n.getText($searcherNameKey)})
+
+
+    #if ($displayParameters.checkboxmultiselect)
+    <select class="select js-default-checkboxmultiselect" data-placeholder-text="${i18n.getText('common.filters.findprojects')}" id="searcher-pid" multiple="multiple" name="pid" size="#minSelectSize ($visibleProjects 1 5)">
+        #if ($recentProjects.isEmpty() == false)
+        <optgroup label="$i18n.getText('menu.project.recent')">
+            #foreach ($project in $recentProjects)
+                #set ($avatarUrl = "/secure/projectavatar?pid=$project.getId()&size=small" )
+                #set ($isSelected = $selectedProjects && $selectedProjects.contains($project.getId().toString()))
+                #set ($name = $textutils.htmlEncode($project.getName()))
+
+                <option data-icon="#getNormalizedUrl($avatarUrl)"
+                        #if ($isSelected) selected="selected" #end
+                        title="$name"
+                        value="$project.getId()">
+                    $name ($project.getKey())
+                </option>
+            #end
+        </optgroup>
+        #end
+        <optgroup label="$i18n.getText('menu.project.all')">
+            #foreach ($project in $visibleProjects)
+                #set ($avatarUrl = "/secure/projectavatar?pid=$project.getLong('id')&size=small" )
+                #set ($isSelected = $selectedProjects && $selectedProjects.contains($project.getString('id')))
+                #set ($name = $textutils.htmlEncode($project.getString('name')))
+
+                <option data-icon="#getNormalizedUrl($avatarUrl)"
+                        #if ($isSelected) selected="selected" #end
+                        title="$name"
+                        value="$project.getLong('id')">
+                    $name ($project.getString('key'))
+                </option>
+            #end
+        </optgroup>
+    </select>
+    #else
+    <select class="select" id="searcher-pid" multiple="multiple" name="pid" size="#minSelectSize ($visibleProjects 1 5)">
+        <option class="headerOption" #if (!$selectedProjects || $selectedProjects.empty) selected="selected"#end value="-1">${i18n.getText('common.filters.allprojects')}</option>
+        #foreach ($option in $visibleProjects)
+            #set ($name = $textutils.htmlEncode($option.getString('name')))
+            #if ($selectedProjects && $option && $selectedProjects.contains($option.getString('id')))
+                <option selected="selected" title="$name" value="$option.getLong('id')">$name</option>
+            #else
+                <option title="$name" value="$option.getLong('id')">$name</option>
+            #end
+        #end
+    </select>
+    #end
+#searcherEditFooter ("pid" '')
+$!{auiparams.clear()}
+#end

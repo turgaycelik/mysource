@@ -1,0 +1,43 @@
+{namespace JIRA.Templates.Logging}
+
+/**
+* Renders the form for adding custom logger
+* @param atlToken the atl_token
+* @param availableLevels
+*/
+{template .loggerForm}
+<h2 class="dialog-title">{getText('admin.loggingandprofiling.addcustomlogger.description','','')}</h2>
+<form class="aui" action="ConfigureLogging.jspa" method="post">
+    <div class="form-body">
+        <div class="field-group">
+            <label>{getText('admin.loggingandprofiling.package.name')}</label>
+            <input name="loggerName" type="text" class="text" />
+            <div class="description">{getText('admin.loggingandprofiling.addcustomlogger.loggername.description')}</div>
+        </div>
+        <div class="field-group">
+            <label>{getText('admin.loggingandprofiling.logging.level')}</label>
+            <select name="levelName" type="text" class="select" >
+                {foreach $level in $availableLevels}
+                <option value="{$level}">{$level}</option>
+                {/foreach}
+            </select>
+        </div>
+        /* Hidden fields */
+        <div class="hidden">
+            {call aui.form.input}
+                {param name: 'atl_token' /}
+                {param type: 'hidden' /}
+                {param value: $atlToken /}
+            {/call}
+        </div>
+    </div>
+
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+        <input class="aui-button" type="submit" value="{getText('common.forms.add')}" />
+            <a href="#" class="aui-button aui-button-link cancel">{getText('common.forms.cancel')}</a>
+        </div>
+    </div>
+</form>
+
+{/template}

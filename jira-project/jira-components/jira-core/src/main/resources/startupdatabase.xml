@@ -1,0 +1,1451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+     JIRA Build                                    : 6.3-SNAPSHOT#6321-sha1:6b622c9ada9b308343c8bfef276d892a70563591
+     Build Date                                    : Fri Apr 11 00:00:00 EST 2014
+ -->
+<!-- ******************************************************************************************************************  -->
+<!-- This is the startup database for JIRA.                                                                              -->
+<!--                                                                                                                     -->
+<!-- Add entries to this if you wish to set the start up state for NEW JIRA installs.                                    -->
+<!--                                                                                                                     -->
+<!-- If you want to add new features for existing users, write an Upgrade Task.                                          -->
+<!--                                                                                                                     -->
+<!-- **  When adding rows, ensure you also adjust the related SequenceValueItem  **                                      -->
+<!--                                                                                                                     -->
+<!-- ******************************************************************************************************************  -->
+
+<entity-engine-xml date="1397186297400">
+    <!-- This JIRA's registration as an application to embedded Crowd. -->
+    <Application id="1" name="crowd-embedded" lowerName="crowd-embedded" createdDate="2013-02-28 11:57:51.302" updatedDate="2013-02-28 11:57:51.302" active="1" description="" applicationType="CROWD" credential="X"/>
+    <!--These are our standard avatars - obviously -->
+    <Avatar id="10000" fileName="codegeist.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10001" fileName="eamesbird.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10002" fileName="jm_black.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10003" fileName="jm_brown.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10004" fileName="jm_orange.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10005" fileName="jm_red.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10006" fileName="jm_white.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10007" fileName="jm_yellow.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10008" fileName="monster.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10009" fileName="rainbow.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10010" fileName="kangaroo.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10011" fileName="rocket.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10100" fileName="Avatar-1.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10101" fileName="Avatar-2.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10102" fileName="Avatar-3.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10103" fileName="Avatar-4.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10104" fileName="Avatar-5.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10105" fileName="Avatar-6.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10106" fileName="Avatar-7.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10107" fileName="Avatar-8.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10108" fileName="Avatar-9.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10109" fileName="Avatar-10.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10110" fileName="Avatar-11.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10111" fileName="Avatar-12.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10112" fileName="Avatar-13.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10113" fileName="Avatar-14.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10114" fileName="Avatar-15.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10115" fileName="Avatar-16.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10116" fileName="Avatar-17.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10117" fileName="Avatar-18.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10118" fileName="Avatar-19.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10119" fileName="Avatar-20.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10120" fileName="Avatar-21.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10121" fileName="Avatar-22.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10122" fileName="Avatar-default.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10123" fileName="Avatar-unknown.png" contentType="image/png" avatarType="user" systemAvatar="1"/>
+    <Avatar id="10200" fileName="cloud.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10201" fileName="config.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10202" fileName="disc.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10203" fileName="finance.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10204" fileName="hand.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10205" fileName="new_monster.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10206" fileName="power.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10207" fileName="refresh.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10208" fileName="servicedesk.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10209" fileName="settings.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10210" fileName="storm.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <Avatar id="10211" fileName="travel.png" contentType="image/png" avatarType="project" systemAvatar="1"/>
+    <!-- The in built default field config scheme context for issuetypes -->
+    <ConfigurationContext id="10000" key="issuetype" fieldconfigscheme="10000"/>
+    <!-- The JIRA internal user directory. Essential for starting JIRA with embedded crowd. The Directory Attribute and Operation rows describe the  directory -->
+    <Directory id="1" directoryName="JIRA Internal Directory" lowerDirectoryName="jira internal directory" createdDate="2013-02-28 11:57:51.308" updatedDate="2013-02-28 11:57:51.308" active="1" description="JIRA default internal directory" implementationClass="com.atlassian.crowd.directory.InternalDirectory" lowerImplementationClass="com.atlassian.crowd.directory.internaldirectory" type="INTERNAL" position="0"/>
+    <DirectoryAttribute directoryId="1" name="user_encryption_method" value="atlassian-security"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="CREATE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="DELETE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_GROUP"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_GROUP_ATTRIBUTE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_ROLE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_ROLE_ATTRIBUTE"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_USER"/>
+    <DirectoryOperation directoryId="1" operationType="UPDATE_USER_ATTRIBUTE"/>
+    <!-- JIRA's built in event types -->
+    <EventType id="1" name="Issue Created" description="This is the &apos;issue created&apos; event." type="jira.system.event.type"/>
+    <EventType id="2" name="Issue Updated" description="This is the &apos;issue updated&apos; event." type="jira.system.event.type"/>
+    <EventType id="3" name="Issue Assigned" description="This is the &apos;issue assigned&apos; event." type="jira.system.event.type"/>
+    <EventType id="4" name="Issue Resolved" description="This is the &apos;issue resolved&apos; event." type="jira.system.event.type"/>
+    <EventType id="5" name="Issue Closed" description="This is the &apos;issue closed&apos; event." type="jira.system.event.type"/>
+    <EventType id="6" name="Issue Commented" description="This is the &apos;issue commented&apos; event." type="jira.system.event.type"/>
+    <EventType id="7" name="Issue Reopened" description="This is the &apos;issue reopened&apos; event." type="jira.system.event.type"/>
+    <EventType id="8" name="Issue Deleted" description="This is the &apos;issue deleted&apos; event." type="jira.system.event.type"/>
+    <EventType id="9" name="Issue Moved" description="This is the &apos;issue moved&apos; event." type="jira.system.event.type"/>
+    <EventType id="10" name="Work Logged On Issue" description="This is the &apos;work logged on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="11" name="Work Started On Issue" description="This is the &apos;work started on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="12" name="Work Stopped On Issue" description="This is the &apos;work stopped on issue&apos; event." type="jira.system.event.type"/>
+    <EventType id="13" name="Generic Event" description="This is the &apos;generic event&apos; event." type="jira.system.event.type"/>
+    <EventType id="14" name="Issue Comment Edited" description="This is the &apos;issue comment edited&apos; event." type="jira.system.event.type"/>
+    <EventType id="15" name="Issue Worklog Updated" description="This is the &apos;issue worklog updated&apos; event." type="jira.system.event.type"/>
+    <EventType id="16" name="Issue Worklog Deleted" description="This is the &apos;issue worklog deleted&apos; event." type="jira.system.event.type"/>
+    <EventType id="17" name="Issue Comment Deleted" description="This is the &apos;issue comment deleted&apos; event." type="jira.system.event.type"/>
+    <!-- The default field Configuration (aka Configuration Context for Issue Types -->
+    <FieldConfigScheme id="10000" name="Default Issue Type Scheme" description="Default issue type scheme is the list of global issue types. All newly created issue types will automatically be added to this scheme." fieldid="issuetype"/>
+    <FieldConfigSchemeIssueType id="10100" fieldconfigscheme="10000" fieldconfiguration="10000"/>
+    <FieldConfiguration id="10000" name="Default Configuration for Issue Type" description="Default configuration generated by JIRA" fieldid="issuetype"/>
+    <!-- The default field layout.  This contains all the system fields -->
+    <FieldLayout id="10000" name="Default Field Configuration" description="The default field configuration" type="default"/>
+    <FieldLayoutItem id="10000" fieldlayout="10000" fieldidentifier="summary" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10001" fieldlayout="10000" fieldidentifier="issuetype" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10002" fieldlayout="10000" fieldidentifier="security" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10003" fieldlayout="10000" fieldidentifier="priority" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10004" fieldlayout="10000" fieldidentifier="duedate" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10005" fieldlayout="10000" fieldidentifier="components" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10006" fieldlayout="10000" fieldidentifier="versions" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10007" fieldlayout="10000" fieldidentifier="fixVersions" ishidden="false" isrequired="false" renderertype="frother-control-renderer"/>
+    <FieldLayoutItem id="10008" fieldlayout="10000" fieldidentifier="assignee" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10009" fieldlayout="10000" fieldidentifier="reporter" ishidden="false" isrequired="true" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10010" fieldlayout="10000" fieldidentifier="environment" description="For example operating system, software platform and/or hardware specifications (include as appropriate for the issue)." ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10011" fieldlayout="10000" fieldidentifier="description" ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10012" fieldlayout="10000" fieldidentifier="timetracking" description="An estimate of how much work remains until this issue will be resolved.&lt;br&gt;The format of this is &apos; *w *d *h *m &apos; (representing weeks, days, hours and minutes - where * can be any number)&lt;br&gt;Examples: 4d, 5h 30m, 60m and 3w.&lt;br&gt;" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10013" fieldlayout="10000" fieldidentifier="resolution" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10014" fieldlayout="10000" fieldidentifier="attachment" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10015" fieldlayout="10000" fieldidentifier="comment" ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10016" fieldlayout="10000" fieldidentifier="labels" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <FieldLayoutItem id="10017" fieldlayout="10000" fieldidentifier="worklog" description="Allows work to be logged whilst creating, editing or transitioning issues." ishidden="false" isrequired="false" renderertype="atlassian-wiki-renderer"/>
+    <FieldLayoutItem id="10018" fieldlayout="10000" fieldidentifier="issuelinks" ishidden="false" isrequired="false" renderertype="jira-text-renderer"/>
+    <!-- The default screens we ship with -->
+    <FieldScreen id="1" name="Default Screen" description="Allows to update all system fields."/>
+    <FieldScreen id="2" name="Workflow Screen" description="This screen is used in the workflow and enables you to assign issues"/>
+    <FieldScreen id="3" name="Resolve Issue Screen" description="Allows to set resolution, change fix versions and assign an issue."/>
+    <FieldScreenLayoutItem id="10000" fieldidentifier="summary" sequence="0" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10001" fieldidentifier="issuetype" sequence="1" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10002" fieldidentifier="security" sequence="2" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10003" fieldidentifier="priority" sequence="3" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10004" fieldidentifier="duedate" sequence="4" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10005" fieldidentifier="components" sequence="5" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10006" fieldidentifier="versions" sequence="6" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10007" fieldidentifier="fixVersions" sequence="7" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10008" fieldidentifier="assignee" sequence="8" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10009" fieldidentifier="reporter" sequence="9" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10010" fieldidentifier="environment" sequence="10" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10011" fieldidentifier="description" sequence="11" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10012" fieldidentifier="timetracking" sequence="12" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10013" fieldidentifier="attachment" sequence="13" fieldscreentab="10000"/>
+    <FieldScreenLayoutItem id="10014" fieldidentifier="assignee" sequence="0" fieldscreentab="10001"/>
+    <FieldScreenLayoutItem id="10015" fieldidentifier="resolution" sequence="0" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10016" fieldidentifier="fixVersions" sequence="1" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10017" fieldidentifier="assignee" sequence="2" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10018" fieldidentifier="worklog" sequence="3" fieldscreentab="10002"/>
+    <FieldScreenLayoutItem id="10100" fieldidentifier="labels" sequence="14" fieldscreentab="10000"/>
+    <FieldScreenScheme id="1" name="Default Screen Scheme" description="Default Screen Scheme"/>
+    <FieldScreenSchemeItem id="10000" fieldscreen="1" fieldscreenscheme="1"/>
+    <FieldScreenTab id="10000" name="Field Tab" sequence="0" fieldscreen="1"/>
+    <FieldScreenTab id="10001" name="Field Tab" sequence="0" fieldscreen="2"/>
+    <FieldScreenTab id="10002" name="Field Tab" sequence="0" fieldscreen="3"/>
+    <!-- Parts of the Standard system dashboard configurations -->
+    <GadgetUserPreference id="10000" portletconfiguration="10002" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10001" portletconfiguration="10003" userprefkey="keys" userprefvalue="__all_projects__"/>
+    <GadgetUserPreference id="10002" portletconfiguration="10003" userprefkey="isConfigured" userprefvalue="true"/>
+    <GadgetUserPreference id="10003" portletconfiguration="10003" userprefkey="title" userprefvalue="Your Company JIRA"/>
+    <GadgetUserPreference id="10004" portletconfiguration="10003" userprefkey="numofentries" userprefvalue="5"/>
+    <!-- Believe it or not, ths is the default issue type -->
+    <GenericConfiguration id="10000" datatype="DefaultValue" datakey="10000" xmlvalue="&lt;string&gt;1&lt;/string&gt;"/>
+    <!-- The Standard global permissions -->
+    <GlobalPermissionEntry id="10000" permission="ADMINISTER" group_id="jira-administrators"/>
+    <GlobalPermissionEntry id="10001" permission="USE" group_id="jira-users"/>
+    <GlobalPermissionEntry id="10002" permission="USER_PICKER" group_id="jira-developers"/>
+    <GlobalPermissionEntry id="10003" permission="MANAGE_GROUP_FILTER_SUBSCRIPTIONS" group_id="jira-developers"/>
+    <GlobalPermissionEntry id="10004" permission="CREATE_SHARED_OBJECTS" group_id="jira-users"/>
+    <GlobalPermissionEntry id="10005" permission="BULK_CHANGE" group_id="jira-users"/>
+    <GlobalPermissionEntry id="10006" permission="SYSTEM_ADMIN" group_id="jira-administrators"/>
+    <!-- The Standard shipped user groups -->
+    <Group id="10000" groupName="jira-administrators" lowerGroupName="jira-administrators" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <Group id="10001" groupName="jira-developers" lowerGroupName="jira-developers" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <Group id="10002" groupName="jira-users" lowerGroupName="jira-users" active="1" local="0" createdDate="2013-02-28 11:57:51.326" updatedDate="2013-02-28 11:57:51.326" description="" type="GROUP" directoryId="1"/>
+    <!-- Standard issue link types. No magic here, just for a better user experience.-->
+    <IssueLinkType id="10000" linkname="Blocks" inward="is blocked by" outward="blocks"/>
+    <IssueLinkType id="10001" linkname="Cloners" inward="is cloned by" outward="clones"/>
+    <IssueLinkType id="10002" linkname="Duplicate" inward="is duplicated by" outward="duplicates"/>
+    <IssueLinkType id="10003" linkname="Relates" inward="relates to" outward="relates to"/>
+    <IssueLinkType id="10100" linkname="jira_subtask_link" inward="jira_subtask_inward" outward="jira_subtask_outward" style="jira_subtask"/>
+    <!-- Standard issue types. If you add or change these also look at OptionConfiguration-->
+    <IssueType id="1" sequence="1" name="Bug" description="A problem which impairs or prevents the functions of the product." iconurl="/images/icons/issuetypes/bug.png"/>
+    <IssueType id="2" sequence="2" name="New Feature" description="A new feature of the product, which has yet to be developed." iconurl="/images/icons/issuetypes/newfeature.png"/>
+    <IssueType id="3" sequence="3" name="Task" description="A task that needs to be done." iconurl="/images/icons/issuetypes/task.png"/>
+    <IssueType id="4" sequence="4" name="Improvement" description="An improvement or enhancement to an existing feature or task." iconurl="/images/icons/issuetypes/improvement.png"/>
+    <IssueType id="5" sequence="0" name="Sub-task" style="jira_subtask" description="The sub-task of the issue" iconurl="/images/icons/issuetypes/subtask_alternate.png"/>
+    <!-- Default Issue Type Screen Scheme definition -->
+    <IssueTypeScreenScheme id="1" name="Default Issue Type Screen Scheme" description="The default issue type screen scheme"/>
+    <IssueTypeScreenSchemeEntity id="10000" scheme="1" fieldscreenscheme="1"/>
+    <JQRTZLocks lockName="TRIGGER_ACCESS"/>
+    <JQRTZLocks lockName="JOB_ACCESS"/>
+    <JQRTZLocks lockName="CALENDAR_ACCESS"/>
+    <JQRTZLocks lockName="STATE_ACCESS"/>
+    <JQRTZLocks lockName="MISFIRE_ACCESS"/>
+    <!-- Default Listener definitions. These are required for JIRA to run -->
+    <ListenerConfig id="10000" clazz="com.atlassian.jira.event.listeners.mail.MailListener" name="Mail Listener"/>
+    <ListenerConfig id="10001" clazz="com.atlassian.jira.event.listeners.history.IssueAssignHistoryListener" name="Issue Assignment Listener"/>
+    <ListenerConfig id="10002" clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <!-- The default JIRA notification scheme. -->
+    <Notification id="10000" scheme="10000" eventTypeId="1" type="Current_Assignee"/>
+    <Notification id="10001" scheme="10000" eventTypeId="1" type="Current_Reporter"/>
+    <Notification id="10002" scheme="10000" eventTypeId="1" type="All_Watchers"/>
+    <Notification id="10003" scheme="10000" eventTypeId="2" type="Current_Assignee"/>
+    <Notification id="10004" scheme="10000" eventTypeId="2" type="Current_Reporter"/>
+    <Notification id="10005" scheme="10000" eventTypeId="2" type="All_Watchers"/>
+    <Notification id="10006" scheme="10000" eventTypeId="3" type="Current_Assignee"/>
+    <Notification id="10007" scheme="10000" eventTypeId="3" type="Current_Reporter"/>
+    <Notification id="10008" scheme="10000" eventTypeId="3" type="All_Watchers"/>
+    <Notification id="10009" scheme="10000" eventTypeId="4" type="Current_Assignee"/>
+    <Notification id="10010" scheme="10000" eventTypeId="4" type="Current_Reporter"/>
+    <Notification id="10011" scheme="10000" eventTypeId="4" type="All_Watchers"/>
+    <Notification id="10012" scheme="10000" eventTypeId="5" type="Current_Assignee"/>
+    <Notification id="10013" scheme="10000" eventTypeId="5" type="Current_Reporter"/>
+    <Notification id="10014" scheme="10000" eventTypeId="5" type="All_Watchers"/>
+    <Notification id="10015" scheme="10000" eventTypeId="6" type="Current_Assignee"/>
+    <Notification id="10016" scheme="10000" eventTypeId="6" type="Current_Reporter"/>
+    <Notification id="10017" scheme="10000" eventTypeId="6" type="All_Watchers"/>
+    <Notification id="10018" scheme="10000" eventTypeId="7" type="Current_Assignee"/>
+    <Notification id="10019" scheme="10000" eventTypeId="7" type="Current_Reporter"/>
+    <Notification id="10020" scheme="10000" eventTypeId="7" type="All_Watchers"/>
+    <Notification id="10021" scheme="10000" eventTypeId="8" type="Current_Assignee"/>
+    <Notification id="10022" scheme="10000" eventTypeId="8" type="Current_Reporter"/>
+    <Notification id="10023" scheme="10000" eventTypeId="8" type="All_Watchers"/>
+    <Notification id="10024" scheme="10000" eventTypeId="9" type="Current_Assignee"/>
+    <Notification id="10025" scheme="10000" eventTypeId="9" type="Current_Reporter"/>
+    <Notification id="10026" scheme="10000" eventTypeId="9" type="All_Watchers"/>
+    <Notification id="10027" scheme="10000" eventTypeId="10" type="Current_Assignee"/>
+    <Notification id="10028" scheme="10000" eventTypeId="10" type="Current_Reporter"/>
+    <Notification id="10029" scheme="10000" eventTypeId="10" type="All_Watchers"/>
+    <Notification id="10030" scheme="10000" eventTypeId="11" type="Current_Assignee"/>
+    <Notification id="10031" scheme="10000" eventTypeId="11" type="Current_Reporter"/>
+    <Notification id="10032" scheme="10000" eventTypeId="11" type="All_Watchers"/>
+    <Notification id="10033" scheme="10000" eventTypeId="12" type="Current_Assignee"/>
+    <Notification id="10034" scheme="10000" eventTypeId="12" type="Current_Reporter"/>
+    <Notification id="10035" scheme="10000" eventTypeId="12" type="All_Watchers"/>
+    <Notification id="10036" scheme="10000" eventTypeId="13" type="Current_Assignee"/>
+    <Notification id="10037" scheme="10000" eventTypeId="13" type="Current_Reporter"/>
+    <Notification id="10038" scheme="10000" eventTypeId="13" type="All_Watchers"/>
+    <Notification id="10100" scheme="10000" eventTypeId="14" type="Current_Assignee"/>
+    <Notification id="10101" scheme="10000" eventTypeId="14" type="Current_Reporter"/>
+    <Notification id="10102" scheme="10000" eventTypeId="14" type="All_Watchers"/>
+    <Notification id="10103" scheme="10000" eventTypeId="15" type="Current_Assignee"/>
+    <Notification id="10104" scheme="10000" eventTypeId="15" type="Current_Reporter"/>
+    <Notification id="10105" scheme="10000" eventTypeId="15" type="All_Watchers"/>
+    <Notification id="10106" scheme="10000" eventTypeId="16" type="Current_Assignee"/>
+    <Notification id="10107" scheme="10000" eventTypeId="16" type="Current_Reporter"/>
+    <Notification id="10108" scheme="10000" eventTypeId="16" type="All_Watchers"/>
+    <NotificationScheme id="10000" name="Default Notification Scheme"/>
+    <!-- The OSPropertyEntry rows are all associated with a ..Number, ..String, or ..Text etc row -->
+    <!-- The version (build number) the file is current for -->
+    <OSPropertyEntry id="1" entityName="jira.properties" entityId="1" propertyKey="jira.version.patched" type="5"/>
+    <!-- Default avatars for projects, users, anonymous users. -->
+    <OSPropertyEntry id="3" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.default.id" type="5"/>
+    <OSPropertyEntry id="5" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.user.default.id" type="5"/>
+    <OSPropertyEntry id="6" entityName="jira.properties" entityId="1" propertyKey="jira.avatar.user.anonymous.id" type="5"/>
+    <!-- The default issue type scheme -->
+    <OSPropertyEntry id="7" entityName="jira.properties" entityId="1" propertyKey="jira.scheme.default.issue.type" type="5"/>
+    <!-- The default issue resolution scheme -->
+    <OSPropertyEntry id="8" entityName="jira.properties" entityId="1" propertyKey="jira.constant.default.resolution" type="5"/>
+    <!-- Set up the whitelist for new users -->
+    <OSPropertyEntry id="9" entityName="jira.properties" entityId="1" propertyKey="jira.whitelist.disabled" type="1"/>
+    <OSPropertyEntry id="10" entityName="jira.properties" entityId="1" propertyKey="jira.whitelist.rules" type="6"/>
+    <!-- Turn on timetracking for new users -->
+    <OSPropertyEntry id="11" entityName="jira.properties" entityId="1" propertyKey="jira.option.timetracking" type="1"/>
+    <OSPropertyEntry id="12" entityName="jira.properties" entityId="1" propertyKey="jira.timetracking.estimates.legacy.behaviour" type="1"/>
+    <OSPropertyEntry id="13" entityName="jira.properties" entityId="1" propertyKey="jira.version" type="5"/>
+    <OSPropertyEntry id="14" entityName="jira.properties" entityId="1" propertyKey="jira.downgrade.minimum.version" type="5"/>
+    <OSPropertyEntry id="15" entityName="jira.properties" entityId="1" propertyKey="jira.option.allowunassigned" type="1"/>
+    <OSPropertyEntry id="16" entityName="jira.properties" entityId="1" propertyKey="jira.path.index.use.default.directory" type="1"/>
+    <OSPropertyEntry id="21" entityName="com.atlassian.jira.plugins.jira-workflow-designer" entityId="1" propertyKey="jira.workflow.layout:8a6044147cf2c19c02d099279cfbfd47" type="6"/>
+    <OSPropertyNumber id="9" value="0"/>
+    <OSPropertyNumber id="11" value="1"/>
+    <OSPropertyNumber id="12" value="0"/>
+    <OSPropertyNumber id="15" value="1"/>
+    <OSPropertyNumber id="16" value="1"/>
+    <OSPropertyString id="1" value="6321"/>
+    <OSPropertyString id="3" value="10011"/>
+    <OSPropertyString id="5" value="10122"/>
+    <OSPropertyString id="6" value="10123"/>
+    <OSPropertyString id="7" value="10000"/>
+    <OSPropertyString id="8" value="1"/>
+    <OSPropertyString id="13" value="6.3-SNAPSHOT"/>
+    <OSPropertyString id="14" value="6.2.1"/>
+    <OSPropertyText id="10">
+        <value><![CDATA[http://www.atlassian.com/*
+]]></value>
+    </OSPropertyText>
+    <!-- Layout for JIRA classic workflow -->
+    <OSPropertyText id="21">
+        <value><![CDATA[{
+    "edgeMap": {
+        "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1806.5,
+                    "y": 434.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1801.0,
+                    "y": 115.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1801.0,
+                "y": 115.0
+            },
+            "endStepId": 4,
+            "id": "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1776.85,
+                "y": 355.25
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1806.5,
+                "y": 434.0
+            },
+            "startStepId": 5
+        },
+        "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1492.25,
+                "y": 154.25
+            },
+            "lineType": "straight",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "startStepId": 1
+        },
+        "483797F1-1BF4-5E0F-86C6-4D19CE6023A2": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "endStepId": 4,
+            "id": "483797F1-1BF4-5E0F-86C6-4D19CE6023A2",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1551.0,
+                "y": 104.0
+            },
+            "lineType": "straight",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "startStepId": 1
+        },
+        "517D7F32-20FB-309E-8639-4D19CE2ACB54": {
+            "actionId": 5,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1434.0,
+                    "y": 435.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1435.0,
+                    "y": 490.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1947.0,
+                    "y": 494.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1950.0,
+                    "y": 118.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1435.0,
+                    "y": 490.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1947.0,
+                    "y": 494.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1950.0,
+                    "y": 118.0
+                }
+            ],
+            "endNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "endStepId": 4,
+            "id": "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+            "label": "Resolve Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1631.25,
+                "y": 479.5
+            },
+            "lineType": "poly",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1434.0,
+                "y": 435.0
+            },
+            "startStepId": 3
+        },
+        "58BD4605-5FB9-84EA-6952-4D19CE7B454B": {
+            "actionId": 1,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1470.0,
+                    "y": 16.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "endStepId": 1,
+            "id": "58BD4605-5FB9-84EA-6952-4D19CE7B454B",
+            "label": "Create Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1475.5,
+                "y": 48.5
+            },
+            "lineType": "straight",
+            "startNodeId": "15174530-AE75-04E0-1D9D-4D19CD200835",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1470.0,
+                "y": 16.0
+            },
+            "startStepId": 1
+        },
+        "92D3DEFD-13AC-06A7-E5D8-4D19CE537791": {
+            "actionId": 4,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1439.5,
+                    "y": 116.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1393.0,
+                    "y": 116.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1390.0,
+                    "y": 434.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1393.0,
+                    "y": 116.0
+                }
+            ],
+            "endNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1390.0,
+                "y": 434.0
+            },
+            "endStepId": 3,
+            "id": "92D3DEFD-13AC-06A7-E5D8-4D19CE537791",
+            "label": "Start Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1323.65,
+                "y": 193.75
+            },
+            "lineType": "poly",
+            "startNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1439.5,
+                "y": 116.0
+            },
+            "startStepId": 1
+        },
+        "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F": {
+            "actionId": 3,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1677.0,
+                    "y": 227.0
+                },
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1767.05,
+                    "y": 230.05
+                },
+                {
+                    "positiveController": null,
+                    "x": 1773.5,
+                    "y": 425.0
+                }
+            ],
+            "controlPoints": [
+                {
+                    "positiveController": {
+                        "positiveController": null,
+                        "x": 0.0,
+                        "y": 0.0
+                    },
+                    "x": 1767.05,
+                    "y": 230.05
+                }
+            ],
+            "endNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1773.5,
+                "y": 425.0
+            },
+            "endStepId": 5,
+            "id": "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F",
+            "label": "Reopen Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1703.85,
+                "y": 218.5
+            },
+            "lineType": "poly",
+            "startNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1677.0,
+                "y": 227.0
+            },
+            "startStepId": 6
+        },
+        "C9EA1792-2332-8B56-A04D-4D19CD725367": {
+            "actionId": 301,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1465.0,
+                    "y": 436.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1469.5,
+                    "y": 113.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1469.5,
+                "y": 113.0
+            },
+            "endStepId": 1,
+            "id": "C9EA1792-2332-8B56-A04D-4D19CD725367",
+            "label": "Stop Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1407.8,
+                "y": 308.5
+            },
+            "lineType": "straight",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1465.0,
+                "y": 436.0
+            },
+            "startStepId": 3
+        },
+        "CAF37138-6321-E03A-8E41-4D19CDD7DC78": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1764.5,
+                    "y": 430.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1677.65,
+                "y": 365.0
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1764.5,
+                "y": 430.0
+            },
+            "startStepId": 5
+        },
+        "E1F8462A-8B0A-87EA-4F70-4D19CE423C83": {
+            "actionId": 2,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1488.0,
+                    "y": 430.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "E1F8462A-8B0A-87EA-4F70-4D19CE423C83",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1492.0,
+                "y": 345.0
+            },
+            "lineType": "straight",
+            "startNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1488.0,
+                "y": 430.0
+            },
+            "startStepId": 3
+        },
+        "E27D8EB8-8E49-430B-8FCB-4D19CE127171": {
+            "actionId": 3,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1840.0,
+                    "y": 130.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1846.5,
+                    "y": 428.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1846.5,
+                "y": 428.0
+            },
+            "endStepId": 5,
+            "id": "E27D8EB8-8E49-430B-8FCB-4D19CE127171",
+            "label": "Reopen Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1814.05,
+                "y": 169.5
+            },
+            "lineType": "straight",
+            "startNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1840.0,
+                "y": 130.0
+            },
+            "startStepId": 4
+        },
+        "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C": {
+            "actionId": 4,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1806.5,
+                    "y": 434.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1434.0,
+                    "y": 435.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1434.0,
+                "y": 435.0
+            },
+            "endStepId": 3,
+            "id": "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C",
+            "label": "Start Progress",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1607.25,
+                "y": 423.5
+            },
+            "lineType": "straight",
+            "startNodeId": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1806.5,
+                "y": 434.0
+            },
+            "startStepId": 5
+        },
+        "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1": {
+            "actionId": 701,
+            "allPoints": [
+                {
+                    "positiveController": null,
+                    "x": 1763.0,
+                    "y": 113.0
+                },
+                {
+                    "positiveController": null,
+                    "x": 1614.0,
+                    "y": 226.0
+                }
+            ],
+            "controlPoints": [],
+            "endNodeId": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "endPoint": {
+                "positiveController": null,
+                "x": 1614.0,
+                "y": 226.0
+            },
+            "endStepId": 6,
+            "id": "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+            "label": "Close Issue",
+            "labelPoint": {
+                "positiveController": null,
+                "x": 1635.75,
+                "y": 152.25
+            },
+            "lineType": "straight",
+            "startNodeId": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "startPoint": {
+                "positiveController": null,
+                "x": 1763.0,
+                "y": 113.0
+            },
+            "startStepId": 4
+        }
+    },
+    "nodeMap": {
+        "0740FFFA-2AA1-C90A-38ED-4D19CD61899B": {
+            "id": "0740FFFA-2AA1-C90A-38ED-4D19CD61899B",
+            "inLinkIds": [
+                "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C",
+                "92D3DEFD-13AC-06A7-E5D8-4D19CE537791"
+            ],
+            "isInitialAction": false,
+            "label": "In Progress",
+            "outLinkIds": [
+                "C9EA1792-2332-8B56-A04D-4D19CD725367",
+                "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+                "E1F8462A-8B0A-87EA-4F70-4D19CE423C83"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 146.0,
+                "x": 1373.0,
+                "y": 419.0
+            },
+            "stepId": 3
+        },
+        "15174530-AE75-04E0-1D9D-4D19CD200835": {
+            "id": "15174530-AE75-04E0-1D9D-4D19CD200835",
+            "inLinkIds": [],
+            "isInitialAction": true,
+            "label": "Create Issue",
+            "outLinkIds": [
+                "58BD4605-5FB9-84EA-6952-4D19CE7B454B"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 157.0,
+                "x": 1405.0,
+                "y": 0.0
+            },
+            "stepId": 1
+        },
+        "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34": {
+            "id": "1C846CFB-4F0D-2F40-D0AE-4D19CDAF5D34",
+            "inLinkIds": [
+                "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+                "E1F8462A-8B0A-87EA-4F70-4D19CE423C83",
+                "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+                "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230"
+            ],
+            "isInitialAction": false,
+            "label": "Closed",
+            "outLinkIds": [
+                "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 120.0,
+                "x": 1569.0,
+                "y": 210.0
+            },
+            "stepId": 6
+        },
+        "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D": {
+            "id": "6DA64EEB-08FE-2870-C90C-4D19CDA2F72D",
+            "inLinkIds": [
+                "517D7F32-20FB-309E-8639-4D19CE2ACB54",
+                "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+                "483797F1-1BF4-5E0F-86C6-4D19CE6023A2"
+            ],
+            "isInitialAction": false,
+            "label": "Resolved",
+            "outLinkIds": [
+                "FD6BA267-475B-70B3-8AA4-4D19CE00BCD1",
+                "E27D8EB8-8E49-430B-8FCB-4D19CE127171"
+            ],
+            "rect": {
+                "height": 44.0,
+                "positiveController": null,
+                "width": 137.0,
+                "x": 1709.0,
+                "y": 97.0
+            },
+            "stepId": 4
+        },
+        "778534F4-7595-88B6-45E1-4D19CD518712": {
+            "id": "778534F4-7595-88B6-45E1-4D19CD518712",
+            "inLinkIds": [
+                "C9EA1792-2332-8B56-A04D-4D19CD725367",
+                "58BD4605-5FB9-84EA-6952-4D19CE7B454B"
+            ],
+            "isInitialAction": false,
+            "label": "Open",
+            "outLinkIds": [
+                "92D3DEFD-13AC-06A7-E5D8-4D19CE537791",
+                "483797F1-1BF4-5E0F-86C6-4D19CE6023A2",
+                "3DF7CEC8-9FBC-C0D0-AFB1-4D19CE6EA230"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 106.0,
+                "x": 1429.5,
+                "y": 97.0
+            },
+            "stepId": 1
+        },
+        "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB": {
+            "id": "A8B1A431-AC3A-6DCD-BFF0-4D19CDBCAADB",
+            "inLinkIds": [
+                "E27D8EB8-8E49-430B-8FCB-4D19CE127171",
+                "C049EE11-C5BB-F93B-36C3-4D19CDF12B8F"
+            ],
+            "isInitialAction": false,
+            "label": "Reopened",
+            "outLinkIds": [
+                "1DEDB66F-FE5C-EDFD-54D0-4D19CDC8CECA",
+                "CAF37138-6321-E03A-8E41-4D19CDD7DC78",
+                "F79E742D-A9E4-0124-D7D4-4D19CDE48C9C"
+            ],
+            "rect": {
+                "height": 45.0,
+                "positiveController": null,
+                "width": 142.0,
+                "x": 1749.5,
+                "y": 418.0
+            },
+            "stepId": 5
+        }
+    },
+    "rootIds": [
+        "15174530-AE75-04E0-1D9D-4D19CD200835"
+    ],
+    "width": 1136
+}
+]]></value>
+    </OSPropertyText>
+    <!-- These are the issue types available to the standard field configuration (All the basic ones) -->
+    <OptionConfiguration id="10100" fieldid="issuetype" optionid="1" fieldconfig="10000" sequence="0"/>
+    <OptionConfiguration id="10101" fieldid="issuetype" optionid="2" fieldconfig="10000" sequence="1"/>
+    <OptionConfiguration id="10102" fieldid="issuetype" optionid="3" fieldconfig="10000" sequence="2"/>
+    <OptionConfiguration id="10103" fieldid="issuetype" optionid="4" fieldconfig="10000" sequence="3"/>
+    <OptionConfiguration id="10104" fieldid="issuetype" optionid="5" fieldconfig="10000" sequence="4"/>
+    <!-- The default permission scheme.  We need one of these or you won't be able to do anything. -->
+    <PermissionScheme id="0" name="Default Permission Scheme" description="This is the default Permission Scheme. Any new projects that are created will be assigned this scheme."/>
+    <!-- The default dashboard -->
+    <PortalPage id="10000" pagename="System Dashboard" sequence="0" favCount="0" layout="AA" version="0"/>
+    <PortletConfiguration id="10000" portalpage="10000" columnNumber="0" position="0" gadgetXml="rest/gadgets/1.0/g/com.atlassian.jira.gadgets:introduction-gadget/gadgets/introduction-gadget.xml"/>
+    <PortletConfiguration id="10001" portalpage="10000" columnNumber="0" position="1" gadgetXml="rest/gadgets/1.0/g/com.atlassian.jira.gadgets:admin-gadget/gadgets/admin-gadget.xml"/>
+    <PortletConfiguration id="10002" portalpage="10000" columnNumber="1" position="0" gadgetXml="rest/gadgets/1.0/g/com.atlassian.jira.gadgets:assigned-to-me-gadget/gadgets/assigned-to-me-gadget.xml"/>
+    <PortletConfiguration id="10003" portalpage="10000" columnNumber="1" position="1" gadgetXml="rest/gadgets/1.0/g/com.atlassian.streams.streams-jira-plugin:activitystream-gadget/gadgets/activitystream-gadget.xml"/>
+    <!-- Default priorities -->
+    <Priority id="1" sequence="1" name="Blocker" description="Blocks development and/or testing work, production could not run." iconurl="/images/icons/priorities/blocker.png" statusColor="#cc0000"/>
+    <Priority id="2" sequence="2" name="Critical" description="Crashes, loss of data, severe memory leak." iconurl="/images/icons/priorities/critical.png" statusColor="#ff0000"/>
+    <Priority id="3" sequence="3" name="Major" description="Major loss of function." iconurl="/images/icons/priorities/major.png" statusColor="#009900"/>
+    <Priority id="4" sequence="4" name="Minor" description="Minor loss of function, or other problem where easy workaround is present." iconurl="/images/icons/priorities/minor.png" statusColor="#006600"/>
+    <Priority id="5" sequence="5" name="Trivial" description="Cosmetic problem like misspelt words or misaligned text." iconurl="/images/icons/priorities/trivial.png" statusColor="#003300"/>
+    <!-- Standard project roles -->
+    <ProjectRole id="10000" name="Users" description="A project role that represents users in a project"/>
+    <ProjectRole id="10001" name="Developers" description="A project role that represents developers in a project"/>
+    <ProjectRole id="10002" name="Administrators" description="A project role that represents administrators in a project"/>
+    <ProjectRoleActor id="10000" projectroleid="10000" roletype="atlassian-group-role-actor" roletypeparameter="jira-users"/>
+    <ProjectRoleActor id="10001" projectroleid="10001" roletype="atlassian-group-role-actor" roletypeparameter="jira-developers"/>
+    <ProjectRoleActor id="10002" projectroleid="10002" roletype="atlassian-group-role-actor" roletypeparameter="jira-administrators"/>
+    <!-- Standard resolutions -->
+    <Resolution id="1" sequence="1" name="Fixed" description="A fix for this issue is checked into the tree and tested."/>
+    <Resolution id="2" sequence="2" name="Won&apos;t Fix" description="The problem described is an issue which will never be fixed."/>
+    <Resolution id="3" sequence="3" name="Duplicate" description="The problem is a duplicate of an existing issue."/>
+    <Resolution id="4" sequence="4" name="Incomplete" description="The problem is not completely described."/>
+    <Resolution id="5" sequence="5" name="Cannot Reproduce" description="All attempts at reproducing this issue failed, or not enough information was available to reproduce the issue. Reading the code produces no clues as to why this behavior would occur. If more information appears later, please reopen the issue."/>
+    <!-- The default permission scheme.  We need one of these or you won't be able to do anything. -->
+    <SchemePermissions id="10000" permission="0" type="group" parameter="jira-administrators"/>
+    <SchemePermissions id="10001" permission="1" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10002" permission="27" type="group" parameter="jira-developers"/>
+    <SchemePermissions id="10003" permission="24" type="group" parameter="jira-developers"/>
+    <SchemePermissions id="10004" scheme="0" permission="23" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10005" scheme="0" permission="10" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10006" scheme="0" permission="11" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10007" scheme="0" permission="15" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10008" scheme="0" permission="19" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10009" scheme="0" permission="13" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10010" scheme="0" permission="17" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10011" scheme="0" permission="14" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10012" scheme="0" permission="21" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10013" scheme="0" permission="12" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10014" scheme="0" permission="16" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10015" scheme="0" permission="18" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10016" scheme="0" permission="25" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10017" scheme="0" permission="28" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10018" scheme="0" permission="30" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10019" scheme="0" permission="20" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10020" scheme="0" permission="43" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10021" scheme="0" permission="42" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10022" scheme="0" permission="41" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10023" scheme="0" permission="40" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10024" scheme="0" permission="31" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10025" scheme="0" permission="32" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10026" scheme="0" permission="34" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10027" scheme="0" permission="35" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10028" scheme="0" permission="36" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10029" scheme="0" permission="37" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10030" scheme="0" permission="38" type="projectrole" parameter="10002"/>
+    <SchemePermissions id="10031" scheme="0" permission="39" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10032" permission="22" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10033" scheme="0" permission="29" type="projectrole" parameter="10001"/>
+    <SchemePermissions id="10100" permission="33" type="group" parameter="jira-users"/>
+    <SchemePermissions id="10101" permission="44" type="group" parameter="jira-administrators"/>
+    <SchemePermissions id="10200" scheme="0" permission="45" type="projectrole" parameter="10000"/>
+    <SchemePermissions id="10300" scheme="0" permission="46" type="projectrole" parameter="10001"/>
+    <!-- The next sequence numbers to use for any row being added by ofbiz to the related entity.-->
+    <!-- If here is no entry here ofbiz will automatically add one starting at 10000 -->
+    <SequenceValueItem seqName="Avatar" seqId="10300"/>
+    <SequenceValueItem seqName="ConfigurationContext" seqId="10100"/>
+    <SequenceValueItem seqName="EventType" seqId="10000"/>
+    <SequenceValueItem seqName="FieldConfigScheme" seqId="10100"/>
+    <SequenceValueItem seqName="FieldConfigSchemeIssueType" seqId="10200"/>
+    <SequenceValueItem seqName="FieldConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="FieldLayout" seqId="10100"/>
+    <SequenceValueItem seqName="FieldLayoutItem" seqId="10100"/>
+    <SequenceValueItem seqName="FieldScreen" seqId="10000"/>
+    <SequenceValueItem seqName="FieldScreenLayoutItem" seqId="10200"/>
+    <SequenceValueItem seqName="FieldScreenScheme" seqId="10000"/>
+    <SequenceValueItem seqName="FieldScreenSchemeItem" seqId="10100"/>
+    <SequenceValueItem seqName="FieldScreenTab" seqId="10100"/>
+    <SequenceValueItem seqName="GadgetUserPreference" seqId="10100"/>
+    <SequenceValueItem seqName="GenericConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="GlobalPermissionEntry" seqId="10100"/>
+    <SequenceValueItem seqName="Group" seqId="10010"/>
+    <SequenceValueItem seqName="IssueType" seqId="10000"/>
+    <SequenceValueItem seqName="IssueLinkType" seqId="10200"/>
+    <SequenceValueItem seqName="IssueTypeScreenSchemeEntity" seqId="10100"/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10200"/>
+    <SequenceValueItem seqName="Notification" seqId="10200"/>
+    <SequenceValueItem seqName="NotificationScheme" seqId="10100"/>
+    <SequenceValueItem seqName="OAuthConsumer" seqId="10100"/>
+    <SequenceValueItem seqName="OSPropertyEntry" seqId="10100"/>
+    <SequenceValueItem seqName="OptionConfiguration" seqId="10200"/>
+    <SequenceValueItem seqName="PortalPage" seqId="10100"/>
+    <SequenceValueItem seqName="PortletConfiguration" seqId="10100"/>
+    <SequenceValueItem seqName="Priority" seqId="10000"/>
+    <SequenceValueItem seqName="ProjectRole" seqId="10100"/>
+    <SequenceValueItem seqName="ProjectRoleActor" seqId="10100"/>
+    <SequenceValueItem seqName="Resolution" seqId="10000"/>
+    <SequenceValueItem seqName="SchemePermissions" seqId="10400"/>
+    <SequenceValueItem seqName="ServiceConfig" seqId="10200"/>
+    <SequenceValueItem seqName="SharePermissions" seqId="10100"/>
+    <SequenceValueItem seqName="Status" seqId="10000"/>
+    <SequenceValueItem seqName="Workflow" seqId="10100"/>
+    <SequenceValueItem seqName="WorkflowScheme" seqId="10100"/>
+    <SequenceValueItem seqName="WorkflowSchemeEntity" seqId="10100"/>
+    <!-- These are the Standard services that run in the background -->
+    <ServiceConfig id="10000" time="60000" clazz="com.atlassian.jira.service.services.mail.MailQueueService" name="Mail Queue Service"/>
+    <ServiceConfig id="10001" time="43200000" clazz="com.atlassian.jira.service.services.export.ExportService" name="Backup Service"/>
+    <ServiceConfig id="10002" time="86400000" clazz="com.atlassian.jira.service.services.auditing.AuditLogCleaningService" name="Audit log cleaning service"/>
+    <!-- Lets globally share the default dashboard.  -->
+    <SharePermissions id="10000" entityId="10000" entityType="PortalPage" type="global"/>
+    <!-- The Standard statuses.  These are referenced by the default workflow and also the workflow sharing plugin (for exporting status info), so be careful here -->
+    <Status id="1" sequence="1" name="Open" description="The issue is open and ready for the assignee to start work on it." iconurl="/images/icons/statuses/open.png" statuscategory="2"/>
+    <Status id="3" sequence="3" name="In Progress" description="This issue is being actively worked on at the moment by the assignee." iconurl="/images/icons/statuses/inprogress.png" statuscategory="4"/>
+    <Status id="4" sequence="4" name="Reopened" description="This issue was once resolved, but the resolution was deemed incorrect. From here issues are either marked assigned or resolved." iconurl="/images/icons/statuses/reopened.png" statuscategory="2"/>
+    <Status id="5" sequence="5" name="Resolved" description="A resolution has been taken, and it is awaiting verification by reporter. From here issues are either reopened, or are closed." iconurl="/images/icons/statuses/resolved.png" statuscategory="3"/>
+    <Status id="6" sequence="6" name="Closed" description="The issue is considered finished, the resolution is correct. Issues which are closed can be reopened." iconurl="/images/icons/statuses/closed.png" statuscategory="3"/>
+    <!-- JIRA classic workflow -->
+    <Workflow id="10000" name="classic default workflow">
+        <descriptor><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE workflow PUBLIC "-//OpenSymphony Group//DTD OSWorkflow 2.8//EN" "http://www.opensymphony.com/osworkflow/workflow_2_8.dtd">
+<workflow>
+  <meta name="jira.description">The classic JIRA default workflow</meta>
+  <initial-actions>
+    <action id="1" name="Create Issue">
+      <meta name="opsbar-sequence">0</meta>
+      <meta name="jira.i18n.title">common.forms.create</meta>
+      <validators>
+        <validator name="" type="class">
+          <arg name="class.name">com.atlassian.jira.workflow.validator.PermissionValidator</arg>
+          <arg name="permission">Create Issue</arg>
+        </validator>
+      </validators>
+      <results>
+        <unconditional-result old-status="Finished" status="Open" step="1">
+          <post-functions>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueCreateFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+              <arg name="eventTypeId">1</arg>
+            </function>
+          </post-functions>
+        </unconditional-result>
+      </results>
+    </action>
+  </initial-actions>
+  <common-actions>
+    <action id="2" name="Close Issue" view="resolveissue">
+      <meta name="opsbar-sequence">60</meta>
+      <meta name="jira.i18n.submit">closeissue.close</meta>
+      <meta name="jira.i18n.description">closeissue.desc</meta>
+      <meta name="jira.i18n.title">closeissue.title</meta>
+      <restrict-to>
+        <conditions type="AND">
+          <condition type="class">
+            <arg name="class.name">com.atlassian.jira.workflow.condition.PermissionCondition</arg>
+            <arg name="permission">Resolve Issue</arg>
+          </condition>
+          <condition type="class">
+            <arg name="class.name">com.atlassian.jira.workflow.condition.PermissionCondition</arg>
+            <arg name="permission">Close Issue</arg>
+          </condition>
+        </conditions>
+      </restrict-to>
+      <results>
+        <unconditional-result old-status="Finished" status="Closed" step="6">
+          <post-functions>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+              <arg name="eventTypeId">5</arg>
+            </function>
+          </post-functions>
+        </unconditional-result>
+      </results>
+    </action>
+    <action id="3" name="Reopen Issue" view="commentassign">
+      <meta name="opsbar-sequence">80</meta>
+      <meta name="jira.i18n.submit">issue.operations.reopen.issue</meta>
+      <meta name="jira.i18n.description">issue.operations.reopen.description</meta>
+      <meta name="jira.i18n.title">issue.operations.reopen.issue</meta>
+      <restrict-to>
+        <conditions>
+          <condition type="class">
+            <arg name="class.name">com.atlassian.jira.workflow.condition.PermissionCondition</arg>
+            <arg name="permission">Resolve Issue</arg>
+          </condition>
+        </conditions>
+      </restrict-to>
+      <results>
+        <unconditional-result old-status="Finished" status="Reopened" step="5">
+          <post-functions>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueFieldFunction</arg>
+              <arg name="field.value"></arg>
+              <arg name="field.name">resolution</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+              <arg name="eventTypeId">7</arg>
+            </function>
+          </post-functions>
+        </unconditional-result>
+      </results>
+    </action>
+    <action id="4" name="Start Progress">
+      <meta name="opsbar-sequence">20</meta>
+      <meta name="jira.i18n.title">startprogress.title</meta>
+      <restrict-to>
+        <conditions>
+          <condition type="class">
+            <arg name="class.name">com.atlassian.jira.workflow.condition.AllowOnlyAssignee</arg>
+          </condition>
+        </conditions>
+      </restrict-to>
+      <results>
+        <unconditional-result old-status="Finished" status="Underway" step="3">
+          <post-functions>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueFieldFunction</arg>
+              <arg name="field.value"></arg>
+              <arg name="field.name">resolution</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+              <arg name="eventTypeId">11</arg>
+            </function>
+          </post-functions>
+        </unconditional-result>
+      </results>
+    </action>
+    <action id="5" name="Resolve Issue" view="resolveissue">
+      <meta name="opsbar-sequence">40</meta>
+      <meta name="jira.i18n.submit">resolveissue.resolve</meta>
+      <meta name="jira.i18n.description">resolveissue.desc.line1</meta>
+      <meta name="jira.i18n.title">resolveissue.title</meta>
+      <restrict-to>
+        <conditions>
+          <condition type="class">
+            <arg name="class.name">com.atlassian.jira.workflow.condition.PermissionCondition</arg>
+            <arg name="permission">Resolve Issue</arg>
+          </condition>
+        </conditions>
+      </restrict-to>
+      <results>
+        <unconditional-result old-status="Finished" status="Resolved" step="4">
+          <post-functions>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+            </function>
+            <function type="class">
+              <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+              <arg name="eventTypeId">4</arg>
+            </function>
+          </post-functions>
+        </unconditional-result>
+      </results>
+    </action>
+  </common-actions>
+  <steps>
+    <step id="1" name="Open">
+      <meta name="jira.status.id">1</meta>
+      <actions>
+<common-action id="4" />
+<common-action id="5" />
+<common-action id="2" />
+      </actions>
+    </step>
+    <step id="3" name="In Progress">
+      <meta name="jira.status.id">3</meta>
+      <actions>
+<common-action id="5" />
+<common-action id="2" />
+        <action id="301" name="Stop Progress">
+          <meta name="opsbar-sequence">20</meta>
+          <meta name="jira.i18n.title">stopprogress.title</meta>
+          <restrict-to>
+            <conditions>
+              <condition type="class">
+                <arg name="class.name">com.atlassian.jira.workflow.condition.AllowOnlyAssignee</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Assigned" step="1">
+              <post-functions>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueFieldFunction</arg>
+                  <arg name="field.value"></arg>
+                  <arg name="field.name">resolution</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+                  <arg name="eventTypeId">12</arg>
+                </function>
+              </post-functions>
+            </unconditional-result>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="4" name="Resolved">
+      <meta name="jira.status.id">5</meta>
+      <actions>
+<common-action id="3" />
+        <action id="701" name="Close Issue" view="commentassign">
+          <meta name="opsbar-sequence">60</meta>
+          <meta name="jira.i18n.submit">closeissue.close</meta>
+          <meta name="jira.i18n.description">closeissue.desc</meta>
+          <meta name="jira.i18n.title">closeissue.title</meta>
+          <meta name="jira.description">Closing an issue indicates there is no more work to be done on it, and it has been verified as complete.</meta>
+          <restrict-to>
+            <conditions>
+              <condition type="class">
+                <arg name="class.name">com.atlassian.jira.workflow.condition.PermissionCondition</arg>
+                <arg name="permission">Close Issue</arg>
+              </condition>
+            </conditions>
+          </restrict-to>
+          <results>
+            <unconditional-result old-status="Finished" status="Closed" step="6">
+              <post-functions>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.misc.CreateCommentFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.issue.IssueReindexFunction</arg>
+                </function>
+                <function type="class">
+                  <arg name="class.name">com.atlassian.jira.workflow.function.event.FireIssueEventFunction</arg>
+                  <arg name="eventTypeId">5</arg>
+                </function>
+              </post-functions>
+            </unconditional-result>
+          </results>
+        </action>
+      </actions>
+    </step>
+    <step id="5" name="Reopened">
+      <meta name="jira.status.id">4</meta>
+      <actions>
+<common-action id="5" />
+<common-action id="2" />
+<common-action id="4" />
+      </actions>
+    </step>
+    <step id="6" name="Closed">
+      <meta name="jira.status.id">6</meta>
+      <meta name="jira.issue.editable">false</meta>
+      <actions>
+<common-action id="3" />
+      </actions>
+    </step>
+  </steps>
+</workflow>
+]]></descriptor>
+    </Workflow>
+    <WorkflowScheme id="10000" name="classic" description="classic"/>
+    <WorkflowSchemeEntity id="10000" scheme="10000" workflow="classic default workflow" issuetype="0"/>
+
+</entity-engine-xml>

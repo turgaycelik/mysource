@@ -1,0 +1,180 @@
+.jira-avatars {
+    margin:0;
+    padding:0;
+    list-style-type:none;
+
+    img {
+        margin: 3px;
+        padding: 2px;
+        border: 2px solid transparent;
+        vertical-align: middle;
+    }
+
+    .jira-avatar {
+        cursor: pointer;
+        display: inline-block;
+        position: relative;
+
+        > span {
+            display: block;
+            margin: 0;
+            padding: 0;
+            line-height: 0;
+        }
+    }
+
+    .jira-avatar:hover img {
+        -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+        border-color: #000;
+    }
+
+    .jira-avatar .jira-delete-avatar {
+        opacity: 0;
+        position:absolute;
+        height:16px;
+        width:16px;
+        background:url("../../../images/icn-remove.png") 0 0 no-repeat;
+        top:-2px;
+        right:-1px;
+        text-indent: -9999px;
+    }
+
+    .jira-avatar:hover .jira-delete-avatar {
+        opacity: 1;
+    }
+
+    .jira-avatar .jira-delete-avatar:focus {
+        opacity: 1;
+    }
+
+    .jira-selected-avatar img {
+        border-color: #3C78B5;
+    }
+
+    .jira-selected-avatar:hover img {
+        border-color: #3C78B5;
+        -moz-box-shadow: none;
+        -webkit-box-shadow: none;
+        box-shadow:none;
+    }
+
+    .jira-selected-avatar .jira-delete-avatar  {
+        top:-4px;
+        right:-3px;
+    }
+}
+
+.jira-avatar-upload-form {
+    padding: 24px 25px;
+    position: relative;
+    text-align: center;
+
+    .field-group label {
+        font-size:13px;
+        margin-right:10px;
+    }
+
+    .field-group input[type='file'] {
+        width: 50%;
+    }
+
+    .error {
+        color: #C00;
+        font-weight: bold;
+        white-space: normal;
+    }
+
+    /* Targets the hackish approach of pulling the form body out of the form to 'cleanly' rendering floated avatars */
+    + .form-body {
+        border-top: 1px solid #ddd;
+        overflow: auto;
+    }
+}
+
+.aui-message.jira-avatar-upload {
+    padding-left:1em;
+}
+
+.aui-message.jira-avatar-upload p.title {
+    margin-bottom:5px;
+}
+
+.jira-avatar-picker-trigger {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+
+  &:hover {
+    background: #FFF;
+  }
+
+  > img {
+    vertical-align: middle; /* to prevent "extra padding" at bottom of trigger element. */
+  }
+
+  .aui-avatar {
+    vertical-align: middle;
+  }
+
+  .avatar-select-text {
+    margin-left: 0.3em;
+  }
+}
+
+/* Avatar cropper */
+
+.jira-avatar-cropper-form {
+    overflow:hidden;
+
+    .jira-avatar-cropper-header {
+        padding: 16px;
+        overflow: auto;
+
+        p {
+            margin: 0;
+        }
+
+        + .form-body {
+            border-top: 1px solid #DDD;
+            overflow: auto;
+            padding-top: 16px; /* To make room for the picker handles */
+        }
+    }
+
+    .form-footer {
+        text-align: right;
+    }
+}
+
+/* Avataror styles (see avataror.js - originally written by dmitry) */
+
+.avatarorframe .submit-buttons {
+    float: right;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.avatarorframe .avataror {
+    clear: both;
+}
+
+.avataror {
+    margin: 0 auto;
+    padding: 5px;
+}
+
+#avataror p {
+    white-space: normal!important;
+}
+
+.avataror-preview {
+    margin-right:15px!important;
+}
+
+.gravatar-help {
+    .hidden {
+        display: none;
+    }
+}

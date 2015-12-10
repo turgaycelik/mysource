@@ -1,0 +1,9 @@
+#disable_html_escaping()
+<h3 id="reference-moduletypes-title">List of all reference module types</h3>
+<div id="reference-moduletypes-list">
+<dl>
+    #foreach ($module in $action.referenceModules)
+        <dt>${textutils.htmlEncode($module)}</dt>
+    #end
+</dl>
+</div>

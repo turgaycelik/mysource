@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!DOCTYPE application PUBLIC "-//Sun Microsystems, Inc.//DTD J2EE Application 1.3//EN" "http://java.sun.com/dtd/application_1_3.dtd">
+
+<application>
+  <display-name>Atlassian JIRA</display-name>
+
+  <module>
+    <web>
+      <web-uri>atlassian-jira-web.war</web-uri>
+      <context-root>/jira</context-root>
+    </web>
+  </module>
+</application>

@@ -1,0 +1,25 @@
+<searchrequest name='nullsearch'>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.ProjectParameter'>
+    <project pid='10240'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.ResolutionParameter'>
+    <resolution>
+      <value></value>
+    </resolution>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.FixForParameter'>
+    <fixfor>
+      <value></value>
+    </fixfor>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.ComponentParameter'>
+    <component>
+      <value></value>
+    </component>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.VersionParameter'>
+    <version>
+      <value></value>
+    </version>
+  </parameter>
+</searchrequest>

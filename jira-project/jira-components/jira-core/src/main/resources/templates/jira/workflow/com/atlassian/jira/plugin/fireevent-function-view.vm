@@ -1,0 +1,2 @@
+#disable_html_escaping()
+$i18n.getText("admin.workflow.function.fireevent.view", "<b>", "${textutils.htmlEncode(${eventType.getTranslatedName($user)})}", "</b>", "")

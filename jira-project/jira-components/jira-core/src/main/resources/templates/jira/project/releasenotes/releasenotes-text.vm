@@ -1,0 +1,44 @@
+#disable_html_escaping()
+<title>$textUtils.htmlEncode($action.getText('release.notes.text.title', $project, $version))</title>
+<body>
+
+<div class="ops-cont">
+    <ul class="ops">
+        <li>
+            <a class="button first last" href="$!requestContext.baseUrl/secure/ConfigureReleaseNote.jspa?projectId=${versionObj.projectObject.id}&version=${versionObj.id}">$action.getText('releasenotes.configure')</a>
+        </li>
+    </ul>
+</div>
+
+#foreach ($issueType in $issueTypes)
+    #if($issueType.issues.size() > 0)
+        <h2>$textUtils.htmlEncode($issueType.name)</h2>
+        <ul>
+        #foreach ($issue in $issueType.issues)
+            <li>[<a href='$!requestContext.baseUrl/browse/$issue.key'>$issue.key</a>] - $textUtils.htmlEncode($issue.summary)</li>
+        #end
+        </ul>
+    #end
+#end
+
+
+<a name="editarea"></a>
+<h2>$action.getText('release.notes.edit.copy')</h2>
+<p>$action.getText('release.notes.description')</p>
+
+<textarea rows="40" cols="120">
+
+$action.getText('release.notes.heading', $project, $version)
+
+#foreach ($issueType in $issueTypes)
+#if($issueType.issues.size() > 0)
+** $textUtils.htmlEncode($issueType.name)
+#foreach ($issue in $issueType.issues)
+    * [$issue.key] - $textUtils.htmlEncode($issue.summary)
+#end
+#end
+
+#end
+</textarea>
+
+</body>

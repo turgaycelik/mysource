@@ -1,0 +1,97 @@
+<!-- this file should be updated in sync with EventType.java and EventType table -->
+<templatemappings>
+    <templatemapping id="1">
+        <name>Issue Created</name>
+        <template>issuecreated.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="2">
+        <name>Issue Updated</name>
+        <template>issueupdated.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="3">
+        <name>Issue Assigned</name>
+        <template>issueassigned.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="4">
+        <name>Issue Resolved</name>
+        <template>issueresolved.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="5">
+        <name>Issue Closed</name>
+        <template>issueclosed.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="6">
+        <name>Issue Commented</name>
+        <template>issuecommented.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="7">
+        <name>Issue Reopened</name>
+        <template>issuereopened.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="8">
+        <name>Issue Deleted</name>
+        <template>issuedeleted.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="9">
+        <name>Issue Moved</name>
+        <template>issuemoved.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="10">
+        <name>Work Logged</name>
+        <template>issueworklogged.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="11">
+        <name>Work Started</name>
+        <template>issueworkstarted.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="12">
+        <name>Work Stopped</name>
+        <template>issueworkstopped.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="13">
+        <name>Generic Event</name>
+        <template>issuegenericevent.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="14">
+        <name>Issue Comment Edited</name>
+        <template>issuecommentedited.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="15">
+        <name>Issue Worklog Updated</name>
+        <template>issueworklogupdated.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="16">
+        <name>Issue Worklog Deleted</name>
+        <template>issueworklogdeleted.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <templatemapping id="17">
+        <name>Issue Comment Deleted</name>
+        <template>issueupdated.vm</template>
+        <templatetype>issueevent</templatetype>
+    </templatemapping>
+    <!--
+         This is not mapped to an event type, these are the templates that are used when generating
+         the mails sent out for filter subscriptions. The id has changed from 14 to 10000 in JIRA 3.8.
+    -->
+    <templatemapping id="10000">
+        <name>Filter Subscription</name>
+        <template>filtersubscription.vm</template>
+        <templatetype>filtersubscription</templatetype>
+    </templatemapping>
+</templatemappings>

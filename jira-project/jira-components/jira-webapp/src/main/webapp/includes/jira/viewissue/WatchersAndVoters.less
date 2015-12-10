@@ -1,0 +1,14 @@
+@import "../../../ui/imports/colours";
+
+#view-voter-list,
+#view-watcher-list {
+    text-decoration: none;
+}
+
+.aui-badge {
+    &.vote-state-on,
+    &.watch-state-on {
+        background-color: @jira-dropdown-menuitem-background-focus-color;
+        color: @jira-dropdown-menuitem-text-focus-color;
+    }
+}

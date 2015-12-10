@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($selectedProjects)
+    #searcherHeaderNoField ("pid" ${i18n.getText($searcherNameKey)})
+        #foreach ($project in $selectedProjects)
+        <a href="${baseurl}/browse/${project.getString('key')}" title="${i18n.getText('navigator.filter.browse.project', $textutils.htmlEncode($project.getString('name')))}">$textutils.htmlEncode($project.getString('name'))</a>#if ($velocityCount < $selectedProjects.size() || $filteredOutProjects.isEmpty() == false), #end
+        #end
+        #foreach ($project in $filteredOutProjects)
+        <span style="white-space:nowrap;" title="${i18n.getText('navigator.filter.project.mouseover')}">${i18n.getText('navigator.filter.project.with.id', $project.getString('id'))}</span>#if ($velocityCount < $filteredOutProjects.size()), #end
+        #end
+    #searcherFooter ("blah")
+#end

@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($issue.labels && $issue.labels.size() > 0)
+<tr>
+    <th>#text("issue.field.labels"):</th>
+    <td>
+        #foreach($label in $issue.labels)
+            $textutils.htmlEncode($label.label)
+        #end
+    </td>
+</tr>
+#end

@@ -1,0 +1,55 @@
+#* @vtlvariable name="headerTitle" type="java.lang.String" *#
+#* @vtlvariable name="actionerUser" type="com.atlassian.jira.user.ApplicationUser" *#
+#* @vtlvariable name="attachmentsManager" type="com.atlassian.jira.mail.util.MailAttachmentsManager" *#
+#disable_html_escaping()
+#parse("templates/email/html/includes/emailconstants.vm")
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+    <base href="${baseurl}">
+    <title>Message Title</title>
+</head>
+<body class="jira">
+    <table id="background-table" cellpadding="0" cellspacing="0" width="100%">
+        #if($headerTitle)
+        <!-- header here -->
+        <tr>
+            <td id="header-pattern-container">
+                <table id="header-pattern" cellspacing="0" cellpadding="0" border="0">
+                    <tr>
+                        <td id="header-avatar-image-container" valign="top">
+                            #if ($changelogmetadata.generator.avatarUrl)
+                                <img id="header-avatar-image" class="image_fix" src="$textutils.htmlEncode($attachmentsManager.getExternalImageUrl($changelogmetadata.generator.avatarUrl))" height="32" width="32" border="0" />
+                            #elseif($changelogmetadata.actor.avatarUrl)
+                                <img id="header-avatar-image" class="image_fix" src="$textutils.htmlEncode($attachmentsManager.getExternalImageUrl($changelogmetadata.actor.avatarUrl))" height="32" width="32" border="0" />
+                            #elseif ($actionerUser)
+                                ## The size we specify here must match the dimensions of the avatar provided by
+                                ## MailAttachmentsManager, otherwise Outlook will rewrite the image and
+                                ## destroy our JIRA metadata needed for JRA-25705
+                                <img id="header-avatar-image" class="image_fix" src="$attachmentsManager.getAvatarUrl($actionerUser.name)" height="32" width="32" border="0" />
+                            #else
+                                &nbsp; ##TODO no avatar to show
+                            #end
+                        </td>
+                        <td id="header-text-container" valign="middle">
+                            $headerTitle
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        #else
+        <tr><td id="header-pattern-spacer">&nbsp;</td></tr>
+        #end
+        <tr>
+            <td id="email-content-container" #if ($emailContainerClasses) class="${emailContainerClasses}" #end>
+                <table id="email-content-table" cellspacing="0" cellpadding="0" border="0" width="100%">
+                    <tr>
+                        <!-- there needs to be content in the cell for it to render in some clients -->
+                        <td class="email-content-rounded-top mobile-expand">&nbsp;</td>
+                    </tr>
+
+#set ($showIssueTitleDetails = true)

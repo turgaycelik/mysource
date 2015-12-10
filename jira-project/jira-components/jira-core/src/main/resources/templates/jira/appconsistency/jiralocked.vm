@@ -1,0 +1,29 @@
+#disable_html_escaping()
+<html>
+<head>
+    <title>JIRA Startup Failed</title>
+    <meta http-equiv="refresh" content="180"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    ${resourcesHtml}
+</head>
+<body id="jira" class="aui-layout aui-theme-default">
+    <div id="page">
+        <div id="content" role="main">
+            <div class="aui-page-panel">
+                <div class="aui-page-panel-inner">
+                    <div class="aui-page-panel-content">
+                        <h1>JIRA Startup Failed</h1>
+                        <div class="aui-message error">
+                            <span class="aui-icon icon-error"></span>
+                            #if (${failedStartupCheck})
+                                ${failedStartupCheck.getHTMLFaultDescription()}
+                            #end
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

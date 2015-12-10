@@ -1,0 +1,14 @@
+#enable_html_escaping()
+<div id="description-val" class="field-ignore-highlight">
+    <div class="user-content-block">
+        #if (${descriptionHtml})
+            $!{descriptionHtml}
+        #else
+            #if(${isEditable})
+                <em>${i18n.getText("issue.nav.click.add.description")}</em>
+            #else
+                <em>${i18n.getText("common.words.none")}</em>
+            #end
+        #end
+    </div>
+</div>

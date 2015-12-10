@@ -1,0 +1,55 @@
+{namespace JIRA.Templates.VersionBlocks}
+
+/**
+ * Renders information for a version.
+ *
+ * @param versionId
+ * @param name the name or title of the version
+ * @param versionUrl the URL to view details for the version.
+ * @param? description
+ * @param? releaseDateContent the date on which the version is meant to be released.
+ * @param? progressContent indicator for the progress made in a version.
+ */
+{template .versionBlock}
+    <div class="version-block aui-group aui-group-split" data-version-id="{$versionId}">
+        <div class="aui-item">
+            <h3 class="version-title">
+                <a href="{$versionUrl}">
+                    {call .versionIcon data="all"/}
+                    {$name}
+                </a>
+            </h3>
+            {if $description}
+                <p class="version-description">{$description}</p>
+            {/if}
+            <ul class="version-metadata">
+                <li class="version-releaseDate">
+                    {if $releaseDateContent}
+                        <span class="key">{getText('version.releasedate')}:</span>
+                        <span class="value">{$releaseDateContent|noAutoescape}</span>
+                    {else}
+                        <i class="key">{getText('version.no.releasedate')}</i>
+                    {/if}
+                </li>
+            </ul>
+        </div>
+        {if $progressContent}
+            <div class="version-progress aui-item">
+                {$progressContent|noAutoescape}
+            </div>
+        {/if}
+    </div>
+{/template}
+
+/**
+ * Render the appropriate version icon.
+ * @param? isReleased
+ * @param? isArchived
+ */
+{template .versionIcon}
+    {if hasData()}
+        <span class="aui-icon
+            {sp}jira-icon-version{if $isArchived}-archived{/if}{if $isReleased}-released{/if}
+        "></span>{sp}
+    {/if}
+{/template}

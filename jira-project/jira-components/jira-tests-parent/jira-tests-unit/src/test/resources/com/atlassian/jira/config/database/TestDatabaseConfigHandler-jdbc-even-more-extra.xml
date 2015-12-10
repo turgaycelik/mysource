@@ -1,0 +1,24 @@
+<database>
+    <name>badass-tenant</name>
+    <database-type>mongodb</database-type>
+    <schema-name>does mongo have schemas?</schema-name>
+    <jdbc-datasource>
+        <url>jdbc:mongodb:localhost:1234</url>
+        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <username>badass-user</username>
+        <password>badass-password</password>
+        <connection-properties>foo=bar;equation=x=y</connection-properties>
+        <!-- Make sure pool-size is ignored when pool-max-size is set -->
+        <pool-size>12345</pool-size>
+        <pool-min-size>10</pool-min-size>
+        <pool-max-size>50000</pool-max-size>
+        <pool-max-wait>110000</pool-max-wait>
+        <pool-sleep-time>130000</pool-sleep-time>
+        <pool-life-time>140000</pool-life-time>
+        <deadlock-max-wait>150000</deadlock-max-wait>
+        <deadlock-retry-wait>160000</deadlock-retry-wait>
+        <validation-query>SELECT 'X' FROM DUAL</validation-query>
+        <min-evictable-idle-time-millis>999</min-evictable-idle-time-millis>
+        <time-between-eviction-runs-millis>8888</time-between-eviction-runs-millis>
+    </jdbc-datasource>
+</database>

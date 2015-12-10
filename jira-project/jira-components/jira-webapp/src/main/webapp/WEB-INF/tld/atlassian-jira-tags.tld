@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN"
+	"http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>jira</shortname>
+
+    <uri>jiratags</uri>
+    <tag>
+		<name>loginlink</name>
+		<tagclass>com.atlassian.jira.web.tags.LoginLink</tagclass>
+
+        <attribute>
+            <name>returnUrl</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+	</tag>
+
+	<tag>
+		<name>text2html</name>
+		<tagclass>com.atlassian.jira.web.tags.Text2Html</tagclass>
+	</tag>
+
+    <tag>
+        <name>formatuser</name>
+        <tagclass>com.atlassian.jira.web.tags.FormatUserTag</tagclass>
+        <info>Print out a formatted user string.</info>
+        <!-- User attribute supports both the username and the user key. -->
+        <attribute>
+            <name>userKey</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>userName</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>escape</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+		<name>escape</name>
+		<tagclass>com.atlassian.jira.web.tags.Escape</tagclass>
+	</tag>
+
+	<tag>
+		<name>linkbugkeys</name>
+		<tagclass>com.atlassian.jira.web.tags.LinkBugKeys</tagclass>
+	</tag>
+
+    <tag>
+        <name>web-resource-require</name>
+        <tagclass>com.atlassian.jira.web.tags.WebResourceRequireTag</tagclass>
+        <info>Require a list of web-resourcesF for the current page.</info>
+        <attribute>
+            <name>modules</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>contexts</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>feature-check</name>
+        <tagclass>com.atlassian.jira.web.tags.FeatureCheckTag</tagclass>
+        <info>Optionally include the body of the tag if the feature is enabled</info>
+        <attribute>
+            <name>featureKey</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>enabled</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>strip-html-markup</name>
+        <tagclass>com.atlassian.jira.web.tags.StripHtmlMarkup</tagclass>
+        <info>Removes HTML markup from the given content.</info>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>split</name>
+        <tagclass>com.atlassian.jira.web.tags.text.SplitTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Splits a String into substrings, by recognizing a separator and makes them available through iterator
+            object that is placed on the top of the value stack}.
+        </info>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>separator</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

@@ -1,0 +1,44 @@
+{namespace JIRA.Templates.LookandFeelUserFormat}
+
+/**
+ * @param formTitle
+ * @param submitAction
+ * @param userTypes
+ * @param token
+ */
+{template .userformatForm}
+    <div class="mod-header">
+        <h2>{$formTitle}</h2>
+    </div>
+    <div class="mod-content">
+        {call aui.form.form}
+            {param content}
+                {foreach $userType in $userTypes}
+                    {call aui.form.selectField}
+                        {param labelContent: $userType.label /}
+                        {param id: $userType.name /}
+                        {param name: $userType.name /}
+                        {param options: $userType.options /}
+                    {/call}
+                {/foreach}
+                {call aui.form.input}
+                    {param name: 'atl_token' /}
+                    {param type: 'hidden' /}
+                    {param value: $token /}
+                {/call}
+                {call aui.form.buttons }
+                    {param content}
+                        {call aui.form.submit}
+                            {param text: getText('AUI.form.submit.button.text') /}
+                            {param id: 'userformat-submit' /}
+                            {param extraClasses: 'aui-button' /}
+                        {/call}
+                    {/param}
+                {/call}
+
+            {/param}
+            {param action: $submitAction /}
+            {param method: 'POST' /}
+        {/call}
+    </div>
+{/template}

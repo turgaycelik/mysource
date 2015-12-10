@@ -1,0 +1,1 @@
+JIRA.devmode = true;

@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($value)
+    <div class="shorten" id="${customField.id}-field">
+        #foreach ($singleValue in $value)
+            <span>$textutils.htmlEncode($singleValue.name)#commaonly ($value)</span>
+        #end
+    </div>
+#end

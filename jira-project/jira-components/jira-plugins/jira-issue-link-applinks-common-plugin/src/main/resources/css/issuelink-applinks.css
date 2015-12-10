@@ -1,0 +1,9 @@
+form.aui .issue-link-applinks-authentication-message .aui-message:first-child {
+    margin-top: 10px;
+}
+
+.issue-link-oauth-toggle
+{
+    border-top: 1px solid #DDD;
+    padding-top: 8px;
+}

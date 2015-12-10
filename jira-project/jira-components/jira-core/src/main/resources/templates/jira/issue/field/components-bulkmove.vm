@@ -1,0 +1,36 @@
+#disable_html_escaping()
+#controlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters.get('noHeader'))
+
+#if ($components && !$components.empty)
+<table class="blank">
+    #foreach ($sourceComponentEntry in $valuesToMap.entrySet())
+        #set ($sourceComponentEntryValue = $sourceComponentEntry.getValue())
+        #set ($sourceComponentName = $sourceComponentEntryValue.getValueName())
+        #set ($sourceProjectNameEscaped = $textutils.htmlEncode($sourceComponentEntryValue.getProjectName()))
+        #set ($sourceComponentId = $sourceComponentEntry.getKey())
+        <tr id="rowFor_${field.id}_${sourceComponentId}">
+            <td width="1%" nowrap>#if ($sourceComponentName != '')$textutils.htmlEncode($sourceComponentName)#else $i18n.getText('common.concepts.nocomponent')#end
+                #if ($sourceComponentId != $unknownComponentId)<small>[<strong>$i18n.getText('common.concepts.project'):</strong> $sourceProjectNameEscaped]</small>#end
+            </td>
+            <td width="1%"><img src="${req.contextPath}/images/icons/arrow_right_small.gif" height="16" width="16" border="0" align="absmiddle"></td>
+            <td>
+                <select name="${field.id}_${sourceComponentId}" id="${field.id}_${sourceComponentId}" data-remove-null-options="true">
+                    #if (!$fieldLayoutItem.required)
+                    <option value="-1">$i18n.getText('common.words.unknown')</option>
+                    #end
+                    #foreach ($component in $components)
+                        <option value="$!component.getLong('id')" title="$textutils.htmlEncode($component.getString("name")) #if($component.getString("description")) - $textutils.htmlEncode($component.getString("description"))#end"
+                            #if ($bulkMoveHelper.needsSelection($sourceComponentEntryValue, $component.getLong('id'), $component.getString("name")))selected#end
+                            >$textutils.htmlEncode($component.getString('name'))</option>
+                    #end
+                </select>
+            </td>
+        </tr>
+    #end
+</table>
+
+#else
+    $i18n.getText('common.words.none')
+#end
+
+#controlFooter ($action $fieldLayoutItem.getFieldDescription() $displayParameters.get('noHeader'))

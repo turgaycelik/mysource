@@ -1,0 +1,8 @@
+#if ($errors.get($name))
+    <tr>
+        <td class="fieldLabelArea formErrors">&nbsp;</td>
+        <td class="fieldValueArea formErrors">
+            <span class="errMsg">$errors.get($name)</span>
+        </td>
+    </tr>
+#end

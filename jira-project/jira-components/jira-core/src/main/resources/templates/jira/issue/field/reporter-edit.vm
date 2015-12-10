@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+<div class="ajax_autocomplete" id="${field.id}_container">
+    <input class="text long-field" id="$field.id" name="$field.id" type="text" value="$textutils.htmlEncode($!reporter)" />
+#if ($hasPermissionPickUsers)
+    <fieldset class="hidden user-picker-params" rel="$field.id">
+        <input title="fieldName" type="hidden" value="$field.id" />
+        <input title="multiSelect" type="hidden" value="false" />
+        #if ($canPerformAjaxSearch)<input title="userPickerEnabled" type="hidden" value="true" />#end
+    </fieldset>
+    <a class="popup-trigger" href="#"><span class="aui-icon icon-userpicker" title="$i18n.getText('user.picker.select.user')"></span></a>
+#else
+    <span class="aui-icon icon-userpicker-disabled" title="$i18n.getText('user.picker.no.permission')"></span>
+#end
+#if ($canPerformAjaxSearch)
+    <div class="ajax_results" id="${field.id}_results"></div>
+    <div class="description">${i18n.getText('user.picker.ajax.desc')}</div>
+#end
+</div>
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

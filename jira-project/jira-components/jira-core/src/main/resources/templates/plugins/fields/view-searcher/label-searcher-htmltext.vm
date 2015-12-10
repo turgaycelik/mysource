@@ -1,0 +1,15 @@
+#disable_html_escaping()
+## this is very much a hack - and assumes a lot of things about how a custom field works.
+## please ensure that this will work for you before you use this template.
+## NOTE: This only has to put the urlPrefix in the href now since the url
+## passed in has become much smarter and has already accounted for the custom
+## fields value.
+## NOTE: the purpose of this template is for custom fields which *could* take an HTML value, and thus should not
+## be encoded. For fields which should always be encoded, use the label-searcher-basictext.vm template.
+#if ($value)
+#if ($urlPrefix && $urlPrefix != '')
+    <a href="${urlPrefix}">$cfValueEncoder.encodeForHtml($value)</a>
+#else
+    $cfValueEncoder.encodeForHtml($value)
+#end
+#end

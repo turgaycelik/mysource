@@ -1,0 +1,111 @@
+#disable_html_escaping()
+#* @vtlvariable name="currentSelections" type="java.util.List<com.atlassian.jira.web.component.multiuserpicker.UserBean>" *#
+#* @vtlvariable name="ajaxLimit" type="java.lang.String" *#
+#* @vtlvariable name="canPerformAjaxSearch" type="boolean" *#
+#* @vtlvariable name="windowName" type="java.lang.String" *#
+#* @vtlvariable name="canPick" type="boolean" *#
+#* @vtlvariable name="id" type="long" *#
+#* @vtlvariable name="layout" type="com.atlassian.jira.web.component.PickerLayoutBean" *#
+#* @vtlvariable name="valuesToAdd" type="java.lang.String" *#
+#* @vtlvariable name="canEdit" type="boolean" *#
+
+<script type="text/javascript" language=javascript>
+    function setCheckboxes() {
+        var value = document.stopform.all.checked;
+        var numelements = document.stopform.elements.length;
+        var item;
+        for (var i=0 ; i<numelements ; i++) {
+            item = document.stopform.elements[i];
+            item.checked = value;
+        }
+    }
+</script>
+
+
+#if ($canEdit)
+<!-- Add form -->
+<div class="link-wrap item-picker">
+    <form class="aui top-label" name="startform" method="POST" action="$layout.addAction">
+        <div class="form-body">
+            <div class="hidden">
+                <input type="hidden" name="id" value="$id" />
+                <input type="hidden" name="atl_token" value="$!atl_token" />
+            </div>
+            <div class="field-group">
+                <label>
+                    $i18n.getText($layout.addDescKey2):
+                </label>
+                #genericMultiPicker($canPick $layout.pickerName 'startform' $valuesToAdd '30' '3' $layout.pickerId $layout.pickerAction $layout.pickerTitle true $windowName $canPerformAjaxSearch $ajaxLimit)
+            </div>
+        </div>
+        <div class="buttons-container form-buttons">
+            <div class="buttons">
+                <input class="aui-button" type="submit" name="add" value="$i18n.getText($layout.addButtonKey)" />
+            </div>
+        </div>
+    </form>
+</div>
+#end
+
+<div class="watcher-list #if ($canEdit) item-picker #end">
+    <!-- Current list -->
+    ## only show watchers table if they exist
+    #if ($currentSelections && !$currentSelections.empty)
+        <form name="stopform" method="POST" action="$layout.removeAction">
+        <table class="aui aui-table-rowhover" id="watcher-list">
+            <thead>
+                <tr>
+                    #if ($canEdit)
+                    <th width="1%">
+                        <input type="checkbox" name="all" onClick="setCheckboxes()" />
+                    </th>
+                    #end
+                    <th>$i18n.getText($layout.currentHeadingKey)</th>
+                </tr>
+            </thead>
+            <tbody>
+            #foreach ($selection in $currentSelections)
+
+                <tr #if ($velocityCount % 2 == 0) class="alt" #end data-row-for="$textutils.htmlEncode(${selection.name})">
+                    #if ($canEdit)
+                    <td>
+                        <input type="checkbox" name="${layout.removePrefix}$textutils.htmlEncode(${selection.name})" value="." />
+                    </td>
+                    #end
+                    <td>
+                    #if ($layout.userLayoutBean)
+                        #if ($selection.real)
+                        $userformat.formatUsername($selection.name, 'profileLink', "watcher_link")
+                        <span class="login-name"> ($textutils.htmlEncode(${selection.name}))</span>
+                        #else
+                        $textutils.htmlEncode(${selection.name})
+                        #end
+                    #else
+                        #if ($canEdit)
+                            <a id="group_link_$textutils.htmlEncode(${selection.name})" href="$req.contextPath/secure/admin/user/ViewGroup.jspa?name=$urlcodec.encode($selection.name)">$textutils.htmlEncode($selection.name)</a>
+                        #else
+                            $textutils.htmlEncode(${selection.name})
+                        #end
+                    #end
+                    </td>
+                </tr>
+                #end
+            </tbody>
+        </table>
+        #if ($canEdit)
+        <div class="buttons-container form-buttons">
+            <div class="buttons">
+                <input class="aui-button" type="submit" name="remove" value="${i18n.getText($layout.removeButtonKey)}" />
+            </div>
+        </div>
+        #end
+        <input type="hidden" name="id" value="$id" />
+        <input type="hidden" name="atl_token" value="$!atl_token" />
+        </form>
+    #else
+        <div class="aui-message info">
+            <span class="aui-icon icon-info"></span>
+            <p>$i18n.getText($layout.noKey)</p>
+        </div>
+    #end
+</div>

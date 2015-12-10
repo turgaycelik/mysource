@@ -1,0 +1,11 @@
+#install4j response file for JIRA Enterprise Edition 3.8-DEV
+#Fri Feb 09 15:21:02 EST 2007
+executeLauncherAction$Boolean=true
+sys.programGroup.linkDir=/usr/local/bin
+app.install.service$Boolean=true
+sys.languageId=en
+app.jiraHome=C\:\\Program Files\\Atlassian\\Application Data\\JIRA
+sys.installationDir=C\:\\Program Files\\Atlassian\\JIRA-JWI
+sys.programGroupDir=C\:\\Documents and Settings\\All Users\\Start Menu\\Programs\\JIRA-JWI
+sys.programGroup.enabled$Boolean=true
+sys.programGroup.allUsers$Boolean=true

@@ -1,0 +1,10 @@
+#disable_html_escaping()
+
+#parse('templates/email/html/includes/patterns/issue-title.vm')
+
+#if ($issue.description)
+    #set($textParagraph = $textutils.plainTextToHtml($stringUtils.abbreviate($issue.description, 360)))
+    <div style="padding-top:10px;">
+    #parse('templates/email/html/includes/patterns/text-paragraph.vm')
+    </div>
+#end

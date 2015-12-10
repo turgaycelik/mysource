@@ -1,0 +1,14 @@
+<atlassian-plugin name='JIRA Footer' key='jira.footer' i18n-name-key="footer.plugin.name">
+    <plugin-info>
+        <description key="footer.plugin.desc">This plugin renders the content of the footer in JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.12" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <jira-footer key="standard-footer" i18n-name-key="footer.plugin.standard.name" name="Standard Footer"
+            class="com.atlassian.jira.plugin.navigation.DefaultPluggableFooter">
+        <resource type="velocity" name="view" location="templates/plugins/footer/footer.vm"/>
+        <order>10</order>
+    </jira-footer>
+</atlassian-plugin>

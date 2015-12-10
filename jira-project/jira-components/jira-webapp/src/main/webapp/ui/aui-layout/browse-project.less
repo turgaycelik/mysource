@@ -1,0 +1,49 @@
+@import "../imports/aui-colours";
+
+.issue-filter-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+.p-list {
+    margin-bottom: 20px;
+    .project-list-name {
+        min-width: 350px;
+    }
+    .project-list-key {
+        min-width: 100px;
+
+    }
+    .aui-avatar {
+        display: inline-block;
+        margin-right: 5px;
+        vertical-align: middle;
+    }
+}
+
+//pulled these out from inline styles. Will address the whole thing when we tweak the graph
+.created-issue-count {
+    color: #c00;
+    font-weight: bold;
+}
+.resolved-issue-count {
+    color: #3c3;
+    font-weight: bold;
+}
+
+.project-details .operations-list {
+    margin-top: 3px;
+
+    .user-avatar {
+        vertical-align: text-top;
+    }
+
+    > li + li:before {
+        color: @aui-border-color;
+        margin: 0 3px;
+    }
+
+    .list-label {
+        color: @aui-color-mid;
+    }
+}

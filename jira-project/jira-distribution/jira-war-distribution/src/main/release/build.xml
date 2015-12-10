@@ -1,0 +1,216 @@
+<!--
+ATLASSIAN JIRA
+
+This is the build file for the Atlassian JIRA distribution
+
+For installation instructions, see readme.txt.
+-->
+<project name="atlassian-jira-release" default="war" basedir=".">
+    <target name="init">
+
+        <!-- User-defined properties (customize these if applicable) -->
+        <property name="bea.home" value="${user.home}/bea" />
+        <property name="wl.home" value="${bea.home}/weblogic700-sp4" />
+        <property name="wl.java" value="${bea.home}/jrockit70sp4_131_08" />
+
+        <!-- project properties -->
+        <property name="name" value="atlassian-jira"/>
+        <property name="Name" value="Atlassian JIRA"/>
+        <property name="version" value="@VERSION@"/>
+        <property name="buildnumber" value="@BUILD_NUMBER@"/>
+        <property name="builddate" value="@BUILD_DATE@"/>
+
+        <!-- system properties -->
+        <property name="slash" value="${file.separator}"/>
+
+        <!-- directory properties -->
+        <property name="tmp" value="tmp"/>
+        <property name="etc" value="etc"/>
+        <property name="edit" value="edit-webapp"/>
+        <property name="webapp" value="webapp"/>
+
+        <property name="build" value="${tmp}/build"/>
+        <property name="build.war" value="${build}/war"/>
+        <property name="build.ear" value="${build}/ear"/>
+        <property name="build.ejb" value="${build}/ejb"/>
+        <property name="build.weblogic" value="${build}/weblogic"/>
+        <property name="src" value="src"/>
+        <property name="dist-generic" value="dist-generic"/>
+        <property name="dist-tomcat" value="dist-tomcat"/>
+        <property name="dist-weblogic" value="dist-weblogic"/>
+        <property name="manifest.dir" value="src/manifests"/>
+        <available file="${wl.home}/server/lib/weblogic.jar" type="file" property="weblogic.present"/>
+    </target>
+
+    <target name="compile" depends="init" description="Collects all the needed files and compiles custom source files into the web application">
+        <mkdir dir="${build.war}"/>
+        <mkdir dir="${dist-generic}"/>
+        <mkdir dir="${dist-tomcat}"/>
+        <mkdir dir="${dist-tomcat}/tomcat-6"/>
+        <mkdir dir="${edit}"/>
+
+        <!-- copy the web app directory to the temp directory -->
+        <copy preservelastmodified="true" todir="${build.war}" overwrite="true">
+            <fileset dir="${webapp}"/>
+        </copy>
+
+        <!-- copy the edit directory over the top of the web app directory -->
+        <copy preservelastmodified="true" todir="${build.war}" overwrite="true">
+            <fileset dir="${edit}"/>
+        </copy>
+
+        <!-- compile the source files (if any) - by default none are shipped -->
+        <javac srcdir="${src}" destdir="${build.war}/WEB-INF/classes" fork="yes" debug="true">
+            <classpath id="cp">
+                <fileset dir="${build.war}/WEB-INF/lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement location="${build.war}/WEB-INF/classes"/>
+            </classpath>
+        </javac>
+    </target>
+
+    <target name="war" depends="clean, compile" description="Packages the WAR file">
+
+        <!-- Build the war file -->
+        <jar jarfile="${dist-generic}/${name}-${version}.war">
+            <fileset dir="${build.war}"/>
+        </jar>
+
+        <!-- Tomcat-specific .war -->
+        <jar jarfile="${dist-tomcat}/${name}-${version}.war">
+            <fileset dir="${build.war}">
+            </fileset>
+        </jar>
+        <!-- Tomcat-6-specific .war -->
+        <jar jarfile="${dist-tomcat}/tomcat-6/${name}-${version}.war">
+            <fileset dir="${build.war}">
+                <exclude name="WEB-INF/lib/log4j-*.jar"/>
+            </fileset>
+        </jar>
+        <!-- While we're at it, generate correct Tomcat/Resin config files -->
+        <copy file="etc/jira.xml" todir="${dist-tomcat}/tomcat-4">
+            <filterset>
+                <filter token="JIRA_HOME" value="${basedir}"/>
+                <filter token="JIRA_WEBAPP" value="${basedir}${slash}${dist-tomcat}${slash}${name}-${version}.war"/>
+            </filterset>
+        </copy>
+        <copy file="etc/jira.xml" todir="${dist-tomcat}/tomcat-5">
+            <filterset>
+                <filter token="JIRA_HOME" value="${basedir}"/>
+                <filter token="JIRA_WEBAPP" value="${basedir}${slash}${dist-tomcat}${slash}${name}-${version}.war"/>
+            </filterset>
+        </copy>
+        <copy file="etc/tomcat-5.5-jira.xml" tofile="${dist-tomcat}/tomcat-5.5/jira.xml">
+            <filterset>
+                <filter token="JIRA_HOME" value="${basedir}"/>
+                <filter token="JIRA_WEBAPP" value="${basedir}${slash}${dist-tomcat}${slash}${name}-${version}.war"/>
+            </filterset>
+        </copy>
+        <copy file="etc/tomcat-6-jira.xml" tofile="${dist-tomcat}/tomcat-6/jira.xml">
+            <filterset>
+                <filter token="JIRA_HOME" value="${basedir}"/>
+                <filter token="JIRA_WEBAPP" value="${basedir}${slash}${dist-tomcat}${slash}tomcat-6${slash}${name}-${version}.war"/>
+            </filterset>
+        </copy>
+        <copy file="etc/tomcat-6-jira.xml" tofile="${dist-tomcat}/tomcat-6/jira-expanded.xml">
+            <filterset>
+                <filter token="JIRA_HOME" value="${basedir}"/>
+                <filter token="JIRA_WEBAPP" value="${basedir}${slash}${dist-tomcat}${slash}tomcat-6${slash}${name}-${version}${slash}expanded"/>
+            </filterset>
+        </copy>
+        <echo>
+--------------------------------------------------
+Deployable WARs generated: 
+
+TOMCAT:  ${basedir}${slash}${dist-tomcat}${slash}${name}-${version}.war
+GENERIC: ${basedir}${slash}${dist-generic}${slash}${name}-${version}.war 
+
+
+See http://www.atlassian.com/software/jira/docs/latest/servers/ for install instructions
+--------------------------------------------------
+        </echo>
+    </target>
+
+    <target name="ear" depends="war" description="Packages the EAR file">
+        <mkdir dir="${build.ear}/META-INF"/>
+
+        <copy preservelastmodified="true" file="${etc}/ear-application.xml" tofile="${build.ear}/META-INF/application.xml" overwrite="yes"/>
+        <copy preservelastmodified="true" file="${dist-generic}/${name}-${version}.war" tofile="${build.ear}/${name}-web.war" overwrite="yes"/>
+
+        <jar jarfile="${dist-generic}/${name}-${version}.ear">
+            <fileset dir="${build.ear}"/>
+        </jar>
+
+        <echo>
+--------------------------------------------------
+Deployable EAR generated:
+
+${basedir}${slash}${dist-generic}${slash}${name}-${version}.ear
+
+--------------------------------------------------
+        </echo>
+    </target>
+
+    <target name="check.weblogic.present" depends="init" unless="weblogic.present">
+        <fail>
+--------------------- Error ---------------------
+Could not find Weblogic jar at:
+  ${wl.home}/server/lib/weblogic.jar
+
+  Please customize the 'wl.home' property in build.xml and try again.
+-------------------------------------------------
+</fail>
+    </target>
+
+    <target name="weblogic.precompile" depends="compile, check.weblogic.present" unless="skip.precompile">
+        <path id="jsps.path">
+            <fileset dir="${build.war}">
+                <exclude name="**/includes/**/*.jsp"/>
+                <exclude name="**/manageyourkitprofiling.jsp"/>
+                <include name="**/*.jsp"/>
+            </fileset>
+        </path>
+        <pathconvert pathsep=" " property="jsps" refid="jsps.path"/>
+        <echo>Precompiling JSPs (use -Dskip.precompile=true to skip)...</echo>
+        <java classname="weblogic.jspc" fork="yes">
+            <arg line="-d ${build.weblogic}/WEB-INF/classes -k -g -webapp ${build.war} ${jsps}"/>
+            <classpath>
+                <pathelement path="${wl.java}/lib/tools.jar"/>
+                <pathelement path="${wl.home}/server/lib/weblogic.jar"/>
+                <pathelement path="${wl.home}/common/lib/3rdparty.jar"/>
+            </classpath>
+        </java>
+    </target>
+
+    <target name="weblogic.war" depends="clean, compile, weblogic.precompile"
+        description="Generates a WAR file with JSPs precompiled for Weblogic">
+        <mkdir dir="${dist-weblogic}"/>
+        <jar jarfile="${dist-weblogic}/${name}-${version}.war">
+            <fileset dir="${build.war}" />
+            <fileset dir="${build.weblogic}" />
+        </jar>
+        <echo>
+            --------------------------------------------------
+            Deployable WAR for Weblogic generated:
+
+            ${basedir}${slash}${dist-weblogic}${slash}${name}-${version}.war
+
+            --------------------------------------------------
+        </echo>
+
+    </target>
+
+    <!-- =========================================================================== -->
+    <!-- Clean Tasks                                                                 -->
+    <!-- =========================================================================== -->
+
+    <!-- Remove all created directories -->
+    <target name="clean" depends="init" description="Removes all created directories">
+        <delete dir="${build}" includeEmptyDirs="true" quiet="true"/>
+        <delete dir="${dist-generic}" includeEmptyDirs="true" quiet="true"/>
+        <delete dir="${dist-tomcat}" includeEmptyDirs="true" quiet="true"/>
+        <delete dir="${tmp}" includeEmptyDirs="true" quiet="true"/>
+    </target>
+
+</project>

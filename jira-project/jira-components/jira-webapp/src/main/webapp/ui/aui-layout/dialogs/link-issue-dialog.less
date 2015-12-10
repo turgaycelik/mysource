@@ -1,0 +1,29 @@
+#link-issue-dialog {
+    @footer-height: 50px;
+    // All dialogs are positioned absolutely, thus are great relative containers.
+    .jira-dialog-content {
+        margin-bottom: @footer-height; // Shunt content up the dialog.
+    }
+
+    .form-footer {
+        height: @footer-height;
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+
+    form {
+        overflow: auto;
+        position: static;
+    }
+
+    .form-body {
+        min-height: 380px;
+        overflow: visible;
+        max-height: auto !important; // Overcome the inline style; we have a higher-level relative overflow container for this dialog.
+        position: static;
+    }
+}
+
+#jira-issue-keys-multi-select + .issue-picker-popup { display: none; }

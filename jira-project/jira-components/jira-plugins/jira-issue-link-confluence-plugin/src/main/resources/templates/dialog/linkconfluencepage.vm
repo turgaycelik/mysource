@@ -1,0 +1,60 @@
+#* @vtlmacrolibrary path="../../../../../../../jira-core/src/main/resources/templates/plugins/jira/issuelinks/macros.vm" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="urlcodec" type="com.atlassian.jira.util.JiraUrlCodec" *#
+#* @vtlvariable name="keyboardShortcutManager" type="com.atlassian.jira.plugin.keyboardshortcut.KeyboardShortcutManager" *#
+#* @vtlvariable name="jirautils" type="com.atlassian.jira.util.JiraUtils" *#
+#* @vtlvariable name="req" type="javax.servlet.http.HttpServletRequest" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.util.I18nHelper" *#
+#* @vtlvariable name="action" type="com.atlassian.jira.plugin.link.confluence.LinkConfluencePage" *#
+#* @vtlvariable name="webResourceManager" type="com.atlassian.plugin.webresource.WebResourceManager" *#
+<html>
+<head>
+    #issueLinkHeader ($action $i18n $webResourceManager $keyboardShortcutManager)
+</head>
+<body>
+    <form action="LinkConfluencePage.jspa" method="post" id="confluence-page-link" class="aui">
+        <div class="form-body">
+            #issueLinkHiddenFields ($action)
+
+            #if (${action.validToView})
+
+                #issueLinkErrorMessages ($action)
+                #issueLinkTitle ($i18n)
+                #issueLinkDescription ($i18n "addconfluencelink.desc")
+
+                <div class="field-group">
+                    <label for="confluence-page-url">${i18n.getText("addconfluencelink.url")}</label>
+                    <input type="text" class="text long-field" id="confluence-page-url" name="pageUrl" value="$textutils.htmlEncode($!{action.pageUrl})"/>
+                    <span>
+                        ${i18n.getText("common.words.or")}
+                        <a href="#" class="confluence-search-trigger" id="confluence-page-search">${i18n.getText("addconfluencelink.search.for.a.page")}</a>
+                    </span>
+                    #issueLinkFieldError ($action "pageUrl" $textutils)
+                    #appLinksAuthenticationMessage ($action 'com.atlassian.applinks.api.application.confluence.ConfluenceApplicationType')
+
+                    <!-- Store the current appId on the page, so that the OAuth authentication js can grab it -->
+                    <div class="hidden">
+                        <input id="issue-link-confluence-app-id" type="hidden" value="${action.appId}"/>
+                    </div>
+                </div>
+
+                #issueLinkCommentSection ($action)
+
+            #else
+                #issueLinkTitle ($i18n)
+                #if (${action.appLinks.empty})
+                    #issueLinkWarningMessage (${i18n.getText("addconfluencelink.error.no.app.links")})
+                #else
+                    #issueLinkNotValidToView ($action $req $i18n $jirautils $urlcodec)
+                #end
+            #end
+        </div>
+
+        #issueLinkFooter ($action $req $i18n)
+
+    </form>
+    <div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+.adminMenuWrap { background-color: #f7f7f7; vertical-align: top; width: 200px; }
+#adminMenu { background-color: #f7f7f7; width: 200px; }
+#adminMenu .headerOpen, #adminMenu .headerClosed { background-color: #e2e2e2; background-position: 3px 7px; background-repeat: no-repeat; border-collapse: collapse; border-top: 1px solid #bbb; color: #333; display: block; font-weight: bold; padding: 5px 0.25em 5px 1.33em; text-decoration: none; }
+#adminMenu .headerOpen { background-image: url( ../../../images/icons/navigate_down_10.gif ); }
+#adminMenu .headerClosed { background-image: url( ../../../images/icons/navigate_right_10.gif ); }
+#adminMenu ul { margin: 0; padding: 0.25em 0; list-style: none; overflow: visible; }
+#adminMenu li { padding: 0.2em 0.25em 0.2em 1.33em; }
+#adminMenu li a { font-weight: bold; }
+
+.user-group-info {margin-bottom:14px;}
+.user-details {margin-bottom:14px;overflow:hidden;}
+.user-details dt,
+.user-details dd {float:left;}
+.user-details dt {clear:left;font-weight:700;margin-right:14px;}
+
+
+.admin-list { margin: 0; padding: 0; list-style: none; overflow: visible;}
+.admin-list li {background: url( ../../../images/icons/bullet_blue.gif ) no-repeat 0 4px;padding-left:14px;}
+
+#admin-page-heading {
+    margin: 0 0 16px 0;
+}
+
+#admin-headers .ops-cont .button{
+    line-height:1.492;
+}
+
+#admin-headers .ops-cont {
+    float:right;
+    padding: 0;
+    margin-top:-3px;
+}
+
+#admin-config {
+    font-size: 13px;
+    line-height: 16px;
+    min-width: 750px;
+    padding: 16px;
+    .admin-active-area {
+        padding: 14px;
+        > h1 {
+            font-size: 24px;
+            line-height: 26px;
+            margin: 0 0 16px 0;
+        }
+    }
+    .mod-header h3 {
+        font-size: 18px;
+        line-height: 26px;
+    }
+
+    .aui-tabs.vertical-tabs ul.tabs-menu {width:15em;}
+}
+
+#admin-config-content {
+    clear:both;
+    padding: 0 0 0 15em;
+    position:relative;
+    .tabs-menu {
+        float:none;
+        margin-left: 0;
+        position:absolute;
+        top:0;
+        left:0;
+        list-style: none;
+        li.menu-item strong { padding: 4px 8px;text-overflow:ellipsis; }
+        .aui-tabs-group { margin: 1em 0 0 0; padding: 0 0 0 8px; }
+        .active-tab { margin-left: -8px; }
+        .aui-tabs-group-menu { list-style: none; margin:0; padding:0; }
+        .aui-tabs-group-menu > .menu-item:first-child { margin-top: 8px; }
+        .menu-item.active-tab a { margin-right: -1px; }
+    }
+
+    /* In case plugins include tabs within the active area */
+    .admin-active-area {
+        .tabs-menu {margin-left:0;}
+    }
+}
+
+#admin-config-content.no-tabs {
+    padding: 0;
+    .admin-active-area .jirapanel .jiraformheader:first-child h3 {display:none;}
+}
+
+#project-list .view-projects-avatar {
+    width:16px;
+}

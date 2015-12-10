@@ -1,0 +1,10 @@
+<atlassian-plugin name="English (Moon) Language Pack" key="${project.groupId}.${project.artifactId}.en_MOON"
+                  plugins-version="2">
+    <plugin-info>
+        <description>This plugin contains translations the core keys in JIRA for English (MOON).</description>
+        <version>${pom.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+    <language name="English (Moon)" key="en_MOON" language="en" country="MOON"/>
+    <resource name="i18n-0" type="i18n" location="com/atlassian/jira/web/action/"/>
+</atlassian-plugin>

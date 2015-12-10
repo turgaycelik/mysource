@@ -1,0 +1,207 @@
+@import "imports/mixins/grid";
+
+.setup-banner {
+    display: block;
+    margin: 2em auto;
+}
+
+form.aui {
+    .inline-radio-options div.radio {
+        float: left;
+        margin: 0 @gutter 0 0;
+        padding-top: 5px;
+    }
+
+    .textarea.license-key {
+        font: 9px monospace;
+    }
+
+    .aui-group .aui-item .error {
+        color: #D04437;
+        margin-top: 5px;
+    }
+}
+
+.mail-notifications-radio-options {
+    height: 4em;
+}
+
+.license-input-container, .survey-section {
+    margin-top: @gutter;
+}
+
+.throbber-message {
+    margin-top: @gutter;
+}
+
+code {
+    white-space: nowrap;
+}
+
+p {
+    margin-bottom: @gutter;
+}
+
+textarea {
+    resize: none;
+}
+
+.checkbox.freeText {
+    top: 4px;
+}
+
+.field-value {
+    word-wrap: break-word;
+}
+
+.analytics-submit {
+  margin-right: 10px;
+}
+
+.product-bundle-fieldgroup {
+  padding: 20px;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+.product-bundle-fieldgroup:last-of-type {
+  margin-bottom: 0px;
+}
+
+.product-bundle-fieldgroup.selected {
+  background-color: #bbddff;
+}
+
+.product-bundle-fieldgroup label {
+  font-weight: bold;
+}
+
+.product-bundle-fieldgroup .product-logos {
+  width: 200px;
+  float: right;
+  min-height: 80px;
+  padding-left: 15px;
+}
+
+.product-bundle-fieldgroup .product-logos * {
+  float: left;
+  margin-bottom: 10px;
+}
+
+.product-bundle-fieldgroup .product-logos .combo-sign {
+  margin-left: 10px;
+  font-size: 24px;
+  line-height: 32px;
+  color: #205081;
+}
+
+form.aui .buttons-container .plugin-license-next-button.aui-button {
+    margin-left: 0px;
+}
+
+// assisted setup for 6.3
+
+.jira-setup-page-database,
+.jira-setup-page-application-properties,
+.jira-setup-page-mail-notifications {
+    &.jira-instant-setup.aui-page-focused .aui-page-panel-content > form.aui {
+        .form-body > * {
+            display: none;
+        }
+
+        .form-body > .aui-message {
+            display: block;
+        }
+
+        .form-body > h2 {
+            display: block;
+        }
+
+        .form-body .buttons-container {
+            border-top: none;
+            display: block;
+            margin-top: 0;
+            padding-left: 0;
+            padding-top: 0;
+
+            .aui-button {
+                display: none;
+            }
+        }
+    }
+}
+
+.jira-setup-welcome-description {
+    margin-bottom: 20px;
+}
+
+.aui-page-focused .aui-page-panel-content {
+    .jira-setup-choice {
+        &-box {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+            cursor: pointer;
+            display: table;
+            margin-bottom: 20px;
+            width: 100%;
+
+            &:last-of-type {
+                margin-bottom: 0;
+            }
+
+            &:hover,
+            &.jira-setup-choice-box-active {
+                background: #E6EFF8;
+                border-color: #CCD9EA;
+            }
+        }
+
+        &-left,
+        &-right,
+        &-wrapper {
+            display: table-cell;
+            padding: 20px 16px;
+            vertical-align: middle;
+        }
+
+        &-right {
+            padding: 0 16px;
+            width: 150px;
+        }
+
+        &-box-header {
+            border: none;
+            padding-bottom: 0;
+            line-height: 1em;
+        }
+
+        &-box-description {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.jira-setup {
+    &-product-bundle-description {
+        margin-bottom: 20px;
+    }
+
+    &-product-bundle-annotation {
+        color: #707070;
+    }
+
+    &-has-asterisk-before::before {
+        content: '*';
+        font-size: 0.75em;
+        padding-right: 0.25em;
+        vertical-align: text-top;
+    }
+
+    &-has-asterisk::after {
+        content: '*';
+        font-size: 0.75em;
+        vertical-align: text-top;
+    }
+}

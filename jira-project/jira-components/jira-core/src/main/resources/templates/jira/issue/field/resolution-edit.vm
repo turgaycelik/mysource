@@ -1,0 +1,17 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) true $displayParameters $auiparams)
+<select class="select" id="$field.id" name="$field.id">
+    #if (!$resolution || $resolution == "-1")
+        <option value="-1" selected="selected">$i18n.getText("common.words.pleaseselect")</option>
+    #end
+    #if ($displayParameters.displayNone)
+        <option value="">$i18n.getText("common.words.none")</option>
+    #end
+    #foreach ($rs in $resolutions)
+        <option#if ($resolution && $rs.getId() && $resolution == $rs.getId()) selected="selected"#end value="$!rs.getId()">
+            $textutils.htmlEncode($rs.getNameTranslation())
+        </option>
+    #end
+</select>
+#localHelp ('issue.field.resolution' 'ResolutionTypes')
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

@@ -1,0 +1,31 @@
+#disable_html_escaping()
+#if($alphaSupport.keys.size() > 0)
+
+    #foreach ($key in $alphaSupport.keys)
+        <h3>$key</h3>
+        #set($labels = $alphaSupport.getContents($key))
+        #if ($labels.size() > 0)
+            <p class="label-alphabetical">
+                #foreach($label in $labels)
+                    #if($isCustomField)
+                        #set($labelJql = $labelUtils.getLabelJqlForProject($remoteUser, $project.id, $field.idAsLong, $label ))
+                    #else
+                        #set($labelJql = $labelUtils.getLabelJqlForProject($remoteUser, $project.id, $label ))
+                    #end
+                    <a class="aui-label" href="$requestContext.baseUrl/secure/IssueNavigator.jspa?reset=true$labelJql">$textutils.htmlEncode( $label )</a>
+                #end
+            </p>
+        #end
+    #end
+
+    <fieldset class="hidden">
+        <input type="hidden" name="projectName" value="$textutils.htmlEncode($project.name)">
+        <input type="hidden" name="fieldName" value="$textutils.htmlEncode($field.name)">
+    </fieldset>
+#else
+    #if ($isOtherFieldsExist)
+        #AUImessage("info" "$i18n.getText('labels.project-tab.nolabels.multiplefields.title')" "$i18n.getText('labels.project-tab.nolabels.multiplefields.desc')" "" "" "" "false")
+    #else
+        #AUImessage("info" "$i18n.getText('labels.project-tab.nolabels.singlefield.title')" "$i18n.getText('labels.project-tab.nolabels.singlefield.desc')" "" "" "" "false")
+    #end
+#end

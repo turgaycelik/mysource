@@ -1,0 +1,20 @@
+#disable_html_escaping()
+
+#defaultMailHeader("jira.email.title.activity.updated", $changelogauthor)
+
+#if ($comment)
+    #parse('templates/email/html/includes/patterns/comment-top.vm')
+#end
+
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/issue-title.vm')")
+
+#if ($changelog)
+    #rowWrapperNormal("#parse('templates/email/html/includes/fields/changelog.vm')" '' 'wrapper-special-margin')
+#end
+
+#parse('templates/email/html/includes/changelog-issue-description.vm')
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+#parse("templates/email/html/includes/footer.vm")

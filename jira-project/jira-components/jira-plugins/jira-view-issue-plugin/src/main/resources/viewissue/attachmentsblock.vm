@@ -1,0 +1,125 @@
+#enable_html_escaping()
+#* @vtlvariable name="imageAttachments" type="java.util.List<com.atlassian.jira.plugin.viewissue.AttachmentBlockContextProvider.SimpleAttachment>" *#
+#if (${hasAttachments})
+#macro (renderAttchmentInfo $attachment)
+    <dt class="attachment-title">
+        <a href="${baseurl}/secure/attachment/${attachment.id}/${attachment.filenameUrlEncoded}"
+            title="#if(${attachment.latest})${i18n.getText("common.words.latest")} #end ${attachment.createdFormatted}#if(${attachment.displayAuthor}) - ${attachment.displayAuthor}#end" draggable="true"
+            data-downloadurl="${attachment.mimetype}:${attachment.filename}:${fullBaseUrl}/secure/attachment/${attachment.id}/${attachment.filenameUrlEncoded}">${attachment.filename}
+        </a>
+    </dt>
+    <dd class="attachment-delete">
+        #if (${attachment.canDelete})
+            <a class="icon icon-delete" title="${i18n.getText('attachment.delete.tooltip')}" id="del_${attachment.id}" href="${baseurl}/secure/DeleteAttachment!default.jspa?id=${issue.id}&deleteAttachmentId=${attachment.id}&from=issue"></a>
+        #else
+            <span class="icon"></span>
+        #end
+    </dd>
+    <dd class="attachment-date"><time class="livestamp" datetime="${attachment.createdIso8601}">${attachment.createdFormatted}</time></dd>
+    <dd class="attachment-size">${attachment.filesize}</dd>
+    <dd class="attachment-author">$!{attachment.displayAuthor}</dd>
+#end
+#macro (renderAttchmentIcon $attachment)
+    #set ($icon = ${iconGenerator.getIcon($attachment)})
+    <img src="${baseurl}/images/icons/attach/${icon.icon}" height="16" width="16" border="0" alt="${icon.altText}">
+#end
+    #if (${fileAttachments.empty} == false)
+        <ol id="file_attachments" class="item-attachments">
+            #foreach (${fileAttachment} in ${fileAttachments})
+                <li class="attachment-content#if(!${fileAttachment.latest}) earlier-version#end">
+                    #if(${fileAttachment.expandAsZip})
+                        <div class="twixi-block collapsed">
+                            <div class="twixi-wrap verbose">
+                                <a href="#" class="twixi"><span class="icon twixi-opened"><span>$i18n.getText("admin.common.words.hide")</span></span></a>
+                                <div class="attachment-thumb">
+                                    <a href="${baseurl}/secure/attachment/${fileAttachment.id}/${fileAttachment.fileNameUrlEncoded}" draggable="true" data-downloadurl="${fileAttachment.mimetype}:${fileAttachment.filename}:${fullBaseUrl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}">
+                                        #renderAttchmentIcon(${fileAttachment})
+                                    </a>
+                                </div>
+                                <dl>
+                                    #renderAttchmentInfo(${fileAttachment})
+                                    <dd class="zip-contents">
+                                        <ol>
+                                            #foreach ($zipEntry in $fileAttachment.zipEntries.list)
+                                                #if($zipEntry.directory == false)
+                                                    <li>
+                                                        <div class="attachment-thumb">
+                                                            <a href="${baseurl}/secure/attachmentzip/unzip/${issue.id}/${fileAttachment.id}${openSquareBracket}${zipEntry.entryIndex}${closeSquareBracket}/${zipEntry.name}" draggable="true" data-downloadurl="${zipEntry.mimetype}:${zipEntry.name}:${fullBaseUrl}/secure/attachmentzip/unzip/${issue.id}/${fileAttachment.id}${openSquareBracket}${zipEntry.entryIndex}${closeSquareBracket}/${zipEntry.name}">
+                                                                #renderAttchmentIcon(${zipEntry})
+                                                            </a>
+                                                        </div>
+                                                        <a href="${baseurl}/secure/attachmentzip/unzip/${issue.id}/${fileAttachment.id}${openSquareBracket}${zipEntry.entryIndex}${closeSquareBracket}/${zipEntry.name}" title="${zipEntry.name}" draggable="true" data-downloadurl="${zipEntry.mimetype}:${zipEntry.name}:${fullBaseUrl}/secure/attachmentzip/unzip/${issue.id}/${fileAttachment.id}${openSquareBracket}${zipEntry.entryIndex}${closeSquareBracket}/${zipEntry.name}">
+                                                            ${zipEntry.abbreviatedName}
+                                                        </a>
+                                                        <span class="attachment-size">
+                                                            ${fileSizeFormatter.format(${zipEntry.size})}
+                                                        </span>
+                                                    </li>
+                                                #end
+                                            #end
+                                        </ol>
+                                        <span class="zip-contents-trailer">
+                                            #if(${fileAttachment.zipEntries.moreAvailable})
+                                                ${i18n.getText("viewissue.attachments.zip.more", "${maximumNumberOfZipEntriesToShow}", "${fileAttachment.zipEntries.totalNumberOfEntriesAvailable}")}
+                                            #end
+                                            <a href="${baseurl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}" draggable="true" data-downloadurl="${fileAttachment.mimetype}:${fileAttachment.filename}:${fullBaseUrl}/secure/attachment/${fileAttachment.id}/${fileAttachment.fileNameUrlEncoded}">${i18n.getText("viewissue.attachments.zip.download.as.zip")}</a>
+                                        </span>
+                                    </dd>
+                                </dl>
+                            </div>
+                            <div class="twixi-wrap concise">
+                                <a href="#" class="twixi"><span class="icon twixi-closed"><span>$i18n.getText("admin.common.words.show")</span></span></a>
+
+                                <div class="attachment-thumb">
+                                    <a href="${baseurl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}" draggable="true" data-downloadurl="${fileAttachment.mimetype}:${fileAttachment.filename}:${fullBaseUrl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}">
+                                        #renderAttchmentIcon(${fileAttachment})
+                                    </a>
+                                </div>
+                                <dl>
+                                    #renderAttchmentInfo(${fileAttachment})
+                                </dl>
+                            </div>
+                        </div>
+                    #else
+                        <div class="attachment-thumb">
+                            <a href="${baseurl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}" draggable="true" data-downloadurl="${fileAttachment.mimetype}:${fileAttachment.filename}:${fullBaseUrl}/secure/attachment/${fileAttachment.id}/${fileAttachment.filenameUrlEncoded}">
+                                #renderAttchmentIcon(${fileAttachment})
+                            </a>
+                        </div>
+                        <dl>
+                            #renderAttchmentInfo(${fileAttachment})
+                        </dl>
+                    #end
+                </li>
+            #end
+        </ol>
+    #end
+    #if (${imageAttachments.empty} == false)
+        <ol id="attachment_thumbnails" class="item-attachments">
+            #foreach (${imageAttachment} in ${imageAttachments})
+                <li class="attachment-content" draggable="true" data-downloadurl="${imageAttachment.mimetype}:${imageAttachment.filename}:${fullBaseUrl}/secure/attachment/${imageAttachment.id}/${imageAttachment.filenameUrlEncoded}">
+                    <div class="attachment-thumb">
+                        <a class="gallery" rel="gallery" href="${baseurl}/secure/attachment/${imageAttachment.id}/${imageAttachment.filenameUrlEncoded}" title="${imageAttachment.filename} -#if (${imageAttachment.latest}) ${i18n.getText('common.words.latest')}#end ${imageAttachment.createdFormatted}#if(${imageAttachment.displayAuthor}) - ${imageAttachment.displayAuthor}#end">
+                            <img src="${imageAttachment.thumbnail.imageURL}" width="${imageAttachment.thumbnail.width}" height="${imageAttachment.thumbnail.height}" alt="" />
+                        </a>
+                    </div>
+                    <dl #if (!${imageAttachment.latest})class="earlier-version"#end>
+                        <dt>
+                            #if (${imageAttachment.canDelete})
+                                <span class="blender blender-delete"></span>
+                                <div class="attachment-delete">
+                                    <a class="icon icon-delete" title="${i18n.getText('attachment.delete.tooltip')}" id="del_${imageAttachment.id}" href="${baseurl}/secure/DeleteAttachment!default.jspa?id=${issue.id}&deleteAttachmentId=${imageAttachment.id}&from=issue"></a>
+                                </div>
+                            #else
+                                <span class="blender"></span>
+                            #end
+                            <a class="attachment-title" href="${baseurl}/secure/attachment/${imageAttachment.id}/${imageAttachment.filenameUrlEncoded}" title="${imageAttachment.filename} -#if (${imageAttachment.latest}) ${i18n.getText('common.words.latest')}#end ${imageAttachment.createdFormatted}#if(${imageAttachment.displayAuthor}) - ${imageAttachment.displayAuthor}#end">${imageAttachment.filename}</a>
+                        </dt>
+                        <dd class="attachment-size">${imageAttachment.filesize}</dd>
+                        <dd class="attachment-date"><time class="livestamp" datetime="${imageAttachment.createdIso8601}">${imageAttachment.createdFormatted}</time></dd>
+                    </dl>
+                </li>
+            #end
+        </ol>
+    #end
+#end

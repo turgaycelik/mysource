@@ -1,0 +1,151 @@
+configure.installation.home.directory.screen.title=Select JIRA Home
+configure.installation.home.directory.screen.subtitle=Default location for JIRA data
+configure.installation.home.directory.info.text=This will be the default location for attachments, XML backups, plugins, and indexes.\n\nEnsure that this location is not used by another JIRA installation.
+default.port.number=Use default ports (HTTP: 8080, Control: 8005) - Recommended
+custom.port.number=Set custom value for HTTP and Control ports
+http.port.number=HTTP Port Number
+rmi.port.number=Control Port Number
+install.as.service=Install {0} as Service
+upgrade.notice=Upgrading JIRA?
+upgrade.notice.subtitle=Choose the appropriate installation or upgrade option.
+upgrade.notice.description=If you have an existing installation of JIRA, please back up all your your data and shutdown JIRA before installing this new version. You can then import your data into your new installation of JIRA. Please see the Upgrade Guide for more information:
+upgrade.notice.upgrade.guide.link=How to upgrade {0}
+upgrade.notice.prompt=Install {0}
+configure.installation=Configure TCP Ports
+configure.installation.subtitle=Configure which ports JIRA will use.
+configure.installation.service=Run as Service
+configure.installation.service.subtitle={0} can be run in the background.
+configure.installation.description=JIRA requires two TCP ports that are not being used by any other applications on this machine.  The HTTP port is where you will access JIRA through your browser.  The Control port is used to Startup and Shutdown JIRA.
+configure.installation.description.service=You may choose to run JIRA as a service, which means it will start automatically whenever the computer restarts.
+configure.installation.description.service.note=Note that the service will use the Local System account. To use a different user account, please see our documentation:
+configure.installation.service.link=Running {0} as a service
+launching.jira=Launching JIRA
+launching.word=Launching
+launching.jira.subtitle=Please wait a few moments while JIRA starts up.
+finish.ready.message=Your installation of {0} is now ready and can be accessed via your browser.
+finish.launch.tomcat=<b>Separate 'Tomcat' window</b><br/>Please note that if you close this window, you will shutdown {0}.
+finish.launch.browser=Launch {0} in browser
+finish.serverxml.possible.change.windows=<strong>Custom modifications</strong><br />Your previous JIRA installation may contain customisations that must be manually transferred. Refer to <a href="http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications">our documentation</a> for further information.
+finish.serverxml.definite.change.windows=<strong>Custom modifications</strong><br />Your previous JIRA installation contains customisations (eg server.xml) that must  be manually transferred. Refer to <a href="http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications">our documentation</a> for further information.
+finish.serverxml.other.change.windows=<strong>Custom modifications</strong><br />Your previous JIRA installation contains customisations that must be manually transferred. Refer to <a href="http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications">our documentation</a> for further information.
+finish.serverxml.possible.change=Custom modifications<br />Your previous JIRA installation may contain customisations that must be manually transferred. Refer to our documentation more information:<br />http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications<br />
+finish.serverxml.definite.change=Custom modifications<br />Your previous JIRA installation contains customisations (eg server.xml) that must be manually transferred. Refer to our documentation more information:<br />http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications<br />
+finish.serverxml.other.change=Custom modifications<br />Your previous JIRA installation contains customisations that must be manually transferred. Refer to our documentation more information:<br />http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-custommodifications<br />
+WelcomeLabel1=Welcome to the {0} Installation Wizard
+FinishedHeadingLabel=Installation of {0} is complete
+ConfirmUninstall=Before continuing, please ensure you have exported your data via JIRA's Administration section.\n\nAre you ready to completely remove {0} and all of its components?
+launch.browser=Launch JIRA
+launch.wait.warning=${compiler:sys.fullName} may take several minutes to load on first start up.
+
+#Menu options
+menu.uninstall=Uninstall
+menu.access.jira=Access JIRA
+menu.start.server=Start JIRA Server
+menu.stop.server=Stop JIRA Server
+menu.start.service=Start JIRA Service
+menu.stop.service=Stop JIRA Service
+
+#error msgs
+error.ports.same=You must enter different ports!
+error.port.number.too.low=For security reasons the port number must be above 1023. Please enter a port number in the range from 1024-65535.
+error.invalid.http.port.range=The HTTP port you have entered is not valid.  Please enter a port number in the range from 1-65535.
+error.invalid.rmi.port.range=The Control port you have entered is not valid.  Please enter a port number in the range from 1-65535.
+error.http.port.in.use=The HTTP port you have chosen appears to be in use.  Please choose a different port number.
+error.rmi.port.in.use=The Control port you have chosen appears to be in use.  Please choose a different port number.
+error.no.admin.rights=You do not have administrator rights to this machine and as such, some installation options will not be available. Are you sure you want to continue?
+error.no.admin.rights.uninstall=You do not have administrator rights. Are you sure you want to continue?
+error.app.launch=Sorry, but we were unable to detect that JIRA launched successfully.
+error.setting.http.port=Unable to set HTTP port
+error.setting.rmi.port=Unable to set Control port
+error.invalid.installation.dir=It appears that JIRA is already installed in the directory you selected.  Please choose a different directory.
+error.invalid.program.group=The program group you have chosen already exists. Please choose a different group.
+error.starting.service=There appears to have been a problem starting the service.  Please start the service manually in Control Panel -> Administrative Tools -> Services.
+error.path.too.long=The path you have chosen is too long.  The maximum path length in Windows is 260 characters, which will be \nexceeded by some of the files that will be installed. Please choose a shorter installation path.
+error.home.dir.under.install.dir=The home directory cannot be a sub-directory of the installation directory. Please use another location.
+error.home.dir.under.install.dir.cannot.upgrade=The home directory cannot be a sub-directory of the installation directory. Aborting the upgrade...
+error.chmod.sh.files=Unable to set correct permissions to .sh files. Please manually run 'chmod u+x bin/*.sh' inside the installation directory.
+error.setting.jira.home=Failed to set JIRA Home in jira-application.properties. You must set it manually.
+error.changing.file.perms=Failed to change file permissions.
+error.starting.jira=Unable to start JIRA!
+error.invalid.installation.upgrade.dir=The directory you have selected is not a valid JIRA installation directory.
+error.failed.to.delete.jira.user=Failed to delete dedicated jira user.
+error.cannot.downgrade=You can't use the upgrader to downgrade JIRA.
+error.failed.modz.check=Unable to check for modifications.
+error.failed.modz.register=Unable to register filesystem for installer modification checking.
+error.deleting.previous.install=Error while attempting to remove the previous installation directory. Some files may be in use. Please close all related programs and try again.
+error.deleting.jira.user=Error while attempting to delete JIRA's user account. Please delete it manually later.
+error.insufficient.permissions=You do not have write permissions to the existing installation directory. You will need to log in as a user with administrative permissions to upgrade JIRA.
+error.unable.to.locate.home=Unable to determine location of the home directory. 'jira.home' was not found inside jira-application.properties.
+error.unknown.upgrade.problem=An error occurred when parsing your installation directory. Unfortunately the installer will be unable to continue with the automated upgrade.
+error.directory.notfound=No directory found in specified location
+error.cannot.upgrade=Sorry, we are unable to automatically upgrade your JIRA installation as it is not version 4.3 (or later)
+error.cannot.upgrade.docs=For more information see our documentation at the following URL:\nhttp://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA+Manually
+error.registering.in.win.program.list=Failed to register {0} with 'Windows Add/Remove Programs' list!
+
+#express install messages
+express.install.label=Express Install (use default settings)
+express.conflict.warning=The following default options cannot be used. You will be asked to provide alternatives for these options.\n
+express.installdir.conflict=* Installation Directory (Existing installation directory)\n
+express.homedir.notempty=* Home Directory (Existing home directory)\n
+express.programgroup.conflict=* Start Menu (Existing start menu entry)\n
+express.httpport.conflict=* HTTP Port (In use)\n
+express.rmiport.conflict=* Control Port (In use)\n
+
+#summary screen messages
+summary.screen.title=Installation Summary
+#summary.screen.subtitle=Summary of your JIRA installation
+summary.screen.description=See where JIRA will be installed and the settings that will be used.
+summary.installdir.label=Installation Directory:
+summary.homedir.label=Home Directory:
+summary.httpport.label=HTTP Port:
+summary.rmiport.label=RMI Port:
+summary.service.label=Install as service:
+
+# Override some install4j properties to get rid of install4 references in text which would confuse
+# a lot of customers
+PrepareInstaller={0} is preparing the Installation Wizard which will guide you through the rest of the installation process.
+WizardCaption=Installation Wizard
+LocateOrDownloadJre2=The installation wizard could not find a Java(TM) Runtime Environment on your system. You can locate or download a suitable JRE. (minimum version: {0}, maximum version: {1})
+LocateJre2=The installation wizard could not find a Java(TM) Runtime Environment on your system. Please locate a suitable JRE. (minimum version: {0}, maximum version: {1})
+
+install.upgrade.selection.notice=Please choose one of the following:
+new.install.label=Custom Install (recommended for advanced users)
+upgrade.existing.install.label=Upgrade an existing JIRA installation
+select.existing.install.dir.label=Existing installation directory:
+warning.pre.upgrade.message.backup.windows=<strong>Back up your external database</strong><br />We strongly recommend you <a href="http://docs.atlassian.com/jira/docs-{0}/Backing-Up-Data">back up your JIRA database</a> if you have not already done so.<br /><br />
+warning.pre.upgrade.message.backup=<strong>Back up your external database</strong><br />We strongly recommend you back up your JIRA database if you have not already done so.<br /><br />Please refer to the following URL for back up guidelines:<br />http://docs.atlassian.com/jira/docs-{0}/Backing-Up-Data<br /><br />
+warning.pre.upgrade.message.jiradown.windows=<strong>Check plugin compatibility</strong><br />Check that your non-bundled plugins are compatible with {1}. For more information please see our <a href="http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-upgradechecklist">documentation</a>.
+warning.pre.upgrade.message.jiradown=<strong>Check plugin compatibility</strong><br />Check that your non-bundled plugins are compatible with {1}.<br /><br />For more information see our documentation at the following URL:<br />http://docs.atlassian.com/jira/docs-{0}/Upgrading+JIRA#UpgradingJIRA-upgradechecklist<br />
+warning.pre.upgrade.message.jiraup.windows=<strong>Check plugins compatibility</strong><br /><a href="http://localhost:{0}/plugins/servlet/upm#compatibility">Open the plugin manager</a> to check that your non-bundled plugins are compatibile with {2}. For more information please see our <a href="http://docs.atlassian.com/jira/docs-{1}/Upgrading+JIRA#UpgradingJIRA-upgradechecklist">documentation</a>.
+warning.pre.upgrade.message.jiraup=<strong>Check plugin compatibility</strong><br />Check that your non-bundled plugins are compatible with {2}.<br /><br />Access the plugin manager through the following URL:<br />http://localhost:{0}/plugins/servlet/upm#compatibility<br /><br />For more information see our documentation at the following URL:<br />http://docs.atlassian.com/jira/docs-{1}/Upgrading+JIRA#UpgradingJIRA-upgradechecklist<br />
+warning.pre.upgrade.footer=Please ensure you have read the above checklist before upgrading.
+upgrade.check.list=Upgrade Check List
+upgrade.check.list.description=Please ensure the following
+upgrade.shutdown.warning=Your existing JIRA installation is about to be upgraded!\n\nThe upgrade process will shut down your existing JIRA installation to complete the upgrade.\n\nDo you want to proceed?
+upgrade.about.to.proceed=Your existing JIRA installation is about to be upgraded! Do you want to proceed?
+upgrade.actions.title=Upgrade JIRA
+upgrade.actions.info=Your instance of JIRA is currently being upgraded.
+upgrade.shutdown.desc=Shutting down JIRA...
+upgrade.shutdown.check=Checking if JIRA has been shutdown...
+upgrade.checkjira.title=Checking JIRA status
+upgrade.checkjira.info=Checking if your instance of JIRA is running
+upgrade.modz.detection.title=Checking for local modifications.
+upgrade.modz.detection.info=Checking for local modifications.
+message.button.yes=&Yes
+message.button.no=&No
+upgrade.backup.description=The upgrade process will automatically back up your JIRA Installation Directory. You can also choose to back up your existing JIRA Home Directory. Both directories are backed up as zip archive files in their respective parent directory locations.\n\nWe strongly recommend choosing this option in the unlikely event that you experience problems with the upgrade and may require these backups to restore your existing JIRA installation.\n\nIf you have many attachments in your JIRA Home Directory, the zip archive of this directory may consume a significant amount of disk space.
+upgrade.backup.option=Back up JIRA home directory
+upgrade.backup.option1=Back up JIRA home directory
+upgrade.backup.title=Back Up JIRA Home Directory
+upgrade.backup.jirahome=Backing up the JIRA home directory
+upgrade.backup.installationdir=Backing up the JIRA installation directory
+upgrade.backup.del.installationdir=Deleting the previous JIRA installation directory...
+upgrade.continue=Do you want to continue?
+shutdown.failed.please.do.it.manually=JIRA failed to shutdown. Please kill the process manually before proceeding.
+message.button.continue=&Continue
+message.button.exit=&Exit
+message.button.upgrade=&Upgrade
+UninstallFailureLabel=The following files/directories were not deleted since they contain files with potentially important logs or configurations you may wish to retain. If you do not need to keep these files, however, you can safely delete these directories.
+
+file.modifications.title=File modifications summary
+file.modifications.subtitle=List of modifications made within JIRA directories.

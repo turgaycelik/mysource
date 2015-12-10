@@ -1,0 +1,229 @@
+<testdata>
+    <test>
+        <changelog>[Resolution] set to [Duplicate]</changelog>
+        <changegroup>
+            <changeitem field="Resolution">
+                <toString>Duplicate</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Fix For] changed from [Post 1.0] to [1.1]</changelog>
+        <changegroup>
+            <changeitem field="Fix For">
+                <fromString>Post 1.0</fromString>
+                <toString>1.1</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Time Estimate] changed from [None] to [0 minutes]</changelog>
+        <changegroup>
+            <changeitem field="Time Estimate">
+                <fromString>None</fromString>
+                <toString>0 minutes</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Link] This issue depends on PA-82.</changelog>
+        <changegroup>
+            <changeitem field="Link">
+                <toString>This issue depends on PA-82.</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Link] Link 'depends on PA-138' was removed.</changelog>
+        <changegroup>
+            <changeitem field="Link">
+                <fromString>Link 'depends on PA-138' was removed.</fromString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Resolution] set to [Duplicate]
+[Link] Link 'depends on PA-139' was removed.
+[Status] changed from [Assigned] to [Closed]</changelog>
+        <changegroup>
+            <changeitem field="Resolution">
+                <toString>Duplicate</toString>
+            </changeitem>
+            <changeitem field="Link">
+                <fromString>Link 'depends on PA-139' was removed.</fromString>
+            </changeitem>
+            <changeitem field="Status">
+                <fromString>Assigned</fromString>
+                <toString>Closed</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Resolution] set to [Duplicate]
+[Status] changed from [Assigned] to [Closed]</changelog>
+        <changegroup>
+            <changeitem field="Resolution">
+                <toString>Duplicate</toString>
+            </changeitem>
+            <changeitem field="Status">
+                <fromString>Assigned</fromString>
+                <toString>Closed</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Description] changed from [It would be very useful to be
+able to run a filter that views all tasks within a project and all associated comments rather than just the task/issue headings.
+
+i.e for each issue
+* summary
+* priority
+* description
+* comments
+* date
+
+After running the filter, the complete project list could then be printed out.  This printout could then be discussed in the meeting
+ without the need for a terminal in the room.] to [It would be very useful to be able to run a filter that views all tasks within a
+project and all associated comments rather than just the task/issue headings.
+
+i.e for each issue
+* summary
+* priority
+* description
+* comments
+* date
+
+After running the filter, the complete project list could then be printed out.  This printout could then be discussed in the meeting
+ without the need for a terminal in the room.]
+[Fix For] changed from [Post 1.0] to [1.1]</changelog>
+        <changegroup>
+            <changeitem field="Description">
+                <fromString>It would be very useful to be
+able to run a filter that views all tasks within a project and all associated comments rather than just the task/issue headings.
+
+i.e for each issue
+* summary
+* priority
+* description
+* comments
+* date
+
+After running the filter, the complete project list could then be printed out.  This printout could then be discussed in the meeting
+ without the need for a terminal in the room.</fromString>
+                <toString>It would be very useful to be able to run a filter that views all tasks within a
+project and all associated comments rather than just the task/issue headings.
+
+i.e for each issue
+* summary
+* priority
+* description
+* comments
+* date
+
+After running the filter, the complete project list could then be printed out.  This printout could then be discussed in the meeting
+ without the need for a terminal in the room.</toString>
+            </changeitem>
+            <changeitem field="Fix For">
+                <fromString>Post 1.0</fromString>
+                <toString>1.1</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Component] changed from [User Management] to [Web interface]</changelog>
+        <changegroup>
+            <changeitem field="Component">
+                <fromString>User Management</fromString>
+                <toString>Web interface</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Fix For] set to [1.0]
+[Resolution] set to [Fixed]
+[Status] changed from [Assigned] to [Resolved]</changelog>
+        <changegroup>
+            <changeitem field="Fix For">
+                <toString>1.0</toString>
+            </changeitem>
+            <changeitem field="Resolution">
+                <toString>Fixed</toString>
+            </changeitem>
+            <changeitem field="Status">
+                <fromString>Assigned</fromString>
+                <toString>Resolved</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Version] [0.8.4] was added
+[Version] [0.8.6] was removed</changelog>
+        <changegroup>
+            <changeitem field="Version">
+                <toString>0.8.4</toString>
+            </changeitem>
+            <changeitem field="Version">
+                <fromString>0.8.6</fromString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Comment] [11683] was removed</changelog>
+        <changegroup>
+            <changeitem field="Comment">
+                <fromString>11683</fromString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+    <test>
+        <changelog>[Summary] changed from [ ] to [Error creating account]
+[Attachment] [permissions.gif] was removed
+[Attachment] [permissions.gif] was added
+[Issue Type] changed from [Task] to [New Feature]
+[Reporter] changed from [ ] to [mike@atlassian.com]
+[Priority] changed from [Critical] to [Major]
+
+[Assignee] changed from [mike@atlassian.com] to [scott@atlassian.com]</changelog>
+        <changegroup>
+            <changeitem field="Summary">
+                <fromString> </fromString>
+                <toString>Error creating account</toString>
+            </changeitem>
+            <changeitem field="Attachment">
+                <fromString>permissions.gif</fromString>
+            </changeitem>
+            <changeitem field="Attachment">
+                <toString>permissions.gif</toString>
+            </changeitem>
+            <changeitem field="Issue Type">
+                <fromString>Task</fromString>
+                <toString>New Feature</toString>
+            </changeitem>
+            <changeitem field="Reporter">
+                <fromString> </fromString>
+                <toString>mike@atlassian.com</toString>
+            </changeitem>
+            <changeitem field="Priority">
+                <fromString>Critical</fromString>
+                <toString>Major</toString>
+            </changeitem>
+            <changeitem field="Assignee">
+                <fromString>mike@atlassian.com</fromString>
+                <toString>scott@atlassian.com</toString>
+            </changeitem>
+        </changegroup>
+    </test>
+
+</testdata>

@@ -1,0 +1,10 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.atlassian.jira</groupId>
+    <version>0.1-SNAPSHOT</version>
+    <artifactId>jira-jmake-workspace</artifactId>
+    <packaging>pom</packaging>
+    <name>Atlassian JIRA jmake workspace</name>
+    <description>jmake provides cutting edge issue tracking and project management.</description>
+</project>

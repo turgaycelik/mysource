@@ -1,0 +1,8 @@
+<tr>
+    <th>
+        #text("email.event.activity.worklog.entry.label"):
+    </th>
+    <td>
+        $i18n.getText("email.event.activity.worklog.worklogentry", $context.getCommentTimeLogged($i18n), "#authorlinkkey($worklog.authorKey)")
+    </td>
+</tr>

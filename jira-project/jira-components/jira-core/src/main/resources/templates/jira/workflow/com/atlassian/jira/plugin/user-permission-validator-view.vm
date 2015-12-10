@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($defined == false)
+    $i18n.getText("admin.workflow.validator.permission.view.unavailable", "<b>", $textutils.htmlEncode(${permission}), "</b>")
+#elseif (${nullallowed} == true)
+    $i18n.getText("admin.workflow.validator.user-permission.view.1", "<b>", "${vars-key}", "</b>", "$i18n.getText(${permission})")
+#else
+    $i18n.getText("admin.workflow.validator.user-permission.view.2", "<b>", "${vars-key}", "</b>", "$i18n.getText(${permission})")
+#end

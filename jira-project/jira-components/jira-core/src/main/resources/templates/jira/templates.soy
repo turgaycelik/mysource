@@ -1,0 +1,19 @@
+{namespace JIRA.Templates}
+
+/**
+ * @deprecated Use aui.renderExtraAttributes instead.
+ * extraAttributes == String: attributename="attributevalue" or object: { "attributename" : "attributevalue" }
+ */
+{template .renderExtraAttributes private="true"}
+    {if hasData()}{call aui.renderExtraAttributes data="all"/}{/if}
+{/template}
+
+
+/**
+ * @deprecated Use aui.renderExtraClasses instead.
+ * extraClasses == String or array of strings to add to class attribute.
+ * fullAttr == When set to true, adds the class attribute.
+ */
+{template .renderExtraClasses private="true"}
+    {if hasData()}{call aui.renderExtraClasses data="all"/}{/if}
+{/template}

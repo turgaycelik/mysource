@@ -1,0 +1,21 @@
+#disable_html_escaping()
+#customControlHeader ($action "$!{displayParameters.fieldNamePrefix}${field.id}" $i18n.getText($field.nameKey) true $displayParameters $auiparams)
+<div class="wiki-edit">
+
+##    #set ($mymap = {"prop" : "value" , "x" : "value"})
+##
+##    <p>Properties:</p>
+##    <ul>
+##        #foreach($property in $mymap.entrySet())
+##            <li>$property.key $property.value</li>
+##        #end
+##    </ul>
+
+    #set ($commentProperty = $mymap)
+
+    custom-comment-rendering
+
+    <input class="comment" id="commentProperty" name="commentProperty" value="[\"key\" : \"x\", \"value\" : {\"x\": 1, \"y\": 2}]" />
+    <input class="text full-width-field wiki-textfield mentionable" id="comment" name="comment" type="text" value="$textutils.htmlEncode($action.comment.body)" />
+</div>
+#customControlFooter ($action"$!{displayParameters.fieldNamePrefix}${field.id}" $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

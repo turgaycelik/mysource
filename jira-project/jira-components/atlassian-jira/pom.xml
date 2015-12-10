@@ -1,0 +1,92 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-components</artifactId>
+        <version>6.3.15</version>
+    </parent>
+
+    <artifactId>atlassian-jira</artifactId>
+    <name>Atlassian JIRA - Code - Legacy atlassian-jira.jar</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-api</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <phase>package</phase>
+                        <configuration>
+                            <artifactSet>
+                                <includes>
+                                    <include>com.atlassian.jira:jira-api</include>
+                                    <include>com.atlassian.jira:jira-core</include>
+                                </includes>
+                            </artifactSet>
+                            <promoteTransitiveDependencies>true</promoteTransitiveDependencies>
+                            <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                            <createSourcesJar>false</createSourcesJar>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!--<plugin> -->
+                <!--<artifactId>maven-javadoc-plugin</artifactId> -->
+                <!--<configuration> -->
+                    <!--<includeDependencySources>true</includeDependencySources> -->
+                    <!--<dependencySourceIncludes>-->
+                        <!--<dependencySourceInclude>com.atlassian.jira:jira-api</dependencySourceInclude>-->
+                        <!--<dependencySourceInclude>com.atlassian.jira:jira-jira-core</dependencySourceInclude>-->
+                    <!--</dependencySourceIncludes>-->
+                <!--</configuration> -->
+            <!--</plugin> -->
+        </plugins>
+    </build>
+
+    <!--<profiles>-->
+        <!--<profile>-->
+            <!--<id>create-javadoc</id>-->
+            <!--&lt;!&ndash;-->
+            <!--<activation>-->
+                <!--<property>-->
+                    <!--<name>performRelease</name>-->
+                <!--</property>-->
+            <!--</activation>-->
+            <!--&ndash;&gt;-->
+            <!--<build>-->
+                <!--<plugins>-->
+                    <!--<plugin> -->
+                        <!--<artifactId>maven-javadoc-plugin</artifactId> -->
+                        <!--<executions>-->
+                            <!--<execution>-->
+                                <!--<phase>package</phase>-->
+                                <!--<goals>-->
+                                    <!--<goal>jar</goal>-->
+                                <!--</goals>-->
+                            <!--</execution>-->
+                        <!--</executions>-->
+                    <!--</plugin> -->
+                <!--</plugins>-->
+            <!--</build>-->
+        <!--</profile>-->
+    <!--</profiles>-->
+
+</project>

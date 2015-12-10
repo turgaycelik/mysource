@@ -1,0 +1,110 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/border-box";
+
+// Functional style
+.tabwrap.tabs2 {
+    font-size: 14px;
+    line-height: 20/14;
+    /* JIRA's tabwrap expects that the active panel's state and styles to be managed by something else. */
+}
+
+// Common styles
+.tabwrap > ul.tabs > li {
+    a,
+    a:link,
+    a:visited {
+        background: #eee;
+        color: #333;
+    }
+
+    a:focus,
+    a:hover {
+        background: #e6e6e6;
+        color: #333;
+    }
+
+    > a strong {
+        background: transparent;
+        font-weight: normal;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer; /* set explicitly to avoid ie bug */
+    }
+
+    &.active-tab {
+        a,
+        a:link,
+        a:visited,
+        a:focus,
+        a:hover,
+        a:active {
+            background: #fff;
+            color: #333;
+        }
+
+        a, strong {
+            font-weight: bold;
+        }
+    }
+}
+
+// Horizontal Tabs
+.tabwrap > .tabs.horizontal {
+    .border-box();
+    border-bottom: 1px solid #ccc;
+    display: inline-block;
+    margin: 0;
+    padding: 0 0 0 20px;
+    width: 100%;
+
+    > li {
+        display: block;
+        float: left;
+        margin: 5px 0 0 -1px;
+        background: #eee;
+        > a,
+        > strong {
+            display: block;
+            border: 1px solid #ccc;
+            margin-bottom: -1px;
+            padding: 4px 10px 3px 10px;
+        }
+
+        a, strong {
+          text-decoration: none;
+        }
+
+        &.active {
+            > a,
+            > strong {
+                background: #fff;
+                border-bottom-color: #fff;
+                position: relative;
+            }
+        }
+        &:first-child {
+            > a,
+            > strong {
+                border-radius: 3px 0 0 0;
+            }
+        }
+        /* last-child ok because IE8 doesn't do border radius anyway */
+        &:last-child {
+            > a,
+            > strong {
+                border-radius: 0 3px 0 0;
+            }
+        }
+    }
+}
+
+/* An extension for bulk operations */
+.aui-tabs .menu-item.has-errors {
+    border-color: @aui-color-status-error-border-subtle;
+    background-color: @aui-color-status-error-background-subtle;
+
+    a {
+        color: @aui-color-status-error-foreground-subtle;
+        font-weight: bold;
+    }
+}

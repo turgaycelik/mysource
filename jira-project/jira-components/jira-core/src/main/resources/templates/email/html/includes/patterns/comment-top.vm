@@ -1,0 +1,19 @@
+#disable_html_escaping()
+
+#if ($comment)
+    #set ($commentTopVisibility = $textutils.innerTrim("#visibilityHtml()"))
+
+    #if ($commentTopVisibility != "")
+        #set ($topTextContent = "$htmlComment $commentTopVisibility")
+     #else
+        #set ($topTextContent = $htmlComment)
+    #end
+
+    #if ($textutils.stringSet($commentTopPatternClasses))
+        #set ($textTopPatternClasses = "$commentTopPatternClasses comment-top-pattern")
+    #else
+        #set ($textTopPatternClasses = "comment-top-pattern")
+    #end
+
+    #parse('templates/email/html/includes/patterns/text-top.vm')
+#end

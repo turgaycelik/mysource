@@ -1,0 +1,43 @@
+#!/bin/sh
+
+SVN=/opt/local/bin/svn
+
+
+if [ "$1" = "--non-interactive" -o "$1" = "--username" ]; then
+  shift
+fi
+
+if [ "$1" = "--non-interactive" -o "$1" = "--username" ]; then
+  shift
+fi
+
+if [ "$1" = "info" -a "$2" = "--xml" ]; then
+    echo '<?xml version="1.0"?>
+<info>
+<entry
+   kind="dir"
+   path="."
+   revision="110354">
+<url>https://svn.atlassian.com/svn/private/atlassian/jira/trunk</url>
+<repository>
+<root>https://svn.atlassian.com/svn/private</root>
+<uuid>d2a7a951-c712-0410-832a-9abccabd3052</uuid>
+</repository>
+<wc-info>
+<schedule>normal</schedule>
+<depth>infinity</depth>
+</wc-info>
+<commit
+   revision="110351">
+<author>jpendleton</author>
+<date>2010-03-15T23:51:01.204317Z</date>
+</commit>
+</entry>
+</info>
+'
+    
+else
+    echo "[HACKY MAVEN]"
+    exec "$SVN" "$@"
+fi
+

@@ -1,0 +1,21 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-projectconstant")}
+#searcherEditHeader ($searcherId ${i18n.getText($searcherNameKey)})
+## TODO: remove displayParameters.kickass when component searching is implemented
+###if ($displayParameters.checkboxmultiselect && $displayParameters.kickass)
+<select class="select js-default-checkboxmultiselect" id="searcher-${searcherId}" multiple="multiple" name="${searcherId}" size="#minSelectSize ($selectListOptions 2 5)">
+    #foreach ($optionGroup in $optionGroups)
+        <optgroup #if ($optionGroup.name) label="$optionGroup.name"#end>
+            #foreach ($option in $optionGroup.childOptions)
+                #if ($option.valid)
+                    #set ($optionTitle = $textutils.htmlEncode($option.name))
+                #else
+                    #set ($optionTitle = $i18n.getText('navigator.filter.invalid.option.for.projects'))
+                #end
+                <option #if ($option.cssClass) class="$option.cssClass"#end #if ($selectedValues && $selectedValues.contains($option.id)) selected="selected"#end value="$option.id" title="$optionTitle">$textutils.htmlEncode($option.name)</option>
+            #end
+        </optgroup>
+    #end
+</select>
+#searcherEditFooter ($searcherId '')
+$!{auiparams.clear()}

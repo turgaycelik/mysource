@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log">
+
+    <jira:GetAssociatedSchemes schemetype="notification" projectroleid="1" var="schemes">
+        <core:forEach var="scheme" items="${schemes}">
+            ${scheme.name}
+        </core:forEach>
+    </jira:GetAssociatedSchemes>
+
+</JiraJelly>

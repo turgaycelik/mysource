@@ -1,0 +1,81 @@
+#disable_html_escaping()
+<script language="JavaScript" type="text/javascript">
+<!--
+    var fields = new Array(${fields.size()});
+    #foreach ($field in ${fields})
+    fields[${velocityCount} - 1] = '$field.id';
+    #end
+
+    function retoreFieldValue()
+    {
+        var selectedValue = document.getElementById("updateFieldId").value;
+        
+        for (i=0 ; i < fields.length ; i++)
+        {
+            if (fields[i] == selectedValue)
+            {
+                document.getElementById(fields[i] + "_container").style.display = '';
+                if (document.getElementById(fields[i]) == null) alert(fields[i]);
+                document.getElementById(fields[i]).name = 'fieldValue';
+            }
+            else
+            {
+                document.getElementById(fields[i] + "_container").style.display = 'none';
+                document.getElementById(fields[i]).name = 'dummyfield';
+            }
+        }
+
+    }
+
+//-->
+</script>
+
+<tr>
+    <td class="fieldLabelArea">
+        $i18n.getText("admin.workflow.function.update-issue-field.input.issue.field"):
+    </td>
+    <td nowrap>
+        <select name="fieldId" id="updateFieldId" onchange="retoreFieldValue();">
+        #foreach ($field in ${fields})
+            <option value="$field.id"
+            #if ($field.id.equals($fieldId))
+                SELECTED
+            #end
+            >${descriptor.getText($field.nameKey)}</option>
+        #end
+        </select>
+        <br /><span class="subText">$i18n.getText("admin.workflow.function.update-issue-field.input.field.to.change")</span>
+    </td>
+</tr>
+
+
+<tr>
+    <td class="fieldLabelArea">
+        $i18n.getText("admin.workflow.function.update-issue-field.input.field.value"):
+    </td>
+        #foreach ($field in ${fields})
+           #if ($factory.hasCustomEditTemplate($field)) 
+             $factory.getEditHtml($field, $fieldValue)
+           #else
+            <td nowrap id="${field.id}_container">
+                <input type="text" name="${field.id}" id="${field.id}" value="${textutils.htmlEncode($!fieldValue)}"/>
+                <br /><span class="subText">$i18n.getText("admin.workflow.function.update-issue-field.input.value.to.set")</span>
+            </td>
+           #end
+        #end
+     
+</tr>
+<script language="JavaScript" type="text/javascript">
+<!--
+    retoreFieldValue();
+    setTimeout('retoreFieldValue()', 20);
+//-->
+</script>
+<tr>
+    <td colspan="2">
+        <div style="width: 60%;" class="infoBox centred">
+            $i18n.getText("admin.workflow.function.update-issue-field.input.info.message")
+        </div>
+    </td>
+</tr>
+

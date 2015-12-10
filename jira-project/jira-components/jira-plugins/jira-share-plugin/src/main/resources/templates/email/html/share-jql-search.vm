@@ -1,0 +1,24 @@
+#disable_html_escaping()
+
+#set ($actionerUser = $remoteUser)
+#set ($authorLink = "#authorlinkname($remoteUser.name $linkstyle)")
+#set ($headerTitle = "${i18n.getText('jira-share-plugin.email.jql.search.activity', $authorLink, '<b>', '</b>')}")
+#set ($viewLinkUrl= "${baseurl}/secure/IssueNavigator.jspa$jqlSearchLinkUrlParams")
+#set ($pageTitle = "<a href='${viewLinkUrl}'>$i18n.getText('jira-share-plugin.email.jql.search.link.view')</a>")
+#set ($extraFooterContent = ("#parse('/templates/email/html/includes/patterns/involvedUsers.vm')"))
+
+#if (!$comment)
+    #set ($emailContainerClasses = 'share-email')
+#end
+
+#parse("templates/email/html/includes/header.vm")
+
+#if ($comment)
+    #parse('templates/email/html/includes/patterns/comment-top.vm')
+#end
+
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/page-title.vm')")
+
+#parse("/templates/email/html/mobileSingleColumnStyle.vm")
+
+#parse("templates/email/html/includes/footer.vm")

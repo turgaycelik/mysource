@@ -1,0 +1,102 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <resource name="jira-share-plugin" type="i18n" location="i18n/jira-share-plugin" />
+
+    <!-- Displays a 'Share' button on the Issue View screen-->
+    <web-item key="jira-issue-share-trigger" name="JIRA Issue Share Trigger" section="jira.issue.tools"
+              i18n-name-key="jira-share-plugin.issue.trigger.module.description"  weight="10">
+        <label value=""/>
+        <tooltip key="jira-share-plugin.issue.button.tooltip"/>
+        <link linkId="jira-share-trigger" />
+        <styleClass>icon-share viewissue-share</styleClass>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.BrowseUsersPermissionCondition"/>
+        <param name="iconClass" value="icon-share icon-viewissue-share"/>
+    </web-item>
+
+    <!-- Displays a 'Share' button on the Issue Navigator screen-->
+    <web-item key="jira-filter-share-trigger" name="JIRA Filter Share Trigger" section="jira.navigator.pluggable.items"
+              i18n-name-key="jira-share-plugin.filter.trigger.module.description"  weight="10">
+        <label key="jira-share-plugin.button.label"/>
+        <tooltip key="jira-share-plugin.filter.button.tooltip"/>
+        <link linkId="jira-share-trigger" />
+        <styleClass>icon-share icon-issuenav-share issuenav-share</styleClass>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.BrowseUsersPermissionCondition"/>
+        <param name="iconClass" value="icon-share"/>
+    </web-item>
+
+    <web-resource key="share-resources">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <!-- Include in the View Issue and Navigator pages -->
+        <context>jira.view.issue</context>
+        <context>jira.navigator.advanced</context>
+        <context>jira.navigator.simple</context>
+
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+        <dependency>jira.webresources:jira-global</dependency>
+
+        <resource type="download" name="share-dialog.css" location="css/share-dialog.less">
+            <property key="content-type" value="text/css"/>
+        </resource>
+        <resource type="download" name="share-dialog-html.js" location="templates/share-dialog.soy" />
+        <resource type="download" name="share-user-multi-select.js" location="js/share-user-multi-select.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+        <resource type="download" name="share-dialog.js" location="js/share-dialog.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+    <web-resource key="share-resources-init">
+        <context>jira.view.issue</context>
+        <context>jira.navigator.advanced</context>
+        <context>jira.navigator.simple</context>
+        <resource type="download" name="share-dialog-init.js" location="js/share-dialog-init.js">
+            <property key="content-type" value="text/javascript"/>
+        </resource>
+    </web-resource>
+
+
+    <keyboard-shortcut key="share.issue.shortcut" i18n-name-key="admin.keyboard.shortcut.share.issue.name" name="Share Issue" state='enabled'>
+        <order>45</order>
+        <description key="admin.keyboard.shortcut.share.issue.desc">Share Issue</description>
+        <shortcut>s</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                var issueShare = AJS.$('.viewissue-share');
+                if (issueShare.length) {
+                    issueShare.click();
+                } else {
+                    AJS.$('.issuenav-share').click();
+                }
+            ]]>
+        </operation>
+        <context>issueaction</context>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.BrowseUsersPermissionCondition"/>
+    </keyboard-shortcut>
+
+    <rest key="sharingRestResources" path="/share" version="1.0" description="Provides REST resources for sharing issues and searches via e-mail." >
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <resource type="qunit" name="js/share-dialog-test.js" location="js/share-dialog-test.js" />
+</atlassian-plugin>

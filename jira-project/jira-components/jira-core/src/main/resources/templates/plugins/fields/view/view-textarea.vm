@@ -1,0 +1,29 @@
+#disable_html_escaping()
+#if ($value)
+  #if (${displayParameters.excel_view})
+    $textutils.br($textutils.htmlEncode($!value.toString(), false))
+  #elseif (!${displayParameters.view_issue})
+    $!value.toString()
+  #else
+    #if ($value && ($value.indexOf("<br") > -1 || $value.indexOf("<p") > -1 || $value.length() > 255))
+        <div id="field-${customField.id}" class="twixi-block expanded">
+            <div class="twixi-wrap verbose">
+                <a href="#" class="twixi"><span class="icon twixi-opened"><span>$i18n.getText("admin.common.words.hide")</span></span></a>
+                <div class="flooded">
+                    $!value.toString()
+                </div>
+            </div>
+            <div class="twixi-wrap concise">
+                <a href="#" class="twixi"><span class="icon twixi-closed"><span>$i18n.getText("admin.common.words.show")</span></span></a>
+                <div class="flooded">
+                    #if ($value)
+                        $velocityhelper.removeHtmlTags($value.toString())
+                    #end
+                </div>
+            </div>
+        </div>
+    #else
+        $!value.toString()
+    #end
+  #end
+#end

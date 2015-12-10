@@ -1,0 +1,10 @@
+#disable_html_escaping()
+<tr>
+    <td style="color:#666;padding-top:5px">
+        <div style="padding-bottom:20px">
+            <a style='color:${textLinkColour};font-family:${textFontFamily};font-size:${textSize}font-family:${textFontFamily};font-size:${textSize};text-decoration:none;' href='${baseurl}/browse/${issue.getKey()}'>#text("jira.mentions.email.view.online")</a> |
+            <a style='color:${textLinkColour};font-family:${textFontFamily};font-size:${textSize};text-decoration:none;' href='${baseurl}/browse/${issue.getKey()}#add-comment'>#text("jira.mentions.email.comment.add")</a>
+        </div>
+        <div style="color:$textSubtleColour;font-family:${textFontFamily};font-size:${textSize}"><strong>#text("jira.mentions.email.hint"):</strong> #text("jira.mentions.email.hint.message")</div>
+    </td>
+</tr>

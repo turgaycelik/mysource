@@ -1,0 +1,112 @@
+@import "_SelectMixins.less";
+
+.aui-ss {
+    .autocomplete-container();
+
+    > .aui-ss-icon {
+        .autocomplete-dropdown-button(normal);
+    }
+
+    > .aui-ss-entity-icon { // for things like the bug issue type icon, or a user's avatar
+        .border-box();
+        background-repeat: no-repeat;
+        -moz-background-size: 16px;
+        background-size: 16px;
+        display: none;
+        height: 16px;
+        left: 6px; // equal to left padding + left border
+        margin-top: -8px;
+        position: absolute;
+        top: 50%;
+        width: 16px;
+    }
+
+    > .aui-ss-field {
+        .border-box();
+        .text-overflow();
+        resize: none;
+        &::-ms-clear {
+            display: none;
+        }
+    }
+
+    &.aui-ss-has-entity-icon {
+        > .aui-ss-field {
+              padding-left: 25px; // to make room for the .aui-ss-entity-icon
+        }
+        > .aui-ss-entity-icon {
+            display: block;
+        }
+    }
+
+    &.aui-disabled {
+        > .aui-ss-icon {
+            .autocomplete-dropdown-button(disabled);
+        }
+    }
+}
+
+#project_container,
+#issuetype_container {
+    white-space: nowrap;
+
+    .aui-ss-field {
+        border: 1px solid #ccc;
+        border-radius: 3.01px;
+        box-shadow: inset 0 1px 3px #ccc;
+        color: #333;
+        font-family: inherit;
+        font-size: 14px;
+        height: 2.1428571428571em; /* 30px - using ems so the fields increase in line with user specified font-sizes */
+        line-height: 1.4285714285714; /* Required for IE8. Causes misaligned placeholder text in Safari 5 - fixed in Safari 6 though */
+        margin: 0;
+        max-width: 250px;
+        padding-top: 4px;
+        padding-right: 28px;
+        padding-bottom: 4px;
+        resize: none;
+        vertical-align: baseline;
+        width: 100%;
+        &::-ms-clear {
+            display: none;
+        }
+    }
+}
+#issuetype-single-select,
+#project-single-select {
+    max-width: 250px;
+    width: 100%;
+}
+
+// State for when autocomplete results are active
+// -----------------------
+.aui-ss > .aui-ss-field.active {
+    ~ .aui-ss-icon {
+        .autocomplete-dropdown-button(active);
+    }
+}
+
+// Interop with AUI forms
+// -----------------------
+form.aui .aui-ss,
+.jiraform .aui-ss {   // because the .aui-ss container is inline-block,
+    width: 100%;      // the width:100%; on the `form.aui .text` won't work.
+    max-width: 250px; // we need to re-state it here ourselves.
+
+    &.short-field, &.short-field > input { max-width: 75px; }
+    &.medium-field, &.medium-field > input { max-width: 165px; }
+    &.long-field, &.long-field > input { max-width: 500px; }
+    &.full-width-field, &.full-width-field > input { max-width: none; }
+
+    > .aui-ss-field {
+        padding-right: 28px; // to make room for the .aui-ss-icon
+        vertical-align: baseline;
+        width: 100%;
+    }
+}
+
+// JRA-35131 - Blink engine issue with vertical-alignment of input field within inline-block element.
+.chrome form.aui .aui-ss > .aui-ss-field,
+.chrome .jiraform .aui-ss > .aui-ss-field {
+    vertical-align: middle;
+}

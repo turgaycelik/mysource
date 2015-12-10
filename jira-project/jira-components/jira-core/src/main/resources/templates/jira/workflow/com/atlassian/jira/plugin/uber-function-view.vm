@@ -1,0 +1,6 @@
+#if ($requestParams.get("eventType"))
+  Uber function that generates a <b>${requestParams.get("eventType")}</b> event.
+#else
+  Uber function.
+#end
+

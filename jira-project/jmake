@@ -1,0 +1,36 @@
+#!/bin/bash
+python3LinkInstalled=false
+for i in '' '.4' '.3' '.2'
+    do
+        pythonVer=python3$i
+
+        if which $pythonVer >/dev/null 2>&1 ; then
+            python3LinkInstalled=true
+            break
+        fi
+    done
+
+if ${python3LinkInstalled}; then
+    $pythonVer -u ./jmake_src/jmake.py "$@"
+else
+    echo -e "\x1b[31;7mERROR\x1b[0m\x1b[21m: \x1b[31mYou don't have python3 installed. Supported versions are python 3.2 and 3.3\x1b[0m"
+
+    case "`uname`" in
+        CYGWIN*) echo 'Python3 should be installed by default in cygwin. For more information read http://cygwin.com/ml/cygwin/2012-07/msg00553.html' ;;
+        Darwin*)
+
+            if  which brew  >/dev/null 2>&1 ; then
+                echo 'Is seems that you are using brew. Run "brew install python3" to install python3'
+                exit 1
+            elif  which port  >/dev/null 2>&1 ; then
+                echo 'Is seems that you are using macports. Run "sudo port install python33" to install python3'
+                exit 1
+            else
+                echo 'Please ensure that you have python3 command available on your mac.'
+            fi
+
+        ;;
+        Linux*) echo 'Run "sudo apt-get install python3" to install python3' ;;
+        *) echo 'It seems that you are running unsupported platform and do not have python installed. Use jmake at your own risk '
+    esac
+fi

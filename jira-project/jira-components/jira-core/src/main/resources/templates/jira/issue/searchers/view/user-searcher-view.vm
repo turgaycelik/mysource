@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#searcherHeaderNoField($searcherId $name)
+#if ($isKickass)
+    #foreach ($value in $values)
+        #if ($value.isCurrentUser())
+            #set ($user = $authcontext.getUser())
+            <a class="user-hover" rel="$textutils.htmlEncode($user.getName())" href="ViewProfile.jspa?name=$urlcodec.encode($user.getName())">$i18n.getText('reporter.types.currentuser')</a>#commaonly($values)
+        #elseif ($value.isEmpty())
+            $i18n.getText($emptyValueKey)#commaonly($values)
+        #elseif ($value.isGroup())
+            $textutils.htmlEncode($value.getObject().getName())#commaonly($values)
+        #elseif ($value.isUser())
+            #set ($user = $value.getObject())
+            <a class="user-hover" rel="$textutils.htmlEncode($user.getName())" href="ViewProfile.jspa?name=$urlcodec.encode($user.getName())">$textutils.htmlEncode($user.getDisplayName())</a>#commaonly($values)
+        #end
+    #end
+#else
+    $userformat.formatUser(${linkedUser}, 'profileLinkSearcher', 'searcher-profile-link', $map.build('linkedUser', $linkedUser, 'linkedGroup', $linkedGroup, 'textForuser', $textForuser, 'fieldValuesHolder', $fieldValuesHolder))
+#end
+#searcherFooter($searcher)

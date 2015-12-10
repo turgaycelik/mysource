@@ -1,0 +1,5 @@
+#disable_html_escaping()
+<div>
+    <h3 id="reference-action-message">Welcome to $action.productName</h3>
+    <h2 id="prepared-message">$action.preparedMessage</h2>
+</div>

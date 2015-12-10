@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:AddVersion project-key="ABC" name="Ver 1" versionIdVar="myVersion"/>
+    myVersion_${myVersion}_
+</JiraJelly>

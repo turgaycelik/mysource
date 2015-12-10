@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#set ($unconfiguredMsg = "Import URL not configured.\nSee jira.importid.prefix property in WEB-INF/classes/jira-application.properties")
+#if ($value)
+  #if ($unconfigured && !${displayParameters.excel_view})
+    <a href="javascript:alert('$unconfiguredMsg')">${value.longValue()}</a>
+  #elseif (!$urlPrefix || $urlPrefix == '')
+    ${value.longValue()}
+  #else
+    #if($unconfigured && ${displayParameters.excel_view})
+       ${value.longValue()}
+    #else
+      <a href="#if ($unconfigured)javascript:alert('URL not configured')#else${urlPrefix}${value.longValue()}#end">${value.longValue()}</a>
+    #end
+  #end
+#end

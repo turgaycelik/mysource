@@ -1,0 +1,11 @@
+<database>
+    <name>badass-tenant</name>
+    <database-type>mongodb</database-type>
+    <schema-name>does mongo have schemas?</schema-name>
+    <jdbc-datasource>
+        <url>jdbc:mongodb:localhost:1234</url>
+        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <username>badass-user</username>
+        <password>badass-password</password>
+    </jdbc-datasource>
+</database>

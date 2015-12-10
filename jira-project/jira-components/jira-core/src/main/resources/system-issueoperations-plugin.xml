@@ -1,0 +1,334 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.issueoperations" i18n-name-key="admin.issue.operations.plugin.name" name="Issue Operations Plugin">
+    <plugin-info>
+        <description key="admin.issue.operations.plugin.desc">System Issue Operations</description>
+        <version>1.0</version>
+        <application-version min="3.4" max="3.4"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <web-section key="opsbar-operations" name="Ops Bar Operations Section" location="view.issue.opsbar" i18n-name-key="webfragments.view.issue.opsbar.operations.group" weight="10">
+        <label key="opsbar.more.operations"/>
+    </web-section>
+
+        <web-section key="operations-top-level" name="Ops Bar Operations Top level Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.top" weight="10"/>
+
+            <web-item key="edit-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.top.edit" name="Edit this issue" section="operations-top-level" weight="1">
+                <label key="common.words.edit"/>
+                <tooltip key="admin.issue.operations.plugin.edit.issue.name"/>
+                <styleClass>issueaction-edit-issue</styleClass>
+                <link linkId="edit-issue">
+                    /secure/EditIssue!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">edit</param>
+                </condition>
+                <param name="iconClass" value="jira-icon-edit"/>
+            </web-item>
+
+            <web-item key="assign-issue" name="Assign Issue Link" section="operations-top-level" i18n-name-key="webfragments.view.issue.opsbar.operations.top.assign" weight="5">
+                <label key="common.words.assign"/>
+                <tooltip key="admin.issue.operations.plugin.assign.issue.name"/>
+                <styleClass>issueaction-assign-issue</styleClass>
+                <link linkId="assign-issue">
+                    /secure/AssignIssue!default.jspa?id=$issueId
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">assign</param>
+                </condition>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFieldHiddenCondition" invert="true">
+                    <param name="field">assignee</param>
+                </condition>
+            </web-item>
+
+            <web-item key="assign-to-me" name="Assign Issue To Me Link" section="operations-top-level" i18n-name-key="webfragments.view.issue.opsbar.operations.top.assign.tome" weight="6">
+                <label key="issue.operations.assign.tome.short"/>
+                <tooltip key="admin.issue.operations.plugin.assign.issue.to.me.name"/>
+                <styleClass>issueaction-assign-to-me hide-from-opsbar</styleClass>
+                <link linkId="assign-to-me">
+                    /secure/AssignIssue.jspa?atl_token=${atl_token}&amp;id=${issueId}&amp;#if($user)assignee=${urlcodec.encode($user.name)}#end
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">assign</param>
+                </condition>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">assignable</param>
+                </condition>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueAssignedToCurrentUserCondition" invert="true"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFieldHiddenCondition" invert="true">
+                    <param name="field">assignee</param>
+                </condition>
+            </web-item>
+
+            <web-item key="comment-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.top.comment" name="Comment on this issue" section="operations-top-level" weight="10">
+                <label key="comment.update.title"/>
+                <tooltip key="admin.issue.operations.plugin.comment.issue.name"/>
+                <styleClass>issueaction-comment-issue add-issue-comment</styleClass>
+                <link linkId="comment-issue">
+                    /secure/AddComment!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">comment</param>
+                </condition>
+                <param name="iconClass" value="aui-icon aui-icon-small aui-iconfont-comment icon-comment" />
+            </web-item>
+
+        <web-section key="operations-work" name="Ops Bar Operations Work Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.work" weight="20"/>
+
+            <web-item key="log-work" i18n-name-key="webfragments.view.issue.opsbar.operations.work.log" name="Log work for this issue" section="operations-work" weight="10">
+                <label key="logwork.title"/>
+                <tooltip key="admin.issue.operations.plugin.log.work.name"/>
+                <styleClass>issueaction-log-work</styleClass>
+                <link linkId="log-work">
+                    /secure/CreateWorklog!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.TimeTrackingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">work</param>
+                </condition>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFieldHiddenCondition" invert="true">
+                    <param name="field">timetracking</param>
+                </condition>
+            </web-item>
+
+        <web-section key="operations-attachments" name="Ops Bar Operations Attachments Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.attachments" weight="30"/>
+
+            <web-item key="attach-file" name="Attach file to this issue" section="operations-attachments" i18n-name-key="webfragments.view.issue.opsbar.operations.attachments.file" weight="10">
+                <label key="attachfile.title"/>
+                <tooltip key="admin.issue.operations.plugin.attach.file.name"/>
+                <styleClass>issueaction-attach-file</styleClass>
+                <link linkId="attach-file">
+                    /secure/AttachFile!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.CanAttachFileToIssueCondition"/>
+            </web-item>
+
+        <web-section key="operations-voteswatchers" name="Ops Bar Operations Votes &amp; Watchers Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch" weight="40"/>
+
+            <web-item key="vote-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.vote" name="Vote for this issue" section="operations-voteswatchers" weight="10">
+                <label key="issue.operations.simple.vote"/>
+                <tooltip key="issue.operations.simple.voting.notvoted"/>
+                <styleClass>issueaction-vote-issue</styleClass>
+                <link linkId="toggle-vote-issue">
+                    /secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&amp;id=${issueId}&amp;vote=vote
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.VotingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasVotedForIssueCondition" invert="true"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueReportedByCurrentUserCondition" invert="true"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueUnresolvedCondition"/>
+            </web-item>
+
+            <web-item key="unvote-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.unvote" name="Remove Vote for this issue" section="operations-voteswatchers" weight="20">
+                <label key="issue.operations.simple.unvote"/>
+                <tooltip key="issue.operations.simple.voting.alreadyvoted"/>
+                <styleClass>issueaction-unvote-issue</styleClass>
+                <link linkId="toggle-vote-issue">
+                    /secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&amp;id=${issueId}&amp;vote=unvote
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.VotingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasVotedForIssueCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueUnresolvedCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueReportedByCurrentUserCondition" invert="true"/>
+            </web-item>
+
+            <web-item key="view-voters" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.view.voters" name="Voters" section="operations-voteswatchers" weight="30">
+                <label key="voters.view.title"/>
+                <tooltip key="voters.view.title.long"/>
+                <styleClass>issueaction-view-voters</styleClass>
+                <link linkId="view-voters">
+                    /secure/ViewVoters!default.jspa?id=$issueId
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.VotingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">viewvotersandwatchers</param>
+                </condition>
+            </web-item>
+
+            <web-item key="watch-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.watch" name="Watch this issue" section="operations-voteswatchers" weight="40">
+                <label key="issue.operations.watch"/>
+                <tooltip key="issue.operations.simple.startwatching"/>
+                <styleClass>issueaction-watch-issue</styleClass>
+                <link linkId="toggle-watch-issue">
+                    /secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&amp;id=${issueId}&amp;watch=watch
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.WatchingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsWatchingIssueCondition" invert="true"/>
+            </web-item>
+
+            <web-item key="unwatch-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.unwatch" name="Unwatch this issue" section="operations-voteswatchers" weight="50">
+                <label key="issue.operations.unwatch"/>
+                <tooltip key="issue.operations.simple.stopwatching"/>
+                <styleClass>issueaction-unwatch-issue</styleClass>
+                <link linkId="toggle-watch-issue">
+                    /secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&amp;id=${issueId}&amp;watch=unwatch
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.WatchingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsWatchingIssueCondition"/>
+            </web-item>
+
+            <web-item key="manage-watchers" i18n-name-key="webfragments.view.issue.opsbar.operations.votewatch.manage.watchers" name="Watchers" section="operations-voteswatchers" weight="60">
+                <label key="issue.operations.manage.watchers"/>
+                <tooltip key="admin.issue.operations.plugin.manage.watchers.name"/>
+                <styleClass>issueaction-manage-watchers</styleClass>
+                <link linkId="manage-watchers">
+                    /secure/ManageWatchers!default.jspa?id=$issueId
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.WatchingEnabledCondition"/>
+                <conditions type="OR">
+                    <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                        <param name="permission">viewvotersandwatchers</param>
+                    </condition>
+                    <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                        <param name="permission">managewatcherlist</param>
+                    </condition>
+                </conditions>
+
+            </web-item>
+
+        <web-section key="operations-subtasks" name="Ops Bar Operations Subtask Section Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.subtasks" weight="50"/>
+
+            <web-item key="create-subtask" i18n-name-key="webfragments.view.issue.opsbar.operations.subtasks.create" name="Create sub-task for this issue" section="operations-subtasks" weight="10">
+                <label key="createsubtaskissue.operation"/>
+                <tooltip key="admin.issue.operations.plugin.create.subtask.name"/>
+                <styleClass>issueaction-create-subtask</styleClass>
+                <link linkId="create-subtask">
+                    /secure/CreateSubTaskIssue!default.jspa?parentIssueId=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.SubTasksEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition" invert="true" />
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasProjectPermissionCondition">
+                    <param name="permission">create</param>
+                </condition>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSubTasksAvailableCondition"/>
+            </web-item>
+
+            <web-item key="subtask-to-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.subtasks.convert.to.issue" name="Convert to issue" section="operations-subtasks" weight="20">
+                <label key="convert.subtask.to.issue.operation"/>
+                <tooltip key="admin.issue.operations.plugin.subtask.to.issue.name"/>
+                <styleClass>issueaction-subtask-to-issue</styleClass>
+                <link linkId="subtask-to-issue">
+                    /secure/ConvertSubTask.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.CanConvertToIssueCondition"/>
+            </web-item>
+
+            <web-item key="issue-to-subtask" i18n-name-key="webfragments.view.issue.opsbar.operations.subtasks.convert.to.subtask" name="Convert to sub-task" section="operations-subtasks" weight="20">
+                <label key="convert.issue.to.subtask.operation"/>
+                <tooltip key="admin.issue.operations.plugin.issue.to.subtask.name"/>
+                <styleClass>issueaction-issue-to-subtask</styleClass>
+                <link linkId="issue-to-subtask">
+                    /secure/ConvertIssue.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition" invert="true"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.CanConvertToSubTaskCondition"/>
+            </web-item>
+
+        <web-section key="operations-operations" name="Ops Bar Operations Operations Section Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.ops" weight="60"/>
+
+            <web-item key="move-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.ops.move" name="Move this issue" section="operations-operations" weight="10">
+                <label key="common.forms.move"/>
+                <tooltip key="admin.issue.operations.plugin.move.issue.name"/>
+                <styleClass>issueaction-move-issue</styleClass>
+                <link linkId="move-issue">
+                    /secure/MoveIssue!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition" invert="true"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">move</param>
+                </condition>
+            </web-item>
+
+            <web-item key="move-subtask" i18n-name-key="webfragments.view.issue.opsbar.operations.ops.move.subtask" name="Move this subtask" section="operations-operations" weight="10">
+                <label key="common.forms.move"/>
+                <tooltip key="admin.issue.operations.plugin.move.issue.name"/>
+                <styleClass>issueaction-move-subtask</styleClass>
+                <link linkId="move-issue">
+                    /secure/MoveSubTaskChooseOperation!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">move</param>
+                </condition>
+            </web-item>
+
+            <web-item key="link-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.ops.link" name="Link this subtask" section="operations-operations" weight="20">
+                <label key="issue.field.link"/>
+                <tooltip key="admin.issue.operations.plugin.link.issue.name"/>
+                <styleClass>issueaction-link-issue</styleClass>
+                <link linkId="link-issue">
+                    /secure/LinkJiraIssue!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.LinkingEnabledCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">link</param>
+                </condition>
+            </web-item>
+
+            <web-item key="clone-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.ops.clone" name="Clone this issue" section="operations-operations" weight="20">
+                <label key="cloneissue.operation"/>
+                <tooltip key="admin.issue.operations.plugin.clone.issue.name"/>
+                <styleClass>issueaction-clone-issue</styleClass>
+                <link linkId="clone-issue">
+                    /secure/CloneIssueDetails!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasProjectPermissionCondition">
+                    <param name="permission">create</param>
+                </condition>
+            </web-item>
+
+            <web-item key="edit-labels" i18n-name-key="webfragments.view.issue.opsbar.operations.ops.editlabels" name="Edit labels" section="operations-operations" weight="30">
+                <label key="label.edit.title"/>
+                <tooltip key="admin.issue.operations.plugin.edit.issue.labels.name"/>
+                <styleClass>issueaction-edit-labels</styleClass>
+                <link linkId="edit-labels">
+                    /secure/EditLabels!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">edit</param>
+                </condition>
+            </web-item>
+
+        <web-section key="operations-delete" name="Ops Bar Operations Delete Section Section" location="opsbar-operations" i18n-name-key="webfragments.view.issue.opsbar.operations.delete" weight="70"/>
+
+            <web-item key="delete-issue" i18n-name-key="webfragments.view.issue.opsbar.operations.delete.delete" name="Delete this issue" section="operations-delete" weight="10">
+                <label key="common.words.delete"/>
+                <tooltip key="admin.issue.operations.plugin.delete.issue.name"/>
+                <styleClass>issueaction-delete-issue</styleClass>
+                <link linkId="delete-issue">
+                    /secure/DeleteIssue!default.jspa?id=${issueId}
+                </link>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+                    <param name="permission">delete</param>
+                </condition>
+            </web-item>
+
+
+    <web-section key="opsbar-transitions" name="Ops Bar Transitions Section" location="view.issue.opsbar" i18n-name-key="webfragments.view.issue.opsbar.transitions.group" weight="20">
+        <label key="opsbar.more.transitions"/>
+    </web-section>
+
+
+    <web-section key="transitions-all" name="Ops Bar All Transitions Section" location="opsbar-transitions" i18n-name-key="webfragments.view.issue.opsbar.transitions.all" weight="70"/>
+
+        <web-item-provider key="opsbar_transitions_factory" name="View Issue Ops Bar Transitions Factory"
+                             section="transitions-all"
+                             i18n-name-key="webfragments.view.issue.opsbar.transitions.all.factory" weight="10"
+                             class="com.atlassian.jira.issue.transitions.TransitionLinkFactory"/>
+
+    <web-section key="opsbar-admin" name="View Issue Ops Bar Admin Section" location="view.issue.opsbar" i18n-name-key="webfragments.view.issue.opsbar.operations.group" weight="30">
+        <label key="opsbar.admin"/>
+    </web-section>
+
+</atlassian-plugin>

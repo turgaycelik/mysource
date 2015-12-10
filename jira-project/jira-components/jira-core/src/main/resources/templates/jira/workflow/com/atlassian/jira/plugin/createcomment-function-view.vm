@@ -1,0 +1,2 @@
+#disable_html_escaping()
+$i18n.getText("admin.workflow.function.createcomment.view")

@@ -1,0 +1,14 @@
+#disable_html_escaping()
+#*
+  -- label.vm
+  --
+  -- Required Parameters:
+  --   * label      - The description that will be used to identfy this text label
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  *#
+#parse("/template/standard/controlheader.vm")
+<label> $!parameters.name </label>
+#parse("/template/standard/controlfooter.vm")

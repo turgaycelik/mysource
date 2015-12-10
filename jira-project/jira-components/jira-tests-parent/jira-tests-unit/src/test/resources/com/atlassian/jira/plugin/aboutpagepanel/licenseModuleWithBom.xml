@@ -1,0 +1,3 @@
+<about-page-panel key="key">
+    <licenses location="com/atlassian/jira/plugin/aboutpagepanel/bom.properties"/>
+</about-page-panel>

@@ -1,0 +1,8 @@
+#disable_html_escaping()
+<div id="portlet-search-view-control-panel" >
+    ${i18n.getText("portletSearchRequestView.controlPanel.view")}
+    |
+    <a href="${baseurl}/secure/charts/SavePortletSearchViewConfiguration!default.jspa?portletIdStr=${portlet.Id}&searchRequestUrl=${searchRequestUrl}&decorator=none" class="lbAction" rel="insert" onclick="return false;">${i18n.getText("portletSearchRequestView.controlPanel.configure")}</a>
+    |
+    <a href="#" class="close lbAction" rel="deactivate">${i18n.getText("portletSearchRequestView.controlPanel.close")}</a>
+</div>

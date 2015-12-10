@@ -1,0 +1,168 @@
+@import "../../imports/mixins/border-box";
+@import "../../imports/mixins/opacity";
+
+.criteria-group {
+    border: 1px solid #ccc;
+    border-left: 5px solid #ccc;
+    border-radius: 3px;
+    margin: 20px 0 0 0;
+    position: relative;
+
+    .criteria-group {
+        border-right: 0;
+        border-radius: 3px 0 0 3px;
+        margin: 10px 0 10px 0;
+    }
+}
+
+.criteria-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.criteria-item {
+    border-top: 1px solid #ccc;
+    padding: 5px 0 5px 10px;
+
+    > .aui-buttons {
+        float: right;
+        margin-top: -5px;
+        padding-right: 5px;
+
+        .aui-button {
+            color: #707070;
+            .opacity(0);
+            padding-left: 5px;
+            padding-right: 5px;
+
+            &:focus,
+            &:hover {
+                color: #333;
+                position: relative;
+            }
+            &:after,
+            &:before {
+                color: inherit;
+            }
+            &[aria-disabled="true"] {
+                color: #ccc;
+                cursor: not-allowed;
+            }
+        }
+    }
+
+    .aui-button:focus,
+    &:hover > .aui-buttons .aui-button {
+        .opacity(1);
+    }
+    .criteria-post-functions & {
+        counter-increment: postFunctions;
+        padding-left: 40px;
+    }
+}
+
+.criteria-post-functions {
+    counter-reset: postFunctions;
+}
+
+.criteria-post-functions .criteria-item:before {
+    content: counter(postFunctions) ".";
+    float: left;
+    margin-left: -30px;
+    width: 20px;
+    text-align: right;
+}
+
+
+.criteria-group-actions {
+    .border-box();
+    background: #f0f0f0;
+    margin: 0;
+    padding: 5px 10px;
+    width: 100%;
+
+    select,
+    option,
+    p {
+        font-weight: bold;
+    }
+
+    p {
+        margin: 5px 0;
+    }
+    .aui-button {
+        float: right;
+    }
+}
+
+form.aui.criteria-group-actions {
+    .select {
+        margin: 0;
+        max-width: none;
+        width: auto;
+    }
+    label {
+        color: #333;
+    }
+}
+
+.workflow-transition-info {
+    margin: 20px 0 0 0;
+
+    .tabs-menu {
+        vertical-align: top;
+    }
+    .tabs-pane {
+        padding: 20px 0;
+    }
+}
+.criteria-move-down,
+.criteria-move-up {
+    span {
+        display: inline-block;
+        height: 16px;
+        overflow: hidden;
+        text-align: left;
+        text-indent: -999em;
+        vertical-align: baseline;
+        width: 16px;
+    }
+}
+
+.criteria-move-down {
+    span {
+        background: transparent inlineimage("images/icons/arrow-down.png") no-repeat 0 0;
+    }
+    &[aria-disabled="true"] span,
+    &[aria-disabled="true"]:hover span,
+    &[aria-disabled="true"]:focus span {
+        background: transparent inlineimage("images/icons/arrow-down-disabled.png") no-repeat 0 0;
+    }
+    &:hover,
+    &:focus {
+        span {
+            background: transparent inlineimage("images/icons/arrow-down-hover.png") no-repeat 0 0;
+        }
+    }
+}
+.criteria-move-up {
+    span {
+        background: transparent inlineimage("images/icons/arrow-up.png") no-repeat 0 0;
+    }
+    &[aria-disabled="true"] span,
+    &[aria-disabled="true"]:hover span,
+    &[aria-disabled="true"]:focus span {
+        background: transparent inlineimage("images/icons/arrow-up-disabled.png") no-repeat 0 0;
+    }
+    &:hover,
+    &:focus {
+        span {
+            background: transparent inlineimage("images/icons/arrow-up-hover.png") no-repeat 0 0;
+        }
+    }
+}
+
+.criteria-toggle-link {
+    display: none;
+}

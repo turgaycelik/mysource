@@ -1,0 +1,66 @@
+#disable_html_escaping()
+#if (${displayParams.excel_view})
+     ${percentComplete}
+#elseif($graphBean.hasData())
+<table id="tt_${graphDisplayId}_graph_outer_${issue.key}" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="tt_graph_percentage">
+            <p id="tt_${graphDisplayId}_percent_${issue.key}">${percentComplete}</p>
+        </td>
+        <td style="width:100%">
+            <table id="tt_${graphDisplayId}_graph_inner_${issue.key}" style="width:${innerGraphWidth};" cellpadding="0" cellspacing="0">
+                <tr class="tt_graph">
+                    <td>
+                        <table class="tt_graph" id="tt_${graphDisplayId}_graph_orig_${issue.key}" cellpadding="0" cellspacing="0" style="margin-bottom: 2px;">
+                            <tr class="tt_graph">
+                            #if($graphBean.originalProgressGraph.totalZero)
+                                <td id="tt_${graphDisplayId}_graph_orig_${issue.key}_empty_cell" style="font-size:0;">
+                                    <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint" alt=""/>
+                                </td>
+                            #else
+                                #foreach($row in $graphBean.originalProgressGraph.rows)
+                                <td style="width:${graphBean.originalProgressGraph.getPercentage($row)}%; background-color:${row.color};">
+                                    <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint" title="$row.description" alt="$row.description"/>
+                                </td>
+                                #end
+                            #end
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table class="tt_graph" id="tt_${graphDisplayId}_graph_progress_${issue.key}" cellpadding="0" cellspacing="0">
+                            <tr class="tt_graph">
+                            #if ($graphBean.progressGraph.totalZero)
+                                <td id="tt_${graphDisplayId}_graph_progress_${issue.key}_empty_cell">
+                                    <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint" alt=""/>
+                                </td>
+                            #else
+                                #set ($counter = 0)
+                                #foreach ($row in $graphBean.progressGraph.rows)
+                                    #set ($percentage = ${graphBean.progressGraph.getPercentage($row)})
+                                    #if ($percentage > 0)
+                                    #if ($counter > 0 && $counter <= $graphBean.progressGraph.rows.size())
+                                    <td class="tt_spacer">
+                                        <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint" alt=""/>
+                                    </td>
+                                    #end
+                                    #set ($counter = $counter + 1)
+                                    <td style="width:${percentage}%; background-color:${row.color}; border:0; font-size:0;">
+                                        <img src="$baseurl/images/border/spacer.gif" class="hideOnPrint" title="$row.description" alt="$row.description"/>
+                                    </td>
+                                    #end
+                                #end
+                            #end
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+#else
+    &nbsp;
+#end

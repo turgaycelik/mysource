@@ -1,0 +1,83 @@
+@import "../../../ui/global.less";
+
+.atlassian-autocomplete {
+    position: relative;
+
+    // Positioning the suggestions container up against the input field
+    .suggestions {
+        .border-box();
+        position: absolute;
+        top: 0; // this value is added in-line by javascript.
+        left: 0;
+        width: 100%;
+    }
+
+    // Control the widths of the fields
+    .suggestions { max-width: 250px; }
+    .short-field ~ .suggestions { max-width: 75px; }
+    .medium-field ~ .suggestions { max-width: 165px; }
+    .long-field ~ .suggestions { max-width: 500px; }
+    .full-width-field ~ .suggestions { max-width: none; }
+}
+
+// Dropdown styles
+.atlassian-autocomplete .suggestions {
+    .shadow(0, 3px, 6px, @jira-dropdown-shadow-color);
+    background-color: @aui-color-page;
+    border: 1px solid @jira-dropdown-divider-color;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    margin-top: 1px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    z-index: 12000;
+
+    // Layout
+    ul {
+        .dropdown-list();
+    }
+
+    li {
+        .dropdown-item-block();
+        .text-overflow();
+        cursor: pointer;
+
+        b { // Things that are "marked" when performing autocomplete are wrapped in <b>
+            font-style: normal;
+            font-weight: bold;
+        }
+
+        > .yad {
+            .text-overflow();
+            margin: 0;
+            padding: 0;
+        }
+    }
+
+    .yui-ac-ft { // The footer
+        .dropdown-item-block();
+        .text-overflow();
+        font-style: italic;
+    }
+
+    // Colours
+    li {
+        .dropdown-item-style(normal);
+    }
+    li > *:hover,
+    li > *:focus {
+        text-decoration: none;
+    }
+    .active {
+        .dropdown-item-style(focus);
+    }
+
+    .syntax-help-container {
+        .dropdown-list();
+        border-top: 1px solid @jira-dropdown-divider-color;
+    }
+
+    .syntax-help {
+        .dropdown-item-block();
+    }
+}

@@ -1,0 +1,6 @@
+#disable_html_escaping()
+
+#if($issue)
+    #set ($pageTitle = "<a href='${baseurl}/browse/${issue.getKey()}'>${i18n.getText('email.event.activity.re')} $textutils.htmlEncode($issue.getSummary())</a>")
+    #parse("templates/email/html/includes/patterns/page-title.vm")
+#end

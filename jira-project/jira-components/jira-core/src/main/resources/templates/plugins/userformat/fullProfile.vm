@@ -1,0 +1,67 @@
+#disable_html_escaping()
+## hCard microformat
+<div class="module">
+    <div class="mod-header">
+        <h3>$i18n.getText('preferences.update.user.details')</h3>
+    </div>
+    <div class="mod-content" id="full_profile_details">
+        <ul id="full_profile" class="item-details vcard">
+            <li>
+                <dl>
+                    <dt>$i18n.getText('common.words.username'):</dt>
+                    <dd>$textutils.htmlEncode($username)</dd>
+                </dl>
+            </li>
+            <li>
+                <dl>
+                    <dt>$i18n.getText('common.words.fullname'):</dt>
+                    <dd class="fn">$textutils.htmlEncode($user.displayName)</dd>
+                </dl>
+            </li>
+            #if($action.isEmailVisible($user))
+            <li>
+                <dl>
+                    <dt>$i18n.getText('common.words.email'):</dt>
+                    <dd class="email">$action.getDisplayEmail($user)</dd>
+                </dl>
+            </li>
+            #end
+            #set($userProperties = $action.getUserProperties($user))
+            #if(!$userProperties.isEmpty())
+            <li>
+                <dl>
+                    <dt>$i18n.getText('user.properties'):</dt>
+                    <dd>
+                        #foreach($userProperty in $userProperties.keySet())
+                            $userProperty: $textutils.plainTextToHtml($userProperties.get($userProperty))<br/>
+                        #end
+                    </dd>
+                </dl>
+            </li>
+            #end
+            #set($groups = $action.getGroupNames($user))
+            #if($groups.size() > 0)
+            <li>
+                <dl>
+                    <dt>$i18n.getText('common.words.groups'):</dt>
+                    <dd>
+                        #foreach($group in $groups)
+                            #if($action.hasViewGroupPermission($group))
+                                $textutils.htmlEncode($group)<br/>
+                            #end
+                        #end
+                    </dd>
+                </dl>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>
+<div class="module">
+    <div class="mod-header">
+        <h3>$i18n.getText('common.words.operations')</h3>
+    </div>
+    <div class="mod-content" id="full_profile_ops">
+        $action.getUserLinks($user, "templates/plugins/webfragments/system-user-profile-links-operations.vm")
+    </div>
+</div>

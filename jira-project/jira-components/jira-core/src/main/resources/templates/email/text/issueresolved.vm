@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+     [ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-all} ]
+
+#headerTitleText($i18n.getText("template.text.issue.resolved.author", $remoteUser.displayName, $issue.key), $remoteUser.displayName)
+
+#changes([])
+#comment()
+#visibilityText()
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

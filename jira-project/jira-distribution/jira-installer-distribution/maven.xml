@@ -1,0 +1,59 @@
+<project default="java:jar" xmlns:j="jelly:core" xmlns:deploy="deploy" xmlns:ant="jelly:ant" xmlns:util="jelly:util"
+         xmlns:m="jelly:maven">
+    <!-- Note, to run this goal, you must have install4j installed in your system.
+         See http://www.ej-technologies.com/products/install4j/overview.html for
+          download instructions -->
+    <ant:taskdef name="install4j"
+                 classname="com.install4j.Install4JTask"
+                 classpath="${install4j.home}/bin/ant.jar"/>
+
+    <!-- Dodgy way of setting the edition variable. I'd prefer to pass this through
+         from the parent project, but it appears there's now way to pass along additional
+         variables with a maven:reactor call from the parent project in Maven 1x -->
+    <goal name="jira:build-installer-enterprise">
+        <j:set var="edition" value="enterprise"/>
+        <attainGoal name="jira:build-installer"/>
+    </goal>
+
+    <goal name="jira:build-installer">
+        <j:set var="edition" value="enterprise"/>
+        <copy file="jira-template.install4j" tofile="jira.install4j" overwrite="true"/>
+        <!-- replace the edition and version number to point to the correct target directory for the standalone build. -->
+        <ant:replace file="jira.install4j" token="STANDALONE_TARGET_PATH"
+                     value="../../target/standalone/${edition}/atlassian-jira-${pom.currentVersion}-standalone"/>
+        <ant:install4j projectfile="jira.install4j">
+            <variable name="app.version" value="${pom.currentVersion}"/>
+            <variable name="docs.version" value="${jira.docs.version}" />
+            <variable name="keystore.home" value="${signcode.keystore.location}"/>
+            <variable name="keystore.password" value="${signcode.keystore.password}"/>
+            <variable name="install4j.home" value="${install4j.home}"/>
+            <!-- capitalisation for edition name -->
+            <j:choose>
+                <j:when test="${edition=='enterprise'}">
+                    <variable name="app.edition" value="Enterprise"/>
+                </j:when>
+                <j:when test="${edition=='professional'}">
+                    <variable name="app.edition" value="Professional"/>
+                </j:when>
+                <j:when test="${edition=='standard'}">
+                    <variable name="app.edition" value="Standard"/>
+                </j:when>
+            </j:choose>
+	    <variable name="app.edition_filename" value="${edition}"/>
+        </ant:install4j>
+    </goal>
+
+    <preGoal name="jira:build-installer">
+            <j:choose>
+                <j:when test="${context.getVariable('jira.project.version') == null or context.getVariable('jira.project.version').length() eq 0}">
+                    <m:pom projectDescriptor="../../project.xml" var="jirapom"/>
+                    <j:set var="jiraversion" value="${jirapom.currentVersion}"/>
+                </j:when>
+                <j:otherwise>
+                    <j:set var="jiraversion" value="${jira.project.version}"/>
+                </j:otherwise>
+            </j:choose>
+        <j:set var="currentVersion">${jiraversion}</j:set>
+        ${pom.setCurrentVersion(currentVersion)}
+    </preGoal>
+</project>

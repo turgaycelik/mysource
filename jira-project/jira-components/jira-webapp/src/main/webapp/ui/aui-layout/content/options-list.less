@@ -1,0 +1,27 @@
+ul.optionslist {
+    margin: 0;
+
+    > li {
+        font-weight: bold;
+
+        > ul {
+            display: block;
+            font-weight: normal;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+
+            > li {
+                display: inline;
+
+                &:before {
+                    content: ", ";
+                }
+
+                &:first-child:before {
+                    content: none;
+                }
+            }
+        }
+    }
+}

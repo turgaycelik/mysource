@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateSet group="jira">
+  <template name="dep" value="deprecated Use {@link $S_CLASS$#$S_METHOD$} instead. Since v$VERSION$." description="@deprecated since" toReformat="false" toShortenFQNames="true">
+    <variable name="S_CLASS" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="S_METHOD" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="VERSION" expression="&quot;6.3&quot;" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="true" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="false" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="gt" value="getText(&quot;$STRING$&quot;)$END$" description="getText(String)" toReformat="true" toShortenFQNames="true">
+    <variable name="STRING" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+  <template name="jread" value="&lt;dl id=&quot;data_${$ID$}&quot;&gt;&#10;    &lt;dt&gt;$SAMPLE$&lt;/dt&gt;&lt;dd&gt;${unsafe.text.sample}&lt;/dd&gt;&#10;    &lt;dt&gt;$CASE$&lt;/dt&gt;&lt;dd&gt;$i18n.getText('common.case')&lt;/dd&gt;&#10;&lt;/dl&gt;&#10;&lt;script type=&quot;text/javascript&quot;&gt;&#10;jQuery(document).ready(function(){&#10;    var data=jQuery.readData(&quot;#data_${$ID$}&quot;);&#10;    alert(data.$SAMPLE$);&#10;    alert(data['$CASE$']);&#10;});&#10;&lt;/script&gt;&#10;" description="jQuery.readData(s)" toReformat="false" toShortenFQNames="true">
+    <variable name="ID" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="SAMPLE" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="CASE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="true" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="true" />
+    </context>
+  </template>
+  <template name="noninst" value="private $CLASSNAME$()&#10;{&#10;    throw new AssertionError(&quot;Don't instantiate me&quot;);&#10;}&#10;&#10;protected Object clone() throws CloneNotSupportedException&#10;{&#10;    throw new CloneNotSupportedException(&quot;Don't clone me&quot;);&#10;}" description="Private constructor for non-instantiable class" toReformat="false" toShortenFQNames="true">
+    <variable name="CLASSNAME" expression="className()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="HTML_TEXT" value="false" />
+      <option name="HTML" value="false" />
+      <option name="XSL_TEXT" value="false" />
+      <option name="XML" value="false" />
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_STATEMENT" value="true" />
+      <option name="JAVA_EXPRESSION" value="true" />
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_COMMENT" value="true" />
+      <option name="JAVA_STRING" value="true" />
+      <option name="COMPLETION" value="true" />
+      <option name="CSS" value="false" />
+      <option name="JSP" value="false" />
+      <option name="JAVA_SCRIPT" value="false" />
+      <option name="SQL" value="false" />
+      <option name="ColdFusion" value="false" />
+      <option name="GROOVY" value="false" />
+      <option name="GROOVY_EXPRESSION" value="false" />
+      <option name="GROOVY_STATEMENT" value="false" />
+      <option name="GROOVY_DECLARATION" value="false" />
+      <option name="OGNL" value="false" />
+      <option name="MAVEN" value="false" />
+      <option name="ASPECTJ" value="false" />
+      <option name="ACTION_SCRIPT" value="false" />
+      <option name="MXML" value="false" />
+      <option name="GSP" value="false" />
+      <option name="HAML" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+</templateSet>
+

@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($issue.affectedVersions && $issue.affectedVersions.size() >0)
+<tr>
+    <th>#text("template.affects.versions"):</th>
+    <td>
+        #foreach ($version in $issue.affectedVersions)
+            $version.getString("name")#if ($velocityCount != $issue.affectedVersions.size()), #end
+        #end
+    </td>
+</tr>
+#end

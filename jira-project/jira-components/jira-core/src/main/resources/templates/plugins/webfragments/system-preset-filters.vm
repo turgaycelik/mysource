@@ -1,0 +1,28 @@
+#disable_html_escaping()
+###macro (listItem $item)
+##    ## <!-- TODO: This URL should encode & to &amp; for correct HTML encoding -->
+##    #set ($filterUrl = $item.link.getDisplayableUrl($user, $helper))
+##    #if ($item.link.id)
+##    -&nbsp;<a id="$item.link.id" href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+##    #else
+##    -&nbsp;<a href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+##    #end
+###end
+
+#set ($displayableItems = $webInterfaceManager.getDisplayableItems($location, $user, $helper))
+#if (!$displayableItems.isEmpty())
+    <ul>
+    #foreach ($item in $displayableItems)
+        #if ((($layout && !$layout.isDisplayableItemHidden($item)) || !$layout))
+        <li>
+            #set ($filterUrl = $item.link.getDisplayableUrl($user, $helper))
+            #if ($item.link.id)
+                <a id="$item.link.id" href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+            #else
+                <a href="$filterUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+            #end
+        </li>
+        #end
+    #end
+    </ul>
+#end

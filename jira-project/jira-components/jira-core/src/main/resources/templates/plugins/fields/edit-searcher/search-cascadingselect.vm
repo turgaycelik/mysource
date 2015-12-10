@@ -1,0 +1,28 @@
+#disable_html_escaping()
+#if ($value.getValuesForKey(null) && !$value.getValuesForKey(null).empty)
+    #set ($selectedParent = $value.getValuesForKey(null).iterator().next())
+#end
+#if ($value.getValuesForKey('1') && !$value.getValuesForKey('1').empty)
+    #set ($selectedChild = $value.getValuesForKey('1').iterator().next())
+#end
+$!{auiparams.put("controlHeaderClass", "aui-field-cascadingselect")}
+#searcherEditHeader (${customField.id} ${customField.name})
+    <select class="select cascadingselect-parent" id="searcher-${customField.id}" name="${customField.id}">
+        <option class="default-option" value="">$i18n.getText("common.words.pleaseselect")</option>
+        <option class="default-option" value="-1">$i18n.getText("common.filters.any")</option>
+        #foreach ($option in $configs.options.rootOptions)
+            <option class="option-group-$option.optionId" #if ($selectedParent && $selectedParent == $option.optionId.toString()) selected="selected"#end value="$option.optionId">$cfValueEncoder.encodeForHtml($option.value)</option>
+        #end
+    </select>
+    <select class="select cascadingselect-child" id="searcher-${customField.id}:1" name="${customField.id}:1">
+        <option class="default-option" value="">$i18n.getText("common.words.pleaseselect")</option>
+        <option class="default-option" value="-1">$i18n.getText("common.filters.any")</option>
+        #foreach ($parentOption in $configs.options.rootOptions)
+            <option class="option-group-$parentOption.optionId" value="-1">$i18n.getText("common.filters.any")</option>
+            #foreach ($childOption in $parentOption.childOptions)
+                <option class="option-group-$parentOption.optionId" #if ($selectedChild && $selectedChild == $childOption.optionId.toString()) selected="selected"#end value="$childOption.optionId">$cfValueEncoder.encodeForHtml($childOption.value)</option>
+            #end
+        #end
+    </select>
+#searcherEditFooter (${customField.id} ${customField.descriptionProperty.viewHtml})
+$!{auiparams.clear()}

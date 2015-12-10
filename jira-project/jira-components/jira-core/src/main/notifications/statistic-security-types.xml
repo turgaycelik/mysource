@@ -1,0 +1,22 @@
+<statistic-security-types>
+    <statistic-security-type id="none" enterprise="false">
+        <class>com.atlassian.jira.project.statistics.security.NoneStatisticSecurityType</class>
+        <security-types>
+            <security-type enterprise="false">group</security-type>
+            <security-type enterprise="true">lead</security-type>
+            <security-type enterprise="true">user</security-type>
+        </security-types>
+    </statistic-security-type>
+    <statistic-security-type id="assignee" enterprise="true">
+        <class>com.atlassian.jira.project.statistics.security.enterprise.AssigneeStatisticSecurityType</class>
+        <security-types>
+            <security-type enterprise="true">assignee</security-type>
+        </security-types>
+    </statistic-security-type>
+    <statistic-security-type id="reporter" enterprise="true">
+        <class>com.atlassian.jira.project.statistics.security.enterprise.ReporterStatisticSecurityType</class>
+        <security-types>
+            <security-type enterprise="true">reporter</security-type>
+        </security-types>
+    </statistic-security-type>
+</statistic-security-types>

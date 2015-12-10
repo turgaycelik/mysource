@@ -1,0 +1,39 @@
+#disable_html_escaping()
+<header class="aui-page-header">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <h2>$i18n.getText('user.profile.summary.panel')</h2>
+        </div>
+        <div class="aui-page-header-actions">
+            <div id="quicklinks">
+                <ul class="operations">
+                    <li class="aui-dd-parent">
+                        <a id="filters" class="lnk aui-dd-link standard icon-filters" title="" href="#"><span>$i18n.getText('common.concepts.presetfilters')</span></a>
+                        <div class="aui-list hidden">
+                            <ul id="filters-dropdown" class="aui-list-section aui-last">
+                                #foreach ($link in $filters)
+                                    <li class="aui-list-item">
+                                        <a class="aui-list-item-link" id="$link.id" title="$link.title" href="$link.url">$link.label</a>
+                                    </li>
+                                #end
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</header>
+
+<div class="aui-group">
+    <div class="aui-item">
+       $plugablePanel.getFragmentHtml($profileUser, $currentUser)
+    </div>
+    <div class="aui-item">
+    #if ($activityStreamFrag.showFragment($profileUser, $currentUser))
+        <div id="${activityStreamFrag.id}" class="module">
+            $activityStreamFrag.getFragmentHtml($profileUser, $currentUser)
+        </div>
+    #end
+    </div>
+</div>

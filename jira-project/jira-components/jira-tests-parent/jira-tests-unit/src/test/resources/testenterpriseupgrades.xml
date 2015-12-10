@@ -1,0 +1,17 @@
+<!--
+This file holds details of all the upgrades for JIRA Enterprise Edition.
+
+The makeup of this XML file is described here :
+
+<upgrades> The root node of the file. Everything should be contained within this node
+    <upgrade> Each upgrade element describes an upgrade task.
+        Attributes
+        1. build -  This defines the build that the upgrade applies to
+        2. setup -  This determines if the upgrade should be run as part of the SetupComplete task.
+                    Set to "true" if this should be run as part of setup, otherwise it can be ommitted
+
+        <class> The class element defines the name of the class which performs the upgrade
+-->
+
+<upgrades type="enterprise">
+</upgrades>

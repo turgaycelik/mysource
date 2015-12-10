@@ -1,0 +1,10 @@
+<p>This template produced via custom view data</p>
+<p>This code was written on the <strong>$train</strong>
+    train while I was on my way home to <strong>$destination</strong>
+</p>
+<p>The variables injected into this template have been bolded</p>
+
+<p>Generating $numLines lines of data.</p>
+#foreach( $i in [1..$numLines] )
+   <p>Line {$i} of {$numLines}.</p>
+#end

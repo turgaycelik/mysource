@@ -1,0 +1,10 @@
+#enable_html_escaping()
+#if ($workratio)
+    #if (${workratio.intValue()} > 100)
+        <span class="warning">${workratio}%</span>
+    #else
+        ${workratio}%
+    #end
+#else
+&nbsp;
+#end

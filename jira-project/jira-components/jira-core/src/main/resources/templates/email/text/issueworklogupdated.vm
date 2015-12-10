@@ -1,0 +1,34 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+     #if ($worklog)[ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-worklog}\#worklog-${worklog.getId()} ]#else[ ${baseurl}/browse/${issue.getKey()}?page=all ]#end
+
+
+#if($remoteUser.displayName)
+$i18n.getText("template.issue.work.logged.on", $remoteUser.displayName, $issue.getKey())
+#dashes($!remoteUser.displayName)----------------#dashes(${issue.getKey()})-
+#end
+
+#if($worklog)
+#set($allFieldNames = [$i18n.getText('template.common.author'), $i18n.getText('template.common.edited.by'), $i18n.getText('template.common.created.on'), $i18n.getText('template.common.edited.on'), $i18n.getText('template.issue.worklog.start.date'), $i18n.getText('template.issue.worklog.time.spent'), $i18n.getText('template.issue.worklog.visibility'), $i18n.getText('logwork.workdesc'), $i18n.getText('template.issue.worklog.description.was')])
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.common.author"), "$worklog.authorFullName", $i18n, $allFieldNames)}
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.common.edited.by"), "$worklog.updateAuthorFullName", $i18n, $allFieldNames)}
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.common.created.on"), "$dateformatter.formatDMYHMS($worklog.getCreated())", $i18n, $allFieldNames)}
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.common.edited.on"), "$dateformatter.formatDMYHMS($worklog.getUpdated())", $i18n, $allFieldNames)}
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.issue.worklog.start.date"), "$dateformatter.formatDMYHMS($worklog.getStartDate()) #if($originalworklog && $startDateUpdated)(was: $dateformatter.formatDMYHMS($originalworklog.getStartDate()))#end", $i18n, $allFieldNames)}
+$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.issue.worklog.time.spent"), "$context.getTimeLogged($worklog, $i18n) #if($originalworklog && $timeSpentUpdated)(was: $context.getTimeLogged($originalworklog, $i18n))#end", $i18n, $allFieldNames)}
+#if($originalworklog.getRoleLevelId() || $originalworklog.getGroupLevel() || $worklog.getRoleLevelId() || $worklog.getGroupLevel())$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.issue.worklog.visibility"), "#visibilityText() #if($originalworklog && $visibilityUpdated)(was: #originalvisibilityText())#end", $i18n, $allFieldNames)}
+#end#if($textutils.stringSet($originalworklog.getComment()) || $textutils.stringSet($worklog.getComment()))$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("logwork.workdesc"), "$worklog.getComment()", $i18n, $allFieldNames)}
+#if($originalworklog && $commentUpdated)$!{velocityhelper.indentToChangelogNoLineSep($i18n.getText("template.issue.worklog.description.was"), "$originalworklog.getComment()", $i18n, $allFieldNames)}#end#end
+#end
+
+#if($changelog)
+
+Issue Time Tracking
+-------------------
+
+#changes([])
+#end
+        
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

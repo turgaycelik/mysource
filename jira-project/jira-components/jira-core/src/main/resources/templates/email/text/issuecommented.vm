@@ -1,0 +1,19 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+    #if($comment.getId())[ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-comment}&focusedCommentId=${comment.getId()}\#comment-${comment.getId()} ] #end
+
+
+#if($remoteUser.displayName)
+$i18n.getText("template.issue.commented.on", $remoteUser.displayName, $issue.getKey())
+#dashes($!remoteUser.displayName)--------------#dashes($issue.getKey())-
+#end
+#if($changelog)
+
+#changes([])
+#end
+#comment()
+#visibilityText()
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

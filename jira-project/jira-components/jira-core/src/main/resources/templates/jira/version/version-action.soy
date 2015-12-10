@@ -1,0 +1,22 @@
+{namespace JIRA.Templates.Version}
+
+/**
+ *
+ * @param version
+ * @param buildNumber
+ * @param commitId
+ * @param buildDate
+ */
+{template .success}
+<html>
+<head>
+    <title>JIRA Version Information</title>
+</head>
+<body>
+   <p>Version   : {$version}</p>
+   <p>Build     : {$buildNumber}</p>
+   <p>Date      : {$buildDate}</p>
+   <p>Commit    : {$commitId}</p>
+</body>
+</html>
+{/template}

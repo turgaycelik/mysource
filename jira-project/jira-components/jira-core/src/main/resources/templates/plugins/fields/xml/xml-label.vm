@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if($value)
+    #foreach($label in $value)
+        <label>$xmlutils.escape($!label.label)</label>
+    #end
+#end

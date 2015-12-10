@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#if ($issue.securityLevel)
+<tr>
+    <th>#text("issue.field.securitylevel"):</th>
+    <td>
+        $issue.securityLevel.getString("name") #if ($textutils.stringSet($issue.securityLevel.getString("description")))($issue.securityLevel.getString("description")) #end
+    </td>
+</tr>
+#end

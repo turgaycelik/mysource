@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/osgi
+           http://www.springframework.org/schema/osgi/spring-osgi.xsd"
+       default-autowire="autodetect">
+
+    <bean name="consumerStore" class="com.atlassian.jira.oauth.serviceprovider.CachingServiceProviderConsumerStore">
+        <constructor-arg ref="ofBizConsumerStore"/>
+        <constructor-arg ref="eventPublisher" />
+        <constructor-arg ref="cacheManager" />
+    </bean>
+
+    <bean name="ofBizConsumerStore" class="com.atlassian.jira.oauth.serviceprovider.OfBizServiceProviderConsumerStore">
+        <constructor-arg ref="ofBizDelegator"/>
+    </bean>
+
+    <bean name="tokenStore" class="com.atlassian.jira.oauth.serviceprovider.CachingServiceProviderTokenStore">
+        <constructor-arg ref="ofBizTokenStore"/>
+        <constructor-arg ref="eventPublisher" />
+        <constructor-arg ref="cacheManager" />
+    </bean>
+
+    <bean name="ofBizTokenStore" class="com.atlassian.jira.oauth.serviceprovider.OfBizServiceProviderTokenStore">
+        <constructor-arg ref="ofBizDelegator"/>
+        <constructor-arg ref="userUtil"/>
+        <constructor-arg ref="consumerStore"/>
+        <constructor-arg ref="eventPublisher"/>
+        <constructor-arg ref="jiraPropertySetFactory"/>
+        <constructor-arg ref="userKeyService"/>
+    </bean>
+
+    <osgi:service id="consumerStore_osgiService" ref="consumerStore">
+        <osgi:interfaces>
+            <value>com.atlassian.oauth.serviceprovider.ServiceProviderConsumerStore</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+    <osgi:service id="tokenStore_osgiService" ref="tokenStore">
+        <osgi:interfaces>
+            <value>com.atlassian.oauth.serviceprovider.ServiceProviderTokenStore</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+</beans>

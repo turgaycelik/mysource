@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="__MSG_module.gadget.title__" description="__MSG_module.gadget.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.dev.reference-plugin:reference-gadget", "reference-gadget-screenshot.jpg")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.dev.reference-plugin:reference-gadget", "reference-gadget-thumb.jpg")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Administration
+            </Param>
+        </Optional>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Require feature="settitle"/>
+        <Optional feature="atlassian.util" />
+        <Require feature="oauthpopup"/>
+        #oauth
+        #supportedLocales("gadget.common,gadget.admin,common.words.or,admin.globalpermissions.user.limit.warning,admin.systeminfo.environment.warnings,module.gadget")
+    </ModulePrefs>
+    <Content type="html">
+        <![CDATA[
+        #requireResource("com.atlassian.jira.gadgets:common")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+                gadgets.window.setTitle("__MSG_module.gadget.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    view: {
+                        enableReload: false,
+                        onResizeReload: false,
+                        template: function (args) {
+                            var gadget = this;
+
+                            if (AJS.$("#content", gadget.getView()).length === 0) {
+                                gadget.getView().append(AJS.$("#content"));
+                            }
+                            gadget.getView().addClass("reference-gadget");
+                            AJS.$("#content").html("<div>__MSG_module.gadget.resourcecontents__</div><div id='reference-response'>" + JSON.stringify(args) + " RELOADED</div>");
+                        },
+                        args: [
+                            {
+                                ajaxOptions: function () {
+                                    return {
+                                        url: "/rest/reference-plugin/1.0/endpoint"
+                                    };
+                                }
+                            }
+                        ]
+                    }
+                });
+            })();
+        </script>
+
+        <div id="content">
+            
+        </div>
+           ]]>
+    </Content>
+</Module>

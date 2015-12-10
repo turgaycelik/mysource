@@ -1,0 +1,101 @@
+<atlassian-plugin key="jira.issueviews" i18n-name-key="admin.issue.views.plugin.name" name="Issue Views Plugin">
+    <plugin-info>
+        <description key="admin.issue.views.plugin.desc">System Issue Views</description>
+        <version>1.0</version>
+        <application-version min="3.7" max="3.7"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!--
+    The module class should implement
+    com.atlassian.jira.plugin.issueview.IssueViewThis plugin type is documented online here:
+      @todo
+    -->
+
+    <!--todo - this currently doesn't work-->
+    <!--<component key="search-request-url-handler" i18n-name-key="admin.issue.views.searchrequest.urlhandler" name="URL Handler" class="com.atlassian.jira.plugin.searchrequestview.SearchRequestURLHandler" state='enabled' />-->
+
+
+    <single-issue-view key="issue-xml" i18n-name-key="admin.issue.views.issue.plugin.xml" name="XML" class="com.atlassian.jira.issue.views.IssueXMLView" state='enabled' fileExtension="xml" contentType="text/xml">
+        <resource type="velocity" name="view" location="templates/plugins/issueviews/single-xml.vm" />
+        <resource type="velocity" name="header" location="templates/plugins/issueviews/single-xml-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/issueviews/single-xml-footer.vm" />
+        <order>10</order> <!-- todo - implement ordering -->
+    </single-issue-view>
+
+    <single-issue-view key="issue-word" i18n-name-key="admin.issue.views.issue.plugin.word" name="Word" class="com.atlassian.jira.issue.views.IssueWordView" state='enabled' fileExtension="doc" contentType="application/vnd.ms-word">
+        <resource type="velocity" name="view" location="templates/plugins/issueviews/single-word.vm" />
+        <resource type="velocity" name="style" location="templates/plugins/issueviews/single-word-css.vm" />
+        <resource type="velocity" name="header" location="templates/plugins/issueviews/single-word-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/issueviews/single-word-footer.vm" />
+        <order>20</order>
+    </single-issue-view>
+
+    <single-issue-view key="issue-html" i18n-name-key="admin.issue.views.issue.plugin.html" name="Printable" class="com.atlassian.jira.issue.views.IssueHtmlView" state='enabled' fileExtension="html" contentType="text/html">
+        <resource type="velocity" name="view" location="templates/plugins/issueviews/single-word.vm" />
+        <resource type="velocity" name="style" location="templates/plugins/issueviews/single-word-css.vm" />
+        <resource type="velocity" name="header" location="templates/plugins/issueviews/single-word-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/issueviews/single-word-footer.vm" />
+        <resource type="velocity" name="previous" location="templates/plugins/searchrequestviews/searchrequest-link-previous.vm" />
+        <order>30</order>
+    </single-issue-view>
+
+    <search-request-view key="searchrequest-xml" i18n-name-key="admin.issue.views.searchrequest.plugin.xml" name="XML" class="com.atlassian.jira.issue.views.SearchRequestXMLView" state='enabled' fileExtension="xml" contentType="text/xml">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-xml-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-xml-footer.vm" />
+        <order>10</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-rss" i18n-name-key="admin.issue.views.searchrequest.plugin.rss.issues" name="RSS" class="com.atlassian.jira.issue.views.SearchRequestRSSView" state='enabled' fileExtension="xml" contentType="application/rss+xml" basicAuthenticationRequired="true">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-rss-header.vm" />
+        <resource type="velocity" name="view" location="templates/plugins/searchrequestviews/searchrequest-rss.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-xml-footer.vm" />
+        <order>20</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-comments-rss" i18n-name-key="admin.issue.views.searchrequest.plugin.rss.comments" name="RSS (Comments)" class="com.atlassian.jira.issue.views.SearchRequestRecentCommentsView" state='enabled' fileExtension="xml" contentType="application/rss+xml" basicAuthenticationRequired="true">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-rss-comment-header.vm" />
+        <resource type="velocity" name="view" location="templates/plugins/searchrequestviews/searchrequest-comments-rss.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-xml-footer.vm" />        
+        <order>30</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-printable" i18n-name-key="admin.issue.views.searchrequest.plugin.printable" name="Printable" class="com.atlassian.jira.issue.views.SearchRequestPrintableView" state='enabled' fileExtension="html" contentType="text/html">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-printable-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-printable-footer.vm" />
+        <resource type="velocity" name="descriptionTable" location="templates/plugins/searchrequestviews/searchrequest-description-header.vm" />
+        <resource type="velocity" name="previous" location="templates/plugins/searchrequestviews/searchrequest-link-previous.vm" />
+        <order>40</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-word" i18n-name-key="admin.issue.views.searchrequest.plugin.word" name="Word" class="com.atlassian.jira.issue.views.SearchRequestWordView" state='enabled' fileExtension="doc" contentType="application/vnd.ms-word">
+        <order>50</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-fullcontent" i18n-name-key="admin.issue.views.searchrequest.plugin.fullcontent" name="Full Content" class="com.atlassian.jira.issue.views.SearchRequestFullContentView" state='enabled' fileExtension="html" contentType="text/html">
+        <resource type="velocity" name="previous" location="templates/plugins/searchrequestviews/searchrequest-link-previous.vm" />
+        <order>60</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-excel-all-fields" i18n-name-key="admin.issue.views.searchrequest.plugin.excel.all" name="Excel" class="com.atlassian.jira.issue.views.SearchRequestExcelViewAllFields" state='enabled' fileExtension="xls" contentType="application/vnd.ms-excel">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-excel-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-excel-footer.vm" />
+        <resource type="velocity" name="descriptionTable" location="templates/plugins/searchrequestviews/searchrequest-description-header.vm" />
+        <order>70</order>
+    </search-request-view>
+
+    <search-request-view key="searchrequest-excel-current-fields" i18n-name-key="admin.issue.views.searchrequest.plugin.excel.current" name="Excel" class="com.atlassian.jira.issue.views.SearchRequestExcelViewCurrentFields" state='enabled' fileExtension="xls" contentType="application/vnd.ms-excel">
+        <resource type="velocity" name="header" location="templates/plugins/searchrequestviews/searchrequest-excel-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/searchrequestviews/searchrequest-excel-footer.vm" />
+        <resource type="velocity" name="descriptionTable" location="templates/plugins/searchrequestviews/searchrequest-description-header.vm" />
+        <order>80</order>
+    </search-request-view>
+
+    <!-- Charts -->
+    <search-request-view key="searchrequest-charts-view" i18n-name-key="admin.issue.views.plugin.chart.portlet.searchrequestview" name="Charts" class="com.atlassian.jira.issue.views.SearchRequestChartsView" state='enabled' fileExtension="html" contentType="text/html" excludeFromLimitFilter="true">
+        <resource type="velocity" name="permissionViolation" location="templates/plugins/searchrequestviews/searchrequest-permission-violation.vm"/>
+        <resource type="velocity" name="searchRequestDoesNotExist" location="templates/plugins/searchrequestviews/searchrequest-search-request-does-not-exist.vm"/>
+        <order>90</order>
+    </search-request-view>
+
+</atlassian-plugin>

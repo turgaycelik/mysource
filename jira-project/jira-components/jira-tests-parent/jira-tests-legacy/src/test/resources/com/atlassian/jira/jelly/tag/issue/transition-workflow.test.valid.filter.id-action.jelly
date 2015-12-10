@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log">
+        <jira:RunSearchRequest filterid="10241" var="issues" />
+        <core:forEach var="issue" items="${issues}">
+            <jira:TransitionWorkflow key="${issue.key}" resolution="Fixed" workflowAction="Resolve Issue"/>
+        </core:forEach>
+</JiraJelly>

@@ -1,0 +1,9 @@
+#disable_html_escaping()
+<tr>
+    <th>#text("issue.field.status"):</th>
+    <td class="has-icon">
+        #set ($status = ${issue.getStatusObject()})
+        #renderIcon(${status.iconUrlHtml} ${status.getNameTranslation($i18n)})
+        $textutils.htmlEncode(${status.getNameTranslation($i18n)}, false)
+    </td>
+</tr>

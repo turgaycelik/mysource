@@ -1,0 +1,41 @@
+<!-- timings used in unit tests -->
+<timings>
+    <testCases>
+        <testCase>
+            <name>LargeTest_01.testIt</name>
+            <runtimeMS>10000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>LargeTest_02.testIt</name>
+            <runtimeMS>10000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>LargeTest_03.testIt</name>
+            <runtimeMS>10000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>MediumTest_01.testIt</name>
+            <runtimeMS>5000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>MediumTest_02.testIt</name>
+            <runtimeMS>5000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>MediumTest_03.testIt</name>
+            <runtimeMS>5000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>SmallTest_01.testIt</name>
+            <runtimeMS>1000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>SmallTest_02.testIt</name>
+            <runtimeMS>1000</runtimeMS>
+        </testCase>
+        <testCase>
+            <name>SmallTest_03.testIt</name>
+            <runtimeMS>1000</runtimeMS>
+        </testCase>
+    </testCases>
+</timings>

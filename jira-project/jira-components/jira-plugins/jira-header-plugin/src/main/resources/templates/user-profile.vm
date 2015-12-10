@@ -1,0 +1,57 @@
+#disable_html_escaping()
+#* @vtlvariable name="avatarUrl" type="java.lang.String" *#
+#* @vtlvariable name="baseurl" type="java.lang.String" *#
+#* @vtlvariable name="displayableSections" type="java.util.List" *#
+#* @vtlvariable name="completeSectionKeyToDisplayableItems" type="java.util.Map<java.lang.String, java.util.List>" *#
+#* @vtlvariable name="user" type="com.atlassian.crowd.embedded.api.User" *#
+#* @vtlvariable name="helper" type="com.atlassian.jira.plugin.webfragment.model.JiraHelper" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="velocityhelper" type="com.atlassian.jira.util.JiraVelocityHelper" *#
+#* @vtlvariable name="atl_token" type="java.lang.String" *#
+<li id="user-options">
+    #if ($user)
+        #set ($nameWithHtml = $textutils.htmlEncode("#if($user.displayName)$user.displayName#else$user.name#end"))
+        <a id="header-details-user-fullname" class="aui-dropdown2-trigger" aria-haspopup="true" aria-owns="user-options-content" data-username="${textutils.htmlEncode($user.name)}" data-displayname="${textutils.htmlEncode($user.displayName)}" href="${baseurl}/secure/ViewProfile.jspa" title="$i18n.getText('user.profile')">
+            <span class="aui-avatar aui-avatar-small">
+                <span class="aui-avatar-inner">
+                    <img src="${avatarUrl}" alt="$i18n.getText('user.profile')"/>
+                </span>
+            </span>
+        </a>
+    #else
+        <a class="aui-nav-link login-link" href="$userNavLayout.getLoginLink()">$i18n.getText('common.concepts.login')</a>
+    #end
+    #if ($displayableSections && !$displayableSections.isEmpty())
+        <div id="user-options-content" class="aui-dropdown2 aui-style-default">
+            #foreach ($section in $displayableSections)
+                #set ($displayableItems = $completeSectionKeyToDisplayableItems.get($section.completeKey))
+                <div class="aui-dropdown2-section">
+                    #if ($section.label)
+                        <strong>$section.label.getDisplayableLabel($user, $helper)</strong>
+                    #end
+                    #if (!$displayableItems.empty)
+                        <ul id="$section.key" class="aui-list-truncate">
+                            #foreach ($item in $displayableItems)
+                                #if ($section.key == "set_my_jira_home")
+                                    #set ($sectionContextProvider = $section.getContextProvider())
+                                    #set ($sectionContextMap = $sectionContextProvider.getContextMap({"user": $user, "helper": $helper}))
+                                    #set ($currentMyJiraHome = $sectionContextMap.get("currentMyJiraHome"))
+                                    #set ($isSelected = $item.completeKey == $currentMyJiraHome)
+
+                                    #set ($targetUrl = "$baseurl/secure/UpdateMyJiraHome.jspa?target=$velocityhelper.urlencode($item.completeKey)&atl_token=${atl_token}")
+                                    <li>
+                                        <a #if ($item.link.id) id="$item.link.id" #end class="aui-dropdown2-radio interactive #if($isSelected)checked #end #if($item.styleClass) $item.styleClass #end" #if ($item.tooltip)title="$item.tooltip.getDisplayableLabel($user, $helper)"#end href="$targetUrl">$item.label.getDisplayableLabel($user, $helper)</a>
+                                    </li>
+                                #else
+                                    <li>
+                                        <a #if ($item.link.id) id="$item.link.id" #end #if ($item.styleClass) class="$item.styleClass" #end #if ($item.tooltip)title="$item.tooltip.getDisplayableLabel($user, $helper)"#end href="$item.link.getDisplayableUrl($user, $helper)">$item.label.getDisplayableLabel($user, $helper)</a>
+                                    </li>
+                                #end
+                            #end
+                        </ul>
+                    #end
+                </div>
+            #end
+        </div>
+    #end
+</li>

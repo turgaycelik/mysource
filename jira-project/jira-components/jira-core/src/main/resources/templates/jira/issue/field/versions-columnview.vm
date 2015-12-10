@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if ($versions && !$versions.empty)
+    #if (!$linkToBrowseFixFor || ($displayParams && (${displayParams.excel_view} || $displayParams.nolink)))
+        #foreach ($version in $versions)
+            $textutils.htmlEncode($version.name)#commaonly($versions)
+        #end
+    #else
+        #foreach ($version in $versions)
+            #set ($url = "${baseurl}/browse/$urlcodec.encode(${version.project.key})/fixforversion/${version.id}")
+            <a href="$textutils.htmlEncode($url)" class="tinylink">$textutils.htmlEncode($version.name)</a>#commaonly($versions)
+        #end
+    #end
+#else
+    &nbsp;
+#end

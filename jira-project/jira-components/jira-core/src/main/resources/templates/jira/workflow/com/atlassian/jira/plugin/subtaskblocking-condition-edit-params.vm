@@ -1,0 +1,48 @@
+#disable_html_escaping()
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.menu.issuesettings.statuses"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        <table cellpadding="2" cellspacing="2">
+        #foreach ($status in $statuses)
+            <tr>
+                <td><input type="checkbox" name="issue_statuses" value="$status.getString('id')" id="issue_status_$status.getId()"
+                #if (${selectedStatuses})
+                    #if (${selectedStatuses.contains($status.getString('id'))})
+                    checked="checked"
+                    #end
+                #end
+                ></td>
+                <td>
+                    <label for="issue_status_$status.getId()">
+                        #set ($simpleStatus = $status.getSimpleStatus())
+                        #set ($isIssueStatusSubtle = true)
+                        #parse("/static/util/issue/status.vm")
+                    </label>
+                </td>
+            </tr>
+        #end
+        </table>
+        <br><font size="1">$i18n.getText("admin.workflow.condition.subtaskblocking.input")</font>
+    </td>
+</tr>
+<script language="JavaScript">
+
+    function isSomethingChecked() {
+        checkboxes = document.forms["jiraform"].issue_statuses;
+        if (checkboxes) {
+            for(i=0; i<checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    return true;
+                }
+            }
+        }
+        alert('$i18n.getText("admin.workflow.condition.subtaskblocking.validation.failed")');
+        return false;
+    }
+    oldOnsubmit = document.forms["jiraform"].onsubmit
+    document.forms["jiraform"].onsubmit = function() {
+      return isSomethingChecked() && oldOnsubmit();
+    };
+</script>

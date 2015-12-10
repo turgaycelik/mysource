@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#if ($username)
+    #set ($quote = '"')
+    #if($user)
+        #set ($userHoverAttributes = "class=${quote}user-hover${quote} rel=${quote}${textutils.htmlEncode($username)}${quote}")
+        #set($author = "<a ${userHoverAttributes} id=${quote}$!{id}_${textutils.htmlEncode($username)}${quote} href=${quote}${baseurl}/secure/ViewProfile.jspa?name=${velocityhelper.urlencode($username)}${quote}#if($style && ($style != '')) style=${quote}${style}${quote}#end>$textutils.htmlEncode($fullname)</a>")
+    #else
+        #set($author = $textutils.htmlEncode($username))
+    #end
+#else
+    #set($author = $defaultFullName)
+#end
+${author}

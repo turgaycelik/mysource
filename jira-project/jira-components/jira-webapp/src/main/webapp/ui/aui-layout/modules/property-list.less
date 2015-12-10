@@ -1,0 +1,87 @@
+@import "../../imports/aui-colours";
+@import "../../imports/mixins/border-box";
+@import "../../imports/mixins/break-word";
+@import "../../imports/mixins/clearfix";
+
+@label-width: 150px;
+@label-right-buffer: 5px;
+@temp-color-item-label-foreground: @aui-color-mid;
+
+.property-list {
+    display: block;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+
+    > li {
+        margin: 1px 0 0 0; //changed for inline edit
+        padding: 0;
+        position: relative;
+    }
+
+    img {
+        vertical-align: text-bottom;
+    }
+    .item { // this is added to the li, but we'll use the class micro-pattern for targetting the styles for key-value pairs.
+        margin: 1px 0 0 0; //changed for inline edit
+        .name {
+            .border-box();
+            .break-word();
+            color: @temp-color-item-label-foreground;
+            display: inline-block;
+            font-weight: normal;
+            padding: 2px @label-right-buffer 2px 0;
+            padding-right: @label-right-buffer;
+            text-align: right;
+            width: @label-width;
+        }
+        .value {
+            .break-word();
+            display: inline-block;
+            max-width: 100%;
+            padding-bottom: 2px; // changed for inline edit
+            padding-left: 5px; // changed for inline edit
+            padding-top: 2px; // changed for inline edit
+            position: relative;
+            vertical-align: top;
+            .value {
+                padding: 0; // fix for custom field labels
+            }
+        }
+    }
+    .wrap {
+        .clearfix();
+        padding: 0 10px 0 (@label-width);
+        .name {
+            float: left;
+            margin-left: 0 - (@label-width);
+        }
+    }
+
+    &.two-cols {
+        .clearfix();
+
+        > .item {
+            .border-box();
+            clear: left;
+            float: left;
+            width: 50%;
+        }
+        > .item-right {
+            clear: right;
+            float: right;
+        }
+        > .item.full-width {
+              clear: both;
+              width: 100%;
+        }
+    }
+}
+
+.msie .property-list {
+    .wrap {
+        .value {
+            display: block;
+        }
+    }
+}

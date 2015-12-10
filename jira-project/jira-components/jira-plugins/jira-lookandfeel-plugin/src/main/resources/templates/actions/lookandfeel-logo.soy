@@ -1,0 +1,117 @@
+{namespace JIRA.Templates.LookandFeelLogo}
+
+
+/**
+ * @param uploadAction
+ * @param resetAction
+ * @param imageWithContext
+ * @param imageType
+ * @param formTitle
+ * @param? imageDescription
+ * @param? isNotDefault
+ * @param token
+ */
+{template .logoForm}
+    <div class="mod-header">
+        <h2>{$formTitle}</h2>
+    </div>
+    <div class="mod-content">
+        {call aui.form.form}
+            {param content}
+                {call aui.form.fieldGroup}
+                    {param content}
+                        <div class="jira-{$imageType}-preview-container">
+                            <img class="application-logo {$imageType}-preview" src="{$imageWithContext}" />
+                        </div>
+                        {if $isNotDefault == 'true'}
+                            <a href="{$resetAction}" id="{$imageType}-reset">{getText('admin.globalsettings.lookandfeel.edit.reset')}</a>
+                        {/if}
+                        {if $imageDescription}
+                            <div class="description">{$imageDescription|noAutoescape}</div>
+                        {/if}
+                    {/param}
+                    {param extraClasses: 'clearfix' /}
+                {/call}
+                {call aui.form.fileField}
+                    {param type: 'file' /}
+                    {param id: $imageType+'File' /}
+                    {param labelContent: getText('admin.globalsettings.lookandfeel.edit.look.and.feel.file') /}
+                {/call}
+                <div>
+                    <div class="or-seperator">
+                        <span>{getText('common.words.or')}</span>
+                    </div>
+                </div>
+                {call aui.form.textField}
+                    {param type: 'text' /}
+                    {param id: $imageType+'Url' /}
+                    {param labelContent: getText('admin.globalsettings.lookandfeel.edit.look.and.feel.url') /}
+                {/call}
+                {call aui.form.input}
+                    {param name: 'atl_token' /}
+                    {param type: 'hidden' /}
+                    {param value: $token /}
+                {/call}
+                {call aui.form.buttons }
+                    {param content}
+                        {call aui.form.submit}
+                            {param text: getText('admin.globalsettings.lookandfeel.edit.upload') + ' ' + $formTitle /}
+                            {param id: $imageType+'-upload' /}
+                            {param name: $imageType+'-upload' /}
+                            {param extraClasses: 'aui-button' /}
+                        {/call}
+                    {/param}
+                {/call}
+            {/param}
+            {param action: $uploadAction /}
+            {param enctype: 'multipart/form-data' /}
+            {param method: 'POST' /}
+            {param id: 'upload-' + $imageType + '-form' /}
+        {/call}
+    </div>
+{/template}
+
+/**
+ * @param action
+ * @param token
+ * @param isChecked
+ */
+{template .showSiteTitleForm}
+    <div class="mod-header">
+        <h2>{getText('jira.lookandfeel.sitetitle')}</h2>
+    </div>
+    <div class="mod-content">
+        {call aui.form.form}
+            {param content}
+                <fieldset class="group">
+                    {call aui.form.field}
+                        {param name: 'showSiteTitleOnLogo' /}
+                        {param id: 'show-site-title-on-logo' /}
+                        {param type: 'checkbox' /}
+                        {param isChecked: $isChecked /}
+                        {param labelContent: getText('jira.lookandfeel.sitetitle.toggle') /}
+                        {param descriptionText: getText('jira.lookandfeel.sitetitle.desc') /}
+                        {param value: 'true' /}
+                    {/call}
+                </fieldset>
+                {call aui.form.input}
+                    {param name: 'atl_token' /}
+                    {param type: 'hidden' /}
+                    {param value: $token /}
+                {/call}
+                {call aui.form.buttons }
+                    {param content}
+                        {call aui.form.submit}
+                            {param text: getText('common.forms.update') /}
+                            {param id: 'update-site-title' /}
+                            {param extraClasses: 'aui-button' /}
+                        {/call}
+                    {/param}
+                {/call}
+            {/param}
+            {param action: $action /}
+            {param enctype: 'multipart/form-data' /}
+            {param method: 'POST' /}
+        {/call}
+    </div>
+{/template}

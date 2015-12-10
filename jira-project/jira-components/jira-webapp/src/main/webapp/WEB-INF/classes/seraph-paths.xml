@@ -1,0 +1,6 @@
+<security-paths>
+    <path name="admin">
+		<url-pattern>/secure/admin/*</url-pattern>
+		<role-name>admin</role-name>
+	</path>
+</security-paths>

@@ -1,0 +1,41 @@
+<sitemesh>
+    <config-refresh seconds="3600"/>
+    <page-parsers>
+        <parser content-type="text/html" class="com.opensymphony.module.sitemesh.parser.PartialPageParser" />
+    </page-parsers>
+
+	<decorator-mappers>
+        <!-- Plugins are god, they can override anything -->
+        <mapper class="com.atlassian.jira.web.sitemesh.PluginDecoratorMapper">
+        </mapper>
+        <mapper class="com.opensymphony.module.sitemesh.mapper.ParameterDecoratorMapper">
+            <param name="decorator.parameter" value="decorator" />
+            <!--
+            <param name="parameter.name" value="printable" />
+            <param name="parameter.value" value="true" />
+            -->
+        </mapper>
+
+		<mapper class="com.opensymphony.module.sitemesh.mapper.PageDecoratorMapper">
+			<param name="property.1" value="decorator" />
+			<param name="property.2" value="meta.decorator" />
+		</mapper>
+
+		<mapper class="com.opensymphony.module.sitemesh.mapper.FrameSetDecoratorMapper">
+		</mapper>
+
+		<mapper class="com.opensymphony.module.sitemesh.mapper.PrintableDecoratorMapper">
+			<param name="decorator" value="printable" />
+			<param name="parameter.name" value="printable" />
+			<param name="parameter.value" value="true" />
+		</mapper>
+
+        <!-- This mapper causes extreme slowness using Resin.  Application.getResource() is quite slow.
+        As we don't use it - we can safely comment it out
+		<mapper class="com.opensymphony.module.sitemesh.mapper.FileDecoratorMapper" />-->
+
+		<mapper class="com.opensymphony.module.sitemesh.mapper.ConfigDecoratorMapper">
+			<param name="config" value="/WEB-INF/decorators.xml" />
+		</mapper>
+	</decorator-mappers>
+</sitemesh>

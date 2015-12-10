@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:CreateIssue project-key="ABC" assignee="-1" summary="Issue summary 1" reporter="logged-in-user" issueKeyVar="issuekey1" issueIdVar="issueid1"/>
+    <jira:CreateIssue project-key="DEF" assignee="-1" summary="Issue summary 2" reporter="logged-in-user" issueKeyVar="issuekey2" issueIdVar="issueid2"/>
+    <jira:LinkIssue key="${issuekey1}" linkKey="${issuekey2}" linkDesc="duplicates"/>
+    ${issueid1}:${issueid2}
+</JiraJelly>

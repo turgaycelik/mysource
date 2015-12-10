@@ -1,0 +1,32 @@
+{namespace JIRA.Reference.Soy}
+
+/**
+ * Render some hello world from Soy
+ * @param greeting
+*/
+{template .helloActionFromSoy}
+    <div>{$greeting}</div>
+{/template}
+
+
+
+/**
+ * Render some text that takes a specific set of data via an EL expression
+ * @param train
+ * @param destination
+ * @param numLines
+*/
+{template .data}
+
+<p>This template produced via custom view data</p>
+<p>
+This code was written on the <strong>{$train}</strong> train while I was on my way home to <strong>{$destination}</strong>
+ </p>
+<p>The variables injected into this template have been bolded</p>
+
+<p>Generating {$numLines} lines of data.</p>
+{for $i in range($numLines)}
+  <p>Line {$i + 1} of {$numLines}.</p>
+{/for}
+
+{/template}

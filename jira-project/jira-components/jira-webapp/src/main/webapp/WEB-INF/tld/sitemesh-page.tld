@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+
+<taglib>
+
+	<tlibversion>1.0</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>SiteMesh Page Tags</shortname>
+	<uri>sitemesh-page</uri>
+
+	<tag>
+		<name>applyDecorator</name>
+		<tagclass>com.atlassian.jira.web.tags.JiraApplyDecoratorTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>contentType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+    <attribute>
+      <name>encoding</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+	</tag>
+
+	<!-- Deprecated tag: use applyDecorator instead -->
+	<tag>
+		<name>apply-decorator</name>
+		<tagclass>com.opensymphony.module.sitemesh.taglib.page.ApplyDecoratorTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>page</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>id</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+    <attribute>
+			<name>contentType</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+    <attribute>
+      <name>encoding</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+	</tag>
+
+	<tag>
+		<name>param</name>
+		<tagclass>com.opensymphony.module.sitemesh.taglib.page.ParamTag</tagclass>
+		<bodycontent>JSP</bodycontent>
+		<attribute>
+			<name>name</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+    <tag>
+        <name>capHide</name>
+        <tagclass>com.atlassian.jira.web.tags.page.PageCapHideTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Remove nested content if required page capabilities are not supplied in request.
+            Do this only when all page caps from value attribute(separated with commas) are in request.
+        </info>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>capClass</name>
+        <tagclass>com.atlassian.jira.web.tags.page.PageCapClassTag</tagclass>
+        <bodycontent>empty</bodycontent>
+        <info>
+            Compile request page capabilities into CSS class list
+        </info>
+    </tag>
+
+    <tag>
+        <name>capAttr</name>
+        <tagclass>com.atlassian.jira.web.tags.page.PageCapAttrTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>
+            Parse requested page caps and put it into request attribute.
+        </info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+        </attribute>
+    </tag>
+
+
+</taglib>

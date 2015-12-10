@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if ($valueObject && $valueObject.get(null))
+    #searcherHeaderNoField ($customField.id "$customField.name (${i18n.getText('common.words.parent')})")
+        $cfValueEncoder.encodeForHtml("$!{valueObject.get(null)}")
+    #searcherFooter ($customField)
+#end
+
+
+#if ($valueObject && $valueObject.get('1'))
+    #searcherHeaderNoField ($customField.id "$customField.name (${i18n.getText('common.words.child')})")
+        $cfValueEncoder.encodeForHtml("$!{valueObject.get('1')}")
+    #searcherFooter ($customField)
+#end
+
+

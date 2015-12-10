@@ -1,0 +1,57 @@
+.mobile-only {
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    line-height: normal !important;
+    font-size: inherit !important;
+    mso-hide: all;
+}
+
+.desktop-only {
+    display: none !important;
+}
+
+/* iPhone 3GS fix for unwanted 20px right margin */
+body { min-width: 100% !important; padding: 0; margin: 0; }
+
+#header-pattern-container { padding: 6px 10px 12px 10px !important; }
+#email-content-container { padding: 0 !important; }
+.mobile-expand { border-radius: 0 !important; border-left: 0 !important; border-right: 0 !important; padding-left: 26px !important;}
+.mobile-resize-text { font-size: 16px !important; line-height: 22px !important; }
+#page-title-pattern-header { font-size: 22px !important; line-height: 32px !important; }
+#inline-user-pattern { display: block !important; }
+#inline-user-pattern-avatar { padding-top: 3px !important; }
+.contextual-area-pattern { border-bottom: 1px solid #ccc !important; padding: 15px 10px 0 10px !important;}
+.users-involved-pattern-avatar-container-cell { padding: 1px 5px 0 0 !important; }
+#contextual-excerpt-pattern, #users-involved-pattern { border: 0 !important; }
+
+/** Aui Typography upsized for mobile **/
+#content-excerpt-pattern-container, #contextual-excerpt-pattern-text-container { font-size: 16px !important; line-height: 22px !important; }
+#content-excerpt-pattern-container h1, #contextual-excerpt-pattern-text-container h1 { font-size: 26px !important; line-height: 32px !important; }
+#content-excerpt-pattern-container h2, #contextual-excerpt-pattern-text-container h2 { font-size: 22px !important; line-height: 32px !important; }
+#content-excerpt-pattern-container h3, #contextual-excerpt-pattern-text-container h3 { font-size: 18px !important; line-height: 27px !important; }
+#content-excerpt-pattern-container h4, #contextual-excerpt-pattern-text-container h4 { font-size: 16px !important; line-height: 22px !important; }
+#content-excerpt-pattern-container h5, #contextual-excerpt-pattern-text-container h5 { font-size: 14px !important; line-height: 20px !important; }
+#content-excerpt-pattern-container h6, #contextual-excerpt-pattern-text-container h6 { font-size: 14px !important; line-height: 20px !important; }
+/** Aui Typography end **/
+
+/* Show appropriate footer logo on mobile, display links vertically */
+#footer-pattern { padding: 15px 10px !important; }
+#footer-pattern-logo-desktop-container { padding: 0 !important; }
+#footer-pattern-logo-desktop { width: 0 !important; height: 0 !important; }
+#footer-pattern-logo-mobile {
+    padding-top: 10px !important;
+    width: 30px !important;
+    height: 27px !important;
+    display: inline !important;
+}
+.footer-pattern-links.mobile-resize-text,
+.footer-pattern-links.mobile-resize-text,
+#footer-pattern-text.mobile-resize-text {
+    font-size: 14px !important;
+    line-height: 22px !important;
+}
+.footer-link { display: block !important; }
+#footer-pattern-links-container table { display: inline-block !important; float: none !important; }
+#footer-pattern-links-container, #footer-pattern-text { text-align: center !important; }
+#footer-pattern-links { padding-bottom: 5px !important; }

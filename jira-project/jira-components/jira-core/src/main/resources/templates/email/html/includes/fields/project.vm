@@ -1,0 +1,5 @@
+#disable_html_escaping()
+<tr>
+    <th>#text("common.concepts.project"):</th>
+    <td><a href="${baseurl}/browse/$issue.getProject().getString("key")">$textutils.htmlEncode($issue.getProject().getString("name"))</a></td>
+</tr>

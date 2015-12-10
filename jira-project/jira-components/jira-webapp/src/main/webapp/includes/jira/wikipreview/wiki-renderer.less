@@ -1,0 +1,305 @@
+@import "../../../ui/imports/mixins/borders";
+@import "../../../ui/imports/mixins/border-radius";
+@import "../../../ui/imports/mixins/break-word";
+@import "../../../ui/imports/mixins/clearfix";
+@import "../../../ui/imports/aui-colours";
+
+table.confluenceTable {
+    border-collapse: collapse;
+    margin: 5px 0 5px 2px;
+    width: auto;
+}
+
+td.confluenceTd {
+    .bordered();
+    padding: 3px 4px 3px 4px;
+}
+
+th.confluenceTh {
+    .bordered();
+    background: @aui-color-faint;
+    padding: 3px 4px 3px 4px;
+    text-align: center;
+}
+
+/* override for aui form styles (stalker comment) */
+div.wiki-edit {
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+    p {
+        padding: 0;
+    }
+
+    h1 {
+        font-size: 2.4em;
+    }
+
+    h2 {
+        font-size: 1.8em;
+        border: none;
+    }
+
+    h3 {
+        font-size: 1.3em;
+    }
+
+    h4 {
+        font-size: 1.2em;
+    }
+
+    h5 {
+        font-size: 1em;
+    }
+
+    h6 {
+        font-size: .9em;
+    }
+
+    img, a img, fieldset {
+        border: 0;
+    }
+
+    ul {
+        margin: 0 0 1em 2em;
+    }
+
+    ol {
+        list-style-type: decimal;
+        list-style-position: outside;
+        padding-left: 2.5em;
+    }
+
+    blockquote {
+        border-left: 2px solid #3c78b5;
+        font-size: 1em;
+        font-family: inherit;
+        margin-left: 0;
+        padding-left: 1em;
+    }
+
+    small, .small {
+        font-size: .9em;
+    }
+
+    strong, b, .bolded {
+        font-weight: bold;
+    }
+}
+
+.wiki-styles() {
+    .preformatted,
+    .code {
+        .bordered();
+        background: @aui-color-faint;
+        font-size: 12px;
+        line-height: 1.33333333333333;
+        font-family: monospace;
+    }
+
+    .code-keyword {
+        color: #000091;
+    }
+
+    .code-object {
+        color: #910091;
+    }
+
+    .code-quote {
+        &, .code-keyword, .code-object {
+            color: #009100;
+        }
+    }
+
+    .code-comment {
+        &, .code-keyword, .code-object, .code-quote {
+            color: #808080;
+        }
+    }
+
+    .code-xml .code-keyword {
+        font-weight: bold;
+    }
+
+    .code-tag {
+        color: #000091;
+    }
+
+    .panel {
+        .bordered();
+        .border-radius(3px);
+        margin: 9px 0;
+    }
+
+    .panelHeader {
+        .border-bottom();
+        padding: 9px 12px;
+    }
+
+    .panelContent {
+        padding: 9px 12px;
+    }
+}
+
+/* All wiki formatted content needs a specific selector prefixed with .wiki-edit also so that it overrides aui form styles */
+.wiki-styles();
+div.wiki-edit {
+    .wiki-styles();
+}
+
+div.wiki-edit pre {
+    background: none;
+    border: none;
+    padding: 0;
+    width: 100%;
+}
+
+div.preformattedContent pre,
+div.codeContent pre {
+    max-height: 30em;
+    overflow: auto;
+    white-space: pre-wrap;
+    word-wrap: normal;
+}
+
+div.preformattedContent pre { // JRADEV-20300
+    /* We value the user's formatting in {noformat} blocks. We should never introduce our own newlines in to unformatted blocks of text. */
+    white-space: pre;
+    word-break: normal;
+
+    table & { // JRADEV-18069
+        /* ...unless they're in a table, in which case we'd prefer the content wrap than the user having to scroll to the bottom of the table to scroll it. */
+        .break-word();
+        white-space: pre-wrap;
+        // We need to pull in Confluence's floating-scrollbar stuff to remedy this.
+    }
+}
+
+/* miscellaneous styles */
+.linkerror {
+    background-color: #fcc;
+}
+
+.editPageInsertLinks, .editPageInsertLinks a {
+    font-weight: normal;
+    font-size: 9px;
+}
+
+.helpheading {
+    border-bottom: 1px solid;
+    font-weight: bold;
+    background-color: #ddd;
+    padding: 4px 4px 2px;
+    margin: 0px;
+}
+
+.helpcontent {
+    padding: 4px 4px 20px 4px;
+    background-color: #fff;
+}
+
+.gridHover {
+    background-color: #f9f9f9;
+}
+
+.navmenu {
+    .bordered();
+}
+
+/* side menu highlighting (e.g. space content screen) */
+.optionPadded {
+    padding: 2px;
+}
+
+.optionSelected {
+    .bordered(#ddd);
+    background-color: #ffffcc;
+    padding: 2px;
+    margin: -1px;
+}
+
+.optionSelected a {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+.menuheading {
+    border-bottom: 1px solid;
+    font-weight: bold;
+    background-color: #ddd;
+    padding: 4px 4px 2px 4px;
+}
+
+.menuitems {
+    padding: 4px 4px 20px 4px;
+    background-color: @aui-color-faint;
+}
+
+.pagetitle {
+    font-size: 22px;
+    font-weight: bold;
+    font-family: inherit;
+    color: #003366;
+}
+
+.wiki-edit-content.previewClass {
+    background-color: #E8F1FF;
+    padding: 0.3em 0.7em;
+}
+
+.fullscreen > .aui-icon.wiki-renderer-icon {
+    background-image: inlineimage("images/icons/ico_preview.png");
+}
+
+.selected > .aui-icon.wiki-renderer-icon {
+    background-image: inlineimage("images/icons/ico_preview_selected.png");
+}
+
+.loading > .aui-icon.wiki-renderer-icon {
+    background-image: inlineimageunoptim("images/icons/wait.gif");
+}
+
+form.aui .field-tools + .security-level,
+.field-tools + .security-level {
+    .border-left(#eee);
+    padding-left: 5px;
+    margin-left: 5px;
+}
+
+form.aui .field-tools,
+form.aui .security-level {
+    display: inline-block;
+}
+
+/* security dropdown */
+form.aui {
+    .security-level .select-menu,
+    .security-level .current-level {
+        display: inline-block;
+        vertical-align: text-bottom;
+    }
+    .security-level .drop .icon {
+        vertical-align: top;
+        margin: 0;
+        padding: 0 2px;
+        background-position: center;
+    }
+    .security-level .drop .drop-menu:after {
+        margin-top: 0;
+    }
+// to better align it with the permissions lock icon
+    .security-level .drop:hover .drop-menu:after {
+        border-top-color: @aui-color-text;
+    }
+
+    .aui-field-wikiedit {
+        .clearfix();
+
+        > .field-tools,
+        > .security-level {
+            float: left;
+            margin-top: 5px;
+        }
+    }
+}

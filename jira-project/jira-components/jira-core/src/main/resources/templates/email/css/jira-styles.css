@@ -1,0 +1,185 @@
+/* Text paragraph */
+
+.text-paragraph-pattern {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    mso-line-height-rule: exactly;
+    mso-text-raise: 2px;
+}
+
+.text-paragraph-pattern-container {
+    padding: 0 0 10px 0;
+}
+
+.jira #actions-pattern-container {
+    padding-left: 0;
+}
+
+#header-pattern-spacer {
+    font-size: 10px;
+    height: 10px;
+    line-height: 10px;
+}
+
+.keyvalue-table th {
+    color: #707070;
+    font: normal 14px/20px Arial, sans-serif;
+    text-align: left;
+    vertical-align: top;
+    padding: 2px 0;
+}
+
+.keyvalue-table td {
+    font: normal 14px/20px Arial, sans-serif;
+    padding: 2px 0 2px 5px;
+    vertical-align: top;
+}
+
+.email-content-rounded-top {
+    height: 10px;
+    line-height: 10px;
+    padding: 0 15px 0 16px;
+    mso-line-height-rule: exactly;
+}
+
+.share-email .email-content-rounded-top {
+    height: 7px;
+    line-height: 7px;
+}
+
+/* .page-title-pattern */
+
+.page-title-pattern-icon-image-container {
+    width:16px;
+    vertical-align: top;
+}
+
+.page-title-pattern-icon-image-container-cell {
+    width:16px;
+    padding: 8px 8px 0px 0px;
+    mso-text-raise: 6px;
+    mso-line-height-rule: exactly;
+}
+
+.page-title-pattern-header-container {
+    padding-right: 5px;
+    font-size: 20px;
+    line-height: 30px;
+    mso-line-height-rule: exactly;
+}
+
+.page-title-pattern-header {
+    font-family: Arial, sans-serif;
+    padding: 0;
+    font-size: 20px;
+    line-height: 30px;
+    mso-text-raise: 2px;
+    mso-line-height-rule: exactly;
+    vertical-align: middle;
+}
+
+.page-title-pattern-first-line {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    padding-top: 10px;
+}
+
+.page-title-pattern-first-line img {
+    vertical-align: text-bottom;
+}
+
+.page-title-pattern-first-line.no-top-margin {
+    padding-top: 0px;
+}
+
+/** issuetable **/
+
+#issuetable {
+    font: normal 14px/20px Arial, sans-serif;
+}
+
+#issuetable td, #issuetable .colHeaderLink{
+    text-align:left;
+    vertical-align:top;
+    padding:7px;
+}
+
+#issuetable .colHeaderLink {
+    font: bold 14px/20px Arial, sans-serif;
+}
+
+#issuetable td {
+    border-top: 1px solid #CCCCCC;
+}
+
+
+#issuetable td p {
+    margin: 0;
+}
+
+/* This is workaround for Lotus Notes in version above and equal 8;
+ * Lotus doesn't like inline css rules with vendor prefixes, so
+ * to have button background color set it's necessary to set it on the entire
+ * table, as a fallback, and not only on a particular td
+ */
+.aui-button-email-container {
+    background: #3068a2;
+    border-radius: 3px;
+}
+
+/* JRADEV-22184 - Comment should use citation pattern */
+
+#text-paragraph-pattern-top.comment-top-pattern {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+/* JRADEV-22183 - Move description of the issue under changelog */
+
+.wrapper-special-margin {
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+/* Problem with issuecommentedited.vm and top margin of top comment */
+.comment-top-special-margin .text-paragraph-pattern-container {
+    padding-top: 10px;
+}
+
+/* JRADEV-22201 - css rules for deleted worklog */
+
+.worklog-deleted-comment {
+    color: #707070;
+    text-decoration: line-through;
+}
+
+/* Changes to wiki-renderer */
+td.confluenceTd {
+    font: normal 14px/20px Arial, sans-serif;
+}
+th.confluenceTh {
+    font: bold 14px/20px Arial, sans-serif;
+}
+
+/* Issue details context (JDEV-23223) */
+
+.text-paragraph-pattern-issue-details-context {
+    padding-top: 15px;
+}
+.issue-details-heading {
+    margin-top: 0;
+}
+
+.issue-description-container {
+    padding-top: 5px;
+    padding-bottom: 10px;
+}
+
+.contact-admin-message {
+    padding-top: 10px;
+}
+
+td.has-icon img {
+    vertical-align: text-bottom;
+}

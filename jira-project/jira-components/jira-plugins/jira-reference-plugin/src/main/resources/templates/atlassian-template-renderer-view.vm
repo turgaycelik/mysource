@@ -1,0 +1,5 @@
+#disable_html_escaping()
+<div>
+    <h3>Reference Atlassian Template Renderer</h3>
+    <p>This is a page that has been rendered using the Atlassian Template Renderer</p>
+</div>

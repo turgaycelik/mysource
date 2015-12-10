@@ -1,0 +1,14 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-workratio")}
+#searcherEditHeader ("" ${i18n.getText(${searcherNameKey})})
+    #jiraHelpLink ('issue_filters' '#workratio')
+    <div class="workratio-min">
+        <label for="searcher-${minField}">${i18n.getText('navigator.filter.workratio.min')}</label>
+        <input class="text" id="searcher-${minField}" name="${minField}" type="text" value="$!fieldValuesHolder.getEscaped($minField)" />
+    </div>
+    <div class="workratio-max">
+        <label for="searcher-${maxField}">${i18n.getText('navigator.filter.workratio.max')}</label>
+        <input class="text" id="searcher-${maxField}" name="${maxField}" type="text" value="$!fieldValuesHolder.getEscaped($maxField)" />
+    </div>
+#searcherEditFooter ($minField ${i18n.getText('navigator.filter.workratio.desc')})
+$!{auiparams.clear()}

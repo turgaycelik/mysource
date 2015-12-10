@@ -1,0 +1,46 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/clearfix";
+@import "../imports/mixins/grid";
+
+.page-type-printable { background: #fff; }
+
+#printable-content {
+    padding: @gutter;
+}
+#previous-view {
+    .border-box();
+    .clearfix();
+    background-color: #fff;
+    border-bottom: 2px solid @aui-border-color;
+    padding: @gutter @grid;
+    width: 100%;
+    .aui-toolbar { background-color: transparent; float: left; }
+}
+
+@media print {
+    body { background-color: #fff !important; color: #000 !important; font-size: 11pt !important; }
+
+    #content > header { margin-bottom: 1em !important; }
+    .aui-page-panel, .aui-page-panel-inner, .aui-page-panel-main, .aui-page-panel-nav, .aui-page-panel-sidebar,
+    .aui-group, .aui-item, .tabs-pane { border: none !important; clear: both !important; display: block !important; padding-left: 0 !important; padding-right: 0 !important; width: 100% !important; }
+    .operations, .ops, .workflowactions, #header, #footer,
+    .command-bar, #addcomment, .stalker-placeholder, #stalker.detached:after, .tabs-menu, .tabs.vertical, .operations, #previous-view { display: none !important; }
+
+    a { text-decoration: none !important; }
+    #stalker .btm,
+    .stalker .ops-cont,
+    #stalker,
+    #stalker.detached { background-color: transparent !important; position: relative !important; top: 0 !important; }
+    .type-textfield, .flooded, .action-body { overflow: visible !important; }
+
+    .mod-header { background-color: transparent !important; background-image: none !important; border-bottom: 2px solid #000 !important; }
+
+    #printable-content { padding: 0 !important; }
+    .hideOnPrint { visibility: hidden !important; }
+
+    /* labels */
+    ul.labels { font-size: inherit !important; }
+    ul.labels li .lozenge { background-image: none !important; background-color: #f7f7f7 !important; border: 1px solid #666 !important; -moz-border-radius: 5px !important; -ms-border-radius: 5px !important; -o-border-radius: 5px !important; -webkit-border-radius: 5px !important; border-radius: 5px !important; color: #000 !important; }
+    ul.labels li .lozenge span { background-image: none !important; }
+}

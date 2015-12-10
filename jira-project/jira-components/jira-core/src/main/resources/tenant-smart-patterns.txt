@@ -1,0 +1,3 @@
+# This file is used as a blacklist - any plugin key listed here will be loaded in lateStartup
+# Ideally this list will be blank and all plugins can start before the tenant arrives, but
+# if a plugin is badly behaved and you can't fix it, then add it to this list.

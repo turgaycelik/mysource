@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($issue.components && $issue.components.size() >0)
+<tr>
+    <th>#text("common.concepts.components"):</th>
+    <td>
+        #foreach ($component in $issue.components)
+            $component.getString("name")#if ($velocityCount != $issue.components.size()), #end
+        #end
+    </td>
+</tr>
+#end

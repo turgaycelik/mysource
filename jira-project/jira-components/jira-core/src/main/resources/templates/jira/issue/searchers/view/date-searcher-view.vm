@@ -1,0 +1,44 @@
+#disable_html_escaping()
+#* @vtlvariable name="searcher" type="com.atlassian.jira.issue.search.searchers.impl.GenericDateSearcher" *#
+#* @vtlvariable name="fieldValuesHolder" type="com.atlassian.jira.issue.transport.FieldValuesHolder" *#
+
+#set( $_before_invalid_sel = "" )
+#set( $_after_invalid_sel = "" )
+
+##(before, previous) (after, next)
+#foreach ($error in $action.getErrors().entrySet())
+    #set ($_errorKey = $error.getKey().toString())
+    #if ($_errorKey.contains("before") || $_errorKey.contains("previous"))
+        #set( $_before_invalid_sel = "invalid_sel" )
+    #elseif ($_errorKey.contains("after") || $_errorKey.contains("next"))
+        #set( $_after_invalid_sel = "invalid_sel" )
+    #end
+#end
+
+#if ($fieldValuesHolder.get($afterField))
+    #searcherHeaderNoField ($afterField $afterFieldLabel)
+        <span class='fieldValue $_after_invalid_sel'>$!fieldValuesHolder.getEscaped($afterField)</span>
+    #searcherFooter ('')
+#end
+
+#if ($fieldValuesHolder.get($beforeField))
+    #searcherHeaderNoField ($beforeField $beforeFieldLabel)
+        <span class='fieldValue $_before_invalid_sel'>$!fieldValuesHolder.getEscaped($beforeField)</span>
+    #searcherFooter ('')
+#end
+
+#if ($message)
+    #searcherHeaderNoField ($previousField $periodLabel)
+
+    #if ($previous && $next)
+        #set($error_class = "$_before_invalid_sel $_after_invalid_sel")
+    #elseif ($previous)
+        #set($error_class = "$_before_invalid_sel")
+    #else
+        #set($error_class = "$_after_invalid_sel")
+    #end
+
+    <span class='fieldValue $error_class'>$message</span>
+
+    #searcherFooter ('')
+#end

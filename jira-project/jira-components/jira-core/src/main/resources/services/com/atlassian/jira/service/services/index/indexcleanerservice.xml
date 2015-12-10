@@ -1,0 +1,13 @@
+<indexcleanerservice id="indexcleanerservice">
+    <description>
+        admin.service.index.cleanerservice.desc
+    </description>
+    <properties>
+        <property>
+            <key>RETENTION_PERIOD</key>
+            <name>admin.service.index.cleanerservice.retention.period</name>
+            <description>admin.service.index.cleanerservice.retention.period.desc</description>
+            <type>string</type>
+        </property>
+    </properties>
+</indexcleanerservice>

@@ -1,0 +1,10 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-labelpicker")}
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+
+#labelsSelect($i18n $issue $field.id $labels)
+#displayFieldWarning($displayParameters, $i18n.getText('bulk.edit.warning.labels'))
+
+
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+$!{auiparams.clear()}

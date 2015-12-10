@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#if ($textOnly || $excelView)
+    #foreach($label in $labels)$textutils.htmlEncode($label.label)#commaonly($labels)#end
+#else
+    ## Tabular views don't allow editing of the lables via the edit labels link.
+    #labelsLozenges($i18n $remoteUser $labelUtil $issue.id $fieldId $field.idAsLong $labels false $noLink true $baseurl $prefix)
+#end

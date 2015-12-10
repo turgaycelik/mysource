@@ -1,0 +1,61 @@
+{namespace JIRA.Templates}
+
+/**
+* Warning message
+* @param msg
+* @param? closeable
+*/
+{template .warningMsg}
+<div class="aui-message warning {if $closeable}closeable{/if}">
+    <span class="aui-icon icon-warning"></span>
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Success message
+* @param msg
+* @param? closeable
+*/
+{template .successMsg}
+<div class="aui-message success {if $closeable}closeable{/if}">
+    <span class="aui-icon icon-success"></span>
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Error message
+* @param msg
+* @param? closeable
+*/
+{template .errorMsg}
+<div class="aui-message error {if $closeable}closeable{/if}">
+    <span class="aui-icon icon-error"></span>
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}
+
+/**
+* Info message
+* @param msg
+* @param? closeable
+*/
+{template .infoMsg}
+<div class="aui-message info {if $closeable}closeable{/if}">
+    <span class="aui-icon icon-info"></span>
+    {$msg|noAutoescape}
+    {if $closeable}
+        <span class="aui-icon icon-close"></span>
+    {/if}
+</div>
+{/template}

@@ -1,0 +1,60 @@
+{namespace JIRA.Templates.JiraDialog}
+
+/**
+ * Render the chrome of a JIRA dialog.
+ *
+ * @param bodyContent the HTML of the dialog's body.
+ * @param? footerContent the HTML of the dialog's footer, should it need one. It's preferable to use this rather than just pushing it in to content.
+ * @param? titleText the title of the dialog.
+ */
+{template .dialogChrome}
+    {call .abstractDialogChrome data="all" /}
+{/template}
+
+/**
+ * Render the chrome of a JIRA form dialog.
+ *
+ * @param formActionUrl the location the form will submit to.
+ * @param? formMethod GET, POST, etc., default is POST.
+ * @param bodyContent the HTML of the dialog's body.
+ * @param footerContent the HTML of the dialog's footer. Place all buttons, links and actions to submit/cancel the form here.
+ * @param? titleText the title of the dialog.
+ */
+{template .formDialogChrome}
+    {call .abstractDialogChrome data="all"/}
+{/template}
+
+/**
+ * Decision tree and subsequent markup for render the various JIRA dialog chromes.
+ * It makes the interesting pseudo-structure of our JIRA dialogs possible.
+ *
+ * @param? formActionUrl the location the form will submit to.
+ * @param? formMethod GET, POST, etc., default is POST.
+ * @param bodyContent the HTML of the dialog's body.
+ * @param? footerContent the HTML of the dialog's footer. Place all buttons, links and actions to submit/cancel the form here.
+ * @param? titleText the title of the dialog.
+ */
+{template .abstractDialogChrome private="true"}
+    {if $titleText}
+        <div class="jira-dialog-heading"><h2>{$titleText}</h2></div>
+    {/if}
+    <div class="jira-dialog-content">
+        {if $formActionUrl}
+            <form class="aui" action="{$formActionUrl}" method="{if $formMethod}{$formMethod}{else}POST{/if}">
+                <div class="form-body">
+                    {$bodyContent|noAutoescape}
+                </div>
+                <div class="form-footer buttons-container">
+                    {$footerContent|noAutoescape}
+                </div>
+            </form>
+        {else}
+            {$bodyContent|noAutoescape}
+            {if $footerContent}
+                <div class="buttons-container">
+                    {$footerContent|noAutoescape}
+                </div>
+            {/if}
+        {/if}
+    </div>
+{/template}

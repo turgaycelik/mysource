@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.quickcreate.title__" directory_title="__MSG_gadget.quickcreate.title__" description="__MSG_gadget.quickcreate.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:quickcreate-gadget", "quickcreate-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:quickcreate-gadget", "quickcreate-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="minimessage"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.quickcreate")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="true" />
+    <UserPref name="projectId" datatype="hidden" default_value="-1" />
+    <UserPref name="issueTypeId" datatype="hidden" default_value="-1" />
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+
+        #requireResource("com.atlassian.gadgets.publisher:gadgets.js")
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "always",
+                view: {
+                    onResizeReload: true,
+                    template: function (args)
+                    {
+                        var gadget = this;
+                        var projects;
+                        var project;
+                        var types;
+                        var type;
+
+                        gadget.getView().addClass("g-quick-create");
+                        gadget.getView().empty();
+
+                        var getProject = function(pid){
+                            var proj;
+                            AJS.$(projects).each(function(){
+                                if (this.id === parseInt(pid)){
+                                    proj = this;
+                                    return false;
+                                }
+                            });
+                            return proj;
+                        };
+
+
+                        if (args.schemeInfo.isEmpty){
+                            gadget.getFooter().hide();
+                            gadget.getView().text("__MSG_gadget.quickcreate.no.projects__");
+                            return;
+                        }
+
+                        var initializeProject = function(){
+                            projects = args.schemeInfo.projects;
+                            var projectId = gadget.getPref("projectId");
+
+                            if (projectId === "-1")
+                            {
+                                projectId = projects[0].id;
+                                gadget.getPrefs().set("projectId", projectId);
+                            }
+                            project = getProject(projectId);
+                        }();
+
+                        var getType = function(typeId){
+                            var type;
+                            AJS.$(types).each(function(){
+                                if (this.id === typeId){
+                                    type = this;
+                                    return false;
+                                }
+                            });
+                            return type;
+                        };
+
+                        var initializeIssueTypes = function(){
+                            types = args.schemeInfo.types;
+                            var issueTypeId = gadget.getPref("issueTypeId");
+                            if (issueTypeId === "-1")
+                            {
+                                issueTypeId = types[0].id;
+                                gadget.getPrefs().set("issueTypeId", issueTypeId);
+                            }
+                            type = getType(issueTypeId);
+                            AJS.$(types).each(function(){
+                                if (!/^http/.test(this.url)){
+                                    this.url = "__ATLASSIAN_BASE_URL__" + this.url;
+                                }
+                            });
+                        }();
+
+                        var createImage = function(src, title){
+                            return AJS.$("<img/>").attr({
+                                            src: src,
+                                            title: title,
+                                            alt: title,
+                                            height: 16,
+                                            width: 16
+                                        });
+                        };
+                        var createCtxName = function (name){
+                            return AJS.$("<span/>").addClass("ctx-name").text(name);
+                        };
+
+                        var getScheme = function(schemeId){
+                            var scheme;
+                            AJS.$(args.schemeInfo.schemes).each(function(){
+                               if (this.id === schemeId){
+                                   scheme = this;
+                                   return false;
+                               }
+                            });
+                            return scheme;
+                        };
+
+                        var setTypesForProject = function(project){
+                            var scheme = getScheme(project.scheme);
+                            AJS.$("#issuetype").empty();
+                            var isValidType = false;
+                            AJS.$(scheme.types).each(function(){
+                                var newType = getType(this + "");
+                                if (newType){
+                                    var option = AJS.$("<option/>").val(newType.id).text(newType.name).css("background-image", "url(" + newType.url + ")");
+                                    if (newType.id === type.id){
+                                        option.attr("selected", "selected");
+                                        isValidType = true;
+                                    }
+                                    AJS.$("#issuetype").append(option);
+                                }
+                            });
+                            if (!isValidType){
+                                var typeId = AJS.$("#issuetype option:first").attr("selected", "selected").attr("value");
+                                type = getType(typeId);
+                                gadget.getPrefs().set("issueTypeId", type.id);
+                                AJS.$("#type-display").empty().append(
+                                    createImage(type.url, type.name)
+                                ).append(
+                                    createCtxName(type.name)
+                                );
+                                AJS.$("#issuetype").css("height",AJS.$("#type-display").height());
+                                gadget.resize();
+                            }
+                        };
+
+                        var handleSubmit = function (event){
+                            event.preventDefault();
+                            var msgControl = new gadgets.MiniMessage();
+                            var summary = AJS.$("#summary").val();
+                            var pid = gadget.getPref("projectId");
+                            var issuetype = gadget.getPref("issueTypeId");
+                            var data = {
+                                    pid: pid,
+                                    issuetype: issuetype,
+                                    summary: summary
+                                };
+                            if (!gadget.locked) {
+                                gadget.locked = true;
+                                AJS.$.ajax({
+                                    type: "POST",
+                                    global:false,
+                                    headers: {
+                                        "Content-Type" : "application/json"
+                                    },
+                                    contentType: "application/json",
+                                    url:"/rest/gadget/1.0/quickcreate/createIssue",
+                                    data: JSON.stringify(data),
+                                    success: function(data)
+                                    {
+                                        // clear errors and summary
+                                        AJS.$(":input[name='summary']").parent().find(".error").text("");
+                                        AJS.$("#summary").val("").blur();
+
+                                        var key = data.key;
+                                        if (data.canBrowse){
+                                            key = "<a target='_parent' href='__ATLASSIAN_BASE_URL__/browse/" + key + "'>" + key + "</a>";
+                                        }
+
+                                        var msg = msgControl.createTimerMessage("<h3>&nbsp;__MSG_gadget.quickcreate.issue.created__: <strong>" + key + "</strong></h3>", 10, function(){
+                                            msgControl.dismissMessage(msg);
+                                             window.setTimeout(function(){
+                                                gadget.resize();
+                                            },0);
+                                        });
+                                         window.setTimeout(function(){
+                                            gadget.resize();
+                                        },0);
+
+                                    },
+                                    complete: function () {
+                                        gadget.locked = false;
+                                    },
+                                    error: function(response){
+                                        if (response.data && response.data.errors) {
+                                            AJS.$(response.data.errors).each(function(){
+                                                if (this.field === "summary"){
+                                                    AJS.$(":input[name='summary']")
+                                                    .parent()
+                                                    .find(".error")
+                                                    .text(this.error)
+                                                    .show();
+                                                    gadget.resize();
+                                                }
+                                            });
+                                        } else if (response.rc === 400) {
+                                            if (window.parent){
+                                                    window.parent.location="__ATLASSIAN_BASE_URL__/secure/CreateIssueDetails.jspa?" +  gadgets.io.encodeValues(data);
+                                            } else {
+                                                window.location="__ATLASSIAN_BASE_URL__/secure/CreateIssueDetails.jspa?" +  gadgets.io.encodeValues(data);
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        };
+
+                        var createView = function(){
+                            gadget.getFooter().hide();
+                            gadget.getView().append(
+                                AJS.$("<form/>").addClass("").addClass("aui").append(
+                                    AJS.$("<div/>").addClass("ctx-group").append(
+                                        AJS.$("<div/>").addClass("ctx-display").attr("id", "proj-display").append(
+                                            createImage("__ATLASSIAN_BASE_URL__/secure/projectavatar?size=small&pid=" + project.id + "&avatarId=" + project.img, project.name)
+                                        ).append(
+                                            createCtxName(project.name)
+                                        )   
+                                    ).append(
+                                        AJS.$("<select/>").addClass("imagebacked").attr({
+                                            id: "pid",
+                                            name: "pid",
+                                            title: "__MSG_gadget.quickcreate.select.project__"
+                                        }).change( function(){
+                                            var pid = AJS.$("#pid").val();
+                                            gadget.getPrefs().set("projectId", pid);
+                                            project = getProject(pid);
+                                            AJS.$("#proj-display").empty().append(
+                                                createImage("__ATLASSIAN_BASE_URL__/secure/projectavatar?size=small&pid=" + project.id + "&avatarId=" + project.img, project.name)
+                                            ).append(
+                                                createCtxName(project.name)
+                                            );
+                                            AJS.$("#pid").css("height",AJS.$("#proj-display").height());
+                                            setTypesForProject(project);
+                                            gadget.resize();
+                                        })
+                                    ).append(
+                                        AJS.$("<span/>").addClass("error")
+                                    )
+                                ).append(
+                                    AJS.$("<div/>").addClass("ctx-group").append(
+                                        AJS.$("<div/>").addClass("ctx-display").attr("id", "type-display").append(
+                                            createImage(type.url, type.name)
+                                        ).append(
+                                            createCtxName(type.name)
+                                        )
+                                    ).append(
+                                        AJS.$("<select/>").addClass("imagebacked").attr({
+                                            id: "issuetype",
+                                            name: "issuetype",
+                                            title: "__MSG_gadget.quickcreate.select.issue.type__"
+                                        }).change( function(){
+                                            var typeId = AJS.$("#issuetype").val();
+                                            gadget.getPrefs().set("issueTypeId", typeId);
+                                            type = getType(typeId);
+                                            AJS.$("#type-display").empty().append(
+                                                createImage(type.url, type.name)
+                                            ).append(
+                                                createCtxName(type.name)
+                                            );
+                                            AJS.$("#summary").focus();
+                                            AJS.$("#issuetype").css("height",AJS.$("#type-display").height());
+                                        })
+                                    ).append(
+                                        AJS.$("<span/>").addClass("error")
+                                    )
+                                ).append(
+                                    AJS.$("<div/>").append(
+                                        AJS.$("<label/>").attr({
+                                            "for": "summary"
+                                        }).addClass("overlabel").text("__MSG_gadget.quickcreate.summary__")
+                                    ).append(
+                                        AJS.$("<input/>").attr({
+                                            id: "summary",
+                                            name: "summary",
+                                            type: "text"
+                                        })
+                                    ).append(
+                                        AJS.$("<span/>").addClass("error")
+                                    )
+                                ).append(
+                                    AJS.$("<div/>").addClass("submit").append(
+                                        AJS.$("<input/>").addClass("button").addClass("save").attr({
+                                            title: "__MSG_gadget.quickcreate.click.to.create__",
+                                            type: "submit"
+                                        }).val("__MSG_gadget.quickcreate.create__").click(handleSubmit)
+                                    )
+                                )
+                            );
+                            AJS.$("#pid").css("height",AJS.$("#proj-display").height());
+                            AJS.$("#issuetype").css("height",AJS.$("#type-display").height());
+
+                            AJS.$(projects).each(function(){
+                                var option = AJS.$("<option/>").val(this.id).text(this.name).css("background-image", "url(__ATLASSIAN_BASE_URL__/secure/projectavatar?size=small&pid=" + this.id + "&avatarId=" + this.img + ")");
+                                if (this.id === project.id){
+                                    option.attr("selected", "selected");
+                                    setTypesForProject(project);
+                                }
+                                AJS.$("#pid").append(option);
+
+                            });
+
+                            var initOverLabels = function () {
+                                AJS.$("label.overlabel").each(function (){
+                                    var label = AJS.$(this).removeClass("overlabel").addClass("overlabel-apply").click(function(){
+                                        AJS.$("#" + AJS.$(this).attr("for")).focus();
+                                    });
+                                    var field = AJS.$("#" + label.attr("for")).focus(function(){
+                                        label.hide();
+                                    }).blur(function(){
+                                        if (AJS.$(this).val() === ""){
+                                            label.show();
+                                        }
+                                    });
+                                    if (field.val() !== ""){
+                                        label.hide();
+                                    }
+                                });
+                            }();
+
+                            gadget.resize();
+                        }();
+
+                    },
+                    args: [{
+                        key: "schemeInfo",
+                        ajaxOptions: function ()
+                        {
+                            return {
+                                url: "/rest/api/1.0/admin/issuetypeschemes",
+                                data:  {
+                                        random:  new Date().getTime()
+                                    }
+                            };
+                        }
+                    }]
+                }
+            });
+        </script>
+
+
+        ]]>
+    </Content>
+</Module>

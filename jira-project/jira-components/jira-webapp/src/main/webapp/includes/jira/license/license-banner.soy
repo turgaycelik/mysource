@@ -1,0 +1,57 @@
+{namespace JIRA.Templates.LicenseBanner}
+
+/**
+ * Renders a banner for license expiry.
+ *
+ * @param days to license expiry
+ * @param mac the my.atlassian.com URL.
+ * @param sales the sales e-mail address.
+ */
+{template .expiryBanner}
+    {let $renewTag}<a id="license-banner-my-link" target="_blank" href="{$mac}">{/let}
+    {let $end}</a>{/let}
+    {let $mailTag}<a id="license-banner-sales-link" href="mailto:{$sales}">{/let}
+
+    {call aui.message.warning}
+        {param content}
+            <div id="license-banner-content" data-days="{$days}" data-subscription="true">
+                {if $days < 0}
+                    {getText('admin.license.banner.expired', $renewTag, $end, $mailTag, $end)|noescape}
+                {elseif $days == 0}
+                    {getText('admin.license.banner.expire.today', $renewTag, $end, $mailTag, $end)|noescape}
+                {else}
+                    {getText('admin.license.banner.expire.soon', $days, $renewTag, $end, $mailTag, $end)|noescape}
+                {/if}
+            </div>
+        {/param}
+        {param isCloseable: $days > 7/}
+        {param id: 'license-banner'/}
+    {/call}
+{/template}
+
+/**
+ * Renders a banner for license maintenance expiry.
+ *
+ * @param mac the url of my.atlassian.com
+ * @param days to maintenance expiry.
+ */
+{template .maintenanceBanner}
+    {let $renewTag}<a id="license-banner-my-link" target="_blank" href="{$mac}">{/let}
+    {let $end}</a>{/let}
+    {let $later}<a href="#" id="license-banner-later">{/let}
+    {let $never}<a href="#" id="license-banner-never">{/let}
+    {call aui.message.warning}
+        {param content}
+            <div id="license-banner-content" data-days="{$days}" data-subscription="false">
+                {if $days < 0}
+                    {getText('admin.license.banner.maintenance.expired', $renewTag, $end, $later, $end, $never, $end)|noescape}
+                {elseif $days == 0}
+                    {getText('admin.license.banner.maintenance.expires.today', $renewTag, $end, $later, $end, $never, $end)|noescape}
+                {else}
+                    {getText('admin.license.banner.maintenance.expires.soon', $days, $renewTag, $end, $later, $end, $never, $end)|noescape}
+                {/if}
+            </div>
+        {/param}
+        {param id: 'license-banner'/}
+    {/call}
+{/template}

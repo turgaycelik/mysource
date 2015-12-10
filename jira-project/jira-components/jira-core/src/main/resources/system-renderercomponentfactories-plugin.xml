@@ -1,0 +1,230 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.wiki.renderercomponentfactories"
+                  i18n-name-key="admin.renderer.component.factories.plugin.name"
+                  name="Renderer Component Factories Plugin"
+                  >
+    <plugin-info>
+        <description key="admin.renderer.component.factories.plugin.desc">System Renderer Component Factories
+        </description>
+        <version>1.0</version>
+        <application-version min="3.12" max="3.12"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!-- Please note that the macro renderer must be the first component registered otherwise, macros wont
+         render. -->
+    <renderer-component-factory key="macrorenderer" name="Macro Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.macrorenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>10</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.MacroRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="blockrenderer" name="Block Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.blockrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.BlockRendererComponentFactory"
+                                >
+        <order>20</order>
+        <list-param name="blockrenderers">
+            <value>com.atlassian.renderer.v2.components.block.BlankLineBlockRenderer</value>
+            <value>com.atlassian.renderer.v2.components.block.HeadingBlockRenderer</value>
+            <value>com.atlassian.renderer.v2.components.block.BlockquoteBlockRenderer</value>
+            <value>com.atlassian.renderer.v2.components.block.HorizontalRuleBlockRenderer</value>
+            <value>com.atlassian.renderer.v2.components.list.ListBlockRenderer</value>
+            <!-- TODO IN JIRA 6.0 - restore the default TableBlockRenderer JRADEV-13037 -->
+            <!-- <value>com.atlassian.renderer.v2.components.table.TableBlockRenderer</value> -->
+            <value>com.atlassian.jira.issue.fields.renderer.wiki.embedded.JiraTableBlockRenderer</value>
+        </list-param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="linkrenderer" name="Link Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.linkrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>30</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.LinkRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="urlrenderer" name="Url Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.urlrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>40</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.UrlRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="camelcaselinkrenderer" name="Camel Case Link Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.camelcaselinkrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>50</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.CamelCaseLinkRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="jiraissuelinkrenderer" name="Jira Issue Link Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.jiraissuelinkrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>60</order>
+        <param name="rendererComponentClass">
+            com.atlassian.jira.issue.fields.renderer.wiki.links.JiraIssueLinkRendererComponent
+        </param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="backslashescaperenderer" name="Backslash Escape Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.backslashescaperenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>70</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.BackslashEscapeRendererComponent
+        </param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="htmlescaperenderer" name="Html Escape Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.htmlescaperenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>80</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.HtmlEscapeRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="htmlentityrenderer" name="Html Entity Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.htmlentityrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>85</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.HtmlEntityRendererComponent</param>
+    </renderer-component-factory>
+
+    <!-- TemplateParamRenderer was removed to fix JRA-9562 -->
+
+    <renderer-component-factory key="dashrenderer" name="Dash Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.dashrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>90</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.phrase.DashRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="emoticonrenderer" name="Emoticon Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.emoticonrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>100</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.phrase.EmoticonRendererComponent
+        </param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="embeddedimagerenderer" name="Embedded Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.embeddedrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>105</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.EmbeddedImageRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="embeddedobjectrenderer" name="Embedded Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.embeddedrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>110</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.EmbeddedObjectRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="embeddedunembeddablerenderer" name="Embedded Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.embeddedrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>115</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.EmbeddedUnembeddableRendererComponent</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="strongphraserenderer" name="Strong Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.strongphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>120</order>
+        <param name="phrase">strong</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="superscriptphraserenderer" name="Superscript Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.superscriptphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>130</order>
+        <param name="phrase">superscript</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="subscriptphraserenderer" name="Subscript Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.subscriptphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>140</order>
+        <param name="phrase">subscript</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="emphasisphraserenderer" name="Emphasis Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.emphasisphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>150</order>
+        <param name="phrase">emphasis</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="deletedphraserenderer" name="Deleted Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.deletedphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>160</order>
+        <param name="phrase">deleted</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="citationphraserenderer" name="Citation Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.citationphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>170</order>
+        <param name="phrase">citation</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="insertedphraserenderer" name="Inserted Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.insertedphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>180</order>
+        <param name="phrase">inserted</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="monospacedphraserenderer" name="Monospaced Phrase Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.monospacedphraserenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.PhraseRendererComponentFactory"
+                                >
+        <order>190</order>
+        <param name="phrase">monospaced</param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="forcenewlinerenderer" name="Force New Line Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.forcenewlinerenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>200</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.phrase.ForceNewLineRendererComponent
+        </param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="newlinerenderer" name="New Line Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.newlinerenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <order>210</order>
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.phrase.NewLineRendererComponent
+        </param>
+    </renderer-component-factory>
+
+    <renderer-component-factory key="tokenrenderer" name="Token Renderer Component Factory"
+                                i18n-name-key="admin.renderer.component.factories.plugin.tokenrenderer.name"
+                                class="com.atlassian.jira.plugin.renderercomponent.SimpleRendererComponentFactory"
+                                >
+        <param name="rendererComponentClass">com.atlassian.renderer.v2.components.TokenRendererComponent</param>
+    </renderer-component-factory>
+</atlassian-plugin>

@@ -1,0 +1,39 @@
+#disable_html_escaping()
+#*
+  -- textarea.vm
+  --
+  -- Required Parameters:
+  --   * label  - The description that will be used to identfy the control.
+  --   * name   - The name of the attribute to put and pull the result from.
+  --              Equates to the NAME parameter of the HTML INPUT tag.
+  --   * cols   - Width of the textarea.  Equates to the COLS parameter of
+  --              HTML tag TEXTAREA.
+  --   * rows   - Height of the textarea.  Equates to the ROWS parameter of
+  --              HTML tag TEXTAREA.
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  --   * disabled  - DISABLED parameter of the HTML TEXTAREA tag.
+  --   * readonly  - READONLY parameter of the HTML TEXTAREA tag.
+  --   * onkeyup   - onkeyup parameter of the HTML TEXTAREA tag.
+  --   * tabindex  - tabindex parameter of the HTML TEXTAREA tag.
+  --   * onchange  - onkeyup parameter of the HTML TEXTAREA tag.
+  --
+    *#
+#parse("/template/standard/controlheader.vm")
+
+<textarea name="$parameters.name"
+          cols="$parameters.cols"
+          rows="$parameters.rows"
+
+#if ($parameters.disabled == true) disabled="disabled"                #end
+#if ($parameters.readonly)         readonly="readonly"                #end
+#if ($parameters.onkeyup)          onkeyup="$parameters.onkeyup"      #end
+#if ($parameters.tabindex)         tabindex="$parameters.tabindex"    #end
+#if ($parameters.onchange)         onchange="$parameters.onchange"    #end
+#if ($parameters.id)               id="$parameters.id"                #end
+
+>$!parameters.nameValue</textarea>
+
+#parse("/template/standard/controlfooter.vm")

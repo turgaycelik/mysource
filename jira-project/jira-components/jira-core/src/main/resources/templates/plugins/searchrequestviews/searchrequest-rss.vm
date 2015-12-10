@@ -1,0 +1,13 @@
+#disable_html_escaping()
+###macro (esc $text)$xmlutils.escape($text)#end
+<item>
+    <title>[#xmlEscape($issue.key)] #xmlEscape($issue.summary)</title>
+    <link>#xmlEscape($requestContext.baseUrl)/browse/$issue.key</link>
+    <description>$issueDescription</description>
+    <pubDate>$dateTimes.formatRSS($issue.updated)</pubDate>
+    <guid>#xmlEscape($requestContext.baseUrl)/browse/$issue.key</guid>
+    #if ($issue.reporter)<author>#xmlEscape($issue.reporter.displayName)</author>
+    #else  <author>$i18n.getText('common.words.anonymous')</author>
+    #end
+</item>
+        

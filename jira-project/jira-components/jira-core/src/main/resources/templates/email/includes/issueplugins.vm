@@ -1,0 +1,9 @@
+#disable_html_escaping()
+## Strings used in e-mails to link to issues with a specific tab panel showing (e.g. comments, worklog, etc.)
+#set( $issue-tabpanel-plugin = 'com.atlassian.jira.plugin.system.issuetabpanels' )
+
+#set( $tabpanel-all = "${issue-tabpanel-plugin}:all-tabpanel" )
+#set( $tabpanel-history = "${issue-tabpanel-plugin}:changehistory-tabpanel" )
+#set( $tabpanel-worklog = "${issue-tabpanel-plugin}:worklog-tabpanel" )
+#set( $tabpanel-comment = "${issue-tabpanel-plugin}:comment-tabpanel" )
+#set( $tabpanel-cvs = "${issue-tabpanel-plugin}:cvs-tabpanel" )

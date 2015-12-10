@@ -1,0 +1,14 @@
+#disable_html_escaping()
+<!DOCTYPE html>
+<html>
+<head>
+	<title>$textutils.htmlEncode($title)</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    $webResourceManager.requireResource('jira.webresources:global-static')
+    $webResourceManager.getRequiredResources($urlModeAbsolute)
+</head>
+<body id="jira" class="aui-layout aui-theme-default page-type-printable">
+$linkToPrevious
+<div id="printable-content">
+$searchRequestHeader

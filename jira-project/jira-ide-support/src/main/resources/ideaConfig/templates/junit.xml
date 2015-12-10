@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateSet group="junit">
+  <template name="mockc" value="final MockControl mock$STRING$Control = MockControl.createControl($STRING$.class);&#10;final $STRING$ mock$STRING$ = ($STRING$) mock$STRING$Control.getMock();&#10;&#10;mock$STRING$Control.replay();" description="MockControl" toReformat="true" toShortenFQNames="true">
+    <variable name="STRING" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="false" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="mockcc" value="final MockControl mock$STRING$Control = MockClassControl.createControl($STRING$.class);&#10;final $STRING$ mock$STRING$ = ($STRING$) mock$STRING$Control.getMock();&#10;&#10;mock$STRING$Control.replay();" description="MockClassControl" toReformat="true" toShortenFQNames="true">
+    <variable name="STRING" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="false" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="setup" value="protected void setUp() throws Exception&#10;{&#10;    super.setUp();&#10;}&#10;&#10;protected void tearDown() throws Exception&#10;{&#10;    super.tearDown();&#10;}&#10;" description="JUnit setUp() and tearDown() methods" toReformat="true" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="false" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="test" value="public void test$NAME$() throws Exception&#10;{&#10;    $END$&#10;}" description="Create test method" toReformat="true" toShortenFQNames="true">
+    <variable name="NAME" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="false" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+</templateSet>
+

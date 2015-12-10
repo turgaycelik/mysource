@@ -1,0 +1,11 @@
+<osworkflow>
+    <persistence class="com.opensymphony.workflow.spi.ofbiz.OfbizWorkflowStore">
+        <property key="delegator" value="default"/>
+    </persistence>
+    <factory class="com.atlassian.jira.workflow.JiraWorkflowFactory">
+        <property key="resource" value="workflows.xml" />
+<!--  Uncomment if you want workflow XML to be reloaded in realtime
+        <property key="reload" value="true" />
+        -->
+    </factory>
+</osworkflow>

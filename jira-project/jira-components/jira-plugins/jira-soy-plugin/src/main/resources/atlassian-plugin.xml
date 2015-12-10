@@ -1,0 +1,12 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <web-resource key="soy-deps" name="Soy Template JavaScript Utilities"> <!-- TODO just for legacy -->
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+    </web-resource>
+</atlassian-plugin>

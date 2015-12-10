@@ -1,0 +1,13 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-labelpicker")}
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+
+## JRADEV-3270: if possible, just display the submitted labels back to the user. otherwise read them off the issue
+#if ($value)
+#labelsSelect($i18n $issue $customField.id $labelParser.buildFromString($value))
+#else
+#labelsSelect($i18n $issue $customField.id $labels)
+#end
+
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+${auiparams.clear()}

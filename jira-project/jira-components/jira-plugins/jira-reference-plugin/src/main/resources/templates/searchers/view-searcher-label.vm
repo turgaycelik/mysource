@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($value)
+#if ($urlPrefix && $urlPrefix != '')
+    <a href="${urlPrefix}">$textutils.htmlEncode($value.label)</a>
+#else
+    $textutils.htmlEncode($value.label)
+#end
+#end

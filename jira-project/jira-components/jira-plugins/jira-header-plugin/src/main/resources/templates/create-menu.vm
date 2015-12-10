@@ -1,0 +1,12 @@
+#disable_html_escaping()
+#* @vtlvariable name="createIssueLink" type="com.atlassian.jira.plugin.webfragment.model.SimpleLink" *#
+#if ($createIssueLink)##
+<li id="create-menu">##
+#if ($createIssueLink.styleClass)##
+#set ($styleClass = " $createIssueLink.styleClass")##
+#else##
+#set ($styleClass = "")##
+#end##
+<a #if ($createIssueLink.id) id="$createIssueLink.id" #end class="aui-button aui-button-primary aui-style create-issue$styleClass" #if ($createIssueLink.title) title="$createIssueLink.title"#end href="$createIssueLink.url" accesskey="$createIssueLink.accessKey">$createIssueLink.label</a>##
+</li>##
+#end

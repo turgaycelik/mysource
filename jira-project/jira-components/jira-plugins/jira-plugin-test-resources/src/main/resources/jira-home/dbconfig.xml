@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<jira-database-config>
+  <name>defaultDS</name>
+  <delegator-name>default</delegator-name>
+  <database-type>hsql</database-type>
+  <schema-name>PUBLIC</schema-name>
+  <jndi-datasource>
+      <jndi-name>java:comp/env/jdbc/JiraDS</jndi-name>
+  </jndi-datasource>
+</jira-database-config>

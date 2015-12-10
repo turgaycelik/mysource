@@ -1,0 +1,6 @@
+#disable_html_escaping()
+
+#if ($topTextContent)
+    #set ($textParagraph = $topTextContent)
+    #rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')" "text-paragraph-pattern-top" $textTopPatternClasses)
+#end

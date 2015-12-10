@@ -1,0 +1,69 @@
+{namespace JIRA.Templates.errors}
+
+/**
+ * @param? resourcesContent Additional resources which be included under <head> tag
+ * @param? extraClasses Extra classes to apply to BODY.
+ * @param windowTitle Text for the TITLE element.
+ * @param lowerContent Content inserted inside the lower part of the error screen
+ * @param? footerContent Footer content
+ */
+{template .errorPage}
+    {call .errorPageTemplate data="all"}
+        {param upperContent}
+
+        {/param}
+    {/call}
+{/template}
+
+/**
+ * @param? resourcesContent Additional resources which be included under <head> tag
+ * @param? extraClasses Extra classes to apply to BODY.
+ * @param windowTitle Text for the TITLE element.
+ * @param upperContent Content inserted inside the upper part of the error screen
+ * @param lowerContent Content inserted inside the lower part of the error screen
+ * @param? footerContent Footer content
+ */
+{template .errorPageTemplate}
+    {call aui.page.document}
+        {param windowTitle: $windowTitle /}
+        {param extraClasses: $extraClasses ? 'error-page ' + $extraClasses : 'error-page' /}
+        {param headContent}
+            <script type="text/javascript">
+                contextPath = "{contextPath()}";
+            </script>
+            {if $resourcesContent}
+                {$resourcesContent|noAutoescape}
+            {/if}
+            <meta name="decorator" content="none" />
+        {/param}
+        {param content}
+            <script type="text/javascript">
+                document.body.className += " js-enabled";
+            </script>
+            {call aui.page.page}
+                {param headerContent}
+                    {$upperContent|noAutoescape}
+                {/param}
+                {param contentContent}
+
+                    {call aui.page.pagePanel}
+                        {param content}
+                            {call aui.page.pagePanelContent}
+                                {param content}
+                                    {$lowerContent|noAutoescape}
+                                {/param}
+                                {param extraClasses: 'lowerContent' /}
+                            {/call}
+                         {/param}
+                    {/call}
+                {/param}
+                {param footerContent}
+                    <section class="footer-body">
+                        {$footerContent|noAutoescape}
+                        <div id="footer-logo"><a href="http://www.atlassian.com/">Atlassian</a></div>
+                    </section>
+                {/param}
+            {/call}
+        {/param}
+    {/call}
+{/template}

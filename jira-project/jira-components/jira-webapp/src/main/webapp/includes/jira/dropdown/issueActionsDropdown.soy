@@ -1,0 +1,63 @@
+{namespace JIRA.Templates.Dropdowns}
+
+/**
+ * @param viewIssue
+ * @param key
+ * @param id
+ * @param returnUrl
+ * @param atlToken
+ * @param? actions
+ * @param? operations
+ */
+{template .issueActionsDropdown}
+    <div class="aui-list">
+        <ul class="aui-list-section">
+            <li class="aui-list-item">
+                <a class="aui-list-item-link issue-link"
+                    data-issue-key="{$key}"
+                    href="{contextPath()}/browse/{$key}"
+                >
+                    {$viewIssue}
+                </a>
+            </li>
+        </ul>
+
+        {let $hasActions: $actions and length($actions) > 0 /}
+        {let $hasOperations: $operations and length($operations) > 0 /}
+
+        {if $hasActions}
+            <ul class="aui-list-section{if not $hasOperations} aui-last{/if}">
+            {foreach $action in $actions}
+                <li class="aui-list-item">
+                    <a
+                        href="{contextPath()}/secure/WorkflowUIDispatcher.jspa?id={$id}&amp;action={$action.action}&amp;atl_token={$atlToken}&amp;returnUrl={$returnUrl}"
+                        class="aui-list-item-link issueaction-workflow-transition"
+                        data-issueId="{$id}"
+                        data-issueKey="{$key}"
+                    >
+                        {$action.name}
+                    </a>
+                </li>
+            {/foreach}
+            </ul>
+        {/if}
+
+        {if $hasOperations}
+            <ul class="aui-list-section aui-last">
+            {foreach $op in $operations}
+                <li class="aui-list-item">
+                    <a
+                        href="{$op.url}&amp;returnUrl={$returnUrl}&amp;atl_token={$atlToken}"
+                        class="aui-list-item-link {$op.styleClass}"
+                        data-issueId="{$id}"
+                        data-issueKey="{$key}"
+                    >
+                        {$op.name}
+                    </a>
+                </li>
+            {/foreach}
+            </ul>
+        {/if}
+
+    </div>
+{/template}

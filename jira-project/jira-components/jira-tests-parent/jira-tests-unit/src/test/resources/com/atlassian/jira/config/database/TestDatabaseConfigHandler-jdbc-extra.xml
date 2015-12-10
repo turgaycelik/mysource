@@ -1,0 +1,16 @@
+<database>
+    <name>badass-tenant</name>
+    <database-type>mongodb</database-type>
+    <schema-name>does mongo have schemas?</schema-name>
+    <jdbc-datasource>
+        <url>jdbc:mongodb:localhost:1234</url>
+        <driver-class>org.hsqldb.jdbcDriver</driver-class>
+        <username>badass-user</username>
+        <password>badass-password</password>
+        <connection-properties>foo=bar;equation=x=y</connection-properties>
+        <pool-size>50000</pool-size>
+        <validation-query>SELECT 'X' FROM DUAL</validation-query>
+        <min-evictable-idle-time-millis>999</min-evictable-idle-time-millis>
+        <time-between-eviction-runs-millis>8888</time-between-eviction-runs-millis>
+    </jdbc-datasource>
+</database>

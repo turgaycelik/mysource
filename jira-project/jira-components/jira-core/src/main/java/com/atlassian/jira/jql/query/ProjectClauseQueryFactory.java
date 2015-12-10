@@ -1,0 +1,38 @@
+package com.atlassian.jira.jql.query;
+
+import com.atlassian.jira.issue.search.constants.SystemSearchConstants;
+import com.atlassian.jira.jql.operand.JqlOperandResolver;
+import com.atlassian.jira.jql.resolver.ProjectIndexInfoResolver;
+import com.atlassian.jira.jql.resolver.ProjectResolver;
+import com.atlassian.jira.project.Project;
+import com.atlassian.query.clause.TerminalClause;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * A query factory that can generate queries for clauses that represent {@link com.atlassian.jira.project.Project}'s.
+ *
+ * @since v4.0
+ */
+public class ProjectClauseQueryFactory implements ClauseQueryFactory
+{
+    private final ClauseQueryFactory delegateClauseQueryFactory;
+
+    ///CLOVER:OFF
+
+    public ProjectClauseQueryFactory(ProjectResolver projectResolver, JqlOperandResolver operandResolver)
+    {
+        final ProjectIndexInfoResolver projectIndexInfoResolver = new ProjectIndexInfoResolver(projectResolver);
+        List<OperatorSpecificQueryFactory> operatorFactories = new ArrayList<OperatorSpecificQueryFactory>();
+        operatorFactories.add(new EqualityQueryFactory<Project>(projectIndexInfoResolver));
+        delegateClauseQueryFactory = new GenericClauseQueryFactory(SystemSearchConstants.forProject(), operatorFactories, operandResolver);
+    }
+
+    public QueryFactoryResult getQuery(final QueryCreationContext queryCreationContext, final TerminalClause terminalClause)
+    {
+        return delegateClauseQueryFactory.getQuery(queryCreationContext, terminalClause);
+    }
+
+    ///CLOVER:ON
+}

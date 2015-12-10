@@ -1,0 +1,15 @@
+#enable_html_escaping()
+<div class="subtask-prog-wrap">
+    <span>${i18n.getText("viewissue.subtasks.progress")}</span>
+    <table id="subtasks_resolution_percentage" cellspacing="0" cellpadding="0" border="0">
+        <tr>
+            #foreach ($row in $subTaskProgress.getRows())
+                #if ($subTaskProgress.getPercentage($row) != 0)
+                <td style="width:${subTaskProgress.getPercentage($row)}%; background-color:${row.getColor()}" >
+                    <img src="${baseurl}/images/border/spacer.gif" style="height:10px; width:100%; border-width:0" class="hideOnPrint" title="${row.description}" alt="${row.description}" >
+                </td>
+                #end
+            #end
+        </tr>
+    </table>
+</div>

@@ -1,0 +1,23 @@
+#disable_html_escaping()
+#if ($value)
+    #set ($selectedValues = $value)
+#end
+$!{auiparams.put("controlHeaderType", "radio")}
+$!{auiparams.put("fieldsetClass", "group aui-field-multiradio")}
+$!{auiparams.put("noLabel", "true")}
+#AUIformFieldsetHeader ($customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    #set ($checked = "")
+    #searcherEditHeader ("" $customField.name)
+        #if (!$selectedValues || $selectedValues.empty || $selectedValues.contains("-1")) #set ($checked = ' checked="checked"') #end
+        <input ${checked} id="searcher-${customField.id}_none" name="$customField.id" type="radio" value="-1" />
+        <label for="searcher-${customField.id}_none">$i18n.getText("common.filters.any")</label>
+    #searcherEditFooter ("" "")
+    #foreach ($option in $configs.options)
+        #set ($checked = "")
+        #searcherEditHeader ("" $customField.name)
+            #if ($selectedValues && $selectedValues.contains($option.optionId.toString())) #set ($checked = ' checked="checked"') #end
+            <input ${checked} id="searcher-${customField.id}_$velocityCount" name="$customField.id" type="radio" value="$option.optionId" />
+            <label for="searcher-${customField.id}_$velocityCount">$cfValueEncoder.encodeForHtml($option.value)</label>
+        #searcherEditFooter ("" "")
+    #end
+#AUIformFieldsetFooter ($action $customField.id $customField.descriptionProperty.viewHtml $displayParameters $auiparams)

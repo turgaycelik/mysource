@@ -1,0 +1,22 @@
+#disable_html_escaping()
+
+#parse("templates/email/html/includes/header.vm")
+
+#titleHeader($i18n.getText("template.user.signup.header"))
+
+#rowWrapperNormalBegin()
+    #set ($textKey = "template.${product}.user.signup.heading")
+    #textParagraph("<br> $i18n.getText($textKey) <br> <a href='$baseurl'>$baseurl</a>")
+#rowWrapperNormalEnd()
+
+#rowWrapperNormalBegin()
+    #set ($linkUrl = "${baseurl}/secure/ForgotLoginDetails.jspa?username=$velocityhelper.urlencode($user.name)")
+    #textParagraph("$i18n.getText('template.user.retrievepassword2') <br> <a href='$linkUrl'>$linkUrl</a>")
+#rowWrapperNormalEnd()
+
+#rowWrapperNormalBegin()
+    #textParagraph("$i18n.getText('template.user.details.accountdetails')")
+    #parse("templates/email/html/includes/userdetails.vm")
+#rowWrapperNormalEnd()
+
+#parse("templates/email/html/includes/footer.vm")

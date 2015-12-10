@@ -1,0 +1,5 @@
+#disable_html_escaping()
+<tr>
+    <th>#text("common.concepts.key"):</th>
+    <td><a href="${baseurl}/browse/${issue.getKey()}">$issue.getKey()</a></td>
+</tr>

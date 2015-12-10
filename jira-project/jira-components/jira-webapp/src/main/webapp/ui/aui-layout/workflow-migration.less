@@ -1,0 +1,43 @@
+@import "../imports/aui-colours";
+
+#workflow-mapping-table {
+    border-bottom: 1px solid @aui-border-color;
+
+    tr {
+        border: none;
+    }
+
+    tbody tr:last-child td {
+        padding-bottom: 27px; // = AUI table's 7px padding-bottom + 20px for spacing.
+    }
+
+    img {
+        vertical-align: text-bottom;
+    }
+
+    .workflow-mapping-arrow {
+        width: 1em;
+        text-align: center;
+    }
+
+    .workflow-mapping-issue-type-row {
+        border-top: 1px solid @aui-border-color;
+        border-bottom: 1px solid @aui-border-color;
+        background-color: @aui-color-highlight-primary;
+        color: @aui-color-mid;
+    }
+
+    .workflow-mapping-current-status {
+        text-align: right;
+    }
+
+    .workflow-mapping-issue-type {
+        width: 20%;
+    }
+
+    .aui-lozenge.status-issue-count {
+        background-color: #666;
+        border-color: #666;
+        color: #fff;
+    }
+}

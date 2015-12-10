@@ -1,0 +1,29 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-componentspicker $!fieldLayoutItem.rendererType")}
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($components && !$components.empty)
+    #if ($!isFrotherControl)<div class="ajs-multi-select-placeholder textarea long-field"></div>#end
+    #if (!$fieldLayoutItem.required)
+        #set ( $componentHeaderSize = 1)
+    #end
+    <select class="select #if ($!isFrotherControl)hidden#end" id="$field.id" multiple="multiple" name="$field.id"
+            size="#minSelectSize($components $componentHeaderSize 5)"
+            data-remove-null-options="true" data-submit-input-val="true" data-input-text="$textutils.htmlEncode($!frotherInputText)" data-create-permission="$!{createPermission}">
+        #if (!$fieldLayoutItem.required)
+            <option#if ($currentComponents && $unknownComponentId && $currentComponents.contains($unknownComponentId)) selected="selected"#end value="-1">
+                $i18n.getText('common.words.unknown')
+            </option>
+        #end
+        #foreach ($component in $components)
+            <option#if ($currentComponents && $component && $currentComponents.contains($component.getLong('id'))) selected="selected"#end title="$textutils.htmlEncode($component.getString("name")) #if($component.getString("description")) - $textutils.htmlEncode($component.getString("description"))#end" value="$!component.getLong('id')">
+                $textutils.htmlEncode($component.getString('name'))
+            </option>
+        #end
+    </select>
+    #if ($!isFrotherControl)<div class="description">${i18n.getText('generic.picker.static.desc')}</div>#end
+    #displayFieldWarning($displayParameters, $i18n.getText('bulk.edit.warning.component'))
+#else
+    <span class="field-value">$i18n.getText('common.words.none')</span>
+#end
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+$!{auiparams.clear()}

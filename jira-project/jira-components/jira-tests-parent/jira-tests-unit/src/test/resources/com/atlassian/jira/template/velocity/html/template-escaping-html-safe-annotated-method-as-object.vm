@@ -1,0 +1,9 @@
+#enable_html_escaping()
+<html>
+<head>
+    <title>Parameterized HTML Template</title>
+</head>
+<body>
+<p>The value of the &quot;content&quot; parameter is: $content.annotationSafeMethodAsObject()</p>
+</body>
+</html>

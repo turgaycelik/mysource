@@ -1,0 +1,22 @@
+<debugservice id="debugservice">
+    <description>
+        admin.service.debug.desc
+    </description>
+    <properties>
+        <property>
+            <key>timerunning</key>
+            <name>admin.service.debug.timerunning</name>
+            <type>long</type>
+        </property>
+        <property>
+            <key>debug param one</key>
+            <name>admin.service.debug.param.one</name>
+            <type>string</type>
+        </property>
+        <property>
+            <key>debug param two</key>
+            <name>admin.service.debug.param.two</name>
+            <type>string</type>
+        </property>
+    </properties>
+</debugservice>

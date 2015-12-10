@@ -1,0 +1,77 @@
+@import "webstatic:/ui/global.less";
+
+#confluence-page-search-dialog .aui-group
+{
+    min-height: 450px;
+    overflow: auto;
+    display: block;
+    padding: 10px;
+}
+
+#confluence-page-search-dialog fieldset
+{
+    padding-left: 6px;
+    padding-bottom: 0;
+}
+
+#confluence-page-search-form fieldset label
+{
+    margin-right: 20px;
+}
+
+#confluence-page-search-dialog .issue-link-oauth-toggle
+{
+    border-top: 1px solid @aui-border-color;
+    padding-top: 5px;
+    margin-top: 10px;
+    padding-bottom: 16px;
+}
+
+#confluence-page-search-dialog #search-results-table
+{
+    height: 345px;
+    overflow-x: hidden;
+    overflow-y:  hidden;
+    table-layout: fixed;
+}
+
+#confluence-page-search-dialog #search-results-table th
+{
+    color: #666;
+}
+
+#confluence-page-search-dialog #search-results-table .excerpt, #confluence-page-search-dialog #search-results-table .title
+{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#confluence-page-search-dialog #search-results-table .excerpt
+{
+    max-width: 550px;
+}
+
+#confluence-page-search-dialog #search-results-table .title
+{
+    padding-right: 20px;
+    min-width: 180px;
+    max-width: 180px;
+    color: @jira-color-link;
+}
+
+#confluence-page-search-dialog #search-results-table tbody tr:hover
+{
+    background-color: #F0F0F0;
+    cursor: pointer;
+}
+
+#confluence-page-search-dialog #search-results-table tbody td
+{
+    padding-left: 6px;
+}
+
+#confluence-page-search-dialog #search-results-table .aui-message
+{
+    margin-top: 10px;
+}

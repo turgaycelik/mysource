@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($creator && $creator.displayName)
+    $textutils.htmlEncode($creator.displayName)
+#else
+    $i18n.getText('common.words.anonymous')
+#end

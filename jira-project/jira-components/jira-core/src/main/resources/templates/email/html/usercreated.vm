@@ -1,0 +1,41 @@
+#disable_html_escaping()
+
+#set ($setpasswordUrl =  "${baseurl}/secure/ResetPassword!default.jspa?os_username=${velocityhelper.urlencode($user.name)}&token=${params.get('password.token')}")
+#set ($forgotpasswordUrl = "${baseurl}/secure/ForgotLoginDetails.jspa?username=${velocityhelper.urlencode($user.name)}")
+#set ($forgotpasswordLink = "<a href='${forgotpasswordUrl}'>")
+
+#set ($headerTitleKey = "${product}.email.user.created.createdaccount")
+#set ($initiatingUserLink = "#authorlinkname($initiatingUser.name $linkstyle)")
+#set ($headerTitle = "${i18n.getText($headerTitleKey, $initiatingUserLink, '<strong>', '</strong>')}")
+#set ($actionerUser = $initiatingUser)
+#parse("templates/email/html/includes/header.vm")
+
+#set ($pageTitle = "<a href='${baseurl}'>${textutils.htmlEncode($applicationName)}</a>")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/page-title.vm')")
+
+#set ($textParagraphKey = "template.${product}.user.created.intro")
+#set ($textParagraph = "${i18n.getText($textParagraphKey)}")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+
+#rowWrapperNormal("#parse('templates/email/html/includes/userdetails.vm')")
+
+#set ($textParagraphKey = "template.${product}.user.created.setyourpassword")
+#set ($textParagraph = "${i18n.getText($textParagraphKey)}")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+
+#set ($actionButtonUrl = $setpasswordUrl)
+#set ($actionButtonText = "${i18n.getText('template.user.created.set.password.button')}")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/button-action.vm')")
+
+## TODO JRADEV-12245 - Make OnDemand's emails the same as JIRA's.
+#if($product != "ondemand")
+    #set ($textParagraphKey = "template.${product}.user.created.setyourpassword")
+    #set ($textParagraph = "${i18n.getText('jira.email.user.created.lastshowlong', '<strong>', ${params.get('password.hours')}, '</strong>')}")
+    #rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+#end
+
+#set ($textParagraphKey = "template.${product}.user.created.intro")
+#set ($textParagraph = "${i18n.getText('jira.email.user.created.requestnewpassword', '<br>', $forgotpasswordLink, $forgotpasswordUrl, '</a>')}")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+
+#parse("templates/email/html/includes/footer.vm")

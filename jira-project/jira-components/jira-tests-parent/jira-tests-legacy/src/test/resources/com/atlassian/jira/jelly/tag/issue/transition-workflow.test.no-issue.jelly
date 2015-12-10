@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:TransitionWorkflow key="ABC-1" workflowAction="1"/>
+</JiraJelly>

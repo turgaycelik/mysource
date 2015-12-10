@@ -1,0 +1,12 @@
+#disable_html_escaping()
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.workflow.condition.groupselector"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        #set ($grps = ${groupcfs})
+
+        #selectMap ("groupcf" ${grps})
+        <br><font size="1">$i18n.getText("admin.workflow.condition.isuseringroupcf.input.group.to.check")</font>
+    </td>
+</tr>

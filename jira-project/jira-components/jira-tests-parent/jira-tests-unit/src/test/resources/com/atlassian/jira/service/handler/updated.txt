@@ -1,0 +1,45 @@
+Update of /cvsroot/atlassian/confluence/confluence/src/java/com/atlassian/confluence/pages
+In directory CPE-144-132-174-210:/tmp/cvs-serv15968/confluence/src/java/com/atlassian/confluence/pages
+
+Modified Files:
+	Page.java
+Log Message:
+no message
+
+Index: Page.java
+===================================================================
+RCS file: /cvsroot/atlassian/confluence/confluence/src/java/com/atlassian/confluence/pages/Page.java,v
+retrieving revision 1.8
+retrieving revision 1.9
+diff -C2 -d -r1.8 -r1.9
+*** Page.java	18 May 2003 08:20:30 -0000	1.8
+--- Page.java	19 May 2003 07:05:13 -0000	1.9
+***************
+*** 27,31 ****
+
+  	/**
+! 	* @hibernate.property column="TITLE" not-null="true" unique="true"
+  	*/
+  	public String getTitle()
+--- 27,31 ----
+
+  	/**
+! 	* @hibernate.property column="TITLE" not-null="true" unique="true" length="255"
+  	*/
+  	public String getTitle()
+***************
+*** 54,58 ****
+
+  	/**
+! 	* @hibernate.property column="CONTENT"
+  	*/
+  	public String getContent()
+--- 54,58 ----
+
+  	/**
+! 	* @hibernate.property column="CONTENT" type="java.sql.Clob"
+  	*/
+  	public String getContent()
+
+
+

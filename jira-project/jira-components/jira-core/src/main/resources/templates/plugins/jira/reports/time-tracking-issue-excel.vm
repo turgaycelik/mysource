@@ -1,0 +1,74 @@
+#disable_html_escaping()
+#set ($printAggregates = (!$issue.isSubTask() || $issue.isOrphan()))
+<tr valign="top">
+    <td>
+        #if ($issue.isSubTask() && !$issue.isOrphan())
+            -&gt;
+        #end
+        $textutils.htmlEncode($issue.getIssueType().getNameTranslation())</td>
+    <td><a href="${req.contextPath}/browse/$issue.getKey()">$issue.getKey()</a></td>
+    <td>$textutils.htmlEncode($issue.getStatus().getNameTranslation())</td>
+    <td>$textutils.htmlEncode($issue.getPriority().getNameTranslation())</td>
+    <td>
+        #if ($issue.isSubTask())
+            #if ($issue.isOrphan())
+                #set ($parentIssue = $issue.getParent())
+                #if ($permissionCheck && $permissionCheck.isIssueVisible($parentIssue) == true)
+                    <a href="${req.contextPath}/browse/$parentIssue.getKey()">$parentIssue.getKey()</a>
+                #else
+                    $parentIssue.getKey()
+                #end
+            #end
+            -&gt;
+        #end
+        $textutils.htmlEncode($issue.getSummary())
+    </td>
+    <td>$issue.getOriginalEstimate()</td>
+    #if ($subtasksEnabled)
+        <td>
+            #if ($printAggregates)
+                $issue.getAggregateOriginalEstimate()
+            #end
+        </td>
+    #end
+    <td>$issue.getRemainingEstimate()</td>
+    #if ($subtasksEnabled)
+        <td>
+            #if ($printAggregates)
+                $issue.getAggregateRemainingEstimate()
+            #end
+        </td>
+    #end
+    <td>$issue.getTimeSpent()</td>
+    #if ($subtasksEnabled)
+        <td>
+            #if ($printAggregates)
+                $issue.getAggregateTimeSpent()
+            #end
+        </td>
+    #end
+    <td>
+        #if ($issue.isTimeTracked() && $issue.hasOriginalEstimate())
+            $issue.getAccuracy()
+        #end
+    </td>
+    #if ($subtasksEnabled)
+        <td>
+            #if ($printAggregates && $issue.hasAggregateOriginalEstimate())
+                $issue.getAggregateAccuracy()
+            #end
+        </td>
+    #end
+    <td>
+        #if ($issue.isTimeTracked() && $issue.hasOriginalEstimate())
+            $issue.getAccuracyPercentage()
+        #end
+    </td>
+    #if ($subtasksEnabled)
+        <td>
+            #if ($issue.isTimeTracked())
+                $issue.getAggregateAccuracyPercentage()
+            #end
+        </td>
+    #end
+</tr>

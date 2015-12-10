@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <ModulePrefs title="__MSG_gadget.admin.title__" description="__MSG_gadget.admin.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:admin-gadget", "admin-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:admin-gadget", "admin-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Administration
+            </Param>
+        </Optional>
+        <Require feature="dynamic-height"/>
+        <Require feature="views"/>
+        <Require feature="settitle"/>
+        <Optional feature="atlassian.util"/>
+        <Optional feature='auth-refresh'/>
+        <Require feature="oauthpopup"/>
+        #oauth
+        #supportedLocales("gadget.common,gadget.admin,common.words.or,admin.globalpermissions.user.limit.warning,admin.systeminfo.environment.warnings")
+    </ModulePrefs>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #requireResource("com.atlassian.jira.gadgets:g-admin")
+        #includeResources()
+
+        <style>
+            .aui-message:before {
+                display: none;
+            }
+            .aui-message {
+                padding-left: 10px;
+            }
+        </style>
+        <script type="text/javascript">
+            (function () {
+                gadgets.window.setTitle("__MSG_gadget.admin.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    view: {
+                        enableReload: false,
+                        onResizeReload: false,
+                        template: function (args) {
+                            var gadget = this;
+                            args.baseUrl = "__ATLASSIAN_BASE_URL__";
+                            gadget.getView().addClass("g-admin").html(JIRA.Templates.Gadgets.admin(args));
+
+                            AJS.$("#greenHopperInstall").click(installGreenHopper);
+                            AJS.$("#bonfireInstall").click(installBonfire);
+                            AJS.$("#greenHopperInstallOD").click(taskCheckboxClicked);
+                            AJS.$("#bonfireInstallOD").click(taskCheckboxClicked);
+                            AJS.$(".admin-task .admin-task-checkbox").click(taskCheckboxClicked);
+                            AJS.$(".hide-admin-task-list").click(hideTaskList);
+                            AJS.$(".show-admin-task-list").click(showTaskList);
+                            AJS.$(".admin-task-content").click(taskContentClicked);
+                            AJS.$(".add-project-trigger").click(createProjectClicked);
+                            AJS.$(".create-issue-trigger").click(createIssueClicked);
+                        },
+                        args: [
+                            {
+                                key: "admin",
+                                ajaxOptions: function () {
+                                    return {
+                                        url: "/rest/gadget/1.0/admin"
+                                    };
+                                }
+                            }
+                        ]
+                    }
+                });
+
+                var onMessage = function(e) {
+                    if (e.data == "issuecreated") {
+                        AJS.$(".create-issue-admin-task").addClass("admin-task-completed");
+                    }
+                };
+
+                if (typeof window.addEventListener != 'undefined') {
+                    window.addEventListener('message', onMessage, false);
+                } else if (typeof window.attachEvent != 'undefined') {
+                    window.attachEvent('onmessage', onMessage);
+                }
+
+                function installGreenHopper(event) {
+                    event.preventDefault();
+                    AJS.gadget.plugin.installer("com.pyxis.greenhopper.jira-key", "/secure/SetupGreenHopper!default.jspa");
+                }
+
+                function installBonfire(event) {
+                    event.preventDefault();
+                    AJS.gadget.plugin.installer("com.atlassian.bonfire.plugin-key", "/secure/SetupBonfire!default.jspa");
+                }
+
+                function taskCheckboxClicked() {
+                    var $task = AJS.$(this).parents(".admin-task"),
+                        $taskList = AJS.$(this).parents(".admin-task-list"),
+                        $taskListContainer = AJS.$(this).parents(".admin-task-list-container"),
+                        taskName = $task.find(".admin-task-content").data("name"),
+                        eventName,
+                        restUrl;
+
+                    if ($task.hasClass("admin-task-disabled")) {
+                        return;
+                    }
+
+                    if ($task.hasClass("admin-task-completed")) {
+                        $task.removeClass("admin-task-completed");
+                        eventName = "xlane.admingadget.task." + taskName + ".unchecked";
+                        restUrl = "__ATLASSIAN_BASE_URL__/rest/gadget/1.0/admin/task/undone";
+                    } else {
+                        $task.addClass("admin-task-completed");
+                        eventName = "xlane.admingadget.task." + taskName + ".checked";
+                        restUrl = "__ATLASSIAN_BASE_URL__/rest/gadget/1.0/admin/task/done";
+                    }
+
+                    if ($taskList.find(".admin-task:not(.admin-task-completed)").length == 0) {
+                        // All tasks are completed
+                        $taskListContainer.find(".hide-admin-task-list-completed").show();
+                        $taskListContainer.find(".hide-admin-task-list-not-completed").hide();
+                    } else {
+                        // Not all tasks are completed
+                        $taskListContainer.find(".hide-admin-task-list-not-completed").show();
+                        $taskListContainer.find(".hide-admin-task-list-completed").hide();
+                    }
+
+                    AJS.$.ajax({
+                        url: restUrl + "?name=" + taskName,
+                        type: "PUT",
+                        global: false
+                    });
+
+                    if (AJS.EventQueue) {
+                        AJS.EventQueue.push({
+                            name: eventName
+                        });
+                    }
+                }
+
+                function showTaskList(event) {
+                    event.preventDefault();
+                    var $unhideContainer = AJS.$(this).parents(".admin-task-list-unhide"),
+                        $taskList = AJS.$('#' + $unhideContainer.attr('id').replace("unhide", "content")),
+                        name = AJS.$('#' + $unhideContainer.attr('id').replace("unhide", "content")).data("name"),
+                        $separator = AJS.$('#unhide-separator'),
+                        eventName = "xlane.admingadget.tasklist." + name + ".unhide";
+
+                    $separator.hide();
+                    $unhideContainer.hide();
+                    $taskList.slideDown("slow", function() {
+                        //resize gadget after animation is finished
+                        gadget.resize();
+                    });
+
+                    AJS.$.ajax({
+                        url: "__ATLASSIAN_BASE_URL__/rest/gadget/1.0/admin/tasklist/undone?name=" + name,
+                        type: "PUT",
+                        global: false
+                    });
+
+                    if (AJS.EventQueue) {
+                        AJS.EventQueue.push({
+                            name: eventName
+                        });
+                    }
+                }
+
+                function hideTaskList(event) {
+                    event.preventDefault();
+                    var $container = AJS.$(this).parents(".admin-task-container"),
+                        $unhideContainer = AJS.$('#' + $container.attr('id').replace('content', 'unhide')),
+                        name = $container.data("name"),
+                        eventName = "xlane.admingadget.tasklist." + name + ".hide",
+                        $separator = AJS.$('#unhide-separator'),
+                        completed;
+
+                    if (AJS.$('.admin-task-list-unhide :visible').length == 1) {
+                        $separator.show();
+                    }
+                    $container.slideUp("slow", function() {
+                        //resize gadget after animation is finished
+                        gadget.resize();
+                    });
+                    $unhideContainer.show();
+
+                    AJS.$.ajax({
+                        url: "__ATLASSIAN_BASE_URL__/rest/gadget/1.0/admin/tasklist/done?name=" + name,
+                        type: "PUT",
+                        global: false
+                    });
+
+                    if (AJS.$(this).parents(".hide-admin-task-list-completed").length) {
+                        completed = true;
+                    } else {
+                        completed = false;
+                    }
+
+                    if (AJS.EventQueue) {
+                        AJS.EventQueue.push({
+                            name: eventName,
+                            properties: {
+                                completed: completed
+                            }
+                        });
+                    }
+                }
+
+                function taskContentClicked(event) {
+                    var $task = AJS.$(this)
+                    if ($task.hasClass("admin-task-disabled")) {
+                        event.preventDefault();
+                        return;
+                    }
+
+                    var taskName = AJS.$(this).data("name");
+                    if (AJS.EventQueue) {
+                        AJS.EventQueue.push({
+                            name: "xlane.admingadget.task." + taskName + ".clicked"
+                        });
+                    }
+                }
+
+                function createProjectClicked(event) {
+                    event.preventDefault();
+
+                    parent.postMessage('createproject', '*');
+                }
+
+                function createIssueClicked(event) {
+                    event.preventDefault();
+                    var $task = AJS.$(this)
+                    if ($task.hasClass("admin-task-disabled")) {
+                        return;
+                    }
+
+                    parent.postMessage('createissue', '*');
+                }
+            })();
+        </script>
+        ]]>
+    </Content>
+</Module>

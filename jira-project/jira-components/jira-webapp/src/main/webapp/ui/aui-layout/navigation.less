@@ -1,0 +1,98 @@
+@import "../imports/colours";
+@import "content/operations-buttons.less";
+@import "content/operations-lists.less";
+
+// Layout of operations styles
+.operations-container,
+#quicklinks {
+    float: right;
+}
+
+// Interop with page layout...ish
+.aui-toolbar + h2,
+#quicklinks + h2 {
+    margin-top: 0;
+}
+
+.aui-page-header-actions {
+    .aui-nav-pagination {
+        float: right;
+        > li:last-child {
+            padding-right: 0;
+        }
+        // arrows and dividers on page nav
+        > li {
+            position: relative;
+        }
+        .aui-nav-previous {
+            margin-right:10px;
+            &:before {
+                border-left: 1px solid @aui-border-color;
+                content: "";
+                display: block;
+                height: 20px;
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+        }
+        .aui-nav-previous a {
+            padding-left: 15px;
+            &:after {
+                border: 9px solid transparent;
+                border-right-color: @jira-pagenav-heading-color;
+                content: "";
+                height: 0;
+                position: absolute;
+                left: -8px;
+                top: 1px;
+                width: 0;
+            }
+            &:hover {
+                &:after {
+                    border-right-color: @jira-pagenav-menuitem-text-color;
+                }
+            }
+        }
+        .aui-nav-next {
+            padding-left:10px;
+            &:before {
+                border-left: 1px solid @aui-border-color;
+                content: "";
+                display: block;
+                height: 20px;
+                position: absolute;
+                left: 0;
+                top: 0;
+            }
+        }
+        .aui-nav-next a {
+            padding-right: 15px;
+            &:after {
+                border: 9px solid transparent;
+                border-left-color: @jira-pagenav-heading-color;
+                content: "";
+                height: 0;
+                position: absolute;
+                right: -8px;
+                top: 1px;
+                width: 0;
+            }
+            &:hover {
+                &:after {
+                border-left-color: @jira-pagenav-menuitem-text-color;
+                }
+            }
+        }
+        .aui-nav-previous + .aui-nav-next {
+            padding-left: 0;
+            &:before {
+                display: none;
+            }
+        }
+    }
+
+    .aui-toolbar {
+        width: auto;
+    }
+}

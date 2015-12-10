@@ -1,0 +1,12 @@
+#disable_html_escaping()
+#if ($value)
+    #set ($keys = $value.keySet())
+#end
+#if ($keys)
+    #foreach ($key in $keys)
+        #set ($singlevalue = $value.get($key))
+        #if ($singlevalue)
+            <customfieldvalue key="$singlevalue.optionId" cascade-level="$!key"><![CDATA[$xmlutils.escapeForCdata($singlevalue.toString())]]></customfieldvalue>
+        #end
+    #end
+#end

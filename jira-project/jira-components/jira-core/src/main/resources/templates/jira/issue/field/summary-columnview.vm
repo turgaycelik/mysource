@@ -1,0 +1,27 @@
+#disable_html_escaping()
+#set ($nolink = ($displayParams && $displayParams.get('nolink')))
+<p>
+#if ($nolink)
+    #if ($subTask && $parentIssueKey)
+        <span class="parentIssue">$parentIssueKey</span>
+    #end
+    #if (${displayParams.excel_view})
+        $textutils.htmlEncode($summary, false)
+    #else
+        $textutils.htmlEncode($summary)
+    #end
+#else
+    #if ($subTask && $parentIssueKey)
+        #if ($subTaskParentIssueLinkDisabled && $subTaskParentIssueLinkDisabled == true)
+            <span class="parentIssue">$parentIssueKey</span>
+        #else
+            <a class="issue-link parentIssue" data-issue-key="$parentIssueKey" href="${requestContext.baseUrl}/browse/$parentIssueKey" title="$textutils.htmlEncode($parentIssueSummary)">$parentIssueKey</a>
+        #end
+    #end
+    #if (${displayParams.excel_view})
+        <a href="${requestContext.baseUrl}/browse/${issue.getKey()}">$textutils.htmlEncode($summary, false)</a>
+    #else
+        <a class="issue-link" data-issue-key="${issue.getKey()}" href="${requestContext.baseUrl}/browse/${issue.getKey()}">$textutils.htmlEncode($summary)</a>
+    #end
+#end
+</p>

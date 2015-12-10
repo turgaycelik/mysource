@@ -1,0 +1,29 @@
+#disable_html_escaping()
+<div class="gadgetForm">
+    <form action="${baseurl}/rest/gadget/1.0/chart/add" id="savetodashboardform" method="post" class="aui">
+        #if($portals && $portals.size() == 0)
+            #AUImessage("info" "" "$i18n.getText('portletSearchRequestView.noDashboard.configured')" "" "" "" "false")
+        #end
+        #AUImessage("error" "" " " "" "form-errors" "" "false")
+        #if($portals && $portals.size() > 0)
+            #customControlHeader ($i18n "portalId" ${i18n.getText("portletSearchRequestView.addPortlet.chooseDashboard")} false $displayParameters "")
+                <select class="select" id="portalId" name="portalId">
+                    #foreach($portal in $portals)
+                        <option value="${portal.Id}">${textutils.htmlEncode(${portal.name})}</option>
+                    #end
+                </select>
+            #customControlFooter ($i18n "portalId" "" $displayParameters "")
+        #end
+        #if(!$filterId)
+            #customControlHeader ($i18n "filterName" ${i18n.getText("portletSearchRequestView.addPortlet.filterName")} true $displayParameters "")
+                <input class="text" type="text" id="filterName" name="filterName">
+            #customControlFooter ($i18n "filterName" "" $displayParameters "")
+        #end
+        <div class="buttons-container form-footer">
+            <div class="buttons">
+                <input class="aui-button" type="submit" value="${i18n.getText("common.words.save")}" id="save-btn1">
+                <a accesskey="`" class="aui-button aui-button-link cancel" href="#" id="cancel-btn1" title="${i18n.getText("common.words.cancel")}">${i18n.getText("common.words.cancel")}</a>
+            </div>
+        </div>
+    </form>
+</div>

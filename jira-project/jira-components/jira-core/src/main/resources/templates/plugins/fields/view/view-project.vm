@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#if ($value)
+    #if (!$isProjectVisible || $displayParameters && $displayParameters.nolink)
+        $textutils.htmlEncode($value.getString("name"))
+    #else
+        #set ($url = "$requestContext.baseUrl/browse/$urlcodec.encode($value.getString('key'))")
+        <a href="$textutils.htmlEncode($url)" class="tinylink">$textutils.htmlEncode($value.getString("name"))</a>
+    #end
+#end

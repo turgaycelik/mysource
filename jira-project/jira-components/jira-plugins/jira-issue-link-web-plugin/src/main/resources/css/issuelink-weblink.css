@@ -1,0 +1,11 @@
+#web-link-url {
+    background-image: url("../../../images/icons/generic_link_16.png");
+    background-repeat: no-repeat;
+    background-position: 2px 50%;
+    background-size: 16px 16px;
+    padding-left: 20px;
+}
+
+#web-link-url.loading {
+    background-image: url("images/throbber.gif");
+}

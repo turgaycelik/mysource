@@ -1,0 +1,212 @@
+<atlassian-plugin name='JQL Functions' key='jira.jql.function' i18n-name-key="jql.function.plugin.name">
+    <plugin-info>
+        <description key="jql.function.plugin.desc">This plugin implements a JQL function in JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="4.0" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <jql-function key="released-versions-jql-function" i18n-name-key="jql.function.plugin.released.versions.name" name="Released Versions Function"
+            class="com.atlassian.jira.plugin.jql.function.AllReleasedVersionsFunction">
+        <description key="jql.function.plugin.released.versions.desc">Returns released versions for the specified projects.</description>
+        <fname>releasedVersions</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="unreleased-versions-jql-function" i18n-name-key="jql.function.plugin.unreleased.versions.name" name="Unreleased Versions Function"
+            class="com.atlassian.jira.plugin.jql.function.AllUnreleasedVersionsFunction">
+        <description key="jql.function.plugin.unreleased.versions.desc">Returns unreleased versions for the specified projects.</description>
+        <fname>unreleasedVersions</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="earliest-unreleased-version-jql-function" i18n-name-key="jql.function.plugin.earliest-unreleased-version.name" name="Earliest Unreleased Version Function"
+            class="com.atlassian.jira.plugin.jql.function.EarliestUnreleasedVersionFunction">
+        <description key="jql.function.plugin.unreleased.version.desc">Returns the earliest scheduled unreleased version for the specified project.</description>
+        <fname>earliestUnreleasedVersion</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="latest-released-version-jql-function" i18n-name-key="jql.function.plugin.latest-released-version.name" name="Latest Released Version Function"
+            class="com.atlassian.jira.plugin.jql.function.LatestReleasedVersionFunction">
+        <description key="jql.function.plugin.latest.released.version.desc">Returns the latest released version for the specified project.</description>
+        <fname>latestReleasedVersion</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="now-jql-function" i18n-name-key="jql.function.plugin.now.name" name="Now Function"
+            class="com.atlassian.jira.plugin.jql.function.NowFunction">
+        <description key="jql.function.plugin.now.desc">Returns the current system time.</description>
+        <fname>now</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="startOfDay-jql-function" i18n-name-key="jql.function.plugin.start.of.day.name" name="Start Of Day Function"
+            class="com.atlassian.jira.plugin.jql.function.StartOfDayFunction">
+        <description key="jql.function.plugin.start.of.day.desc">Returns the start of the current day.</description>
+        <fname>startOfDay</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="startOfWeek-jql-function" i18n-name-key="jql.function.plugin.start.of.week.name" name="Start Of Week Function"
+            class="com.atlassian.jira.plugin.jql.function.StartOfWeekFunction">
+        <description key="jql.function.plugin.start.of.week.desc">Returns the start of the current week.</description>
+        <fname>startOfWeek</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="startOfMonth-jql-function" i18n-name-key="jql.function.plugin.start.of.month.name" name="Start Of Month Function"
+            class="com.atlassian.jira.plugin.jql.function.StartOfMonthFunction">
+        <description key="jql.function.plugin.start.of.month.desc">Returns the start of the current month.</description>
+        <fname>startOfMonth</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="startOfYear-jql-function" i18n-name-key="jql.function.plugin.start.of.year.name" name="Start Of Year Function"
+            class="com.atlassian.jira.plugin.jql.function.StartOfYearFunction">
+        <description key="jql.function.plugin.start.of.year.desc">Returns the start of the current year.</description>
+        <fname>startOfYear</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="endOfDay-jql-function" i18n-name-key="jql.function.plugin.end.of.day.name" name="End Of Day Function"
+            class="com.atlassian.jira.plugin.jql.function.EndOfDayFunction">
+        <description key="jql.function.plugin.end.of.day.desc">Returns the end of the current day.</description>
+        <fname>endOfDay</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="endOfWeek-jql-function" i18n-name-key="jql.function.plugin.end.of.week.name" name="End Of Week Function"
+            class="com.atlassian.jira.plugin.jql.function.EndOfWeekFunction">
+        <description key="jql.function.plugin.end.of.week.desc">Returns the end of the current week.</description>
+        <fname>endOfWeek</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="endOfMonth-jql-function" i18n-name-key="jql.function.plugin.end.of.month.name" name="End Of Month Function"
+            class="com.atlassian.jira.plugin.jql.function.EndOfMonthFunction">
+        <description key="jql.function.plugin.end.of.month.desc">Returns the end of the current month.</description>
+        <fname>endOfMonth</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="endOfYear-jql-function" i18n-name-key="jql.function.plugin.end.of.year.name" name="End Of Year Function"
+            class="com.atlassian.jira.plugin.jql.function.EndOfYearFunction">
+        <description key="jql.function.plugin.end.of.year.desc">Returns the end of the current year.</description>
+        <fname>endOfYear</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="members-of-jql-function" i18n-name-key="jql.function.plugin.members.of.name" name="Members Of Function"
+            class="com.atlassian.jira.plugin.jql.function.MembersOfFunction">
+        <description key="jql.function.plugin.members.of.desc">Returns the usernames of the specified group.</description>
+        <fname>membersOf</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="current-user-jql-function" i18n-name-key="jql.function.plugin.current.user.name" name="Current User Function"
+            class="com.atlassian.jira.plugin.jql.function.CurrentUserFunction">
+        <description key="jql.function.plugin.current.user.desc">Returns the currently logged in user.</description>
+        <fname>currentUser</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="sub-issue-types-jql-function" i18n-name-key="jql.function.plugin.sub.issue.types.name" name="All Sub-task Issue Types Function"
+            class="com.atlassian.jira.plugin.jql.function.AllSubIssueTypesFunction">
+        <description key="jql.function.plugin.sub.issue.types.desc">Returns all the sub task issue types.</description>
+        <fname>subTaskIssueTypes</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="standard-issue-types-jql-function" i18n-name-key="jql.function.plugin.standard.issue.types.name" name="All Standard Issue Types Function"
+            class="com.atlassian.jira.plugin.jql.function.AllStandardIssueTypesFunction">
+        <description key="jql.function.plugin.standard.issue.types.desc">Returns all the standard issue types.</description>
+        <fname>standardIssueTypes</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="issue-history-jql-function" i18n-name-key="jql.function.plugin.issue.history.name" name="Issue History Function"
+            class="com.atlassian.jira.plugin.jql.function.IssueHistoryFunction">
+        <description key="jql.function.plugin.issue.history.desc">Returns all the issues in the user's history.</description>
+        <fname>issueHistory</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="watched-issues-jql-function" i18n-name-key="jql.function.plugin.watched.issues.name" name="Watched Issues Function"
+            class="com.atlassian.jira.plugin.jql.function.WatchedIssuesFunction">
+        <description key="jql.function.plugin.watched.issues.desc">Returns all the user's watched issues.</description>
+        <fname>watchedIssues</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="voted-issues-jql-function" i18n-name-key="jql.function.plugin.voted.issues.name" name="Voted Issues Function"
+            class="com.atlassian.jira.plugin.jql.function.VotedIssuesFunction">
+        <description key="jql.function.plugin.voted.issues.desc">Returns all the user's voted on issues.</description>
+        <fname>votedIssues</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="linked-issues-jql-function" i18n-name-key="jql.function.plugin.linked.issues.name" name="Linked Issues Function"
+            class="com.atlassian.jira.plugin.jql.function.LinkedIssuesFunction">
+        <description key="jql.function.plugin.linked.issues.desc">Returns all the issues linked to the specified issue.</description>
+        <fname>linkedIssues</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="cascade-option-jql-function" i18n-name-key="jql.function.plugin.cascade.option.name" name="Cascade Option Function"
+            class="com.atlassian.jira.plugin.jql.function.CascadeOptionFunction">
+        <description key="jql.function.plugin.cascade.option.desc">Returns option ids which represent the option hierarchy specified in the arguments.</description>
+        <fname>cascadeOption</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="last-login-jql-function" i18n-name-key="jql.function.plugin.last.login.name" name="Last Login"
+            class="com.atlassian.jira.plugin.jql.function.LastLoginFunction">
+        <description key="jql.function.plugin.last.login.desc">Return the date of the last login for the current user.</description>
+        <fname>lastLogin</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="current-login-jql-function" i18n-name-key="jql.function.plugin.current.login.name" name="Current Login"
+            class="com.atlassian.jira.plugin.jql.function.CurrentLoginFunction">
+        <description key="jql.function.plugin.current.login.desc">Return the date of the current login for the current user.</description>
+        <fname>currentLogin</fname>
+        <list>false</list>
+    </jql-function>
+
+    <jql-function key="projects-where-user-has-permission-function" i18n-name-key="jql.function.plugin.projects.where.user.has.permission.function" name="Projects Where User Has Permission"
+            class="com.atlassian.jira.plugin.jql.function.ProjectsWhereUserHasPermissionFunction">
+        <description key="jql.function.plugin.projects.where.user.has.permission.function.desc">Return the projects where a user has a specific permission.</description>
+        <fname>projectsWhereUserHasPermission</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="projects-where-user-has-role-function" i18n-name-key="jql.function.plugin.projects.where.user.has.role.function" name="Projects Where User Has Role"
+            class="com.atlassian.jira.plugin.jql.function.ProjectsWhereUserHasRoleFunction">
+        <description key="jql.function.plugin.projects.where.user.has.role.function.desc">Return the projects where a user has a specific role.</description>
+        <fname>projectsWhereUserHasRole</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="projects-lead-by-user-function" i18n-name-key="jql.function.plugin.projects.lead.by.user" name="Projects Lead By"
+            class="com.atlassian.jira.plugin.jql.function.ProjectsLeadByUserFunction">
+        <description key="jql.function.plugin.projects.lead.by.desc">Return the projects lead by a user.</description>
+        <fname>projectsLeadByUser</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="components-lead-by-user-function" i18n-name-key="jql.function.plugin.components.lead.by.user" name="Components Lead By"
+            class="com.atlassian.jira.plugin.jql.function.ComponentsLeadByUserFunction">
+        <description key="jql.function.plugin.components.lead.by.user.desc">Return the components lead by a user.</description>
+        <fname>componentsLeadByUser</fname>
+        <list>true</list>
+    </jql-function>
+
+    <jql-function key="remoteLinkByGlobalId-jql-function" i18n-name-key="jql.function.plugin.remotelink.by.globalid.name" name="Remote Link by GlobalId Function"
+                  class="com.atlassian.jira.plugin.jql.function.RemoteLinksByGlobalIdFunction">
+        <description key="jql.function.plugin.remotelink.by.globalid.desc">Returns the list of issues with a remote link identified by any of the given globalIds</description>
+        <fname>issuesWithRemoteLinksByGlobalId</fname>
+        <list>true</list>
+    </jql-function>
+
+</atlassian-plugin>

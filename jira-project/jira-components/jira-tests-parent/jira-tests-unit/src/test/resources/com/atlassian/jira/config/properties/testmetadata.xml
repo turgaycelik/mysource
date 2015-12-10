@@ -1,0 +1,48 @@
+<jira-properties>
+    <properties>
+        <property>
+            <key>simple.key</key>
+            <name>Simple Name</name>
+            <description>Yo, Simple Description, Dog</description>
+            <default-value>true</default-value>
+            <type>boolean</type>
+            <sysadmin-editable>false</sysadmin-editable>
+            <validator>com.atlassian.bogus.Validator</validator>
+        </property>
+        <property>
+            <key>enum.key</key>
+            <name>Enumeration Test</name>
+            <description>This tests multiple options in an enumeration</description>
+            <default-value>ni</default-value>
+            <type>
+                <enum>
+                    <option>ichi</option>
+                    <option>ni</option>
+                    <option>san</option>
+                </enum>
+            </type>
+            <sysadmin-editable>true</sysadmin-editable>
+            <requires-restart>false</requires-restart>
+        </property>
+        <property>
+            <key>jira.special.number</key>
+            <default-value>5000</default-value>
+            <type>uint</type>
+            <sysadmin-editable>true</sysadmin-editable>
+        </property>
+        <property>
+            <key>jira.scrabble.words</key>
+            <name>Some Scrabble Words</name>
+            <description>Two and Three Letter Words That Contain Q</description>
+            <default-value>qat,qis,qua,suq,qi</default-value>
+            <type>list&lt;string&gt;</type>
+            <sysadmin-editable>true</sysadmin-editable>
+            <validator>com.atlassian.jira.config.properties.MockValidator</validator>
+        </property>
+        <property>
+            <key>jira.minimal.option</key>
+            <default-value>bubblegum-dubstep</default-value>
+            <type>music genre</type>
+        </property>
+    </properties>
+</jira-properties>

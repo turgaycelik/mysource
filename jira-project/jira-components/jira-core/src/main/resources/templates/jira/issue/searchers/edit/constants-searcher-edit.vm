@@ -1,0 +1,40 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-constants")}
+#searcherEditHeader ($searcherId ${i18n.getText($searcherNameKey)})
+    #if ($displayParameters.checkboxmultiselect)
+
+    <select class="select js-default-checkboxmultiselect#if($simpleStatusJsonHelper)statuslozenge#end" data-placeholder-text="${i18n.getText("common.filters.find.$searcherId")}" id="searcher-${searcherId}" multiple="multiple" name="${searcherId}" size="#minSelectSize ($selectListOptions 1 4)" #if($simpleStatusJsonHelper)data-status-lozenge="true"#end>
+        #if ($extraOption)
+            <option class="headerOption" #if ($selectedValues && $selectedValues.contains($extraOption.key)) selected="selected"#end value="$extraOption.key" title="$extraOption.value">$extraOption.value</option>
+        #end
+        #if ($invalidSelections)
+            #foreach ($option in $invalidSelections)
+                <option selected="selected" #searchContextDescriptionTitle($searcherNameKey, $option.nameTranslation, $contextProjectNames, $contextIssueTypeNames) #if ($option.iconUrl) class="imagebacked invalid_sel" data-icon="#getNormalizedUrl($option.iconUrlHtml)"#end value="$option.id">$textutils.htmlEncode($option.nameTranslation)</option>
+            #end
+        #end
+        #foreach ($option in $selectListOptions)
+            #if ($simpleStatusJsonHelper && $option.simpleStatus)
+                #set ($simpleStatusJson = $simpleStatusJsonHelper.convertToJson($option.simpleStatus))
+            #end
+            <option #if ($selectedValues && $selectedValues.contains($option.id)) selected="selected"#end #if ($option.iconUrl) class="imagebacked" data-icon="#getNormalizedUrl($option.iconUrlHtml)"#end value="$option.id" title="$textutils.htmlEncode($option.nameTranslation)" #if($simpleStatusJson)data-simple-status="$textutils.htmlEncode($simpleStatusJson)"#end>$textutils.htmlEncode($option.nameTranslation)</option>
+        #end
+    </select>
+    #else
+    <select class="select" id="searcher-${searcherId}" multiple="multiple" name="${searcherId}" size="#minSelectSize ($selectListOptions 1 4)">
+        <option class="headerOption" value="">${i18n.getText('common.filters.any')}</option>
+        #if ($extraOption)
+            <option class="headerOption" #if ($selectedValues && $selectedValues.contains($extraOption.key)) selected="selected"#end value="$extraOption.key" title="$extraOption.value">$extraOption.value</option>
+        #end
+        #if ($invalidSelections)
+            #foreach ($option in $invalidSelections)
+                <option selected="selected" #if ($option.iconUrl) class="imagebacked invalid_sel" style="background-image: url(#getNormalizedUrl($option.iconUrlHtml));"#end value="$option.id" title="$textutils.htmlEncode($option.nameTranslation)">$textutils.htmlEncode($option.nameTranslation)</option>
+            #end
+        #end
+        #foreach ($option in $selectListOptions)
+            <option #if ($selectedValues && $selectedValues.contains($option.id)) selected="selected"#end #if ($option.iconUrl) class="imagebacked" style="background-image: url(#getNormalizedUrl($option.iconUrlHtml));"#end value="$option.id" title="$textutils.htmlEncode($option.nameTranslation)">$textutils.htmlEncode($option.nameTranslation)</option>
+        #end
+    </select>
+    #jiraHelpLink ( "${searcherId}_local" '')
+    #end
+#searcherEditFooter ($searcherId '')
+$!{auiparams.clear()}

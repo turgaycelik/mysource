@@ -1,0 +1,38 @@
+@import "../imports/aui-colours";
+
+// Makes a pair of aui-items display one after the other instead of side-by-side when below a certain res
+// Currently used on the Issues Tab for Browse Projects
+
+.module-spacing () {
+    border-top: 1px solid @aui-border-color; // Mimicing some styles from consecutive modules - need to keep in sync
+    margin-top: 15px; // Mimicing some styles from consecutive modules - need to keep in sync
+    padding-top: 15px; // Mimicing some styles from consecutive modules - need to keep in sync
+}
+.remove-module-spacing () {
+    border-top: none;
+    margin-top: 0;
+    padding-top: 0;
+}
+
+.tabpanel-modules {
+    margin-top: 20px;
+    &:first-child {
+        margin-top: 0;
+    }
+}
+.tabpanel-modules-top + .tabpanel-modules-split {
+    .module-spacing();
+}
+
+// Change the split columns to be a single one on small viewports
+@media screen and (min-width : 0) and (max-width : 1280px) {
+    .tabpanel-modules-split {
+        .aui-item {
+            display: block;
+            + .aui-item {
+                .module-spacing();
+                padding-left: 0; // Overrides default aui padding
+            }
+        }
+    }
+}

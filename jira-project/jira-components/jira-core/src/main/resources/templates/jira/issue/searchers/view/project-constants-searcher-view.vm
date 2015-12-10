@@ -1,0 +1,24 @@
+#disable_html_escaping()
+#searcherHeaderNoField ($searcherId $i18n.getText($searcherNameKey))
+    #if ($displayParameters.checkboxmultiselect)
+        #foreach ($constantLabel in $selectedObjects)
+            #if ($constantLabel)
+                #if ($constantLabel.valid)
+                    $textutils.htmlEncode($constantLabel.label)#commaonly($selectedObjects)
+                #else
+                    <span class="invalid_sel">$textutils.htmlEncode($constantLabel.label)#commaonly($selectedObjects)</span>
+                #end
+            #end
+        #end
+    #else
+        #foreach ($constantLabel in $selectedObjects)
+            #if ($constantLabel)
+                #if ($constantLabel.browseUrl)
+                    <a href="${baseurl}${constantLabel.browseUrl}">$textutils.htmlEncode($constantLabel.label)</a>#commaonly($selectedObjects)
+                #else
+                    $textutils.htmlEncode($constantLabel.label)#commaonly($selectedObjects)
+                #end
+            #end
+        #end
+    #end
+#searcherFooter ($searcherId)

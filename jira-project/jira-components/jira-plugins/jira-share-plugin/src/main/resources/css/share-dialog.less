@@ -1,0 +1,99 @@
+@import "webstatic:/ui/global.less";
+
+#jira-share-trigger.issuenav-share.active {
+    border-radius: 3.01px 3.01px 3.01px 3.01px;
+}
+
+#inline-dialog-shareContentPopup .contents {
+    overflow: visible;
+}
+
+form.share-content-popup {
+    .issuenav-permalink {
+        position: relative;
+
+        .permalink-container {
+          margin-top: 8px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          overflow: hidden;
+        }
+
+        input {
+          margin-top: 8px;
+        }
+    }
+
+    fieldset {
+        border-top: 1px solid @aui-border-color;
+        padding-top: 10px;
+        margin-top: 3px;
+        margin-bottom: 1px;
+    }
+
+    .button-panel {
+        padding-top: 10px;
+        text-align: right;
+
+        .status {
+            .icon {
+                float:left;
+                margin-top: 8px;
+            }
+            .progress-messages {
+                float: left;
+                margin-left: 5px;
+                margin-top: 6px;
+            }
+        }
+
+        .buttons {
+            input:disabled {
+                color: graytext;
+            }
+
+            .close-dialog {
+                margin-left: 10px;
+            }
+        }
+    }
+
+    #sharenames-textarea, #note {
+        margin-top: 8px;
+    }
+
+    .button {
+        margin: 2px 0 2px 2px;
+    }
+
+    .submit {
+        text-align: center;
+    }
+
+    .autocomplete li.active a span {
+        color: white;
+    }
+
+    .aui-dd-parent, .aui-dd-parent .aui-dropdown {
+        width: 259px;
+    }
+
+    .padding {
+        padding: 20px !important;
+    }
+
+   .aui-message {
+        margin-top: 0px;
+    }
+}
+
+#sharenames-suggestions .yad {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+}
+
+#sharenames-textarea {
+    float: none;
+}

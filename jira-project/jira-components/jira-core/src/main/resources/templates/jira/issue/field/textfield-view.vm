@@ -1,0 +1,27 @@
+#disable_html_escaping()
+#if ($value)
+  #if (${displayParams.excel_view})
+    $textutils.br($textutils.htmlEncode($!value.toString(), false))
+  #else
+    #if ($value && $value.length() > 255)
+        <div id="field-${field.id}" class="twixi-block#if($invertedCollapsedState) twixi-block-inverted collapsed #else expanded#end">
+            <div Class="twixi-wrap verbose">
+                <a href="#" class="#if($invertedCollapsedState)twixi #else twixi#end"><span class="icon twixi-opened"><span>$i18n.getText("admin.common.words.hide")</span></span></a>
+                <div class="flooded">
+                    $!value.toString()
+                </div>
+            </div>
+            <div Class="twixi-wrap concise">
+                <a href="#" class="#if($invertedCollapsedState)twixi #else twixi#end"><span class="icon twixi-closed"><span>$i18n.getText("admin.common.words.show")</span></span></a>
+                <div class="flooded">
+                    #if ($value)
+                        $velocityhelper.removeHtmlTags($value.toString())
+                    #end
+                </div>
+            </div>
+        </div>
+    #else
+        $!value.toString()
+    #end
+  #end
+#end

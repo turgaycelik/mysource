@@ -1,0 +1,10 @@
+<atlassian-plugin name="English (Antarctica) Language Pack" key="${project.groupId}.${project.artifactId}.en_AQ"
+                  plugins-version="2">
+    <plugin-info>
+        <description>This plugin contains translations the core keys in JIRA for English (Antarctica).</description>
+        <version>${pom.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+    <language name="English (Antarctica)" key="en_AQ" language="en" country="AQ"/>
+    <resource name="i18n-0" type="i18n" location="com/atlassian/jira/web/action/"/>
+</atlassian-plugin>

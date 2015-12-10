@@ -1,0 +1,39 @@
+@import "../../imports/aui-colours";
+
+.drop-menu {
+    @arrow-width: 4px;
+
+    background: none;
+    display: inline-block;
+    height: 16px;
+    margin: 0 0 0 5px;
+    overflow: visible;
+    padding: 0;
+    vertical-align: text-bottom;
+    width: 2*@arrow-width;
+
+    &:after {
+        border: @arrow-width solid transparent;
+        bottom: -50%;
+        content: "";
+        display: block;
+        height: 0;
+        position: relative;
+        right: -50%;
+        width: 0;
+    }
+
+    &:after {
+        border-top-color: @aui-color-mid;
+        margin-top: -0.5*@arrow-width;
+        margin-left: -1*@arrow-width;
+    }
+
+    &:hover:after {
+        border-top-color: @aui-color-text;
+    }
+}
+
+.disabled .drop-menu:after {
+    border-top-color: @aui-color-faint !important;
+}

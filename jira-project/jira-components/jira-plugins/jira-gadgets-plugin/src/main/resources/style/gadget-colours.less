@@ -1,0 +1,75 @@
+// Declare the original gadget colours (mainly for IDEA's code-hinting benefits)
+@gadgetcolor1: #3b73af;
+@gadgetcolor2: #d04437;
+@gadgetcolor3: #ea632b;
+@gadgetcolor4: #14892c;
+@gadgetcolor5: #205081;
+@gadgetcolor6: #654982;
+@gadgetcolor7: #707070;
+// colours also defined in jpm.xml
+// Actually import the JIRA-defined colours for them.
+@import "dynamic:lookandfeel.less";
+
+.gadget-text-color(@color) {
+    color: #fff;
+}
+
+.gadget-border-color(@color) {
+    border-color: hsl(hue(@color), 38%, 85%);
+}
+
+// color1 - Light Blue
+.gadget.color1 .dashboard-item-header,
+.gadget-colors .color1 > a { background-color: @gadgetcolor1; }
+.gadget.color1 .dashboard-item-title { .gadget-text-color(@gadgetcolor1); }
+
+.gadget.color1 > .gadget-hover > .dashboard-item-header,
+.gadget.color1 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor1); }
+
+// color2 - Red
+.gadget.color2 .dashboard-item-header,
+.gadget-colors .color2 > a { background-color: @gadgetcolor2; }
+.gadget.color2 .dashboard-item-title { .gadget-text-color(@gadgetcolor2); }
+
+.gadget.color2 > .gadget-hover > .dashboard-item-header,
+.gadget.color2 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor2); }
+
+// color3 - Orange
+.gadget.color3 .dashboard-item-header,
+.gadget-colors .color3 > a { background-color: @gadgetcolor3; }
+.gadget.color3 .dashboard-item-title { .gadget-text-color(@gadgetcolor3); }
+
+.gadget.color3 > .gadget-hover > .dashboard-item-header,
+.gadget.color3 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor3); }
+
+// color4 - Green
+.gadget.color4 .dashboard-item-header,
+.gadget-colors .color4 > a { background-color: @gadgetcolor4; }
+.gadget.color4 .dashboard-item-title { .gadget-text-color(@gadgetcolor4); }
+
+.gadget.color4 > .gadget-hover > .dashboard-item-header,
+.gadget.color4 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor4); }
+
+// color5 - Dark Blue
+.gadget.color5 .dashboard-item-header,
+.gadget-colors .color5 > a { background-color: @gadgetcolor5; }
+.gadget.color5 .dashboard-item-title { .gadget-text-color(@gadgetcolor5); }
+
+.gadget.color5 > .gadget-hover > .dashboard-item-header,
+.gadget.color5 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor5); }
+
+// color6 - Purple
+.gadget.color6 .dashboard-item-header,
+.gadget-colors .color6 > a { background-color: @gadgetcolor6; }
+.gadget.color6 .dashboard-item-title { .gadget-text-color(@gadgetcolor6); }
+
+.gadget.color6 > .gadget-hover > .dashboard-item-header,
+.gadget.color6 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor6); }
+
+// color7 - Light Gray
+.gadget.color7 .dashboard-item-header,
+.gadget-colors .color7 > a { background-color: @gadgetcolor7; }
+.gadget.color7 .dashboard-item-title { .gadget-text-color(@gadgetcolor7); }
+
+.gadget.color7 > .gadget-hover > .dashboard-item-header,
+.gadget.color7 > .gadget-hover > .dashboard-item-content { .gadget-border-color(@gadgetcolor7); }

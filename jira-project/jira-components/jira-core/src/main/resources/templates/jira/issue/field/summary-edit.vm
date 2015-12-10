@@ -1,0 +1,4 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+<input class="text long-field" id="$field.id" #if($maxlength)maxlength="$maxlength"#end name="$field.id" type="text" value="#if ($summary)$textutils.htmlEncode($summary)#end" />
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

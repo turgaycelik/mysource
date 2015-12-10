@@ -1,0 +1,31 @@
+#disable_html_escaping()
+
+#set( $min_invalid_sel = "" )
+#set( $max_invalid_sel = "" )
+
+#if($minGreaterThanMax)
+    #set( $min_invalid_sel = "invalid_sel" )
+    #set( $max_invalid_sel = "invalid_sel" )
+#else
+    ##min, max
+    #foreach ($error in $action.getErrors().entrySet())
+        #set ($errorKey = $error.getKey().toString())
+        #if ($errorKey.contains("min"))
+            #set( $min_invalid_sel = "invalid_sel" )
+        #elseif ($errorKey.contains("max"))
+            #set( $max_invalid_sel = "invalid_sel" )
+        #end
+    #end
+#end
+
+#if ($fieldValuesHolder.get($minField))
+    #searcherHeaderNoField ($minField ${i18n.getText("issue.field.workratiomin")} $min_invalid_sel)
+        ${fieldValuesHolder.getEscaped($minField)}%
+    #searcherFooter ($minField)
+#end
+
+#if ($fieldValuesHolder.get($maxField))
+    #searcherHeaderNoField ($maxField ${i18n.getText("issue.field.workratiomax")} $max_invalid_sel)
+        ${fieldValuesHolder.getEscaped($maxField)}%
+    #searcherFooter ($maxField)
+#end

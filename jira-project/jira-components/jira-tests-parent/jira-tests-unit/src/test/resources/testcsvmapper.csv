@@ -1,0 +1,4 @@
+"project.name","project.key","project","summary","type","versions.name","fixVersions.name","components.name","versions.name","reporter","assignee","reporter.username","reporter.email","reporter.fullname","comment.body","comment.body","customfield_A new text field","customfield_A new select field:select"
+"New ProjectX","NEWX","NEWX","Issue ""1""",1,"Version 1","vX",,,"admin","admin",,,,,,,"T1"
+"New ProjectX","NEWX","NEWX","Issue X",1,"Version X","V3",,,"admin","admin",,,,,,,"T2"
+"New ProjectX","NEWX","NEWX","Issue 3",1,"Version X","v5","Front End","Version 1","newdude","admin","newdude","newdud@email.com","New Dude","whho ate all the pies","who really did eat all the pies","Custom text crap","T1"

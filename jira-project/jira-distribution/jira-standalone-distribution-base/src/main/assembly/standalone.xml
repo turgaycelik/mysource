@@ -1,0 +1,156 @@
+<assembly>
+    <id>standalone</id>
+    <formats>
+        <format>zip</format>
+        <format>tar.gz</format>
+    </formats>
+    <baseDirectory>${dist.name}-${project.version}-standalone</baseDirectory>
+
+    <!-- tomcat -->
+    <fileSets>
+        <!-- tomcat -->
+        <!-- want to chmod (u+x) the .sh files.  to do this we collect the files in seperate
+             filesets so we can chmod just the .sh files. -->
+        <fileSet>
+            <directory>${installed.tomcat.dir}</directory>
+            <outputDirectory/>
+            <includes>
+                <include>**/*.sh</include>
+            </includes>
+            <lineEnding>lf</lineEnding>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${installed.tomcat.dir}</directory>
+            <outputDirectory/>
+            <includes>
+                <include>**/service.bat</include>
+                <include>**/*.cmd</include>
+		        <include>**/*.command</include>
+            </includes>
+            <lineEnding>crlf</lineEnding>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0755</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${installed.tomcat.dir}</directory>
+            <outputDirectory/>
+            <excludes>
+                <exclude>server/webapps/**/*</exclude>
+                <exclude>webapps/**/*</exclude>
+                <exclude>conf/server.xml</exclude>
+                <exclude>**/service.bat</exclude>
+                <exclude>tomcat-docs</exclude>
+                <exclude>**/*.sh</exclude>
+                <exclude>**/*.cmd</exclude>
+		        <exclude>**/*.command</exclude>
+                <exclude>RELEASE-*</exclude>
+                <exclude>LICENSE</exclude>
+                <exclude>README.txt</exclude>
+                <exclude>RUNNING.txt</exclude>
+            </excludes>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>${installed.tomcat.dir}</directory>
+            <outputDirectory>tomcat-docs</outputDirectory>
+            <includes>
+                <include>RELEASE-*</include>
+                <include>LICENSE</include>
+                <include>README.txt</include>
+                <include>RUNNING.txt</include>
+            </includes>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <!-- special tomcat config files that we want to overwrite -->
+        <fileSet>
+        <directory>${project.build.directory}/base-project/src/main/tomcat</directory>
+        <outputDirectory/>
+        <filtered>true</filtered>
+        <includes>
+            <include>**/*</include>
+        </includes>
+        <excludes>
+            <exclude>**/*.txt</exclude>
+            <exclude>**/*.command</exclude>
+            <exclude>**/*.bat</exclude>
+            <exclude>**/*.sh</exclude>
+        </excludes>
+        <directoryMode>0755</directoryMode>
+        <fileMode>0644</fileMode>
+    </fileSet>
+    <!-- JRADEV-980: fix up txt files for reading in Notepad -->
+        <fileSet>
+            <directory>${project.build.directory}/base-project/src/main/tomcat</directory>
+            <outputDirectory/>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*.txt</include>
+                <include>**/*.command</include>
+                <include>**/*.bat</include>
+            </includes>
+            <lineEnding>crlf</lineEnding>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+        <!-- JRADEV-4336: sh files need +x -->
+        <fileSet>
+            <directory>${project.build.directory}/base-project/src/main/tomcat</directory>
+            <outputDirectory/>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*.sh</include>
+            </includes>
+            <lineEnding>lf</lineEnding>
+            <directoryMode>0755</directoryMode>
+            <fileMode>755</fileMode>
+        </fileSet>
+
+        <!-- all generic web application files go into the jira web app
+             directory within the standalone zip -->
+        <fileSet>
+            <directory>${project.build.directory}/base-project/src/main/webapp</directory>
+            <outputDirectory>atlassian-jira</outputDirectory>
+            <filtered>true</filtered>
+            <includes>
+                <include>**/*</include>
+            </includes>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </fileSet>
+    </fileSets>
+
+    <dependencySets>
+        <!-- licenses -->
+        <dependencySet>
+            <unpack>true</unpack>
+            <useProjectArtifact>false</useProjectArtifact>
+            <unpackOptions>
+                <includes>
+                    <include>licenses/*</include>
+                </includes>
+            </unpackOptions>
+            <includes>
+                <include>com.atlassian.jira:jira-common-distribution</include>
+            </includes>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+        <!-- jars -->
+        <dependencySet>
+            <outputDirectory>lib</outputDirectory>
+            <useProjectArtifact>false</useProjectArtifact>
+            <useTransitiveDependencies>false</useTransitiveDependencies>
+            <scope>provided</scope>
+            <unpack>true</unpack>
+            <includes>
+              <include>com.atlassian.jira:jira-jars-tomcat-distribution:zip:${tomcat.dist.flavour}</include>
+            </includes>
+            <directoryMode>0755</directoryMode>
+            <fileMode>0644</fileMode>
+        </dependencySet>
+    </dependencySets>
+</assembly>

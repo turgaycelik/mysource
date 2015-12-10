@@ -1,0 +1,75 @@
+<searchrequest name='allparameters'>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.ProjectParameter'>
+    <project pid='10240'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.MultipleFieldLuceneParameter'>
+    <multifieldlucene>
+      <field>summary</field>
+      <field>description</field>
+      <field>body</field>
+      <field>environment</field>
+      <query>qrytxt</query>
+    </multifieldlucene>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.StringParameter'>
+    <string name='type' value='2'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.PriorityParameter'>
+    <priority>
+      <value>1</value>
+      <value>2</value>
+    </priority>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.ResolutionParameter'>
+    <resolution>
+      <value></value>
+      <value>1</value>
+    </resolution>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.StatusParameter'>
+    <status>
+      <value>1</value>
+      <value>2</value>
+    </status>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.DateParameter'>
+    <date name='createdAfter' operator='&gt;=' field='created' timestamp='1037858400000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.DateParameter'>
+    <date name='createdBefore' operator='&lt;=' field='created' timestamp='1037944800000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.PeriodParameter'>
+    <period name='createdPrevious' operator='&gt;=' field='created' period='3600000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.DateParameter'>
+    <date name='updatedAfter' operator='&gt;=' field='updated' timestamp='1038031200000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.DateParameter'>
+    <date name='updatedBefore' operator='&lt;=' field='updated' timestamp='1038117600000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.PeriodParameter'>
+    <period name='updatedPrevious' operator='&gt;=' field='updated' period='86400000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.UserParameter'>
+    <user name='reporter' username='mike@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.ofbiz.UserParameter'>
+    <user name='assignee' username='scott@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.FixForParameter'>
+    <fixfor>
+      <value>10370</value>
+    </fixfor>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.ComponentParameter'>
+    <component>
+      <value>10120</value>
+      <value>10121</value>
+    </component>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.filter.VersionParameter'>
+    <version>
+      <value>10370</value>
+    </version>
+  </parameter>
+</searchrequest>

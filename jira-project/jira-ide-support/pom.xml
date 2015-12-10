@@ -1,0 +1,215 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-project</artifactId>
+        <version>6.3.15</version>
+    </parent>
+    <artifactId>jira-ide-support</artifactId>
+    <packaging>pom</packaging>
+    <name>Atlassian JIRA IDE Support</name>
+    <description>JIRA provides cutting edge issue tracking and project management.</description>
+    <properties>
+        <project.root.dir>${project.basedir}/..</project.root.dir>
+        <tomcat.additional.jvmargs></tomcat.additional.jvmargs>
+    </properties>
+    <profiles>
+        <profile>
+            <id>download-tomcat</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.5.1</version>
+                        <executions>
+                            <execution>
+                                <id>unpack-tomcat</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                      <artifactItem>
+                                        <groupId>org.apache.tomcat</groupId>
+                                        <artifactId>apache-tomcat</artifactId>
+                                        <version>${tomcat7x.version}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${tomcat.dir}</outputDirectory>
+                                      </artifactItem>
+                                      <artifactItem>
+                                        <groupId>org.apache.tomcat</groupId>
+                                        <artifactId>apache-tomcat</artifactId>
+                                        <version>${tomcat6x.version}</version>
+                                        <type>zip</type>
+                                        <overWrite>true</overWrite>
+                                        <outputDirectory>${tomcat.dir}</outputDirectory>
+                                      </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-bundled-jdbc-drivers</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <!-- Postgresql JDBC Driver -->
+                                        <artifactItem>
+                                            <groupId>postgresql</groupId>
+                                            <artifactId>postgresql</artifactId>
+                                            <version>${postgres.jdbc.version}</version>
+                                        </artifactItem>
+
+                                        <!-- MySQL JDBC driver -->
+                                        <artifactItem>
+                                            <groupId>mysql</groupId>
+                                            <artifactId>mysql-connector-java</artifactId>
+                                            <version>${mysql.jdbc.version}</version>
+                                        </artifactItem>
+
+                                        <!-- MS SQL JDBC Driver -->
+                                        <artifactItem>
+                                            <groupId>net.sourceforge.jtds</groupId>
+                                            <artifactId>jtds</artifactId>
+                                            <version>${mssql.jdbc.version}</version>
+                                        </artifactItem>
+
+                                        <!-- Oracle Database 10g Release 2 JDBC Drivers -->
+                                        <artifactItem>
+                                            <groupId>com.oracle</groupId>
+                                            <artifactId>ojdbc6</artifactId>
+                                            <version>${oracle.jdbc.version}</version>
+                                        </artifactItem>
+
+                                        <artifactItem>
+                                            <groupId>hsqldb</groupId>
+                                            <artifactId>hsqldb</artifactId>
+                                            <version>${hsql.jdbc.version}</version>
+                                        </artifactItem>
+
+                                    </artifactItems>
+                                    <outputDirectory>${tomcat.dir}/lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>2.4.1</version>
+                        <executions>
+                            <execution>
+                                <id>copy-tomcat7-libs</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>${tomcat.dir}/lib</directory>
+                                        </resource>
+                                    </resources>
+                                    <outputDirectory>${tomcat.dir}/apache-tomcat-${tomcat7x.version}/lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-tomcat6-libs</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <resources>
+                                        <resource>
+                                            <directory>${tomcat.dir}/lib</directory>
+                                        </resource>
+                                    </resources>
+                                    <outputDirectory>${tomcat.dir}/apache-tomcat-${tomcat6x.version}/lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>echo-install-dirs</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <echo/>
+                                        <echo>TOMCAT INSTALLATION DIRS</echo>
+                                        <echo>========================</echo>
+                                        <echo>Tomcat 7 and 6 have been installed in:</echo>
+                                        <echo/>
+                                        <echo>Tomcat 7: ${tomcat.dir}/apache-tomcat-${tomcat7x.version}</echo>
+                                        <echo>Tomcat 6: ${tomcat.dir}/apache-tomcat-${tomcat6x.version}</echo>
+                                        <echo/>
+                                        <echo>and have been populated with JDBC drivers</echo>
+                                        <echo/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>antrun-chmod-tomcat-scripts</id>
+                                <phase>initialize</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <echo>Chmoding TOMCAT INSTALLATION DIRS</echo>
+                                        <echo>========================</echo>
+                                        <chmod perm="a+x">
+                                            <fileset dir="${tomcat.dir}">
+                                                <include name="**/*.sh"/>
+                                            </fileset>
+                                        </chmod>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>idea-templates</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.groovy.maven</groupId>
+                        <artifactId>gmaven-plugin</artifactId>
+                        <version>1.0</version>
+                        <executions>
+                            <execution>
+                                <id>update-idea-config</id>
+                                <phase>generate-sources</phase>
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+                                <configuration>
+                                    <source>${basedir}/src/main/gmaven/updateIdeaConfig.groovy</source>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+</project>

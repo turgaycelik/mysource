@@ -1,0 +1,19 @@
+#disable_html_escaping()
+## The FULL_LINK parameter overrides the NO_LINK parameter in order to enable Issue Key linking in the Excel view.
+## THe other column view templates should also be investigated.
+## ApplicationProperties is added to the velocity parameters in the KeySystemField itself - should be moved so as added
+## to all column views to enable full linking in excel view.
+
+#if ($displayParams && $displayParams.get('strikeThroughClosedKeys') && $issue.resolution)
+    #set ($linktext="<strike>$textutils.htmlEncode($issue.key)</strike>")
+#else
+    #set ($linktext="$textutils.htmlEncode($issue.key)")
+#end
+
+#if ($displayParams && $displayParams.get('full_link'))
+    <a class="issue-link" data-issue-key="${issue.key}" href="${requestContext.baseUrl}/browse/${issue.key}">$linktext</a>
+#elseif ($displayParams && $displayParams.get('nolink'))
+    $linktext
+#else
+    <a class="issue-link" data-issue-key="${issue.key}" href="${requestContext.baseUrl}/browse/${issue.key}">$linktext</a>
+#end

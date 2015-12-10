@@ -1,0 +1,35 @@
+{
+    "type": "marshallingTest",
+    "description": "metadata description",
+    "descriptionKey": "viewissue.changehistory.automatictransition",
+    "activityDescription": "activity description",
+    "activityDescriptionKey": "viewissue.changehistory.automatictransitionactivity",
+    "actor": {
+        "id": "actor-participant",
+        "displayName": "actor's Participant Display Name",
+        "displayNameKey": "i18.key.actor",
+        "type": "actor-participant-type",
+        "avatarUrl": "http://localhost/actor.gif",
+        "url": "https://localhost/profile/actor"
+    },
+    "generator": {
+        "id": "generator-participant",
+        "displayName": "generator's Participant Display Name",
+        "displayNameKey": "i18.key.generator",
+        "type": "generator-participant-type",
+        "avatarUrl": "http://localhost/generator.gif",
+        "url": "https://localhost/profile/generator"
+    },
+    "cause": {
+        "id": "κόσμε-participant",
+        "displayName": "κόσμε's Participant Display Name",
+        "displayNameKey": "i18.key.κόσμε",
+        "type": "κόσμε-participant-type",
+        "avatarUrl": "http://localhost/κόσμε.gif",
+        "url": "https://localhost/profile/κόσμε"
+    },
+    "extraData": {
+        "extra": "data",
+        "foo": "Zażółć gęślą jaźń"
+    }
+}

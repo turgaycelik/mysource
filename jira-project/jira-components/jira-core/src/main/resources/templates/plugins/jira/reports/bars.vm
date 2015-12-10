@@ -1,0 +1,79 @@
+#disable_html_escaping()
+<style type="text/css">
+    td.covered {font-size: 2px; background: #51a825; border:0;}
+    td.uncovered {font-size: 2px; background: #ec8e00; border:0;}
+    td.estimate {font-size: 2px; background: #89afd7; border:0;}
+    td.misestimate {font-size: 2px; background: #eee; border:0;}
+    table.bars-summary {margin-top: 6px; margin-bottom: 6px; margin-left: 0; margin-right: 0; padding-right:6px;}
+    table.bars-summary td {border-width: "1"; padding-top: 0; padding-bottom:0; padding-left:6px;}
+    table.estimateGraph {margin: 4px; padding:0;}
+    table.estimateGraph td {margin: 4px; padding:0;}
+</style>
+<table width="100%" cellspacing="0" class="bars-summary" id="bars-summary">
+    <tbody>
+    <tr>
+        <td valign="middle" align="right">
+            <span class="bluetext"><b>$action.getText("bar.progress")</b></span>:&nbsp;<b>$report.getCompletionPercentage()%</b>
+        </td>
+        <td valign="middle" width="1%">
+            <table class="estimateGraph" cellspacing="0">
+            <tbody>
+            <tr>
+                #if($summaryBean.getCompletedWidth() != 0)
+                  <td class="covered"><img src="${req.contextPath}/images/border/spacer.gif" width="${summaryBean.getCompletedWidth()}" height="12" alt="" class="hideOnPrint"/></td>
+                #end
+                #if($summaryBean.getIncompleteWidth() != 0)
+                  <td class="uncovered"><img src="${req.contextPath}/images/border/spacer.gif" width="${summaryBean.getIncompleteWidth()}" height="12" alt="" class="hideOnPrint"/></td>
+                #end
+                #if($summaryBean.getOverEstimateWidth() != 0)
+                  <td class="misestimate"><img src="${req.contextPath}/images/border/spacer.gif" width="${summaryBean.getOverEstimateWidth()}" height="12" alt="" class="hideOnPrint"/></td>
+                #end
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        <td align="left">
+        #set ($timeSpentTot = "<b>$totals.getTimeSpent()</b>")
+        #set ($totalCurrentEst = "<b>$totals.getTotalCurrentEstimate()</b>")
+        $action.getText("bar.time.completed", $timeSpentTot, $totalCurrentEst)
+        </td>
+    </tr>
+    <tr>
+        <td valign="middle" align="right">
+            <span class="bluetext"><b>$action.getText("bar.accuracy")</b></span>:&nbsp;<b>$report.getAccuracyPercentage()%</b>
+        </td>
+        <td valign="middle">
+            <table class="estimateGraph" cellspacing="0" cellpadding="0" width="${summaryBean.getEstimationTotalWidth()}">
+            <tbody>
+            <tr>
+                #if($summaryBean.getEstimateWidth() != 0)
+                  <td class="estimate"><img src="${req.contextPath}/images/border/spacer.gif" width="${summaryBean.getEstimateWidth()}" height="12" alt="" class="hideOnPrint"/></td>
+                #end
+                #if($summaryBean.getUnderEstimateWidth() != 0)
+                  <td class="misestimate"><img src="${req.contextPath}/images/border/spacer.gif" width="${summaryBean.getUnderEstimateWidth()}" height="12" alt="" class="hideOnPrint"/></td>
+                #end
+            </tr>
+            </tbody>
+            </table>
+        </td>
+        <td align="left">
+            #if ($totals.onSchedule() == 1)
+                #set ($param1 = "<span class=green-highlight>")
+                #set ($param2 = "</span>")
+                #set ($originalEstTot = "<b>$totals.getOriginalEstimate()</b>")
+                #set ($accuracyTot = "<b>$totals.getAccuracy()</b>")
+                $action.getText("bar.issues.ahead", $param1, $param2)&nbsp;$action.getText("bar.against.estimate", $originalEstTot, $accuracyTot).
+            #elseif ($totals.onSchedule() == -1)
+                #set ($param1 = "<span class=red-highlight>")
+                #set ($param2 = "</span>")
+                #set ($originalEstTot = "<b>$totals.getOriginalEstimate()</b>")
+                #set ($accuracyTot = "<b>$totals.getAccuracy()</b>")
+                $action.getText("bar.issues.behind", $param1, $param2)&nbsp;$action.getText("bar.against.estimate", $originalEstTot, $accuracyTot).
+            #else
+                #set ($originalEstTot = "$totals.getOriginalEstimate()")
+                $action.getText("bar.issues.onschedule", $originalEstTot).
+            #end
+        </td>
+    </tr>
+</tbody>
+</table>

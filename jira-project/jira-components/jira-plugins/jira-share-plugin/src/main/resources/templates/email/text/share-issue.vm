@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#if($remoteUser.displayName)
+    $i18n.getText("jira-share-plugin.email.issue.activity", $remoteUser.displayName, '', '')
+    #dashes($!remoteUser.displayName)--------------#dashes($issue.getKey())-
+#end
+
+    $!comment
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("/templates/email/text/includes/patterns/involvedUsers.vm")
+
+#parse("templates/email/text/includes/footer.vm")

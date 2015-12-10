@@ -1,0 +1,68 @@
+@import "../../imports/aui-colours";
+@import "../../imports/mixins/border-box";
+@import "../../imports/mixins/clearfix";
+@import "../../imports/mixins/grid";
+
+/* for share and watchers inline dialogs */
+form.aui.recipients-form {
+    fieldset {
+        padding: 10px;
+        margin: 0 auto;
+    }
+    .cancel {
+        padding: 0;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+        z-index: 101;
+    }
+}
+
+.recipients {
+    .remove-recipient {
+        border: 0;
+        padding: 0;
+        line-height: 1;
+        cursor: pointer;
+        background: url(../../../images/icons/trash_16.gif) no-repeat 50% 50%;
+        float: right;
+        height: 24px;
+        text-indent: -9999px;
+        opacity: 0;
+        width: 24px;
+    }
+    ol {
+        clear:both;
+        list-style-type: none;
+        margin: @grid 0 0 0;
+        overflow: hidden;
+        padding: 0;
+    }
+    li {
+        .border-box();
+        .clearfix();
+        padding: @grid/4 @grid/4 0;
+        &:hover {
+            background-color: @aui-color-highlight-secondary;
+            .remove-recipient {
+                opacity: 1;
+            }
+        }
+        .remove-recipient:focus {
+            opacity: 1;
+        }
+    }
+    .user-hover {
+        float: left;
+        max-width: 174px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    img {
+        height: 22px;
+        margin-right: @grid/2;
+        vertical-align: bottom;
+        width: 22px;
+    }
+}

@@ -1,0 +1,36 @@
+{namespace JIRA.Templates.Slomo}
+
+/**
+*/
+{template .slomoUi}
+<div id="slomo-ui">
+    <h3>Slo Mo</h3>
+    <form id="slomo-form" class="ajs-dirty-warning-exempt" action="">
+        <div>
+            <input id="slomo-val" name="value" class='description' type="range" min="0" step="10" max="2000"/>
+            <input id="slomo-submit" type="submit" class='aui-button' value='Slow down!'/>
+            <input id="slomo-reset" type="button" class='aui-button' value='Reset'/>
+        </div>
+    </form>
+    <form id="slomo-pattern-form" class="ajs-dirty-warning-exempt" action="">
+        <table id="slomo-pattern-table">
+            <thead>
+                <tr>
+                    <th class="slomo-patten-header-enabled"><input type="checkbox" name="ignoremoe"/></th>
+                    <th class="slomo-patten-header-pattern">URL Regex Pattern (e.g. /rest/.*workflows)</th>
+                    <th class="slomo-patten-header-delay">Delay</th>
+                    <th class="slomo-patten-header-options"></th>
+                <tr>
+            </thead>
+            <tbody>
+                <tr id="slomo-create-row">
+                    <td></td>
+                    <td><input id="slomo-pattern" size="70"/></td>
+                    <td><input id="slomo-pattern-delay" size="30"/></td>
+                    <td><input type="submit" value="Add" name="add" class="aui-button" id="slomo-pattern-add"></input></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+{/template}

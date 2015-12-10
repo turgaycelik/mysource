@@ -1,0 +1,415 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-distribution</artifactId>
+        <version>6.3.15</version>
+    </parent>
+
+    <artifactId>jira-standalone-distribution-base</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Atlassian JIRA - zDistribution - Standalone Distribution Base</name>
+
+    <properties>
+        <installed.tomcat.dir>${project.build.directory}/apache-tomcat-${tomcat.dist.version}</installed.tomcat.dir>
+        <!-- when single @ character is used in a filtered file following variables will not be substituted
+        by assembly plugin similar to what's described in MRESOURCES-104
+        This variable is used to remove those single @ characters from files that has to be filtered correctly -->
+        <charAt>@</charAt>
+
+        <!-- keep these two properties in sync -->
+        <jvm.required.args>-Djava.awt.headless=true -Datlassian.standalone=JIRA -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true -Dmail.mime.decodeparameters=true -Dorg.dom4j.factory=com.atlassian.core.xml.InterningDocumentFactory -Datlassian.product.name="${product.name}"</jvm.required.args>
+        <jvm.options.service>-Djava.awt.headless=true;-Datlassian.standalone=JIRA;-Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true;-Dmail.mime.decodeparameters=true;-Dorg.dom4j.factory=com.atlassian.core.xml.InterningDocumentFactory;-Datlassian.product.name=${product.name}</jvm.options.service>
+    </properties>
+
+
+    <profiles>
+        <profile>
+            <id>prepare-base-project</id>
+            <activation>
+                <property>
+                    <name>deploy.distribution.base</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.2</version>
+                        <executions>
+                            <execution>
+                                <goals><goal>single</goal></goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/project.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>build-standalone</id>
+            <activation>
+                <property>
+                    <name>!deploy.distribution.base</name>
+                </property>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-common-distribution</artifactId>
+                    <version>${jira.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-jars-tomcat-distribution</artifactId>
+                    <version>${jira.version}</version>
+                    <classifier>${tomcat.dist.flavour}</classifier>
+                    <type>zip</type>
+                    <scope>provided</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-configurator</artifactId>
+                    <version>${jira.version}</version>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+            <build>
+                <finalName>${dist.name}</finalName>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-property</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireProperty>
+                                            <property>webapp.dist</property>
+                                            <message>This project is meant to be used as a parent. Child pom.xml must set property webapp.dist</message>
+                                        </requireProperty>
+                                        <requireProperty>
+                                            <property>dist.name</property>
+                                            <message>This project is meant to be used as a parent. Child pom.xml must set property dist.name</message>
+                                        </requireProperty>
+                                        <requireProperty>
+                                            <property>product.name</property>
+                                            <message>This project is meant to be used as a parent. Child pom.xml must set property product.name</message>
+                                        </requireProperty>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-parent-dist</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-standalone-distribution-base</artifactId>
+                                            <version>${jira.version}</version>
+                                            <classifier>project</classifier>
+                                            <type>zip</type>
+                                            <overWrite>false</overWrite>
+                                            <outputDirectory>${project.build.directory}/base-project</outputDirectory>
+                                            <excludes>pom.xml</excludes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-tomcat-x64</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.apache.tomcat</groupId>
+                                            <artifactId>apache-tomcat</artifactId>
+                                            <version>${tomcat.dist.version}</version>
+                                            <type>zip</type>
+                                            <classifier>windows-x64</classifier>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}/tomcat-x64</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>install-tomcat</id>
+                                <phase>generate-resources</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>org.apache.tomcat</groupId>
+                                            <artifactId>apache-tomcat</artifactId>
+                                            <version>${tomcat.dist.version}</version>
+                                            <type>zip</type>
+                                            <classifier>windows-x86</classifier>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-bundled-jdbc-drivers</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <!-- Postgresql JDBC Driver -->
+                                        <artifactItem>
+                                            <groupId>postgresql</groupId>
+                                            <artifactId>postgresql</artifactId>
+                                            <version>9.0-801.jdbc4</version>
+                                        </artifactItem>
+
+                                        <!-- MS SQL JDBC Driver -->
+                                        <artifactItem>
+                                            <groupId>net.sourceforge.jtds</groupId>
+                                            <artifactId>jtds</artifactId>
+                                            <version>${mssql.jdbc.version}</version>
+                                        </artifactItem>
+
+                                        <!-- Oracle Database 10g Release 2 JDBC Drivers -->
+                                        <artifactItem>
+                                            <groupId>com.oracle</groupId>
+                                            <artifactId>ojdbc6</artifactId>
+                                            <version>11.2.0.2.0</version>
+                                        </artifactItem>
+
+                                    </artifactItems>
+                                    <outputDirectory>${installed.tomcat.dir}/lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy-jira-configurator</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-configurator</artifactId>
+                                            <version>${jira.version}</version>
+                                            <destFileName>jira-configurator.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${installed.tomcat.dir}/bin</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>unpack-webapp-dist</id>
+                                <goals>
+                                    <goal>unpack-dependencies</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <includeArtifactIds>${webapp.dist}</includeArtifactIds>
+                                    <outputDirectory>${installed.tomcat.dir}/atlassian-jira</outputDirectory>
+                                    <!--
+                                        Tomcat 6 requires that SL4J logging and log4j NOT be in the JIRA WEB-INF/lib directory but rather
+                                        only in <tomcat>lib so they are copied there earlier and removed from WEB-INF/lib here
+                                        We can't do exclusions at the webapp level because we need the IDE to pick up the required
+                                        dependency on log4j
+
+                                        The jta implementation libraries are also excluded, even though we have a runtime dependency on them.
+                                        Instead they live in <tomcat>lib
+                                    -->
+                                    <excludes>META-INF/*, WEB-INF/lib/*slf4j*.jar, WEB-INF/lib/log4j*.jar, WEB-INF/classes/hash-registry.properties</excludes>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>com.atlassian.maven.plugins</groupId>
+                        <artifactId>modz-detector-maven-plugin</artifactId>
+                        <version>0.8</version>
+                        <executions>
+                            <execution>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>generate-registry</goal>
+                                </goals>
+                                <configuration>
+                                    <registry>${installed.tomcat.dir}/atlassian-jira/WEB-INF/classes/hash-registry.properties</registry>
+                                    <filesystem>
+                                        <directory>${installed.tomcat.dir}/atlassian-jira</directory>
+                                        <excludes>WEB-INF/classes/**/*, images/raw/**/*</excludes>
+                                    </filesystem>
+                                    <classpath>
+                                        <directory>${installed.tomcat.dir}/atlassian-jira/WEB-INF/classes</directory>
+                                        <includes>**/*</includes>
+                                    </classpath>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <!-- save the value of the tomcat/bin dir for use later on -->
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="rem Guess CATALINA_HOME if not defined">
+                                            <replaceValue>set "BIN_DIR=%~dp0"
+                                                rem Guess CATALINA_HOME if not defined</replaceValue>
+                                        </replace>
+                                        <!-- try the bundled JRE before falling back to the default JRE -->
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="echo Service will try to guess them from the registry.">
+                                            <replaceValue>echo Service will use the bundled JRE.
+                                                echo Failing that, service will try to guess them from the registry.
+                                                set "JRE_HOME=%BIN_DIR%\..\jre"</replaceValue>
+                                        </replace>
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="echo The service '%SERVICE_NAME%' has been installed.">
+                                            <replaceValue>call "%BIN_DIR%\permgenservice.bat"
+                                                echo The service '%SERVICE_NAME%' has been installed.</replaceValue>
+                                        </replace>
+
+                                        <!-- tweak the service name, display name, and description -->
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="SERVICE_NAME=Tomcat7" value="SERVICE_NAME=JIRA"/>
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="PR_DISPLAYNAME=Apache Tomcat 7" value="PR_DISPLAYNAME=Atlassian JIRA"/>
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="PR_DESCRIPTION=Apache Tomcat ${tomcat.dist.version} Server - http://tomcat.apache.org/" value="PR_DESCRIPTION=Atlassian JIRA ${project.version}"/>
+
+                                        <!-- the JVM options must match the ones in setenv.bat -->
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="--JvmMs 128 --JvmMx 256" value="--JvmMs 256 --JvmMx 768 --Startup auto"/>
+                                        <replace file="${installed.tomcat.dir}/bin/service.bat" token="++JvmOptions &quot;-Djava.io.tmpdir=%CATALINA_BASE%\temp" value="++JvmOptions &quot;${jvm.options.service};-Djava.io.tmpdir=%CATALINA_BASE%\temp"/>
+
+                                        <copy file="${project.build.directory}/tomcat-x64/apache-tomcat-${tomcat.dist.version}/bin/tcnative-1.dll" tofile="${installed.tomcat.dir}/bin/tcnative-1.dll.x64" />
+                                        <copy file="${project.build.directory}/tomcat-x64/apache-tomcat-${tomcat.dist.version}/bin/tomcat7.exe" tofile="${installed.tomcat.dir}/bin/tomcat7.exe.x64" />
+                                        <mkdir dir="${installed.tomcat.dir}/bin/apr" />
+                                        <move todir="${installed.tomcat.dir}/bin/apr">
+                                            <fileset dir="${installed.tomcat.dir}/bin">
+                                                <include name="tcnative-1.*" />
+                                            </fileset>
+                                        </move>
+                                        <concat destfile="${installed.tomcat.dir}/conf/logging.properties" append="yes" fixlastline="yes">
+                                            # Suppress clearReferencesThreads and clearThreadLocalMap notifications on shutdown
+                                            org.apache.catalina.loader.WebappClassLoader.level = OFF
+
+                                            # Supress some useless REST messages. See JRADEV-12212.
+                                            com.sun.jersey.server.impl.application.WebApplicationImpl.level = WARNING
+                                            com.atlassian.plugins.rest.doclet.level = WARNING
+                                            com.sun.jersey.api.wadl.config.WadlGeneratorLoader.level = WARNING
+                                        </concat>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>standalone</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>${project.build.directory}/base-project/src/main/assembly/standalone.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>set-standalone-permgen</id>
+            <activation>
+                <property>
+                    <name>installer.standalone.permgen</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <replace file="${installed.tomcat.dir}/bin/setenv.bat" token="set JIRA_MAX_PERM_SIZE=384m"
+                                                 value="set JIRA_MAX_PERM_SIZE=${installer.standalone.permgen}"/>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>set-extra-java-properties</id>
+            <activation>
+                <property>
+                    <name>installer.extra.java.properties</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                                <configuration>
+                                    <tasks>
+                                        <concat destfile="${installed.tomcat.dir}/bin/setenv.bat" append="yes" fixlastline="yes">set JAVA_OPTS=%JAVA_OPTS% ${installer.extra.java.properties}</concat>
+                                    </tasks>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

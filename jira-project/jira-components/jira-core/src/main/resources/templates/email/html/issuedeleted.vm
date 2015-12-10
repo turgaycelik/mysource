@@ -1,0 +1,10 @@
+#disable_html_escaping()
+
+
+#defaultMailHeader("email.event.activity.deleted.issue", $changelogauthor)
+
+#set ($issueTitleNoTopMargin = true)
+#set ($issueTitleBody="#parse('templates/email/html/includes/patterns/issue-title.vm')")
+#rowWrapperNormal($issueTitleBody)
+
+#parse("templates/email/html/includes/footer.vm")

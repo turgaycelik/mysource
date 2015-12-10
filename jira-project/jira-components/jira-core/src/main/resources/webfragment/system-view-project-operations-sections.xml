@@ -1,0 +1,35 @@
+<atlassian-plugin name='View Project Operations Sections' key='jira.webfragments.view.project.operations' i18n-name-key="webfragments.view.project.operations.plugin.name">
+    <plugin-info>
+        <description key="webfragments.view.project.operations.plugin.desc">This library includes the web fragments for the project operation links on the 'view project' page</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.7" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-item key="edit_project" name="Edit Project" section="system.view.project.operations" i18n-name-key="webfragments.view.project.operations.item.edit.project.name"  weight="20">
+        <label key="admin.projects.edit.project" />
+        <link linkId="edit_project">/secure/project/EditProject!default.jspa?pid=$helper.project.id</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSelectedProjectCondition" />
+        <conditions type="OR">
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasProjectPermissionCondition">
+                <param name="permission">project</param>
+            </condition>
+        </conditions>
+    </web-item>
+
+    <web-item key="delete_project" name="Delete Project" section="system.view.project.operations" i18n-name-key="webfragments.view.project.operations.item.delete.project.name"  weight="30">
+        <label key="admin.projects.delete.project" />
+        <link linkId="delete_project">/secure/admin/DeleteProject!default.jspa?pid=$helper.project.id</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSelectedProjectCondition" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+    </web-item>
+
+    <web-item key="reindex_project" name="Reindex Project" section="system.view.project.operations" i18n-name-key="webfragments.view.project.operations.item.reindex.project.name"  weight="40">
+        <label key="admin.projects.reindex.project" />
+        <link linkId="reindex_project">/secure/admin/IndexProject.jspa?pid=$helper.project.id</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasSelectedProjectCondition" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+    </web-item>
+
+</atlassian-plugin>

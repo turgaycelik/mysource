@@ -1,0 +1,21 @@
+                .....
+          .... .NMMMD.  ...
+        .8MMM.  $MMN,..~MMMO.
+        .?MMM.         .MMM?.
+
+     OMMMMZ.           .,NMMMN~
+     .IMMMMMM. .NMMMN. .MMMMMN,
+       ,MMMMMM$..3MD..ZMMMMMM.
+        =NMMMMMM,. .,MMMMMMD.
+         .MMMMMMMM8MMMMMMM,
+           .ONMMMMMMMMMMZ.
+             ,NMMMMMMM8.
+            .:,.$MMMMMMM
+          .IMMMM..NMMMMMD.
+         .8MMMMM:  :NMMMMN.
+         .MMMMMM.   .MMMMM~.
+         .MMMMMN    .MMMMM?.
+
+      Atlassian JIRA
+      Version : @JIRAVERSION@
+                  

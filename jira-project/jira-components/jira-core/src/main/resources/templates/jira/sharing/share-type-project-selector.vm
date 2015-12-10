@@ -1,0 +1,21 @@
+#disable_html_escaping()
+<img src="${baseurl}/images/icons/hierarchy_arrow.gif" alt="$i18n.getText('common.words.arrow')" width="10px" height="10px"/>
+#if ($projects.empty)
+<span class="errMsg">$i18n.getText("common.sharing.no.projects")</span>
+#else
+<select id="projectShare-project" name="projectShare" class="select medium-field">
+#foreach ($project in $projects)
+    <option roles="${rolesMap.get($project.id)}" value="${project.id}">$textutils.htmlEncode(${project.name})</option>
+#end
+</select>
+
+<img src="${baseurl}/images/icons/hierarchy_arrow.gif" alt="$i18n.getText('common.words.arrow')" width="10px" height="10px"/>
+<select id="projectShare-role" name="roleShare" class="select medium-field">
+<option value="">$i18n.getText("common.words.all")</option>
+<optgroup label="$i18n.getText('common.words.project.roles')" id="projectShare-role-group">
+#foreach ($role in $roles)
+    <option value="${role.id}">$textutils.htmlEncode(${role.name})</option>
+#end
+</optgroup>
+</select>
+#end

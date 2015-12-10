@@ -1,0 +1,13 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-numberrange")}
+#searcherEditHeader ("" ${customField.name})
+    <div class="numberrange-from">
+        <label for="searcher-${customField.id}:greaterThan">$i18n.getText('common.words.between')</label>
+        <input class="text" id="searcher-${customField.id}:greaterThan" name="${customField.id}:greaterThan" type="text" value="$!value.getFirstValueForKey('greaterThan')" />
+    </div>
+    <div class="numberrange-to">
+        <label for="searcher-${customField.id}:lessThan">$i18n.getText('common.words.and')</label>
+        <input class="text" id="searcher-${customField.id}:lessThan" name="${customField.id}:lessThan" type="text" value="$!value.getFirstValueForKey('lessThan')" />
+    </div>
+#searcherEditFooter (${customField.id} $customField.descriptionProperty.viewHtml)
+$!{auiparams.clear()}

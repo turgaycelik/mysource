@@ -1,0 +1,72 @@
+{namespace JIRA.Templates.Fields.Pickers.Statuses}
+
+/**
+ * Form field to output selector for a status category.
+ * @param id
+ * @param? statusCategoryHelpData {HelpUtil.HelpPath} the data used for rendering help link.
+ * @param? statusCategoryOptions {List<Map<String,Object>>} the category of statuses available to assign to a status.
+ * @param? errors
+ */
+{template .statusCategorySelectField}
+    <div class="field-group">
+        {call aui.form.label}
+            {param forField : $id /}
+            {param isRequired : true /}
+            {param content : getText('admin.issuesettings.statuses.status.category') /}
+        {/call}
+
+        {call .statusCategorySelect data="all"/}
+        {if $statusCategoryHelpData}
+            {sp}
+            {call JIRA.Templates.Links.helpLink data="$statusCategoryHelpData" /}
+        {/if}
+
+        <div class="description">
+            {let $new}<b>{getText('common.statuscategory.new')}</b>{/let}
+            {let $inProgress}<b>{getText('common.statuscategory.indeterminate')}</b>{/let}
+            {let $done}<b>{getText('common.statuscategory.done')}</b>{/let}
+            {getText('admin.issuesettings.statuses.status.category.explanation', $new, $inProgress, $done)|noAutoescape}
+        </div>
+
+        {if $errors and $errors.statusCategory}
+            {call aui.form.fieldError}
+                {param message: $errors.statusCategory /}
+            {/call}
+        {/if}
+    </div>
+{/template}
+
+/**
+ * Render the <select> for the status category field.
+ *
+ * @param id
+ * @param? statusCategoryOptions {List<Map<String,Object>>} the category of statuses available to assign to a status.
+ */
+{template .statusCategorySelect}
+    <select id="{$id}" name="{$id}" class="select">
+        {foreach $option in $statusCategoryOptions}
+            {call .statusCategoryOption data="$option" /}
+        {/foreach}
+    </select>
+{/template}
+
+/**
+ * Render a status category option from status category data.
+ *
+ * @param value
+ * @param key
+ * @param colorName
+ * @param sequence
+ * @param? selected
+ * @param? isPlaceholder
+ * @param text
+ */
+{template .statusCategoryOption private="true"}
+    <option value="{$value}"
+        {sp}data-key="{$key}"
+        {sp}data-color-name="{$colorName}"
+        {sp}data-sequence="{$sequence}"
+        {if $selected}{sp}selected{/if}
+        {if $isPlaceholder}{sp}data-placeholder="true"{/if}
+    >{$text}</option>
+{/template}

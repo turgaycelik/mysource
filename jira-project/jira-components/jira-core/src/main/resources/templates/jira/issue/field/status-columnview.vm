@@ -1,0 +1,13 @@
+#* @vtlvariable name="status" type="com.atlassian.jira.issue.status.Status" *#
+#if ($status)
+    #set ($simpleStatus = $status.getSimpleStatus())
+    #set ($isIssueStatusSubtle = true)
+    #set ($isIssueStatusCompact = $displayParams.isCompact)
+    #set ($issueStatusMaxWidth = $displayParams.issueStatusMaxWidth)
+    ## JRA-34532, JDEV-24558 Prevent additional adornments from being output in excel
+    #if ($displayParams.textOnly || $displayParams.print_view)
+        ${simpleStatus.name}
+    #else
+        #parse("/static/util/issue/status.vm")
+    #end
+#end

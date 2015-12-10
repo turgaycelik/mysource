@@ -1,0 +1,11 @@
+#disable_html_escaping()
+<div>
+    <p>This is a reference web panel.</p>
+
+    <p>User: $!{user.name}</p>
+
+    <p>Issue: $!{issue.key}</p>
+
+    <p>Project: $!{project.key}</p>
+
+</div>

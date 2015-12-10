@@ -1,0 +1,162 @@
+<atlassian-plugin name='JIRA Project Permissions' key='jira.system.project.permissions'>
+    <plugin-info>
+        <description key="jira.system.project.permissions">This plugin defines all of the default project permissions in JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <project-permission key="ADMINISTER_PROJECTS"
+                       i18n-name-key="admin.permissions.PROJECT_ADMIN"
+                       i18n-description-key="admin.permissions.descriptions.PROJECT_ADMIN"
+                       category="PROJECTS" />
+
+    <project-permission key="BROWSE_PROJECTS"
+                        i18n-name-key="admin.permissions.BROWSE"
+                        i18n-description-key="admin.permissions.descriptions.BROWSE"
+                        category="PROJECTS" />
+
+    <project-permission key="VIEW_READONLY_WORKFLOW"
+                        i18n-name-key="admin.permissions.VIEW_WORKFLOW_READONLY"
+                        i18n-description-key="admin.permissions.descriptions.WORKFLOW_VIEW_READONLY"
+                        category="PROJECTS" />
+
+    <project-permission key="CREATE_ISSUES"
+                        i18n-name-key="admin.permissions.CREATE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.CREATE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="EDIT_ISSUES"
+                        i18n-name-key="admin.permissions.EDIT_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.EDIT_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="TRANSITION_ISSUES"
+                        i18n-name-key="admin.permissions.TRANSITION_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.TRANSITION_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="SCHEDULE_ISSUES"
+                        i18n-name-key="admin.permissions.SCHEDULE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.SCHEDULE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="MOVE_ISSUES"
+                        i18n-name-key="admin.permissions.MOVE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.MOVE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="ASSIGN_ISSUES"
+                        i18n-name-key="admin.permissions.ASSIGN_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.ASSIGN_ISSUE"
+                        category="issues" />
+
+    <project-permission key="ASSIGNABLE_USER"
+                        i18n-name-key="admin.permissions.ASSIGNABLE_USER"
+                        i18n-description-key="admin.permissions.descriptions.ASSIGNABLE_USER"
+                        category="ISSUES" />
+
+    <project-permission key="RESOLVE_ISSUES"
+                        i18n-name-key="admin.permissions.RESOLVE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.RESOLVE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="CLOSE_ISSUES"
+                        i18n-name-key="admin.permissions.CLOSE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.CLOSE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="MODIFY_REPORTER"
+                        i18n-name-key="admin.permissions.MODIFY_REPORTER"
+                        i18n-description-key="admin.permissions.descriptions.MODIFY_REPORTER"
+                        category="ISSUES" />
+
+    <project-permission key="DELETE_ISSUES"
+                        i18n-name-key="admin.permissions.DELETE_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.DELETE_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="LINK_ISSUES"
+                        i18n-name-key="admin.permissions.LINK_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.LINK_ISSUE"
+                        category="ISSUES" />
+
+    <project-permission key="SET_ISSUE_SECURITY"
+                        i18n-name-key="admin.permissions.SET_ISSUE_SECURITY"
+                        i18n-description-key="admin.permissions.descriptions.SET_ISSUE_SECURITY"
+                        category="ISSUES" />
+
+    <project-permission key="VIEW_VOTERS_AND_WATCHERS"
+                        i18n-name-key="admin.permissions.VIEW_VOTERS_AND_WATCHERS"
+                        i18n-description-key="admin.permissions.descriptions.VIEW_VOTERS_AND_WATCHERS"
+                        category="VOTERS_AND_WATCHERS" />
+
+    <project-permission key="MANAGE_WATCHERS"
+                        i18n-name-key="admin.permissions.MANAGE_WATCHER_LIST"
+                        i18n-description-key="admin.permissions.descriptions.MANAGE_WATCHER_LIST"
+                        category="VOTERS_AND_WATCHERS" />
+
+    <project-permission key="ADD_COMMENTS"
+                        i18n-name-key="admin.permissions.COMMENT_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.COMMENT_ISSUE"
+                        category="COMMENTS" />
+
+    <project-permission key="EDIT_ALL_COMMENTS"
+                        i18n-name-key="admin.permissions.COMMENT_EDIT_ALL"
+                        i18n-description-key="admin.permissions.descriptions.COMMENT_EDIT_ALL"
+                        category="COMMENTS" />
+
+    <project-permission key="EDIT_OWN_COMMENTS"
+                        i18n-name-key="admin.permissions.COMMENT_EDIT_OWN"
+                        i18n-description-key="admin.permissions.descriptions.COMMENT_EDIT_OWN"
+                        category="COMMENTS" />
+
+    <project-permission key="DELETE_ALL_COMMENTS"
+                        i18n-name-key="admin.permissions.COMMENT_DELETE_ALL"
+                        i18n-description-key="admin.permissions.descriptions.COMMENT_DELETE_ALL"
+                        category="COMMENTS" />
+
+    <project-permission key="DELETE_OWN_COMMENTS"
+                        i18n-name-key="admin.permissions.COMMENT_DELETE_OWN"
+                        i18n-description-key="admin.permissions.descriptions.COMMENT_DELETE_OWN"
+                        category="COMMENTS" />
+
+    <project-permission key="CREATE_ATTACHMENTS"
+                        i18n-name-key="admin.permissions.CREATE_ATTACHMENT"
+                        i18n-description-key="admin.permissions.descriptions.CREATE_ATTACHMENT"
+                        category="ATTACHMENTS" />
+
+    <project-permission key="DELETE_ALL_ATTACHMENTS"
+                        i18n-name-key="admin.permissions.ATTACHMENT_DELETE_ALL"
+                        i18n-description-key="admin.permissions.descriptions.ATTACHMENT_DELETE_ALL"
+                        category="ATTACHMENTS" />
+
+    <project-permission key="DELETE_OWN_ATTACHMENTS"
+                        i18n-name-key="admin.permissions.ATTACHMENT_DELETE_OWN"
+                        i18n-description-key="admin.permissions.descriptions.ATTACHMENT_DELETE_OWN"
+                        category="ATTACHMENTS" />
+
+    <project-permission key="WORK_ON_ISSUES"
+                        i18n-name-key="admin.permissions.WORK_ISSUE"
+                        i18n-description-key="admin.permissions.descriptions.WORK_ISSUE"
+                        category="TIME_TRACKING" />
+
+    <project-permission key="EDIT_OWN_WORKLOGS"
+                        i18n-name-key="admin.permissions.WORKLOG_EDIT_OWN"
+                        i18n-description-key="admin.permissions.descriptions.WORKLOG_EDIT_OWN"
+                        category="TIME_TRACKING" />
+
+    <project-permission key="EDIT_ALL_WORKLOGS"
+                        i18n-name-key="admin.permissions.WORKLOG_EDIT_ALL"
+                        i18n-description-key="admin.permissions.descriptions.WORKLOG_EDIT_ALL"
+                        category="TIME_TRACKING" />
+
+    <project-permission key="DELETE_OWN_WORKLOGS"
+                        i18n-name-key="admin.permissions.WORKLOG_DELETE_OWN"
+                        i18n-description-key="admin.permissions.descriptions.WORKLOG_DELETE_OWN"
+                        category="TIME_TRACKING" />
+
+    <project-permission key="DELETE_ALL_WORKLOGS"
+                        i18n-name-key="admin.permissions.WORKLOG_DELETE_ALL"
+                        i18n-description-key="admin.permissions.descriptions.WORKLOG_DELETE_ALL"
+                        category="TIME_TRACKING" />
+</atlassian-plugin>

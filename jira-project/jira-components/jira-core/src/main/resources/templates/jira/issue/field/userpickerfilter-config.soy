@@ -1,0 +1,114 @@
+{namespace JIRA.Templates.Admin.CustomFields.UserPickerFilter}
+
+/**
+ * @param atl_token the atl_token for xsrf check
+ * @param customField the custom field on which the filter is being configured
+ * @param fieldConfig the field configuration for the filter being configured
+ * @param groupsJson json representation of array of all groups in the system, containing names only
+ * @param helpPath the HelpPath object for help link
+ * @param projectRolesJson json representation of array of all project roles in the system
+ * @param userFilterJson the json representation of the filter
+ */
+{template .showConfigPage}
+<html>
+<head>
+    <meta name="admin.active.section" content="admin_issues_menu/element_options_section/fields_section"/>
+    <meta name="admin.active.tab" content="view_custom_fields"/>
+    <title>{getText('admin.issuefields.customfields.edit.userpickerfilter.config.title', $customField.name)}</title>
+</head>
+<body>
+    {call JIRA.Templates.Headers.pageHeader}
+        {param mainContent}
+            <h2>{getText('admin.issuefields.customfields.edit.userpickerfilter.config.title', $customField.name)}</h2>
+        {/param}
+        {param helpContent}
+            {call JIRA.Templates.Links.helpLinkFromHelpPath}
+                {param helpPath: $helpPath /}
+            {/call}
+        {/param}
+    {/call}
+    <div id="filter-config-panel">
+        <p class="instructions">{getText('admin.issuefields.customfields.edit.userpickerfilter.config.instruction')}</p>
+        {call aui.form.form}
+            {param action: 'EditCustomFieldUserPickerFilter!save.jspa' /}
+            {param method: 'POST' /}
+            {param content}
+                // store the data required to render the template on client side.
+                <div id="data-for-template" style="display: none"
+                        data-user-filter-json="{$userFilterJson}"
+                        data-groups-json="{$groupsJson}"
+                        data-project-roles-json="{$projectRolesJson}">
+                </div>
+
+                // place holder for selector panel,
+                <div id="filter-selector-panel">
+                </div>
+
+                {call aui.form.input}
+                    {param id: 'filter-data-hidden' /}
+                    {param name: 'userFilterJson' /}
+                    {param type: 'hidden' /}
+                    {param value: '' /}
+                {/call}
+                {call aui.form.input}
+                    {param name: 'atl_token' /}
+                    {param type: 'hidden' /}
+                    {param value: $atl_token /}
+                {/call}
+                {call aui.form.input}
+                    {param name: 'fieldConfigId' /}
+                    {param type: 'hidden' /}
+                    {param value: $fieldConfig.id /}
+                {/call}
+
+                <div id="filter-button-panel">
+                    {call aui.form.buttons }
+                        {param content}
+                            {call aui.form.submit}
+                                {param text: getText('common.words.save') /}
+                                {param id: 'filter-submit' /}
+                                {param name: getText('common.words.save') /}
+                                {param extraClasses: 'aui-button' /}
+                            {/call}
+                            {call aui.form.linkButton}
+                                {param id: 'filter-cancel' /}
+                                {param url: 'ConfigureCustomField!default.jspa?customFieldId=' + $customField.idAsLong /}
+                                {param name: getText('AUI.form.cancel.link.text') /}
+                                {param text: getText('AUI.form.cancel.link.text') /}
+                            {/call}
+                        {/param}
+                    {/call}
+                </div>
+            {/param}
+        {/call}
+    </div>
+</body>
+</html>
+{/template}
+
+
+/**
+ * Renders the summary view on the Configure Custom Field page.
+ * @param filter the user filter
+ * @param groups the groups in the filter, sorted.
+ * @param projectRoles the project roles in the filter, sorted, with full objects.
+ */
+{template .showConfigSummary}
+    <div id="userpickerfilter-options">
+        {if not $filter.enabled}
+            <div>{getText('admin.issuefields.customfields.config.userpickerfilter.view.desc.everyone')}</div>
+        {elseif length($groups) == 0 and length($projectRoles) == 0}
+            <div>{getText('admin.issuefields.customfields.config.userpickerfilter.view.desc.nobody')}</div>
+        {else}
+            <div>{getText('admin.issuefields.customfields.config.userpickerfilter.view.title')}</div>
+            <ul class="optionlist">
+                {foreach $group in $groups}
+                    <li><b>{getText('admin.common.words.group')}</b>: {$group}</li>
+                {/foreach}
+                {foreach $projectRole in $projectRoles}
+                    <li><b>{getText('admin.common.words.projectrole')}</b>: {$projectRole.name}</li>
+                {/foreach}
+            </ul>
+        {/if}
+    </div>
+{/template}

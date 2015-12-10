@@ -1,0 +1,61 @@
+{namespace JIRA.Templates.Headers}
+
+/**
+ * @param mainContent the actual header. Should include an <hX> element. Can also add breadcrumbs etc. here.
+ * @param? imageContent optional container for avatars / images / etc. Appears to the left of the main content.
+ * @param? actionsContent optional container for buttons / links / etc. Appears to the right of the main content.
+ * @param? helpContent optional help link.
+ * @param? id optional identifier for the page header.
+ * @param? tagName optional name for the root tag. Default is 'header'.
+ */
+{template .pageHeader}
+<{$tagName ? $tagName : 'header'} class="aui-page-header"{if $id} id="{$id}"{/if}>
+    <div class="aui-page-header-inner">
+        {if $imageContent}
+            <div class="aui-page-header-image">
+                {$imageContent|noAutoescape}
+            </div>
+        {/if}
+        <div class="aui-page-header-main">
+            {$mainContent|noAutoescape}
+        </div>
+        {if $actionsContent or $helpContent}
+            <div class="aui-page-header-actions">
+                {if $actionsContent}{$actionsContent|noAutoescape}{/if}
+                {if $helpContent}{$helpContent|noAutoescape}{/if}
+            </div>
+        {/if}
+    </div>
+</{$tagName ? $tagName : 'header'}>
+{/template}
+
+/**
+ * Render a project avatar, optionally with the project shortcuts enabled.
+ * @param? id the ID of the project avatar section.
+ * @param? projectKey the key of the project.
+ * @param? projectName the name of the project.
+ * @param avatarAlt the alternative text for the avatar image.
+ * @param avatarUrl the (absolute or root-relative) location of the avatar. If relative, ensure the baseUrl is already prepended.
+ * @param? isSystemAvatar set to true if the avatar is a system-supplied avatar as opposed to a user-uploaded / custom one.
+ * @param? hasProjectShortcut if true, render the avatar as a project shortcut link.
+ */
+{template .projectAvatar}
+    <span
+        {if $id} id="{$id}"{/if}
+        {sp}class="aui-avatar aui-avatar-large aui-avatar-project
+            {if $isSystemAvatar} jira-system-avatar{/if}
+            {if $hasProjectShortcut} project-shortcut-dialog-trigger{/if}
+            {call aui.renderExtraClasses data="all" /}"
+        {if $hasProjectShortcut}
+            {sp}data-key="{$projectKey}"
+            {sp}data-name="{$projectName}"
+            {sp}data-desc=""
+            {sp}data-entity-type="jira.project"
+        {/if}
+        {call aui.renderExtraAttributes data="all" /}
+    >
+        <span class="aui-avatar-inner">
+            <img id="project-avatar" alt="{getText('admin.common.words.project.uploaded.image', $avatarAlt)}" src="{$avatarUrl|noAutoescape}" />
+        </span>
+    </span>
+{/template}

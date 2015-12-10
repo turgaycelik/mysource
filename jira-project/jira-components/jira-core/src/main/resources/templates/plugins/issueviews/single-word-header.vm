@@ -1,0 +1,15 @@
+#disable_html_escaping()
+<!DOCTYPE html>
+## /secure/views/issue/viewissue-word.jsp
+<html>
+<head>
+    <title>$textutils.htmlEncode($title)</title>
+    <meta http-equiv="Content-Type" Content="$contentType">
+    #if ($showCssLinks)
+        $webResourceManager.requireResource('jira.webresources:global-static')
+        $webResourceManager.getRequiredResources($urlModeAbsolute)
+    #end
+    $style
+</head>
+<body>
+$!{linkToPrevious}

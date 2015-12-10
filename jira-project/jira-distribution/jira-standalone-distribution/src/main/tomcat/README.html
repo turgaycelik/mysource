@@ -1,0 +1,112 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <title>Atlassian JIRA @VERSION@-#@BUILD_NUMBER@ - README</title>
+    <style type="text/css">
+        body, p, td, table, tr, .bodytext {
+            font-family: Verdana, arial, sans-serif;
+            font-size: 11px;
+            line-height: 16px;
+            color: #000000;
+        }
+
+        body {
+            margin: 0px;
+            padding: 0px;
+            background-color: #f0f0f0;
+        }
+
+        A:link, A:visited, A:active, A:hover {
+            color: #003366;
+        }
+
+        h1 {
+            font-size: 24px;
+            line-height: normal;
+            font-weight: bold;
+            border-bottom: #3c78b5;
+            border-width: 0 0 1px 0;
+            border-style: solid;
+        }
+
+        h2 {
+            font-size: 14px;
+            line-height: normal;
+            font-weight: bold;
+            padding: 5px 0 0 0;
+        }
+
+        #Content {
+            text-align: left;
+            background-color: #fff;
+            border-style: solid;
+            border-color: #003366;
+            border-width: 10px 0px 1px 0px;
+            padding: 0px 10px 10px 10px;
+        }
+
+    </style>
+</head>
+
+<body>
+<div id="Content">
+    <h1>JIRA @VERSION@ README</h1>
+
+    <p>Thank you for downloading JIRA @VERSION@.
+        This distribution comes with a built-in Tomcat @TOMCAT_VERSION@ application
+        server, so it runs (almost) out of the box.</p>
+
+
+    <h2>Brief Install Guide</h2>
+
+    <ol>
+        <li>
+            Install Oracle's (formerly Sun's) Java Development Kit (JDK) or Java Runtime Environment (JRE) version 1.6 or above from:
+            <a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">http://www.oracle.com/technetwork/java/javase/downloads/index.html</a>.
+        </li>
+
+        <li>
+            Set the <b>JAVA_HOME</b> variable to where you installed Java. The Windows and Linux installers will do this for you. See our <a href="http://docs.atlassian.com/jira/docs-@DOCS_VERSION@/Installing+Java">Installing Java</a>
+            instructions for details.
+        </li>
+
+        <li>Set your <a href="http://docs.atlassian.com/jira/docs-@DOCS_VERSION@/JIRA+Home+Directory">JIRA Home Directory</a>.
+            Refer to <a href="http://docs.atlassian.com/jira/docs-@DOCS_VERSION@/Setting+your+JIRA+Home+Directory">Setting your JIRA Home Directory</a> for details.
+        </li>
+
+	<li>Run 'bin\start-jira.bat' (for Windows) or 'bin/start-jira.sh' (for Linux/Solaris).
+            Check that there are no errors on the console. See below for troubleshooting
+            advice.
+        </li>
+
+        <li>Point your browser at <a href="http://localhost:8080/">http://localhost:8080</a>. You should see
+            JIRA's Setup Wizard.
+        </li>
+    </ol>
+
+    <p>Refer to our full documentation on <a href="http://docs.atlassian.com/jira/docs-@DOCS_VERSION@/Installing+JIRA">Installing JIRA</a> for details.<br/>
+
+
+    <h2>Problems?</h2>
+
+    <p>A common startup problem is when another program has claimed port 8080,
+        which JIRA is configured to run on by default. To avoid this port
+        conflict, JIRA's port can be changed in conf/server.xml.</p>
+
+    <p>If you encounter any problems, please create a support request at:<a
+                href="https://support.atlassian.com">https://support.atlassian.com</a>.
+
+    <h2>Questions?</h2>
+
+    <p>Questions? Try the <a
+            href="http://docs.atlassian.com/jira/docs-@DOCS_VERSION@/">online
+        documentation</a>, or ask at <a
+            href="http://answers.atlassian.com/tags/jira">Atlassian Answers for JIRA</a>.
+    </p>
+
+    <br>
+
+    <div class="sig"><b>Happy issue tracking and thank you for using JIRA!<br/>
+        - The Atlassian Team</b></div>
+</body>
+</html>

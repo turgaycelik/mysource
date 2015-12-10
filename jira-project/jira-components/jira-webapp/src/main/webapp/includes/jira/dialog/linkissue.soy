@@ -1,0 +1,22 @@
+{namespace JIRA.Templates.LinkIssue}
+
+
+/**
+* Renders Link issue dialog
+* @param linkTypes
+* @param tabContent
+*/
+{template .dialog}
+<div class="aui-group">
+    <div class="aui-item dialog-menu-group">
+        <ul class="dialog-menu">
+            {foreach $linkType in $linkTypes}
+            <li><button id="{$linkType.id}" data-url="{$linkType.url}" class="dialog-menu-item {if $linkType.isSelected}selected{/if}">{$linkType.label}</button></li>
+            {/foreach}
+        </ul>
+    </div>
+    <div class="aui-item dialog-pane">
+        {$tabContent|noAutoescape}
+    </div>
+</div>
+{/template}

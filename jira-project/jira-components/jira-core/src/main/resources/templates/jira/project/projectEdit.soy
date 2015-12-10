@@ -1,0 +1,49 @@
+{namespace JIRA.Templates.EditProject}
+
+/**
+ * Renders a text field with a content of subTemplate next to input field
+ *
+ * @param id id of the input
+ * @param name name of the input
+ * @param labelContent
+ * @param isRequired
+ * @param value
+ * @param? subTemplateHtml
+ * @param? maxLength
+ * @param? descriptionText
+ * @param? errorTexts
+ * @param? isDisabled
+ */
+{template .textFieldWithSubTemplate}
+    {call aui.form.fieldGroup}
+        {param content}
+            {call aui.form.label}
+                {param forField: $name /}
+                {param isRequired: $isRequired /}
+                {param content: $labelContent /}
+            {/call}
+            {call aui.form.input}
+                {param id: $id /}
+                {param name: $name /}
+                {param type: 'text' /}
+                {param maxLength: $maxLength /}
+                {param value: $value /}
+                {param isDisabled: $isDisabled /}
+            {/call}
+            {if $subTemplateHtml}
+                {$subTemplateHtml |noAutoescape}
+            {/if}
+            {if $descriptionText}
+                {call aui.form.fieldDescription}
+                    {param message: $descriptionText /}
+                {/call}
+            {/if}
+            {if $errorTexts}
+                {call aui.form.fieldError}
+                    {param id: $id + '-error' /}
+                    {param message: $errorTexts /}
+                {/call}
+            {/if}
+        {/param}
+    {/call}
+{/template}

@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+     [ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-all} ]
+
+#if($remoteUser.displayName)
+$i18n.getText("jira.mentions.email.header", $remoteUser.displayName, $issue.getKey())
+#dashes($!remoteUser.displayName)---------#dashes(${issue.getKey()})-
+#end
+
+$comment
+
+>$stringUtils.leftPad($i18n.getText("common.concepts.key"), $padSize): ${issue.getKey()}
+
+>$stringUtils.leftPad($i18n.getText("jira.mentions.email.view.online"), $padSize): ${baseurl}/browse/${issue.getKey()}
+>$stringUtils.leftPad($i18n.getText("jira.mentions.email.comment.add"), $padSize): ${baseurl}/browse/${issue.getKey()}#add-comment
+
+$i18n.getText("jira.mentions.email.hint"): $i18n.getText("jira.mentions.email.hint.message")
+
+
+#parse("templates/email/text/includes/footer.vm")

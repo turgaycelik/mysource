@@ -1,0 +1,27 @@
+#disable_html_escaping()
+
+#parse("templates/email/html/includes/header.vm")
+
+#titleHeader($i18n.getText("template.user.forgotusername.title"))
+
+#rowWrapperNormalBegin()
+    #textParagraph($i18n.getText("template.user.forgotusername.requestedusernames"))
+#rowWrapperNormalEnd()
+
+#rowWrapperNormalBegin()
+    #set ($text1 = "$i18n.getText('template.user.forgotusername.usernames')")
+    #foreach ($user in $params.get("users"))
+        #set ($text1 = "$text1 <br> <strong>$textutils.htmlEncode($user.getName())</strong>")
+    #end
+    #textParagraph($text1)
+#rowWrapperNormalEnd()
+
+#set ($managedUsers = $params.get("managedUsers"))
+#if($managedUsers.size() > 0)
+    #rowWrapperNormalBegin()
+        #set($forgotUrl = "${baseurl}/secure/ForgotLoginDetails.jspa")
+        #textParagraph("$i18n.getText('template.user.forgotusername.requestpassword') <br> <a href='$forgotUrl'>$forgotUrl</a>")
+    #rowWrapperNormalEnd()
+#end
+
+#parse("templates/email/html/includes/footer.vm")

@@ -1,0 +1,51 @@
+#disable_html_escaping()
+#*
+  -- select.vm
+  --
+  -- Required Parameters:
+  --   * label  - The description that will be used to identfy the control.
+  --   * name   - The name of the attribute to put and pull the result from.
+  --              Equates to the NAME parameter of the HTML SELECT tag.
+  --   * list   - Iterator that will provide the options for the control.
+  --              Equates to the HTML OPTION tags in the SELECT and supplies
+  --              both the NAME and VALUE parameters of the OPTION tag.
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  --   * size            - SIZE parameter of the HTML SELECT tag.
+  --   * disabled        - DISABLED parameter of the HTML SELECT tag.
+  --   * tabindex        - tabindex parameter of the HTML SELECT tag.
+  --   * onchange        - onkeyup parameter of the HTML SELECT tag.
+  --   * size            - SIZE parameter of the HTML SELECT tag.
+  --   * multiple        - MULTIPLE parameter of the HTML SELECT tag.
+  --   * headerKey       - Combined with headerValue parameter specifies the top of select list
+  --   * headerValue     - see above
+  --
+    *#
+
+#parse("/template/standard/controlheader.vm")
+<select name="$parameters.name"
+#if ($parameters.size)             size="$parameters.size"            #end
+#if ($parameters.disabled == true) disabled="disabled"                #end
+#if ($parameters.tabindex)         tabindex="$parameters.tabindex"    #end
+#if ($parameters.onchange)         onchange="$parameters.onchange"    #end
+#if ($parameters.id)               id="$parameters.id"                #end
+#if ($parameters.multiple)         multiple="multiple"                #end
+>
+
+#if ($parameters.headerKey && $parameters.headerValue)
+    <option value="$parameters.headerKey">$parameters.headerValue</option>
+#end
+
+#bean ("webwork.util.ContainUtil" $contain)
+
+#foreach ($param in $parameters.list)
+    <option value="$param"
+        #if ($contain.contains($parameters.nameValue, $param) == true)
+            selected="selected"
+        #end
+    >$param</option>
+#end
+</select>
+#parse("/template/standard/controlfooter.vm")

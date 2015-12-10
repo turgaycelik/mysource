@@ -1,0 +1,39 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <!-- Velocity template renderer -->
+    <component-import key="renderer" interface="com.atlassian.templaterenderer.TemplateRenderer" />
+
+    <web-resource key="application-properties-global">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+
+        <dependency>com.atlassian.auiplugin:aui-experimental-restfultable</dependency>
+        <resource type="download" name="application-properties-templates.js" location="templates/application-properties.soy" />
+
+        <resource type="download" name="application-properties.js" location="global/js/application-properties.js" />
+        <resource type="download" name="application-properties-init.js" location="global/js/application-properties-init.js" />
+
+    </web-resource>
+
+    <webwork1 key="admin.AdvancedApplicationProperties" name="admin.AdvancedApplicationProperties" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.applicationproperties.AdvancedApplicationProperties" alias="AdvancedApplicationProperties">
+                <view name="success">/templates/application-properties.vm</view>
+                <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+
+</atlassian-plugin>

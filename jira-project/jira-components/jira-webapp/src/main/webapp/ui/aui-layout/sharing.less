@@ -1,0 +1,54 @@
+/* Styles for the shared by lozenge - stolen from .aui-lozenge-success.aui-lozenge-subtle */
+.shared-by {
+    background-color: white;
+    border-color: #b2d8b9;
+    color: #14892c;
+
+    > em {
+        font-style: normal;
+    }
+
+    > a {
+    }
+}
+
+/* Styles for the shared by inline dialog */
+.shared-item-target {
+    display: none;
+}
+
+.shared-item-content {
+    padding: 16px;
+    > h3,
+    > strong {
+        display: block;
+        font-size: 14px;
+        line-height: 16px;
+        margin: 0 0 8px 0;
+    }
+}
+
+.shared-project-list {
+    display: block;
+    margin: 0;
+    list-style: none;
+    padding: 0;
+    max-height: 15em;
+    overflow-y: auto;
+    > li {
+        margin: 0;
+        overflow: hidden;
+        padding: 2px;
+        text-align: right;
+    }
+    .shared-project-name {
+        float: left;
+        padding-left: 20px;
+        text-align: left;
+        .shared-project-icon {
+            float: left;
+            margin: 0 4px 0 -20px;
+            text-indent: 999em;
+        }
+    }
+}

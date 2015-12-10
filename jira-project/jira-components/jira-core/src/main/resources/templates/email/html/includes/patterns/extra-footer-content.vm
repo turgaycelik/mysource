@@ -1,0 +1,17 @@
+#disable_html_escaping()
+
+#if ($extraFooterContent)
+<tr>
+    <td class="contextual-area-pattern">
+        <table class="contextual-excerpt-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+            <tr>
+                <td class="contextual-excerpt-pattern-text contextual-excerpt-pattern-text-container mobile-resize-text" valign="top">
+                    <div>
+                        $extraFooterContent
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </td>
+</tr>
+#end

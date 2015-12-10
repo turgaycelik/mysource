@@ -1,0 +1,221 @@
+@import "../global.less";
+
+h1, h2, h3, h4 {
+    color: @jira-color-headings;
+}
+
+body {
+    color: @jira-color-text;
+}
+
+a {
+    color: @jira-color-link;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: @jira-color-active-link;
+    }
+}
+
+.aui-button {
+    color: @jira-color-text;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: @jira-color-text;
+    }
+
+    &.aui-button-link {
+        color: @jira-color-link;
+
+        &:visited {
+            color: @jira-color-link;
+        }
+        &:hover,
+        &:focus,
+        &:active {
+            color: @jira-color-active-link;
+        }
+    }
+
+    &[disabled],
+    &[aria-disabled="true"] {
+        color: #999;
+    }
+    &.aui-button-primary {
+        color: #fff;
+    }
+}
+
+.aui-buttons .aui-button.aui-button-primary {
+    color: @aui-color-focus;
+
+    &:hover,
+    &:focus,
+    &:active {
+        color: @aui-color-atlassian;
+    }
+}
+
+// AUI Dropdown 1
+.aui-dropdown,
+.aui-dd-parent .aui-dropdown {
+    li.dropdown-item.active a.item-link,
+    a.item-link {
+        &:link,
+        &:visited {
+            background-color: @jira-dropdown-menuitem-background-color;
+            color: @jira-dropdown-menuitem-text-color;
+        }
+
+        &:hover,
+        &:focus,
+        &:active {
+            background-color: @jira-dropdown-menuitem-background-focus-color;
+            color: @jira-dropdown-menuitem-text-focus-color;
+        }
+    }
+}
+
+// AUI Dropdown2
+.aui-dropdown2.aui-style-default {
+    strong {
+        color: @jira-dropdown-heading-color;
+    }
+
+    .active {
+        background-color: @jira-dropdown-menuitem-background-focus-color;
+        color: @jira-dropdown-menuitem-text-focus-color;
+    }
+
+    .aui-dropdown2-radio,
+    .aui-dropdown2-checkbox {
+        &.checked,
+        &.checked.active,
+        &.disabled.checked,
+        &.disabled.checked.active {
+            background-image: none;
+        }
+
+        &.checked:before {
+            content: '';
+            display: block;
+            line-height: 16px;
+            position: absolute;
+            left: 10px;
+            top: 5px;
+            height: 16px;
+            width: 16px;
+            speak: none;
+        }
+    }
+
+    .aui-dropdown2-radio.checked:before {
+        content: "\2022";
+        font-size: 27px;
+    }
+
+    .aui-dropdown2-checkbox.checked:before {
+        content: "\2714";
+        font-size: 14px;
+    }
+}
+
+// JIRA Dropdowns
+.aui-list {
+    a:hover,
+    a:focus {
+        color: inherit;
+    }
+
+    a.active,
+    .aui-list-item.active > a {
+        color: @jira-dropdown-menuitem-text-focus-color;
+    }
+}
+
+// AUI Vertical & Horizontal Nav
+.aui-navgroup-horizontal .aui-nav > li a,
+.aui-navgroup-vertical .aui-nav > li > a,
+.aui-nav-vertical > li > a {
+    background-color: @jira-pagenav-menuitem-background-color;
+    color: @jira-pagenav-menuitem-text-color;
+
+    &:focus,
+    &:hover {
+        background-color: @jira-pagenav-menuitem-background-focus-color;
+        color: @jira-pagenav-menuitem-text-focus-color;
+    }
+}
+
+.aui-navgroup-horizontal .aui-nav > li a:active,
+.aui-navgroup-vertical .aui-nav > li > a:active,
+.aui-nav-vertical > li > a:active {
+    background-color: @jira-pagenav-menuitem-background-active-color;
+    color: @jira-pagenav-menuitem-text-active-color;
+}
+
+.aui-navgroup-horizontal .aui-nav > .aui-nav-selected a,
+.aui-navgroup-vertical .aui-nav .aui-nav-selected a,
+.aui-nav-vertical .aui-nav .aui-nav-selected a {
+    background-color: @jira-pagenav-menuitem-background-selected-color;
+    color: @jira-pagenav-menuitem-text-selected-color;
+
+    &:focus,
+    &:hover {
+        background-color: @jira-pagenav-menuitem-background-focus-color;
+        color: @jira-pagenav-menuitem-text-selected-color;
+    }
+
+    &:active {
+        background-color: @jira-pagenav-menuitem-background-active-color;
+        color: @jira-pagenav-menuitem-text-active-color;
+    }
+}
+
+.aui-navgroup-vertical .aui-nav,
+.aui-navgroup-vertical .aui-nav-heading {
+    border-color: @jira-pagenav-divider-color;
+}
+
+.aui-navgroup-vertical .aui-nav-heading {
+    color: @jira-pagenav-heading-color;
+}
+
+// AUI Dialogs
+.aui-dialog .dialog-page-menu li.page-menu-item button.item-button {
+    background-color: @jira-pagenav-menuitem-background-color;
+    color: @jira-pagenav-menuitem-text-color;
+}
+
+.aui-dialog .dialog-page-menu li.page-menu-item button.item-button:hover,
+.aui-dialog .dialog-page-menu li.page-menu-item button.item-button:focus {
+    background-color: @jira-pagenav-menuitem-background-focus-color;
+    color: @jira-pagenav-menuitem-text-focus-color;
+}
+.aui-dialog .dialog-page-menu li.page-menu-item.selected button.item-button {
+    background-color: @jira-pagenav-menuitem-background-selected-color;
+    color: @jira-pagenav-menuitem-text-selected-color;
+
+    &:hover,
+    &:focus {
+        background-color: @jira-pagenav-menuitem-background-focus-color;
+        color: @jira-pagenav-menuitem-text-selected-color;
+    }
+}
+.aui-dialog .dialog-page-menu li.page-menu-item button.item-button:active,
+.aui-dialog .dialog-page-menu li.page-menu-item.selected button.item-button:active {
+    background-color: @jira-pagenav-menuitem-background-active-color;
+    color: @jira-pagenav-menuitem-text-active-color;
+}
+
+.aui-dialog .dialog-button-panel a.button-panel-link {
+    color: @jira-color-link;
+
+    &:hover,
+    &:focus {
+        color: @jira-color-active-link;
+    }
+}

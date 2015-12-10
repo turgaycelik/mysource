@@ -1,0 +1,7 @@
+#* @vtlvariable name="simpleStatus" type="com.atlassian.jira.issue.status.SimpleStatus" *###
+$soyRenderer.render('jira.webresources:issue-statuses', 'JIRA.Template.Util.Issue.Status.issueStatusResolver', {
+    'issueStatus': $simpleStatus,
+    'isSubtle': $isIssueStatusSubtle,
+    'isCompact': $isIssueStatusCompact,
+    'maxWidth': $issueStatusMaxWidth
+})

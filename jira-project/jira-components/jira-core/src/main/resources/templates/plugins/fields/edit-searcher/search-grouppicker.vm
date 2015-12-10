@@ -1,0 +1,11 @@
+#disable_html_escaping()
+
+#if ($isKickass)
+    #groupSearcher($customField.id $customField.name $values $hasPermissionToPickUsers $suggestedGroups $placeholderText false false $customField.descriptionProperty.viewHtml)
+#else
+    $!{auiparams.put("controlHeaderClass", "aui-field-grouppicker")}
+    #searcherEditHeader (${customField.id} ${customField.name})
+        #newGroupPicker ($action "searcher-${customField.id}" ${customField.id} $value false $null "")
+    #searcherEditFooter (${customField.id} ${customField.descriptionProperty.viewHtml})
+    $!{auiparams.clear()}
+#end

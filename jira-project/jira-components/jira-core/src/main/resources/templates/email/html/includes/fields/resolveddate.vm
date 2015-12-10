@@ -1,0 +1,7 @@
+#disable_html_escaping()
+#if ($issue.getResolutionDate())
+<tr>
+    <th>#text("issue.field.resolution.date"):</th>
+    <td>$dateformatter.formatDMYHMS($issue.getResolutionDate())</td>
+</tr>
+#end

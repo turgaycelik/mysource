@@ -1,0 +1,16 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${pom.version}</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
+    <component-import key="userUtil" interface="com.atlassian.jira.user.util.UserUtil" />
+    <component-import key="userKeyService" interface="com.atlassian.jira.user.UserKeyService" />
+
+    <!-- Other components are included via the META-INF/spring/spring-components.xml context -->
+
+</atlassian-plugin>
+

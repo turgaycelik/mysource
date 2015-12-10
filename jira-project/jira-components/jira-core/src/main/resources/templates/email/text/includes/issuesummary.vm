@@ -1,0 +1,60 @@
+#disable_html_escaping()
+> $issue.getSummary()
+> #dashes($!issue.getSummary())
+
+>
+>$stringUtils.leftPad($i18n.getText("common.concepts.key"), $padSize): ${issue.getKey()}
+>$stringUtils.leftPad($i18n.getText("common.concepts.url"), $padSize): ${baseurl}/browse/${issue.getKey()}
+>$stringUtils.leftPad($i18n.getText("common.concepts.project"), $padSize): $issue.getProject().name
+>$stringUtils.leftPad($i18n.getText("common.concepts.issuetype"), $padSize): $issue.getIssueTypeObject().getNameTranslation($i18n)
+#if ($issue.securityLevel)
+>$stringUtils.leftPad($i18n.getText("issue.field.securitylevel"), $padSize): $issue.securityLevel.getString("name")#if ($textutils.stringSet($issue.securityLevel.getString("description")))($issue.securityLevel.getString("description")) #end
+
+#end
+#if ($issue.components && $issue.components.size() >0)
+>$stringUtils.leftPad($i18n.getText("common.concepts.components"), $padSize): #foreach ($component in $issue.components)$component.getString("name")#if ($velocityCount != $issue.components.size()), #end#end
+
+#end
+#if ($issue.affectedVersions && $issue.affectedVersions.size() >0)
+>$stringUtils.leftPad($i18n.getText("template.affects.versions"), $padSize): #foreach ($version in $issue.affectedVersions)$version.getString("name")#if ($velocityCount != $issue.affectedVersions.size()), #end#end
+
+#end
+#if ($issue.getEnvironment() && $issue.getEnvironment().length() != 0)
+>$stringUtils.leftPad($i18n.getText("common.words.env"), $padSize): $!{velocityhelper.quoteExceptFirst($issue.getEnvironment())}
+#end
+#if ($issue.reporterUser)
+>$stringUtils.leftPad($i18n.getText("issue.field.reporter"), $padSize): $!issue.reporterUser.displayName
+#end
+#if ($issue.assigneeUser)
+>$stringUtils.leftPad($i18n.getText("issue.field.assignee"), $padSize): $!issue.assigneeUser.displayName
+#end
+#if ($issue.getPriorityObject() && $issue.getPriorityObject().getId() != $constantsManager.getDefaultPriority().getString("id"))
+>$stringUtils.leftPad($i18n.getText("issue.field.priority"), $padSize): $issue.getPriorityObject().getNameTranslation($i18n)
+#end
+#if ($issue.labels && $issue.labels.size() > 0)
+>$stringUtils.leftPad($i18n.getText("issue.field.labels"), $padSize): #foreach($label in $issue.labels)$label.label#if ($velocityCount != $issue.labels.size()), #end#end
+
+#end
+#if ($issue.fixVersions && $issue.fixVersions.size() >0)
+>$stringUtils.leftPad($i18n.getText("common.concepts.fixfor"), $padSize): #foreach ($fixfor in $issue.fixVersions)$fixfor.getString("name")#if ($velocityCount != $issue.fixVersions.size()), #end#end
+
+>
+#end
+#if ($attachments && $attachments.size() >0)
+>$stringUtils.leftPad($i18n.getText("template.attachments"), $padSize): #foreach ($attachment in $attachments)$attachment.getFilename()#if ($velocityCount != $attachments.size()), #end#end
+
+>
+#end
+#if ($applicationProperties.getOption("jira.option.timetracking"))
+#if ($issue.getOriginalEstimate())
+>$stringUtils.leftPad($i18n.getText("common.concepts.original.estimate"), $padSize): $issue.getNiceTimeOriginalEstimate($i18n)
+#end
+#if ($issue.getTimeSpent())
+>$stringUtils.leftPad($i18n.getText("common.concepts.time.spent"), $padSize): $issue.getNiceTimeSpent($i18n)
+#end
+#if ($issue.getEstimate())
+>$stringUtils.leftPad($i18n.getText("common.concepts.remaining.estimate"), $padSize): $issue.getNiceTimeEstimate($i18n)
+#end
+#end
+>
+$!{velocityhelper.quote($!issue.description)}

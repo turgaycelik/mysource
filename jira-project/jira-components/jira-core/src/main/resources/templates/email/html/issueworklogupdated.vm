@@ -1,0 +1,4 @@
+#disable_html_escaping()
+
+#set ($worklogUpdated = true)
+#genericChangelogMailWithWorklog("email.event.activity.worklog.updated.on.issue")

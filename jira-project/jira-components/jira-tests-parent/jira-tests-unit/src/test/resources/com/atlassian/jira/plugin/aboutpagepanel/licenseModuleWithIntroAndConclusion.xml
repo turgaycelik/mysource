@@ -1,0 +1,5 @@
+<about-page-panel key="key">
+    <introduction module-key="exampleModuleKey" function="introduction"/>
+    <licenses location="exampleFile"/>
+    <conclusion module-key="exampleModuleKey" function="conclusion"/>
+</about-page-panel>

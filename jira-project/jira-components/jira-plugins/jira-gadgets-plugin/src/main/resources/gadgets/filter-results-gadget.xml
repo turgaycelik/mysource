@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.filter.results.title__" directory_title="__MSG_gadget.filter.results.title__" description="__MSG_gadget.filter.results.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:filter-results-gadget", "filterResults-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:filter-results-gadget", "filterResults-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Charts
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.filter.results,gadget.issuetable.common")
+    </ModulePrefs>
+    <UserPref name="filterId" datatype="hidden" />
+    <UserPref name="num" datatype="hidden" default_value="10"/>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="columnNames" datatype="hidden" default_value="--Default--" />
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #requireContext("jira.webresources:issue-table")
+        #requireResource("com.atlassian.jira.gadgets:g-filter-results")
+        #includeResources()
+
+        <script type="text/javascript">
+
+            var contextPath = "__ATLASSIAN_BASE_URL__"; // Adding context path as it is required for actions dropdowns
+
+            (function () {
+                gadgets.window.setTitle("__MSG_gadget.filter.results.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+                            var searchParam;
+                            if (/^jql-/.test(this.getPref("filterId")) || this.getPref("isPopup") === "true"){
+                                searchParam =
+                                    {
+                                        userpref: "filterId",
+                                        type: "hidden",
+                                        value: gadgets.util.unescapeString(gadget.getPref("filterId"))
+                                    };
+                            }
+                            else{
+                                searchParam = AJS.gadget.fields.filterPicker(gadget, "filterId");
+                            }
+
+                            return {
+                                action: "/rest/gadget/1.0/issueTable/filter/validate",
+                                theme : function(){
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    searchParam,
+                                    AJS.gadget.fields.numberToShow(gadget, "num"),
+                                    columnGadgetFieldType(gadget, "columnNames", args.columnChoices.availableColumns),
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        },
+                        args: [{
+                                key: "columnChoices",
+                                ajaxOptions:  "/rest/gadget/1.0/availableColumns"
+                            },
+                        ]
+                    },
+                    view: {
+                        onResizeAdjustHeight: true,
+                        enableReload: true,
+                        template: function (args) {
+                            var gadget = this;
+                            this.getView().empty();
+                            this.getView().attr("id", "filter-results-content");
+
+                            var view = AJS.$("<div/>").attr("id", "jira").appendTo(this.getView());
+
+                            if (!args) {
+                                view.append(AJS.$("<div/>").attr("id", "filter-results").text("__MSG_gadget.filter.results.error.no.filters__"));
+                                return;
+                            }
+
+                            var requiresTitle = function() {
+                                return args.issueTable.title && args.issueTable.title !== "" && args.issueTable.title !== "gadget.common.anonymous.filter";
+                            };
+
+                            if (requiresTitle()){
+                                gadgets.window.setTitle(AJS.format("__MSG_gadget.filter.results.specific.title__", args.issueTable.title));
+                                // This is used to pass the name of filter or project to the picker
+                                gadget.projectOrFilterName = args.issueTable.title;
+                            }
+
+                            var title = "";
+                            if(requiresTitle()) {
+                                var desc = args.issueTable.description;
+                                title = args.issueTable.title;
+                                if (desc && desc !== "") {
+                                    title += " - " + desc;
+                                }
+                                title = gadgets.util.escapeString(title);
+                            }
+
+                            var linkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.issueTable.url + "\" target=\"_parent\" title=\"" + title + "\">";
+                            var linkEnd = "</a>";
+
+                            if (args.issueTable.displayed != 0){
+                                if (args.issueTable.displayed === args.issueTable.total){
+                                    view.append(
+                                        AJS.$("<div/>").addClass("results-wrap").append(
+                                            AJS.$("<div/>").html(args.issueTable.table)));
+                                } else {
+                                    view.append(
+                                        AJS.$("<div/>").addClass("results-wrap").append(
+                                            AJS.$("<div/>").addClass("paging-table").html(args.issueTable.table)));
+                                }
+                                $resultCountLink = view.find(".results-count-link");
+                                $resultCountLink.replaceWith(AJS.$(linkStart + $resultCountLink.html() + linkEnd));
+                                
+                                AJS.$("th.sortable").each(function(){
+                                    this.onclick = null;
+                                }).click(function(){
+                                    var sort = AJS.$(this).attr("rel");
+                                    gadget.sortBy = sort;
+                                    gadget.showView(true);
+                                });
+
+                                AJS.$(".pagination a").click(function(event){
+                                    event.preventDefault();
+                                    var startIndex = AJS.$(this).attr("rel");
+                                    gadget.startIndex = startIndex;
+                                    gadget.showView(true);
+                                    //JRADEV-3464: Resizing the gadget after a considerable timeout to make sure bottom isn't cutoff
+                                    setTimeout(function() {gadget.resize();}, 500);
+                                });
+                                if (gadget.isLocal()){
+                                    if (typeof contextPath === "undefined"){
+                                        contextPath = "__ATLASSIAN_BASE_URL__";
+                                    }
+                                    AJS.Dropdown.create({
+                                        trigger: ".issue-actions-trigger",
+                                        autoScroll: false,
+                                        ajaxOptions: {
+                                            dataType: "json",
+                                            cache: false,
+                                            formatSuccess: JIRA.FRAGMENTS.issueActionsFragment
+                                        }
+                                    });
+                                }
+
+
+                            } else {
+                                gadget.getView().append(
+                                    AJS.$("<div/>").addClass("empty-results").append(
+                                        AJS.format("__MSG_gadget.issuetable.common.empty__", linkStart, linkEnd)
+                                    )
+                                );
+                            }
+
+                            // Apply hover class to issuetable
+                            jQuery("#issuetable tr").hover(function ()
+                            {
+                                jQuery(this).addClass("hover");
+                            }, function () {
+                                if (!AJS.dropDown.current) {
+                                    jQuery(this).removeClass("hover");
+                                }
+                            });
+                            //JRADEV-3464: Resizing the gadget after a considerable timeout to make sure bottom isn't cutoff
+                            setTimeout(function() {gadget.resize();}, 500);
+                        },
+                        args: [{
+                            key: "issueTable",
+                            ajaxOptions: function () {
+                                var gadget = this;
+
+                                // This code to handle --Default-- needs to stay for
+                                // gadgets that were configured before it was removed.
+                                var columnNames = gadget.getPrefArray("columnNames");
+                                var hasDefault = false;
+                                var indexOf = -1;
+                                for (var i = 0; i < columnNames.length; i++)
+                                {
+                                    if (columnNames[i] === "--Default--")
+                                    {
+                                        hasDefault = true;
+                                        indexOf = i;
+                                        break;
+                                    }
+                                }
+                                if (hasDefault)
+                                {
+                                    columnNames.splice(indexOf, 1);
+                                }
+
+                                if (!this.sortBy){
+                                    this.sortBy = null;
+                                }
+                                return {
+                                    url: "/rest/gadget/1.0/issueTable/filter",
+                                    data:  {
+                                        filterId: gadgets.util.unescapeString(this.getPref("filterId")),
+                                        num: this.getPref("num"),
+                                        tableContext: "jira.table.cols.dashboard",
+                                        addDefault : hasDefault,
+                                        columnNames : columnNames,
+                                        enableSorting: true,
+                                        sortBy: function() {
+                                            if (gadget.sortBy && gadget.sortBy !== "") {
+                                                return gadget.sortBy;
+                                            } else {
+                                                return null;
+                                            }
+                                        }(),
+                                        paging: true,
+                                        startIndex: function () {
+                                            if (gadget.startIndex && gadget.startIndex !== "") {
+                                                return gadget.startIndex;
+                                            } else {
+                                                return "0";
+                                            }
+                                        }(),
+                                        showActions:gadget.isLocal()
+                                    }
+                                };
+                            }
+                        }]
+                    }
+                });
+            })();
+        </script>
+        ]]>
+    </Content>
+</Module>

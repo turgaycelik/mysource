@@ -1,0 +1,468 @@
+#disable_html_escaping()
+## from listbynamewithnavlink.jsp
+###macro (listwithnavlink $issue $list $name)
+##    #if ($list && !$list.isEmpty())
+##        #foreach ($item in $list)
+##            <a title="$textutils.htmlEncode($item.name)#if ($item.description && $item.description != '') - $textutils.htmlEncode($item.description)#end"
+##                href="${baseurl}/secure/IssueNavigator.jspa?reset=true&mode=hide&sorter/order=ASC&sorter/field=priority&pid=$issue.project.id&$name=$item.id"
+##            >$textutils.htmlEncode($item.name)</a>#if ($velocityCount != $list.size()),#end
+##        #end
+##    #else
+##        $i18n.getText('common.words.none')
+##    #end
+###end
+##
+###macro (printIssueLinks $issues $linkName)
+##    #foreach ($issue in $issues)
+##        <tr>
+##            <td>
+##                $textutils.htmlEncode($linkName)
+##            </td>
+##            <td>
+##                <a href="${baseurl}/browse/$textutils.htmlEncode($encoder.encode($issue.key))">
+##                    #if($issue.resolution) <strike>$textutils.htmlEncode($issue.key)</strike> #else $textutils.htmlEncode($issue.key) #end
+##                </a>
+##            </td>
+##            <td>
+##                $textutils.htmlEncode($stringUtils.abbreviate($issue.summary, 40))
+##            </td>
+##            <td>
+##                $textutils.htmlEncode($issue.statusObject.nameTranslation, false)
+##            </td>
+##        </tr>
+##    #end
+###end
+## /secure/views/issue/viewissue-word.jsp
+
+<table class="tableBorder" cellpadding="0" cellspacing="0" border="0" width="100%">
+##  Issue key and summary
+    <tr>
+        <td bgcolor="#f0f0f0" width="100%" colspan="2" valign="top">
+            #if ($issue.subTask == true)
+                #set ($parent = $issue.parentObject)
+                <b><a id="parent_issue_summary" href="${baseurl}/browse/$textutils.htmlEncode($encoder.encode($parent.key))">$textutils.htmlEncode($parent.summary)</a></b>
+                <span style="font-size: 9px">(<a id="parent_issue_key" href="${baseurl}/browse/$textutils.htmlEncode($encoder.encode($parent.key))">$textutils.htmlEncode($parent.key)</a>)</span>
+                <h3 class="formtitle"><img src="${baseurl}/images/icons/link_out_bot.gif" width="16" height="16" />
+            #else
+                <h3 class="formtitle">
+            #end
+            [$textutils.htmlEncode($issue.key)]&nbsp;<a href="${baseurl}/browse/$textutils.htmlEncode($encoder.encode($issue.key))">$textutils.htmlEncode($issue.summary)</a>
+            <span class="subText">
+               $i18n.getText('issue.field.created'): $dateTimes.formatDMY($issue.getCreated())  ## there are both 'isCreated' and 'getCreated', so we should hard-code it
+                 &nbsp;$i18n.getText('issue.field.updated'): $dateTimes.formatDMY($issue.updated)
+
+                #if ($issue.dueDate && $fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'duedate', $issue.issueTypeObject.id) == false)
+                    &nbsp;$i18n.getText('issue.field.due'): $dateTimes.formatDMY($issue.dueDate)
+                #end
+                #if ($issue.resolutionDate)
+                    &nbsp;$i18n.getText('issue.field.resolution.date'): $dateTimes.formatDMY($issue.resolutionDate)
+                #end
+            </span>
+            </h3>
+        </td>
+    </tr>
+    <tr>
+        <td width="20%"><b>$i18n.getText('issue.field.status'):</b></td>
+        <td width="80%">$textutils.htmlEncode($issue.statusObject.nameTranslation, false)</td>
+    </tr>
+    <tr>
+        <td width="20%"><b>$i18n.getText('issue.field.project'):</b></td>
+        <td width="80%"><a href="${baseurl}/secure/BrowseProject.jspa?id=$issue.project.id">$textutils.htmlEncode($issue.project.name)</a></td>
+    </tr>
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'components', $issue.issueTypeObject.id) == false)
+    <tr>
+            <td><b>$i18n.getText('issue.field.components'):</b></td>
+            <td>
+                #listwithnavlink ($issue $issue.components 'component')
+            </td>
+    </tr>
+    #end
+
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'versions', $issue.issueTypeObject.id) == false)
+    <tr>
+            <td><b>$i18n.getText('issue.field.affectsversions'):</b></td>
+            <td>
+                #listwithnavlink ($issue $issue.affectedVersions 'version')
+            </td>
+    </tr>
+    #end
+
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'fixVersions', $issue.issueTypeObject.id) == false)
+    <tr>
+            <td><b>$i18n.getText('issue.field.fixversions'):</b></td>
+            <td>
+                #listwithnavlink ($issue $issue.fixVersions 'fixfor')
+            </td>
+    </tr>
+    #end
+
+    #if ($issue.securityLevel && $fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'security', $issue.issueTypeObject.id) == false)
+        <tr>
+            <td><b>$i18n.getText('issue.field.securitylevel'):</b></td>
+            <td>
+                $textutils.htmlEncode($issue.securityLevel.name)
+                #if ($issue.securityLevel.description && $issue.securityLevel.description != '')
+                    <font size=1> ($textutils.htmlEncode($issue.securityLevel.description))</font>
+                #end
+            </td>
+       </tr>
+    #end
+</table>
+
+<br />
+## issue extra properties
+<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td bgcolor="#f0f0f0" valign="top" width="20%">
+            <b>$i18n.getText('issue.field.type'):</b>
+        </td>
+        <td bgcolor="#ffffff" valign="top" #if (($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'priority', $issue.issueTypeObject.id) == false)  && ($issue.priorityObject)) width="30%" #else colspan="3" #end>
+            $textutils.htmlEncode($issue.issueTypeObject.nameTranslation, false)
+        </td>
+
+        #if (($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'priority', $issue.issueTypeObject.id) == false) && ($issue.priorityObject))
+            <td bgcolor="#f0f0f0">
+                <b>$i18n.getText('issue.field.priority'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap>
+                $textutils.htmlEncode($issue.priorityObject.nameTranslation, false)
+            </td>
+        #end
+    </tr>
+    <tr>
+    ## Need to check if the reporter view is hidden or not, also requires reformatting
+        #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'reporter', $issue.issueTypeObject.id) == false)
+            <td bgcolor="#f0f0f0" valign="top" width="20%">
+                <b>$i18n.getText('issue.field.reporter'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'assignee', $issue.issueTypeObject.id) == false) width="30%" #else colspan="3" #end>
+                #if ($issue.reporter)
+                    $userformat.formatUserkey(${issue.reporterId}, 'profileLinkExternal', 'word_reporter')
+                #else
+                    $i18n.getText('common.words.anonymous')
+                #end
+            </td>
+        #end
+
+        #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'assignee', $issue.issueTypeObject.id) == false)
+            <td bgcolor="#f0f0f0" width="20%">
+                <b>$i18n.getText('issue.field.assignee'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" nowrap #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'reporter', $issue.issueTypeObject.id) == false) width="30%" #else colspan="3" #end>
+                #if ($issue.assignee)
+                    $userformat.formatUserkey(${issue.assigneeId}, 'profileLinkExternal', 'word_assignee')
+                #else
+                    $i18n.getText('common.concepts.unassigned')
+                #end
+            </td>
+        #end
+    </tr>
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'resolution', $issue.issueTypeObject.id) == false)
+	<tr>
+		<td bgcolor="#f0f0f0" width="20%">
+			<b>$i18n.getText('issue.field.resolution'):</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+            #if ($issue.resolutionObject)
+                $textutils.htmlEncode($issue.resolutionObject.nameTranslation, false)
+            #else
+				$i18n.getText('common.resolution.unresolved')
+            #end
+        </td>
+        #if ($votingEnabled == true)
+            <td bgcolor="#f0f0f0" width="20%">
+                <b>$i18n.getText('common.concepts.votes'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" width="30%" nowrap>
+                $issue.votes
+            </td>
+        #else
+            <td bgcolor="#ffffff" colspan="2">&nbsp;</td>
+        #end
+
+    </tr>
+    #end
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'labels', $issue.issueTypeObject.id) == false)
+    <tr>
+        <td bgcolor="#f0f0f0" width="20%">
+            <b>$i18n.getText('issue.field.labels'):</b>
+        </td>
+        <td id="labels-${issue.id}-value" class="value" bgcolor="#ffffff" valign="top" colspan="3" nowrap>
+            #if ($issue.labels && $issue.labels.size() > 0)
+                #foreach($label in $issue.labels)$textutils.htmlEncode($label.label)#commaonly($issue.labels)#end
+            #else
+                $i18n.getText('common.words.none')
+            #end
+        </td>
+    </tr>
+    #end
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'timetracking', $issue.issueTypeObject.id) == false && $timeTrackingEnabled == true)
+	<tr>
+        #if ($aggregateTimeTrackingBean)
+        <td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.aggregate.remaining.estimate'):</b></td>
+        <td bgcolor="#ffffff" valign="top" nowrap>
+            #if ($aggregateTimeTrackingBean.remainingEstimateStr)
+                $aggregateTimeTrackingBean.remainingEstimateStr
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+        </td>
+        #end
+		<td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.remaining.estimate'):</b></td>
+        <td bgcolor="#ffffff" valign="top" nowrap#if (!($aggregateTimeTrackingBean)) width="80%" colspan="3"#end>
+            #if ($issue.estimate)
+                $wordView.getPrettyDuration($issue.estimate)
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+		</td>
+    </tr>
+    <tr>
+        #if ($aggregateTimeTrackingBean)
+        <td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.aggregate.time.spent'):</b></td>
+        <td bgcolor="#ffffff" valign="top" nowrap>
+            #if ($aggregateTimeTrackingBean.timeSpentStr)
+                $aggregateTimeTrackingBean.timeSpentStr
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+        </td>
+        #end
+        <td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.time.spent'):</b></td>
+		<td bgcolor="#ffffff" valign="top" nowrap#if (!($aggregateTimeTrackingBean)) width="80%" colspan="3"#end>
+            #if ($issue.timeSpent)
+                $wordView.getPrettyDuration($issue.timeSpent)
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+		</td>
+	</tr>
+    <tr>
+        #if ($aggregateTimeTrackingBean)
+        <td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.aggregate.original.estimate'):</b></td>
+        <td bgcolor="#ffffff" valign="top" nowrap>
+            #if ($aggregateTimeTrackingBean.originalEstimateStr)
+                $aggregateTimeTrackingBean.originalEstimateStr
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+        </td>
+        #end
+        <td bgcolor="#f0f0f0" width="20%"><b>$i18n.getText('common.concepts.original.estimate'):</b></td>
+		<td bgcolor="#ffffff" valign="top" nowrap#if (!($aggregateTimeTrackingBean)) width="80%" colspan="3"#end>
+            #if ($issue.originalEstimate)
+                $wordView.getPrettyDuration($issue.originalEstimate)
+            #else
+                $i18n.getText('viewissue.timetracking.unknown')
+            #end
+		</td>
+    </tr>
+    #end
+
+    #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'environment', $issue.issueTypeObject.id) == false && $issue.environment && $issue.environment.length() > 0)
+	<tr>
+
+		<td bgcolor="#f0f0f0" width="20%" valign="top">
+			<b>$i18n.getText('issue.field.environment'):</b>
+		</td>
+		<td bgcolor="#ffffff" valign="top" colspan="3">
+            $wordView.getRenderedContent('description', $issue.environment, $issue)
+		</td>
+	</tr>
+    #end
+</table>
+
+## end issue extra properties
+
+
+    <br />
+
+    	<table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            ## List attachments
+
+## attachments
+
+        #if ($issue.attachments && $issue.attachments.empty == false)
+        <tr>
+            <td bgcolor="#f0f0f0" width=20% valign=top>
+                <b>$i18n.getText('common.concepts.attachments.files'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top">
+                #foreach ($attachment in $issue.attachments)
+                    #if($fileIconBean.getFileIcon($attachment.filename, $attachment.mimetype))
+                        #set ($fileIcon = $fileIconBean.getFileIcon($attachment.filename, $attachment.mimetype))
+                        <img src="$baseurl/images/icons/attach/$fileIcon.icon" height="16" width="16" alt="$fileIcon.altText" />
+                    #else
+                        <img src="$baseurl/images/icons/attach/file.gif" height="16" width="16" alt="File" />
+                    #end
+                    $textutils.htmlEncode($attachment.filename) &nbsp;&nbsp;&nbsp;
+                #end
+            </td>
+        </tr>
+        #end
+## end attachments
+
+## List Linked Issues
+## /includes/issue/linking-word.jsp
+    #if ($linkingEnabled && $linkCollection.linkTypes && $linkCollection.linkTypes.isEmpty() == false)
+        <tr>
+            <td bgcolor="#f0f0f0" width="20%" valign="top">
+                <b>$i18n.getText('common.concepts.issuelinks'):</b>
+            </td>
+            <td bgcolor="#ffffff" valign="top" class="noPadding">
+                <table cellpadding="0" cellspacing="0" border="0" width="100%" class="blank">
+                    #foreach ($issueLinkType in $linkCollection.linkTypes)
+                        <tr>
+                            <td colspan="4" bgcolor="#f0f0f0">
+                                <b>$textutils.htmlEncode($issueLinkType.name)</b><br/>
+                            </td>
+                        </tr>
+                        #printIssueLinks($linkCollection.getOutwardIssues($issueLinkType.name) $issueLinkType.outward)
+                        #printIssueLinks($linkCollection.getInwardIssues($issueLinkType.name) $issueLinkType.inward)
+                    #end
+                </table>
+            </td>
+        </tr>
+    #end
+
+
+## end /includes/issue/linking-word.jsp
+
+## List Sub Tasks
+#set ($subTasks = $issue.subTaskObjects)
+#if ($subtasksEnabled && $subTasks.empty == false)
+<tr><td bgcolor="#f0f0f0" width="20%" valign="top"><b>$i18n.getText('issue.field.subtasks'):</b></td>
+    <td bgcolor="#ffffff" valign="top">
+        <table class="grid" cellpadding="0" cellspacing="0" border="0" width="100%">
+            <tr bgcolor="#f0f0f0">
+                <td>
+                    <b>$i18n.getText('issue.field.key')</b><br/>
+                </td>
+                <td>
+                    <b>$i18n.getText('issue.field.summary')</b><br/>
+                </td>
+                <td>
+                    <b>$i18n.getText('issue.field.type')</b><br/>
+                </td>
+                <td>
+                    <b>$i18n.getText('issue.field.status')</b><br/>
+                </td>
+                <td>
+                    <b>$i18n.getText('issue.field.assignee')</b><br/>
+                </td>
+            </tr>
+            #foreach ($subTask in $subTasks)
+                <tr>
+                    <td>
+                        <a href="$baseurl/browse/$textutils.htmlEncode($encoder.encode($subTask.key))">$textutils.htmlEncode($subTask.key)</a>
+                    </td>
+                    <td valign="top" width="25%">
+                        <a href="$baseurl/browse/$textutils.htmlEncode($encoder.encode($subTask.key))">$textutils.htmlEncode($stringUtils.abbreviate($subTask.summary, 40))</a>
+                    </td>
+                    <td>
+                        $textutils.htmlEncode($subTask.issueTypeObject.nameTranslation, false)
+                    </td>
+                    <td>
+                        $textutils.htmlEncode($subTask.statusObject.nameTranslation, false)
+                    </td>
+                    <td>
+                        #if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'assignee', $issue.issueTypeObject.id) == false)
+                            #if ($subTask.assignee) $textutils.htmlEncode($subTask.assignee.displayName) #end &nbsp;
+                        #end
+                    </td>
+                </tr>
+            #end
+        </table>
+    </td>
+</tr>
+#end
+## end List Subtasks
+
+## List custom fields
+#foreach ($tabs in $fieldScreenRenderer.fieldScreenRenderTabs)
+    #foreach ($layoutItem in $tabs.fieldScreenRenderLayoutItems)
+        #if ($layoutItem.orderableField.hasValue($issue) && $layoutItem.orderableField.customFieldType.descriptor.viewTemplateExists == true)
+            <tr>
+                <td bgcolor="#f0f0f0" width="20%" valign="top"><b>$textutils.htmlEncode($layoutItem.orderableField.name):</b></td>
+                <td id="${layoutItem.orderableField.id}-${issue.id}-value" class="value" bgcolor="#ffffff" width="80%">$wordView.getCustomFieldHtml($layoutItem.fieldLayoutItem, $layoutItem.orderableField, $issue)</td>
+            </tr>
+        #end
+    #end
+#end
+</table>
+
+## issue_descriptiontable_word
+#if ($fieldVisibility.isFieldHidden($issue.project.getLong('id'), 'description', $issue.issueTypeObject.id) == false && $issue.description && $issue.description.length() > 0)
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>$i18n.getText('issue.field.description')</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%">
+    <tr>
+        <td id="descriptionArea">
+            $wordView.getRenderedContent('description', $issue.description, $issue)
+            <br/>
+        </td>
+    </tr>
+    </table>
+#end
+## end issue_descriptiontable_word
+
+## issue_comments
+#if ($comments && $comments.empty == false)
+    <br/>
+
+    <table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+    <tr>
+        <td bgcolor="#bbbbbb" width="1%" nowrap align="center">
+            &nbsp;<font color="#ffffff"><b>$i18n.getText('common.words.comments')</b></font>&nbsp;
+        </td>
+        <td>&nbsp;</td>
+    </tr>
+    </table>
+
+    <table cellpadding="0" cellspacing="0" border="0" width="100%" class="grid" style="margin: 0;">
+        #foreach ($comment in $comments)
+        <tr id="comment-header-$comment.id"><td bgcolor="#f0f0f0">
+            $i18n.getText('viewissue.comment.commentedby', '', '')
+            #if ($comment.author)
+                #if($comment.authorFullName)
+                    $userformat.formatUser(${comment.author}, 'profileLinkExternal', 'word_commented')
+                #else
+                    $textutils.htmlEncode($comment.author)
+                #end
+            #else
+                $i18n.getText('common.words.anonymous')
+            #end
+            <font size="-2">
+            [
+                <font color="#336699">$dateTimes.formatDMY($comment.created)</font>
+
+                #if ($comment.groupLevel)
+                    $i18n.getText('navigator.full.visible.by')&nbsp;<font color="#990000">$textutils.htmlEncode($comment.groupLevel)</font>
+                #elseif ($comment.roleLevel)
+                    $i18n.getText('navigator.full.visible.by')&nbsp;<font color="#990000">$textutils.htmlEncode($comment.roleLevel.name)</font>
+                #end
+            ]
+            </font>
+
+        </td></tr>
+        <tr id="comment-body-$comment.id"><td bgcolor="#ffffff">
+            $wordView.getRenderedContent('comment', $comment.body, $issue)
+        </td></tr>
+        #end
+    </table>
+#end
+## end issue_comments

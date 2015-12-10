@@ -1,0 +1,11 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-version")}
+#searcherEditHeader ($customField.id $customField.name)
+    <select class="select" id="searcher-$customField.id" name="$customField.id">
+        <option value="-1">$i18n.getText("common.filters.any")</option>
+        #foreach ($option in $configs.options)
+            <option #if ($value && $value.contains($option.id.toString()))selected="selected"#end value="$option.id">$option.name</option>
+        #end
+    </select>
+#searcherEditFooter ($customField.id $customField.description)
+$!{auiparams.clear()}

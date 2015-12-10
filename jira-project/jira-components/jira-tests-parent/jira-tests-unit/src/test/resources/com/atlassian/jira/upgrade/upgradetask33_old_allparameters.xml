@@ -1,0 +1,77 @@
+<searchrequest name='allparameters'>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ProjectParameter'>
+    <projid andQuery='false'>
+        <value>10240</value>
+    </projid>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.StringParameter'>
+    <type name='type' value='2'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.MultipleFieldSingleValueLuceneParameter'>
+    <multifieldlucene>
+      <field>summary</field>
+      <field>description</field>
+      <field>body</field>
+      <field>environment</field>
+      <query>qrytxt</query>
+    </multifieldlucene>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.PriorityParameter'>
+    <priority andQuery='false'>
+      <value>1</value>
+      <value>2</value>
+    </priority>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ResolutionParameter'>
+    <resolution andQuery='false'>
+      <value>-1</value>
+      <value>1</value>
+    </resolution>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.StatusParameter'>
+    <status andQuery='false'>
+      <value>1</value>
+      <value>2</value>
+    </status>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.DateParameter'>
+    <created name='created:after' value='2002-11-21 17:00:00.0' operator='&gt;=' timestamp='1037858400000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.DateParameter'>
+    <created name='created:before' value='2002-11-22 17:00:00.0' operator='&lt;=' timestamp='1037944800000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter'>
+    <created name='created:previous' value='3600000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.DateParameter'>
+    <updated name='updated:after' value='2002-11-23 17:00:00.0' operator='&gt;=' timestamp='1038031200000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.DateParameter'>
+    <updated name='updated:before' value='2002-11-24 17:00:00.0' operator='&lt;=' timestamp='1038117600000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter'>
+    <updated name='updated:previous' value='86400000'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.UserParameter'>
+    <issue_author name='issue_author' value='mike@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.UserParameter'>
+    <issue_assignee name='issue_assignee' value='scott@atlassian.com'/>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.FixForParameter'>
+    <fixfor andQuery='false'>
+      <value>10370</value>
+    </fixfor>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.ComponentParameter'>
+    <component andQuery='false'>
+      <value>10120</value>
+      <value>10121</value>      
+    </component>
+  </parameter>
+  <parameter class='com.atlassian.jira.issue.search.parameters.lucene.VersionParameter'>
+    <version andQuery='false'>
+      <value>10370</value>
+    </version>
+  </parameter>
+</searchrequest>

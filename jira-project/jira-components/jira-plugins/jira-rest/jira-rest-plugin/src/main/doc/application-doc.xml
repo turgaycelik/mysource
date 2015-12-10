@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<applicationDocs targetNamespace="http://wadl.dev.java.net/2009/02">
+
+    <doc xml:lang="en" title="JIRA ${project.version} REST API documentation">
+        This documents the current REST API provided by JIRA.
+    </doc>
+
+</applicationDocs>

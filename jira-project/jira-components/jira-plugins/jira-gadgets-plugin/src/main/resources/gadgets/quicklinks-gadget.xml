@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.quicklinks.title__" directory_title="__MSG_gadget.quicklinks.title__" description="__MSG_gadget.quicklinks.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="50"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:quicklinks-gadget", "quicklinks-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:quicklinks-gadget", "quicklinks-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="settitle"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup"/>
+        #oauth
+        #supportedLocales("gadget.quicklinks")
+    </ModulePrefs>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+
+        <![CDATA[
+
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+                gadgets.window.setTitle("__MSG_gadget.quicklinks.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    view: {
+                        template: function (args) {
+                            var gadget = this;
+                            gadget.getView().addClass("g-qlinks");
+                            var links = args.links;
+                            var $container = jQuery('<div id="quicklinks-content" class="fullyCentered" />').appendTo(gadget.getView());
+
+                            if (links.noDataAndNoUser){
+                                $container.text(gadget.getMsg("gadget.quicklinks.no.data.no.user"));
+                                return;
+                            }
+                            var html = "";
+                            for (linkList in links){
+                                var list = links[linkList];
+                                html = html + "<ul class=\"horizontal\">";
+                                var first = true;
+                                for (linkItem in list){
+                                    var link = list[linkItem];
+                                    html = html + "<li>";
+                                    if (first){
+                                        first = false;
+                                    }
+                                    else {
+                                        html = html + "&nbsp;|&nbsp;";
+                                    }
+                                    var title = gadget.getMsg(link.title);
+                                    var text = gadget.getMsg(link.text);
+                                    html = html + "<a title=\"" + title + "\" href=\"__ATLASSIAN_BASE_URL__" + link.url + "\" target=\"_parent\">" + text + "</a></li>";
+                                }
+                                html = html + "</ul>";
+                            }
+                            $container.html(html);
+                        },
+                        args: [
+                            {
+                                key: "links",
+                                ajaxOptions: function () {
+                                    return {
+                                        url: "/rest/gadget/1.0/quicklinks"
+                                    };
+                                }
+                            }
+                        ]
+                    }
+                });
+            })();
+        </script>
+        ]]>
+    </Content>
+</Module>

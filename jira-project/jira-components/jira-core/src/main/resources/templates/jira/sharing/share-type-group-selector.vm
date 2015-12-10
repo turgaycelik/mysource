@@ -1,0 +1,12 @@
+#disable_html_escaping()
+<img src="${baseurl}/images/icons/hierarchy_arrow.gif" alt="$i18n.getText('common.words.arrow')" width="10px" height="10px"/>
+#if ( $groups.empty )
+<span class="errMsg">$i18n.getText("common.sharing.no.groups")</span>
+#else
+<select id="groupShare" name="groupShare" class="select">
+#foreach ($group in $groups)
+#set( $egroup = $textutils.htmlEncode(${group}) )
+    <option value="${egroup}">${egroup}</option>
+#end
+</select>
+#end

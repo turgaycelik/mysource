@@ -1,0 +1,18 @@
+#disable_html_escaping()
+
+  $i18n.getText("template.user.forgotusername.requestedusernames")
+
+---------------------------------------------------------------------
+
+$i18n.getText("template.user.forgotusername.usernames")
+#foreach ($user in $params.get("users"))
+$user.getName()
+#end
+
+#set ($managedUsers = $params.get("managedUsers"))
+#if($managedUsers.size() > 0)
+$i18n.getText("template.user.forgotusername.requestpassword")
+
+   ${baseurl}/secure/ForgotLoginDetails.jspa
+#end
+#parse("templates/email/text/includes/footer.vm")

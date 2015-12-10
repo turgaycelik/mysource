@@ -1,0 +1,31 @@
+#!/bin/bash
+
+if [ $# == 0 ]
+then
+  printf "\nUsage: build_and_deploy_standalone <jira version> \n\n"
+  exit -1;
+fi
+
+if [ -f "${M2_HOME}/bin/mvn" ]; then
+  MVN=${M2_HOME}/bin/mvn
+else
+  MVN=mvn
+fi
+
+# First of all - set the right names for files and versions to deploy
+export DEV_VERSION="$1";
+
+
+# source Distribution Build
+${MVN} clean verify -pl jira-distribution/jira-source-distribution -am -Dmaven.test.skip=true -Dmaven.test.func.skip=true -Dmaven.test.unit.skip=true -Pdistribution
+result=$?
+echo "Result from source distribution build: ${result}"
+
+if [ $result == 0 ]; then
+     echo "Deploying to Maven..."
+    ${MVN} deploy:deploy-file -DgroupId=com.atlassian.jira -DartifactId=jira-source-distribution -Dversion=$DEV_VERSION -Dpackaging=tar.gz -Dfile=jira-distribution/jira-source-distribution/target/atlassian-jira-$DEV_VERSION-source.tar.gz -DrepositoryId=atlassian-private-snapshot -Durl=https://maven.atlassian.com/private-snapshot
+else
+    echo "===================================================================="
+    echo "ERROR: the build failed so the source deploy did not try to run."
+    echo "===================================================================="
+fi

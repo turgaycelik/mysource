@@ -1,0 +1,28 @@
+{namespace JIRA.Templates.errors}
+
+/**
+ * @param jiraTitle  Alt text for the JIRA image
+ * @param footerContent Footer content
+ * @param resourcesContent Additional resources which be included under <head> tag
+ */
+{template .error404}
+    {call  .errorPage}
+        {param windowTitle: getText('404.title') + ' - JIRA' /}
+        {param extraClasses: 'error404' /}
+        {param resourcesContent: $resourcesContent /}
+        {param jiraTitle: $jiraTitle /}
+        {param lowerContent}
+            <div id="error-state">
+                <span class="error-type"></span>
+                <h1>{getText('404.title')}</h1>
+                <ul>
+                   <li>{getText('404.go.back.to.the.previous.page', '<a href="javascript:window.history.back()">', '</a>')|noAutoescape}</li>
+                   <li>{getText('404.go.back.to.home', '<a href="'+contextPath()+'/secure/MyJiraHome.jspa">', '</a>')|noAutoescape}</li>
+                </ul>
+            </div>
+        {/param}
+        {param footerContent: $footerContent /}
+    {/call}
+{/template}
+
+

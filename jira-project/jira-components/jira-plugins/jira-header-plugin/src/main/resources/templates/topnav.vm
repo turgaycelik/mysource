@@ -1,0 +1,2 @@
+#disable_html_escaping()
+<div id="jira-header-plugin" style="display: none;"></div>

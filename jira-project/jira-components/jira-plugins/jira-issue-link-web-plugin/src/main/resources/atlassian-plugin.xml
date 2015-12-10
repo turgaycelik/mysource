@@ -1,0 +1,40 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+    </plugin-info>
+
+    <resource name="jira-issue-link-web-plugin" type="i18n" location="jira-issue-link-web-plugin" />
+
+    <web-resource key="issue-link-web-link">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <resource type="download" name="issuelink-weblink.js" location="js/issuelink-weblink.js" />
+        <resource type="download" name="issuelink-weblink.css" location="css/issuelink-weblink.css" />
+        <context>atl.general</context>
+    </web-resource>
+
+    <resource type="download" name="images/" location="images/" />
+    
+    <!-- Web Link type -->
+    <web-item key="add-web-link" section="create-issue-link-types" weight="40">
+        <label key="viewissue.links.types.weblink" />
+        <link linkId="add-web-link-link">
+            /secure/AddWebLink!default.jspa?id=${issueId}
+        </link>
+        <param name="focused-field-name" value="url" />
+    </web-item>
+
+    <!-- Add Web Link action -->
+    <webwork1 key="issue-link-web" name="Link Issues With Web Pages" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.plugin.link.web.AddWebLink" alias="AddWebLink">
+                <view name="error">/templates/dialog/addweblink.vm</view>
+                <view name="input">/templates/dialog/addweblink.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+</atlassian-plugin>

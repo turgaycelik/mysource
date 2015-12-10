@@ -1,0 +1,51 @@
+@import "_SelectMixins.less";
+
+.queryable-select {
+    .autocomplete-container();
+
+    > .icon {
+        .autocomplete-dropdown-button(normal);
+    }
+
+    > input {
+        .border-box();
+        .text-overflow();
+        resize: none;
+        &::-ms-clear {
+            display: none;
+        }
+    }
+
+    &.aui-disabled {
+        > .icon {
+            .autocomplete-dropdown-button(disabled);
+        }
+    }
+}
+
+// State for when autocomplete results are active
+// -----------------------
+.queryable-select > input.active {
+    ~ .icon {
+        .autocomplete-dropdown-button(active);
+    }
+}
+
+// Interop with AUI forms
+// -----------------------
+form.aui .queryable-select,
+.jiraform .queryable-select {   // because the .queryable-select container is inline-block,
+    width: 100%;                // the width:100%; on the `form.aui .text` won't work.
+    max-width: 250px;           // we need to re-state it here ourselves.
+
+    &.short-field, &.short-field > input { max-width: 75px; }
+    &.medium-field, &.medium-field > input { max-width: 165px; }
+    &.long-field, &.long-field > input { max-width: 500px; }
+    &.full-width-field, &.full-width-field > input { max-width: none; }
+
+    > input {
+        padding-right: 28px; // to make room for the .icon
+        vertical-align: baseline;
+        width: 100%;
+    }
+}

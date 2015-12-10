@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<searchrequest name="New shit">
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.RelativeDateRangeParameter"><duedate name="duedate:relative"><nextOffset>-86400000</nextOffset></duedate></parameter>
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.RelativeDateRangeParameter"><created name="created:relative"><previousOffset>30240000000</previousOffset><nextOffset>0</nextOffset></created></parameter>
+    
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.RelativeDateRangeParameter"><updated name="updated:relative"><previousOffset>2419200000</previousOffset></updated></parameter>
+</searchrequest>

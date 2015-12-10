@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-engine-xml date="1">
+    <Issue id="10810" key="AA-1" project="10810" reporter="a" assignee="a"
+           type="1" summary="a" description="" environment="" priority="3"
+           status="1" created="2002-09-05 15:18:53.42"
+           updated="2002-09-05 15:18:53.42" votes="0"/>
+    <IssueType id="1" sequence="1" name="Bug"
+               description="A problem which impairs or prevents the functions of the product." iconurl="/images/icons/bug.gif"/>
+    <IssueType id="2" sequence="2" name="New Feature"
+               description="A new feature of the product, which has yet to be developed." iconurl="/images/icons/newfeature.gif"/>
+    <IssueType id="3" sequence="3" name="Task"
+               description="A task that needs to be done." iconurl="/images/icons/task.gif"/>
+    <IssueType id="4" sequence="4" name="Improvement"
+               description="An improvement or enhancement to an existing feature or task." iconurl="/images/icons/improvement.gif"/>
+    <ListenerConfig id="10000"
+                    clazz="com.atlassian.jira.event.listeners.cache.IssueCacheListener" name="Issue Cache Listener"/>
+    <ListenerConfig id="10020"
+                    clazz="com.atlassian.jira.event.listeners.search.IssueIndexListener" name="Issue Index Listener"/>
+    <OSGroup id="10000" name="jira-administrators"/>
+    <OSGroup id="10001" name="jira-users"/>
+    <OSGroup id="10002" name="jira-developers"/>
+    <OSMembership id="10000" userName="a" groupName="jira-users"/>
+    <OSMembership id="10001" userName="a" groupName="jira-administrators"/>
+    <OSMembership id="10002" userName="a" groupName="jira-developers"/>
+    <OSPropertyEntry id="10001" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.title" type="5"/>
+    <OSPropertyEntry id="10002" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.baseurl" type="5"/>
+    <OSPropertyEntry id="10003" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.mode" type="5"/>
+    <OSPropertyEntry id="10004" entityName="OSUser" entityId="10000"
+                     propertyKey="email" type="5"/>
+    <OSPropertyEntry id="10005" entityName="OSUser" entityId="10000"
+                     propertyKey="fullName" type="5"/>
+    <OSPropertyEntry id="10006" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.setup" type="5"/>
+    <OSPropertyEntry id="10009" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.user.assignnew" type="1"/>
+    <OSPropertyEntry id="10010" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.user.externalmanagement" type="1"/>
+    <OSPropertyEntry id="10011" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.voting" type="1"/>
+    <OSPropertyEntry id="10012" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.watching" type="1"/>
+    <OSPropertyEntry id="10014" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.cache.projects" type="1"/>
+    <OSPropertyEntry id="10000" entityName="jira.properties" entityId="1"
+                     propertyKey="webwork.i18n.encoding" type="5"/>
+    <OSPropertyEntry id="10013" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.issuelinking" type="1"/>
+    <OSPropertyEntry id="10015" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.version.patched" type="5"/>
+    <OSPropertyEntry id="10008" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.allowattachments" type="1"/>
+    <OSPropertyEntry id="10960" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.path.attachments" type="5"/>
+    <OSPropertyEntry id="10961" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.path.index" type="5"/>
+    <OSPropertyEntry id="10962" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.indexing" type="1"/>
+    <OSPropertyEntry id="10019" entityName="jira.properties" entityId="1"
+                     propertyKey="License Message" type="5"/>
+    <OSPropertyEntry id="10020" entityName="jira.properties" entityId="1"
+                     propertyKey="License Hash 1" type="5"/>
+    <OSPropertyEntry id="10016" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.cache.issues" type="1"/>
+    <OSPropertyEntry id="13315" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.logo.url" type="5"/>
+    <OSPropertyEntry id="13316" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.logo.width" type="5"/>
+    <OSPropertyEntry id="13317" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.logo.height" type="5"/>
+    <OSPropertyEntry id="13310" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.top.bgcolour" type="5"/>
+    <OSPropertyEntry id="13311" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.top.textcolour" type="5"/>
+    <OSPropertyEntry id="13312" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.menu.bgcolour" type="5"/>
+    <OSPropertyEntry id="13313" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.menu.textcolour" type="5"/>
+    <OSPropertyEntry id="13314" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.lf.menu.highlightcolour" type="5"/>
+    <OSPropertyEntry id="10017" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.issue.desc.environment" type="5"/>
+    <OSPropertyEntry id="10018" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.issue.desc.timetrack" type="5"/>
+    <OSPropertyEntry id="10007" entityName="jira.properties" entityId="1"
+                     propertyKey="jira.option.allowunassigned" type="1"/>
+    <OSPropertyNumber id="10009" value="0"/>
+    <OSPropertyNumber id="10010" value="0"/>
+    <OSPropertyNumber id="10011" value="1"/>
+    <OSPropertyNumber id="10012" value="1"/>
+    <OSPropertyNumber id="10014" value="1"/>
+    <OSPropertyNumber id="10013" value="0"/>
+    <OSPropertyNumber id="10008" value="1"/>
+    <OSPropertyNumber id="10962" value="1"/>
+    <OSPropertyNumber id="10016" value="1"/>
+    <OSPropertyNumber id="10007" value="0"/>
+    <OSPropertyString id="10001" value="Your Company JIRA"/>
+    <OSPropertyString id="10002" value="http://localhost/atlassian/jira"/>
+    <OSPropertyString id="10003" value="public"/>
+    <OSPropertyString id="10004" value="a@a.com"/>
+    <OSPropertyString id="10005" value="a"/>
+    <OSPropertyString id="10006" value="true"/>
+    <OSPropertyString id="10000" value="UTF-8"/>
+    <OSPropertyString id="10015" value="400"/>
+    <OSPropertyString id="10960" value="jira-attachments"/>
+    <OSPropertyString id="10961" value="jira-indexes"/>
+    <OSPropertyString id="10019" value="mOuWooNPnnmRPNQMPuWPQrpnoRnRqqQntSWuWWtWVstqtUUnmpnnmrqvmpmrUUnmpnnmrqvmpmrUU1qiXppfXk"/>
+    <OSPropertyString id="10020" value="mNQQVJvgTRHXokPfXmNOKWkmQrRbkxswImhaacEOXMWLCiOmj2KbQ1PvcBAbOJmnWmojQTy2L0FxNtjIYx69w1Ia&lt;B2jQs"/>
+    <OSPropertyString id="13315" value="http://images.werken.com/werken_large.gif"/>
+    <OSPropertyString id="13316" value="280"/>
+    <OSPropertyString id="13317" value="25"/>
+    <OSPropertyString id="13310" value="#ffffff"/>
+    <OSPropertyString id="13311" value="#330000"/>
+    <OSPropertyString id="13312" value="#990000"/>
+    <OSPropertyString id="13313" value="#ffffff"/>
+    <OSPropertyString id="13314" value="#330000"/>
+    <OSPropertyString id="10017" value="For example operating system, software platform and/or hardware specifications (include as appropriate for the issue)."/>
+    <OSPropertyString id="10018">
+        <value><![CDATA[An estimate of how much work remains until this issue will be resolved.<br>
+The format of this is ' *w *d *h *m ' (representing weeks, days, hours and minutes - where * can be any number)<br>
+Examples: 4d, 5h 30m, 60m and 3w.]]></value>
+    </OSPropertyString>
+    <OSUser id="10000" name="a" passwordHash="H0D8ktokFpR1CXnubPWC8tXX0o4YM13gWrxU0FYOD1MChgxlK/CNVgJSql50IQVG82n7u86MEs/HlXsmUv6adQ=="/>
+    <Permission id="13775" type="1" group="jira-administrators"/>
+    <Permission id="13776" type="0" group="jira-administrators"/>
+    <Permission id="13777" type="1" group="jira-users"/>
+    <Permission id="13778" type="10" group="jira-users"/>
+    <Permission id="13779" type="11" group="jira-users"/>
+    <Permission id="13780" type="15" group="jira-users"/>
+    <Permission id="13781" type="13" group="jira-developers"/>
+    <Permission id="13782" type="17" group="jira-developers"/>
+    <Permission id="13783" type="14" group="jira-developers"/>
+    <Permission id="13784" type="21" group="jira-developers"/>
+    <Permission id="13785" type="12" group="jira-developers"/>
+    <Permission id="13786" type="16" group="jira-administrators"/>
+    <Permission id="13787" type="18" group="jira-developers"/>
+    <Priority id="1" sequence="1" name="Blocker"
+              description="Blocks development and/or testing work, production could not run." iconurl="/images/icons/priority_blocker.gif"/>
+    <Priority id="2" sequence="2" name="Critical"
+              description="Crashes, loss of data, severe memory leak." iconurl="/images/icons/priority_critical.gif"/>
+    <Priority id="3" sequence="3" name="Major"
+              description="Major loss of function." iconurl="/images/icons/priority_major.gif"/>
+    <Priority id="4" sequence="4" name="Minor"
+              description="Minor loss of function, or other problem where easy workaround is present." iconurl="/images/icons/priority_minor.gif"/>
+    <Priority id="5" sequence="5" name="Trivial"
+              description="Cosmetic problem like misspelt words or misaligned text." iconurl="/images/icons/priority_trivial.gif"/>
+    <Project id="10810" name="a" url="" lead="a" description="" key="AA" counter="1"/>
+    <Resolution id="1" sequence="1" name="Fixed" description="A fix for this issue is checked into the tree and tested."/>
+    <Resolution id="2" sequence="2" name="Won&apos;t Fix" description="The problem described is an issue which will never be fixed."/>
+    <Resolution id="3" sequence="3" name="Duplicate" description="The problem is a duplicate of an existing issue."/>
+    <Resolution id="4" sequence="4" name="Incomplete" description="The problem is not completely described."/>
+    <Resolution id="5" sequence="5" name="Cannot Reproduce" description="All attempts at reproducing this issue failed, or not enough information was available to reproduce the issue. Reading the code produces no clues as to why this behavior would occur. If more information appears later, please reopen the issue."/>
+    <SequenceValueItem seqName="ListenerConfig" seqId="10030"/>
+    <SequenceValueItem seqName="OSGroup" seqId="10240"/>
+    <SequenceValueItem seqName="Component" seqId="10100"/>
+    <SequenceValueItem seqName="Project" seqId="10880"/>
+    <SequenceValueItem seqName="Version" seqId="10200"/>
+    <SequenceValueItem seqName="Action" seqId="10340"/>
+    <SequenceValueItem seqName="Issue" seqId="10860"/>
+    <SequenceValueItem seqName="Permission" seqId="13860"/>
+    <SequenceValueItem seqName="OSUser" seqId="11780"/>
+    <SequenceValueItem seqName="OSPropertyEntry" seqId="13560"/>
+    <SequenceValueItem seqName="OSMembership" seqId="12360"/>
+</entity-engine-xml>

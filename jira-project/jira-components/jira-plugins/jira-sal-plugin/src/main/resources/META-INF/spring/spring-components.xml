@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/osgi
+           http://www.springframework.org/schema/osgi/spring-osgi.xsd"
+        default-autowire="autodetect">
+
+    <bean name="pluginUpgradeManager" class="com.atlassian.sal.jira.upgrade.JiraPluginUpgradeManager">
+        <constructor-arg ref="upgradeTasks" />
+        <constructor-arg ref="transactionTemplate" />
+        <constructor-arg ref="pluginAccessor" />
+        <constructor-arg ref="pluginSettingsFactory" />
+    </bean>
+
+    <osgi:service id="pluginUpgradeManager_osgiService" ref="pluginUpgradeManager">
+        <osgi:interfaces>
+            <value>com.atlassian.sal.api.upgrade.PluginUpgradeManager</value>
+            <value>com.atlassian.sal.api.lifecycle.LifecycleAware</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+    <osgi:list id="upgradeTasks" interface="com.atlassian.sal.api.upgrade.PluginUpgradeTask" cardinality="0..N">
+    </osgi:list>
+
+    <bean name="salLifecycleManager" class="com.atlassian.sal.jira.lifecycle.JiraLifecycleManager" destroy-method="destroy">
+        <constructor-arg ref="pluginEventManager"/>
+        <constructor-arg ref="beanFactories"/>
+        <property name="lifecycleAwareListeners" ref="lifecycleAwareImpls"/>
+    </bean>
+
+    <osgi:service id="salLifecycleManager_osgiService" ref="salLifecycleManager">
+        <osgi:interfaces>
+            <value>com.atlassian.sal.api.lifecycle.LifecycleManager</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+    <osgi:list id="lifecycleAwareImpls" interface="com.atlassian.sal.api.lifecycle.LifecycleAware" cardinality="0..N">
+        <osgi:listener bind-method="onBind" ref="salLifecycleManager" />
+    </osgi:list>
+
+    <osgi:list id="beanFactories" interface="org.springframework.beans.factory.ListableBeanFactory" cardinality="0..N">
+    </osgi:list>
+
+</beans>

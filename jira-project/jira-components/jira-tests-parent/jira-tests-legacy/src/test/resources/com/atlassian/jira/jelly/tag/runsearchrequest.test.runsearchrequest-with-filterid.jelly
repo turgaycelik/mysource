@@ -1,0 +1,3 @@
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log" >
+    <jira:RunSearchRequest filterid="10241" var="issues" />
+</JiraJelly>

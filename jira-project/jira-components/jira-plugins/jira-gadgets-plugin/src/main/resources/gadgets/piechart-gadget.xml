@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.piechart.title__" directory_title="__MSG_gadget.piechart.title__" description="__MSG_gadget.piechart.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:pie-chart-gadget", "piechart-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:pie-chart-gadget", "piechart-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Charts
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.piechart")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="projectOrFilterId" datatype="hidden" />
+    <UserPref name="statType" datatype="hidden" default_value="assignees" />
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+                            var searchParam ;
+                            if (/^jql-/.test(this.getPref("projectOrFilterId")) || this.getPref("isPopup") === "true"){
+                                searchParam =
+                                {
+                                    userpref: "projectOrFilterId",
+                                    type: "hidden",
+                                    value: gadgets.util.unescapeString(this.getPref("projectOrFilterId"))
+                                };
+                            }
+                            else{
+                                searchParam = AJS.gadget.fields.projectOrFilterPicker(gadget, "projectOrFilterId");
+                            }
+                            return  {
+                                action: "/rest/gadget/1.0/piechart/validate",
+                                theme : function () {
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    searchParam,
+                                    {
+                                        userpref: "statType",
+                                        label: this.getPrefs().getMsg("gadget.common.stattype.label"),
+                                        description: this.getMsg("gadget.common.stattype.description"),
+                                        type: "select",
+                                        selected: this.getPref("statType"),
+                                        options: args.statType.stats
+                                    },
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        },
+                        args: [{
+                            key: "statType",
+                            ajaxOptions:  "/rest/gadget/1.0/statTypes"
+                        }]
+                    },
+                    view: {
+                        enableReload: true,
+                        onResizeReload: true,
+                        template: function (args) {
+
+                            var gadget = this;
+
+                            // reset view
+                            gadget.getView().addClass("g-piechart");
+                            gadget.getView().addClass("chart").empty();
+
+                            var requiresTitle = function() {
+                                return args.chart.filterTitle && args.chart.filterTitle !== "" && args.chart.filterTitle !== "gadget.common.anonymous.filter" && gadget.getPref("isPopup") === "false";
+                            };
+
+                            var setTitles = function () {
+                                if (requiresTitle()){
+                                    // This is used to pass the name of filter or project to the picker
+                                    gadget.projectOrFilterName = args.chart.filterTitle;
+                                    gadgets.window.setTitle(AJS.format("__MSG_gadget.piechart.title.specific__", args.chart.filterTitle));
+                                }
+                            }();
+
+                            var getChartContainer = function () {
+                                var chart = AJS.$("<div id='chart' />").appendTo(gadget.getView());
+                                return function () {
+                                    return chart;
+                                };
+                            }();
+
+                            var safeEscapeString = function(text) {
+                                if(text) {
+                                    return gadgets.util.escapeString(text);
+                                } else {
+                                    return '';
+                                }
+                            };
+
+                            var getChartImg = function () {
+                                AJS.$("#chart", gadget.getView()).get(0).innerHTML += "<img style='display:none' src='" + args.chart.base64Image + "' alt='" + safeEscapeString(args.chart.filterTitle) + "' usemap='#" +
+                                args.chart.imageMapName + "' height='" + args.chart.height + "' width='" + args.chart.width + "' />";
+                                gadget.getView().append(args.chart.imageMap);
+                                gadget.showLoading();
+                                var chartImg = AJS.$("img", getChartContainer());
+                                AJS.$(chartImg, gadget.getView()).load(function () {
+                                    AJS.$(this).show();
+                                    gadget.hideLoading();
+                                    gadget.resize();
+                                });
+                                return function () {
+                                    return chartImg;
+                                };
+                            }();
+
+                            var setSummary = function() {
+                                var linkStart = "";
+                                var linkEnd = "";
+                                if(requiresTitle()) {
+                                    linkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.chart.filterUrl + "\" target=\"_parent\" title=\"" + safeEscapeString(args.chart.filterTitle) + "\">";
+                                    linkEnd = "</a>";
+                                }
+                                getChartContainer().append(
+                                        AJS.$("<p/>").append(AJS.format("__MSG_gadget.piechart.summary__", linkStart, "<strong>" + args.chart.issueCount + "</strong>", linkEnd) + "&nbsp;&nbsp;&nbsp;&nbsp;" +
+                                                             AJS.format("__MSG_gadget.piechart.field__", "<strong>", safeEscapeString(args.chart.statType), "</strong>"))
+                                );
+                            }();
+
+                            if (gadgets.views.getCurrentView().getName() === "canvas") {
+                                var dataTable = AJS.gadgets.templater.Table ({
+                                    descriptor: function (args) {
+                                        return {
+                                            cols: [
+                                                {header: args.statType, preSorted: true},
+                                                {header: gadget.getMsg("gadget.piechart.issues"), sort: "asc"},
+                                                {header: "%"}
+                                            ],
+                                            data: function () {
+                                                var rows = [];
+                                                if (args.chartData) {
+                                                    AJS.$(args.chartData).each(function (i) {
+                                                        rows.push([
+                                                            {value: i, label: gadgets.util.escape(this.key)},
+                                                            {value: gadgets.util.escape(this.value), label: "<a href='" + this.url + "'>" + gadgets.util.escape(this.value) + "</a>"},
+                                                            {value: this.pecentage, label: this.pecentage}
+                                                        ]);
+                                                    });
+                                                }
+                                                return rows;
+                                            }()
+                                        };
+                                    },
+                                    sortable: true,
+                                    args: [{key: "chartData", data: args.chart.data}, {key: "statType", data: args.chart.statType}]
+                                });
+
+                                var getDataTable = function () {
+                                    return AJS.$("table.aui", gadget.getView());
+                                };
+
+                                var createCanvasDataTable = function () {
+                                    dataTable.addCallback(function (fragment) {
+                                        gadget.getView().append(fragment);
+                                        gadget.resize();
+                                    });
+                                    dataTable.build();
+                                };
+                                // finally after the image has loaded we create the data table
+                                getChartImg().load(createCanvasDataTable);
+                            }
+                        },
+                        args: [{
+                            key: "chart",
+                            ajaxOptions: function () {
+
+                                var width = Math.round(gadgets.window.getViewportDimensions().width * 0.9);
+                                //canvas mode needs some more room to the right for the data table.
+                                if(gadgets.views.getCurrentView().getName() === "canvas") {
+                                    width = Math.round(gadgets.window.getViewportDimensions().width * 0.6);
+                                }
+                                if (width < 150){
+                                    width = 150;
+                                }
+                                var height = Math.round(width*2/3);
+
+                                if (gadgets.views.getCurrentView().getName() === "canvas") {
+                                    return {
+                                        url: "/rest/gadget/1.0/piechart/generate",
+                                        data:  {
+                                            projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                            statType: gadgets.util.unescapeString(this.getPref("statType")),
+                                            width: Math.round(width * 0.8),
+                                            height: Math.round(height * 0.8),
+                                            returnData: true,
+                                            inline: true
+                                        }
+                                    };
+                                } else {
+                                    return {
+                                        url: "/rest/gadget/1.0/piechart/generate",
+                                        data:  {
+                                            projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                            statType: gadgets.util.unescapeString(this.getPref("statType")),
+                                            width: width,
+                                            height: height,
+                                            inline: true
+                                        }
+                                    };
+                                }
+                            }
+                        }]
+                    }
+                });
+            })();
+        </script>
+
+
+        ]]>
+    </Content>
+
+
+</Module>

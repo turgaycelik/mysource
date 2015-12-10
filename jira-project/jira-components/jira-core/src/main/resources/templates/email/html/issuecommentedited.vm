@@ -1,0 +1,25 @@
+#* @vtlvariable name="comment" type="com.atlassian.jira.issue.comments.Comment" *#
+#* @vtlvariable name="originalcomment" type="com.atlassian.jira.issue.comments.Comment" *#
+#disable_html_escaping()
+
+#defaultMailHeader("email.event.activity.comment.edited.on.issue", $changelogauthorLink)
+
+#set ($issueTitleBody="#parse('templates/email/html/includes/patterns/comment-title.vm')")
+#rowWrapperNormal($issueTitleBody)
+
+#if($originalcomment.body)
+    #set ($htmlComment = $!diffutils.diff($originalcomment.body, "background-color:${auiErrorBackgroundColour};text-decoration:line-through;", $comment.body, "background-color:${auiSuccessBackgroundColour};"))
+#else
+    #set ($htmlComment = $comment.body)
+#end
+
+## setting extra margin as diff is wrapped only in <span>
+#set ($commentTopPatternClasses = 'comment-top-special-margin')
+#parse('templates/email/html/includes/patterns/comment-top.vm')
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+###set($extraFooterContent = "#parse('templates/email/html/includes/set-issue-details-context.vm')")
+
+#parse("templates/email/html/includes/footer.vm")

@@ -1,0 +1,3 @@
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#userPickerWithFieldConfig ($action $customField.id $value $config.id $projectIdList false $null "" $canPerformAjaxSearch $ajaxLimit)
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

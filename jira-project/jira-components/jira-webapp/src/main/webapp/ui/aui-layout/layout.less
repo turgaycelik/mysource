@@ -1,0 +1,276 @@
+// Most of the layout styles should be managed by AUI,
+// but we need to add a few in the short-term until markup changes are made for 6.0.
+@import "../imports/colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/border-radius";
+@import "../imports/mixins/clearfix";
+
+@temp-page-background-color: @aui-color-page;
+@temp-page-border-color: @aui-border-color;
+@temp-spacing: 20px;
+@temp-header-content-height: 30px;
+@temp-small-page-width: 576px;
+
+.content-container {
+// This is the element in JIRA in an equivalent position of the aui-page-panel.
+    .border-box();
+    display: table;
+    padding: 0;
+    margin: 0;
+    table-layout: fixed;
+    width: 100%;
+
+    > .content-related,
+    > .content-body {
+        .border-box();
+        display: table-cell;
+        margin: 0;
+        vertical-align: top;
+    }
+}
+
+.content-container {
+    background: @temp-page-background-color;
+    border-color: @temp-page-border-color;
+    border-style: solid;
+    border-width: 1px 0;
+}
+
+.content-related {
+    border-right: 1px solid @temp-page-border-color;
+    padding: @temp-spacing/2;
+    padding-bottom: @temp-spacing;
+    width: @temp-spacing * 10;
+}
+
+.content-body {
+  padding: @temp-spacing;
+}
+/** end TODO JRADEV-14485 */
+
+
+// The page types
+// --------------------
+
+.page-type-admin {}
+.page-type-blank {}
+.page-type-inlinedialog {}
+.page-type-message {
+    #content > header,
+    .content-container,
+    .aui-page-panel {
+        .border-radius(4px);
+        border-width: 1px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: @temp-spacing*2 + @temp-header-content-height;
+        width: @temp-small-page-width;
+    }
+}
+.page-type-inlinedialog {
+    background-color: #fff;
+    overflow: auto;
+}
+.page-type-inlinedialog,
+.page-type-popup { min-width: 0; }
+.page-type-printable {}
+
+// Specific pages
+.page-type-dashboard {}
+.page-type-issuenav {}
+.page-type-login {
+    #content > header,
+    .content-container,
+    .aui-page-panel {
+        .border-radius(4px);
+        border-width: 1px;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: @temp-spacing*2 + @temp-header-content-height;
+        width: @temp-small-page-width;
+    }
+}
+.page-type-report {}
+.page-type-userprofile {}
+.page-type-viewissue {}
+
+// Specific admin pages
+.page-type-workflows {}
+.page-type-workflow-view {}
+
+
+// Page navigation styles
+// TODO JRADEV-13452 - Remove once we use AUI's vertical navigation component
+// --------------------
+#content {
+    // First, the mixins and stuff...
+    .nav-item-layout() { // .aui-nav-vertical > li > a
+        display: block;
+        padding: 7px 10px;
+        line-height: 16/14;
+        word-wrap: break-word;
+    }
+
+    .nav-item-style() {
+        background: @jira-pagenav-menuitem-background-color;
+        color: @jira-pagenav-menuitem-text-color;
+        font-weight: normal;
+        text-decoration: none;
+    }
+
+    .nav-item-focus-style() { // .aui-nav-vertical > li > a:focus
+        background: @jira-pagenav-menuitem-background-focus-color;
+        color: @jira-pagenav-menuitem-text-focus-color;
+        text-decoration: none;
+    }
+
+    .nav-item-active-style() { // .aui-nav-vertical > li > a:active
+        background: @jira-pagenav-menuitem-background-active-color;
+        color: @jira-pagenav-menuitem-text-active-color;
+    }
+
+    .nav-item-selected-style() { // .aui-nav-vertical .aui-nav-selected a
+        background: @jira-pagenav-menuitem-background-selected-color;
+        color: @jira-pagenav-menuitem-text-selected-color;
+        font-weight: bold;
+    }
+
+    // ...and now the styles!
+    .aui-page-panel-nav {
+        // Replace JIRA's tab styles with something that looks like AUI's vertical navigation
+        .tabs.vertical {
+            margin: 0;
+            padding: 0;
+
+            li {
+                border: 0;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+
+            strong {
+                font-weight: inherit;
+                color: inherit;
+                cursor: inherit;
+                margin: 0;
+                padding: 0;
+            }
+
+            a {
+                .nav-item-layout();
+                .nav-item-style();
+            }
+
+            a:focus,
+            a:hover {
+                .nav-item-focus-style();
+            }
+
+            a:active {
+                .nav-item-active-style();
+            }
+
+            .active a {
+                .nav-item-selected-style();
+            }
+
+            .active a:focus,
+            .active a:hover {
+                .nav-item-focus-style();
+                color: @jira-pagenav-menuitem-text-selected-color;
+            }
+
+            .active a:active {
+                .nav-item-active-style();
+            }
+        }
+    }
+}
+
+// Temporary bespoke styles for the old JIRA header markup
+#content {
+    > header {
+        .clearfix();
+        padding: 20px;
+
+        h1, h2 {
+            margin: 0;
+        }
+
+        > h1 > a {
+            text-decoration: none;
+        }
+
+        #heading-avatar {
+            float: left;
+            height: 48px;
+            margin: 0;
+            overflow: hidden;
+            width: 48px;
+
+            > img {
+                display: block;
+            }
+
+            + h1 {
+                padding-top: 9px;
+            }
+
+            + ul.breadcrumbs,
+            + ul.breadcrumbs + h1,
+            + h1 {
+                margin-left: 58px;
+            }
+        }
+
+        .toolbar-group {
+            margin: 0 0 10px 10px;
+        }
+    }
+}
+
+
+/**
+ * Collapsable left hand column
+ * used to be on the column re-ordering, just hiding the link
+ * TODO: Sharpy refactor this out with ADG (js also) before 6.0
+ */
+.toggle-lhc {
+    display: none;
+}
+
+.aui-page-focused .aui-page-panel-content h2 {
+    border-bottom: 1px solid @aui-border-color;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+}
+
+.aui-page-focused .aui-page-panel-content .buttons-container {
+    border-top: 1px solid @aui-border-color;
+    margin-top: 20px;
+    padding-top: 20px;
+}
+
+.margin-fix {
+    margin-top: 50px;
+    min-height: auto;
+}
+
+@import "../aui-extensions/tabpanel-modules.less";
+
+/**
+ * Page Capabilities
+ */
+
+body.CAPS_IFRAME.page-type-login {
+  min-width: 0;
+  background: white;
+  overflow-y: auto;
+
+  section .aui-page-panel {
+    border: none;
+    margin: 0;
+    width: auto;
+  }
+}

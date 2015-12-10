@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#if ($assignee)
+    #if ($assignee == '-1')
+        $i18n.getText('common.concepts.automatic')        
+    #else
+        #set ($user = $userutils.getUser($assignee))
+        #if ($user)
+            $textutils.htmlEncode($user.displayName)
+        #end
+    #end
+#else
+    $i18n.getText('common.concepts.unassigned')
+#end

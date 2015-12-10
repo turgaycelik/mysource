@@ -1,0 +1,152 @@
+Update of /cvsroot/atlassian/jira-docs/web/src/documentation/content/xdocs
+In directory CPE-144-132-174-210:/tmp/cvs-serv15907
+
+Added Files:
+	dashboard.xml
+Log Message:
+Move dashboard out of config/
+
+--- NEW FILE: dashboard.xml ---
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE document PUBLIC "-//APACHE//DTD Documentation V2.0a//EN" "document-v20.dtd">
+<document>
+  <header>
+    <title>JIRA Introduction</title>
+  </header>
+  <body>
+    <p>The Dashboard is your first page when you sign into JIRA. Also known as the home page. It can be configured to
+      display many different types of information, depending on you areas of interest. JIRA comes pre-configured with a
+      set of standard dashboard portlets. Portlets are the information boxes on the Dashboard.</p>
+
+    <p>The portlets can be re-ordered, switched between the left and right columns, additional portlets can be added,
+      and some portlets can be configured.</p>
+
+    <p>The portlets available are as follows:</p>
+
+    <table>
+      <tr>
+        <th>Portlet</th>
+        <th>Description</th>
+        <th>Default</th>
+      </tr>
+      <tr>
+        <td>Introduction</td>
+        <td>An introduction to this installation of Jira.</td>
+        <td>On by default.</td>
+      </tr>
+
+      <tr>
+        <td>All Projects</td>
+        <td> Displays all projects in Jira. Can be configured with whether to display full
+          information, or just a brief summary.</td>
+        <td>On by default.</td>
+      </tr>
+      <tr>
+        <td>Saved filters</td>
+        <td> Shows the saved filters of the current user, along with the shared filters available to the current user.</td>
+        <td>On by default.</td>
+      </tr>
+      <tr>
+        <td>Assigned to me</td>
+        <td> Shows the issues assigned to the current user.</td>
+        <td>On by default.</td>
+      </tr>
+      <tr>
+        <td>In Progress</td>
+        <td> Shows the issues in progress.</td>
+        <td>On by default.</td>
+      </tr>
+      <tr>
+        <td>User issues</td>
+        <td> Shows quick links to user issues.</td>
+        <td>On by default.</td>
+      </tr>
+
+      <tr>
+        <td>Admin</td>
+        <td> Shows functions for admin users. (Will only display if you are an admin user)</td>
+        <td>On by default.</td>
+      </tr>
+      <tr>
+        <td>Project Table</td>
+        <td> Shows all project names in a table.</td>
+        <td>Off by default.</td>
+      </tr>
+      <tr>
+        <td>Project</td>
+        <td> Allows the user to choose a project to display.</td>
+        <td>Off by default. </td>
+      </tr>
+      <tr>
+        <td>Saved Filter</td>
+        <td> Allows the user to show a saved filter's issues. Each instance of this portlet is configured with the saved
+          filter to use, and the number of results to display.</td>
+        <td>None by default.</td>
+      </tr>
+    </table>
+
+    <section>
+      <title>Steps to configure the dashboard</title>
+
+      <ol>
+        <li>Login as a user. The dashboard configuration is user specific.</li>
+        <li>In the top right of the screen, in the area dealing with user status, click on the link labelled
+          "Profile".</li>
+        <li>In the bottom of the menu bar on the left, click on the link labelled "Dashboard Configuration". If you
+          don't currently have a customised dashboard, you will be shown a confirmation page. Click on "Configure
+          Dashboard".</li>
+        <li>You will be brought to "Configure Dashboard" page.
+          <img src="img:dashboard/config" alt="Dashboard configuration page"/>
+        </li>
+        <li> The page consists of two selectable areas listing the portlets. The portlets can be configued as follows:
+            <table>
+
+              <tr>
+                <td>Move a portlet up</td>
+                <td> Select the portlet, and click the "^" closest to select area that contains the portlet.</td>
+              </tr>
+              <tr>
+                <td>Move a portlet down</td>
+                <td> Select the portlet, and click the "v" closest to select area that contains the portlet.</td>
+              </tr>
+              <tr>
+                <td>Move a portlet left</td>
+                <td> Select the portlet in the right hand column, and click the "&lt;" closest to select area on the left.</td>
+              </tr>
+              <tr>
+                <td>Move a portlet right</td>
+                <td> Select the portlet in the left hand column, and click the "&lt;" closest to select area on the right.</td>
+              </tr>
+
+              <tr>
+                <td>Configure a portlet</td>
+                <td> Select the portlet, and press the "Edit" button.</td>
+              </tr>
+              <tr>
+                <td>Delete a portlet</td>
+                <td> Select the portlet and press the "Delete" button.</td>
+              </tr>
+              <tr><td>Add another portlet</td>
+                <td>
+                  <ol>
+                    <li>Press the "Add" button. This will bring up the "Add Portlet" page. This page shows you the
+                      available list of portlets, as discussed above, how many of each one you have configured on, and
+                      summary of their configuration status.
+                      <img src="img:dashboard/addportlet" alt="Add Portlet page"/>
+                    </li>
+                    <li>Select the radio button of the one you want, and press the "Add" button. </li>
+                    <li>If the filter you have selected requires configuration, you will be presented with the filters
+                      configuration page. Configure appropriatly and press "Save". </li>
+                    <li>You will be brought back to the "Configure Dashboard" page.</li>
+                  </ol>
+                </td>
+              </tr>
+            </table>
+          </li>
+        </ol>
+      </section>
+    </body>
+  </document>
+
+
+

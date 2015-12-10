@@ -1,0 +1,15 @@
+#disable_html_escaping()
+#if ($selectedIssueTypes || $allStandardIssueTypes || $allSubTaskIssueTypes)
+    #searcherHeaderNoField ("type" ${i18n.getText('navigator.filter.issuetype')})
+
+    #foreach ($type in $selectedIssueTypes)
+        #if ($invalidIssueTypes && $invalidIssueTypes.contains($type) )
+            <span class="invalid_sel" #searchContextDescriptionTitleProjectOrGeneral('navigator.filter.issuetype', $type, $contextProjectNames)>$textutils.htmlEncode($type, false)</span>#commaonly($selectedIssueTypes)
+        #else
+            $textutils.htmlEncode($type, false)#commaonly($selectedIssueTypes)
+        #end
+    #end
+
+    #searcherFooter ($searcher)
+#end
+

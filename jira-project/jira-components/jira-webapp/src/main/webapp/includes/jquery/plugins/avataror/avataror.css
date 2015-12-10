@@ -1,0 +1,19 @@
+.avatarorframe .submit-buttons
+{
+    float: right;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.avatarorframe .avataror
+{
+    clear: both;
+}
+
+.avataror {
+    margin-left:5px;
+}
+
+.avataror-preview {
+    margin-right:15px!important;
+}

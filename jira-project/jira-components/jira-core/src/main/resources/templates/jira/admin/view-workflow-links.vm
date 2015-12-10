@@ -1,0 +1,26 @@
+#enable_html_escaping()
+
+#set($i18n=$authcontext.i18nHelper)
+
+<nav id="workflow-links">
+    <div class="aui-buttons">
+        #if($editable == 'true')
+            #set($urlPost = "&workflowMode=${wfMode}#if($project)&project=${project}#end#if($issueTypeId)&issueType=${issueTypeId}#end")
+            <a class="aui-button workflow-edit-toggle#if($viewMode == 'diagram') active#end" id="workflow-diagram" #if($viewMode == 'text')href="$baseurl/secure/admin/workflows/WorkflowDesigner.jspa?wfName=${wfName}${urlPost}"#end data-mode="diagram">$i18n.getText('admin.workflows.actions.view.diagram')</a>
+            <a class="aui-button workflow-edit-toggle#if($viewMode == 'text') active#end" id="workflow-text" #if($viewMode == 'diagram')href="$baseurl/secure/admin/workflows/ViewWorkflowSteps.jspa?workflowName=${wfName}${urlPost}"#end data-mode="text">$i18n.getText('admin.workflows.actions.view.text')</a>
+        #else
+            <a class="aui-button workflow-view-toggle#if($viewMode == 'diagram') active#end" id="workflow-diagram" href="#workflow-view-diagram" data-mode="diagram">$i18n.getText('admin.workflows.actions.view.diagram')</a>
+            <a class="aui-button workflow-view-toggle#if($viewMode == 'text') active#end" id="workflow-text" href="#workflow-view-text" data-mode="text">$i18n.getText('admin.workflows.actions.view.text')</a>
+        #end
+    </div>
+
+    <div class="aui-buttons">
+        <button class="aui-button aui-dropdown2-trigger" aria-owns="download-dropdown" aria-haspopup="true">$i18n.getText('admin.workflows.actions.download.as')</button>
+    </div>
+    <div id="download-dropdown" class="aui-dropdown2 aui-style-default">
+        <ul>
+            <li><a data-operation="xml" id="xml_$wfName" href="$baseurl/secure/admin/workflows/ViewWorkflowXml.jspa?workflowMode=$wfMode&workflowName=$wfName">$i18n.getText('admin.workflows.actions.download.as.xml')</a></li>
+            <li><a href="$req.contextPath/plugins/servlet/wfshare-export?workflowMode=$wfMode&workflowName=$wfName">$i18n.getText('admin.workflows.actions.download.as.workflow.bundle')</a></li>
+        </ul>
+    </div>
+</nav>

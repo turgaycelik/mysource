@@ -1,0 +1,13 @@
+<indexcleanerservice id="indexcleanerservice">
+    <description>
+        admin.service.cluster.message.cleaner.desc
+    </description>
+    <properties>
+        <property>
+            <key>RETENTION_PERIOD</key>
+            <name>admin.service.cluster.message.cleaner.retention.period</name>
+            <description>admin.service.cluster.message.cleaner.retention.period.desc</description>
+            <type>string</type>
+        </property>
+    </properties>
+</indexcleanerservice>

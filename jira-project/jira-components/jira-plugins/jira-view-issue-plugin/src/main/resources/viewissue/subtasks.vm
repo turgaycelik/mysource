@@ -1,0 +1,13 @@
+#enable_html_escaping()
+<div class="mod-content intform subtask-table-container">
+    #if (${selectedIssueId})
+        <style type="text/css">
+            #issuerow${selectedIssueId} {background-color: #f2f2f2;}
+        </style>
+    #end
+    #if (${hasSubTasks})
+        ${subTaskTable.html}
+    #else
+       ${i18n.getText("viewissue.subtasks.notasksforview")}
+    #end
+</div>

@@ -1,0 +1,12 @@
+<!--
+A sample configuration file for Tomcat 5.5
+Customize the docBase attribute, drop in your $CATALINA_HOME/conf/Catalina/localhost/jira.xml
+Note the JOTM dependencies; you'll need to copy various jars to Tomcat's common/lib/ directory.
+-->
+<Context path="/jira" docBase="@JIRA_WEBAPP@" debug="0" useHttpOnly="true">
+
+    <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"
+    factory="org.objectweb.jotm.UserTransactionFactory" jotm.timeout="60"/>
+    <Manager pathname=""/>
+
+</Context>

@@ -1,0 +1,19 @@
+#disable_html_escaping()
+
+#set ($actionerUser = $remoteUser)
+#set ($authorLink = "#authorlinkname($remoteUser.name $linkstyle)")
+#set ($headerTitle = "${i18n.getText('jira-share-plugin.email.issue.activity', $authorLink, '<strong>', '</strong>')}")
+#set ($issueTitleNoTopMargin = true)
+#set ($extraFooterContent = ("#parse('/templates/email/html/includes/patterns/involvedUsers.vm')"))
+
+#parse("templates/email/html/includes/header.vm")
+
+#if ($comment)
+    #parse('templates/email/html/includes/patterns/comment-top.vm')
+#end
+
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/issue-title.vm')")
+
+#parse("/templates/email/html/mobileSingleColumnStyle.vm")
+
+#parse("templates/email/html/includes/footer.vm")

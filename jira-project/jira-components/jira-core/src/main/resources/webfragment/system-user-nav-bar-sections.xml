@@ -1,0 +1,67 @@
+<!--
+  All linkId atributes of link elements must not contain spaces!
+  Reason: linkIds are used for window names for pop-ups. See JRA-12387 for more details.
+-->
+<atlassian-plugin name='User Navigation Bar Sections' key='jira.webfragments.user.navigation.bar' i18n-name-key="webfragments.user.navigation.bar.plugin.name">
+    <plugin-info>
+        <description key="webfragments.user.navigation.bar.plugin.desc">This library includes the web fragments for the top right user navigation bar. This should not be disabled</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.7" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-section key="personal" name="Personal Section" location="system.user.options" i18n-name-key="webfragments.user.options.section.personal.name"  weight="100"/>
+
+        <web-item key="view_profile" name="View Users Profile" section="system.user.options/personal" i18n-name-key="webfragments.user.options.item.view.profile"  weight="10">
+            <label key="common.concepts.profile" />
+            <tooltip key="tooltip.profile" />
+            <link linkId="view_profile">/secure/ViewProfile.jspa</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+        </web-item>
+
+    <web-section key="jira-help" name="Help Section" location="system.user.options" i18n-name-key="webfragments.user.options.section.help.name"  weight="200"/>
+
+        <web-item key="view_help" name="View Online Help" section="system.user.options/jira-help" i18n-name-key="webfragments.user.options.item.online.help.name"  weight="20">
+            <label key="online.help.name" />
+            <tooltip key="online.help.tooltip" />
+            <link linkId="view_help">$helpUtil.getHelpPath('default').url</link>
+            <param name="target" value="_blank"/>
+            <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.HelpContextProvider" />
+        </web-item>
+
+        <web-item key="view_keyshortscuthelp" name="View Key Shortcuts" section="system.user.options/jira-help" i18n-name-key="webfragments.user.options.item.about.keyshortscuthelp"  weight="30">
+            <label key="about.jira.keyshortscuthelp.name" />
+            <tooltip key="about.jira.keyshortscuthelp.tooltip" />
+            <link linkId="keyshortscuthelp">/secure/ViewKeyboardShortcuts!default.jspa</link> <!-- this url is never used.  Its is ovrrriden via JS later -->
+            <param name="target" value="_blank"/>
+        </web-item>
+
+        <web-item key="view_about" name="View About" section="system.user.options/jira-help" i18n-name-key="webfragments.user.options.item.about.name"  weight="40">
+            <label key="about.jira.name" />
+            <tooltip key="about.jira.tooltip" />
+            <link linkId="view_about">/secure/AboutPage.jspa</link>
+        </web-item>
+
+        <web-item key="view_credits" name="View Credits" section="system.user.options/jira-help" i18n-name-key="webfragments.user.options.item.credits.name"  weight="90">
+            <label key="jira.credits" />
+            <tooltip key="jira.credits.tooltip" />
+            <link linkId="view_credits">/secure/JiraCreditsPage!default.jspa</link>
+            <param name="target" value="_blank"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsBrowserCondition" invert="true">
+                <param name="browser">msie</param>
+                <param name="lessThan">8</param>
+            </condition>
+        </web-item>
+
+    <web-section key="system" name="System Section" location="system.user.options" i18n-name-key="webfragments.user.options.section.system.name"  weight="300">
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-section>
+
+        <web-item key="log_out" name="Log out of JIRA" section="system.user.options/system" i18n-name-key="webfragments.user.options.item.log.out"  weight="50">
+            <label key="common.concepts.logout" />
+            <tooltip key="tooltip.logout" />
+            <link linkId="log_out">/logout?atl_token=${atl_token}</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+        </web-item>
+
+</atlassian-plugin>

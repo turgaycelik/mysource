@@ -1,0 +1,7 @@
+jira.protocol = http
+jira.host = localhost
+jira.port = ${jira.port}
+jira.context = ${jira.context}
+jira.edition = enterprise
+jira.xml.data.location = jira-distribution/jira-integration-tests/src/test/xml
+jira.release.info = unknown

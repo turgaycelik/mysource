@@ -1,0 +1,25 @@
+#disable_html_escaping()
+
+#if ($avatarURL && !$avatarURL.empty())
+    #set ($avatar = $soyRenderer.render("com.atlassian.auiplugin:aui-experimental-soy-templates", "aui.avatar.avatar", {
+        "avatarImageUrl": $avatarURL,
+        "size": "small",
+        "tagName": "span",
+        "accessibilityText" : $textutils.htmlEncode($username)
+    }))
+#end
+
+#if ($username)
+    #if ($user)
+        <span class="user-hover" id="$!{id}_${textutils.htmlEncode($username)}" rel="$textutils.htmlEncode($username)">
+            $!avatar
+            $textutils.htmlEncode($fullname)
+        </span>
+    #else
+        $!avatar
+        $textutils.htmlEncode($username)
+    #end
+#else
+    $!avatar
+    $defaultFullName
+#end

@@ -1,0 +1,7 @@
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+<!--
+    Add your own Jelly XML here
+    For documentation on the JIRA tag library see:
+    http://www.atlassian.com/software/jira/docs/latest/jelly.html
+-->
+</JiraJelly>

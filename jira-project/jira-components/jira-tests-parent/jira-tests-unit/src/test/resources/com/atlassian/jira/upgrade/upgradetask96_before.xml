@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<searchrequest name="New shit">
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter">
+    <duedate name="duedate:next" value="-86400000" operator="&lt;="/>
+  </parameter>
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter">
+    <created name="created:previous" value="30240000000" operator="&gt;="/>
+  </parameter>
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter">
+    <created name="created:next" value="0" operator="&lt;="/>
+  </parameter>  
+  <parameter class="com.atlassian.jira.issue.search.parameters.lucene.PeriodParameter">
+    <updated name="updated:previous" value="2419200000" operator="&gt;="/>
+  </parameter>
+</searchrequest>

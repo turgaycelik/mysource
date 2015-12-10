@@ -1,0 +1,2004 @@
+<!-- $Id: pom.xml 104702 2009-12-22 23:29:57Z mtokar $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-tpm</artifactId>
+        <version>6.3.15</version>
+    </parent>
+
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-tpm-spm</artifactId>
+
+    <name>Supported Platforms Matrix Test Harness</name>
+
+    <!-- Common properties -->
+    <properties>
+        <test.host>localhost</test.host>
+        <acceptanceTestSettings>${project.build.directory}/classes/jira-surefire-test.properties</acceptanceTestSettings>
+        <appServer.host>${test.host}</appServer.host>
+        <appServer.appDomain>atlassian</appServer.appDomain>
+        <sql.maven.version>1.4</sql.maven.version>
+        <!--
+            Known issue:
+        Changing the appServer.port using system properties does not work if you want to run the JIRA instance
+        against the integration tests. For some reason (which I couldn't work out), the filtering of the
+        jira-surefire-test.properties file performs the substitution using the specified values in the pom.xml
+        (ie 8080) and not the value that has been passed in the system property
+         -->
+        <appServer.port>8080</appServer.port>
+        <appServer.ssl.port>8081</appServer.ssl.port>
+        <appServer.shutdown.port>8081</appServer.shutdown.port>
+
+        <appServer.install.directory>atlassian-jira-${project.version}-standalone</appServer.install.directory>
+        <jira.install.directory>${project.build.directory}/${appServer.install.directory}</jira.install.directory>
+
+        <jira.home.location>${project.build.directory}</jira.home.location>
+        <jira.home.directory>jira_home_${project.version}</jira.home.directory>
+
+        <db.host>${test.host}</db.host>
+        <db.dataSourceName>defaultDS</db.dataSourceName>
+
+        <baseURL>http://${appServer.host}:${appServer.port}/${webApp.contextRoot}</baseURL>
+        <webApp.contextRoot></webApp.contextRoot>
+    </properties>
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <profiles>
+
+        <!-- Database Profiles -->
+
+        <!-- Postgres -->
+        <profile>
+            <id>Postgres</id>
+            <activation>
+                <property>
+                    <name>Postgres</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.instance>jiradb</db.instance>
+                <db.username>postgres</db.username>
+                <db.password>postgres</db.password>
+                <db.port>5432</db.port>
+                <jdbc.url>jdbc:postgresql://${db.host}:${db.port}/${db.instance}</jdbc.url>
+                <jdbc.driver>org.postgresql.Driver</jdbc.driver>
+                <db.schema>public</db.schema>
+
+                <db.url>${jdbc.url}</db.url>
+
+                <db.jar>${db.artifactId}.${db.artifactVersion}.jar</db.jar>
+                <db.testTableName>SQL SELECT 1 FROM DUAL</db.testTableName>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <tasks>
+                                        <exec executable="psql" failonerror="false">
+                                            <arg value="-U"/>
+                                            <arg value="${db.username}"/>
+                                            <arg value="-c"/>
+                                            <arg value="drop database ${db.instance};"/>
+                                        </exec>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+
+                            </execution>
+
+                            <execution>
+                                <id>create-database</id>
+                                <phase>initialize</phase>
+                                <configuration>
+                                    <tasks>
+                                        <exec executable="psql" failonerror="true">
+                                            <arg value="-U"/>
+                                            <arg value="${db.username}"/>
+                                            <arg value="-c"/>
+                                            <arg value="create database ${db.instance} ENCODING 'UTF8';"/>
+                                        </exec>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+
+                            </execution>
+
+                            <execution>
+                                <id>postgres-specific-config-changes</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- define postgres datasource in server.xml -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[</Context>]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+                                                        <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+
+                                                                  driverClassName="${jdbc.driver}"
+                                                                  url="${db.url}"
+                                                                  username="${db.username}"
+                                                                  password="${db.password}"
+
+                                                                  maxActive="20"
+                                                                />
+                                                    </Context>
+                                                    ]]>
+                                            </replacevalue>
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Oracle -->
+        <profile>
+            <id>Oracle</id>
+
+            <activation>
+                <property>
+                    <name>Oracle</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.dba>labmanager</db.dba>
+                <db.dbapass>Thav4eew</db.dbapass>
+                <db.username>atlassian</db.username>
+                <db.password>flubflub</db.password>
+                <db.instance>XE</db.instance>
+                <db.name>Oracle 9i/10g</db.name>
+                <db.provider>Oracle10g</db.provider>
+                <db.port>1521</db.port>
+
+                <jdbc.url>jdbc:oracle:thin:@${db.host}:${db.port}:${db.instance}</jdbc.url>
+                <jdbc.driver>oracle.jdbc.OracleDriver</jdbc.driver>
+
+                <db.url>${jdbc.url}</db.url>
+
+                <db.connectionPoolCN>oracle.jdbc.pool.OracleConnectionPoolDataSource</db.connectionPoolCN>
+                <db.jar>${db.artifactId}.${db.artifactVersion}.jar</db.jar>
+                <db.testTableName>SQL SELECT 1 FROM DUAL</db.testTableName>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!--
+                        Using prepare-package (above) & package phases instead of pre-integration-test
+                        due to this issue:
+                        http://jira.codehaus.org/browse/MNG-2258
+                        -->
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>oracle-specific-config-changes</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- define oracle datasource in server.xml -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[</Context>]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+                                                        <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+
+                                                                  driverClassName="${jdbc.driver}"
+                                                                  url="${db.url}"
+                                                                  username="${db.username}"
+                                                                  password="${db.password}"
+
+                                                                  maxActive="20"
+                                                                  validationQuery="select 1 from dual"
+                                                                  connectionProperties="SetBigStringTryClob=true"
+                                                                />
+                                                    </Context>
+                                                    ]]>
+                                            </replacevalue>
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <version>${sql.maven.version}</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>${db.artifactGroup}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.artifactVersion}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <username>${db.dba}</username>
+                            <password>${db.dbapass}</password>
+                            <url>${jdbc.url}</url>
+                            <driver>${jdbc.driver}</driver>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>clean</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>DROP USER ${db.username} CASCADE;</sqlCommand>
+                                    <onError>continue</onError>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>create-db</id>
+                                <phase>package</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>GRANT CONNECT, RESOURCE TO ${db.username} IDENTIFIED BY ${db.password};</sqlCommand>
+                                    <onError>abort</onError>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <!-- Oracle -->
+        <profile>
+            <id>Oracle10g</id>
+
+            <activation>
+                <property>
+                    <name>Oracle10g</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.dba>admin</db.dba>
+                <db.dbapass>admin</db.dbapass>
+                <db.username>atlassian</db.username>
+                <db.password>flubflub</db.password>
+                <db.instance>XE</db.instance>
+                <db.name>Oracle 9i/10g</db.name>
+                <db.provider>Oracle10g</db.provider>
+                <db.port>1521</db.port>
+
+                <jdbc.url>jdbc:oracle:thin:@${db.host}:${db.port}:${db.instance}</jdbc.url>
+                <jdbc.driver>oracle.jdbc.OracleDriver</jdbc.driver>
+
+                <db.url>${jdbc.url}</db.url>
+
+                <db.connectionPoolCN>oracle.jdbc.pool.OracleConnectionPoolDataSource</db.connectionPoolCN>
+                <db.jar>${db.artifactId}.${db.artifactVersion}.jar</db.jar>
+                <db.testTableName>SQL SELECT 1 FROM DUAL</db.testTableName>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!--
+                        Using prepare-package (above) & package phases instead of pre-integration-test
+                        due to this issue:
+                        http://jira.codehaus.org/browse/MNG-2258
+                        -->
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>oracle-specific-config-changes</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- define oracle datasource in server.xml -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[</Context>]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+                                                        <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+
+                                                                  driverClassName="${jdbc.driver}"
+                                                                  url="${db.url}"
+                                                                  username="${db.username}"
+                                                                  password="${db.password}"
+
+                                                                  maxActive="20"
+                                                                  validationQuery="select 1 from dual"
+                                                                  connectionProperties="SetBigStringTryClob=true"
+                                                                />
+                                                    </Context>
+                                                    ]]>
+                                            </replacevalue>
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <version>${sql.maven.version}</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>${db.artifactGroup}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.artifactVersion}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <username>${db.dba}</username>
+                            <password>${db.dbapass}</password>
+                            <url>${jdbc.url}</url>
+                            <driver>${jdbc.driver}</driver>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>clean</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>DROP USER ${db.username} CASCADE;</sqlCommand>
+                                    <onError>continue</onError>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>create-db</id>
+                                <phase>package</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>GRANT CONNECT, RESOURCE TO ${db.username} IDENTIFIED BY ${db.password};</sqlCommand>
+                                    <onError>abort</onError>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- MySQL -->
+        <profile>
+            <id>MySQL</id>
+
+            <activation>
+                <property>
+                    <name>MySQL</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.name>MySQL</db.name>
+                <db.provider>${db.name}</db.provider>
+                <db.port>3307</db.port>
+                <db.instance>jira</db.instance>
+                <db.username>mysql50</db.username>
+                <db.password>mysql50</db.password>
+
+
+                <jdbc.driver>com.mysql.jdbc.Driver</jdbc.driver>
+                <jdbc.url>jdbc:mysql://${db.host}:${db.port}</jdbc.url>
+
+                <db.url>${jdbc.url}/${db.instance}?useUnicode=true&amp;amp;useServerPrepStmts=false&amp;amp;characterEncoding=UTF-8&amp;amp;sessionVariables=storage_engine=InnoDB</db.url>
+
+                <db.connectionPoolCN>com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource</db.connectionPoolCN>
+                <db.jar>${db.artifactId}.${db.artifactVersion}.jar</db.jar>
+                <db.testTableName>SQL SELECT 1</db.testTableName>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>mysql-specific-config-changes</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- define mysql datasource in server.xml -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[</Context>]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+                                                        <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+
+                                                                  driverClassName="${jdbc.driver}"
+                                                                  url="${db.url}"
+                                                                  username="${db.username}"
+                                                                  password="${db.password}"
+
+                                                                  maxActive="20"
+                                                                  validationQuery="select 1"
+                                                                />
+                                                     </Context>
+                                                    ]]>
+                                            </replacevalue>
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Need to copy mysql driver here as standalone doesn't ship with it any more -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-mysql-driver</id>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>mysql</groupId>
+                                            <artifactId>mysql-connector-java</artifactId>
+                                            <version>${mysql.jdbc.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${jira.install.directory}/lib</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Drop and recreate database -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <version>${sql.maven.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>${db.artifactGroup}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.artifactVersion}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <username>${db.username}</username>
+                            <password>${db.password}</password>
+                            <url>${jdbc.url}</url>
+                            <driver>${jdbc.driver}</driver>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>clean</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>drop database ${db.instance}</sqlCommand>
+                                    <onError>continue</onError>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>create-db</id>
+                                <phase>package</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <sqlCommand>
+                                        set global max_allowed_packet = 16777216;
+                                        set global storage_engine = 'InnoDB';
+                                        create database ${db.instance} character set utf8 collate utf8_bin;
+                                    </sqlCommand>
+                                    <onError>abort</onError>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- MSSQL -->
+        <profile>
+            <id>MSSQL</id>
+
+            <activation>
+                <property>
+                    <name>MSSQL</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.admin.username>sa</db.admin.username>
+                <db.admin.password>@!1234abc</db.admin.password>
+                <db.instance>jiradb</db.instance>
+
+                <db.username>jira</db.username>
+                <db.password>jira</db.password>
+                <db.schema>jiraschema</db.schema>
+
+                <db.port>1433</db.port>
+                <jdbc.driver>net.sourceforge.jtds.jdbc.Driver</jdbc.driver>
+                <jdbc.url>jdbc:jtds:sqlserver://${db.host}:${db.port}</jdbc.url>
+            </properties>
+
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <version>${sql.maven.version}</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>${db.artifactGroup}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.artifactVersion}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <username>${db.admin.username}</username>
+                            <password>${db.admin.password}</password>
+                            <url>${jdbc.url}</url>
+                            <driver>${jdbc.driver}</driver>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>clean</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <delimiterType>row</delimiterType>
+                                    <delimiter>GO</delimiter>
+                                    <enableFiltering>true</enableFiltering>
+                                    <srcFiles>
+                                        <srcFile>src/test/resources/mssql-clean.sql</srcFile>
+                                    </srcFiles>
+                                    <onError>continue</onError>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>create-db</id>
+                                <phase>package</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <delimiterType>row</delimiterType>
+                                    <delimiter>GO</delimiter>
+                                    <enableFiltering>true</enableFiltering>
+                                    <srcFiles>
+                                        <srcFile>src/test/resources/mssql-start.sql</srcFile>
+                                    </srcFiles>
+                                    <onError>abort</onError>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- MSSQL2012 -->
+        <profile>
+            <id>MSSQL2012</id>
+
+            <activation>
+                <property>
+                    <name>MSSQL2012</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.admin.username>sa</db.admin.username>
+                <db.admin.password>@!1234abc</db.admin.password>
+                <db.instance>jiradb</db.instance>
+
+                <db.username>jira</db.username>
+                <db.password>jira</db.password>
+                <db.schema>jiraschema</db.schema>
+
+                <db.port>1433</db.port>
+                <jdbc.driver>net.sourceforge.jtds.jdbc.Driver</jdbc.driver>
+                <jdbc.url>jdbc:jtds:sqlserver://${db.host}:${db.port}</jdbc.url>
+            </properties>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>sql-maven-plugin</artifactId>
+                        <version>${sql.maven.version}</version>
+
+                        <dependencies>
+                            <dependency>
+                                <groupId>${db.artifactGroup}</groupId>
+                                <artifactId>${db.artifactId}</artifactId>
+                                <version>${db.artifactVersion}</version>
+                            </dependency>
+                        </dependencies>
+
+                        <configuration>
+                            <username>${db.admin.username}</username>
+                            <password>${db.admin.password}</password>
+                            <url>${jdbc.url}</url>
+                            <driver>${jdbc.driver}</driver>
+                        </configuration>
+
+                        <executions>
+                            <execution>
+                                <id>drop-database</id>
+                                <phase>clean</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <delimiterType>row</delimiterType>
+                                    <delimiter>GO</delimiter>
+                                    <enableFiltering>true</enableFiltering>
+                                    <srcFiles>
+                                        <srcFile>src/test/resources/mssql-clean.sql</srcFile>
+                                    </srcFiles>
+                                    <onError>continue</onError>
+                                </configuration>
+                            </execution>
+
+                            <execution>
+                                <id>create-db</id>
+                                <phase>package</phase>
+
+                                <goals>
+                                    <goal>execute</goal>
+                                </goals>
+
+                                <configuration>
+                                    <autocommit>true</autocommit>
+                                    <delimiterType>row</delimiterType>
+                                    <delimiter>GO</delimiter>
+                                    <enableFiltering>true</enableFiltering>
+                                    <srcFiles>
+                                        <srcFile>src/test/resources/mssql-start.sql</srcFile>
+                                    </srcFiles>
+                                    <onError>abort</onError>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>Rushbox</id>
+
+            <activation>
+                <property>
+                    <name>Rushbox</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <!--
+                        Using prepare-package (above) & package phases instead of pre-integration-test
+                        due to this issue:
+                        http://jira.codehaus.org/browse/MNG-2258
+                        -->
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>rushbox-specific-config-changes</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[</Context>]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+                                                    <Resource name="jdbc/JiraDS" auth="Container" type="javax.sql.DataSource"
+
+                                                              driverClassName="org.hsqldb.jdbcDriver"
+                                                              url="jdbc:hsqldb:${jira.home.location}/${jira.home.directory}/database/jiradb"
+                                                              username="sa"
+                                                              password=""
+
+                                                              minEvictableIdleTimeMillis="4000"
+                                                              timeBetweenEvictionRunsMillis="5000"
+                                                              maxActive="20"
+                                                            />
+                                                    </Context>
+                                                    ]]>
+                                            </replacevalue>
+                                        </replace>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml">
+                                            <replacetoken><![CDATA[<Engine name="Catalina"]]></replacetoken>
+                                            <replacevalue>
+                                                <![CDATA[
+            <Connector port="${appServer.ssl.port}" maxHttpHeaderSize="8192" SSLEnabled="true"
+              maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+              enableLookups="false" disableUploadTimeout="true"
+              acceptCount="100" scheme="https" secure="true"
+              clientAuth="false" sslProtocol="TLS" useBodyEncodingForURI="true"/>
+
+<Engine name="Catalina"]]>
+                                            </replacevalue>
+                                        </replace>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>ShutdownStandalone</id>
+
+            <activation>
+                <property>
+                    <name>ShutdownStandalone</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.0-alpha-4</version>
+                        <!--
+                        Using 2.0-alpha-4 because of:
+                        http://www.mail-archive.com/users@maven.apache.org/msg79514.html
+                        Issue has been fixed in 2.2 which hasn't been released yet.
+
+                        Once 2.2 has been released, update the version tag above & remove the
+                        antrun plugin
+                        -->
+
+                        <executions>
+                            <execution>
+                                <id>unpack-jira-standalone</id>
+                                <phase>prepare-package</phase>
+
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-standalone-distribution</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>tar.gz</type>
+                                            <classifier>standalone</classifier>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>do-the-things-in-ant-maven-cant</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- TODO Add shutdown for windows if required in the future -->
+
+                                        <chmod dir="${project.build.directory}" perm="ugo+rx" includes="**/*.sh"/>
+
+                                        <!-- Setting shutdown port -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml"
+                                                token="Server port=&quot;8005&quot;"
+                                                value="Server port=&quot;${appServer.shutdown.port}&quot;"/>
+
+                                        <exec executable="${project.build.directory}/${appServer.install.directory}/bin/shutdown.sh"
+                                              spawn="false" os="${os.unix}">
+                                            <env key="CATALINA_PID"
+                                                 value="${jira.home.location}/${jira.home.directory}/catalina.pid"/>
+                                            <arg value="-force"/>
+                                        </exec>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- LinuxInstaller -->
+        <profile>
+            <id>LinuxInstaller</id>
+
+            <activation>
+                <property>
+                    <name>LinuxInstaller</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.0-alpha-4</version>
+                        <!--
+                        Using 2.0-alpha-4 because of:
+                        http://www.mail-archive.com/users@maven.apache.org/msg79514.html
+                        Issue has been fixed in 2.2 which hasn't been released yet.
+
+                        Once 2.2 has been released, update the version tag above & remove the
+                        antrun plugin
+                        -->
+
+                        <executions>
+                            <execution>
+                                <id>copy-jira-installer</id>
+                                <phase>prepare-package</phase>
+
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-installer-distribution</artifactId>
+                                            <version>6.3.15</version>
+                                            <type>bin</type>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!--
+                        Using prepare-package (above) & package phases instead of pre-integration-test
+                        due to this issue:
+                        http://jira.codehaus.org/browse/MNG-2258
+                        -->
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>tpm-standalone-jira-setup</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <chmod dir="${project.build.directory}" perm="ugo+rx" includes="**/*.bin"/>
+
+                                        <replace file="${project.build.directory}/classes/jira-linux-install.properties"
+                                                 token="${app.httpPort}" value="${appServer.port}"/>
+
+                                        <replace file="${project.build.directory}/classes/jira-linux-install.properties"
+                                                 token="${app.rmiPort}" value="${appServer.shutdown.port}"/>
+
+                                        <replace file="${project.build.directory}/classes/jira-linux-install.properties"
+                                                 token="${home.dir}"
+                                                 value="${jira.home.location}/${jira.home.directory}"/>
+
+                                        <replace file="${project.build.directory}/classes/jira-linux-install.properties"
+                                                 token="${installation.dir}"
+                                                 value="${jira.home.location}/linux_install_${project.version}"/>
+
+                                        <exec executable="${project.build.directory}/jira-installer-distribution-${project.version}.bin"
+                                              spawn="true" os="${os.unix}">
+                                            <arg value="-q"/>
+                                            <arg value="-varfile"/>
+                                            <arg value="${project.build.directory}/classes/jira-linux-install.properties"/>
+                                        </exec>
+
+                                        <waitfor maxwait="5" maxwaitunit="minute" checkevery="500"
+                                                 timeoutproperty="startup-failed">
+                                            <http url="${baseURL}"/>
+                                        </waitfor>
+                                        <fail if="startup-failed" message="JIRA failed to start up"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- TODO: Remove this once the linux installer supports in-place upgrades -->
+        <profile>
+            <id>ShutdownLinuxInstaller</id>
+
+            <activation>
+                <property>
+                    <name>ShutdownLinuxInstaller</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>do-the-things-in-ant-maven-cant</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <exec executable="${jira.home.location}/linux_install_${project.version}/bin/shutdown.sh"
+                                              spawn="false" os="${os.unix}">
+                                        </exec>
+                                        <waitfor maxwait="5" maxwaitunit="minute" checkevery="500"
+                                                 timeoutproperty="shutdown-failed">
+                                            <not>
+                                                <http url="${baseURL}"/>
+                                            </not>
+                                        </waitfor>
+                                        <delete dir="${jira.home.location}/linux_install_${project.version}"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Standalone -->
+        <profile>
+            <id>Standalone</id>
+
+            <activation>
+                <property>
+                    <name>Standalone</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <version>2.0-alpha-4</version>
+                        <!--
+                        Using 2.0-alpha-4 because of:
+                        http://www.mail-archive.com/users@maven.apache.org/msg79514.html
+                        Issue has been fixed in 2.2 which hasn't been released yet.
+
+                        Once 2.2 has been released, update the version tag above & remove the
+                        antrun plugin
+                        -->
+
+                        <executions>
+                            <execution>
+                                <id>unpack-jira-standalone</id>
+                                <phase>prepare-package</phase>
+
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-standalone-distribution</artifactId>
+                                            <version>${project.version}</version>
+                                            <type>tar.gz</type>
+                                            <classifier>standalone</classifier>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <!--
+                        Using prepare-package (above) & package phases instead of pre-integration-test
+                        due to this issue:
+                        http://jira.codehaus.org/browse/MNG-2258
+                        -->
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>tpm-standalone-jira-setup</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- Update the test.properties file to indicate we're testing a Standalone installation type -->
+                                        <replace file="${acceptanceTestSettings}"
+                                                 token="jira.release.info = unknown"
+                                                 value="jira.release.info = Standalone"/>
+
+
+                                        <chmod dir="${project.build.directory}" perm="ugo+rx" includes="**/*.sh"/>
+
+                                        <!-- JRADEV-809: From jira-application properties: Each backslash in your path must be written as a forward slash -->
+                                        <echo file="${project.build.directory}/jira.home.txt" append="false">
+                                            ${jira.home.location}/${jira.home.directory}
+                                        </echo>
+                                        <replace file="${project.build.directory}/jira.home.txt" token="\" value="/"/>
+                                        <loadfile property="jira.home"
+                                                  srcFile="${project.build.directory}/jira.home.txt"/>
+
+                                        <!-- Need more heap and permgen space and for func tests -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.sh"
+                                                token='JIRA_MAX_PERM_SIZE=384m' value='JIRA_MAX_PERM_SIZE=640m'/>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.sh"
+                                                token='JVM_MAXIMUM_MEMORY="768m"' value='JVM_MAXIMUM_MEMORY="1024m"'/>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.bat"
+                                                token="set JVM_MAXIMUM_MEMORY=768m"
+                                                value="set JVM_MAXIMUM_MEMORY=1024m"/>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.bat"
+                                                token="set JIRA_MAX_PERM_SIZE=384m"
+                                                value="set JIRA_MAX_PERM_SIZE=640m"/>
+
+                                        <!-- Setting jira port -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml"
+                                                token="Connector port=&quot;8080&quot;"
+                                                value="Connector port=&quot;${appServer.port}&quot;"/>
+
+                                        <!-- Setting shutdown port -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml"
+                                                token="Server port=&quot;8005&quot;"
+                                                value="Server port=&quot;${appServer.shutdown.port}&quot;"/>
+
+                                        <!-- Setting jira home -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/atlassian-jira/WEB-INF/classes/jira-application.properties"
+                                                token="jira.home =" value="jira.home = ${jira.home}"/>
+
+                                        <!-- TODO: Use osfamily once we move on to a more recent version of ant -->
+                                        <exec executable="cmd" spawn="true" os="${os.windows}">
+                                            <env key="JAVA_OPTS"
+                                                 value="-Djira.paths.set.allowed=true -Djira.jelly.on=true ${jira.user.jvmargs} -Djira.websudo.is.disabled=true"/>
+                                            <!--TODO: This is a hack, we shouldn't have to define this. Caused by how we're calling the batch file from ant.
+                                            The startup script's working directoy isn't in the standalone\bin directory so it can't find / define the CATALINA_HOME env.
+                                            Consider trying to get around this -->
+                                            <env key="CATALINA_HOME"
+                                                 value="${project.build.directory}\${appServer.install.directory}"/>
+                                            <arg value="/c"/>
+                                            <arg value="&quot;${project.build.directory}\${appServer.install.directory}\bin\startup.bat&quot;"/>
+                                            <arg value="-p"/>
+                                        </exec>
+
+                                        <exec executable="${project.build.directory}/${appServer.install.directory}/bin/startup.sh"
+                                              spawn="true" os="${os.unix}">
+                                            <env key="JAVA_OPTS"
+                                                 value="-Djira.paths.set.allowed=true -Djira.jelly.on=true ${jira.user.jvmargs} -Djira.websudo.is.disabled=true"/>
+                                            <env key="CATALINA_PID"
+                                                 value="${jira.home.location}/${jira.home.directory}/catalina.pid"/>
+                                        </exec>
+
+                                        <waitfor maxwait="5" maxwaitunit="minute" checkevery="500"
+                                                 timeoutproperty="startup-failed">
+                                            <http url="${baseURL}"/>
+                                        </waitfor>
+                                        <fail if="startup-failed" message="JIRA failed to start up"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>tpm-standalone-jira-shutdown</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <property name="test_classpath" refid="maven.test.classpath"/>
+                                        <java classname="com.atlassian.jira.RevisionInfo"
+                                              classpath="${test_classpath}"></java>
+                                        <!-- TODO: Use osfamily once we move on to a more recent version of ant -->
+                                        <exec executable="cmd" spawn="false" os="${os.windows}">
+                                            <!--TODO: This is a hack, we shouldn't have to define this. Caused by how we're calling the batch file from ant.
+                                            The startup script's working directoy isn't in the standalone\bin directory so it can't find / define the CATALINA_HOME env.
+                                            Consider trying to get around this -->
+                                            <env key="CATALINA_HOME"
+                                                 value="${project.build.directory}\${appServer.install.directory}"/>
+                                            <arg value="/c"/>
+                                            <arg value="&quot;${project.build.directory}\${appServer.install.directory}\bin\shutdown.bat&quot;"/>
+                                            <arg value="-p"/>
+                                        </exec>
+                                        <exec executable="${project.build.directory}/${appServer.install.directory}/bin/shutdown.sh"
+                                              spawn="false" os="${os.unix}">
+                                        </exec>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Standalone via Artifact Passing from a previous bamboo stage  -->
+        <profile>
+            <id>use-artifact-passing</id>
+
+            <activation>
+                <property>
+                    <name>jira.use.artifact.passing</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>tpm-standalone-jira-setup</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- Unpack the artifact passed from the previous build which should be configured as ${project.build.directory} -->
+                                        <gunzip src="${appServer.install.directory}.tar.gz" dest="${basedir}"/>
+                                        <untar src="${appServer.install.directory}.tar"
+                                               dest="${project.build.directory}"/>
+                                        <!-- Update the test.properties file to indicate we're testing a Standalone installation type -->
+                                        <replace file="${acceptanceTestSettings}"
+                                                 token="jira.release.info = unknown"
+                                                 value="jira.release.info = Standalone"/>
+
+
+                                        <chmod dir="${project.build.directory}" perm="ugo+rx" includes="**/*.sh"/>
+
+                                        <!-- JRADEV-809: From jira-application properties: Each backslash in your path must be written as a forward slash -->
+                                        <echo file="${project.build.directory}/jira.home.txt" append="false">
+                                            ${jira.home.location}/${jira.home.directory}
+                                        </echo>
+                                        <replace file="${project.build.directory}/jira.home.txt" token="\" value="/"/>
+                                        <loadfile property="jira.home"
+                                                  srcFile="${project.build.directory}/jira.home.txt"/>
+
+                                        <!-- Need more heap space for func tests -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.sh"
+                                                token='JVM_MAXIMUM_MEMORY="768m"' value='JVM_MAXIMUM_MEMORY="1024m"'/>
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/bin/setenv.bat"
+                                                token="set JVM_MAXIMUM_MEMORY=768m"
+                                                value="set JVM_MAXIMUM_MEMORY=1024m"/>
+
+                                        <!-- Setting jira port -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml"
+                                                token="Connector port=&quot;8080&quot;"
+                                                value="Connector port=&quot;${appServer.port}&quot;"/>
+
+                                        <!-- Setting shutdown port -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/conf/server.xml"
+                                                token="Server port=&quot;8005&quot;"
+                                                value="Server port=&quot;${appServer.shutdown.port}&quot;"/>
+
+                                        <!-- Setting jira home -->
+                                        <replace
+                                                file="${project.build.directory}/${appServer.install.directory}/atlassian-jira/WEB-INF/classes/jira-application.properties"
+                                                token="jira.home =" value="jira.home = ${jira.home}"/>
+
+                                        <!-- TODO: Use osfamily once we move on to a more recent version of ant -->
+                                        <exec executable="cmd" spawn="true" os="${os.windows}">
+                                            <env key="JAVA_OPTS"
+                                                 value="-Djira.paths.set.allowed=true -Djira.jelly.on=true ${jira.user.jvmargs} -Djira.websudo.is.disabled=true"/>
+                                            <!--TODO: This is a hack, we shouldn't have to define this. Caused by how we're calling the batch file from ant.
+                                            The startup script's working directoy isn't in the standalone\bin directory so it can't find / define the CATALINA_HOME env.
+                                            Consider trying to get around this -->
+                                            <env key="CATALINA_HOME"
+                                                 value="${project.build.directory}\${appServer.install.directory}"/>
+                                            <arg value="/c"/>
+                                            <arg value="&quot;${project.build.directory}\${appServer.install.directory}\bin\startup.bat&quot;"/>
+                                            <arg value="-p"/>
+                                        </exec>
+
+                                        <exec executable="${project.build.directory}/${appServer.install.directory}/bin/startup.sh"
+                                              spawn="true" os="${os.unix}">
+                                            <env key="JAVA_OPTS"
+                                                 value="-Djira.paths.set.allowed=true -Djira.jelly.on=true ${jira.user.jvmargs} -Djira.websudo.is.disabled=true"/>
+                                            <env key="CATALINA_PID"
+                                                 value="${jira.home.location}/${jira.home.directory}/catalina.pid"/>
+                                        </exec>
+
+                                        <waitfor maxwait="5" maxwaitunit="minute" checkevery="500"
+                                                 timeoutproperty="startup-failed">
+                                            <http url="${baseURL}"/>
+                                        </waitfor>
+                                        <taskdef resource="net/sf/antcontrib/antcontrib.properties"
+                                                 classpathref="maven.compile.classpath"/>
+                                        <if>
+                                            <isset property="startup-failed"/>
+                                            <then>
+                                                <exec executable="cmd" spawn="false" osfamily="windows">
+                                                    <env key="CATALINA_HOME"
+                                                         value="${project.build.directory}\${appServer.install.directory}"/>
+                                                    <arg value="/c"/>
+                                                    <arg value="&quot;${project.build.directory}\${appServer.install.directory}\bin\shutdown.bat&quot;"/>
+                                                    <arg value="-p"/>
+                                                </exec>
+                                                <exec executable="${project.build.directory}/${appServer.install.directory}/bin/shutdown.sh"
+                                                      spawn="false" osfamily="unix"/>
+                                            </then>
+                                        </if>
+                                        <fail if="startup-failed" message="JIRA failed to start up"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>tpm-standalone-jira-shutdown</id>
+                                <phase>post-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <property name="test_classpath" refid="maven.test.classpath"/>
+                                        <java classname="com.atlassian.jira.RevisionInfo"
+                                              classpath="${test_classpath}"></java>
+                                        <!-- TODO: Use osfamily once we move on to a more recent version of ant -->
+                                        <exec executable="cmd" spawn="false" os="${os.windows}">
+                                            <!--TODO: This is a hack, we shouldn't have to define this. Caused by how we're calling the batch file from ant.
+                                            The startup script's working directoy isn't in the standalone\bin directory so it can't find / define the CATALINA_HOME env.
+                                            Consider trying to get around this -->
+                                            <env key="CATALINA_HOME"
+                                                 value="${project.build.directory}\${appServer.install.directory}"/>
+                                            <arg value="/c"/>
+                                            <arg value="&quot;${project.build.directory}\${appServer.install.directory}\bin\shutdown.bat&quot;"/>
+                                            <arg value="-p"/>
+                                        </exec>
+                                        <exec executable="${project.build.directory}/${appServer.install.directory}/bin/shutdown.sh"
+                                              spawn="false" osfamily="unix"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Integration Tests -->
+        <profile>
+            <id>JIRA Integration Tests</id>
+
+            <activation>
+                <property>
+                    <name>IntegrationTest</name>
+                    <value>JIRA</value>
+                </property>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-func-tests</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.jira.tests</groupId>
+                    <artifactId>jira-testkit-client</artifactId>
+                    <version>${testkit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <!-- Extract the func tests -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <id>unpack-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-func-tests</artifactId>
+                                            <version>${project.version}</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira.tests</groupId>
+                                            <artifactId>jira-testkit-client</artifactId>
+                                            <version>${testkit.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+
+                                    <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- Extract the func tests -->
+                                <id>unpack-func-mode-plugins-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <!-- Add special func tests in bundled plugins that we don't want to distribute -->
+                                <configuration>
+                                    <includeArtifactIds>
+                                        jira-func-test-plugin,jira-testkit-plugin,jira-reference-plugin,jira-reference-language-pack,jira-reference-dependent-plugin
+                                    </includeArtifactIds>
+                                    <outputDirectory>
+                                        ${jira.home.location}/${jira.home.directory}/plugins/installed-plugins
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Run the tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>IntegrationTest</id>
+                                <phase>integration-test</phase>
+
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+
+                                <configuration>
+                                    <argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError ${jira.test.runner.jvmargs}
+                                    </argLine>
+                                    <useSystemClassLoader>false</useSystemClassLoader>
+                                    <test>AcceptanceTestHarness</test>
+                                    <systemProperties>
+                                        <property>
+                                            <name>edition</name>
+                                            <value>enterprise</value>
+                                        </property>
+
+                                        <property>
+                                            <name>test.server.properties</name>
+                                            <value>${acceptanceTestSettings}</value>
+                                        </property>
+
+                                        <property>
+                                            <name>atlassian.test.suite.numbatches</name>
+                                            <value>${numberOfBatches}</value>
+                                        </property>
+
+                                        <property>
+                                            <name>atlassian.test.suite.batch</name>
+                                            <value>${batch}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <!-- Integration Tests which will consume the func test jar from a previous Bamboo Plan via artifact passing. -->
+        <profile>
+            <id>JIRA Integration Tests Artifact Pass</id>
+
+            <activation>
+                <property>
+                    <name>jira.use.artifact.passing</name>
+                    <value>true</value>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <!-- Extract the func tests -->
+                                <id>unpack-func-mode-plugins-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <!-- Add special func tests in bundled plugins that we don't want to distribute -->
+                                <configuration>
+                                    <includeArtifactIds>
+                                        jira-func-test-plugin,jira-testkit-plugin,jira-reference-plugin,jira-reference-language-pack,jira-reference-dependent-plugin
+                                    </includeArtifactIds>
+                                    <outputDirectory>
+                                        ${jira.home.location}/${jira.home.directory}/plugins/installed-plugins
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <version>1.4</version>
+                        <executions>
+                            <execution>
+                                <id>func-tests-unpack</id>
+                                <phase>pre-integration-test</phase>
+                                <configuration>
+                                    <tasks>
+                                        <!-- Unpack the artifact passed from the previous build which should be configured as ${project.build.directory} -->
+                                        <unzip src="${basedir}/jira-func-tests-${project.version}-jar-with-dependencies.jar"
+                                               dest="${project.build.testOutputDirectory}"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Run the tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>IntegrationTest</id>
+                                <phase>integration-test</phase>
+
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+
+                                <configuration>
+                                    <argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError ${jira.test.runner.jvmargs}
+                                    </argLine>
+                                    <useSystemClassLoader>false</useSystemClassLoader>
+                                    <test>AcceptanceTestHarness</test>
+                                    <systemProperties>
+                                        <property>
+                                            <name>edition</name>
+                                            <value>enterprise</value>
+                                        </property>
+
+                                        <property>
+                                            <name>test.server.properties</name>
+                                            <value>${acceptanceTestSettings}</value>
+                                        </property>
+
+                                        <property>
+                                            <name>atlassian.test.suite.numbatches</name>
+                                            <value>${numberOfBatches}</value>
+                                        </property>
+
+                                        <property>
+                                            <name>atlassian.test.suite.batch</name>
+                                            <value>${batch}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>JIRA Integration Tests - LDAP AD</id>
+
+            <activation>
+                <property>
+                    <name>IntegrationTest</name>
+                    <value>JIRA_ActiveDirectory</value>
+                </property>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-func-tests</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.jira.tests</groupId>
+                    <artifactId>jira-testkit-client</artifactId>
+                    <version>${testkit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <!-- Extract the func tests -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <id>unpack-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-func-tests</artifactId>
+                                            <version>${project.version}</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira.tests</groupId>
+                                            <artifactId>jira-testkit-client</artifactId>
+                                            <version>${testkit.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+
+                                    <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- Extract the func tests -->
+                                <id>unpack-func-mode-plugins-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <!-- Add special func tests in bundled plugins that we don't want to distribute -->
+                                <configuration>
+                                    <includeArtifactIds>
+                                        jira-func-test-plugin,jira-testkit-plugin,jira-reference-plugin,jira-reference-language-pack,jira-reference-dependent-plugin
+                                    </includeArtifactIds>
+                                    <outputDirectory>
+                                        ${jira.home.location}/${jira.home.directory}/plugins/installed-plugins
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Run the tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>IntegrationTest</id>
+                                <phase>integration-test</phase>
+
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+
+                                <configuration>
+                                    <argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError ${jira.test.runner.jvmargs}
+                                    </argLine>
+                                    <useSystemClassLoader>false</useSystemClassLoader>
+                                    <test>AcceptanceTestHarness</test>
+                                    <systemProperties>
+                                        <property>
+                                            <name>jira.edition</name>
+                                            <value>tpm_ldap</value>
+                                        </property>
+
+                                        <property>
+                                            <name>ldap.type</name>
+                                            <value>ActiveDirectory</value>
+                                        </property>
+
+                                        <property>
+                                            <name>test.server.properties</name>
+                                            <value>${acceptanceTestSettings}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+        <profile>
+            <id>JIRA Integration Tests - Open LDAP</id>
+
+            <activation>
+                <property>
+                    <name>IntegrationTest</name>
+                    <value>JIRA_OpenLdap</value>
+                </property>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-func-tests</artifactId>
+                    <version>${project.version}</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.atlassian.jira.tests</groupId>
+                    <artifactId>jira-testkit-client</artifactId>
+                    <version>${testkit.version}</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <plugins>
+                    <!-- Configure the OpenLDAP server -->
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.2</version>
+                        <executions>
+                            <!-- Boring - fix permissions -->
+                            <execution>
+                                <id>fix-permissions</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+
+                                <configuration>
+                                    <executable>chmod</executable>
+
+                                    <arguments>
+                                        <argument>-v</argument>
+                                        <argument>u+x</argument>
+                                        <argument>target/classes/configure_ldap.sh</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <!-- Mind if I actually do something now? -->
+                            <execution>
+                                <id>configure-ldap-server</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+
+                                <configuration>
+                                    <executable>target/classes/configure_ldap.sh</executable>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Extract the func tests -->
+                    <plugin>
+                        <artifactId>maven-dependency-plugin</artifactId>
+
+                        <executions>
+                            <execution>
+                                <id>unpack-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-func-tests</artifactId>
+                                            <version>${project.version}</version>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira.tests</groupId>
+                                            <artifactId>jira-testkit-client</artifactId>
+                                            <version>${testkit.version}</version>
+                                        </artifactItem>
+                                    </artifactItems>
+
+                                    <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <!-- Extract the func tests -->
+                                <id>unpack-func-mode-plugins-tests</id>
+                                <phase>pre-integration-test</phase>
+
+                                <goals>
+                                    <goal>copy-dependencies</goal>
+                                </goals>
+                                <!-- Add special func tests in bundled plugins that we don't want to distribute -->
+                                <configuration>
+                                    <includeArtifactIds>
+                                        jira-func-test-plugin,jira-testkit-plugin,jira-reference-plugin,jira-reference-language-pack,jira-reference-dependent-plugin
+                                    </includeArtifactIds>
+                                    <outputDirectory>
+                                        ${jira.home.location}/${jira.home.directory}/plugins/installed-plugins
+                                    </outputDirectory>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+
+                    <!-- Run the tests -->
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-failsafe-plugin</artifactId>
+                        <version>2.7.1</version>
+                        <executions>
+                            <execution>
+                                <id>IntegrationTest</id>
+                                <phase>integration-test</phase>
+
+                                <goals>
+                                    <goal>integration-test</goal>
+                                </goals>
+
+                                <configuration>
+                                    <argLine>-Xmx512m -XX:+HeapDumpOnOutOfMemoryError ${jira.test.runner.jvmargs}
+                                    </argLine>
+                                    <useSystemClassLoader>false</useSystemClassLoader>
+                                    <test>AcceptanceTestHarness</test>
+                                    <systemProperties>
+                                        <property>
+                                            <name>edition</name>
+                                            <value>all</value>
+                                        </property>
+                                        <!-- Tells the func-tests which suiteof tests to run -->
+                                        <property>
+                                            <name>jira.edition</name>
+                                            <value>tpm_ldap</value>
+                                        </property>
+
+                                        <!-- Tells the TPM LDAP tests which LDAP server type to connect to -->
+                                        <property>
+                                            <name>ldap.type</name>
+                                            <value>OpenLdap</value>
+                                        </property>
+
+                                        <property>
+                                            <name>test.server.properties</name>
+                                            <value>${acceptanceTestSettings}</value>
+                                        </property>
+                                        <property>
+                                            <name>atlassian.test.suite.numbatches</name>
+                                            <value>${atlassian.test.suite.numbatches}</value>
+                                        </property>
+
+                                        <property>
+                                            <name>atlassian.test.suite.batch</name>
+                                            <value>${atlassian.test.suite.batch}</value>
+                                        </property>
+                                    </systemProperties>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>verify</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
+    </profiles>
+
+
+    <dependencies>
+        <!-- Explicitly defining ALL DB dependencies becuase of CONF-16307 -->
+        <dependency>
+            <groupId>ant-contrib</groupId>
+            <artifactId>ant-contrib</artifactId>
+            <version>1.0b3</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>ant</groupId>
+                    <artifactId>ant</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>oracle-jdbc15</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>net.sourceforge.jtds</groupId>
+            <artifactId>jtds</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-func-test-plugin</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira.tests</groupId>
+            <artifactId>jira-testkit-plugin</artifactId>
+            <version>${testkit.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-reference-plugin</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-reference-language-pack</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.atlassian.jira</groupId>
+            <artifactId>jira-reference-dependent-plugin</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.atlassian.jira</groupId>
+                    <artifactId>jira-reference-plugin</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+    </dependencies>
+</project>

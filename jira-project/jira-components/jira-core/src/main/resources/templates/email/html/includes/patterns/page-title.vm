@@ -1,0 +1,12 @@
+#disable_html_escaping()
+
+<table class="page-title-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+    <tr>
+        <td style="vertical-align: top;" class="page-title-pattern-header-container">
+            <span class="page-title-pattern-header">
+                $pageTitle
+            </span>
+        </td>
+    </tr>
+</table>
+

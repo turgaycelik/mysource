@@ -1,0 +1,195 @@
+#disable_html_escaping()
+#* @vtlvariable name="renderer" type="com.atlassian.jira.plugin.projectpanel.impl.VersionDrillDownRenderer" *#
+#* @vtlvariable name="project" type="com.atlassian.jira.project.Project" *#
+#* @vtlvariable name="component" type="com.atlassian.jira.bc.project.component.ProjectComponent" *#
+#* @vtlvariable name="versions" type="java.util.Collection<com.atlassian.jira.project.version.Version>" *#
+#* @vtlvariable name="selectedVersions" type="java.util.List<java.lang.Long>" *#
+#* @vtlvariable name="versionHelper" type="com.atlassian.jira.plugin.projectpanel.impl.VersionDrillDownRenderer.VersionHelperBean" *#
+#* @vtlvariable name="versionManager" type="com.atlassian.jira.project.version.VersionManager" *#
+#* @vtlvariable name="graphingBean" type="com.atlassian.jira.plugin.projectpanel.impl.VersionDrillDownRenderer.RoadMapGraphingBean" *#
+##
+## Set some variables and contextual shit that the calling action probably should be setting.
+##
+## This should probably live in the jira-projects plugin now but it's still needed for the personal roadmap panel!
+##
+#if ($component)
+    #set ($urlParams = "pid=${project.id}&component=${component.id}")
+    #set ($browseParams = "${project.key}/component/${component.id}")
+#else
+    #set ($urlParams = "pid=${project.id}")
+    #set ($browseParams = "${project.key}")
+#end
+#set ($selectedTab = $reportKey)
+#set ($thisUrl = "$req.contextPath/browse/${browseParams}?selectedTab=${selectedTab}")
+#if ($reportKey.contains('roadmap'))
+    #set ($isRoadMap = true)
+    #set ($versionSubset = "roadmap.upcoming.versions")
+#else
+    #set ($isRoadMap = false)
+    #set ($versionSubset = 'changelog.previous.versions')
+#end
+##
+## Macro to render a table of issues for a given version
+##
+#macro(versionIssueTable $version)
+    #if($version)
+        <div class="version-issue-table" data-for-version="${version.id}">
+        #set ($searchResults = $versionHelper.getSearchResultByFixForVersion($version))
+        #set ($issues = $versionHelper.getIssuesFromSearchResult($searchResults))
+        #if ($issues.size() > 0)
+            <table class="aui">
+                <tbody>
+                    #set ($isIssueStatusCompact = false)
+                    #set ($isIssueStatusSubtle = true)
+                    #foreach ($issue in $issues)
+                        <tr>#issueLineItem ($issue)</tr>
+                    #end
+                </tbody>
+            </table>
+            #if ($searchResults.total > $issues.size())
+                <p>
+                    $i18n.getText('browseproject.openissues.more.footer',
+                            "${issues.size()}",
+                            "${searchResults.total}",
+                            "<a href='$req.contextPath/secure/IssueNavigator.jspa?reset=true&mode=hide$renderer.getNavigatorUrl($project, $version, $component)'>",
+                            "</a>"
+                    )
+                </p>
+            #end
+        #else
+            <p><span>$i18n.getText("common.concepts.noissues")</span></p>
+        #end
+        </div>
+    #end
+#end##versionIssueTable
+##
+## Macro to render a progress bar demonstrating rough % completion of a version
+##
+#macro (versionIssueProgress $version)
+    #set ($allCount = $graphingBean.getIssueCountByFixForVersion($version))
+    #if ($allCount > 0)
+        #set ($openCount = $graphingBean.getIssueCountOpenByFixForVersion($version))
+        #set ($graphModel = $graphingBean.getIssueSummaryByFixForVersion($version, $component, $openCount, $allCount))
+        #set ($resolvedCount = $allCount - $openCount)
+        ## Render the progress bar
+        <strong class="assistive">$i18n.getText('common.words.progress')</strong>
+        #percentageGraphDiv ($graphModel)
+        <p class="version-progress-description">
+            $i18n.getText('roadmap.issues.resolved.linked',
+                    "<a href='$req.contextPath/secure/IssueNavigator.jspa?reset=true&mode=hide${graphingBean.getNavigatorUrl($project, $version, $component, false)}'>",
+                    "$resolvedCount",
+                    "</a>",
+                    "<a href='$req.contextPath/secure/IssueNavigator.jspa?reset=true&mode=hide${renderer.getNavigatorUrl($project, $version, $component)}'>",
+                    "$allCount",
+                    "</a>"
+            )
+        </p>
+    #end
+#end##versionIssueProgress
+##
+## Render a link to show all the issues for the version
+##
+#macro (versionIssuesSearchLink $version)
+    #set ($allCount = $graphingBean.getIssueCountByFixForVersion($version))
+    #if ($allCount == 0)
+        <span class="version-issues-search">$i18n.getText('common.concepts.noissues')</span>
+    #else
+        <a class="version-issues-search"
+           data-version-block
+           href="$req.contextPath/secure/IssueNavigator.jspa?reset=true&mode=hide$renderer.getNavigatorUrl($project, $version, $component)">
+            $i18n.getText('common.concepts.issues.with.count', $allCount)
+        </a>
+    #end
+#end
+## Expand/collapse link -- basically provides a link for functionality that JS now provides
+#macro (expandCollapseLink $version $isSelected)
+    #set($collapseOrExpand = "expandVersion")
+    #if($isSelected)
+        #set($collapseOrExpand = "collapseVersion")
+    #end
+    <a id="version-expando-${version.id}" class="versionBanner-link" href="${thisUrl}&${collapseOrExpand}=${version.id}"></a>
+#end
+##
+## Start figuring out wtf this page should be rendering
+##
+#if ($isContentOnly == true && $isExpanding == true)
+    #versionIssueTable($expandingVersion)
+#elseif ($isContentOnly == true && $isCollapsing == true)
+    ## Don't need to do anything
+#else
+
+    <div class="module">
+        <div class="mod-content">
+            <div class="aui-page-header">
+                <div class="aui-page-header-inner">
+                    <div class="aui-page-header-main">
+                        #if ($isRoadMap)
+                            <h2>$i18n.getText('common.concepts.roadmap')</h2>
+                        #else
+                            <h2>$i18n.getText('common.concepts.changelog')</h2>
+                        #end
+                    </div>
+                </div>
+            </div>
+            #if ($isRoadMap)
+                <p>$i18n.getText("roadmap.desc")</p>
+            #else
+                <p>$i18n.getText("changelog.desc")</p>
+            #end
+            #if ($isBigList == true)
+                <ul class="paging">
+                    #if ($showAllVersions == true)
+                        <li>
+                            <a id="paging-upcoming" href="${thisUrl}&allVersions=false">$i18n.getText("$versionSubset", "$versionSubsetSize")</a>
+                        </li>
+                        <li class="last">
+                            <strong>$i18n.getText("roadmap.all.versions")</strong>
+                        </li>
+                    #else
+                        <li>
+                            <strong>$i18n.getText("$versionSubset", "$versionSubsetSize")</strong>
+                        </li>
+                        <li class="last">
+                            <a id="paging-all" href="${thisUrl}&allVersions=true">$i18n.getText('roadmap.all.versions')</a>
+                        </li>
+                    #end
+                </ul>
+            #end
+            #if (!$versions.empty)
+                <ul class="versions-list" data-project-id="${project.id}" data-component-id="${component.id}" data-selected-tab="${selectedTab}">
+                    #foreach ($version in $versions)
+                        ## Set all the parameters the Java action should do, but doesn't because it's not written properly.
+                        #set ($isSelected = $selectedVersions.contains($version.id))
+                        ## Render the version and its issues
+                        <li id="version-${version.id}" class="version-block-container" data-expanded="${isSelected}" data-released="${version.released}">
+                            $soyRenderer.render("jira.webresources:soy-templates","JIRA.Templates.VersionBlocks.versionBlock", {
+                                "versionId": $version.id,
+                                "versionUrl": "$req.contextPath/browse/${project.key}/fixforversion/${version.id}",
+                                "name": $version.name,
+                                "description": $version.description,
+                                "isReleased": $version.released,
+                                "isArchived": $version.archived,
+                                "releaseDateContent": "#if($version.releaseDate)#versionReleaseDate($versionManager $version)#end",
+                                "progressContent": "#if($isRoadMap)#versionIssueProgress($version)#end"
+                            })
+                            <ul class="operations-list">
+                                <li>#versionIssuesSearchLink($version)</li>
+                                #if (!$component)
+                                    <li><a id="release-notes-${version.id}" href="$req.contextPath/secure/ReleaseNote.jspa?projectId=${project.id}&version=${version.id}" title="$i18n.getText('webfragments.browse.project.operations.item.view.release.notes.name')">$i18n.getText("common.concepts.releasenotes")</a></li>
+                                #end
+                                ## Here's a thing that makes tests work.
+                                <li class="hidden">#expandCollapseLink($version $isSelected)</li>
+                            </ul>
+
+                            #if ($isSelected)
+                                #versionIssueTable($version)
+                            #end
+                        </li>
+                    #end
+                </ul>
+            #else
+                <p class="versions-list no-versions">$i18n.getText("common.filters.noversions")</p>
+            #end
+        </div>
+    </div>
+#end

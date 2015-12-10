@@ -1,0 +1,33 @@
+{namespace JIRA.Templates.CreateProject}
+
+
+/**
+ * Renders a sample of what an issue may look like given some project configuration parameters.
+ * @param? projectName the descriptive name of the project
+ * @param? projectKey the unique project key
+ * @param? avatarUrl the URL of the project's avatar
+ * @param? issueTitle the text for the title of the issue
+ */
+{template .projectSample}
+<div class="aui-message hint sample-project-container">
+    <span class="aui-icon icon-hint"></span>
+    <p class="title">{getText('admin.addproject.preview.title')}</p>
+    <p>{getText('admin.addproject.preview.description')}</p>
+    <div class="aui-panel sample-project">
+        <div class="item-header">
+            <div class="avatar">
+                <img id="project-avatar" alt="" class="project-avatar-48" height="48" src="{$avatarUrl}" width="48"/>
+            </div>
+            <ul class="breadcrumbs">
+                <li><a id="project-name-val">{$projectName}</a></li>
+                <li><a id="key-val">{$projectKey}</a></li>
+            </ul>
+            <h1 class="item-summary">
+                <a>{if $issueTitle}{$issueTitle}{else}{getText('admin.addproject.sample.issue.summary')}{/if}</a>
+            </h1>
+            <div class="command-bar">
+            </div>
+        </div>
+    </div>
+</div>
+{/template}

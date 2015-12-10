@@ -1,0 +1,22 @@
+{namespace JIRA.Templates.Gadgets}
+
+
+/**
+* @param issueTable
+*/
+{template .assignedToMe}
+<div id="jira">
+    {if not $issueTable.empty}
+        <div class="results-wrap">
+            <div {if $issueTable.hasPaging}class="paging-table"{/if}>
+                {$issueTable.table|noAutoescape}
+            </div>
+        </div>
+    {else}
+        <div class="empty-results">
+            {getText('gadget.assignedtome.empty')}
+        </div>
+    {/if}
+</div>
+
+{/template}

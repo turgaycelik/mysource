@@ -1,0 +1,117 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/border-box";
+
+@temp-jira-page-backdrop-color: #f5f5f5;
+@temp-jira-page-border-color: @aui-border-color;
+@temp-jira-page-content-color: @aui-color-page;
+
+.issue-header {
+    .border-box();
+    background: @temp-jira-page-backdrop-color;
+    border: 0;
+    clear: both;
+    left: 0;
+    margin: 0;
+    position: relative;
+    padding: 0;
+    right: 0;
+    width: auto;
+    z-index: 100;
+
+    .ops-menus {
+        display: block;
+    }
+
+    .ops-cont {
+        margin: 0;
+    }
+
+    + .aui-page-panel {
+        border-top: none;
+    }
+
+    .issue-header-content {
+        background: transparent;
+        margin: 0;
+        padding: 0;
+
+        > .aui-page-header {
+            background: transparent;
+            padding: 20px 20px 9px 20px;
+
+            h1 a {
+                text-decoration: none;
+            }
+        }
+
+        > .command-bar {
+            background-color: @temp-jira-page-content-color;
+            border-top: 1px solid @temp-jira-page-border-color;
+            margin: 0;
+            padding: 10px; //10px on the sides as the aui-toolbars have 10px margins left and right
+        }
+
+        #issue-comment-add {
+            clear: both;
+            padding: 0 10px;
+
+            textarea#comment {
+                .border-box();
+                height: 45px;
+                max-height: 90px;
+                width: 100%;
+            }
+        }
+    }
+
+    &.detached {
+        box-shadow: 0 0 15px 5px rgba(255, 255, 255, 1);
+    }
+
+    .command-bar .toolbar-group {
+        margin-bottom: 5px;
+    }
+
+    .page-navigation {
+        float: right;
+        position: relative;
+        text-align: right;
+        width: 13em;
+        li {
+            float: none;
+            margin: 0;
+            padding: 0;
+            .icon {vertical-align:baseline;}
+            &.previous { position: absolute; right: 20px; top: 3px; }
+            &.next { position: absolute; right: 0; top: 2px; }
+            &.next a,
+            &.previous a { display: block; height: 16px; }
+            &.showing {width:13em; margin-left: -48px; float: none}
+            &.showing a {display:block;}
+            &.showing a:hover {text-decoration:underline}
+            &.return a {display:block;}
+            &.return a:hover {text-decoration:underline}
+        }
+        &.ops {
+            padding: 0;
+        }
+    }
+    // JDEV-23282, JRA-35123, JRA-35131 - Hover of issue summary in chrome causes layout problems.
+    .chrome & {
+        -webkit-transform: translateZ(0);
+
+        .editable-field {
+            -webkit-transform: translateZ(1px);
+        }
+    }
+}
+
+//JRADEV-18351 borked stalker when ka turned off
+#content > header.issue-header {
+   padding: 0;
+}
+
+// TODO JRADEV-18140 - Remove once KickAss remove the double content-container on the viewissue.jsp page
+#content .issue-header + .issue-body-content .content-body { // pull the content up a little when we have the stalker
+    padding-top: 10px;
+}

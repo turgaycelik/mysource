@@ -1,0 +1,59 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <component-import key="soyTemplateRenderer" interface="com.atlassian.soy.renderer.SoyTemplateRenderer"/>
+    <component-import key="simpleLinkManager" interface="com.atlassian.jira.plugin.webfragment.SimpleLinkManager" />
+    <component-import key="authContext" interface="com.atlassian.jira.security.JiraAuthenticationContext" />
+    <component-import key="featureManager" interface="com.atlassian.jira.config.FeatureManager"/>
+    <component-import key="velocityRequestContextFactory" interface="com.atlassian.jira.util.velocity.VelocityRequestContextFactory"/>
+    <component-import key="userUtil" interface="com.atlassian.jira.user.util.UserUtil"/>
+    <component-import key="i18nHelper" interface="com.atlassian.jira.util.I18nHelper"/>
+
+    <!-- This is the header for the workflow page. We put this here because there was not better location -->
+    <web-panel key="workflowheader" location="workflow.header" weight="100">
+        <resource name="view" type="velocity" location="workflowheader.vm"/>
+    </web-panel>
+
+    <web-panel key="admin-adduser-count" location="webpanels.admin.adduser.count">
+        <context-provider class="com.atlassian.jira.admin.contextproviders.AddUserCountProvider" />
+        <resource name="view" type="velocity" location="adduser-count.vm"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsOnDemandCondition" invert="true"/>
+    </web-panel>
+
+    <component key="adminHeaderPanelComponent" class="com.atlassian.jira.admin.adminheader.GeneralAdminHeaderPanel" >
+    </component>
+    <web-panel key="admin-header-new-nav" location="system.admin.decorator.header" class="bean:adminHeaderPanelComponent" weight="12">
+    </web-panel>
+
+    <component key="adminHeaderNavPanelComponent" class="com.atlassian.jira.admin.adminheader.GeneralAdminNavHeaderPanel" >
+    </component>
+    <web-panel key="admin-header-navigation-new-nav" location="system.admin.decorator.header" class="bean:adminHeaderNavPanelComponent" weight="1000">
+    </web-panel>
+
+    <web-panel key="project-admin-header-navigation-new-nav" location="atl.jira.proj.config.header" class="bean:adminHeaderNavPanelComponent" weight="1000">
+    </web-panel>
+
+
+    <web-resource key="admin-header-new-nav-soy">
+        <resource type="soy" name="view" location="global/soy/general-admin-header.soy"/>
+    </web-resource>
+
+    <web-resource key="admin-header-css">
+        <context>jira.admin</context>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="adminheader.css" location="global/css/adminheader.less">
+            <property key="content-type" value="text/css"/>
+        </resource>
+    </web-resource>
+
+
+</atlassian-plugin>

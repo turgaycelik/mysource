@@ -1,0 +1,13 @@
+#disable_html_escaping()
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($!customField.isRenderable() && $rendererDescriptor)
+    ## setup some additional parameters
+    $!rendererParams.put("rows", "5")
+    $!rendererParams.put("cols", "40")
+    $!rendererParams.put("wrap", "virtual")
+    ## let the renderer display the edit component
+    $rendererDescriptor.getEditVM($!value, $!issue.key, $!fieldLayoutItem.rendererType, $!customField.id, $!customField.name, $rendererParams, false)
+#else
+    <textarea class="textarea long-field" cols="40" id="$customField.id" name="$customField.id" rows="5">$textutils.htmlEncode($!value)</textarea>
+#end
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

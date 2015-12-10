@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE fieldtypemodel PUBLIC "-//OFBiz//DTD Field Type Model//EN" "http://www.ofbiz.org/dtds/fieldtypemodel.dtd">
+
+<!--
+/**
+ *  Title: Entity Generator Definitions for the General Data Model
+ *  Description: None
+ *  Copyright (c) 2002 The Open For Business Project - www.ofbiz.org
+ *
+ *  Permission is hereby granted, free of charge, to any person obtaining a
+ *  copy of this software and associated documentation files (the "Software"),
+ *  to deal in the Software without restriction, including without limitation
+ *  the rights to use, copy, modify, merge, publish, distribute, sublicense,
+ *  and/or sell copies of the Software, and to permit persons to whom the
+ *  Software is furnished to do so, subject to the following conditions:
+ *
+ *  The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
+ *
+ *  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+ *  OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ *  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ *  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ *  CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT
+ *  OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR
+ *  THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ *
+ *@author     Andy Zeneski (jaz@zsolv.com)
+ *@created    Augest 26, 2001
+ *@version    1.0
+ *
+ * Updated October 2005 thabks to Michael Thorpe
+ */
+-->
+
+<fieldtypemodel>
+  <!-- ===================== field-type-def ==================== -->
+   <!-- General Types -->
+    <field-type-def type="bytes" sql-type="IMAGE" java-type="byte[]"></field-type-def>
+    <field-type-def type="blob" sql-type="IMAGE" java-type="java.lang.Object"></field-type-def>
+    <field-type-def type="date-time" sql-type="DATETIME" java-type="java.sql.Timestamp"></field-type-def>
+    <field-type-def type="datetime" sql-type="DATETIME" java-type="java.sql.Timestamp"></field-type-def>
+    <field-type-def type="date" sql-type="DATETIME" java-type="java.sql.Date"></field-type-def>
+    <field-type-def type="time" sql-type="DATETIME" java-type="java.sql.Time"></field-type-def>
+
+    <field-type-def type="currency-amount" sql-type="NUMERIC(18,2)" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+    <field-type-def type="floating-point" sql-type="NUMERIC(18,6)" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+    <field-type-def type="numeric" sql-type="NUMERIC" java-type="Long"><validate name="isSignedLong" /></field-type-def>
+    <field-type-def type="long" sql-type="integer" java-type="Long"></field-type-def>
+    <field-type-def type="integer" sql-type="int" java-type="Integer"></field-type-def>
+
+    <field-type-def type="nid" sql-type="INT*" java-type="Long"></field-type-def>
+    <field-type-def type="id" sql-type="NVARCHAR(20)" java-type="String"></field-type-def>
+    <field-type-def type="id-long" sql-type="NVARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="id-long-ne" sql-type="NVARCHAR(40)" java-type="String"></field-type-def>
+    <field-type-def type="id-vlong" sql-type="NVARCHAR(250)" java-type="String"></field-type-def>
+
+    <field-type-def type="indicator" sql-type="NCHAR(1)" java-type="String"></field-type-def>
+    <field-type-def type="very-short" sql-type="NVARCHAR(10)" java-type="String"></field-type-def>
+    <field-type-def type="short-varchar" sql-type="NVARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="long-varchar" sql-type="NVARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="very-long" sql-type="NTEXT" java-type="String"></field-type-def>
+    <field-type-def type="extremely-long" sql-type="NTEXT" java-type="String"></field-type-def>
+    <field-type-def type="text" sql-type="NTEXT" java-type="String"></field-type-def>
+
+    <field-type-def type="comment" sql-type="NVARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="description" sql-type="NVARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="name" sql-type="NVARCHAR(60)" java-type="String"></field-type-def>
+    <field-type-def type="value" sql-type="NVARCHAR(255)" java-type="String"></field-type-def>
+    <field-type-def type="string" sql-type="NVARCHAR(255)" java-type="String"></field-type-def>
+
+    <field-type-def type="boolean" sql-type="bit" java-type="java.lang.Boolean"></field-type-def>
+    <field-type-def type="currency" sql-type="money" java-type="Double"><validate name="isSignedDouble" /></field-type-def>
+
+    <!-- Special types for the QUARTZ tables -->
+    <field-type-def type="quartz-char-8" sql-type="VARCHAR(8)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-16" sql-type="VARCHAR(16)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-40" sql-type="VARCHAR(40)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-80" sql-type="VARCHAR(80)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-95" sql-type="VARCHAR(95)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-120" sql-type="VARCHAR(120)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-200" sql-type="VARCHAR(200)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-250" sql-type="VARCHAR(250)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-char-512" sql-type="VARCHAR(512)" java-type="String"></field-type-def>
+    <field-type-def type="quartz-boolean" sql-type="VARCHAR(1)" java-type="Boolean"></field-type-def>
+    <!-- JDEV-28979: if you change quartz-data to something other than IMAGE make sure you update
+        org.ofbiz.core.entity.jdbc.SqlJdbcUtil.setValue, otherwise you will break UpgradeTask_Build6302 -->
+    <field-type-def type="quartz-data" sql-type="IMAGE" java-type="java.lang.Object"></field-type-def>
+    <field-type-def type="quartz-long-int" sql-type="BIGINT" java-type="Long"></field-type-def>
+    <field-type-def type="quartz-int" sql-type="INT" java-type="Integer"></field-type-def>
+    <field-type-def type="quartz-small-int" sql-type="SMALLINT" java-type="Integer"></field-type-def>
+    <field-type-def type="quartz-numeric" sql-type="NUMERIC(13,4)" java-type="Long"></field-type-def>
+
+</fieldtypemodel>

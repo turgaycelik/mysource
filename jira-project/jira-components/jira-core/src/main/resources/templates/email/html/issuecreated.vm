@@ -1,0 +1,36 @@
+#disable_html_escaping()
+
+#defaultMailHeader("email.event.activity.created.issue", $issue.reporter)
+
+#set ($issueTitleBody="#parse('templates/email/html/includes/patterns/issue-title.vm')")
+#rowWrapperNormal($issueTitleBody)
+
+
+#rowWrapperNormalBegin('' 'wrapper-special-margin')
+<table class="keyvalue-table">
+    #parse("templates/email/html/includes/fields/issuetype.vm")
+    #parse("templates/email/html/includes/fields/affectsversions.vm")
+    #parse("templates/email/html/includes/fields/assignee.vm")
+    #parse("templates/email/html/includes/fields/attachments.vm")
+    #parse("templates/email/html/includes/fields/components.vm")
+    #parse("templates/email/html/includes/fields/createddate.vm")
+    #parse("templates/email/html/includes/fields/duedate.vm")
+    #parse("templates/email/html/includes/fields/environment.vm")
+    #parse("templates/email/html/includes/fields/fixversions.vm")
+    #parse("templates/email/html/includes/fields/labels.vm")
+    #parse("templates/email/html/includes/fields/priority.vm")
+    #parse("templates/email/html/includes/fields/reporter.vm")
+    #parse("templates/email/html/includes/fields/securitylevel.vm")
+    #parse("templates/email/html/includes/fields/timetracking.vm")
+</table>
+#rowWrapperNormalEnd()
+
+#if ($issue.description)
+    #set($textParagraph = $issue.htmlDescription)
+    #rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')", '', 'issue-description-container')
+#end
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+#parse("templates/email/html/includes/footer.vm")

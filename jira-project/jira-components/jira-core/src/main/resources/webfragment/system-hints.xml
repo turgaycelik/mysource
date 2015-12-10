@@ -1,0 +1,32 @@
+<atlassian-plugin name='JIRA Usage Hints' key='jira.usage.hints' i18n-name-key="webfragments.usage.hints.plugin.name" system='true'>
+    <plugin-info>
+        <description key="webfragments.usage.hints.menu.plugin.desc">This library includes the web fragments for JIRA usage hints displayed on issue operation dialogs. It should never be disabled.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="4.2" max="4.2"/>
+        <version>1.0</version>
+    </plugin-info>
+
+     <web-section key="all" name="All Hints Section" location="jira.hints" i18n-name-key="webfragments.usage.hints.section.name" weight="100" />
+
+            <!-- Might add links in the future, e.g.: -->
+            <!-- link linkId="view_projects">/secure/project/ViewProjects.jspa</link -->
+
+            <web-item key="hint_shortcuts_a" name="A Shortcut Hint" section="jira.hints/ASSIGN" i18n-name-key="webfragments.usage.hints.item.shortcuts.a"  weight="40">
+                <label key="usage.hints.shortcuts.a" />
+                <tooltip key="usage.hints.shortcuts.a.tooltip"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsKeyboardShortcutsEnabledCondition"/>
+            </web-item>
+
+            <web-item key="hint_shortcuts_l" name="L Shortcut Hint" section="jira.hints/LABELS" i18n-name-key="webfragments.usage.hints.item.shortcuts.l"  weight="50">
+                <label key="usage.hints.shortcuts.l" />
+                <tooltip key="usage.hints.shortcuts.l.tooltip"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsKeyboardShortcutsEnabledCondition"/>
+            </web-item>
+
+            <web-item key="hint_shortcuts_m" name="M Shortcut Hint" section="jira.hints/COMMENT" i18n-name-key="webfragments.usage.hints.item.shortcuts.m"  weight="60">
+                <label key="usage.hints.shortcuts.m" />
+                <tooltip key="usage.hints.shortcuts.m.tooltip"/>
+                <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsKeyboardShortcutsEnabledCondition"/>
+            </web-item>
+    
+</atlassian-plugin>

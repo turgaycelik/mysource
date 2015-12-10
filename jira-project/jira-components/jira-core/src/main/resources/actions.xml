@@ -1,0 +1,2727 @@
+<!-- Actions for the JIRA Web Application -->
+<actions>
+
+    <!-- this is the last chance you get to save your form data after session expiry -->
+    <action name="XsrfErrorAction">
+        <view name="xsrf_missing">/secure/security/xsrf_missing.jsp</view>
+        <view name="session_expired">/secure/security/session_expired.jsp</view>
+    </action>
+
+    <!-- Entity Administration -->
+    <action name="user.Logout" alias="Logout">
+        <view name="error">/logoutconfirm.jsp</view>
+        <view name="confirm">/logoutconfirm.jsp</view>
+        <view name="logout">/logout.jsp</view>
+        <view name="alreadyloggedout">/alreadyloggedout.jsp</view>
+    </action>
+
+    <!-- TODO remove add project, once jelly isn't dependent on it -->
+
+    <action name="project.AddProject" alias="AddProject" roles-required="admin">
+        <view name="error">/secure/admin/views/addproject.jsp</view>
+        <view name="input">/secure/admin/views/addproject.jsp</view>
+    </action>
+
+    <action name="project.DeleteProject" alias="DeleteProject" roles-required="admin">
+        <view name="success">/secure/admin/default.jsp</view>
+        <view name="error">/secure/admin/views/deleteprojectconfirm.jsp</view>
+        <view name="input">/secure/admin/views/deleteprojectconfirm.jsp</view>
+    </action>
+
+    <action name="admin.WebSudoAuthenticate" alias="WebSudoAuthenticate" roles-required="admin">
+        <view name="input">/secure/admin/authenticate.jsp</view>
+        <view name="repostform">/secure/admin/websudoresubmit.jsp</view>
+    </action>
+
+    <action name="admin.notification.SelectProjectScheme" alias="SelectProjectScheme" roles-required="admin">
+        <view name="success">/secure/project/views/notifications/selectprojectscheme.jsp</view>
+        <view name="input">/secure/project/views/notifications/selectprojectscheme.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.SelectProjectWorkflowScheme" alias="SelectProjectWorkflowScheme"
+            roles-required="admin">
+        <view name="input">/secure/project/views/workflows/selectprojectscheme.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.SelectProjectWorkflowSchemeStep2" alias="SelectProjectWorkflowSchemeStep2"
+            roles-required="admin">
+        <view name="success">/secure/project/views/workflows/selectprojectschemestep2.jsp</view>
+        <view name="error">/secure/project/views/workflows/selectprojectschemestep2.jsp</view>
+        <view name="input">/secure/project/views/workflows/selectprojectschemestep2.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.SelectProjectWorkflowSchemeStep3" alias="SelectProjectWorkflowSchemeStep3"
+            roles-required="admin">
+        <view name="success">/secure/project/views/workflows/selectprojectschemestep3.jsp</view>
+        <view name="error">/secure/project/views/workflows/selectprojectschemestep3.jsp</view>
+        <view name="workflowmigrationerror">/secure/views/workflowmigrationerror.jsp</view>
+        <view name="workflowmigrationwithfailure">/secure/project/views/workflows/workflowmigrationwithfailure.jsp
+        </view>
+        <view name="workflowmigrationaborted">/secure/project/views/workflows/workflowmigrationaborted.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="project.SelectProjectCategory" alias="SelectProjectCategory" roles-required="admin">
+        <view name="success">/secure/project/views/selectprojectcategory.jsp</view>
+        <view name="input">/secure/project/views/selectprojectcategory.jsp</view>
+    </action>
+
+    <action name="admin.permission.SelectProjectPermissionScheme" alias="SelectProjectPermissionScheme"
+            roles-required="admin">
+        <view name="success">/secure/project/views/permissions/selectprojectpermissionscheme.jsp</view>
+        <view name="input">/secure/project/views/permissions/selectprojectpermissionscheme.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.SelectProjectIssueSecurityScheme" alias="SelectProjectIssueSecurityScheme"
+            roles-required="admin">
+        <view name="success">/secure/project/views/issuesecurity/selectprojectissuesecurityscheme.jsp</view>
+        <view name="input">/secure/project/views/issuesecurity/selectprojectissuesecurityscheme.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <!-- User Administration -->
+    <action name="admin.user.GroupBrowser" alias="GroupBrowser" roles-required="admin">
+        <view name="success">/secure/admin/user/views/groupbrowser.jsp</view>
+        <view name="error">/secure/admin/user/views/groupbrowser.jsp</view>
+    </action>
+
+    <action name="admin.user.ViewGroup" alias="ViewGroup" roles-required="admin">
+        <view name="success">/secure/admin/user/views/viewgroup.jsp</view>
+        <view name="error">/secure/admin/user/views/viewgroup.jsp</view>
+    </action>
+
+    <action name="admin.user.DeleteGroup" alias="DeleteGroup" roles-required="admin">
+        <view name="error">/secure/admin/user/views/deletegroupconfirm.jsp</view>
+        <view name="input">/secure/admin/user/views/deletegroupconfirm.jsp</view>
+    </action>
+
+    <action name="admin.user.UserBrowser" alias="UserBrowser" roles-required="admin">
+        <view name="success">/secure/admin/user/views/userbrowser.jsp</view>
+    </action>
+
+    <action name="admin.user.UserPickerBrowser" alias="UserPickerBrowser" roles-required="pickusers">
+        <view name="success">/secure/popups/userpicker.jsp</view>
+        <view name="input">/secure/popups/userpicker.jsp</view>
+    </action>
+
+    <action name="admin.user.GroupPickerBrowser" alias="GroupPickerBrowser" roles-required="pickusers">
+        <view name="success">/secure/popups/grouppicker.jsp</view>
+        <view name="input">/secure/popups/grouppicker.jsp</view>
+    </action>
+
+    <action name="admin.user.ConfigureCrowdServer" alias="ConfigureCrowdServer" roles-required="sysadmin">
+        <view name="success">/secure/admin/user/views/ConfigureCrowdServer.jsp</view>
+    </action>
+
+    <action name="admin.user.EditCrowdApplication" alias="EditCrowdApplication" roles-required="sysadmin">
+        <view name="editscreen">/secure/admin/user/views/EditCrowdApplication.jsp</view>
+    </action>
+
+    <action name="admin.IconPicker" alias="IconPicker">
+        <view name="error">/secure/popups/iconpicker.jsp</view>
+        <view name="success">/secure/popups/iconpicker.jsp</view>
+    </action>
+
+
+    <action name="admin.user.AddUser" alias="AddUser" roles-required="admin">
+        <view name="error">/secure/admin/user/views/adduser.jsp</view>
+        <view name="input">/secure/admin/user/views/adduser.jsp</view>
+    </action>
+
+    <action name="admin.user.ViewUser" alias="ViewUser" roles-required="admin">
+        <view name="success">/secure/admin/user/views/viewuser.jsp</view>
+        <view name="error">/secure/admin/user/views/viewuser.jsp</view>
+    </action>
+
+    <action name="admin.user.EditUser" alias="EditUser" roles-required="admin">
+        <view name="error">/secure/admin/user/views/editprofile.jsp</view>
+        <view name="input">/secure/admin/user/views/editprofile.jsp</view>
+    </action>
+
+    <action name="admin.user.ResetFailedLoginCount" alias="ResetFailedLoginCount" roles-required="admin">
+        <view name="error">/secure/admin/user/views/resetfailedlogincount.jsp</view>
+        <view name="input">/secure/admin/user/views/resetfailedlogincount.jsp</view>
+    </action>
+
+    <action name="admin.user.EditUserGroups" alias="EditUserGroups" roles-required="admin">
+        <view name="error">/secure/admin/user/views/editusergroups.jsp</view>
+        <view name="success">/secure/admin/user/views/editusergroups.jsp</view>
+    </action>
+
+    <action name="admin.roles.EditUserProjectRoles" alias="EditUserProjectRoles" roles-required="admin">
+        <view name="error">/secure/admin/views/roles/edituserprojectroles.jsp</view>
+        <view name="success">/secure/admin/views/roles/edituserprojectroles.jsp</view>
+    </action>
+
+    <action name="admin.roles.ViewUserProjectRoles" alias="ViewUserProjectRoles" roles-required="admin">
+        <view name="error">/secure/admin/views/roles/viewuserprojectroles.jsp</view>
+        <view name="success">/secure/admin/views/roles/viewuserprojectroles.jsp</view>
+    </action>
+
+    <action name="admin.user.EditUserProperties" alias="EditUserProperties" roles-required="admin">
+        <view name="error">/secure/admin/user/views/edituserproperties.jsp</view>
+        <view name="success">/secure/admin/user/views/edituserproperties.jsp</view>
+    </action>
+
+    <action name="admin.user.DeleteUserProperty" alias="DeleteUserProperty" roles-required="admin">
+        <view name="error">/secure/admin/user/views/deleteuserpropertyconfirm.jsp</view>
+        <view name="input">/secure/admin/user/views/deleteuserpropertyconfirm.jsp</view>
+    </action>
+
+
+    <action name="admin.user.EditUserProperty" alias="EditUserProperty" roles-required="admin">
+        <view name="error">/secure/admin/user/views/edituserproperty.jsp</view>
+        <view name="success">/secure/admin/user/views/edituserproperty.jsp</view>
+        <view name="invalidkey">/secure/admin/user/views/edituserproperty-invalid-key.jsp</view>
+    </action>
+
+    <action name="admin.user.BulkEditUserGroups" alias="BulkEditUserGroups" roles-required="admin">
+        <view name="error">/secure/admin/user/views/bulkeditusergroups.jsp</view>
+        <view name="success">/secure/admin/user/views/bulkeditusergroups.jsp</view>
+    </action>
+
+    <action name="admin.user.EditNestedGroups" alias="EditNestedGroups" roles-required="admin">
+        <view name="error">/secure/admin/user/views/editnestedgroups.jsp</view>
+        <view name="success">/secure/admin/user/views/editnestedgroups.jsp</view>
+    </action>
+
+    <action name="admin.user.DeleteUser" alias="DeleteUser" roles-required="admin">
+        <view name="error">/secure/admin/user/views/deleteuserconfirm.jsp</view>
+        <view name="input">/secure/admin/user/views/deleteuserconfirm.jsp</view>
+    </action>
+
+    <action name="admin.user.SetPassword" alias="SetPassword" roles-required="admin">
+        <view name="error">/secure/admin/user/views/setpassword.jsp</view>
+        <view name="input">/secure/admin/user/views/setpassword.jsp</view>
+    </action>
+
+    <action name="admin.user.UserRememberMeCookies" alias="UserRememberMeCookies" roles-required="sysadmin">
+        <view name="input">/secure/admin/user/views/remembermecookies.jsp</view>
+    </action>
+
+    <action name="admin.user.AllUsersRememberMeCookies" alias="AllUsersRememberMeCookies" roles-required="sysadmin">
+        <view name="input">/secure/admin/user/views/allremembermecookies.jsp</view>
+    </action>
+
+    <!-- Project administration -->
+    <action name="project.ViewProjects" alias="ViewProjects">
+        <view name="success">/secure/project/views/viewprojects.jsp</view>
+    </action>
+
+    <action name="project.ViewProject" alias="ViewProject">
+        <view name="input">/secure/project/views/viewprojecterror.jsp</view>
+        <view name="success">/secure/project/views/viewproject.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="project.EditProject" alias="EditProject">
+        <view name="success">/secure/project/views/editproject.jsp</view>
+        <view name="error">/secure/project/views/editproject.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="project.EditProjectLeadAndDefaultAssignee" alias="EditProjectLeadAndDefaultAssignee">
+        <view name="success">/secure/project/views/editprojectleadanddefaultassignee.jsp</view>
+        <view name="error">/secure/project/views/editprojectleadanddefaultassignee.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="project.IndexProject" alias="IndexProject" roles-required="admin">
+        <view name="success">/secure/project/views/projectindex.jsp</view>
+        <view name="error">/secure/project/views/viewprojecterror.jsp</view>
+
+        <command name="cancel" alias="IndexProjectCancel">
+            <view name="success">/secure/project/views/projectindex.jsp</view>
+            <view name="error">/secure/project/views/projectindex.jsp</view>
+        </command>
+        <command name="progress" alias="IndexProjectProgress">
+            <view name="progress">/secure/project/views/projectindex.jsp</view>
+            <view name="error">/secure/project/views/viewprojecterror.jsp</view>
+        </command>
+    </action>
+
+    <!--Still used in Jelly tags-->
+    <action name="project.AddComponent" alias="AddComponent"/>
+    <action name="project.enterprise.SelectComponentAssignees" alias="SelectComponentAssignees"/>
+    <action name="project.AddVersion" alias="AddVersion"/>
+
+
+    <!--ProjectCategory Actions-->
+    <action name="projectcategory.AddProjectCategory" alias="ViewProjectCategories" roles-required="admin">
+        <view name="success">/secure/admin/views/projectcategory/viewprojectcategories.jsp</view>
+        <view name="input">/secure/admin/views/projectcategory/viewprojectcategories.jsp</view>
+        <view name="error">/secure/admin/views/projectcategory/viewprojectcategories.jsp</view>
+    </action>
+
+    <action name="projectcategory.AddProjectCategory" alias="AddProjectCategory" roles-required="admin">
+        <view name="input">/secure/admin/views/projectcategory/viewprojectcategories.jsp</view>
+        <view name="error">/secure/admin/views/projectcategory/viewprojectcategories.jsp</view>
+    </action>
+
+    <action name="projectcategory.EditProjectCategory" alias="EditProjectCategory" roles-required="admin">
+        <view name="input">/secure/admin/views/projectcategory/editprojectcategory.jsp</view>
+        <view name="error">/secure/admin/views/projectcategory/editprojectcategory.jsp</view>
+    </action>
+
+    <action name="projectcategory.DeleteProjectCategory" alias="DeleteProjectCategory" roles-required="admin">
+        <view name="input">/secure/admin/views/projectcategory/deleteprojectcategoryconfirm.jsp</view>
+        <view name="error">/secure/admin/views/projectcategory/deleteprojectcategoryconfirm.jsp</view>
+    </action>
+
+    <!-- Utility Actions -->
+    <action name="util.XmlBackup" alias="XmlBackup" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/xmlbackup_result.jsp</view>
+        <view name="error">/secure/admin/views/xmlbackup_options.jsp</view>
+        <view name="confirm">/secure/admin/views/xmlbackup_confirm.jsp</view>
+        <view name="fixchars">/secure/admin/views/xmlbackup_fixchars.jsp</view>
+        <view name="input">/secure/admin/views/xmlbackup_options.jsp</view>
+    </action>
+
+    <action name="util.ImportAll" alias="XmlRestore" roles-required="sysadmin">
+        <view name="error">/secure/admin/views/importall_options.jsp</view>
+        <view name="input">/secure/admin/views/importall_options.jsp</view>
+    </action>
+
+    <action name="util.ImportResult" alias="ImportResult">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.DataImport.result</view>
+    </action>
+
+    <!-- CleanData: The security check is built into this action, as the user
+    is not logged in when it is called. -->
+    <action name="util.CleanData" alias="CleanData">
+        <view name="success">/views/cleandatabase.jsp</view>
+        <view name="error">/views/cleandatabase.jsp</view>
+    </action>
+
+    <action name="issue.SessionTimeoutMessage" alias="SessionTimeoutMessage">
+        <view name="success">/secure/views/issue/sessiontimeoutmessage.jsp</view>
+    </action>
+
+    <action name="util.ShowConstantsHelp" alias="ShowConstantsHelp">
+        <view name="success">/secure/showconstantshelp.jsp</view>
+        <view name="error">/secure/showconstantshelp-notloggedin.jsp</view>
+    </action>
+
+    <action name="popups.ShowTimeTrackingHelp" alias="ShowTimeTrackingHelp">
+        <view name="success">/secure/popups/showtimetrackinghelp.jsp</view>
+    </action>
+
+    <action name="util.JellyRunner" alias="JellyRunner" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/jelly_runner.jsp</view>
+        <view name="error">/secure/admin/views/jelly_runner.jsp</view>
+        <view name="success">/secure/admin/views/jelly_result.jsp</view>
+    </action>
+
+    <!-- JIRA Administration -->
+    <action name="admin.ViewListeners" alias="ViewListeners" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/listeners/viewlisteners.jsp</view>
+        <view name="success">/secure/admin/views/listeners/viewlisteners.jsp</view>
+    </action>
+
+    <action name="admin.EditListener" alias="EditListener" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/listeners/editlistener.jsp</view>
+        <view name="error">/secure/admin/views/listeners/editlistener.jsp</view>
+    </action>
+
+    <action name="admin.ViewServices" alias="ViewServices" roles-required="admin">
+        <view name="input">/secure/admin/views/services/viewservices.jsp</view>
+        <view name="success">/secure/admin/views/services/viewservices.jsp</view>
+        <view name="error">/secure/admin/views/services/viewservices.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.EditService" alias="EditService" roles-required="admin">
+        <view name="input">/secure/admin/views/services/editservice.jsp</view>
+        <view name="error">/secure/admin/views/services/editservice.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="admin.linking.ViewLinkTypes" alias="ViewLinkTypes" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/viewlinktypes.jsp</view>
+        <view name="error">/secure/admin/jira/views/viewlinktypes.jsp</view>
+        <view name="success">/secure/admin/jira/views/viewlinktypes.jsp</view>
+
+        <command name="activate" alias="IssueLinkingActivate">
+            <view name="success">/secure/admin/jira/views/viewlinktypes.jsp</view>
+            <view name="error">/secure/admin/jira/views/viewlinktypes.jsp</view>
+        </command>
+        <command name="deactivate" alias="IssueLinkingDeActivate">
+            <view name="success">/secure/admin/jira/views/viewlinktypes.jsp</view>
+            <view name="error">/secure/admin/jira/views/viewlinktypes.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.linking.EditLinkType" alias="EditLinkType" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/editlinktype.jsp</view>
+        <view name="error">/secure/admin/jira/views/editlinktype.jsp</view>
+    </action>
+
+    <action name="admin.linking.DeleteLinkType" alias="DeleteLinkType" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/deletelinktype.jsp</view>
+        <view name="error">/secure/admin/jira/views/deletelinktype.jsp</view>
+    </action>
+
+    <action name="admin.ViewApplicationProperties" alias="ViewApplicationProperties" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/applicationproperties.jsp</view>
+    </action>
+
+    <action name="admin.ViewAttachmentSettings" alias="ViewAttachmentSettings" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/view-attachment-settings.jsp</view>
+    </action>
+
+    <action name="admin.ViewUserDefaultSettings" alias="ViewUserDefaultSettings" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/viewuserdefaults.jsp</view>
+    </action>
+
+    <action name="admin.instrumentation.ViewInstrumentation" alias="ViewInstrumentation" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/instrumentation/viewinstrumentation.jsp</view>
+    </action>
+
+    <action name="admin.SchedulerAdmin" alias="SchedulerAdmin" roles-required="sysadmin">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Admin.Scheduler.viewNext</view>
+    </action>
+
+    <action name="admin.DeleteJobRunner" alias="DeleteJobRunner" roles-required="sysadmin">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.Admin.Scheduler.deleteRunner</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Admin.Scheduler.cannotDeleteRunner</view>
+    </action>
+
+    <action name="admin.MailQueueAdmin" alias="MailQueueAdmin" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/mailqueueadmin.jsp</view>
+        <view name="success">/secure/admin/jira/views/mailqueueadmin.jsp</view>
+    </action>
+
+    <action name="admin.index.IndexAdminImpl" alias="IndexAdmin" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/indexing.jsp</view>
+        <view name="error">/secure/admin/jira/views/indexing.jsp</view>
+
+        <command name="reindex" alias="IndexReIndex">
+            <view name="success">/secure/admin/jira/views/indexing.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexing.jsp</view>
+        </command>
+        <command name="cancel" alias="IndexReIndexCancel">
+            <view name="success">/secure/admin/jira/views/indexingprogress.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexingprogress.jsp</view>
+        </command>
+        <command name="activate" alias="IndexActivate">
+            <view name="success">/secure/admin/jira/views/indexing.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexing.jsp</view>
+        </command>
+        <command name="progress" alias="IndexProgress">
+            <view name="progress">/secure/admin/jira/views/indexingprogress.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexingprogress.jsp</view>
+        </command>
+        <command name="recover" alias="IndexRecover">
+            <view name="success">/secure/admin/jira/views/indexing.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexing.jsp</view>
+        </command>
+        <command name="copy" alias="IndexCopy">
+            <view name="success">/secure/admin/jira/views/indexing.jsp</view>
+            <view name="error">/secure/admin/jira/views/indexing.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.index.EditIndexRecoverySettings" alias="EditIndexRecoverySettings" roles-required="sysadmin">
+        <view name="error">/secure/admin/jira/views/editindexrecoverysettings.jsp</view>
+        <view name="input">/secure/admin/jira/views/editindexrecoverysettings.jsp</view>
+    </action>
+
+    <action name="admin.IndexOptimize" alias="IndexOptimize" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/indexOptimize.jsp</view>
+        <view name="success">/secure/admin/jira/views/indexOptimize.jsp</view>
+        <view name="error">/secure/admin/jira/views/indexOptimize.jsp</view>
+    </action>
+
+    <action name="admin.TimeTrackingAdmin" alias="TimeTrackingAdmin" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/timetracking.jsp</view>
+        <view name="error">/secure/admin/jira/views/timetracking.jsp</view>
+
+        <command name="activate" alias="TimeTrackingActivate">
+            <view name="success">/secure/admin/jira/views/timetracking.jsp</view>
+            <view name="error">/secure/admin/jira/views/timetracking.jsp</view>
+        </command>
+        <command name="deactivate" alias="TimeTrackingDeActivate">
+            <view name="success">/secure/admin/jira/views/timetracking.jsp</view>
+            <view name="error">/secure/admin/jira/views/timetracking.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.EditDefaultDashboard" alias="EditDefaultDashboard" roles-required="admin">
+        <view name="success">/secure/admin/views/editdefaultdashboardconfig.jsp</view>
+        <view name="error">/secure/admin/views/editdefaultdashboardconfigerror.jsp</view>
+    </action>
+
+    <action name="admin.ViewLicense" alias="ViewLicense" roles-required="sysadmin">
+        <view name="success">/secure/admin/jira/views/viewlicense.jsp</view>
+        <view name="input">/secure/admin/jira/views/viewlicense.jsp</view>
+        <view name="error">/secure/admin/jira/views/viewlicense.jsp</view>
+
+        <command name="refreshActiveUserCount" alias="RefreshActiveUserCount">
+            <view name="success">/secure/admin/jira/views/viewlicense.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.LicenseRoles" alias="LicenseRoles" roles-required="admin">
+        <view name="success" type="soy">:license-roles/JIRA.Templates.Admin.LicenseRoles.page</view>
+    </action>
+
+    <action name="admin.EditApplicationProperties" alias="EditApplicationProperties" roles-required="admin">
+        <view name="error">/secure/admin/jira/views/editapplicationproperties.jsp</view>
+        <view name="input">/secure/admin/jira/views/editapplicationproperties.jsp</view>
+    </action>
+
+    <action name="admin.EditAttachmentSettings" alias="EditAttachmentSettings" roles-required="admin">
+        <view name="error">/secure/admin/jira/views/editattachmentsettings.jsp</view>
+        <view name="input">/secure/admin/jira/views/editattachmentsettings.jsp</view>
+    </action>
+
+    <action name="admin.EditUserDefaultSettings" alias="EditUserDefaultSettings" roles-required="admin">
+        <view name="error">/secure/admin/jira/views/edituserdefaults.jsp</view>
+        <view name="input">/secure/admin/jira/views/edituserdefaults.jsp</view>
+    </action>
+
+    <action name="admin.SetGlobalEmailPreference" alias="SetGlobalEmailPreference" roles-required="admin">
+        <view name="error">/secure/admin/jira/views/setglobalemailpreference.jsp</view>
+        <view name="input">/secure/admin/jira/views/setglobalemailpreference.jsp</view>
+    </action>
+
+    <action name="admin.GlobalPermissions" alias="GlobalPermissions" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/globalpermissions.jsp</view>
+        <view name="confirm">/secure/admin/jira/views/deleteglobalpermissionsconfirm.jsp</view>
+        <view name="error">/secure/admin/jira/views/globalpermissions.jsp</view>
+    </action>
+
+    <action name="admin.ViewSystemInfo" alias="ViewSystemInfo" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/systeminfo.jsp</view>
+    </action>
+
+    <action name="admin.ViewMemoryInfo" alias="ViewMemoryInfo" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/memoryinfo.jsp</view>
+    </action>
+
+    <action name="admin.ViewUpgradeHistory" alias="ViewUpgradeHistory" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/upgradehistory.jsp</view>
+    </action>
+
+    <!-- security is built into this action -->
+    <action name="admin.ConfirmNewInstallationWithOldLicense" alias="ConfirmNewInstallationWithOldLicense">
+        <view name="input" type="soy">
+            :action-soy-templates/JIRA.Templates.ConfirmNewInstallationWithOldLicense.confirmNewInstallationWithOldLicenseInputOrError
+        </view>
+        <view name="error" type="soy">
+            :action-soy-templates/JIRA.Templates.ConfirmNewInstallationWithOldLicense.confirmNewInstallationWithOldLicenseInputOrError
+        </view>
+        <view name="success" type="soy">
+            :action-soy-templates/JIRA.Templates.ConfirmNewInstallationWithOldLicense.confirmNewInstallationWithOldLicenseSuccess
+        </view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <!-- Constants Administration -->
+    <action name="admin.priorities.ViewPriorities" alias="ViewPriorities" roles-required="admin">
+        <view name="success">/secure/admin/views/priorities/viewpriorities.jsp</view>
+        <command name="addPriority" alias="AddPriority">
+            <view name="success">/secure/admin/views/priorities/viewpriorities.jsp</view>
+            <view name="error">/secure/admin/views/priorities/viewpriorities.jsp</view>
+        </command>
+        <command name="moveDown" alias="PriorityDown">
+            <view name="success">/secure/admin/views/priorities/viewpriorities.jsp</view>
+            <view name="error">/secure/admin/views/priorities/viewpriorities.jsp</view>
+        </command>
+        <command name="moveUp" alias="PriorityUp">
+            <view name="success">/secure/admin/views/priorities/viewpriorities.jsp</view>
+            <view name="error">/secure/admin/views/priorities/viewpriorities.jsp</view>
+        </command>
+        <command name="makeDefault" alias="MakeDefaultPriority">
+            <view name="success">/secure/admin/views/priorities/viewpriorities.jsp</view>
+            <view name="error">/secure/admin/views/priorities/viewpriorities.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.priorities.EditPriority" alias="EditPriority" roles-required="admin">
+        <view name="input">/secure/admin/views/priorities/editpriority.jsp</view>
+        <view name="error">/secure/admin/views/priorities/editpriority.jsp</view>
+    </action>
+
+    <action name="admin.priorities.DeletePriority" alias="DeletePriority" roles-required="admin">
+        <view name="input">/secure/admin/views/priorities/deletepriority.jsp</view>
+        <view name="error">/secure/admin/views/priorities/deletepriority.jsp</view>
+    </action>
+
+    <action name="admin.resolutions.ViewResolutions" alias="ViewResolutions" roles-required="admin">
+        <view name="success">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+        <command name="addConstant" alias="AddResolution">
+            <view name="success">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+            <view name="error">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+        </command>
+        <command name="moveDown" alias="ResolutionDown">
+            <view name="success">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+            <view name="error">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+        </command>
+        <command name="moveUp" alias="ResolutionUp">
+            <view name="success">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+            <view name="error">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+        </command>
+        <command name="makeDefault" alias="MakeDefaultResolution">
+            <view name="success">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+            <view name="error">/secure/admin/views/resolutions/viewresolutions.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.resolutions.EditResolution" alias="EditResolution" roles-required="admin">
+        <view name="input">/secure/admin/views/resolutions/editresolution.jsp</view>
+        <view name="error">/secure/admin/views/resolutions/editresolution.jsp</view>
+    </action>
+
+    <action name="admin.resolutions.DeleteResolution" alias="DeleteResolution" roles-required="admin">
+        <view name="input">/secure/admin/views/resolutions/deleteresolution.jsp</view>
+        <view name="error">/secure/admin/views/resolutions/deleteresolution.jsp</view>
+    </action>
+
+    <action name="admin.filters.ViewSharedFilters" alias="ViewSharedFilters" roles-required="admin">
+        <view name="input">/secure/admin/views/filters/shared-filters.jsp</view>
+        <view name="success">/secure/admin/views/filters/shared-filters.jsp</view>
+        <view name="contentonly">/secure/admin/views/filters/shared-filters-content.jsp</view>
+    </action>
+
+    <!-- these are aliased specifically to allow a getRedirect() back to ViewSharedFilters.jspa -->
+    <action name="admin.filters.DeleteSharedFilter" alias="DeleteSharedFilter">
+        <view name="input">/secure/views/filter/deletefilterconfirm.jsp</view>
+        <view name="error">/secure/views/filter/deletefilterconfirm.jsp</view>
+    </action>
+
+    <action name="admin.filters.ChangeSharedFilterOwner" alias="ChangeSharedFilterOwner">
+        <view name="input">/secure/admin/views/filters/changesharedfilterowner.jsp</view>
+        <view name="error">/secure/admin/views/filters/changesharedfilterowner.jsp</view>
+    </action>
+
+    <action name="admin.dashboards.ViewSharedDashboards" alias="ViewSharedDashboards" roles-required="admin">
+        <view name="input">/secure/admin/views/dashboards/shared-dashboards.jsp</view>
+        <view name="success">/secure/admin/views/dashboards/shared-dashboards.jsp</view>
+        <view name="contentonly">/secure/admin/views/dashboards/shared-dashboards-contents.jsp</view>
+    </action>
+
+    <!-- these are aliased specifically to allow a getRedirect() back to ViewSharedDashboards.jspa -->
+    <action name="admin.dashboards.DeleteSharedDashboard" alias="DeleteSharedDashboard">
+        <view name="input">/secure/views/dashboard/deleteportalpage.jsp</view>
+        <view name="error">/secure/views/dashboard/deleteportalpage.jsp</view>
+    </action>
+
+    <action name="admin.dashboards.ChangeSharedDashboardOwner" alias="ChangeSharedDashboardOwner">
+        <view name="input">/secure/admin/views/dashboards/changeshareddashboardowner.jsp</view>
+        <view name="error">/secure/admin/views/dashboards/changeshareddashboardowner.jsp</view>
+    </action>
+
+    <!-- Project Roles -->
+    <action name="admin.roles.ViewProjectRoles" alias="ViewProjectRoles" roles-required="admin">
+        <view name="success">/secure/admin/views/roles/viewprojectroles.jsp</view>
+        <command name="addRole" alias="AddProjectRole">
+            <view name="success">/secure/admin/views/roles/viewprojectroles.jsp</view>
+            <view name="error">/secure/admin/views/roles/viewprojectroles.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.roles.ViewDefaultProjectRoleActors" alias="ViewDefaultProjectRoleActors" roles-required="admin">
+        <view name="success">/secure/admin/views/roles/viewdefaultprojectroleactors.jsp</view>
+        <view name="error">/secure/admin/views/roles/viewdefaultprojectroleactors.jsp</view>
+    </action>
+
+    <action name="admin.roles.EditProjectRole" alias="EditProjectRole" roles-required="admin">
+        <view name="input">/secure/admin/views/roles/editprojectrole.jsp</view>
+        <view name="error">/secure/admin/views/roles/editprojectrole.jsp</view>
+    </action>
+
+    <action name="admin.roles.DeleteProjectRole" alias="DeleteProjectRole" roles-required="admin">
+        <view name="input">/secure/admin/views/roles/deleteprojectrole.jsp</view>
+        <view name="error">/secure/admin/views/roles/deleteprojectrole.jsp</view>
+    </action>
+
+    <action name="admin.roles.ProjectRoleUsageAction" alias="ViewProjectRoleUsage" roles-required="admin">
+        <view name="success">/secure/admin/views/roles/viewprojectroleusage.jsp</view>
+    </action>
+
+    <action name="admin.scheme.purge.SchemePurgeToolResultsAction" alias="SchemePurgeToolResults"
+            roles-required="admin">
+        <view name="success">/secure/admin/views/schemes/purge/schemepurgeresults.jsp</view>
+    </action>
+
+    <action name="admin.scheme.purge.SchemePurgeTypePickerAction" alias="SchemePurgeTypePicker" roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/purge/schemepicker.jsp</view>
+        <view name="success">/secure/admin/views/schemes/purge/schemepicker.jsp</view>
+    </action>
+
+    <action name="admin.scheme.purge.SchemePurgeToolPreviewAction" alias="SchemePurgeToolPreview"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/purge/schemepurgepreview.jsp</view>
+        <view name="success">/secure/admin/views/schemes/purge/schemepurgepreview.jsp</view>
+    </action>
+
+    <action name="admin.scheme.SchemeToolsAction" alias="SchemeTools" roles-required="admin">
+        <view name="success">/secure/admin/views/schemes/schemetools.jsp</view>
+    </action>
+
+    <action name="admin.scheme.comparison.SchemeComparisonPickerAction" alias="SchemeComparisonPicker"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/comparison/schemepicker.jsp</view>
+        <view name="success">/secure/admin/views/schemes/comparison/schemepicker.jsp</view>
+    </action>
+
+    <action name="admin.scheme.comparison.SchemeComparisonToolAction" alias="SchemeComparisonTool"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/comparison/schemecomparison.jsp</view>
+        <view name="success">/secure/admin/views/schemes/comparison/schemecomparison.jsp</view>
+    </action>
+
+    <action name="admin.scheme.distiller.SchemeTypePickerAction" alias="SchemeTypePicker" roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/distiller/schemetypepicker.jsp</view>
+        <view name="success">/secure/admin/views/schemes/distiller/schemetypepicker.jsp</view>
+    </action>
+
+    <action name="admin.scheme.distiller.SchemeMergeResultAction" alias="SchemeMergeResult" roles-required="admin">
+        <view name="success">/secure/admin/views/schemes/distiller/schememergeresult.jsp</view>
+    </action>
+
+    <action name="admin.scheme.distiller.SchemeMergeAction" alias="SchemeMerge" roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/distiller/schememerge.jsp</view>
+        <view name="success">/secure/admin/views/schemes/distiller/schememerge.jsp</view>
+    </action>
+
+    <action name="admin.scheme.distiller.SchemeMergePreviewAction" alias="SchemeMergePreview" roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/distiller/schememergepreview.jsp</view>
+        <view name="success">/secure/admin/views/schemes/distiller/schememergepreview.jsp</view>
+    </action>
+
+    <action name="admin.scheme.mapper.SchemeGroupToRolePickerAction" alias="SchemePicker" roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/mapper/schemepicker.jsp</view>
+        <view name="success">/secure/admin/views/schemes/mapper/schemepicker.jsp</view>
+    </action>
+
+    <action name="admin.scheme.mapper.SchemeGroupToRoleMapperAction" alias="SchemeGroupToRoleMapper"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/mapper/schemegrouptorolemapper.jsp</view>
+        <view name="success">/secure/admin/views/schemes/mapper/schemegrouptorolemapper.jsp</view>
+    </action>
+
+    <action name="admin.scheme.mapper.SchemeGroupToRoleTransformerAction" alias="SchemeGroupToRoleTransformer"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/schemes/mapper/schemegrouptorolepreview.jsp</view>
+        <view name="success">/secure/admin/views/schemes/mapper/schemegrouptorolepreview.jsp</view>
+    </action>
+
+    <action name="admin.scheme.mapper.SchemeGroupToRoleResultAction" alias="SchemeGroupToRoleResult"
+            roles-required="admin">
+        <view name="success">/secure/admin/views/schemes/mapper/schemegrouptoroleresult.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.ViewIssueFields" alias="ViewIssueFields" roles-required="admin">
+        <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+        <command name="moveDown" alias="IssueFieldDown">
+            <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+            <view name="error">/secure/admin/views/viewissuefields.jsp</view>
+        </command>
+        <command name="moveUp" alias="IssueFieldUp">
+            <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+            <view name="error">/secure/admin/views/viewissuefields.jsp</view>
+        </command>
+        <command name="hide" alias="IssueFieldHide">
+            <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+            <view name="error">/secure/admin/views/viewissuefields.jsp</view>
+        </command>
+        <command name="require" alias="IssueFieldRequire">
+            <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+            <view name="error">/secure/admin/views/viewissuefields.jsp</view>
+        </command>
+        <command name="restoreDefaults" alias="RestoreDefaults">
+            <view name="success">/secure/admin/views/viewissuefields.jsp</view>
+            <view name="error">/secure/admin/views/viewissuefields.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.EditDefaultFieldLayoutItem" alias="EditDefaultFieldLayoutItem"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editdefaultfieldlayoutitem.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/editdefaultfieldlayoutitem.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.ViewSchemes" alias="ViewFieldLayoutSchemes" roles-required="admin">
+        <view name="success">/secure/admin/views/issuefields/viewfieldlayoutschemes.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.configuration.schemes.AddFieldConfigurationScheme"
+            alias="AddFieldConfigurationScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/configuration/schemes/add-field-configuration-scheme.jsp
+        </view>
+        <view name="error">/secure/admin/views/issuefields/configuration/schemes/add-field-configuration-scheme.jsp
+        </view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.EditFieldLayoutScheme" alias="EditFieldLayoutScheme"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editfieldlayoutscheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/editfieldlayoutscheme.jsp</view>
+
+        <command name="deleteScheme" alias="DeleteFieldLayoutScheme">
+            <view name="confirm">/secure/admin/views/issuefields/deletefieldlayoutscheme.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/deletefieldlayoutscheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.enterprise.CopyFieldLayoutScheme" alias="CopyFieldLayoutScheme"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/copyfieldlayoutscheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/copyfieldlayoutscheme.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.ConfigureFieldLayoutScheme" alias="ConfigureFieldLayoutScheme"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/configurefieldlayoutscheme.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/configurefieldlayoutscheme.jsp</view>
+
+        <command name="addFieldLayoutSchemeEntity" alias="AddFieldLayoutSchemeEntity">
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayoutscheme.jsp</view>
+        </command>
+
+        <command name="deleteFieldLayoutSchemeEntity" alias="DeleteFieldLayoutSchemeEntity">
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayoutscheme.jsp</view>
+        </command>
+
+        <command name="viewEditFieldLayoutSchemeEntity" alias="ViewEditFieldLayoutSchemeEntity">
+            <view name="input">/secure/admin/views/issuefields/editfieldlayoutschemeentity.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/editfieldlayoutschemeentity.jsp</view>
+        </command>
+
+        <command name="editFieldLayoutSchemeEntity" alias="EditFieldLayoutSchemeEntity">
+            <view name="input">/secure/admin/views/issuefields/editfieldlayoutschemeentity.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/editfieldlayoutschemeentity.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.configuration.schemes.AddIssueTypeToFieldConfigurationAssociation"
+            alias="AddIssueTypeToFieldConfigurationAssociation" roles-required="admin">
+        <view name="input">
+            /secure/admin/views/issuefields/configuration/schemes/add-issue-type-field-configuration-association.jsp
+        </view>
+        <view name="error">
+            /secure/admin/views/issuefields/configuration/schemes/add-issue-type-field-configuration-association.jsp
+        </view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.SelectFieldLayoutScheme" alias="SelectFieldLayoutScheme"
+            roles-required="admin">
+        <view name="input">/secure/project/views/issuefields/selectfieldlayoutscheme.jsp</view>
+        <view name="error">/secure/project/views/issuefields/selectfieldlayoutscheme.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.ViewFieldLayouts" alias="ViewFieldLayouts" roles-required="admin">
+        <view name="success">/secure/admin/views/issuefields/viewfieldlayouts.jsp</view>
+
+        <command name="deleteFieldLayout" alias="DeleteFieldLayout">
+            <view name="confirm">/secure/admin/views/issuefields/confirmdeletefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/confirmdeletefieldlayout.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.configuration.AddFieldConfiguration" alias="AddFieldConfiguration"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/configuration/add-field-configuration.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/configuration/add-field-configuration.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.EditFieldLayout" alias="EditFieldLayout" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editfieldlayout.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/editfieldlayout.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.CopyFieldLayout" alias="CopyFieldLayout" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/copyfieldlayout.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/copyfieldlayout.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.enterprise.ConfigureFieldLayout" alias="ConfigureFieldLayout"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        <command name="moveDown" alias="EditFieldLayoutDown">
+            <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        </command>
+        <command name="moveUp" alias="EditFieldLayoutUp">
+            <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        </command>
+        <command name="hide" alias="EditFieldLayoutHide">
+            <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        </command>
+        <command name="require" alias="EditFieldLayoutRequire">
+            <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        </command>
+        <command name="restoreDefaults" alias="EditFieldLayoutRestoreDefaults">
+            <view name="success">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/configurefieldlayout.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.enterprise.EditFieldLayoutItem" alias="EditFieldLayoutItem" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editfieldlayoutitem.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/editfieldlayoutitem.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.EditFieldLayoutItemRenderer" alias="EditFieldLayoutItemRenderer"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editfieldlayoutrenderer.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/editfieldlayoutrenderer.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.EditFieldLayoutItemRendererConfirmation"
+            alias="EditFieldLayoutItemRendererConfirmation" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/editfieldlayoutrendererconfirmation.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/editfieldlayoutrendererconfirmation.jsp</view>
+    </action>
+
+    <!-- Field Screens -->
+    <action name="admin.issuefields.screens.ViewFieldScreens" alias="ViewFieldScreens" roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/viewfieldscreens.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/viewfieldscreens.jsp</view>
+
+        <command name="addNewFieldScreen" alias="AddNewFieldScreen">
+            <view name="input">/secure/admin/views/issuefields/screens/addfieldscreen.jsp</view>
+        </command>
+
+        <command name="addFieldScreen" alias="AddFieldScreen">
+            <view name="error">/secure/admin/views/issuefields/screens/addfieldscreen.jsp</view>
+        </command>
+
+        <command name="viewDeleteFieldScreen" alias="ViewDeleteFieldScreen">
+            <view name="confirm">/secure/admin/views/issuefields/screens/confirmdeletefieldscreen.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/confirmdeletefieldscreen.jsp</view>
+        </command>
+
+        <command name="deleteFieldScreen" alias="DeleteFieldScreen">
+            <view name="error">/secure/admin/views/issuefields/screens/confirmdeletefieldscreen.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.EditFieldScreen" alias="EditFieldScreen" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/editfieldscreen.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/editfieldscreen.jsp</view>
+
+        <command name="viewCopyFieldScreen" alias="ViewCopyFieldScreen">
+            <view name="input">/secure/admin/views/issuefields/screens/copyfieldscreen.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/copyfieldscreen.jsp</view>
+        </command>
+
+        <command name="copyFieldScreen" alias="CopyFieldScreen">
+            <view name="input">/secure/admin/views/issuefields/screens/copyfieldscreen.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/copyfieldscreen.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.AssociateFieldToScreens" alias="AssociateFieldToScreens"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/associatefield.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/associatefield.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.screens.ConfigureFieldScreen" alias="ConfigureFieldScreen" roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/configurefieldscreen.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/configurefieldscreen.jsp</view>
+    </action>
+
+    <!-- Issue Type Screen Schemes -->
+    <action name="admin.issuefields.screens.enterprise.ViewIssueTypeScreenSchemes" alias="ViewIssueTypeScreenSchemes"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/enterprise/viewissuetypescreenschemes.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/enterprise/viewissuetypescreenschemes.jsp</view>
+
+        <command name="viewDeleteIssueTypeScreenScheme" alias="ViewDeleteIssueTypeScreenScheme">
+            <view name="confirm">
+                /secure/admin/views/issuefields/screens/enterprise/confirmdeleteissuetypescreenscheme.jsp
+            </view>
+            <view name="error">
+                /secure/admin/views/issuefields/screens/enterprise/confirmdeleteissuetypescreenscheme.jsp
+            </view>
+        </command>
+
+        <command name="deleteIssueTypeScreenScheme" alias="DeleteIssueTypeScreenScheme">
+            <view name="error">
+                /secure/admin/views/issuefields/screens/enterprise/confirmdeleteissuetypescreenscheme.jsp
+            </view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.AddIssueTypeScreenScheme" alias="AddIssueTypeScreenScheme"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/add-issue-type-screen-scheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/add-issue-type-screen-scheme.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.screens.enterprise.EditIssueTypeScreenScheme" alias="EditIssueTypeScreenScheme"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/enterprise/editissuetypescreenscheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/enterprise/editissuetypescreenscheme.jsp</view>
+
+        <command name="viewCopyIssueTypeScreenScheme" alias="ViewCopyIssueTypeScreenScheme">
+            <view name="error">/secure/admin/views/issuefields/screens/enterprise/copyissuetypescreenscheme.jsp</view>
+        </command>
+
+        <command name="copyIssueTypeScreenScheme" alias="CopyIssueTypeScreenScheme">
+            <view name="input">/secure/admin/views/issuefields/screens/enterprise/copyissuetypescreenscheme.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/enterprise/copyissuetypescreenscheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.enterprise.ConfigureIssueTypeScreenScheme"
+            alias="ConfigureIssueTypeScreenScheme" roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/enterprise/configureissuetypescreenscheme.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/enterprise/configureissuetypescreenscheme.jsp
+        </view>
+
+        <command name="deleteIssueTypeScreenSchemeEntity" alias="DeleteIssueTypeScreenSchemeEntity">
+            <view name="error">/secure/admin/views/issuefields/screens/enterprise/configureissuetypescreenscheme.jsp
+            </view>
+        </command>
+
+        <command name="viewEditIssueTypeScreenSchemeEntity" alias="ViewEditIssueTypeScreenSchemeEntity">
+            <view name="error">/secure/admin/views/issuefields/screens/enterprise/editissuetypescreenschemeentity.jsp
+            </view>
+        </command>
+
+        <command name="editIssueTypeScreenSchemeEntity" alias="EditIssueTypeScreenSchemeEntity">
+            <view name="error">/secure/admin/views/issuefields/screens/enterprise/editissuetypescreenschemeentity.jsp
+            </view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.schemes.issuetype.AddIssueTypeScreenScreenSchemeAssociation"
+            alias="AddIssueTypeScreenScreenSchemeAssociation">
+        <view name="input">
+            /secure/admin/views/issuefields/screens/schemes/issuetype/configure/add-issue-type-screen-scheme-association.jsp
+        </view>
+        <view name="error">
+            /secure/admin/views/issuefields/screens/schemes/issuetype/configure/add-issue-type-screen-scheme-association.jsp
+        </view>
+    </action>
+
+    <action name="admin.issuefields.screens.enterprise.SelectIssueTypeScreenScheme" alias="SelectIssueTypeScreenScheme"
+            roles-required="admin">
+        <view name="input">/secure/project/views/issuefields/selectissuetypescreenscheme.jsp</view>
+        <view name="error">/secure/project/views/issuefields/selectissuetypescreenscheme.jsp</view>
+    </action>
+
+    <!-- Field Screen Schemes -->
+    <action name="admin.issuefields.screens.ViewFieldScreenSchemes" alias="ViewFieldScreenSchemes"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/viewfieldscreenschemes.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/viewfieldscreenschemes.jsp</view>
+
+        <command name="addNewFieldScreenScheme" alias="AddNewFieldScreenScheme">
+            <view name="input">/secure/admin/views/issuefields/screens/addfieldscreenscheme.jsp</view>
+        </command>
+
+        <command name="addFieldScreenScheme" alias="AddFieldScreenScheme">
+            <view name="error">/secure/admin/views/issuefields/screens/addfieldscreenscheme.jsp</view>
+        </command>
+
+        <command name="viewDeleteFieldScreenScheme" alias="ViewDeleteFieldScreenScheme">
+            <view name="confirm">/secure/admin/views/issuefields/screens/confirmdeletefieldscreenscheme.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/confirmdeletefieldscreenscheme.jsp</view>
+        </command>
+
+        <command name="deleteFieldScreenScheme" alias="DeleteFieldScreenScheme">
+            <view name="error">/secure/admin/views/issuefields/screens/confirmdeletefieldscreenscheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.EditFieldScreenScheme" alias="EditFieldScreenScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/editfieldscreenscheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/editfieldscreenscheme.jsp</view>
+
+        <command name="viewCopyFieldScreenScheme" alias="ViewCopyFieldScreenScheme">
+            <view name="input">/secure/admin/views/issuefields/screens/copyfieldscreenscheme.jsp</view>
+            <view name="error">/secure/admin/views/issuefields/screens/copyfieldscreenscheme.jsp</view>
+        </command>
+
+        <command name="copyFieldScreenScheme" alias="CopyFieldScreenScheme">
+            <view name="error">/secure/admin/views/issuefields/screens/copyfieldscreenscheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.ConfigureFieldScreenScheme" alias="ConfigureFieldScreenScheme"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/issuefields/screens/configurefieldscreenscheme.jsp</view>
+        <view name="success">/secure/admin/views/issuefields/screens/configurefieldscreenscheme.jsp</view>
+
+        <command name="deleteFieldScreenSchemeItem" alias="DeleteFieldScreenSchemeItem">
+            <view name="error">/secure/admin/views/issuefields/screens/configurefieldscreenscheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuefields.screens.AddFieldScreenSchemeItem" alias="AddFieldScreenSchemeItem"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/addscreentofieldscreenscheme.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/addscreentofieldscreenscheme.jsp</view>
+    </action>
+
+    <action name="admin.issuefields.screens.EditFieldScreenSchemeItem" alias="EditFieldScreenSchemeItem"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuefields/screens/editfieldscreenschemeitem.jsp</view>
+        <view name="error">/secure/admin/views/issuefields/screens/editfieldscreenschemeitem.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.ViewIssueTypes" alias="ViewIssueTypes" roles-required="admin">
+        <view name="success">/secure/admin/views/issuetypes/viewissuetypes.jsp</view>
+        <command name="addIssueType" alias="AddIssueType">
+            <view name="success">/secure/admin/views/issuetypes/addissuetype.jsp</view>
+            <view name="error">/secure/admin/views/issuetypes/addissuetype.jsp</view>
+        </command>
+        <command name="addNewIssueType" alias="AddNewIssueType">
+            <view name="input">/secure/admin/views/issuetypes/addissuetype.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuetypes.pro.ManageIssueTypeSchemes" alias="ManageIssueTypeSchemes" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/schemes/view-issue-types-schemes.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/schemes/view-issue-types-scheme.jsp</view>
+
+        <command name="addScheme">
+            <view name="success">/secure/admin/views/issuetypes/schemes/view-issue-types-scheme.jsp</view>
+            <view name="error">/secure/admin/views/issuetypes/schemes/view-issue-types-scheme.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuetypes.ConfigureIssueTypeOptionScheme" alias="ConfigureOptionSchemes"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/issuetypes/configoptionset.jsp</view>
+        <view name="input">/secure/admin/views/issuetypes/configoptionset.jsp</view>
+        <view name="moverequired">MigrateIssueTypes!default.jspa</view>
+        <view name="success">/secure/admin/views/issuetypes/configoptionset.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.AddNewIssueTypeToScheme" alias="AddNewIssueTypeToScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/addissuetype.jsp</view>
+        <view name="error">/secure/admin/views/issuetypes/addissuetype.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/newissuetype.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.pro.DeleteOptionScheme" alias="DeleteOptionScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/confirmdeletescheme.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/confirmdeletescheme.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.pro.AssociateIssueTypeSchemes" alias="AssociateIssueTypeSchemes"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/associateissuetypescheme.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/associateissuetypescheme.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.pro.AssociateIssueTypeSchemesWithDefault"
+            alias="AssociateIssueTypeSchemesWithDefault" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/associateissuetypescheme.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/associateissuetypescheme.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.pro.SelectIssueTypeSchemeForProject" alias="SelectIssueTypeSchemeForProject"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/pro/selectIssueTypeSchemeForProject.jsp</view>
+        <view name="success">/secure/admin/views/issuetypes/pro/selectIssueTypeSchemeForProject.jsp</view>
+    </action>
+
+
+    <action name="admin.issuetypes.MigrateIssueTypes" alias="MigrateIssueTypes" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/migrate/0-startissuemigration.jsp</view>
+        <command name="start">
+            <view name="success">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+        </command>
+        <command name="chooseContext">
+            <view name="input">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+            <view name="error">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+            <view name="start">/secure/admin/views/issuetypes/migrate/0-startissuemigration.jsp</view>
+            <view name="choosestatus">/secure/admin/views/issuetypes/migrate/2-choosestatus.jsp</view>
+            <view name="previous">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+            <view name="success">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+        </command>
+        <command name="chooseStatus">
+            <view name="input">/secure/admin/views/issuetypes/migrate/2-choosestatus.jsp</view>
+            <view name="previous">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+            <view name="success">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+        </command>
+        <command name="setFields">
+            <view name="input">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+            <view name="error">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+            <view name="start">/secure/admin/views/issuetypes/migrate/0-startissuemigration.jsp</view>
+            <view name="choosestatus">/secure/admin/views/issuetypes/migrate/2-choosestatus.jsp</view>
+            <view name="previous">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+            <view name="success">/secure/admin/views/issuetypes/migrate/1-choosecontext.jsp</view>
+            <view name="confirm">/secure/admin/views/issuetypes/migrate/4-confirmdetails.jsp</view>
+        </command>
+        <command name="perform">
+            <view name="input">/secure/admin/views/issuetypes/migrate/4-confirmdetails.jsp</view>
+            <view name="previous">/secure/admin/views/issuetypes/migrate/3-updatefielddetails.jsp</view>
+        </command>
+    </action>
+
+
+    <action name="admin.subtasks.ManageSubTasks" alias="ManageSubTasks" roles-required="admin">
+        <view name="input">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+        <view name="success">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+        <command name="enableSubTasks" alias="EnableSubTasks">
+            <view name="success">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+            <view name="error">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+        </command>
+        <command name="addSubTaskIssueType" alias="AddSubTaskIssueType">
+            <view name="success">/secure/admin/views/subtasks/addsubtask.jsp</view>
+            <view name="error">/secure/admin/views/subtasks/addsubtask.jsp</view>
+        </command>
+        <command name="addNewSubTaskIssueType" alias="AddNewSubTaskIssueType">
+            <view name="input">/secure/admin/views/subtasks/addsubtask.jsp</view>
+        </command>
+        <command name="moveSubTaskIssueTypeUp" alias="MoveSubTaskIssueTypeUp">
+            <view name="success">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+            <view name="error">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+        </command>
+        <command name="moveSubTaskIssueTypeDown" alias="MoveSubTaskIssueTypeDown">
+            <view name="success">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+            <view name="error">/secure/admin/views/subtasks/managesubtasks.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.subtasks.DisableSubTasks" alias="DisableSubTasks" roles-required="admin">
+        <view name="input">/secure/admin/views/subtasks/disablesubtasks.jsp</view>
+        <view name="error">/secure/admin/views/subtasks/disablesubtasks.jsp</view>
+    </action>
+
+    <action name="admin.subtasks.EditSubTaskIssueTypes" alias="EditSubTaskIssueTypes" roles-required="admin">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.IssueType.editIssueType</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.IssueType.editIssueType</view>
+    </action>
+
+    <action name="admin.subtasks.DeleteSubTaskIssueType" alias="DeleteSubTaskIssueType" roles-required="admin">
+        <view name="input">/secure/admin/views/subtasks/deletesubtaskissuetype.jsp</view>
+        <view name="error">/secure/admin/views/subtasks/deletesubtaskissuetype.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.EditIssueType" alias="EditIssueType" roles-required="admin">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.IssueType.editIssueType</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.IssueType.editIssueType</view>
+    </action>
+
+    <action name="admin.translation.ViewTranslations" alias="ViewTranslations" roles-required="admin">
+        <view name="success">/secure/admin/views/translations/chooseviewtranslations.jsp</view>
+        <view name="input">/secure/admin/views/translations/chooseviewtranslations.jsp</view>
+        <view name="error">/secure/admin/views/translations/chooseviewtranslations.jsp</view>
+    </action>
+
+    <action name="admin.issuetypes.DeleteIssueType" alias="DeleteIssueType" roles-required="admin">
+        <view name="input">/secure/admin/views/issuetypes/deleteissuetype.jsp</view>
+        <view name="error">/secure/admin/views/issuetypes/deleteissuetype.jsp</view>
+    </action>
+
+    <action name="admin.statuses.ViewStatuses" alias="ViewStatuses" roles-required="admin">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Statuses.success</view>
+        <command name="addStatus" alias="AddStatus">
+            <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Statuses.input</view>
+            <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Statuses.input</view>
+        </command>
+        <command name="moveDown" alias="StatusDown">
+            <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Statuses.success</view>
+            <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Statuses.success</view>
+        </command>
+        <command name="moveUp" alias="StatusUp">
+            <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Statuses.success</view>
+            <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Statuses.success</view>
+        </command>
+    </action>
+
+    <action name="admin.statuses.ViewWorkflowsForStatus" alias="ViewWorkflowsForStatus" roles-required="admin">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Statuses.viewWorkflowsForStatus</view>
+    </action>
+
+    <action name="admin.statuses.EditStatus" alias="EditStatus" roles-required="admin">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.Statuses.input</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Statuses.input</view>
+    </action>
+
+    <action name="admin.statuses.DeleteStatus" alias="DeleteStatus" roles-required="admin">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.Statuses.deleteConfirm</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.Statuses.deleteConfirm</view>
+    </action>
+
+    <!-- =============================================================================== Custom Field Administration -->
+
+    <action name="admin.customfields.ViewCustomFields" alias="ViewCustomFields" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/customfields.jsp</view>
+        <view name="success">/secure/admin/views/customfields/customfields.jsp</view>
+    </action>
+
+    <action name="admin.customfields.CreateCustomField" alias="CreateCustomField" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/createcustomfield.jsp</view>
+        <view name="error">/secure/admin/views/customfields/createcustomfield-details.jsp</view>
+        <view name="details">/secure/admin/views/customfields/createcustomfield-details.jsp</view>
+    </action>
+
+    <action name="admin.customfields.EditCustomField" alias="EditCustomField" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/editcustomfield.jsp</view>
+        <view name="error">/secure/admin/views/customfields/editcustomfield.jsp</view>
+    </action>
+
+    <action name="admin.customfields.TranslateCustomField" alias="TranslateCustomField" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/translatecustomfield.jsp</view>
+        <view name="error">/secure/admin/views/customfields/translatecustomfield.jsp</view>
+    </action>
+
+    <action name="admin.customfields.ConfigureCustomField" alias="ConfigureCustomField" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/configurecustomfield.jsp</view>
+        <view name="error">/secure/admin/views/customfields/configurecustomfield.jsp</view>
+        <view name="success">/secure/admin/views/customfields/configurecustomfield.jsp</view>
+    </action>
+
+    <action name="admin.customfields.ManageConfigurationScheme" alias="ManageConfigurationScheme"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/manageconfig.jsp</view>
+        <view name="locked">/secure/admin/views/customfields/manageconfig-locked.jsp</view>
+    </action>
+
+
+    <action name="admin.customfields.EditCustomFieldDefaults" alias="EditCustomFieldDefaults" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/editcustomfield-defaults.jsp</view>
+        <view name="error">/secure/admin/views/customfields/editcustomfield-defaults.jsp</view>
+    </action>
+
+    <action name="admin.customfields.EditCustomFieldOptions" alias="EditCustomFieldOptions" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/editcustomfieldoptions.jsp</view>
+        <view name="error">/secure/admin/views/customfields/editcustomfieldoptions.jsp</view>
+        <view name="confirmdelete">/secure/admin/views/customfields/deletecustomfieldoption.jsp</view>
+        <view name="edit">/secure/admin/views/customfields/editcustomfieldoption.jsp</view>
+
+        <command name="configureOption" alias="ConfigureCustomFieldOptions">
+            <view name="error">/secure/admin/views/customfields/editcustomfieldoptions.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.customfields.EditCustomFieldUserPickerFilter" alias="EditCustomFieldUserPickerFilter"
+            roles-required="admin">
+        <view name="input" type="soy">
+            :user-picker-filter-configuration-soy-templates/JIRA.Templates.Admin.CustomFields.UserPickerFilter.showConfigPage
+        </view>
+    </action>
+
+    <action name="admin.customfields.DeleteCustomField" alias="DeleteCustomField" roles-required="admin">
+        <view name="input">/secure/admin/views/customfields/deletecustomfield.jsp</view>
+        <view name="error">/secure/admin/views/customfields/deletecustomfield.jsp</view>
+    </action>
+
+    <action name="project.ProjectEmail" alias="ProjectEmail" roles-required="admin">
+        <view name="input">/secure/admin/views/mail/configureprojectemail.jsp</view>
+        <view name="error">/secure/admin/views/mail/configureprojectemail.jsp</view>
+    </action>
+
+    <!-- Release Note-->
+    <action name="browser.ReleaseNote" alias="ReleaseNote">
+        <view name="success">/secure/views/project/releasenote.jsp</view>
+        <view name="error">/secure/views/project/releasenoteconfigure.jsp</view>
+        <view name="input">/secure/views/project/releasenoteconfigure.jsp</view>
+        <command name="configure" alias="ConfigureReleaseNote">
+            <view name="success">/secure/views/project/releasenoteconfigure.jsp</view>
+            <view name="error">/secure/views/project/releasenoteconfigureerror.jsp</view>
+        </command>
+    </action>
+
+    <!-- User Management -->
+    <action name="user.ViewProfile" alias="ViewProfile">
+        <view name="success">/secure/views/user/viewprofile.jsp</view>
+        <view name="contentonly">/secure/views/user/profile/viewprofile-content.jsp</view>
+        <view name="json">/secure/views/versions/json-content.jsp</view>
+        <view name="usernotfound">/secure/views/user/viewprofile-usernotfound.jsp</view>
+        <view name="securitybreach">/secure/views/permissionviolation.jsp</view>
+    </action>
+
+    <action name="user.ViewUserHover" alias="ViewUserHover">
+        <view name="success">/secure/views/user/viewuserhover.jsp</view>
+    </action>
+
+    <action name="user.ChangePassword" alias="ChangePassword">
+        <view name="error">/secure/views/user/changepassword.jsp</view>
+        <view name="input">/secure/views/user/changepassword.jsp</view>
+        <view name="success">/secure/views/user/changepasswordsuccess.jsp</view>
+    </action>
+
+    <action name="user.ClearRememberMeCookies" alias="ClearRememberMeCookies">
+        <view name="error">/secure/views/user/clearremembermecookies.jsp</view>
+        <view name="input">/secure/views/user/clearremembermecookies.jsp</view>
+        <view name="success">/secure/views/user/clearremembermecookiessuccess.jsp</view>
+    </action>
+
+    <action name="user.EditProfile" alias="EditProfile">
+        <view name="error">/secure/views/user/editprofile.jsp</view>
+        <view name="input">/secure/views/user/editprofile.jsp</view>
+    </action>
+
+    <action name="user.UpdateUserPreferences" alias="UpdateUserPreferences">
+        <view name="error">/secure/views/user/updateuserpreferences.jsp</view>
+        <view name="input">/secure/views/user/updateuserpreferences.jsp</view>
+    </action>
+
+    <action name="user.EditDarkFeatures" alias="EditDarkFeatures"
+            class="com.atlassian.jira.web.action.user.EditDarkFeatures" roles-required="use">
+        <view name="error" type="redirect">
+            /secure/ViewProfile.jspa?selectedTab=jira.user.profile.panels:up-darkfeatures-panel
+        </view>
+        <view name="input" type="redirect">
+            /secure/ViewProfile.jspa?selectedTab=jira.user.profile.panels:up-darkfeatures-panel
+        </view>
+        <view name="success" type="redirect">
+            /secure/ViewProfile.jspa?selectedTab=jira.user.profile.panels:up-darkfeatures-panel
+        </view>
+    </action>
+
+    <action name="favourites.AdjustFavourite" roles-required="use">
+        <view name="error">/secure/views/adjustfavourite.jsp</view>
+        <command name="add" alias="AddFavourite">
+            <view name="error">/secure/views/adjustfavourite.jsp</view>
+        </command>
+        <command name="remove" alias="RemoveFavourite">
+            <view name="error">/secure/views/adjustfavourite.jsp</view>
+        </command>
+    </action>
+
+    <!-- Filter actions -->
+    <action name="filter.ManageFilters" alias="ManageFilters">
+        <view name="success">/secure/views/filter/managefilters.jsp</view>
+        <view name="contentonly">/secure/views/filter/managefilters-content.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+        <view name="error">/secure/views/filter/managefilters.jsp</view>
+    </action>
+
+    <action name="filter.ManageSubscriptions" alias="ViewSubscriptions" roles-required="use">
+        <view name="success">/secure/views/filter/viewfiltersubscriptions.jsp</view>
+        <view name="error">/secure/views/filter/viewfiltersubscriptions.jsp</view>
+    </action>
+
+    <!-- this is aliased specifically to allow a getRedirect() back to ManageFilters.jspa -->
+    <action name="filter.DeleteFilter" alias="DeleteFilter">
+        <view name="input">/secure/views/filter/deletefilterconfirm.jsp</view>
+        <view name="error">/secure/views/filter/deletefilterconfirm.jsp</view>
+    </action>
+
+    <action name="filter.EditFilter" alias="EditFilter" roles-required="use">
+        <view name="error">/secure/views/filter/editfilter.jsp</view>
+        <view name="input">/secure/views/filter/editfilter.jsp</view>
+        <view name="fatalerror">/secure/views/filter/errorfilter.jsp</view>
+    </action>
+
+    <action name="filter.SaveFilter" alias="SaveFilter" roles-required="use">
+        <view name="input">/secure/views/filter/savefilter.jsp</view>
+        <view name="error">/secure/views/filter/errorfilter.jsp</view>
+    </action>
+
+    <action name="filter.SaveAsFilter" alias="SaveAsFilter" roles-required="use">
+        <view name="error">/secure/views/filter/saveasfilter.jsp</view>
+        <view name="input">/secure/views/filter/saveasfilter.jsp</view>
+        <view name="fatalerror">/secure/views/filter/errorfilter.jsp</view>
+    </action>
+
+    <action name="filter.FilterPickerPopup" alias="FilterPickerPopup" roles-required="use">
+        <view name="error">/secure/popups/filterpicker.jsp</view>
+        <view name="input">/secure/popups/filterpicker.jsp</view>
+        <view name="success">/secure/popups/filterpicker.jsp</view>
+    </action>
+
+    <action name="filter.FavouriteFilters" alias="FavouriteFilters" roles-required="use">
+        <view name="error">/secure/ajaxpopups/favouritefilters.jsp</view>
+        <view name="input">/secure/ajaxpopups/favouritefilters.jsp</view>
+        <view name="success">/secure/ajaxpopups/favouritefilters.jsp</view>
+    </action>
+
+    <!-- Non-User Views -->
+    <action name="user.Signup" alias="Signup">
+        <view name="success">/views/signup-success.jsp</view>
+        <view name="limitexceeded">/views/signup-limitexceeded.jsp</view>
+        <view name="alreadyloggedin">/views/signup-alreadyloggedin.jsp</view>
+        <view name="error">/views/signup.jsp</view>
+        <view name="input">/views/signup.jsp</view>
+        <view name="modebreach">/views/modebreach.jsp</view>
+        <view name="systemerror">/views/signup-systemerror.jsp</view>
+    </action>
+
+    <action name="user.ForgotLoginDetails" alias="ForgotLoginDetails">
+        <view name="password_success">/views/forgotpassword-success.jsp</view>
+        <view name="username_success">/views/forgotusernames-success.jsp</view>
+        <view name="error">/views/forgotlogindetails.jsp</view>
+        <view name="input">/views/forgotlogindetails.jsp</view>
+    </action>
+
+    <action name="user.ResetPassword" alias="ResetPassword">
+        <view name="input">/views/resetpassword.jsp</view>
+        <view name="error">/views/resetpassword.jsp</view>
+        <view name="success">/views/resetpassword_success.jsp</view>
+    </action>
+
+    <action name="issue.navigator.SetSelectedIssue" alias="SetSelectedIssue">
+    </action>
+
+    <action name="issue.VoteOrWatchIssue" alias="VoteOrWatchIssue">
+        <view name="error">/secure/views/issue/voteorwatcherror.jsp</view>
+        <view name="issuenotfound">/secure/views/issuenotfound.jsp</view>
+        <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+    </action>
+
+    <action name="issue.CreateIssue" alias="CreateIssue">
+        <view name="success">/secure/views/createissue-details.jsp</view>
+        <view name="error">/secure/views/createissue-start.jsp</view>
+        <view name="invalidlicense">/secure/views/createissue-invalidlicense.jsp</view>
+        <view name="input">/secure/views/createissue-start.jsp</view>
+    </action>
+
+    <action name="issue.CreateIssueDetails" alias="CreateIssueDetails">
+        <view name="error">/secure/views/createissue-details.jsp</view>
+        <view name="input">/secure/views/createissue-details.jsp</view>
+    </action>
+
+    <action name="issue.CantBrowseCreatedIssue" alias="CantBrowseCreatedIssue">
+        <view name="error">/secure/views/cantbrowsecreatedissue.jsp</view>
+        <view name="success">/secure/views/cantbrowsecreatedissue.jsp</view>
+        <view name="converted">/secure/views/cantbrowseconvertedissue.jsp</view>
+    </action>
+
+    <!-- Sub Tasks -->
+    <action name="issue.ViewSubtaskFragmentAction" alias="ViewSubtasks">
+        <view name="success">/secure/views/viewsubtasks.jsp</view>
+    </action>
+
+    <action name="issue.CreateSubTaskIssue" alias="CreateSubTaskIssue">
+        <view name="success">/secure/views/createsubtaskissue-details.jsp</view>
+        <view name="error">/secure/views/createsubtaskissue-start.jsp</view>
+        <view name="input">/secure/views/createsubtaskissue-start.jsp</view>
+    </action>
+
+    <action name="issue.CreateSubTaskIssueDetails" alias="CreateSubTaskIssueDetails">
+        <view name="error">/secure/views/createsubtaskissue-details.jsp</view>
+        <view name="input">/secure/views/createsubtaskissue-details.jsp</view>
+    </action>
+
+    <action name="issue.EditSubTaskIssue" alias="EditSubTaskIssue">
+        <view name="error">/secure/views/issue/editsubtaskissue.jsp</view>
+        <view name="input">/secure/views/issue/editsubtaskissue.jsp</view>
+    </action>
+
+
+    <action name="issue.CloneIssueDetails" alias="CloneIssueDetails">
+        <view name="input">/secure/views/cloneissue-start.jsp</view>
+        <view name="error">/secure/views/cloneissue-start.jsp</view>
+    </action>
+
+
+    <!--Watch List Management-->
+    <action name="issue.ManageWatchers" alias="ManageWatchers">
+        <view name="success">/secure/views/issue/managewatchers.jsp</view>
+        <view name="input">/secure/views/issue/managewatchers.jsp</view>
+        <view name="error">/secure/views/issue/managewatchers.jsp</view>
+        <view name="watchingnotenabled">/secure/views/issue/managewatchers.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+        <view name="issue-permission-error">/issue-permission-error.jsp</view>
+    </action>
+
+    <!--View Voters-->
+    <action name="issue.ViewVoters" alias="ViewVoters">
+        <view name="success">/secure/views/issue/viewvoters.jsp</view>
+        <view name="input">/secure/views/issue/viewvoters.jsp</view>
+        <view name="error">/secure/views/issue/viewvoters.jsp</view>
+        <view name="votingnotenabled">/secure/views/issue/viewvoters.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+        <view name="issue-permission-error">/issue-permission-error.jsp</view>
+    </action>
+
+    <!-- Bulk Change -->
+    <action name="issue.bulkedit.BulkEdit1" alias="BulkEdit1">
+        <view name="input">/secure/views/bulkedit/bulkedit.jsp</view>
+        <view name="error">/secure/views/bulkedit/bulkedit.jsp</view>
+    </action>
+
+    <action name="issue.bulkedit.BulkChooseOperation" alias="BulkChooseOperation">
+        <view name="success">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+        <view name="error">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+    </action>
+
+    <action name="issue.bulkedit.BulkOperationProgress" alias="BulkOperation">
+        <command name="progress" alias="BulkOperationProgress">
+            <view name="progress">/secure/views/bulkedit/bulkoperationprogress.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkoperationerror.jsp</view>
+        </command>
+        <command name="finish" alias="BulkOperationFinish">
+            <!-- Redirects back to where it came from on success/cancel -->
+            <view name="error">/secure/views/bulkedit/bulkoperationerror.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkDelete" alias="BulkDelete">
+        <command name="details" alias="BulkDeleteDetails">
+            <view name="success">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+            <view name="input">/secure/views/bulkedit/bulkdeletesendmail.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+        </command>
+        <command name="detailsValidation" alias="BulkDeleteDetailsValidation">
+            <view name="input">/secure/views/bulkedit/bulkdeleteconfirmation.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkdeleteconfirmation.jsp</view>
+        </command>
+        <command name="perform" alias="BulkDeletePerform">
+            <!-- Redirects to progress url on success -->
+            <!-- Redirects to where it came from on cancel -->
+            <view name="error">/secure/views/bulkedit/bulkdeleteerror.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkWatch" alias="BulkWatch">
+        <command name="details" alias="BulkWatchDetails">
+            <view name="success">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+            <view name="input">/secure/views/bulkedit/bulkwatchdetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+        </command>
+        <command name="detailsValidation" alias="BulkWatchDetailsValidation">
+            <view name="input">/secure/views/bulkedit/bulkwatchconfirmation.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkwatchconfirmation.jsp</view>
+        </command>
+        <command name="perform" alias="BulkWatchPerform">
+            <!-- Redirects to progress url on success -->
+            <!-- Redirects to where it came from on cancel -->
+            <view name="error">/secure/views/bulkedit/bulkwatcherror.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkUnwatch" alias="BulkUnwatch">
+        <command name="details" alias="BulkUnwatchDetails">
+            <view name="success">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+            <view name="input">/secure/views/bulkedit/bulkunwatchdetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkchooseoperation.jsp</view>
+        </command>
+        <command name="detailsValidation" alias="BulkUnwatchDetailsValidation">
+            <view name="input">/secure/views/bulkedit/bulkunwatchconfirmation.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkunwatchconfirmation.jsp</view>
+        </command>
+        <command name="perform" alias="BulkUnwatchPerform">
+            <!-- Redirects to progress url on success -->
+            <!-- Redirects to where it came from on cancel -->
+            <view name="error">/secure/views/bulkedit/bulkunwatcherror.jsp</view>
+        </command>
+    </action>
+
+
+    <action name="issue.bulkedit.BulkWorkflowTransition" alias="BulkWorkflowTransition">
+        <command name="details" alias="BulkWorkflowTransitionDetails">
+            <view name="input">/secure/views/bulkedit/bulkworkflowtransition_transitiondetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkworkflowtransition_transitiondetails.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkworkflowtransition_editfields.jsp</view>
+        </command>
+        <command name="detailsValidation" alias="BulkWorkflowTransitionDetailsValidation">
+            <view name="input">/secure/views/bulkedit/bulkworkflowtransition_transitiondetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkworkflowtransition_transitiondetails.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkworkflowtransition_editfields.jsp</view>
+        </command>
+        <command name="editValidation" alias="BulkWorkflowTransitionEditValidation">
+            <view name="input">/secure/views/bulkedit/bulkworkflowtransition_editfields.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkworkflowtransition_editfields.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkworkflowtransition_confirmation.jsp</view>
+        </command>
+        <command name="perform" alias="BulkWorkflowTransitionPerform">
+            <view name="error">/secure/views/bulkedit/bulkworkflowtransition_error.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkMigrate" alias="BulkMigrate">
+        <command name="details" alias="BulkMigrateDetails">
+            <view name="success">/secure/views/bulkedit/bulkmigrate/1-choosecontext.jsp</view>
+            <view name="singleerror">/secure/views/bulkedit/bulkmigrate/1-single-errorpage.jsp</view>
+        </command>
+
+        <command name="chooseContext" alias="BulkMigrateChooseContext">
+            <view name="input">/secure/views/bulkedit/bulkmigrate/1-choosecontext.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkmigrate/1-choosecontext.jsp</view>
+        </command>
+        <command name="chooseSubTaskContext" alias="BulkMigrateChooseSubTaskContext">
+            <view name="input">/secure/views/bulkedit/bulkmigrate/5-choosecontextsubtask.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkmigrate/5-choosecontextsubtask.jsp</view>
+            <view name="choosestatus">/secure/views/bulkedit/bulkmigrate/2-choosestatus.jsp</view>
+            <view name="previous">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+        </command>
+        <command name="chooseStatus" alias="BulkMigrateChooseStatus">
+            <view name="input">/secure/views/bulkedit/bulkmigrate/2-choosestatus.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkmigrate/2-choosestatus.jsp</view>
+            <view name="previous">/secure/views/bulkedit/bulkmigrate/1-choosecontext.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+        </command>
+        <command name="setFields" alias="BulkMigrateSetFields">
+            <view name="input">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+            <view name="choosestatus">/secure/views/bulkedit/bulkmigrate/2-choosestatus.jsp</view>
+            <view name="success">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+            <view name="confirm">/secure/views/bulkedit/bulkmigrate/4-confirmdetails.jsp</view>
+            <view name="subtaskphase">/secure/views/bulkedit/bulkmigrate/5-choosecontextsubtask.jsp</view>
+        </command>
+        <command name="perform" alias="BulkMigratePerform">
+            <view name="previous">/secure/views/bulkedit/bulkmigrate/3-updatefielddetails.jsp</view>
+            <view name="input">/secure/views/bulkedit/bulkmigrate/4-confirmdetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkmigrate/4-confirmdetails.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkEdit" alias="BulkEdit">
+        <command name="details" alias="BulkEditDetails">
+            <view name="input">/secure/views/bulkedit/bulkedit_operationdetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkedit_operationdetails.jsp</view>
+        </command>
+        <command name="detailsValidation" alias="BulkEditDetailsValidation">
+            <view name="success">/secure/views/bulkedit/bulkedit_confirmation.jsp</view>
+            <view name="input">/secure/views/bulkedit/bulkedit_operationdetails.jsp</view>
+            <view name="error">/secure/views/bulkedit/bulkedit_operationdetails.jsp</view>
+        </command>
+        <command name="perform" alias="BulkEditPerform">
+            <view name="error">/secure/views/bulkedit/bulkediterror.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.bulkedit.BulkCancelWizard" alias="BulkCancelWizard">
+        <view name="error">/secure/views/bulkedit/bulkedit.jsp</view>
+    </action>
+
+    <action name="issue.EditIssue" alias="EditIssue">
+        <view name="error">/secure/views/issue/editissue.jsp</view>
+        <view name="input">/secure/views/issue/editissue.jsp</view>
+        <view name="issue-permission-error">/issue-permission-error.jsp</view>
+    </action>
+
+    <action name="issue.AddComment" alias="AddComment">
+        <view name="error">/secure/views/issue/addcomment.jsp</view>
+        <view name="input">/secure/views/issue/addcomment.jsp</view>
+    </action>
+
+    <action name="issue.DeleteIssue" alias="DeleteIssue">
+        <view name="error">/secure/views/issue/deleteissueconfirm.jsp</view>
+        <view name="input">/secure/views/issue/deleteissueconfirm.jsp</view>
+    </action>
+
+    <action name="issue.AttachFile" alias="AttachFile">
+        <view name="input">/secure/views/issue/attachfile.jsp</view>
+        <view name="error">/secure/views/issue/attachfile.jsp</view>
+    </action>
+
+    <action name="issue.AttachScreenshot" alias="AttachScreenshot">
+        <view name="input">/secure/popups/attachscreenshot.jsp</view>
+        <view name="error">/secure/popups/attachscreenshot.jsp</view>
+    </action>
+
+    <action name="issue.AttachTemporaryFile" alias="AttachTemporaryFile">
+        <view name="input">/secure/views/issue/tempfilejson.jsp</view>
+        <view name="temp_file_json">/secure/views/issue/tempfilejson.jsp</view>
+    </action>
+
+    <action name="issue.ManageAttachments" alias="ManageAttachments">
+        <view name="error">/secure/views/issue/manageattachments.jsp</view>
+        <view name="issuenotfound">/secure/views/issuenotfound.jsp</view>
+        <view name="success">/secure/views/issue/manageattachments.jsp</view>
+        <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+    </action>
+
+    <action name="issue.DeleteAttachment" alias="DeleteAttachment">
+        <view name="input">/secure/views/issue/deleteattachment.jsp</view>
+        <view name="error">/secure/views/issue/deleteattachmenterror.jsp</view>
+    </action>
+
+    <action name="issue.DeleteLink" alias="DeleteLink" roles-required="use">
+        <view name="input">/secure/views/issue/deletelink.jsp</view>
+        <view name="error">/secure/views/issue/deletelink.jsp</view>
+    </action>
+
+    <action name="issue.DeleteRemoteIssueLink" alias="DeleteRemoteIssueLink" roles-required="use">
+        <view name="input">/secure/views/issue/deletelink.jsp</view>
+        <view name="error">/secure/views/issue/deletelink.jsp</view>
+    </action>
+
+    <action name="issue.DeleteComment" alias="DeleteComment">
+        <view name="errorNoPermission">/secure/views/issue/deletecommentnoviewpermission.jsp</view>
+        <view name="error">/secure/views/issue/deletecommentconfirm.jsp</view>
+        <view name="input">/secure/views/issue/deletecommentconfirm.jsp</view>
+    </action>
+
+    <action name="issue.EditComment" alias="EditComment">
+        <view name="errorNoPermission">/secure/views/issue/editcommentnoviewpermission.jsp</view>
+        <view name="error">/secure/views/issue/editcomment.jsp</view>
+        <view name="input">/secure/views/issue/editcomment.jsp</view>
+    </action>
+
+    <action name="issue.CreateWorklog" alias="CreateWorklog">
+        <view name="error">/secure/views/issue/logwork.jsp</view>
+        <view name="input">/secure/views/issue/logwork.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.UpdateWorklog" alias="UpdateWorklog">
+        <view name="error">/secure/views/issue/logwork.jsp</view>
+        <view name="input">/secure/views/issue/logwork.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.DeleteWorklog" alias="DeleteWorklog">
+        <view name="error">/secure/views/issue/deleteworklog.jsp</view>
+        <view name="input">/secure/views/issue/deleteworklog.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <!-- This action is deprecated and is only used by jelly -->
+    <action name="issue.LinkExistingIssue" alias="LinkExistingIssue">
+    </action>
+
+    <action name="issue.IssuePicker" alias="IssuePicker">
+        <view name="success">/secure/popups/issuepicker.jsp</view>
+    </action>
+
+    <action name="issue.MoveSubTaskChooseOperation" alias="MoveSubTaskChooseOperation">
+        <view name="input">/secure/views/issue/movesubtaskchooseoperation.jsp</view>
+        <view name="error">/secure/views/issue/movesubtaskchooseoperation.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveSubTaskParent" alias="MoveSubTaskParent">
+        <view name="input">/secure/views/issue/movesubtaskparent.jsp</view>
+        <view name="error">/secure/views/issue/movesubtaskparent.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveSubTask" alias="MoveSubTaskType">
+        <view name="input">/secure/views/issue/movesubtask.jsp</view>
+        <view name="error">/secure/views/issue/movesubtask.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveIssue" alias="MoveIssue">
+        <view name="input">/secure/views/issue/moveissue.jsp</view>
+        <view name="error">/secure/views/issue/moveissue.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveIssueSubtasks" alias="MoveIssueSubtasks">
+        <view name="input">/secure/views/issue/moveissue-subtasks.jsp</view>
+        <view name="error">/secure/views/issue/moveissue-subtasks.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.enterprise.MoveIssueUpdateWorkflow" alias="MoveIssueUpdateWorkflow">
+        <view name="input">/secure/views/issue/moveissue-updateworkflow.jsp</view>
+        <view name="success">MoveIssueUpdateFields!default.jspa</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveIssueUpdateFields" alias="MoveIssueUpdateFields">
+        <view name="input">/secure/views/issue/moveissue-updatefields.jsp</view>
+        <view name="error">/secure/views/issue/moveissue-updatefields.jsp</view>
+        <view name="success">MoveIssueConfirm!default.jspa</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.MoveIssueConfirm" alias="MoveIssueConfirm">
+        <view name="input">/secure/views/issue/moveissue-confirm.jsp</view>
+        <view name="error">/secure/views/issue/moveissue-confirm.jsp</view>
+        <view name="workflowmigrationerror">/secure/views/workflowmigrationerror.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="issue.ConvertIssueToSubTask">
+        <command name="startWizard" alias="ConvertIssue">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+        </command>
+        <command name="setIssueType" alias="ConvertIssueSetIssueType">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+            <view name="success_updateworkflow">/secure/views/issue/convertissuetosubtask-updateworkflow.jsp</view>
+            <view name="success_updatefields">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+        </command>
+        <command name="setWorkflowStatus" alias="ConvertIssueSetStatus">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-updateworkflow.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+        </command>
+        <command name="updateFields" alias="ConvertIssueUpdateFields">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-confirm.jsp</view>
+        </command>
+        <command name="convert" alias="ConvertIssueConvert">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-confirm.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.ConvertSubTaskToIssue">
+        <command name="startWizard" alias="ConvertSubTask">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+        </command>
+        <command name="setIssueType" alias="ConvertSubTaskSetIssueType">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-selectparentandtype.jsp</view>
+            <view name="success_updateworkflow">/secure/views/issue/convertissuetosubtask-updateworkflow.jsp</view>
+            <view name="success_updatefields">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+        </command>
+        <command name="setWorkflowStatus" alias="ConvertSubTaskSetStatus">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-updateworkflow.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+        </command>
+        <command name="updateFields" alias="ConvertSubTaskUpdateFields">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-updatefields.jsp</view>
+            <view name="success">/secure/views/issue/convertissuetosubtask-confirm.jsp</view>
+        </command>
+        <command name="convert" alias="ConvertSubTaskConvert">
+            <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            <view name="error">/secure/views/issue/convertissuetosubtask-confirm.jsp</view>
+        </command>
+    </action>
+
+    <action name="issue.EditLabels" alias="EditLabels">
+        <view name="input">/secure/views/issue/labelsform.jsp</view>
+        <view name="issuenotfound">/secure/views/issuenotfound.jsp</view>
+        <view name="error">/secure/views/issue/labelsform.jsp</view>
+        <view name="success">/secure/views/issue/labelsLozenges.jsp</view>
+    </action>
+
+    <!-- Gadgets -->
+    <!-- TODO: GADGETS move into bundled plugin -->
+    <action name="gadgets.AdminConfig" alias="AdminConfig">
+        <view name="error">/gadgets/admin-config.jsp</view>
+        <view name="input">/gadgets/admin-config.jsp</view>
+        <view name="success">/gadgets/admin-config.jsp</view>
+    </action>
+
+    <action name="gadgets.InProgressIssuesGadget" alias="InProgressIssuesGadget">
+        <view name="error">/gadgets/in-progress-issues.jsp</view>
+        <view name="input">/gadgets/in-progress-issues.jsp</view>
+        <view name="success">/gadgets/in-progress-issues.jsp</view>
+    </action>
+
+    <action name="gadgets.charts.FilterPicker" alias="FilterPicker">
+        <view name="error">/gadgets/charts/filter-picker.jsp</view>
+        <view name="input">/gadgets/charts/filter-picker.jsp</view>
+        <view name="success">/gadgets/charts/filter-picker.jsp</view>
+    </action>
+
+    <action name="gadgets.charts.FilterPickerHelper" alias="FilterPickerHelper">
+        <view name="error">/gadgets/charts/filter-picker-helper.jsp</view>
+        <view name="input">/gadgets/charts/filter-picker-helper.jsp</view>
+        <view name="success">/gadgets/charts/filter-picker-helper.jsp</view>
+    </action>
+
+    <action name="gadgets.charts.FilterPickerSearch" alias="FilterPickerSearch">
+        <view name="error">/gadgets/charts/filter-picker-search.jsp</view>
+        <view name="input">/gadgets/charts/filter-picker-search.jsp</view>
+        <view name="success">/gadgets/charts/filter-picker-search.jsp</view>
+    </action>
+
+    <action name="gadgets.UserPicker" alias="UserPicker">
+        <view name="error">/gadgets/user-picker.jsp</view>
+        <view name="input">/gadgets/user-picker.jsp</view>
+        <view name="success">/gadgets/user-picker.jsp</view>
+    </action>
+
+    <action name="gadgets.charts.ResolutionTimeChartGadget" alias="ResolutionTimeChartGadget">
+        <view name="error">/gadgets/charts/resolution-time.jsp</view>
+        <view name="input">/gadgets/charts/resolution-time.jsp</view>
+        <view name="success">/gadgets/charts/resolution-time.jsp</view>
+    </action>
+
+    <!-- Bulk Editing
+    <action name="issue.bulk.BulkEdit" alias="BulkEdit">
+        <view name="success">/secure/views/bulkedit.jsp</view>
+    </action>
+
+    <action name="issue.bulk.BulkAssignIssue" alias="BulkAssignIssue">
+        <view name="input">/secure/views/bulkedit.jsp</view>
+    </action>
+
+    <action name="issue.bulk.BulkDeleteIssue" alias="BulkDeleteIssue">
+        <view name="input">/secure/views/bulkedit.jsp</view>
+    </action>
+
+    <action name="issue.bulk.BulkAddComment" alias="BulkAddComment">
+        <view name="input">/secure/views/bulkedit.jsp</view>
+    </action>
+     -->
+
+    <!-- Browser -->
+    <action name="browser.BrowseProjects" alias="BrowseProjects">
+        <view name="success">/secure/views/browser/browseprojects.jsp</view>
+    </action>
+
+    <action name="browser.ConfigureReport" alias="ConfigureReport">
+        <view name="input">/secure/views/browser/configurereport.jsp</view>
+        <view name="error">/secure/views/browser/configurereport.jsp</view>
+        <view name="noreporterror">/secure/views/browser/configurereport-error.jsp</view>
+        <view name="success">/secure/views/browser/report-result.jsp</view>
+        <view name="excel">/secure/views/browser/report-excel.jsp</view>
+        <command name="excelView" alias="excel"/>
+    </action>
+
+    <action name="MyJiraHome" alias="MyJiraHome">
+        <view name="error">/secure/views/dashboarderror.jsp</view>
+    </action>
+    <action name="admin.LeaveAdmin" alias="LeaveAdmin"/>
+
+    <!-- Dashboard -->
+    <action name="Dashboard">
+        <view name="success">/secure/views/dashboard.jsp</view>
+        <view name="error">/secure/views/dashboarderror.jsp</view>
+    </action>
+
+    <!-- Setup wizard -->
+    <action name="setup.SetupWelcome" alias="SetupWelcome">
+        <view name="input">/views/setup-welcome.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupDatabase" alias="SetupDatabase">
+        <view name="success">SetupApplicationProperties!default.jspa</view>
+        <view name="error">/views/setup-db.jsp</view>
+        <view name="input">/views/setup-db.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupApplicationProperties" alias="SetupApplicationProperties">
+        <view name="success">SetupLicense!default.jspa</view>
+        <view name="error">/views/setup-application-properties.jsp</view>
+        <view name="input">/views/setup-application-properties.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupProductBundle" alias="SetupProductBundle">
+        <view name="success">SetupLicense!default.jspa</view>
+        <view name="error">/views/setup-product-bundle.jsp</view>
+        <view name="input">/views/setup-product-bundle.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupLicense" alias="SetupLicense">
+        <view name="success">SetupAdminAccount!default.jspa</view>
+        <view name="error">/views/setup-license.jsp</view>
+        <view name="input">/views/setup-license.jsp</view>
+        <view name="json">/views/setup-license-json.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupAdminAccount" alias="SetupAdminAccount">
+        <view name="success">SetupMailNotifications!default.jspa</view>
+        <view name="error">/views/setup-admin-account.jsp</view>
+        <view name="input">/views/setup-admin-account.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+        <view name="existingadmins">SetupMailNotifications!default.jspa</view>
+        <view name="json">/views/setup-admin-account-json.jsp</view>
+    </action>
+
+    <action name="setup.SetupMailNotifications" alias="SetupMailNotifications">
+        <view name="success">SetupComplete.jspa</view>
+        <view name="error">/views/setup-mail-notifications.jsp</view>
+        <view name="input">/views/setup-mail-notifications.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupComplete" alias="SetupComplete">
+        <view name="error" type="redirect">/</view>
+        <view name="loggedin" type="redirect">/</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <action name="setup.SetupProductBundleReport" alias="SetupProductBundleReport">
+        <view name="report">/views/setup-product-bundle-report.jsp</view>
+    </action>
+
+    <action name="setup.SetupImport" alias="SetupImport">
+        <view name="success">MyJiraHome.jspa</view>
+        <view name="input">/views/setup-import.jsp</view>
+        <view name="error">/views/setup-import.jsp</view>
+        <view name="setupalready">/views/setupalready.jsp</view>
+    </action>
+
+    <!-- SetupApplicationProperties greenhopper micro wizard -->
+    <action name="greenhopper.SetupGreenHopper" alias="SetupGreenHopper" roles-required="admin">
+        <view name="success">Dashboard!Default.jspa</view>
+        <view name="input">/secure/greenhopper/setup-greenhopper.jsp</view>
+        <view name="error">/secure/greenhopper/setup-greenhopper.jsp</view>
+    </action>
+
+    <!-- SetupApplicationProperties bonfire micro wizard -->
+    <action name="bonfire.SetupBonfire" alias="SetupBonfire" roles-required="admin">
+        <view name="success">Dashboard!Default.jspa</view>
+        <view name="input">/secure/bonfire/setup-bonfire.jsp</view>
+        <view name="error">/secure/bonfire/setup-bonfire.jsp</view>
+    </action>
+
+
+    <action name="user.ContactAdministrators" alias="ContactAdministrators">
+        <view name="input" type="soy">:action-soy-templates/JIRA.Templates.ContactAdministrators.input</view>
+        <view name="error" type="soy">:action-soy-templates/JIRA.Templates.ContactAdministrators.input</view>
+        <view name="modebreach" type="soy">:action-soy-templates/JIRA.Templates.ContactAdministrators.modeBreach</view>
+    </action>
+
+    <!-- Workflow -->
+    <action name="workflow.WorkflowUIDispatcher" alias="WorkflowUIDispatcher">
+        <view name="success">SimpleWorkflowAction.jspa</view>
+        <view name="error">/secure/views/workflowerror.jsp</view>
+        <view name="invalidworkflowaction">/secure/views/workflowactioninvalid.jsp</view>
+        <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+    </action>
+
+    <action name="issue.AssignIssue" alias="AssignIssue">
+        <view name="error">/secure/views/issue/assignissue.jsp</view>
+        <view name="input">/secure/views/issue/assignissue.jsp</view>
+    </action>
+
+    <action name="issue.ResolveIssue" alias="ResolveIssue">
+        <view name="error">/secure/views/issue/resolveissue.jsp</view>
+        <view name="input">/secure/views/issue/resolveissue.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <!-- If you were wondering, this action renders the issue transition screens -->
+    <action name="issue.CommentAssignIssue" alias="CommentAssignIssue">
+        <view name="error">/secure/views/issue/commentassignissue.jsp</view>
+        <view name="input">/secure/views/issue/commentassignissue.jsp</view>
+        <view name="invalidworkflowaction">/secure/views/workflowactioninvalid.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+        <view name="issue-permission-error">/issue-permission-error.jsp</view>
+    </action>
+
+    <action name="workflow.SimpleWorkflowAction" alias="SimpleWorkflowAction">
+        <view name="input">/secure/views/workflowerror.jsp</view>
+        <view name="error">/secure/views/workflowerror.jsp</view>
+    </action>
+
+
+    <!-- Notification -->
+    <action name="admin.notification.AddScheme" alias="AddNotificationScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/addscheme.jsp</view>
+    </action>
+
+    <action name="admin.notification.EditScheme" alias="EditNotificationScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/editscheme.jsp</view>
+        <view name="success">/secure/admin/views/notifications/editscheme.jsp</view>
+    </action>
+
+    <action name="admin.notification.ViewSchemes" alias="ViewNotificationSchemes" roles-required="admin">
+        <view name="success">/secure/admin/views/notifications/viewschemes.jsp</view>
+    </action>
+
+    <action name="admin.notification.DeleteScheme" alias="DeleteNotificationScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/deletescheme.jsp</view>
+        <view name="success">/secure/admin/views/notifications/deletescheme.jsp</view>
+    </action>
+
+    <action name="admin.notification.EditNotifications" alias="EditNotifications" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/editnotifications.jsp</view>
+        <view name="success">/secure/admin/views/notifications/editnotifications.jsp</view>
+    </action>
+
+    <action name="admin.notification.AddNotification" alias="AddNotification" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/addnotification.jsp</view>
+        <view name="success">/secure/admin/views/notifications/addnotification.jsp</view>
+    </action>
+
+    <action name="admin.notification.DeleteNotification" alias="DeleteNotification" roles-required="admin">
+        <view name="input">/secure/admin/views/notifications/deletenotification.jsp</view>
+        <view name="success">/secure/admin/views/notifications/deletenotification.jsp</view>
+    </action>
+
+    <action name="admin.notification.CopyScheme" alias="CopyNotificationScheme" roles-required="admin">
+        <view name="success">/secure/admin/views/notifications/viewschemes.jsp</view>
+        <view name="error">ViewNotificationSchemes.jspa</view>
+    </action>
+
+    <!-- Permission Schemes -->
+
+    <action name="admin.permission.ViewSchemes" alias="ViewPermissionSchemes" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/viewschemes.jsp</view>
+        <view name="success">/secure/admin/views/permissions/viewschemes.jsp</view>
+    </action>
+
+    <action name="admin.permission.AddScheme" alias="AddPermissionScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/addscheme.jsp</view>
+    </action>
+
+    <action name="admin.permission.EditScheme" alias="EditPermissionScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/editscheme.jsp</view>
+        <view name="success">/secure/admin/views/permissions/editscheme.jsp</view>
+    </action>
+
+    <action name="admin.permission.DeleteScheme" alias="DeletePermissionScheme" roles-required="admin">
+        <view name="error">/secure/admin/views/permissions/viewschemes.jsp</view>
+        <view name="input">/secure/admin/views/permissions/deletescheme.jsp</view>
+        <view name="success">/secure/admin/views/permissions/deletescheme.jsp</view>
+    </action>
+
+    <action name="admin.permission.CopyScheme" alias="CopyPermissionScheme" roles-required="admin">
+        <view name="success">/secure/admin/views/permissions/viewschemes.jsp</view>
+        <view name="error">ViewPermissionSchemes.jspa</view>
+    </action>
+
+    <action name="admin.permission.EditPermissions" alias="EditPermissions" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/editpermissions.jsp</view>
+        <view name="success">/secure/admin/views/permissions/editpermissions.jsp</view>
+    </action>
+
+    <action name="admin.permission.DeletePermission" alias="DeletePermission" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/deletepermission.jsp</view>
+        <view name="success">/secure/admin/views/permissions/deletepermission.jsp</view>
+    </action>
+
+    <action name="admin.permission.AddPermission" alias="AddPermission" roles-required="admin">
+        <view name="input">/secure/admin/views/permissions/addpermission.jsp</view>
+        <view name="success">/secure/admin/views/permissions/addpermission.jsp</view>
+    </action>
+
+    <!-- Events -->
+    <action name="admin.eventtype.ListEventTypes" alias="ListEventTypes" roles-required="admin">
+        <view name="input">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+        <view name="success">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+
+        <command name="addEventType" alias="AddEventType">
+            <view name="success">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+            <view name="error">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+        </command>
+
+        <command name="deleteEventType" alias="DeleteEventType">
+            <view name="success">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+            <view name="input">/secure/admin/views/eventtype/deleteeventtype.jsp</view>
+            <view name="error">/secure/admin/views/eventtype/deleteeventtype.jsp</view>
+        </command>
+
+        <command name="editEventType" alias="EditEventType">
+            <view name="success">/secure/admin/views/eventtype/listeventtypes.jsp</view>
+            <view name="input">/secure/admin/views/eventtype/editeventtype.jsp</view>
+            <view name="error">/secure/admin/views/eventtype/editeventtype.jsp</view>
+        </command>
+    </action>
+
+    <!-- Workflow -->
+    <action name="admin.workflow.ListWorkflows" alias="ListWorkflows" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/listworkflows.jsp</view>
+        <view name="success">/secure/admin/views/workflow/listworkflows.jsp</view>
+
+        <command name="addNewWorkflow" alias="AddNewWorkflow">
+            <view name="input">/secure/admin/views/workflow/addworkflow.jsp</view>
+        </command>
+
+        <command name="addWorkflow" alias="AddWorkflow">
+            <view name="input">/secure/admin/views/workflow/addworkflow.jsp</view>
+            <view name="success">/secure/admin/views/workflow/listworkflows.jsp</view>
+            <view name="error">/secure/admin/views/workflow/addworkflow.jsp</view>
+        </command>
+
+        <command name="deleteWorkflow" alias="DeleteWorkflow">
+            <view name="input">/secure/admin/views/workflow/deleteworkflow.jsp</view>
+            <view name="error">/secure/admin/views/workflow/deleteworkflow.jsp</view>
+        </command>
+
+        <command name="enableWorkflow" alias="EnableWorkflow">
+            <view name="error">/secure/admin/views/workflow/listworkflows.jsp</view>
+        </command>
+
+        <command name="disableWorkflow" alias="DisableWorkflow">
+            <view name="error">/secure/admin/views/workflow/listworkflows.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.workflow.EditWorkflow" alias="EditWorkflow" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflow.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflow.jsp</view>
+    </action>
+
+    <action name="admin.workflow.CloneWorkflow" alias="CloneWorkflow" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/cloneworkflow.jsp</view>
+        <view name="error">/secure/admin/views/workflow/cloneworkflow.jsp</view>
+    </action>
+
+    <action name="admin.workflow.CreateDraftWorkflow" alias="CreateDraftWorkflow" roles-required="admin">
+        <view name="error">/secure/views/workflowerror.jsp</view>
+    </action>
+
+    <action name="admin.workflow.PublishDraftWorkflow" alias="PublishDraftWorkflow" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/confirmpublishworkflow.jsp</view>
+        <view name="error">/secure/views/workflowerror.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowDispatcher" alias="EditWorkflowDispatcher" roles-required="admin">
+        <view name="error">/secure/views/workflowerror.jsp</view>
+    </action>
+
+    <action name="admin.workflow.ImportWorkflow" alias="ImportWorkflowFromXml" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/workflow/importworkflowfromxml.jsp</view>
+        <view name="error">/secure/admin/views/workflow/importworkflowfromxml.jsp</view>
+    </action>
+
+    <action name="admin.workflow.ViewWorkflowSteps" alias="ViewWorkflowSteps" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowsteps.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowsteps.jsp</view>
+
+        <command name="addStep" alias="AddWorkflowStep">
+            <view name="success">/secure/admin/views/workflow/viewworkflowsteps.jsp</view>
+            <view name="error">/secure/admin/views/workflow/viewworkflowsteps.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.workflow.ViewWorkflowStepMetaAttributes" alias="ViewWorkflowStepMetaAttributes"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+
+        <command name="addMetaAttribute" alias="AddWorkflowStepMetaAttribute">
+            <view name="input">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+        </command>
+
+        <command name="removeMetaAttribute" alias="RemoveWorkflowStepMetaAttribute">
+            <view name="input">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowstepmetaattributes.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.workflow.ViewWorkflowTransitionMetaAttributes" alias="ViewWorkflowTransitionMetaAttributes"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+
+        <command name="addMetaAttribute" alias="AddWorkflowTransitionMetaAttribute">
+            <view name="input">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+        </command>
+
+        <command name="removeMetaAttribute" alias="RemoveWorkflowTransitionMetaAttribute">
+            <view name="input">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowtransitionmetaattributes.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.workflow.ViewWorkflowXml" alias="ViewWorkflowXml" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowxml.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowxml.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowStep" alias="EditWorkflowStep" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowstep.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflowstep.jsp</view>
+    </action>
+
+    <action name="admin.workflow.DeleteWorkflowStep" alias="DeleteWorkflowStep" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/deleteworkflowstep.jsp</view>
+        <view name="error">/secure/admin/views/workflow/deleteworkflowstep.jsp</view>
+    </action>
+
+    <action name="admin.workflow.ViewWorkflowStep" alias="ViewWorkflowStep" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowstep.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowstep.jsp</view>
+    </action>
+
+    <action name="admin.workflow.AddWorkflowTransition" alias="AddWorkflowTransition" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransition.jsp</view>
+        <view name="error">/secure/admin/views/workflow/addworkflowtransition.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowTransition" alias="EditWorkflowTransition" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowtransition.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflowtransition.jsp</view>
+    </action>
+
+    <!-- Workflow Transition Conditions -->
+    <action name="admin.workflow.AddWorkflowTransitionCondition" alias="AddWorkflowTransitionCondition"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptor.jsp</view>
+    </action>
+
+    <action name="admin.workflow.AddWorkflowTransitionConditionParams" alias="AddWorkflowTransitionConditionParams"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <action name="admin.workflow.DeleteWorkflowTransitionCondition" alias="DeleteWorkflowTransitionCondition"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/deleteworkflowtransitiondescriptor.jsp</view>
+        <view name="error">/secure/admin/views/workflow/deleteworkflowtransitiondescriptor.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowTransitionConditionParams" alias="EditWorkflowTransitionConditionParams"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <!-- Workflow Transition Functions -->
+    <action name="admin.workflow.AddWorkflowTransitionPostFunction" alias="AddWorkflowTransitionPostFunction"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptor.jsp</view>
+    </action>
+
+    <action name="admin.workflow.AddWorkflowTransitionFunctionParams" alias="AddWorkflowTransitionFunctionParams"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <action name="admin.workflow.DeleteWorkflowTransitionPostFunction" alias="DeleteWorkflowTransitionPostFunction"
+            roles-required="admin">
+        <view name="error">/secure/admin/views/workflow/deleteworkflowtransitiondescriptor.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowTransitionPostFunctionParams"
+            alias="EditWorkflowTransitionPostFunctionParams" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <!-- Workflow Transition Validators -->
+    <action name="admin.workflow.AddWorkflowTransitionValidator" alias="AddWorkflowTransitionValidator"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptor.jsp</view>
+    </action>
+
+    <action name="admin.workflow.AddWorkflowTransitionValidatorParams" alias="AddWorkflowTransitionValidatorParams"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/addworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <action name="admin.workflow.DeleteWorkflowTransitionValidator" alias="DeleteWorkflowTransitionValidator"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/deleteworkflowtransitiondescriptor.jsp.jsp</view>
+        <view name="error">/secure/admin/views/workflow/deleteworkflowtransitiondescriptor.jsp.jsp</view>
+    </action>
+
+    <action name="admin.workflow.EditWorkflowTransitionValidatorParams" alias="EditWorkflowTransitionValidatorParams"
+            roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+        <view name="error">/secure/admin/views/workflow/editworkflowtransitiondescriptorparams.jsp</view>
+    </action>
+
+    <!-- Workflow Transition Conditional Steps -->
+    <action name="admin.workflow.ViewWorkflowTransitionConditionalResult"
+            alias="ViewWorkflowTransitionConditionalResult" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/viewworkflowtransitiondescriptorxml.jsp</view>
+        <view name="success">/secure/admin/views/workflow/viewworkflowtransitiondescriptorxml.jsp</view>
+    </action>
+
+    <!-- Workflow Transitions -->
+    <action name="admin.workflow.ViewWorkflowTransition" alias="ViewWorkflowTransition" roles-required="admin">
+        <view name="success">/secure/admin/views/workflow/viewworkflowtransition.jsp</view>
+
+        <command name="moveWorkflowFunctionUp" alias="MoveWorkflowFunctionUp">
+            <view name="error">/secure/admin/views/workflow/viewworkflowtransition.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowtransition.jsp</view>
+        </command>
+
+        <command name="moveWorkflowFunctionDown" alias="MoveWorkflowFunctionDown">
+            <view name="error">/secure/admin/views/workflow/viewworkflowtransition.jsp</view>
+            <view name="success">/secure/admin/views/workflow/viewworkflowtransition.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.workflow.DeleteWorkflowTransitions" alias="DeleteWorkflowTransitions" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/deleteworkflowtransitions.jsp</view>
+        <view name="error">/secure/admin/views/workflow/deleteworkflowtransitions.jsp</view>
+        <view name="confirm">/secure/admin/views/workflow/confirmdeleteworkflowtransitions.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.AddScheme" alias="AddWorkflowScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/addscheme.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.ViewSchemes" alias="ViewWorkflowSchemes" roles-required="admin">
+        <view name="success">/secure/admin/views/workflow/viewschemes.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.DeleteScheme" alias="DeleteWorkflowScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/deletescheme.jsp</view>
+        <view name="success">/secure/admin/views/workflow/deletescheme.jsp</view>
+        <view name="error">/secure/admin/views/workflow/deletescheme.jsp</view>
+    </action>
+
+    <action name="admin.workflow.scheme.CopyScheme" alias="CopyWorkflowScheme" roles-required="admin">
+        <view name="success">/secure/admin/views/workflow/viewschemes.jsp</view>
+        <view name="error">ViewWorkflowSchemes.jspa</view>
+    </action>
+
+    <action name="admin.workflow.scheme.EditWorkflowScheme" alias="EditWorkflowScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/workflow/editworkflowscheme.jsp</view>
+        <view name="success">/secure/admin/views/workflow/editworkflowscheme.jsp</view>
+    </action>
+
+    <!-- Issue Security Schemes -->
+    <action name="admin.issuesecurity.ViewSchemes" alias="ViewIssueSecuritySchemes" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/viewschemes.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/viewschemes.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.AddScheme" alias="AddIssueSecurityScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/addscheme.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.EditScheme" alias="EditIssueSecurityScheme" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/editscheme.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/editscheme.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.DeleteScheme" alias="DeleteIssueSecurityScheme" roles-required="admin">
+        <view name="error">/secure/admin/views/issuesecurity/viewschemes.jsp</view>
+        <view name="input">/secure/admin/views/issuesecurity/deletescheme.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/deletescheme.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.CopyScheme" alias="CopyIssueSecurityScheme" roles-required="admin">
+        <view name="success">/secure/admin/views/issuesecurity/viewschemes.jsp</view>
+        <view name="error">ViewIssueSecuritySchemes.jspa</view>
+    </action>
+
+    <action name="admin.issuesecurity.EditIssueSecurities" alias="EditIssueSecurities" roles-required="admin">
+        <view name="error">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+        <view name="input">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+        <command name="addLevel" alias="AddLevel" roles-required="admin">
+            <view name="error">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+            <view name="input">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+            <view name="success">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+        </command>
+        <command name="makeDefaultLevel" alias="MakeDefaultLevel" roles-required="admin">
+            <view name="error">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+            <view name="input">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+            <view name="success">/secure/admin/views/issuesecurity/editissuesecurities.jsp</view>
+        </command>
+    </action>
+
+    <action name="admin.issuesecurity.DeleteIssueSecurity" alias="DeleteIssueSecurity" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/deleteissuesecurity.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/deleteissuesecurity.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.DeleteIssueSecurityLevel" alias="DeleteIssueSecurityLevel" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/deleteissuesecuritylevel.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/deleteissuesecuritylevel.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.SelectProjectSecuritySchemeStep2" alias="SelectProjectSecuritySchemeStep2"
+            roles-required="admin">
+        <view name="error">/secure/project/views/issuesecurity/selectschemestep2.jsp</view>
+        <view name="input">/secure/project/views/issuesecurity/selectschemestep2.jsp</view>
+        <view name="success">/secure/project/views/issuesecurity/selectschemestep2.jsp</view>
+    </action>
+
+    <action name="admin.issuesecurity.AddIssueSecurity" alias="AddIssueSecurity" roles-required="admin">
+        <view name="input">/secure/admin/views/issuesecurity/addissuesecurity.jsp</view>
+        <view name="success">/secure/admin/views/issuesecurity/addissuesecurity.jsp</view>
+    </action>
+
+    <action name="admin.IntegrityChecker" alias="IntegrityChecker" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/integritychecker.jsp</view>
+        <view name="error">/secure/admin/views/integritychecker.jsp</view>
+        <view name="success">/secure/admin/views/integritychecker.jsp</view>
+        <view name="preview">/secure/admin/views/integritycheckerpreview.jsp</view>
+        <view name="correct">/secure/admin/views/integritycheckercorrect.jsp</view>
+    </action>
+
+    <action name="admin.ConfigureLogging" alias="ConfigureLogging" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/configurelogging.jsp</view>
+        <view name="error">/secure/admin/views/configurelogging.jsp</view>
+    </action>
+
+    <action name="admin.ViewLogging" alias="ViewLogging" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/viewlogging.jsp</view>
+        <view name="input">/secure/admin/views/viewlogging.jsp</view>
+    </action>
+
+    <action name="admin.currentusers.CurrentUsersList" alias="CurrentUsersList" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/currentusers/currentuserslist.jsp</view>
+    </action>
+
+    <!-- Trusted Applications -->
+    <action name="admin.trustedapps.ViewTrustedApplications" alias="ViewTrustedApplications" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/trustedapps/viewtrustedapps.jsp</view>
+        <view name="error">/secure/admin/views/trustedapps/viewtrustedapps.jsp</view>
+    </action>
+
+    <action name="admin.trustedapps.EditTrustedApplication" alias="EditTrustedApplication" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/trustedapps/edittrustedapp.jsp</view>
+        <view name="error">/secure/admin/views/trustedapps/edittrustedapp.jsp</view>
+    </action>
+
+    <action name="admin.trustedapps.DeleteTrustedApplication" alias="DeleteTrustedApplication"
+            roles-required="sysadmin">
+        <view name="input">/secure/admin/views/trustedapps/deletetrustedappconfirm.jsp</view>
+        <view name="error">/secure/admin/views/trustedapps/deletetrustedappconfirm.jsp</view>
+    </action>
+
+    <!-- Send Bulk Mail -->
+    <action name="admin.mail.SendBulkMail" alias="SendBulkMail" roles-required="admin">
+        <view name="input">/secure/admin/views/mail/sendbulkmail.jsp</view>
+        <view name="success">/secure/admin/views/mail/sendbulkmail_result.jsp</view>
+        <view name="error">/secure/admin/views/mail/sendbulkmail_result.jsp</view>
+    </action>
+
+    <action name="admin.EditAnnouncementBanner" alias="EditAnnouncementBanner" roles-required="admin">
+        <view name="input">/secure/admin/jira/views/editannouncement.jsp</view>
+    </action>
+
+    <!-- Filter Subscription -->
+    <action name="filter.FilterSubscription" alias="FilterSubscription" roles-required="use">
+        <view name="error">/secure/views/filter/subscribefilter.jsp</view>
+        <view name="input">/secure/views/filter/subscribefilter.jsp</view>
+        <view name="permissionviolation">/secure/views/permissionviolation.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+        <command name="delete" alias="DeleteSubscription">
+            <view name="error">/secure/views/filter/viewfiltersubscriptions.jsp</view>
+        </command>
+        <command name="runNow" alias="RunSubscription">
+            <view name="error">/secure/views/filter/viewfiltersubscriptions.jsp</view>
+        </command>
+    </action>
+
+    <!-- Portlet actions -->
+    <action name="user.EditPortalPage" alias="EditPortalPage" roles-required="use">
+        <view name="input">/secure/views/dashboard/editportalpage.jsp</view>
+        <view name="error">/secure/views/dashboard/editportalpage.jsp</view>
+    </action>
+
+    <action name="user.AddPortalPage" alias="AddPortalPage" roles-required="use">
+        <view name="input">/secure/views/dashboard/addportalpage.jsp</view>
+        <view name="error">/secure/views/dashboard/addportalpage.jsp</view>
+    </action>
+
+    <action name="user.DeletePortalPage" alias="DeletePortalPage" roles-required="use">
+        <view name="input">/secure/views/dashboard/deleteportalpage.jsp</view>
+        <view name="error">/secure/views/dashboard/deleteportalpage.jsp</view>
+    </action>
+
+    <action name="user.ConfigurePortalPages" alias="ConfigurePortalPages">
+        <view name="success">/secure/views/dashboard/configureportalpages.jsp</view>
+        <view name="error">/secure/views/dashboard/configureportalpages.jsp</view>
+        <view name="contentonly">/secure/views/dashboard/configureportalpages-content.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <action name="user.RestoreDefaultDashboard" alias="RestoreDefaultDashboard" roles-required="use">
+        <view name="success">/secure/views/user/</view>
+        <view name="input">/secure/views/dashboard/restoredefaultdashboardconfirm.jsp</view>
+        <view name="error">/secure/views/dashboard/restoredefaultdashboardconfirm.jsp</view>
+    </action>
+
+    <!-- The Quick Search text input on every page -->
+    <action name="issue.QuickSearch" alias="QuickSearch">
+        <view name="input">/secure/views/navigator.jsp</view>
+    </action>
+
+    <!-- ServiceExecutor is for tests only -->
+    <action name="func.service.ServiceExecutor" alias="ServiceExecutor" roles-required="sysadmin">
+        <view name="success">/func/service/service-executor.jsp</view>
+        <view name="error">/func/service/service-executor.jsp</view>
+    </action>
+
+    <action name="admin.task.AcknowledgeTask" alias="AcknowledgeTask" roles-required="admin">
+        <view name="success">/secure/admin/views/task/acknowledgetask.jsp</view>
+        <view name="error">/secure/admin/views/task/acknowledgetask.jsp</view>
+    </action>
+
+    <action name="admin.darkfeatures.SiteDarkFeatures" alias="SiteDarkFeatures" roles-required="admin">
+        <view name="success">/secure/admin/jira/views/sitedarkfeatures.jsp</view>
+        <view name="error">/secure/admin/jira/views/sitedarkfeatures.jsp</view>
+        <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+    </action>
+
+    <!-- there is no role required to see history.  if anonymous can see issues, they can get history -->
+    <action name="history.RecentIssueHistory" alias="RecentIssueHistory">
+        <view name="error">/secure/ajaxpopups/recenthistory.jsp</view>
+        <view name="input">/secure/ajaxpopups/recenthistory.jsp</view>
+        <view name="success">/secure/ajaxpopups/recenthistory.jsp</view>
+    </action>
+
+    <!-- this is for the project import wizard -->
+    <action name="admin.importer.project.ProjectImportSelectBackup" alias="ProjectImportSelectBackup"
+            roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportselectbackup.jsp</view>
+        <view name="error">/secure/admin/views/importers/project/projectimportselectbackup.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportBackupOverviewProgress"
+            alias="ProjectImportBackupOverviewProgress" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/importers/project/projectimportprogress.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMappingProgress" alias="ProjectImportMappingProgress"
+            roles-required="sysadmin">
+        <view name="input">/secure/admin/views/importers/project/projectimportprogress.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportProgress" alias="ProjectImportProgress" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/importers/project/projectimportprogress.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportSelectProject" alias="ProjectImportSelectProject"
+            roles-required="sysadmin">
+        <view name="input">/secure/admin/views/importers/project/projectimportselectproject.jsp</view>
+        <view name="error">/secure/admin/views/importers/project/projectimportselectproject.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportSummary" alias="ProjectImportSummary" roles-required="sysadmin">
+        <view name="input">/secure/admin/views/importers/project/projectimportsummary.jsp</view>
+        <view name="error">/secure/admin/views/importers/project/projectimportsummary.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMissingMandatoryUsersExtMgmt"
+            alias="ProjectImportMissingMandatoryUsersExtMgmt" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportusersdonotexist.jsp</view>
+        <view name="xml">/secure/admin/views/importers/project/projectimportmissingusersxml.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMissingOptionalUsersExtMgmt"
+            alias="ProjectImportMissingOptionalUsersExtMgmt" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportusersdonotexist.jsp</view>
+        <view name="xml">/secure/admin/views/importers/project/projectimportmissingusersxml.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMissingMandatoryUsersCannotCreate"
+            alias="ProjectImportMissingMandatoryUsersCannotCreate" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportusersdonotexist.jsp</view>
+        <view name="xml">/secure/admin/views/importers/project/projectimportmissingusersxml.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMissingOptionalUsersCannotCreate"
+            alias="ProjectImportMissingOptionalUsersCannotCreate" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportusersdonotexist.jsp</view>
+        <view name="xml">/secure/admin/views/importers/project/projectimportmissingusersxml.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportMissingUsersAutoCreate"
+            alias="ProjectImportMissingUsersAutoCreate" roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportusersdonotexist.jsp</view>
+        <view name="xml">/secure/admin/views/importers/project/projectimportmissingusersxml.jsp</view>
+    </action>
+    <action name="admin.importer.project.ProjectImportResultsAction" alias="ProjectImportResults"
+            roles-required="sysadmin">
+        <view name="success">/secure/admin/views/importers/project/projectimportresults.jsp</view>
+        <view name="input">/secure/admin/views/importers/project/projectimportresults.jsp</view>
+    </action>
+
+    <action name="util.ViewKeyboardShortcuts" alias="ViewKeyboardShortcuts">
+        <view name="success">/secure/views/keyboardshortcuts.jsp</view>
+        <view name="input">/secure/views/keyboardshortcuts.jsp</view>
+    </action>
+    <action name="util.JiraCreditsPage" alias="JiraCreditsPage">
+        <view name="success">/secure/views/jiracredits.jsp</view>
+        <view name="input">/secure/views/jiracredits.jsp</view>
+    </action>
+
+    <action name="version.VersionAction" alias="VersionAction">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.Version.success</view>
+    </action>
+
+    <action name="util.AboutPage" alias="AboutPage">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.About.success</view>
+    </action>
+
+    <action name="util.Error404" alias="404">
+        <view name="success" type="soy">:action-soy-templates/JIRA.Templates.errors.error404</view>
+    </action>
+
+</actions>

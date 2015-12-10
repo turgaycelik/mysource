@@ -1,0 +1,70 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+    </plugin-info>
+
+    <resource name="jira-issue-link-confluence-plugin" type="i18n" location="jira-issue-link-confluence-plugin" />
+
+    <web-resource key="issue-link-confluence-js">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.jira.jira-issue-link-applinks-common-plugin:issue-link-applinks</dependency>
+        <resource type="download" name="issuelink-confluence.js" location="js/issuelink-confluence.js" />
+        <context>atl.general</context>
+    </web-resource>
+
+    <!-- Confluence Page link type -->
+    <web-item key="add-confluence-page-link" section="create-issue-link-types" weight="25">
+        <label key="viewissue.links.types.confluencepage" />
+        <link linkId="add-confluence-page-link-link">
+            /secure/LinkConfluencePage!default.jspa?id=${issueId}
+        </link>
+        <param name="focused-field-name" value="pageUrl" />
+        <condition class="com.atlassian.jira.plugin.link.applinks.HasApplicationLinkCondition">
+            <param name="applicationType">com.atlassian.applinks.api.application.confluence.ConfluenceApplicationType</param>
+        </condition>
+    </web-item>
+
+    <!-- Add Confluence Link action -->
+    <webwork1 key="link-confluence-page" name="Link Confluence Pages" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.plugin.link.confluence.LinkConfluencePage" alias="LinkConfluencePage">
+                <view name="error">/templates/dialog/linkconfluencepage.vm</view>
+                <view name="input">/templates/dialog/linkconfluencepage.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <!-- Renderer of Confluence Links -->
+    <issue-link-renderer key="ConfluenceIssueLinkRenderer" application-type="com.atlassian.confluence" class="com.atlassian.jira.plugin.link.confluence.render.ConfluenceIssueLinkRenderer">
+        <resource name="initial-view" type="velocity" location="templates/renderer/loadingissuelink.vm"/>
+        <resource name="final-view" type="velocity" location="templates/renderer/confluenceissuelink.vm"/>
+    </issue-link-renderer>
+
+    <rest key="jira-issue-link-confluence-rest-endpoint" path="/confluenceIssueLink" version="1">
+        <package>com.atlassian.jira.plugin.link.confluence.rest</package>
+    </rest>
+
+    <web-resource key="confluence-page-resource" name="Add Confluence page link action">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="js/ConfluencePageSearch.js" location="js/ConfluencePageSearch.js"/>
+        <resource type="download" name="templates/dialog/searchresult-html.js" location="templates/dialog/searchresult.soy"/>
+        <resource type="download" name="css/confluencepagelink.css" location="css/confluencepagelink.less"/>
+
+        <context>atl.general</context>
+    </web-resource>
+</atlassian-plugin>

@@ -1,0 +1,5 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-textquery")}
+#searcherEditHeader (${searcherId} ${i18n.getText(${searcherNameKey})})
+    <input class="text search-entry" id="searcher-${searcherId}" name="${name}" type="text" value="$textutils.htmlEncode($!value)" />
+#searcherEditFooter ($searcherId '')

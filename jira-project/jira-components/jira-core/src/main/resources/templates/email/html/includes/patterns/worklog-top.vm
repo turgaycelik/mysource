@@ -1,0 +1,30 @@
+#disable_html_escaping()
+
+#if ($worklog)
+    #if ($textutils.stringSet($worklog.getComment()))
+
+        #if ($worklogAdded)
+            #set ($htmlWorklog = $worklogCommentHtml)
+        #elseif ($worklogUpdated && $originalworklog)
+            #set ($htmlWorklog = $!diffutils.diff($originalworklog.comment, "background-color: ${auiErrorBackgroundColour}; text-decoration:line-through;", $worklog.comment, "background-color: ${auiSuccessBackgroundColour};"))
+        #else
+            #set ($htmlWorklog = $textutils.plainTextToHtml($worklog.getComment()))
+        #end
+
+        #set ($worklogTopVisibility = $textutils.innerTrim("#visibilityHtml()"))
+
+        #if ($textutils.stringSet($worklogTopVisibility))
+            #set ($topTextContent = "$htmlWorklog $worklogTopVisibility")
+        #else
+            #set ($topTextContent = $htmlWorklog)
+        #end
+
+        #if ($worklogDeleted)
+            #set ($topTextContent = "<p class='worklog-deleted-comment'>$topTextContent</p>")
+        #else
+            #set ($topTextContent = "<p>$topTextContent</p>")
+        #end
+
+        #parse('templates/email/html/includes/patterns/text-top.vm')
+    #end
+#end

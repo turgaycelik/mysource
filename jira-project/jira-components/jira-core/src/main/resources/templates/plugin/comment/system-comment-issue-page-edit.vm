@@ -1,0 +1,32 @@
+#disable_html_escaping()
+<div id="addcomment" class="module">
+    <div class="mod-content">
+        <form action="${baseurl}/secure/AddComment.jspa?atl_token=${atl_token_escaped}" class="aui top-label ajs-dirty-warning-exempt" id="issue-comment-add" method="post">
+            <div class="form-body">
+                <div class="hidden">
+                    <input name="atl_token" type="hidden" value="${atl_token}">
+                    <input name="id" type="hidden" value="${issue.id}">
+                </div>
+
+                #parse("/templates/plugin/comment/system-comment-field-edit.vm")
+
+            </div>
+            <div class="buttons-container form-footer">
+                <div class="buttons">
+                    <input accesskey="${submitAccessKey}" class="aui-button" id="issue-comment-add-submit" name="Add" title="${submitTitle}" type="submit" value="${i18n.getText('common.forms.add')}">
+                    <a accesskey="${cancelAccessKey}" class="aui-button aui-button-link cancel" href="#" id="issue-comment-add-cancel" title="${cancelTitle}">${i18n.getText('common.forms.cancel')}</a>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="mod-footer">
+        <ul class="ops">
+            <li>
+                <a href="${baseurl}/secure/AddComment!default.jspa?id=${issue.id}" id="footer-comment-button" name="add-comment" class="aui-button">
+                    <span class="aui-icon aui-icon-small aui-iconfont-comment icon-comment"></span>
+                    <span>${i18n.getText('comment.update.title')}</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

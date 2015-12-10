@@ -1,0 +1,28 @@
+#disable_html_escaping()
+
+#if($issue)
+    #set ($issueSummary = "<a href='${baseurl}/browse/${issue.getKey()}'>$textutils.htmlEncode($issue.getSummary())</a>")
+
+    <table class="page-title-pattern" cellspacing="0" cellpadding="0" border="0" width="100%">
+        #if ($showIssueTitleDetails)
+            #set ($issueType = $issue.getIssueTypeObject())
+            #set ($issueLink = "<a href='${baseurl}/browse/${issue.getKey()}'>$textutils.htmlEncode($issue.getKey())</a>")
+            #set ($issueIcon = "<a href='${baseurl}/browse/${issue.getKey()}'>#renderIcon(${issueType.iconUrlHtml} ${issueType.getNameTranslation($i18n)})</a>")
+            #set ($projectLink = "<a href='${baseurl}/browse/${issue.projectObject.key}'>$textutils.htmlEncode($issue.projectObject.name)</a>")
+
+            ## row for project name and link, with icon, to issue
+            <tr>
+                <td class="page-title-pattern-first-line #if ($issueTitleNoTopMargin) no-top-margin #end">
+                    $projectLink / $issueIcon $issueLink
+                </td>
+            </tr>
+        #end
+        <tr>
+            <td style="vertical-align: top;" class="page-title-pattern-header-container">
+                <span class="page-title-pattern-header">
+                    $issueSummary
+                </span>
+            </td>
+        </tr>
+    </table>
+#end

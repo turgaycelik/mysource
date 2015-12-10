@@ -1,0 +1,34 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.jirarenderers" i18n-name-key="admin.renderer.plugin.name" name="Renderer Plugin">
+    <plugin-info>
+        <description key="admin.renderer.plugin.desc">JIRA's system renderers.</description>
+        <version>1.0</version>
+        <application-version min="3.4" max="4.3"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <jira-renderer key="atlassian-wiki-renderer" name="Wiki Style Renderer"
+        i18n-name-key="admin.renderer.plugin.wiki.renderer.name"
+        class="com.atlassian.jira.issue.fields.renderer.wiki.AtlassianWikiRenderer">
+        <description key="admin.renderer.plugin.wiki.renderer.desc">A renderer that will render wiki style syntax into html markup.</description>
+        <resource type="velocity" name="edit" location="templates/plugins/renderers/wiki/wiki-renderer-edit.vm"/>
+    </jira-renderer>
+
+    <jira-renderer key="jira-text-renderer" name="Default Text Renderer"
+        i18n-name-key="admin.renderer.plugin.text.renderer.name"
+        class="com.atlassian.jira.issue.fields.renderer.text.DefaultTextRenderer">
+        <description key="admin.renderer.plugin.text.renderer.desc">A renderer that will renderer content as plain text, this is the system default renderer and must not be disabled.</description>
+        <resource type="velocity" name="edit" location="templates/plugins/renderers/text/text-renderer-edit.vm"/>        
+    </jira-renderer>
+
+    <webwork1 key="atlassian-wiki-renderer-help-action"
+              i18n-name-key="admin.renderer.plugin.wiki.renderer.help.action.name"
+              name="Wiki Style Renderer Webwork Help Action">
+        <description key="admin.renderer.plugin.wiki.renderer.help.action.desc">A webwork action that renders the wiki style renderers help pages.</description>
+        <actions>
+            <action name="renderers.wiki.WikiRendererHelpAction" alias="WikiRendererHelpAction">
+                <view name="success">/templates/plugins/renderers/wiki/wiki-renderer-notation-help.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+</atlassian-plugin>

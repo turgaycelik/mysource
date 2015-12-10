@@ -1,0 +1,378 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-distribution</artifactId>
+        <version>6.3.15</version>
+    </parent>
+
+    <artifactId>jira-installer-distribution-base</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Atlassian JIRA - zDistribution - Installer Distribution Base</name>
+
+
+    <profiles>
+        <profile>
+            <id>prepare-base-project</id>
+            <activation>
+                <property>
+                    <name>deploy.distribution.base</name>
+                </property>
+            </activation>
+
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.2</version>
+                        <executions>
+                            <execution>
+                                <goals><goal>single</goal></goals>
+                                <phase>package</phase>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/project.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>sign-installer</id>
+            <activation>
+                <property>
+                    <name>jira.installer.signinstaller</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <!-- For now this is a pseudo-artifact which isn't deployed in the maven repository, but exists because of the sandbox deployment -->
+                                            <groupId>com.atlassian.keystore</groupId>
+                                            <artifactId>atlassian-keystore</artifactId>
+                                            <version>1.4</version>
+                                            <outputDirectory>${project.build.directory}/atlassian-keystore
+                                            </outputDirectory>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+            <properties>
+                <signcode.keystore.location>${project.build.directory}/atlassian-keystore/keystore/secure
+                </signcode.keystore.location>
+                <signcode.keystore.password>passwordsameaskeystore</signcode.keystore.password>
+            </properties>
+        </profile>
+        <profile>
+            <id>build-installer</id>
+            <activation>
+                <property>
+                    <name>!deploy.distribution.base</name>
+                </property>
+            </activation>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.atlassian.inception</groupId>
+                    <artifactId>inception</artifactId>
+                    <version>${inception.version}</version>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <finalName>${dist.name}</finalName>
+
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>copy-product-installer-resources</id>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <outputDirectory>${src.generated.dir}/images</outputDirectory>
+                                    <overwrite>true</overwrite>
+                                    <resources>
+                                        <resource>
+                                            <directory>${project.build.resources[0].directory}/images</directory>
+                                            <includes>
+                                                <include>**/*</include>
+                                            </includes>
+                                        </resource>
+                                    </resources>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-enforcer-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>enforce-property</id>
+                                <goals>
+                                    <goal>enforce</goal>
+                                </goals>
+                                <configuration>
+                                    <rules>
+                                        <requireProperty>
+                                            <property>standalone.dist</property>
+                                            <message>This project is meant to be used as a parent. Child pom.xml must set property standalone.dist.
+This property should be set to market standalone distribution artifactId</message>
+                                        </requireProperty>
+                                        <requireProperty>
+                                            <property>dist.name</property>
+                                            <message>This project is meant to be used as a parent. Child pom.xml must set property dist.name.
+Set this property do dist.name used in standalone distribution.</message>
+                                        </requireProperty>
+                                    </rules>
+                                    <fail>true</fail>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-dependency-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>unpack-parent-dist</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>unpack</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.jira</groupId>
+                                            <artifactId>jira-installer-distribution-base</artifactId>
+                                            <version>${jira.version}</version>
+                                            <classifier>project</classifier>
+                                            <type>zip</type>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${project.build.directory}</outputDirectory>
+                                            <excludes>pom.xml</excludes>
+                                        </artifactItem>
+                                    </artifactItems>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <goals>
+                                    <goal>unpack-dependencies</goal>
+                                </goals>
+                                <phase>generate-resources</phase>
+                                <configuration>
+                                    <includeArtifactIds>${standalone.dist}</includeArtifactIds>
+                                    <outputDirectory>${project.build.directory}/standalone</outputDirectory>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>copy</id>
+                                <phase>prepare-package</phase>
+                                <goals>
+                                    <goal>copy</goal>
+                                </goals>
+                                <configuration>
+                                    <artifactItems>
+                                        <artifactItem>
+                                            <groupId>com.atlassian.inception</groupId>
+                                            <artifactId>inception</artifactId>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>inception.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>commons-httpclient</groupId>
+                                            <artifactId>commons-httpclient</artifactId>
+                                            <version>${commons.httpclient.version}</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>commons-httpclient.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>commons-io</groupId>
+                                            <artifactId>commons-io</artifactId>
+                                            <version>2.0.1</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>commons-io.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>commons-codec</groupId>
+                                            <artifactId>commons-codec</artifactId>
+                                            <version>${commons.codec.version}</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>commons-codec.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <artifactId>dom4j</artifactId>
+                                            <groupId>dom4j</groupId>
+                                            <version>1.4</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>dom4j.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <artifactId>modz-detector</artifactId>
+                                            <groupId>com.atlassian.modzdetector</groupId>
+                                            <version>0.14</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>modzdetector.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <artifactId>slf4j-api</artifactId>
+                                            <groupId>org.slf4j</groupId>
+                                            <version>${slf4j.version}</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>slf4j-api.jar</destFileName>
+                                        </artifactItem>
+                                        <artifactItem>
+                                            <groupId>org.slf4j</groupId>
+                                            <artifactId>slf4j-jdk14</artifactId>
+                                            <version>${slf4j.version}</version>
+                                            <overWrite>true</overWrite>
+                                            <outputDirectory>${artifact.dist.dir}</outputDirectory>
+                                            <destFileName>slf4j-jdk14.jar</destFileName>
+                                        </artifactItem>
+                                    </artifactItems>
+                                    <!-- other configurations here -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>install4j</id>
+                                <phase>package</phase>
+                                <configuration>
+                                    <tasks>
+                                        <taskdef name="install4j" classname="com.install4j.Install4JTask"
+                                                 classpath="${install4j.home}/bin/ant.jar"/>
+                                        <copy file="${src.generated.dir}/jira-template.install4j" tofile="${src.generated.dir}/jira.install4j" overwrite="true"/>
+                                        <!-- replace the edition and version number to point to the correct target directory for the standalone build. -->
+                                        <replace file="${src.generated.dir}/jira.install4j" token="STANDALONE_TARGET_PATH"
+                                                 value="${project.build.directory}/standalone/${standalone.dist.folder}"/>
+                                        <install4j projectfile="${src.generated.dir}/jira.install4j" verbose="true" destination="target"
+                                                   mediatypes="${mediatypes}">
+                                            <variable name="app.version" value="${app.version}"/>
+                                            <variable name="docs.version" value="${jira.docs.version}"/>
+                                            <variable name="keystore.home" value="${signcode.keystore.location}"/>
+                                            <variable name="keystore.password" value="${signcode.keystore.password}"/>
+                                            <variable name="install4j.home" value="${install4j.home}"/>
+                                            <variable name="dist.name" value="${dist.name}"/>
+                                            <variable name="src.dir" value="${src.generated.dir}" />
+                                            <variable name="name.short" value="${installer.name.short}" />
+                                            <variable name="name.full" value="${installer.name.full}" />
+                                            <variable name="platform.minimum.upgradable.version" value="${platform.minimum.upgradable.version}" />
+                                            <variable name="jira.version" value="${jira.version}" />
+                                        </install4j>
+                                        <move file="${project.build.directory}/${dist.name}-${project.version}-x32.sh"
+                                              tofile="${project.build.directory}/${dist.name}-${project.version}-x32.bin"
+                                              overwrite="true"/>
+                                        <move file="${project.build.directory}/${dist.name}-${project.version}-x64.sh"
+                                              tofile="${project.build.directory}/${dist.name}-${project.version}-x64.bin"
+                                              overwrite="true"/>
+                                        <chmod file="${project.build.directory}/${dist.name}-${project.version}-x32.bin"
+                                               perm="u+x"/>
+                                        <chmod file="${project.build.directory}/${dist.name}-${project.version}-x64.bin"
+                                               perm="u+x"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <version>1.5</version>
+                        <executions>
+                            <execution>
+                                <id>attach-installer</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${project.build.directory}/${dist.name}-${project.version}-x64.exe
+                                            </file>
+                                            <type>exe</type>
+                                            <classifier>x64</classifier>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.directory}/${dist.name}-${project.version}-x32.exe
+                                            </file>
+                                            <type>exe</type>
+                                            <classifier>x32</classifier>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.directory}/${dist.name}-${project.version}-x64.bin
+                                            </file>
+                                            <type>bin</type>
+                                            <classifier>x64</classifier>
+                                        </artifact>
+                                        <artifact>
+                                            <file>${project.build.directory}/${dist.name}-${project.version}-x32.bin
+                                            </file>
+                                            <type>bin</type>
+                                            <classifier>x32</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <properties>
+        <src.generated.dir>${project.build.directory}/generated-sources</src.generated.dir>
+        <artifact.dist.dir>${src.generated.dir}/artifacts</artifact.dist.dir>
+        <signcode.keystore.location>/Users/mtan/keystore/src/etc/keystore/secure</signcode.keystore.location>
+        <signcode.keystore.password>passwordsameaskeystore</signcode.keystore.password>
+        <install4j.home>/tools/install4j</install4j.home>
+        <mediatypes>windows,unixInstaller</mediatypes>
+        <standalone.dist.folder>${dist.name}-${project.version}-standalone</standalone.dist.folder>
+        <installer.name.short>JIRA</installer.name.short>
+        <app.version>${project.version}</app.version>
+        <installer.name.full>${installer.name.short} ${app.version}</installer.name.full>
+        <platform.minimum.upgradable.version>5.0</platform.minimum.upgradable.version>
+    </properties>
+</project>

@@ -1,0 +1,26 @@
+#disable_html_escaping()
+#searcherHeader ($customField)
+
+#if ($displayParameters.checkboxmultiselect)
+    #foreach ($option in $selectedOptions)
+        #set ($name = $cfValueEncoder.encodeForHtml($!option.toString()))
+
+        #if ($invalidOptions.contains($option))
+            <span class="invalid_sel" #searchContextDescriptionTitleGeneral("common.concepts.value" $name)>$name</span>#commaonly($selectedOptions)
+        #else
+            $name#commaonly($selectedOptions)
+        #end
+    #end
+#else
+    #if ($valueObject)
+        #if ($fieldkey == "com.atlassian.jira.plugin.system.customfieldtypes:multiselect")
+            #foreach ($option in $valueObject)
+                $cfValueEncoder.encodeForHtml($!option.toString())#commaonly($valueObject)
+            #end
+        #else
+            $cfValueEncoder.encodeForHtml($!valueObject.toString())
+        #end
+    #end
+#end
+
+#searcherFooter ($customField)

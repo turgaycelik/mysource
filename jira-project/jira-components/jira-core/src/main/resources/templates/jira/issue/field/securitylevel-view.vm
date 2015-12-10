@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($security)
+    $textutils.htmlEncode($security.getString('name'))
+#else
+    $i18n.getText('common.words.none')
+#end

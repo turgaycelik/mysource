@@ -1,0 +1,54 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.issuetabpanels" i18n-name-key="admin.issue.tabpanels.plugin.name" name="Issue Tab Panels Plugin">
+    <plugin-info>
+        <description key="admin.issue.tabpanels.plugin.desc">System Issue Tab Panels</description>
+        <version>1.0</version>
+        <application-version min="3.7" max="3.7"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!--
+    The module class should implement
+    com.atlassian.jira.plugin.issuetabpanel.IssueTabPanel
+
+    This plugin type is documented online here:
+      http://confluence.atlassian.com/display/JIRA/Issue+Tab+Panel+Plugin+Module
+    -->
+    <issue-tabpanel key="all-tabpanel" i18n-name-key="admin.issue.tabpanels.plugin.all.name" name="All Tab Panel" class="com.atlassian.jira.issue.tabpanels.AllTabPanel">
+        <description key="admin.issue.tabpanels.plugin.all.desc">Display all tab panels as one</description>
+        <label key="viewissue.tabs.all">All</label>
+        <order>0</order>
+        <sortable>true</sortable>
+        <supports-ajax-load>true</supports-ajax-load>
+    </issue-tabpanel>
+
+    <issue-tabpanel key="comment-tabpanel" i18n-name-key="admin.issue.tabpanels.plugin.comment.name" name="Comment Tab Panel" class="com.atlassian.jira.issue.tabpanels.CommentTabPanel">
+        <description key="admin.issue.tabpanels.plugin.comment.desc">Display comments</description>
+        <label key="viewissue.tabs.comments">Comments</label>
+        <resource type="velocity" name="view" location="templates/plugins/jira/issuetabpanels/comment.vm" />
+        <default>true</default>
+        <order>10</order>
+        <sortable>true</sortable>
+        <supports-ajax-load>true</supports-ajax-load>
+    </issue-tabpanel>
+
+    <issue-tabpanel key="worklog-tabpanel" i18n-name-key="admin.issue.tabpanels.plugin.worklog.name" name="Work Log Tab Panel" class="com.atlassian.jira.issue.tabpanels.WorklogTabPanel">
+        <description key="admin.issue.tabpanels.plugin.worklog.desc">Display work logs</description>
+        <label key="viewissue.tabs.worklog">Work Log</label>
+        <resource type="velocity" name="view" location="templates/plugins/jira/issuetabpanels/worklog.vm" />
+        <order>20</order>
+        <sortable>true</sortable>
+        <supports-ajax-load>true</supports-ajax-load>
+    </issue-tabpanel>
+
+    <issue-tabpanel key="changehistory-tabpanel" i18n-name-key="admin.issue.tabpanels.plugin.change.history.name" name="Change history Tab Panel" class="com.atlassian.jira.issue.tabpanels.ChangeHistoryTabPanel">
+        <description key="admin.issue.tabpanels.plugin.change.history.desc">Display change histories</description>
+        <label key="viewissue.tabs.changehistory">History</label>
+        <!-- alwaysShowHeader - determines whether to display the column names for each change history entries -->
+        <param name="alwaysShowHeader" value="false" />
+        <resource type="velocity" name="view" location="templates/plugins/jira/issuetabpanels/changehistory.vm" />
+        <order>30</order>
+        <sortable>true</sortable>
+        <supports-ajax-load>true</supports-ajax-load>
+    </issue-tabpanel>
+
+</atlassian-plugin>

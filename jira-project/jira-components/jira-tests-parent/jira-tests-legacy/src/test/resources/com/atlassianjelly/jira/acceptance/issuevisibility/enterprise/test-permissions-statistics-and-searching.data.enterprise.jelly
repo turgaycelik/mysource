@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<JiraJellyTests xmlns:j="jelly:core" xmlns:jira="jelly:com.atlassian.jira.jelly.enterprise.JiraTagLib">
+    <jira:Login username="misc-user" password="password">
+        <!-- users with single permission-->
+        <jira:CreateUser username="no-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="assignee-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="reporter-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="group-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+
+        <!-- users with multiple permissions -->
+        <jira:CreateUser username="group-assignee-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="group-reporter-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="group-assignee-reporter-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+        <jira:CreateUser username="assignee-reporter-perms-user" password="password" confirm="password" fullname="x" email="x@x.com"/>
+
+        <!-- add a group with the group-perms user -->
+        <jira:CreateGroup group-name="test-group">
+            <jira:AddUserToGroup username="group-perms-user"/>
+            <jira:AddUserToGroup username="group-assignee-perms-user"/>
+            <jira:AddUserToGroup username="group-reporter-perms-user"/>
+            <jira:AddUserToGroup username="group-assignee-reporter-perms-user"/>
+        </jira:CreateGroup>
+
+        <!-- permission schemes -->
+        <!-- one scheme for each permutation of group/assignee/reporter -->
+        <jira:CreatePermissionScheme name="group-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="group" group="test-group"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="group-assignee-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="group" group="test-group"/>
+            <jira:AddPermission permissions="Browse" type="assignee"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="group-reporter-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="group" group="test-group"/>
+            <jira:AddPermission permissions="Browse" type="reporter"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="group-assignee-reporter-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="group" group="test-group"/>
+            <jira:AddPermission permissions="Browse" type="assignee"/>
+            <jira:AddPermission permissions="Browse" type="reporter"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="assignee-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="assignee"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="assignee-reporter-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="assignee"/>
+            <jira:AddPermission permissions="Browse" type="reporter"/>
+        </jira:CreatePermissionScheme>
+
+        <jira:CreatePermissionScheme name="reporter-perm-scheme">
+            <jira:AddPermission permissions="Browse" type="reporter"/>
+        </jira:CreatePermissionScheme>
+
+        <!-- create a project for all the issues and security schemes -->
+        <jira:CreateProject name="a-project" key="TSTA" lead="misc-user">
+            <jira:CreatePermissionScheme name="admin-scheme">
+                <jira:AddPermission permissions="Assignable,Browse,Create,SetSecurity,Assign,ModifyReporter" type="group"/>
+                <jira:SelectProjectScheme/>
+            </jira:CreatePermissionScheme>
+
+            <!-- issue security schemes -->
+            <!-- create six security levels in one scheme, one for each issue created -->
+            <jira:CreateIssueSecurityScheme name="issue-security-scheme">
+                <jira:SelectProjectScheme/>
+                <jira:AddIssueSecurityLevel name="none-security-level" description="description">
+                    <jira:AddIssueSecurity type="group" parameter="group-perms"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="none-assignee-security-level" description="description">
+                    <jira:AddIssueSecurity type="group" parameter="group-perms"/>
+                    <jira:AddIssueSecurity type="assignee"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="none-reporter-security-level" description="description">
+                    <jira:AddIssueSecurity type="group" parameter="group-perms"/>
+                    <jira:AddIssueSecurity type="reporter"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="none-assignee-reporter-security-level" description="description">
+                    <jira:AddIssueSecurity type="group" parameter="group-perms"/>
+                    <jira:AddIssueSecurity type="assignee"/>
+                    <jira:AddIssueSecurity type="reporter"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="assignee-security-level" description="description">
+                    <jira:AddIssueSecurity type="assignee"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="assignee-reporter-security-level" description="description">
+                    <jira:AddIssueSecurity type="assignee"/>
+                    <jira:AddIssueSecurity type="reporter"/>
+                </jira:AddIssueSecurityLevel>
+                <jira:AddIssueSecurityLevel name="reporter-security-level" description="description">
+                    <jira:AddIssueSecurity type="reporter"/>
+                </jira:AddIssueSecurityLevel>
+            </jira:CreateIssueSecurityScheme>
+
+            <!-- issues -->
+            <!-- one issue for every tested security level and one with no level at all -->
+            <jira:CreateIssue summary="no-level-issue-1" assignee="assignee-perms-user" reporter="reporter-perms-user"/>
+            <jira:CreateIssue summary="none-level-issue-1" assignee="misc-user" reporter="misc-user" security-level="none-security-level"/>
+            <jira:CreateIssue summary="none-assignee-1-level-issue-1" assignee="assignee-perms-user" reporter="misc-user" security-level="none-assignee-security-level"/>
+            <jira:CreateIssue summary="none-reporter-1-level-issue-1" assignee="misc-user" reporter="reporter-perms-user" security-level="none-reporter-security-level"/>
+            <jira:CreateIssue summary="none-assignee-1-reporter-1-level-issue-1" assignee="assignee-perms-user" reporter="reporter-perms-user" security-level="none-assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="assignee-1-level-issue-1" assignee="assignee-perms-user" reporter="misc-user" security-level="assignee-security-level"/>
+            <jira:CreateIssue summary="assignee-1-reporter-1-level-issue-1" assignee="assignee-perms-user" reporter="reporter-perms-user" security-level="assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="reporter-1-level-issue-1" assignee="misc-user" reporter="reporter-perms-user" security-level="reporter-security-level"/>
+
+            <!-- one issue for every security level for the group-assignee and group-repoter users -->
+            <jira:CreateIssue summary="no-level-issue-2" assignee="group-assignee-perms-user" reporter="group-reporter-perms-user"/>
+            <jira:CreateIssue summary="none-level-issue-2" assignee="misc-user" reporter="misc-user" security-level="none-security-level"/>
+            <jira:CreateIssue summary="none-assignee-2-level-issue-2" assignee="group-assignee-perms-user" reporter="misc-user" security-level="none-assignee-security-level"/>
+            <jira:CreateIssue summary="none-reporter-2-level-issue-2" assignee="misc-user" reporter="group-reporter-perms-user" security-level="none-reporter-security-level"/>
+            <jira:CreateIssue summary="none-assignee-2-reporter-2-level-issue-2" assignee="group-assignee-perms-user" reporter="group-reporter-perms-user" security-level="none-assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="assignee-2-level-issue-2" assignee="group-assignee-perms-user" reporter="misc-user" security-level="assignee-security-level"/>
+            <jira:CreateIssue summary="assignee-2-reporter-2-level-issue-2" assignee="group-assignee-perms-user" reporter="group-reporter-perms-user" security-level="assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="reporter-2-level-issue-2" assignee="misc-user" reporter="group-reporter-perms-user" security-level="reporter-security-level"/>
+
+            <!-- one issue for every security level for the group-assignee-reporter-perms-user users -->
+            <jira:CreateIssue summary="no-level-issue-3" assignee="group-assignee-reporter-perms-user" reporter="group-assignee-reporter-perms-user"/>
+            <jira:CreateIssue summary="none-level-issue-3" assignee="misc-user" reporter="misc-user" security-level="none-security-level"/>
+            <jira:CreateIssue summary="none-assignee-3-level-issue-3" assignee="group-assignee-reporter-perms-user" reporter="misc-user" security-level="none-assignee-security-level"/>
+            <jira:CreateIssue summary="none-reporter-3-level-issue-3" assignee="misc-user" reporter="group-assignee-reporter-perms-user" security-level="none-reporter-security-level"/>
+            <jira:CreateIssue summary="none-assignee-3-reporter-3-level-issue-3" assignee="group-assignee-reporter-perms-user" reporter="group-assignee-reporter-perms-user" security-level="none-assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="assignee-3-level-issue-3" assignee="group-assignee-reporter-perms-user" reporter="misc-user" security-level="assignee-security-level"/>
+            <jira:CreateIssue summary="assignee-3-reporter-3-level-issue-3" assignee="group-assignee-reporter-perms-user" reporter="group-assignee-reporter-perms-user" security-level="assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="reporter-3-level-issue-3" assignee="misc-user" reporter="group-assignee-reporter-perms-user" security-level="reporter-security-level"/>
+
+            <!-- one issue for every security level for the assignee-reporter-perms-user users -->
+            <jira:CreateIssue summary="no-level-issue-4" assignee="assignee-reporter-perms-user" reporter="assignee-reporter-perms-user"/>
+            <jira:CreateIssue summary="none-level-issue-4" assignee="misc-user" reporter="misc-user" security-level="none-security-level"/>
+            <jira:CreateIssue summary="none-assignee-4-level-issue-4" assignee="assignee-reporter-perms-user" reporter="misc-user" security-level="none-assignee-security-level"/>
+            <jira:CreateIssue summary="none-reporter-4-level-issue-4" assignee="misc-user" reporter="assignee-reporter-perms-user" security-level="none-reporter-security-level"/>
+            <jira:CreateIssue summary="none-assignee-4-reporter-4-level-issue-4" assignee="assignee-reporter-perms-user" reporter="assignee-reporter-perms-user" security-level="none-assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="assignee-4-level-issue-4" assignee="assignee-reporter-perms-user" reporter="misc-user" security-level="assignee-security-level"/>
+            <jira:CreateIssue summary="assignee-4-reporter-4-level-issue-4" assignee="assignee-reporter-perms-user" reporter="assignee-reporter-perms-user" security-level="assignee-reporter-security-level"/>
+            <jira:CreateIssue summary="reporter-4-level-issue-4" assignee="misc-user" reporter="assignee-reporter-perms-user" security-level="reporter-security-level"/>
+
+        </jira:CreateProject>
+    </jira:Login>
+</JiraJellyTests>

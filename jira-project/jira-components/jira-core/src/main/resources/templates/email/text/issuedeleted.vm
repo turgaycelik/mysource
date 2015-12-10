@@ -1,0 +1,16 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+     [ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-all} ]
+
+#if($remoteUser.displayName)
+$i18n.getText("template.text.deleted.by", $remoteUser.displayName, $issue.getKey())
+#dashes($!remoteUser.displayName)---------#dashes($issue.getKey())-
+#end
+
+#changes([])
+#comment()
+#visibilityText()
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

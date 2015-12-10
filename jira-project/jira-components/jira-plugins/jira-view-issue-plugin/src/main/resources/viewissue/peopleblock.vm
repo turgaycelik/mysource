@@ -1,0 +1,104 @@
+#enable_html_escaping()
+<ul class="item-details" id="peopledetails">
+    <li class="people-details">
+        #if ($assigneeVisible)
+        <dl>
+            <dt>$i18n.getText("issue.field.assignee"):</dt>
+            <dd>
+                <span id="assignee-val" class="view-issue-field">$peopleComponent.getAssigneeDisplayHtml($issue)</span>
+                #if ($showAssignToMe)
+                    <span class="assign-to-me-link">
+                        <a id="assign-to-me" class="issueaction-assign-to-me" href="${requestContext.baseUrl}/secure/AssignIssue.jspa?atl_token=${atl_token}&id=${issue.id}&assignee=${urlcodec.encode($user.name)}" title="$i18n.getText('admin.issue.operations.plugin.assign.issue.to.me.name')">$i18n.getText("issue.operations.assign.tome.short")</a>
+                    </span>
+                #end
+            </dd>
+        </dl>
+        #end
+        #if ($reporterVisible)
+        <dl>
+            <dt>$i18n.getText("issue.field.reporter"):</dt>
+            <dd>
+                <span id="reporter-val" class="view-issue-field">$peopleComponent.getReporterDisplayHtml($issue)</span>
+            </dd>
+        </dl>
+        #end
+        #foreach($field in $userCustomFields)
+        <dl>
+            <dt title="$field.name">$field.name:</dt>
+            <dd><span id="${field.id}-val" data-name="$field.name" data-fieldtype="${field.fieldType}" data-fieldtypecompletekey="${field.fieldTypeCompleteKey}">$field.html</span></dd>
+        </dl>
+        #end
+    </li>
+</ul>
+#if ($votingEnabled || $watchingEnabled)
+    <ul class="item-details">
+        <li>
+            #if ($votingEnabled)
+                <dl>
+                    <dt>$i18n.getText('common.concepts.votes'):</dt>
+                    <dd>
+                        ## Vote count that can link to the view/manage page
+                        #if ($canViewVotersAndWatchers)
+                            <a id="view-voter-list" href="${requestContext.baseUrl}/secure/ViewVoters!default.jspa?id=${issue.id}" title="$i18n.getText('voters.data.tooltip')">
+                        #end
+                            <span id="vote-data" class="aui-badge#if($isLoggedIn && $voting) vote-state-on#else vote-state-off#end">$issue.votes</span>
+                        #if ($canViewVotersAndWatchers)
+                            </a>
+                        #end
+
+                        ## Vote action and icon
+                        #if(!$isLoggedIn)
+                            ## Text to show why you can't vote
+                            <span id="vote-label" title="$i18n.getText('issue.operations.voting.not.loggedin')">$i18n.getText('issue.operations.simple.voting.notvoted')</span>
+                        #elseif ($isResolved && !$isCurrentUserReporter)
+                            #if($voting)
+                                <span id="vote-label" title="$i18n.getText('issue.operations.voting.resolved')">$i18n.getText('issue.operations.simple.voting.alreadyvoted')</span>
+                            #else
+                                <span id="vote-label" title="$i18n.getText('issue.operations.voting.resolved')">$i18n.getText('issue.operations.simple.voting.notvoted')</span>
+                            #end
+                        #elseif (!$isCurrentUserReporter)
+                            #if($voting)
+                                <a id="vote-toggle" class="vote-state-on" href="${requestContext.baseUrl}/secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&id=${issue.id}&vote=unvote" rel="$issue.id">$i18n.getText('issue.operations.simple.voting.alreadyvoted')</a> <span class="icon"></span>
+                            #else
+                                <a id="vote-toggle" class="vote-state-off" href="${requestContext.baseUrl}/secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&id=${issue.id}&vote=vote" rel="$issue.id">$i18n.getText('issue.operations.simple.voting.notvoted')</a> <span class="icon"></span>
+                            #end
+                        #end
+                    </dd>
+                </dl>
+            #end
+            #if ($watchingEnabled)
+                <dl>
+                    <dt>$i18n.getText('common.concepts.watchers'):</dt>
+                    <dd>
+                        ## Store the number of watchers
+                        #if ($watchers)
+                            #set ($watchersSize = $watchers.size())
+                        #else
+                            #set ($watchersSize = 0)
+                        #end
+
+                        ## Watch count that can link to the view/manage page or trigger the popup
+                        #if ($canManageWatcherList || $canViewVotersAndWatchers)
+                            <a id="view-watcher-list" href="$requestContext.baseUrl/secure/ManageWatchers!default.jspa?id=$issue.id" title="$i18n.getText('watcher.data.tooltip')">
+                        #end
+                            <span id="watcher-data" class="aui-badge#if($isLoggedIn && $watching) watch-state-on#else watch-state-off#end">$watchersSize</span>
+                        #if ($canManageWatcherList || $canViewVotersAndWatchers)
+                            </a>
+                        #end
+
+                        #if($isLoggedIn)
+                            #if($watching)
+                                <a id="watching-toggle" class="watch-state-on" href="$requestContext.baseUrl/secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&id=${issue.id}&watch=unwatch" rel="$issue.id">$i18n.getText('issue.operations.simple.stopwatching')</a> <span class="icon"></span>
+                            #else
+                                <a id="watching-toggle" class="watch-state-off" href="$requestContext.baseUrl/secure/VoteOrWatchIssue.jspa?atl_token=${atl_token}&id=${issue.id}&watch=watch" rel="$issue.id">$i18n.getText('issue.operations.simple.startwatching')</a> <span class="icon"></span>
+                            #end
+                        #else
+                            ## Text to show why you can't watch
+                            <span id="watch-label" title="$i18n.getText('issue.operations.watching.not.loggedin')">$i18n.getText('issue.operations.simple.startwatching')</span>
+                        #end
+                    </dd>
+                </dl>
+            #end
+        </li>
+    </ul>
+#end

@@ -1,0 +1,69 @@
+#charts-dialog {
+    overflow: visible;
+
+    h2 {
+        overflow: visible;
+    }
+    h3 {
+        background: #F0F0F0;
+        color: #666;
+        font-size: 0.9em;
+        height: 35px;
+        line-height: 35px;
+        margin: 0;
+        overflow: hidden;
+        padding: 0 1em;
+        position: relative;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+    }
+
+    .page-menu li.page-menu-item.selected.loading {
+        background: #fff url( "../../../images/icons/wait.gif") 95% center no-repeat;
+    }
+
+    .gadget {
+        height: 80%;
+        width: 100%;
+    }
+    .gadgetContent {
+        padding: 0;
+    }
+    .warningBox {
+        margin-bottom: 2px;
+        padding: 2px 2px 2px 30px;
+    }
+
+    .portalLabels {
+        float: left;
+    }
+    .portalEntry {
+        float: left;
+        padding-left: 15px;
+    }
+    .portalButton {
+        float: right;
+    }
+
+    .form-errors {
+        display: none;
+    }
+}
+
+// Overrides to put the JIRA form footer in its place in the dialog.
+#charts-dialog #saveToDashboardPanel {
+    form.aui {
+        position: static;
+    }
+
+    .buttons-container {
+        bottom: 0;
+        left: 0;
+        margin: 0;
+        padding: 10px;
+        position: absolute;
+        right: 0;
+    }
+}

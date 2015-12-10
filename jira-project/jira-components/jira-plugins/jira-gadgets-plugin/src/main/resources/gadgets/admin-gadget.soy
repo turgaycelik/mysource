@@ -1,0 +1,255 @@
+{namespace JIRA.Templates.Gadgets}
+
+/**
+* @param admin
+* @param baseUrl
+ */
+{template .admin}
+{call .adminGettingStarted data="all" /}
+
+{call .adminDoMore data="all" /}
+
+{call .adminDocs data="all" /}
+
+{if not $admin.isOnDemand}
+    {call .adminLicense data="all" /}
+{/if}
+
+{if ($admin.warningMessages.length > 0 or $admin.isUsingHsql) and (not $admin.isOnDemand or $admin.isSystemAdministrator)}
+    {call .adminWarnings data="all" /}
+{/if}
+
+{call .adminUnHideSection}
+    {param admin: $admin /}
+{/call}
+{/template}
+
+/**
+ * @param admin
+ * @param baseUrl
+ */
+{template .adminGettingStarted}
+<div id="admin-getting-started-content" data-name="gettingstarted" class="admin-task-container" {if $admin.tasks.gettingStarted.isDismissed}style="display: none"{/if}>
+    <div id="admin-getting-started-img">
+        <img src="{$baseUrl}/download/resources/com.atlassian.jira.gadgets:common-lite/admin-flag.png" height="48" width="48" border="0" />
+    </div>
+    <div class="admin-item-content">
+        <h3>{getText('gadget.admin.gettingstarted')}</h3>
+
+        <ul class="admin-task-list">
+            <li class="admin-task{if $admin.tasks.gettingStarted.createProject.isCompleted} admin-task-completed{/if}">
+                <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                <a class="admin-task-content add-project-trigger" data-name="createproject" href="{$baseUrl}/secure/admin/AddProject!default.jspa?nextAction=browseproject&src=admingadget">
+                    {getText('gadget.admin.gettingstarted.createproject')}
+                </a>
+            </li>
+            <li class="admin-task create-issue-admin-task{if $admin.tasks.gettingStarted.createIssue.isCompleted} admin-task-completed{/if} {if not $admin.tasks.gettingStarted.createIssue.isEnabled} admin-task-disabled{/if}">
+                <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                <a class="admin-task-content create-issue-admin-task create-issue-trigger{if not $admin.tasks.gettingStarted.createIssue.isEnabled} admin-task-disabled{/if}" data-name="createissue" href="{$baseUrl}/secure/CreateIssue!default.jspa?nextAction=viewissue&src=admingadget">
+                    {getText('gadget.admin.gettingstarted.createissue')}
+                </a>
+            </li>
+            <li class="admin-task{if $admin.tasks.gettingStarted.createUser.isCompleted} admin-task-completed{/if}">
+                <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                <a class="admin-task-content" data-name="createuser" href="{$baseUrl}/secure/admin/user/UserBrowser.jspa">
+                    {getText('gadget.admin.gettingstarted.createuser')}
+                </a>
+            </li>
+            <li class="admin-task{if $admin.tasks.gettingStarted.lookAndFeel.isCompleted} admin-task-completed{/if}">
+                <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                <a class="admin-task-content" data-name="lookandfeel" href="{$baseUrl}/secure/admin/LookAndFeel!default.jspa">
+                    {getText('gadget.admin.gettingstarted.lookandfeel')}
+                </a>
+            </li>
+        </ul>
+
+        <p class="hide-admin-tasks">
+            <span class="hide-admin-task-list-completed" {if $admin.tasks.gettingStarted.isCompleted == false}style="display: none"{/if}>
+                {getText('gadget.admin.tasklist.completed')}{sp}
+                <a href="#" class="hide-admin-task-list">
+                    {getText('gadget.admin.tasklist.completed.hide')}
+                </a>
+            </span>
+            <span class="hide-admin-task-list-not-completed" {if $admin.tasks.gettingStarted.isCompleted}style="display: none"{/if}>
+                <a href="#" class="hide-admin-task-list">
+                    {getText('gadget.admin.tasklist.incomplete.hide')}
+                </a>
+            </span>
+        </p>
+    </div>
+</div>
+{/template}
+
+/**
+* @param admin
+* @param baseUrl
+ */
+{template .adminDoMore}
+
+<div id="admin-do-more-content" data-name="domore" class="admin-task-container" {if not $admin.isSystemAdministrator and not ($admin.isLicenseHolder and $admin.isOnDemand) or $admin.tasks.doMore.isDismissed}style="display: none"{/if}>
+    <div id="admin-getting-started-img">
+        <img src="{$baseUrl}/download/resources/com.atlassian.jira.gadgets:common-lite/admin-glass.png" height="48" width="48" border="0" />
+    </div>
+    <div class="admin-item-content">
+        <script type="text/x-template" id="upm-progress-template">
+            <div id="upm-progress" class="content-area-container">
+                <img src="{$baseUrl}/images/icons/wait-large.gif" alt="In progress...">
+                <div class="upm-progress-text"></div>
+                <div class="upm-progress-bar-container">
+                    <div class="upm-progress-bar"><div class="upm-progress-amount"></div></div>
+                    <span class="upm-progress-bar-percent">0</span>%
+                </div>
+            </div>
+        </script>
+
+        <div id="admin-do-more">
+            <h3>{getText('gadget.admin.domore')}</h3>
+
+            <ul class="admin-task-list">
+                <li class="admin-task{if $admin.tasks.doMore.tryGreenHopper.isCompleted} admin-task-completed{/if}">
+                    <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                    <a class="admin-task-content" data-name="greenhopper" id="greenHopperInstall{if $admin.isOnDemand}OD" href="{$admin.addGreenhopperToODUrl}" target="_blank"{else}" href="{$baseUrl}/plugins/servlet/upm"{/if}>
+                        {getText('gadget.admin.domore.greenhopper')}
+                    </a>
+                </li>
+                <li class="admin-task{if $admin.tasks.doMore.tryBonfire.isCompleted} admin-task-completed{/if}">
+                    <div class="admin-task-checkbox-w"><div class="admin-task-checkbox"></div></div>
+                    <a class="admin-task-content" data-name="bonfire" id="bonfireInstall{if $admin.isOnDemand}OD" href="{$admin.addBonfireToODUrl}" target="_blank"{else}"{/if}>
+                        {getText('gadget.admin.domore.bonfire')}
+                    </a>
+                </li>
+            </ul>
+
+            <p class="hide-admin-tasks">
+                <span class="hide-admin-task-list-completed" {if $admin.tasks.doMore.isCompleted == false}style="display: none"{/if}>
+                    {getText('gadget.admin.tasklist.completed')}{sp}
+                    <a href="#" class="hide-admin-task-list">
+                        {getText('gadget.admin.tasklist.completed.hide')}
+                    </a>
+                </span>
+                <span class="hide-admin-task-list-not-completed" {if $admin.tasks.doMore.isCompleted}style="display: none"{/if}>
+                    <a href="#" class="hide-admin-task-list">
+                        {getText('gadget.admin.tasklist.incomplete.hide')}
+                    </a>
+                </span>
+            </p>
+        </div>
+    </div>
+</div>
+{/template}
+
+/**
+* @param admin
+* @param baseUrl
+ */
+{template .adminDocs}
+<div id="admin-docs" data-name="admindocs" class="admin-docs">
+    <div id="admin-docs-img">
+        <img src="{$baseUrl}/download/resources/com.atlassian.jira.gadgets:common-lite/admin-docs.png" height="48" width="48" border="0" />
+    </div>
+    <div class="admin-item-content">
+        <h3>{getText('gadget.admin.docs')}</h3>
+        <div class="aui-message generic">
+            {getText('gadget.admin.docs.various',   '<a id="admin-browse-docs" target="_blank" href="' + $admin.browseDocsUrl + '">', '</a>',
+                                                    '<a id="admin-define-workflows-docs" target="_blank" href="' + $admin.defineWorkflowsDocsUrl + '">', '</a>',
+                                                    '<a id="admin-customize-fields-docs" target="_blank" href="' + $admin.customizeFieldsDocsUrl + '">', '</a>',
+                                                    '<a id="admin-customize-screens-docs" target="_blank" href="' + $admin.customizeScreensDocsUrl + '">', '</a>',
+                                                    '<a id="admin-manage-users-docs" target="_blank" href="' + $admin.manageUsersDocsUrl + '">', '</a>',
+                                                    '<a id="admin-time-tracking-docs" target="_blank" href="' + $admin.timeTrackingDocsUrl + '">', '</a>')|noAutoescape}
+            <br />
+            {getText('gadget.admin.docs.migration', '<a id="admin-migration-docs" target="_blank" href="' + $admin.migrationDocsUrl + '">', '</a>')|noAutoescape}
+        </div>
+    </div>
+</div>
+{/template}
+
+/**
+* @param admin
+* @param baseUrl
+ */
+{template .adminLicense}
+<div id="admin-license">
+    <div id="admin-license-img">
+        <img src="{$baseUrl}/download/resources/com.atlassian.jira.gadgets:common-lite/admin-license.png" height="48" width="48" border="0" />
+    </div>
+    <div class="admin-item-content">
+        <h3>{getText('gadget.admin.license')}</h3>
+        <div class="aui-message generic license-content">
+            <p class="license-title"><a href="{$baseUrl}/secure/admin/ViewLicense!default.jspa">{$admin.licenseTypeNiceName}</a></p>
+            <span class="license-status">
+                {if $admin.partnerName}
+                    {getText('gadget.admin.license.partner', $admin.partnerName)}<br/>
+                {/if}
+                {$admin.licenseExpiryStatusMessage|noAutoescape}
+            </span>
+
+
+            {if $admin.hasReachedUserLimit}
+                <p>
+                    <span class="message license-warning red-highlight {if $admin.hasExceededUserLimit and not $admin.hasZeroUserLicense}userLimitExceeded{else}notuserLimitExceeded{/if}">
+                        {if $admin.hasZeroUserLicense}
+                            {getText('gadget.admin.license.zero.user.limit', '<a href="' + $admin.externalLinkMyAccount + '">','</a>')|noAutoescape}
+                        {else}
+                            {if $admin.hasExceededUserLimit}
+                                 {getText('admin.globalpermissions.user.limit.warning', '<a href="' + $baseUrl + '/secure/admin/ViewLicense!default.jspa">', '</a>')|noAutoescape}
+                            {else}
+                                 {getText('gadget.admin.reached.user.limit', '<a href="' + $baseUrl + '/secure/admin/ViewLicense!default.jspa">', '</a>')|noAutoescape}
+                            {/if}
+                        {/if}
+                    </span>
+                    {if not($admin.hasZeroUserLicense)}
+                        <br/>
+                        {getText('gadget.admin.purchase.full.license', '<a href="' + $admin.externalLinkPersonalSite + '">', '</a>')|noAutoescape}
+                    {/if}
+                </p>
+            {/if}
+        </div>
+
+        {if $admin.licenseStatusMessage}
+            <p id="licenseStatusMessage">{$admin.licenseStatusMessage|noAutoescape}</p>
+        {/if}
+    </div>
+</div>
+{/template}
+
+/**
+* @param admin
+* @param baseUrl
+ */
+{template .adminWarnings}
+<div id="admin-warnings">
+    <div id="admin-warnings-img">
+        <img src="{$baseUrl}/download/resources/com.atlassian.jira.gadgets:common-lite/admin-warning.png" height="48" width="48" border="0" />
+    </div>
+    <div class="admin-item-content">
+        <h3>{getText('admin.systeminfo.environment.warnings')}</h3>
+        <div class="aui-message warning">
+            <ul>
+                {if $admin.isUsingHsql}
+                    <li>{getText('gadget.admin.administration.hsqlwarning','<span class="red-highlight">', '</span>', '<a target="_blank" href="' + $admin.dbConfigDocsUrl + '">', '</a>')|noAutoescape}</li>
+                {/if}
+                {foreach $warning in $admin.warningMessages}
+                    <li>{$warning|noAutoescape}</li>
+                {/foreach}
+            </ul>
+        </div>
+    </div>
+</div>
+{/template}
+
+/**
+* @param admin
+ */
+{template .adminUnHideSection}
+<div id="unhide-section" class="admin-unhide-section">
+    <span id="admin-getting-started-unhide" class="admin-task-list-unhide" {if not $admin.tasks.gettingStarted.isDismissed}style="display: none"{/if}>
+        <a href="#" class="show-admin-task-list">{getText('gadget.admin.gettingstarted.show')}</a>
+    </span>
+    <span id="unhide-separator" {if not ($admin.tasks.gettingStarted.isDismissed and $admin.tasks.doMore.isDismissed and $admin.isSystemAdministrator)}style="display: none"{/if}>
+        {sp}|{sp}
+    </span>
+    <span id="admin-do-more-unhide" class="admin-task-list-unhide" {if not ($admin.tasks.doMore.isDismissed and $admin.isSystemAdministrator)}style="display: none"{/if}>
+        <a href="#" class="show-admin-task-list">{getText('gadget.admin.do.more.show')}</a>
+    </span>
+</div>
+{/template}

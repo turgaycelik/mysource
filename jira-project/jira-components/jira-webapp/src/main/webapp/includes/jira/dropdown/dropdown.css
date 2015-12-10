@@ -1,0 +1,16 @@
+/*#jira .aui-dd-parent .aui-shadow {display:none;}*/
+.msie #jira .aui-dd-parent .aui-shadow {display:block;}
+
+.aui-shadow {z-index:200!important;}
+
+/** standard trigger */
+.aui-dd-link {display:block; text-decoration:none;}
+
+.aui-dd-link.active {background-color:#3c78b5;}
+.aui-dd-link span {display:block; background-repeat:no-repeat; background-position:97% 55%; padding-right:12px;}
+.aui-dd-link.standard span {background-image: url("../../../images/menu_indicator_for_light_backgrounds.gif");}
+.aui-dd-link.standard:hover,
+.aui-dd-link.active.standard {background-color:#3c78b5;color:#fff;text-decoration:none;}
+.aui-dd-link.standard:hover span,
+.aui-dd-link.active span {background-image: url("../../../images/menu_indicator_for_dark_backgrounds.gif");}
+.aui-dropdown-trigger span {background:url("../../../images/menu_indicator_for_light_backgrounds.gif") 97% 55% no-repeat; padding-right:12px;}

@@ -1,0 +1,16 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-grouppicker")}
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    #set ($groupString = "")
+    #if ($value)
+        #foreach ($selectedValue in $value)
+            #if ($groupString == "")
+                #set ($groupString=$selectedValue)
+            #else
+                #set ($groupString="${groupString}, $selectedValue")
+            #end
+        #end
+    #end
+    #groupPicker ($action $customField.id $groupString $multiple $null "")
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+$!{auiparams.clear()}

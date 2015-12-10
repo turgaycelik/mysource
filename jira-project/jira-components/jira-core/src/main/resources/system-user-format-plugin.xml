@@ -1,0 +1,114 @@
+<atlassian-plugin name='User Format' key='jira.user.format' i18n-name-key="user.format.plugin.name">
+    <plugin-info>
+        <description key="user.format.plugin.desc">This plugin renders a user in JIRA.</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="4.0" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <user-format key="profile-link-user-format" i18n-name-key="user.format.plugin.profile.link.name" name="Profile Link User Format"
+            class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.profile.link.desc">Simple link to a user's profile page displaying the user's full name.</description>
+        <type i18n-name-key="user.format.type.profile.link">profileLink</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/profileLink.vm"/>
+    </user-format>
+
+    <user-format key="profile-link-with-avatar" i18n-name-key="user.format.plugin.profile.link.with.avatar.name" name="Profile Link With Avatar and Hover Format"
+                 class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.profile.link.with.avatar.desc">Profile link with their Avatar and user hover</description>
+        <type i18n-name-key="user.format.type.profile.link.with.avatar">profileLinkWithAvatar</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/profileLinkWithAvatar.vm"/>
+    </user-format>
+
+    <user-format key="fullname-hover-format" i18n-name-key="user.format.plugin.profile.fullname.name" name="Full Name With Hover Format"
+                 class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.fullname.hover.desc">Full Name with a user hover</description>
+        <type i18n-name-key="user.format.type.fullname.hover">fullNameHover</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/fullNameHover.vm"/>
+    </user-format>
+
+    <user-format key="avatar-and-full-name-with-hover-format" i18n-name-key="user.format.plugin.avatar.fullname.hover.name"
+                 name="Avatar and Full Name with Hover Format" class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.avatar.fullname.hover.desc">The user's avatar and full name with a user hover.</description>
+        <type i18n-name-key="user.format.type.avatar.fullname.hover">avatarFullNameHover</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/avatarFullNameHover.vm"/>
+    </user-format>
+
+    <user-format key="full-name-user-format" i18n-name-key="user.format.plugin.full.name" name="Full Name User Format"
+            class="com.atlassian.jira.plugin.userformat.FullNameUserFormat">
+        <description key="user.format.plugin.full.name.desc">Safely displays the user's full name.</description>
+        <type i18n-name-key="user.format.type.full.name">fullName</type>
+    </user-format>
+
+    <user-format key="user-name-user-format" i18n-name-key="user.format.plugin.user.name" name="Case Preserving User Name User Format"
+            class="com.atlassian.jira.plugin.userformat.UserNameUserFormat">
+        <description key="user.format.plugin.user.name.desc">Safely displays the user's name.</description>
+        <type i18n-name-key="user.format.type.user.name">userName</type>
+    </user-format>
+
+    <user-format key="profile-link-searcher-user-format" i18n-name-key="user.format.searcher.plugin.profile.link.name" name="Searcher Profile Link User Format"
+            class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.searcher.plugin.profile.link.desc">Simple link to a user's profile page displaying the user's full name from the issue navigator.</description>
+        <type i18n-name-key="user.format.type.profile.link.searcher">profileLinkSearcher</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/searcher.vm"/>
+    </user-format>
+
+    <!-- this is used for displaying profile link in documents (word, excel etc).  Same as the normal profile link at the moment,
+        but it will probably change in the future -->
+    <user-format key="profile-link-external-user-format" i18n-name-key="user.format.plugin.profile.link.external.name" name="External Profile Link User Format"
+            class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.profile.link.external.desc">Simple link to a user's profile used in emails, word documents, excel downloads etc.</description>
+        <type i18n-name-key="user.format.type.profile.link.external">profileLinkExternal</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/profileLink.vm"/>
+    </user-format>
+
+    <!-- Used for action headers (comments, worklogs...) -->
+    <user-format key="profile-link-action-header-user-format" i18n-name-key="user.format.plugin.profile.link.action.header.name" name="Action Header Profile Link User Format"
+            class="com.atlassian.jira.plugin.userformat.ProfileLinkUserFormat">
+        <description key="user.format.plugin.profile.link.action.header.desc">Simple link to a user's profile in issue action headers such as comments.</description>
+        <type i18n-name-key="user.format.type.profile.link.action.header">profileLinkActionHeader</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/actionProfileLink.vm"/>
+    </user-format>
+
+    <user-format key="full-profile-user-format" i18n-name-key="user.format.plugin.full.profile.name" name="Full Profile User Format"
+            class="com.atlassian.jira.plugin.userformat.FullProfileUserFormat">
+        <description key="user.format.plugin.full.profile.desc">Full user description including user operation links and report links.</description>
+        <type i18n-name-key="user.format.type.full.profile">fullProfile</type>
+        <resource type="velocity" name="view" location="templates/plugins/userformat/fullProfile.vm"/>
+    </user-format>
+
+    <!-- Links for the user hover -->
+    <web-section key="user.hover" name="User Hover links" location="system.user.hover.links" i18n-name-key="webfragments.user.hover.links.section.name" weight="100"/>
+
+        <web-item key="user.hover.view.activity" name="User Hover Activity link" section="system.user.hover.links" i18n-name-key="webfragments.user.hover.item.view.activity" weight="10">
+            <label key="common.concepts.activity" />
+            <tooltip key="user.hover.tooltip.activity" />
+            <link linkId="uh_view_activity">/secure/ViewProfile.jspa?name=${profileUser}&amp;selectedTab=com.atlassian.streams.streams-jira-plugin:user-profile-stream-panel</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+        </web-item>
+
+        <web-item key="user.hover.view.profile" name="User Hover Profile link" section="system.user.hover.links" i18n-name-key="webfragments.user.hover.item.view.profile" weight="20">
+            <label key="common.concepts.profile" />
+            <tooltip key="user.hover.tooltip.profile" />
+            <link linkId="uh_view_profile">/secure/ViewProfile.jspa?name=${profileUser}&amp;selectedTab=jira.user.profile.panels:user-profile-summary-panel</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+        </web-item>
+
+        <web-item key="user.hover.view.current.issues" name="User Hover Current Issues link" section="system.user.hover.links" i18n-name-key="webfragments.user.hover.item.view.current.issues" weight="30">
+            <label key="user.hover.current.issues" />
+            <tooltip key="user.hover.tooltip.current.issues" />
+            <link linkId="uh_view_current_issues">/secure/IssueNavigator.jspa?reset=true${jqlquery}</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserHasVisibleProjectsCondition">
+                <param name="permission">browse</param>
+            </condition>
+        </web-item>
+
+        <web-item key="user.hover.view.admin" name="User Hover Administer this user link" section="system.user.hover.links" i18n-name-key="webfragments.user.hover.item.view.admin" weight="40">
+            <label key="user.hover.administrate.user" />
+            <tooltip key="user.hover.tooltip.administer" />
+            <link linkId="uh_view_administrate">/secure/admin/user/ViewUser.jspa?name=${profileUser}</link>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+        </web-item>
+</atlassian-plugin>

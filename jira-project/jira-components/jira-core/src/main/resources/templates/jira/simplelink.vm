@@ -1,0 +1,5 @@
+<a href="${targetUrl}"
+   #if($title)title="$title" #end
+   #if($alt)title="$alt" #end
+   #if($newWindow)target="_blank" #end
+>$linkText</a>

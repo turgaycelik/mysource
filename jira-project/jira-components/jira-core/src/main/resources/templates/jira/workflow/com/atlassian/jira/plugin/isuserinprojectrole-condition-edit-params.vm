@@ -1,0 +1,10 @@
+#disable_html_escaping()
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.common.words.projectrole"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        #selectMapSelected (${key} ${projectroles} ${projectrole})
+        <br><font size="1">$i18n.getText("admin.workflow.condition.isuserinprojectrole.input.projectrole.to.check")</font>
+    </td>
+</tr>

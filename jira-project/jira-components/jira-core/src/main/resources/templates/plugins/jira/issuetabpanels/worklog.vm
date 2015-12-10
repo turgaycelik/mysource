@@ -1,0 +1,38 @@
+#disable_html_escaping()
+#if ($requestContext.getRequestParameter('focusedWorklogId') && "$worklog.id" == $requestContext.getRequestParameter('focusedWorklogId'))
+    #set ($focusedWorklog = " focused")
+#end
+<div id="worklog-${worklog.id}" class="issue-data-block$!focusedWorklog">
+    <div class="actionContainer">
+        <div class="action-links">
+            <a href="${requestContext.baseUrl}/browse/$worklog.issue.key?focusedWorklogId=$worklog.id&page=com.atlassian.jira.plugin.system.issuetabpanels%3Aworklog-tabpanel#worklog-$worklog.id" title="$i18n.getText('viewissue.worklog.permlink.title')" class="icon icon-perma"><span>$i18n.getText('viewissue.permlink')</span></a>
+            #if ($action.canEditWorklog)
+                <a id="edit_worklog_${worklog.id}" href="${requestContext.baseUrl}/secure/UpdateWorklog!default.jspa?id=${worklog.issue.id}&worklogId=${worklog.id}" title="$i18n.getText('common.words.edit')" class="icon jira-icon-edit edit-worklog-trigger"><span>$i18n.getText('common.words.edit')</span></a>
+            #end
+            #if ($action.canDeleteWorklog)
+                <a id="delete_worklog_${worklog.id}" href="${requestContext.baseUrl}/secure/DeleteWorklog!default.jspa?id=${worklog.issue.id}&worklogId=${worklog.id}" title="$i18n.getText('common.words.delete')" class="icon icon-delete delete-worklog-trigger"><span>$i18n.getText('common.words.delete')</span></a>
+            #end
+        </div>
+        <div class="action-details">#worklogDetailsBody($worklog $i18n $dateFormatter)</div>
+        <div class="action-body">
+            <ul id="worklog_details_${worklog.id}" class="item-details">
+                <li>
+                    <dl>
+                        <dt>$i18n.getText('viewissue.worklog.timeworked'):</dt>
+                        <dd id="wl-${worklog.id}-d" class="worklog-duration">$action.getPrettyDuration($worklog.timeSpent.toString())</dd>
+                    </dl>
+                    <dl>
+                        <dt>&nbsp;</dt>
+                        <dd id="wl-${worklog.id}-c" class="worklog-comment">
+                            #if($content && $content.length() != 0)
+                                $content
+                            #else
+                                &lt;$i18n.getText('viewissue.tabs.worklog.nocomment')&gt;
+                            #end
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

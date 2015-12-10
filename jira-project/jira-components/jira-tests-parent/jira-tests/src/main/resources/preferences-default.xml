@@ -1,0 +1,16 @@
+<preferences>
+	<preference type="String">
+		<name>DefaultSmtpServer</name>
+		<value>Smtp Server Name</value>
+	</preference>
+
+    <preference type="String">
+        <name>DefaultPopServer</name>
+        <value>Pop Server Name</value>
+    </preference>
+
+    <preference type="String">
+        <name>LALA</name>
+        <value>THIS IS LALA</value>
+    </preference>
+</preferences>

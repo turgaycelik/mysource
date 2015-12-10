@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:osgi="http://www.springframework.org/schema/osgi"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/osgi
+           http://www.springframework.org/schema/osgi/spring-osgi.xsd"
+       default-autowire="autodetect">
+
+    <bean name="tokenStore" class="com.atlassian.jira.oauth.consumer.CachingConsumerTokenStore">
+        <constructor-arg ref="ofBizConsumerTokenStore"/>
+        <constructor-arg ref="eventPublisher" />
+        <constructor-arg ref="cacheManager" />
+    </bean>
+
+    <bean name="ofBizConsumerTokenStore" class="com.atlassian.jira.oauth.consumer.OfBizConsumerTokenStore">
+        <constructor-arg ref="ofBizDelegator"/>
+        <constructor-arg ref="jiraPropertySetFactory"/>
+    </bean>
+
+    <bean name="consumerStore" class="com.atlassian.jira.oauth.consumer.CachingConsumerStore">
+        <constructor-arg ref="ofBizConsumerStore"/>
+        <constructor-arg ref="eventPublisher" />
+        <constructor-arg ref="cacheManager" />
+    </bean>
+
+    <bean name="ofBizConsumerStore" class="com.atlassian.jira.oauth.consumer.OfBizConsumerStore">
+        <constructor-arg ref="ofBizDelegator"/>
+    </bean>
+
+    <bean name="consumerService" class="com.atlassian.oauth.consumer.core.ConsumerServiceImpl">
+        <constructor-arg ref="consumerStore"/>
+        <constructor-arg ref="tokenStore"/>
+        <constructor-arg ref="hostConsumerAndSecretProvider"/>
+    </bean>
+
+    <bean name="hostConsumerAndSecretProvider" class="com.atlassian.jira.oauth.consumer.DefaultHostConsumerAndSecretProvider">
+        <constructor-arg ref="applicationProperties"/>
+        <constructor-arg ref="consumerStore"/>
+    </bean>
+
+    <osgi:service id="consumerService_osgiService" ref="consumerService">
+        <osgi:interfaces>
+            <value>com.atlassian.oauth.consumer.ConsumerService</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+    <osgi:service id="tokenStore_osgiService" ref="tokenStore">
+        <osgi:interfaces>
+            <value>com.atlassian.oauth.consumer.ConsumerTokenStore</value>
+        </osgi:interfaces>
+    </osgi:service>
+
+</beans>

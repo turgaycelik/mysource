@@ -1,0 +1,263 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+
+    <!-- Details panel -->
+    <web-panel key="details-module" location="atl.jira.view.issue.left.context" weight="100">
+        <context-provider class="com.atlassian.jira.plugin.viewissue.DetailsBlockContextProvider"/>
+        <resource name="view" type="velocity" location="viewissue/detailsblock.vm"/>
+        <label key="viewissue.subheading.issuedetails"/>
+    </web-panel>
+
+    <!-- Description panel -->
+    <web-panel key="descriptionmodule" location="atl.jira.view.issue.left.context" weight="200">
+        <param name="contentRenderingInstructionsProviderClass">com.atlassian.jira.plugin.viewissue.DescriptionBlockContentRenderingInstructionsProvider</param>
+        <context-provider class="com.atlassian.jira.plugin.viewissue.DescriptionBlockContextProvider"/>
+        <resource name="view" type="velocity" location="viewissue/descriptionblock.vm"/>
+        <label key="common.concepts.description"/>
+        <condition class="com.atlassian.jira.plugin.viewissue.conditions.ShowDescriptionCondition">
+            <param name="field">description</param>
+        </condition>
+    </web-panel>
+
+    <!-- Attachments panel -->
+    <web-resource key="draggableattachment">
+        <context>jira.view.issue</context>
+        <resource type="download" name="initDraggableAttachment.js" location="viewissue/initDraggableAttachment.js"/>
+    </web-resource>
+
+    <web-panel key="attachmentmodule" location="atl.jira.view.issue.left.context" weight="300">
+        <param name="contentRenderingInstructionsProviderClass">com.atlassian.jira.plugin.viewissue.AttachmentBlockContentRenderingInstructionsProvider</param>
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.viewissue.AttachmentBlockContextProvider</param>
+        </context-provider>
+        <resource name="view" type="velocity" location="viewissue/attachmentsblock.vm"/>
+        <label key="common.concepts.attachments.files"/>
+    </web-panel>
+
+    <web-item key="add-attachments-link" i18n-name-key="webfragments.view.issue.attachments.create" name="Create an Attachments" section="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/header" weight="1">
+        <label key="admin.issue.operations.plugin.attach.file.name"/>
+        <tooltip key="admin.issue.operations.plugin.attach.file.name"/>
+        <styleClass>issueaction-attach-file icon jira-icon-add</styleClass>
+        <link linkId="add-attachments-link">
+            /secure/AttachFile!default.jspa?id=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.CanAttachFileToIssueCondition"/>
+    </web-item>
+
+    <web-section key="attachment-sorting-options" name="Attachments Sorting Options Section" location="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop" i18n-name-key="webfragments.view.issue.attachments.sorting.options.section" weight="10"/>
+    <web-item-provider key="attachment-sorting-options-factory" name="Attachments Sorting Options Factory"
+                         section="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop/attachment-sorting-options"
+                         i18n-name-key="webfragments.view.issue.attachments.sorting.options.factory"
+                         class="com.atlassian.jira.plugin.viewissue.AttachmentSortingOptionsFactory"/>
+
+    <web-section key="attachment-sorting-order-options" name="Attachments Sorting Order Options Section" location="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop" i18n-name-key="webfragments.view.issue.attachments.sorting.order.options.section" weight="20"/>
+    <web-item-provider key="attachment-sorting-order-options-factory" name="Attachments Sorting Order Options Factory"
+                         section="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop/attachment-sorting-order-options"
+                         i18n-name-key="webfragments.view.issue.attachments.sorting.order.options.factory"
+                         class="com.atlassian.jira.plugin.viewissue.AttachmentSortingOrderOptionsFactory"/>
+
+    <web-section key="attachment-manage-options" name="Attachment Management Options Section" location="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop" i18n-name-key="webfragments.view.issue.attachments.manage.options.section" weight="90"/>
+    <web-item key="aszip" i18n-name-key="webfragments.view.issue.attachments.download.all" name="Download all Attachments" section="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop/attachment-manage-options" weight="1">
+        <label key="common.concepts.attachments.as.a.zip.short"/>
+        <tooltip key="common.concepts.attachments.as.a.zip"/>
+        <styleClass>aui-list-checked</styleClass>
+        <link linkId="aszip">
+            /secure/attachmentzip/${issue.id}.zip
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsApplicationPropertySetCondition">
+            <param name="property">jira.attachment.allow.zip.support</param>
+        </condition>
+    </web-item>
+    <web-item key="manage-attachment-link" i18n-name-key="webfragments.view.issue.attachments.manage" name="Manage Attachments" section="com.atlassian.jira.jira-view-issue-plugin:attachmentmodule/drop/attachment-manage-options" weight="9">
+        <label key="manageattachments.title"/>
+        <tooltip key="manageattachments.tooltip"/>
+        <styleClass>aui-list-checked</styleClass>
+        <link linkId="manage-attachment-link">
+            /secure/ManageAttachments.jspa?id=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.CanManageAttachmentsCondition"/>
+    </web-item>
+
+
+    <!-- Links panel -->
+    <web-panel key="linkingmodule" location="atl.jira.view.issue.left.context" weight="400">
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.viewissue.LinkBlockContextProvider</param>
+            <param name="ctxProvider-4">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
+        </context-provider>
+        <resource name="view" type="velocity" location="viewissue/linkblock.vm"/>
+        <resource name="throbber" type="download" location="viewissue/throbber.gif">
+            <param name="content-type" value="image/gif"/>
+        </resource>
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.LinkingEnabledCondition"/>
+        <label key="common.concepts.issuelinks"/>
+    </web-panel>
+
+    <issue-link-renderer key="defaultIssueLinkRenderer" default-handler="true" application-type="all-application-types" class="com.atlassian.jira.plugin.viewissue.issuelink.DefaultIssueLinkRenderer">
+        <resource name="initial-view" type="velocity" location="issuelink/defaultissuelink.vm"/>
+        <resource name="final-view" type="velocity" location="issuelink/defaultissuelink.vm"/>
+    </issue-link-renderer>
+
+    <!--  Create link link -->
+    <web-item key="create-issue-link" i18n-name-key="webfragments.view.issue.linking.add" name="Create Link" section="com.atlassian.jira.jira-view-issue-plugin:linkingmodule/header" weight="1">
+        <label key="viewissue.links.addlink"/>
+        <tooltip key="viewissue.links.addlink"/>
+        <styleClass>issueaction-link-issue icon jira-icon-add</styleClass>
+        <link linkId="add-links-link">
+            /secure/LinkJiraIssue!default.jspa?id=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+            <param name="permission">link</param>
+        </condition>
+    </web-item>
+
+    <!-- Link types -->
+    <web-section key="create-issue-link-types" location="com.atlassian.jira.jira-view-issue-plugin:create-issue-link" weight="1"/>
+
+    <!-- Subtask panel -->
+    <web-panel key="view-subtasks" location="atl.jira.view.issue.left.context" weight="700">
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.viewissue.SubTasksContxtProvider</param>
+            <param name="ctxProvider-4">com.atlassian.jira.plugin.webfragment.contextproviders.XsrfTokenContextProvider</param>
+        </context-provider>
+        <resource name="view" type="velocity" location="viewissue/subtasks.vm"/>
+
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.SubTasksEnabledCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsSubTaskCondition" invert="true"/>
+        <conditions type="OR">
+            <condition class="com.atlassian.jira.plugin.viewissue.HasSubTaskCondition"/>
+            <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsApplicationPropertySetCondition">
+                <param name="property">jira.view.issue.show.quicksubtask.when.no.subtasks</param>
+            </condition>
+        </conditions>
+
+        <label key="issue.field.subtasks"/>
+    </web-panel>
+
+    <!-- Add Subtask link -->
+    <web-item key="quick-add-subtask" i18n-name-key="webfragments.view.issue.subtask.quick.add" name="Quick Add Subtask" section="com.atlassian.jira.jira-view-issue-plugin:view-subtasks/header" weight="1">
+        <label key="viewissue.subtasks.quickcreate.addsubtask.label"/>
+        <tooltip key="viewissue.subtasks.quickcreate.addsubtask.label"/>
+        <styleClass>icon issueaction-create-subtask jira-icon-add</styleClass>
+        <link linkId="stqc_show">
+            /secure/CreateSubTaskIssue!default.jspa?parentIssueId=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+            <param name="permission">create</param>
+        </condition>
+    </web-item>
+
+    <web-section key="subtask-view-options" name="Subtask View Options Section" location="com.atlassian.jira.jira-view-issue-plugin:view-subtasks/drop" i18n-name-key="webfragments.view.issue.subtask.view.options.section" weight="10"/>
+
+    <web-item-provider key="subtask-view-options-factory" name="View SubTask View Options Factory"
+                         section="com.atlassian.jira.jira-view-issue-plugin:view-subtasks/drop/subtask-view-options"
+                         i18n-name-key="webfragments.view.issue.subtask.view.options.factory"
+                         class="com.atlassian.jira.plugin.viewissue.SubTaskViewOptionsFactory"/>
+
+    <web-panel key="subtask-view-progress" location="com.atlassian.jira.jira-view-issue-plugin:view-subtasks/panels" weight="10">
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.viewissue.SubTasksProgressContextProvider</param>
+        </context-provider>
+        <resource name="view" type="velocity" location="viewissue/subtasks-progress.vm"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.TimeTrackingEnabledCondition" invert="true"/>
+    </web-panel>
+
+    <!-- Activity panel -->
+    <web-panel key="activitymodule" location="atl.jira.view.issue.left.context" weight="900">
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.webfragment.contextproviders.BaseUrlContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.viewissue.ActivityBlockViewIssueContextProvider</param>
+        </context-provider>
+
+        <resource name="view" type="velocity" location="viewissue/activityblock.vm"/>
+
+        <label key="common.concepts.activity" />
+
+    </web-panel>
+
+    <!-- Peopleweb panel -->
+    <web-panel key="peoplemodule" location="atl.jira.view.issue.right.context" weight="10">
+        <context-provider class="com.atlassian.jira.plugin.webfragment.contextproviders.MultiContextProvider">
+            <param name="pluginKey">${project.groupId}.${project.artifactId}</param>
+            <param name="ctxProvider-1">com.atlassian.jira.plugin.webfragment.contextproviders.I18nContextProvider</param>
+            <param name="ctxProvider-2">com.atlassian.jira.plugin.viewissue.PeopleBlockContextProvider</param>
+            <param name="ctxProvider-3">com.atlassian.jira.plugin.webfragment.contextproviders.DefaultVelocityContextProvider</param>
+        </context-provider>
+        <resource name="view" type="velocity" location="viewissue/peopleblock.vm"/>
+
+        <label key="common.concepts.people" />
+    </web-panel>
+
+    <!-- Dates web panel -->
+    <web-panel key="datesmodule" location="atl.jira.view.issue.right.context" weight="40">
+        <context-provider class="com.atlassian.jira.plugin.viewissue.DateBlockContextProvider"/>
+        <resource name="view" type="velocity" location="viewissue/datesblock.vm"/>
+
+        <label key="common.concepts.dates" />
+    </web-panel>
+
+    <!-- Time tracking web panel -->
+    <web-panel key="timetrackingmodule" location="atl.jira.view.issue.right.context" weight="60">
+        <context-provider class="com.atlassian.jira.plugin.viewissue.TimeTrackingViewIssueContextProvider"/>
+        <resource name="view" type="velocity" location="timetracking/timetracking.vm"/>
+
+        <label key="timetracking.title" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsFieldHiddenCondition" invert="true">
+            <param name="field">timetracking</param>
+        </condition>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.TimeTrackingEnabledCondition"/>
+    </web-panel>
+
+    <!--  Create worklog link -->
+    <web-item key="create-worklog" i18n-name-key="webfragments.view.issue.timetracking.create.worklog" name="Create Worklog" section="com.atlassian.jira.jira-view-issue-plugin:timetrackingmodule/header" weight="1">
+        <label key="logwork.title"/>
+        <tooltip key="logwork.title.desc"/>
+        <styleClass>icon jira-icon-add issueaction-log-work</styleClass>
+        <link linkId="log-work-link">
+            /secure/CreateWorklog!default.jspa?id=${issue.id}
+        </link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsIssueEditableCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.HasIssuePermissionCondition">
+            <param name="permission">work</param>
+        </condition>
+    </web-item>
+
+    <component key="helper" class="com.atlassian.jira.plugin.viewissue.AttachmentBlockContextHelper" />
+
+    <component-import key="application-link-service" interface="com.atlassian.applinks.api.ApplicationLinkService"/>
+
+    <component-import key="xsrf-token-generator" interface="com.atlassian.jira.security.xsrf.XsrfTokenGenerator"/>
+
+    <component-import key="request-factory" interface="com.atlassian.sal.api.net.RequestFactory"/>
+
+    <rest key="view-issue-rest-endpoint" path="/viewIssue" version="1">
+        <package>com.atlassian.jira.plugin.viewissue</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+</atlassian-plugin>

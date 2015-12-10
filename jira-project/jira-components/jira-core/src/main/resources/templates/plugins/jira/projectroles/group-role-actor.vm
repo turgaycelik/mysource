@@ -1,0 +1,27 @@
+#disable_html_escaping()
+#* @vtlvariable name="action" type="com.atlassian.jira.web.action.admin.roles.GroupRoleActorAction" *#
+
+<html>
+#set($role = $textutils.htmlEncode(${action.projectRole.name}))
+#set($retURL = "ViewDefaultProjectRoleActors.jspa?projectRoleId=${action.projectRoleId}")
+#set($title = "$i18n.getText('admin.group.role.actor.action.default.title', [$role])")
+#set($desc = "$i18n.getText('admin.group.role.actor.action.default.description', [$role])")
+#set($retURLText = "$i18n.getText('admin.group.role.actor.action.returnlink', [$role])")
+
+<head>
+    <meta name="admin.active.section" content="admin_users_menu/users_groups_section"/>
+    <meta name="admin.active.tab" content="project_role_browser"/>
+    <title>$title</title>
+    <!-- This needs to be here because in orion the decorator does not get applied because it things the request url
+         is that of this template and not the calling webwork action
+    -->
+    <meta name="decorator" content="admin">
+</head>
+<body>
+
+#jiraform("$title" "$desc" "$retURL" "&lt;&lt; $retURLText")
+
+$action.groupPickerHtml
+
+</body>
+</html>

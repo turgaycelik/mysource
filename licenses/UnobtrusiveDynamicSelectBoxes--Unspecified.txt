@@ -1,0 +1,8 @@
+A better cascading select list from http://www.bobbyvandersluis.com/articles/unobtrusivedynamicselect.php
+
+"the code is open source, free for use and distribution, and is as is,
+without warrenty. It's not a formal library, merely a code snippet and
+solution to a specific problem, and therefore it doesn't contain a specific
+license. hope this gives you enough info.
+best regards,
+Bobby"

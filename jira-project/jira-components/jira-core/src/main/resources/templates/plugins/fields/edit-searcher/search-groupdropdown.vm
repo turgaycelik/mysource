@@ -1,0 +1,24 @@
+#disable_html_escaping()
+## Show user picker
+
+## JRA-21618: This is currently not used.  Eventually when JRA-21618 is fixed we need to check if this still
+## works correctly.
+#searcherEditHeader ($customField.id $customField.name)
+#userPicker ($action "issue-filter" $customField.id $value false $null "" $canPerformAjaxSearch $ajaxLimit)
+#searcherEditFooter ($customField.id $customField.description)
+
+## Show group picker
+#searcherEditHeader ("${customField.id}:group" $customField.name)
+
+#set ($selectedValue = $customFieldParams.getFirstValueForKey('group'))
+
+<select name="${customField.id}:group">
+    <option value="">Any Group</option>
+    #foreach ($group in $searcher.groups)
+        <option value="$group.name"
+            #if ($selectedValue && $selectedValue == $group.name)selected#end
+            >$cfValueEncoder.encodeForHtml($group.name)</option>
+    #end
+</select>
+
+#searcherEditFooter ($customField.id $customField.description)

@@ -1,0 +1,9 @@
+jira.protocol = http
+jira.host = localhost
+jira.port = 8080
+jira.context = 
+jira.edition = enterprise
+# Please note jira.xml.data.location needs to be the full path
+jira.xml.data.location = c:/jira-installer-test/func_tests/xml
+
+jira.release.info = Standalone

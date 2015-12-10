@@ -1,0 +1,18 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($value.child)
+        #if ($urlPrefix && $urlPrefix != '')
+        <a href="${urlPrefix}">
+            $textutils.htmlEncode($value.parent.value)-$textutils.htmlEncode($value.child.value)</a>
+        #else
+            $textutils.htmlEncode($value.parent.value)-$textutils.htmlEncode($value.child.value)
+        #end
+    #else
+        #if ($urlPrefix && $urlPrefix != '')
+        <a href="${urlPrefix}">
+            $textutils.htmlEncode($value.parent.value)</a>
+        #else
+            $textutils.htmlEncode($value.parent.value)
+        #end
+    #end
+#end

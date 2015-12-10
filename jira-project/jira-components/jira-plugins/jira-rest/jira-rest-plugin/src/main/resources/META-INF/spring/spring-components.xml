@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--suppress SpringBeanConstructorArgInspection, AutowiredDependenciesInspection -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd">
+
+    <bean id="requestScope" class="com.atlassian.jira.rest.v2.issue.scope.RequestScope"/>
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="restmethod" value-ref="requestScope"/>
+            </map>
+        </property>
+    </bean>
+
+    <bean name="uriBuilder" class="com.atlassian.jira.rest.v2.issue.ResourceUriBuilder" autowire="constructor" scope="singleton"/>
+    <bean name="attachmentHelper" class="com.atlassian.jira.rest.util.AttachmentHelper" autowire="constructor" scope="singleton"/>
+    <bean name="statusHelper" class="com.atlassian.jira.rest.util.StatusHelper" autowire="constructor" scope="singleton"/>
+    <bean name="statusCategoryHelper" class="com.atlassian.jira.rest.util.StatusCategoryHelper" autowire="constructor" scope="singleton"/>
+    <bean name="watcherOps" class="com.atlassian.jira.rest.v2.issue.watcher.WatcherOpsImpl" autowire="constructor"/>
+    <bean name="versionBeanFactory" class="com.atlassian.jira.rest.v2.issue.version.VersionBeanFactoryImpl" autowire="constructor"/>
+    <bean name="versionIssueCountsBeanFactory" class="com.atlassian.jira.rest.v2.issue.version.VersionIssueCountsBeanFactoryImpl" autowire="constructor"/>
+    <bean name="versionUnresolvedIssueCountsBeanFactory" class="com.atlassian.jira.rest.v2.issue.version.VersionUnresolvedIssueCountsBeanFactoryImpl" autowire="constructor"/>
+    <bean name="componentIssueCountsBeanFactory" class="com.atlassian.jira.rest.v2.issue.component.ComponentIssueCountsBeanFactoryImpl" autowire="constructor"/>
+    <bean name="projectBeanFactory" class="com.atlassian.jira.rest.v2.issue.project.ProjectBeanFactoryImpl" autowire="constructor"/>
+    <bean name="projectRoleBeanFactory" class="com.atlassian.jira.rest.v2.issue.project.ProjectRoleBeanFactoryImpl" autowire="constructor"/>
+    <bean name="rest.IssueFinder" class="com.atlassian.jira.rest.v2.issue.IssueFinder" autowire="constructor"/>
+    <bean name="issueInputParametersAssembler" class="com.atlassian.jira.rest.v2.issue.IssueInputParametersAssembler" autowire="constructor"/>
+    <bean name="createIssue" class="com.atlassian.jira.rest.v2.issue.CreateIssueResource" autowire="constructor"/>
+    <bean name="assignIssue" class="com.atlassian.jira.rest.v2.issue.AssignIssueResource" autowire="constructor"/>
+    <bean name="deleteIssue" class="com.atlassian.jira.rest.v2.issue.DeleteIssueResource" autowire="constructor"/>
+    <bean name="editIssue" class="com.atlassian.jira.rest.v2.issue.UpdateIssueResource" autowire="constructor"/>
+    <bean name="remoteIssueLinkResource" class="com.atlassian.jira.rest.v2.issue.RemoteIssueLinkResource" autowire="constructor"/>
+    <bean name="remoteVersionLinkResource" class="com.atlassian.jira.rest.v2.issue.version.RemoteVersionLinkResource" autowire="constructor"/>
+    <bean name="worklogResource" class="com.atlassian.jira.rest.v2.issue.worklog.WorklogResource" autowire="constructor"/>
+    <bean name="commentResource" class="com.atlassian.jira.rest.v2.issue.CommentResource" autowire="constructor"/>
+
+    <!--
+       - request-scoped beans
+       -->
+    <bean id="ctxUriInfo" class="com.atlassian.jira.rest.v2.issue.scope.ContextUriInfoFactoryBean" scope="restmethod">
+        <constructor-arg ref="requestScope"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
+    </bean>
+
+    <!-- TODO: inject base uri builder -->
+    <!--<bean name="baseUriBuilder" class="com.atlassian.jira.rest.v2.issue.inject.BaseUriBuilderFactory" scope="restmethod" autowire="constructor">-->
+        <!--<aop:scoped-proxy/>-->
+    <!--</bean>-->
+
+</beans>

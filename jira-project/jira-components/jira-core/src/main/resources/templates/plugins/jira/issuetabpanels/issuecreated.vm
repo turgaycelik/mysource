@@ -1,0 +1,11 @@
+#* @vtlvariable name="issuecreatedaction" type="com.atlassian.jira.issue.tabpanels.IssueCreatedAction" *#
+
+#disable_html_escaping()
+<div class="issue-data-block" id="issuecreated-$issuecreatedaction.id">
+    <div class="actionContainer">
+        <div class="action-details" id="issuecreateddetails-$issuecreatedaction.id">
+            #set ($param2 = " - <span class='date' title='$issuecreatedaction.createdDateHtml'><time class='livestamp' datetime='$issuecreatedaction.createdDateIso8601Html'>$issuecreatedaction.createdDateHtml</time></span>")
+            $i18n.getText('viewissue.changehistory.created', $issuecreatedaction.userProfileHtml, $param2)
+        </div>
+    </div>
+</div>

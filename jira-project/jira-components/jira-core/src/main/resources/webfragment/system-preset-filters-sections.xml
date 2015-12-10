@@ -1,0 +1,113 @@
+<atlassian-plugin name='Preset Filters Sections' key='jira.webfragments.preset.filters' i18n-name-key="webfragments.preset.filters.plugin.name" system='true'>
+    <plugin-info>
+        <description key="webfragments.preset.filters.plugin.desc">This library includes the web fragments for preset filters. By default this is displayed on the 'browse project' page and the 'project portlets' on the dashboard</description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.7" max="4.3"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <!-- Menu items -->
+
+    <web-item key="filter_all" name="All issues filter" i18n-name-key="webfragments.preset.filters.item.all.name" section="system.preset.filters"  weight="10">
+        <label key="common.filters.all" />
+        <link linkId="filter_all">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}</link>
+    </web-item>
+
+    <web-item key="filter_resolvedrecently" name="Issues resolved recently filter" i18n-name-key="webfragments.preset.filters.item.resolved.recently.name" section="system.preset.filters"  weight="20">
+        <label key="common.filters.resolvedrecently" />
+        <link linkId="filter_resolvedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolutiondate+%3E%3D-1w+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+    <web-item key="filter_outstanding" name="Outstanding issues filter" i18n-name-key="webfragments.preset.filters.item.outstanding.name" section="system.preset.filters"  weight="30">
+        <label key="common.filters.outstanding" />
+        <link linkId="filter_outstanding">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+    <web-item key="filter_addedrecently" name="Issues added recently filter" i18n-name-key="webfragments.preset.filters.item.added.recently.name" section="system.preset.filters"  weight="40">
+        <label key="common.filters.addedrecently" />
+        <link linkId="filter_addedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+created%3E%3D-1w+ORDER+BY+created+DESC</link>
+    </web-item>
+
+    <web-item key="filter_unscheduled" name="Unscheduled issues filter" i18n-name-key="webfragments.preset.filters.item.unscheduled.name" section="system.preset.filters"  weight="50">
+        <label key="common.filters.unscheduled" />
+        <link linkId="filter_unscheduled">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+AND+fixVersion+is+EMPTY+ORDER+BY+priority+DESC</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.NotVersionContextCondition" />
+    </web-item>
+
+    <web-item key="filter_updatedrecently" name="Issues updated recently filter" i18n-name-key="webfragments.preset.filters.item.updated.recently.name" section="system.preset.filters"  weight="60">
+        <label key="common.filters.updatedrecently" />
+        <link linkId="filter_updatedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+updated%3E%3D-1w+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+    <web-item key="filter_assignedtome" name="Issues assigned to me filter" i18n-name-key="webfragments.preset.filters.item.assigned.to.me.name" section="system.preset.filters"  weight="70">
+        <label key="common.filters.assignedtome" />
+        <link linkId="filter_assignedtome">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+assignee+%3D+currentUser%28%29+AND+resolution+%3D+Unresolved</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-item key="filter_mostimportant" name="Most important issues filter" i18n-name-key="webfragments.preset.filters.item.most.important.name" section="system.preset.filters"  weight="80">
+        <label key="common.concepts.unresolved" />
+        <link linkId="filter_mostimportant">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC</link>
+    </web-item>
+
+    <web-item key="filter_reportedbyme" name="Issues reported by me filter" i18n-name-key="webfragments.preset.filters.item.reported.by.me.name" section="system.preset.filters"  weight="90">
+        <label key="common.filters.reportedbyme" />
+        <link linkId="filter_reportedbyme">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+reporter+%3D+currentUser%28%29</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <!-- Links on a page -->
+
+    <!-- First column -->
+    <web-item key="filter_link_all" name="All issues filter" i18n-name-key="webfragments.preset.filters.item.all.name" section="system.preset.filters.column.one"  weight="10">
+        <label key="common.filters.all" />
+        <link linkId="filter_all">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}</link>
+    </web-item>
+
+    <web-item key="filter_link_mostimportant" name="Most important issues filter" i18n-name-key="webfragments.preset.filters.item.most.important.name" section="system.preset.filters.column.one"  weight="20">
+        <label key="common.concepts.unresolved" />
+        <link linkId="filter_mostimportant">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+ORDER+BY+priority+DESC</link>
+    </web-item>
+
+    <!-- Second column -->
+    <web-item key="filter_link_addedrecently" name="Issues added recently filter" i18n-name-key="webfragments.preset.filters.item.added.recently.name" section="system.preset.filters.column.two"  weight="10">
+        <label key="common.filters.addedrecently" />
+        <link linkId="filter_addedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+created%3E%3D-1w+ORDER+BY+created+DESC</link>
+    </web-item>
+
+    <web-item key="filter_link_resolvedrecently" name="Issues resolved recently filter" i18n-name-key="webfragments.preset.filters.item.resolved.recently.name" section="system.preset.filters.column.two"  weight="20">
+        <label key="common.filters.resolvedrecently" />
+        <link linkId="filter_resolvedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolutiondate+%3E%3D-1w+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+    <web-item key="filter_link_updatedrecently" name="Issues updated recently filter" i18n-name-key="webfragments.preset.filters.item.updated.recently.name" section="system.preset.filters.column.two"  weight="30">
+        <label key="common.filters.updatedrecently" />
+        <link linkId="filter_updatedrecently">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+updated%3E%3D-1w+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+    <!-- Third column -->
+    <web-item key="filter_link_assignedtome" name="Issues assigned to me filter" i18n-name-key="webfragments.preset.filters.item.assigned.to.me.name" section="system.preset.filters.column.three"  weight="10">
+        <label key="common.filters.assignedtome" />
+        <link linkId="filter_assignedtome">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+assignee+%3D+currentUser%28%29+AND+resolution+%3D+Unresolved</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-item key="filter_link_reportedbyme" name="Issues reported by me filter" i18n-name-key="webfragments.preset.filters.item.reported.by.me.name" section="system.preset.filters.column.three"  weight="20">
+        <label key="common.filters.reportedbyme" />
+        <link linkId="filter_reportedbyme">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+reporter+%3D+currentUser%28%29</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <!-- Fourth column -->
+    <web-item key="filter_link_unscheduled" name="Unscheduled issues filter" i18n-name-key="webfragments.preset.filters.item.unscheduled.name" section="system.preset.filters.column.four"  weight="10">
+        <label key="common.filters.unscheduled" />
+        <link linkId="filter_unscheduled">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+AND+fixVersion+is+EMPTY+ORDER+BY+priority+DESC</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.NotVersionContextCondition" />
+    </web-item>
+
+    <web-item key="filter_link_outstanding" name="Outstanding issues filter" i18n-name-key="webfragments.preset.filters.item.outstanding.name" section="system.preset.filters.column.four"  weight="20">
+        <label key="common.filters.outstanding" />
+        <link linkId="filter_outstanding">/secure/IssueNavigator.jspa?reset=true&amp;mode=hide${helper.queryString}+AND+resolution+%3D+Unresolved+ORDER+BY+updated+DESC</link>
+    </web-item>
+
+</atlassian-plugin>

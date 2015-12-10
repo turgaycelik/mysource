@@ -1,0 +1,51 @@
+body {
+    min-width: 990px;
+    overflow-y: scroll;
+}
+
+img, fieldset {
+    border: 0;
+}
+
+td > ul {
+    margin-left: 0;
+    padding-left: 16px;
+}
+
+td.confluenceTd > ul {
+    padding-left: 40px; /* a fairly standard browser default */
+}
+
+kbd {
+    .border-box();
+    background-color: #f7f7f7;
+    border: 1px solid #ccc;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -moz-box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 0 0 2px #fff inset;
+    -webkit-box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 0 0 2px #fff inset;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.2), 0 0 0 2px #fff inset;
+    color: #333;
+    display: inline-block;
+    font-family: inherit;
+    font-size: 13px;
+    line-height: 20px;
+    margin: 0 .1em;
+    min-width: 2em;
+    padding: .1em .6em;
+    text-align: center;
+    text-shadow: 0 1px 0 #fff;
+    vertical-align: bottom;
+}
+
+.hidden { display: none !important; }
+
+.overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@import "content/item-details-list.less";
+@import "content/adbox.less";

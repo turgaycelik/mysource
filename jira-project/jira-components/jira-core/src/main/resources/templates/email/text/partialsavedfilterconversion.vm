@@ -1,0 +1,28 @@
+#disable_html_escaping()
+$i18n.getText("template.filters.jql.changed.hi", ${owner.displayName})
+
+$i18n.getText("template.filters.jql.changed.jira.upgraded")
+
+$i18n.getText("template.filters.jql.changed.for.details.see")
+${helpUtil.getHelpPath('advanced_search').url}
+
+$i18n.getText("template.filters.jql.changed.please.note.upgrade")
+#foreach ($filterEntry in $conversionInformation.getUsersSavedFilterConversionInformation())
+
+$i18n.getText("template.filters.jql.changed.fiter.details", ${filterEntry.filterName}) (${baseurl}/secure/IssueNavigator.jspa?navType=advanced&mode=show&requestId=${filterEntry.filterId})
+#if($filterEntry.whereConversionErrors)
+#foreach ($error in $filterEntry.whereConversionErrors)
+- $error.getMessage($i18n, ${filterEntry.filterName})
+#end
+#foreach ($error in $filterEntry.orderByConversionErrors)
+- $error.getMessage($i18n, ${filterEntry.filterName})
+#end
+#else
+- $i18n.getText("template.filters.jql.changed.did.not.convert");
+#end
+#end
+
+$i18n.getText("template.filters.jql.changed.kind.regards")
+  The Atlassian Team
+
+#parse("templates/email/text/includes/footer.vm")

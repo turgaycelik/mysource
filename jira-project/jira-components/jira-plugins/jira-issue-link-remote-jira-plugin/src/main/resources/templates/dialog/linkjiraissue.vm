@@ -1,0 +1,118 @@
+#* @vtlmacrolibrary path="../../../../../../../jira-core/src/main/resources/templates/plugins/jira/issuelinks/macros.vm" *#
+#* @vtlvariable name="textutils" type="com.opensymphony.util.TextUtils" *#
+#* @vtlvariable name="urlcodec" type="com.atlassian.jira.util.JiraUrlCodec" *#
+#* @vtlvariable name="keyboardShortcutManager" type="com.atlassian.jira.plugin.keyboardshortcut.KeyboardShortcutManager" *#
+#* @vtlvariable name="jirautils" type="com.atlassian.jira.util.JiraUtils" *#
+#* @vtlvariable name="req" type="javax.servlet.http.HttpServletRequest" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.util.I18nHelper" *#
+#* @vtlvariable name="action" type="com.atlassian.jira.plugin.link.remotejira.LinkJiraIssue" *#
+#* @vtlvariable name="webResourceManager" type="com.atlassian.plugin.webresource.WebResourceManager" *#
+<html>
+<head>
+    #issueLinkHeader ($action $i18n $webResourceManager $keyboardShortcutManager)
+</head>
+<body>
+    <form action="LinkJiraIssue.jspa" method="post" id="link-jira-issue" class="aui">
+        <div class="form-body">
+            #issueLinkHiddenFields ($action)
+            #if (${action.returnUrl})
+                <input name="returnUrl" type="hidden" value="${action.returnUrl}"/>
+            #end
+
+            #if (${action.validToView})
+
+                <input id="current-issue-key" type="hidden" value="${action.issueObject.key}"/>
+
+                #issueLinkErrorMessages ($action)
+                #issueLinkTitle ($i18n)
+                #issueLinkDescription ($i18n "linkjiraissue.desc")
+
+                #if (${action.jiraAppLinks.empty})
+                    <!-- Don't show a server list - we will only link to the local JIRA instance -->
+                    <input id="jira-app-link" class="hidden" type="hidden" name="jiraAppId" value=""/>
+                #else
+                    <div class="field-group">
+                        <label for="jira-app-link">${i18n.getText("linkjiraissue.applink.server")}</label>
+                        <select id="jira-app-link" class="select" name="jiraAppId">
+                            <option value="">${textutils.htmlEncode($action.internalHostApplication.name)}</option>
+                            #foreach ($jiraAppLink in ${action.jiraAppLinks})
+                                <option value="${jiraAppLink.id}" #if ($jiraAppLink.id.toString() == ${action.jiraAppId}) selected="selected" #end>${textutils.htmlEncode($jiraAppLink.name)}</option>
+                            #end
+                        </select>
+                        #issueLinkFieldError ($action "jiraAppId" $textutils)
+                        #appLinksAuthenticationMessage ($action 'com.atlassian.applinks.api.application.jira.JiraApplicationType')
+                    </div>
+                #end
+
+                <div class="issue-link-oauth-toggle #if (${action.jiraAppLinks.empty}) only-local-server #end" >
+                    <div class="field-group">
+                        <select id="link-type" class="select" name="linkDesc">
+                            #foreach ($linkDesc in ${action.linkDescs})
+                                <option value="${textutils.htmlEncode($linkDesc)}" #if (${linkDesc} == ${action.linkDesc}) selected="selected" #end>${textutils.htmlEncode($linkDesc)}</option>
+                            #end
+                        </select>
+                        <label for="link-type">${i18n.getText("linkissue.this")}</label>
+                        #issueLinkFieldError ($action "linkDesc" $textutils)
+                    </div>
+
+                    <div class="field-group">
+                        <label for="jira-issue-keys">${i18n.getText("linkjiraissue.issuekey")}</label>
+                        <select class="aui-field-issuepicker hidden" multiple="multiple" name="issueKeys" id="jira-issue-keys"
+                                #if (${action.currentJQL})data-ajax-options.data.current_jql="${action.currentJQL}"#end
+                                data-popup-link-message="[Select Issue]"
+                                data-popup-width="620"
+                                data-popup-height="500"
+                                data-remove-on-un-select="true"
+                                data-ajax-options.query="true"
+                                data-ajax-options.url="${req.contextPath}/rest/api/1.0/issues/picker"
+                                data-ajax-options.data.current-issue-key="$!{action.issueObject.key}"
+                                data-ajax-options.data.show-sub-tasks="true"
+                                data-ajax-options.data.show-sub-task-parent="true"
+                                data-ajax-options.data.app-id="">
+                            #foreach ($issueKey in ${action.issueKeys})
+                                <option selected="selected" value="$textutils.htmlEncode($issueKey)">$textutils.htmlEncode($issueKey)</option>
+                            #end
+                        </select>
+                        <span class="issue-link-search-link">
+                            ${i18n.getText("common.words.or")}
+                            <a href="#" class="remote-jira-search-trigger" id="remote-jira-issue-search">${i18n.getText("linkjiraissue.search.for.an.issue")}</a>
+                        </span>
+                        <div class="description">${i18n.getText("linkjiraissue.issuekey.desc")}</div>
+                        #issueLinkFieldError ($action "issueKeys" $textutils)
+                    </div>
+
+                    #if (${action.jiraAppLinks.empty} == false)
+                        <!-- Only show the create reciprocal option when we have remote servers -->
+                        <fieldset class="group" id="create-reciprocal-fieldset">
+                            <input type="hidden" id="create-reciprocal-default" value="$action.defaultCreateReciprocal"/>
+                            <div class="checkbox">
+                                #set ($checked = "")
+                                #if ($action.createReciprocal)
+                                    #set ($checked = "checked='checked'")
+                                #end
+                                <input type="checkbox" class="checkbox" id="create-reciprocal" name="createReciprocal" value="true" $checked/>
+                                <label for="create-reciprocal">${i18n.getText("linkjiraissue.create.reciprocal")}</label>
+                                <div class="description">${i18n.getText("linkjiraissue.create.reciprocal.desc")}</div>
+                                #issueLinkFieldError ($action "createReciprocal" $textutils)
+                            </div>
+                        </fieldset>
+                    #end
+
+                    #issueLinkCommentSection ($action)
+                </div>
+
+            #else
+                #issueLinkTitle ($i18n)
+                #if (${action.linkDescs.empty})
+                    #issueLinkWarningMessage (${i18n.getText("linkissue.error.no.link.types")})
+                #else
+                    #issueLinkNotValidToView ($action $req $i18n $jirautils $urlcodec)
+                #end
+            #end
+        </div>
+
+        #issueLinkFooter ($action $req $i18n)
+
+    </form>
+</body>
+</html>

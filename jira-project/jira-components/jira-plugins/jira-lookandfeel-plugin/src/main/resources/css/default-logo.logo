@@ -1,0 +1,7 @@
+.options ul li div.option-jira {
+    background-image: url('@defaultLogoUrl');
+}
+
+.jira-logo-preview-container img {
+    max-height: @maxLogoHeightpx;
+}

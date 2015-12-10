@@ -1,0 +1,19 @@
+Modified by Atlassian
+
+fvlogger v1.0
+(c) 2005 davidfmiller
+http://www.fivevoltlogic.com/code/fvlogger/
+see readme.txt for documentation
+
+
+Free source
+
+In its tutorials and articles, A List Apart gives away CSS styles,
+JavaScript, PHP and Perl scripts, XHTML markup techniques, and other bits
+of “source code” for the use of its readers.You may freely copy, paste, and
+modify any of this code for use on your own web projects large or small,
+commercial or non-commercial. You need not ask permission to do so. You
+need not credit ALA or its authors. It is our gift to you.
+The right to use and modify CSS, XHTML, and JavaScript contained herein
+does not apply to the CSS, XHTML, and JavaScript used to design this
+magazine. The design of this magazine is copyrighted, period.

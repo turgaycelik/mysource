@@ -1,0 +1,917 @@
+<atlassian-plugin key="${atlassian.plugin.key}" name="${pom.name}" pluginsVersion="2">
+    <plugin-info>
+        <description>${pom.description}</description>
+        <version>${reference.plugin.version}</version>
+        <application-version min="4.0" max="4.3"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com/"/>
+    </plugin-info>
+
+    <resource name="jira-dev-plugin" type="i18n" location="jira-dev-plugin" />
+
+    <rest key="reference-plugin-resources" path="/reference-plugin" version="1.0"
+          name="Reference REST endpointless resource"
+          i18n-name-key="module.rest.name">
+        <description>Provides the REST resource for the reference plugin.</description>
+    </rest>
+
+    <ao key="ao-module">
+        <description>A module for testing ActiveObjects plugin backup and restore</description>
+        <entity>com.atlassian.jira.dev.reference.plugin.ao.RefEntity</entity>
+    </ao>
+
+    <component-import key="ao" name="Active Objects service" interface="com.atlassian.activeobjects.external.ActiveObjects">
+        <description>Component to access Active Objects functionality from the plugin</description>
+    </component-import>
+
+    <component key="tx-processor" name="Transactional Annotation Processor"
+        class="com.atlassian.activeobjects.external.TransactionalAnnotationProcessor">
+        <decription>Processes @Transactional annotations.</decription>
+    </component>
+
+    <component key="refentity-service" name="RefEntity Service" class="com.atlassian.jira.dev.reference.plugin.ao.RefEntityServiceImpl"/>
+
+    <servlet name="RefEntity List &amp; Add Servlet" class="com.atlassian.jira.dev.reference.plugin.ao.RefEntityServlet" key="refentity-list">
+        <description>A servlet to add and list refEntitys</description>
+        <url-pattern>/refentity/list</url-pattern>
+    </servlet>
+
+    <customfield-type key="reference-select" name="Reference Select Custom Field Type"
+                      i18n-name-key="module.customfieldtype.select.name"
+                      class="com.atlassian.jira.issue.customfields.impl.SelectCFType">
+        <description>A reference custom field type based on the select custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-rawtext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-select.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-select-managed-admin" name="Reference Select Custom Field Type - Managed by Admin"
+                      i18n-name-key="module.customfieldtype.select.managed.admin.name"
+                      class="com.atlassian.jira.issue.customfields.impl.SelectCFType"
+                      managed-access-level="admin" managed-description-key="module.customfieldtype.select.managed.admin.desc">
+        <description>A reference custom field type based on the select custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-rawtext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-select.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-select-managed-sysadmin" name="Reference Select Custom Field Type - Managed by Sys Admin"
+                      i18n-name-key="module.customfieldtype.select.managed.sysadmin.name"
+                      class="com.atlassian.jira.issue.customfields.impl.SelectCFType"
+                      managed-access-level="sys_admin" managed-description-key="module.customfieldtype.select.managed.sysadmin.desc">
+        <description>A reference custom field type based on the select custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-rawtext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-select.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-select-locked" name="Reference Select Custom Field Type - Locked"
+                      i18n-name-key="module.customfieldtype.select.locked.name"
+                      class="com.atlassian.jira.issue.customfields.impl.SelectCFType"
+                      managed-access-level="locked" managed-description-key="module.customfieldtype.select.locked.desc">
+        <description>A reference custom field type based on the select custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-rawtext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-select.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-labels" name="Reference Labels Custom Field Type"
+                      i18n-name-key="module.customfieldtype.labels.name"
+                      class="com.atlassian.jira.issue.customfields.impl.LabelsCFType">
+        <description>A reference custom field type based on the labels custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-label.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/column-view-label.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-label.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-label.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-userpicker" name="Reference User Picker Custom Field Type"
+                      i18n-name-key="module.customfieldtype.userpicker.name"
+                      class="com.atlassian.jira.issue.customfields.impl.UserCFType">
+        <description>A reference custom field type based on the user picker custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-user.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-userpicker.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-user.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-datetime" name="Reference Date Time Custom Field Type"
+                      i18n-name-key="module.customfieldtype.datetime.name"
+                      class="com.atlassian.jira.issue.customfields.impl.DateTimeCFType">
+        <description>A reference custom field type based on the date time custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-datetime.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-datepicker.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-date.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-textarea" name="Reference Free Text Field (unlimited text) Custom Field Type"
+                      i18n-name-key="module.customfieldtype.freetext.name"
+                      class="com.atlassian.jira.issue.customfields.impl.TextAreaCFType">
+        <description>A reference custom field type based on the free text field custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-textarea.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-basictext.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-textarea.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-basictext.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-multigrouppicker" name="Reference Multi Group Picker Custom Field Type"
+                      i18n-name-key="module.customfieldtype.multigroup.name"
+                      class="com.atlassian.jira.issue.customfields.impl.MultiGroupCFType">
+        <description>A reference custom field type based on the multi group picker custom field type.</description>
+        <param name="multiple" value="true" />
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="column-view" location="templates/plugins/fields/view/view-multigroup.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-multigroup.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-multiselect.vm"/>
+    </customfield-type>
+
+    <customfield-type key="reference-cascadingselect" name="Reference Multi Group Picker Custom Field Type"
+                      i18n-name-key="module.customfieldtype.cascadingselect.name"
+                      class="com.atlassian.jira.issue.customfields.impl.CascadingSelectCFType">
+        <description>A reference custom field type based on the cascading select custom field type.</description>
+
+        <resource type="velocity" name="view" location="templates/plugins/fields/view/view-cascadingselect.vm"/>
+        <resource type="velocity" name="edit" location="templates/plugins/fields/edit/edit-cascadingselect.vm"/>
+        <resource type="velocity" name="xml" location="templates/plugins/fields/xml/xml-cascadingselect.vm"/>
+    </customfield-type>
+
+
+
+    <customfield-searcher key="reference-userpickersearcher" name="Reference User Picker Searcher"
+                          i18n-name-key="module.customfieldtype.userpickersearcher.name"
+                          class="com.atlassian.jira.issue.customfields.searchers.UserPickerSearcher">
+        <description>Reference User Picker Searcher</description>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-user.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-userpicker.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="${atlassian.plugin.key}" key="reference-userpicker"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="reference-datetimesearcher" name="Reference Date Time Range picker"
+                          i18n-name-key="module.customfieldtype.datetimesearcher.name"
+                          class="com.atlassian.jira.issue.customfields.searchers.DateTimeRangeSearcher">
+        <description>Reference Date Time picker for searching Date Time custom fields</description>
+        <valid-customfield-type package="${atlassian.plugin.key}" key="reference-datetime"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="reference-textsearcher" name="Reference Free Text Searcher"
+                          i18n-name-key="module.customfieldtype.freetextsearcher.name"
+                          class="com.atlassian.jira.issue.customfields.searchers.TextSearcher">
+        <description>Reference Free Text Searcher</description>
+
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+        <valid-customfield-type package="${atlassian.plugin.key}" key="reference-textarea"/>
+    </customfield-searcher>
+
+    <customfield-searcher key="reference-labelsearcher" name="Reference Labels Searcher"
+                          i18n-name-key="module.customfieldtype.labelsearcher.name"
+                          class="com.atlassian.jira.dev.reference.plugin.searchers.LabelSearcher">
+        <description>Reference Labels Searcher</description>
+
+        <resource type="velocity" name="search" location="templates/searchers/search-labels.vm"/>
+        <resource type="velocity" name="view" location="templates/searchers/view-searcher-labels.vm"/>
+        <valid-customfield-type package="${atlassian.plugin.key}" key="reference-labels"/>
+    </customfield-searcher>
+
+    <!-- reuse the standard label searcher, so that the customfield can have 2 searchers -->
+    <customfield-searcher key="labelsearcher" name="Labels Searcher"
+                          i18n-name-key="admin.customfield.searcher.labels.name"
+                          class="com.atlassian.jira.issue.customfields.searchers.CustomFieldLabelsSearcher">
+        <description key="admin.customfield.searcher.labels.desc">Search for values matching labels.</description>
+        <resource type="velocity" name="label" location="templates/plugins/fields/view-searcher/label-searcher-label.vm"/>
+        <resource type="velocity" name="search" location="templates/plugins/fields/edit-searcher/search-basictext.vm"/>
+        <resource type="velocity" name="view" location="templates/plugins/fields/view-searcher/view-searcher-basictext.vm"/>
+
+        <valid-customfield-type  package="${atlassian.plugin.key}" key="reference-labels" />
+    </customfield-searcher>
+
+    <servlet name="Reference Servlet" key="reference-servlet" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceServlet">
+        <description>Says Hello World, Australia from: &lt;user&gt;.</description>
+        <url-pattern>/reference-servlet</url-pattern>
+        <init-param>
+            <param-name>country</param-name>
+            <param-value>Australia</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet name="Reference Servlet With Filter" key="reference-servlet-with-filter" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceServlet">
+        <description>Says Hello World, Australia from: &lt;user&gt;. With reference filter modifying the message</description>
+        <url-pattern>/reference-servlet-with-filter</url-pattern>
+        <init-param>
+            <param-name>country</param-name>
+            <param-value>Australia</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet name="Reference Atlassian Template Renderer Servlet" key="reference-atlassian-template-renderer-servlet"
+             class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceAtlassianTemplateRendererServlet">
+        <description>Reference Servlet that uses the Atlassian Template Renderer.</description>
+        <url-pattern>/reference-atlassian-template-renderer-servlet</url-pattern>
+    </servlet>
+
+    <servlet-filter name="Reference Servlet Filter" key="reference-servlet-filter" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceServletFilter">
+        <description>Modifies user displayed in the Reference Servlet message.</description>
+        <url-pattern>/plugins/servlet/reference-servlet-with-filter</url-pattern>
+        <init-param>
+            <param-name>reference.servlet.filter.USER</param-name>
+            <param-value>Surprise!</param-value>
+        </init-param>
+    </servlet-filter>
+
+    <servlet name="Decorated Reference Servlet" key="reference-decorated-servlet" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceServlet">
+        <description>Says Hello World, Australia from: &lt;user&gt;. With reference decorator modifying the message.</description>
+        <url-pattern>/reference-decorated-servlet</url-pattern>
+        <init-param>
+            <param-name>country</param-name>
+            <param-value>Australia</param-value>
+        </init-param>
+    </servlet>
+
+    <decorator name="Reference Decorator" page="/templates/decorators/referenceDecorator.vmd" key="referenceDecorator">
+        <description>Reference decorator.</description>
+        <pattern>/plugins/servlet/reference-decorated-servlet</pattern>
+    </decorator>
+
+    <servlet name="Reference Servlet - Modifed Servlet Context" key="reference-context-modified-servlet" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceAttributeServlet">
+        <description>Says Hello, from Reference Servlet Context Listener *version*.</description>
+        <url-pattern>/reference-context-modified-servlet</url-pattern>
+    </servlet>
+
+    <servlet-context-listener name="Reference Servlet Context Listener" key="referenceServletContextListener" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceServletContextListener">
+        <description>Sets an attribute in the servlet context.</description>
+    </servlet-context-listener>
+
+    <servlet name="Reference Servlet" key="reference-servlet-context-param" class="com.atlassian.jira.dev.reference.plugin.servlet.ReferenceInitParameterServlet">
+        <description>Highlights the difference between the servlet context and servlet config.</description>
+        <url-pattern>/reference-servlet-context-param</url-pattern>
+        <init-param>
+            <param-name>initParam</param-name>
+            <param-value>Servlet Config Param</param-value>
+        </init-param>
+    </servlet>
+
+    <servlet-context-param key="servletContextInitParam">
+        <param-name>initParam</param-name>
+        <param-value>Servlet Context Param</param-value>
+    </servlet-context-param>
+
+    <issue-tabpanel key="reference-issue-tab-panel" i18n-name-key="module.issuetabpanels.reference.name"
+                    name="Reference Issue Tab Panel"
+                    class="com.atlassian.jira.dev.reference.plugin.tabpanels.ReferenceIssueTabPanel">
+
+        <description>Displays a simple reference issue tab panel</description>
+        <label>Reference</label>
+        <resource type="velocity" name="view" location="templates/plugins/jira/issuetabpanels/generic-message.vm"/>
+    </issue-tabpanel>
+
+    <project-tabpanel key="reference-project-tab-panel" i18n-name-key="module.projecttabpanels.reference.name"
+                      name="Reference Project Tab Panel"
+                      class="com.atlassian.jira.dev.reference.plugin.tabpanels.ReferenceProjectTabPanel">
+        <description>Displays a simple reference project tab panel</description>
+        <label>Reference</label>
+        <resource type="velocity" name="view" location="templates/tabpanels/sample-project-panel.vm" />
+    </project-tabpanel>
+
+    <view-profile-panel key="reference-view-profile-panel" i18n-name-key="module.viewprofilepanels.reference.name"
+                        name="Reference View Profile Panel"
+                        class="com.atlassian.jira.dev.reference.plugin.tabpanels.ReferenceViewProfileTabPanel">
+        <description>Displays a simple reference view profile tab panel</description>
+        <label>Reference</label>
+        <resource type="velocity" name="view" location="templates/tabpanels/sample-profile-panel.vm" />
+    </view-profile-panel>
+
+
+    <workflow-function key="reference-workflow-function" name="Reference Workflow Function"
+                       i18n-name-key="module.workflow.function.reference.name"
+                       class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description>Adds a generic transition comment to the issue</description>
+        <function-class>com.atlassian.jira.dev.reference.plugin.workflow.ReferenceWorkflowFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>500</weight>
+        <default>true</default>
+        <addable>non-initial</addable>
+
+        <resource type="velocity" name="view" location="templates/workflow/reference-workflow-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="createissue-workflow-function" name="Create Issue Workflow Function"
+                       class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description>Creates an issue</description>
+        <function-class>com.atlassian.jira.dev.reference.plugin.workflow.CreateIssuePostFunction</function-class>
+
+        <orderable>true</orderable>
+        <unique>true</unique>
+        <deletable>true</deletable>
+        <default>false</default>
+
+        <resource type="velocity" name="view" location="templates/workflow/createissue-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-condition key="reference-workflow-condition" name="Reference Workflow Condition" i18n-name-key="module.workflow.condition.reference.name"
+                        class="com.atlassian.jira.dev.reference.plugin.workflow.ReferenceWorkflowModuleFactory">
+        <description>Reference condition that returns true/false, depending on configuration.</description>
+        <condition-class>com.atlassian.jira.dev.reference.plugin.workflow.ReferenceCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/workflow/reference-workflow-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/workflow/reference-workflow-module-input.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/workflow/reference-workflow-module-edit.vm"/>
+    </workflow-condition>
+
+    <workflow-validator key="reference-workflow-validator" name="Reference Workflow Validator" i18n-name-key="module.workflow.validator.reference.name"
+                        class="com.atlassian.jira.dev.reference.plugin.workflow.ReferenceWorkflowModuleFactory">
+        <description>Reference validator thatr returns true/false depending on configuration</description>
+        <validator-class>com.atlassian.jira.dev.reference.plugin.workflow.ReferenceValidator</validator-class>
+
+        <resource type="velocity" name="view" location="templates/workflow/reference-workflow-validator-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/workflow/reference-workflow-module-input.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/workflow/reference-workflow-module-edit.vm"/>
+    </workflow-validator>
+
+    <webwork1 key="reference-actions" name="Reference WebWork Action" class="java.lang.Object" roles-required="admin">
+        <actions>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.PreparedReferenceAction" alias="PreparedReferenceAction">
+                <view name="success">/templates/actions/prepared-reference-action.vm</view>
+            </action>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.ReferenceAction" alias="ReferenceAction">
+                <view name="success">/templates/actions/reference-action.vm</view>
+            </action>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.ReferenceComponentAction" alias="ReferenceComponentAction">
+                <view name="success">/templates/actions/reference-component-view.vm</view>
+            </action>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.ReferenceModuleTypeAction" alias="ReferenceModuleTypeAction">
+                <view name="success">/templates/actions/reference-moduletypes-view.vm</view>
+            </action>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.ReferenceResourceAction" alias="ReferenceResourceAction">
+                <view name="success">/templates/actions/reference-resource-action.vm</view>
+                <view name="no_key">/templates/actions/reference-resource-action-nokey.vm</view>
+                <view name="not_found">/templates/actions/reference-resource-action-notfound.vm</view>
+            </action>
+            <action name="com.atlassian.jira.dev.reference.plugin.actions.ReferenceSoyAction" alias="ReferenceSoyAction">
+                <view name="success" type="soy">:soy-templates/JIRA.Reference.Soy.helloActionFromSoy</view>
+
+                <view name="badTemplate" type="soy">:soy-templates/badTemplateName</view>
+
+                <view name="soyContext" type="soy" >:soy-templates/JIRA.Reference.Soy.data</view>
+                <view name="vmContext">/templates/actions/reference-data-action.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <component key="reference-component" name="Reference Component"
+               class="com.atlassian.jira.dev.reference.plugin.components.ReferenceComponent">
+        <description>A reference component that provides a message.</description>
+    </component>
+
+    <component key="reference-public-component" name="Reference Public Component" public="true"
+               class="com.atlassian.jira.dev.reference.plugin.components.DefaultReferencePublicComponent"
+               interface="com.atlassian.jira.dev.reference.plugin.components.ReferencePublicComponent">
+        <description>A reference component that provides a message. Available to other installed plugins.</description>
+    </component>
+
+    <component key="reference-lifecycle-aware-component" name="Reference Lifecycle Aware Component" public="true"
+               class="com.atlassian.jira.dev.reference.plugin.components.ReferenceLifecycleAwareComponent"
+               interface="com.atlassian.sal.api.lifecycle.LifecycleAware">
+        <description>A reference component that is lifecycle aware.</description>
+    </component>
+
+    <component key="reference-custom-field-creator-component" name="Reference Custom Field Creator Component" public="true"
+               class="com.atlassian.jira.dev.reference.plugin.fields.CustomFieldCreatorImpl"
+               interface="com.atlassian.jira.dev.reference.plugin.fields.CustomFieldCreator">
+        <description>A reference component that will create custom fields programmatically.</description>
+    </component>
+
+    <report key="reference-report" name="Reference Report" class="com.atlassian.jira.dev.reference.plugin.report.ReferenceReport">
+        <description>A reference report that does a simple issue count.</description>
+        <resource type="velocity" name="view" location="templates/report/reference-report-view.vm" />
+        <resource type="i18n" name="i18n"
+                  location="com.atlassian.jira.dev.reference.plugin.report.reference-report" />
+
+        <label>Issue count by Project </label>
+        <properties>
+            <property>
+                <key>projectKey</key>
+                <name>report.reference.project.name</name>
+                <description>report.reference.project.description</description>
+                <type>string</type>
+                <default>HSP</default>
+            </property>
+        </properties>
+    </report>
+
+    <gadget key="reference-gadget" name="Reference Gadget" location="reference-gadget.xml">
+        <param name="roles-required">browse</param>
+        <resource type="download" name="reference-gadget-screenshot.jpg" location="images/reference-gadget-screenshot.jpg"/>
+        <resource type="download" name="reference-gadget-thumb.jpg" location="images/reference-gadget-thumb.jpg"/>
+    </gadget>
+
+    <!-- Web Sections & Items User Options Menu -->
+
+    <web-section key="reference-section-user-options" name="Reference User Options Menu Section" location="system.user.options"
+                 weight="400"/>
+
+    <web-item key="reference-item-user-options-reference-section" name="Reference Item on User Options --> Reference Section"
+              section="system.user.options/reference-section-user-options" weight="10">
+        <label key="module.webitem.on.user.options.reference.link.label" />
+        <link linkId="reference-item-user-options-reference-section">/plugins/servlet/upm#manage</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-item key="reference-context-item-user-options-reference-section" name="Reference Item with Context Provider on User Options --> Reference Section"
+              section="system.user.options/reference-section-user-options" weight="10">
+        <label>Context $test</label>
+        <link linkId="reference-context-item-user-options-reference-section">/plugins/servlet/upm#manage</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+        <context-provider class="com.atlassian.jira.dev.reference.plugin.contextproviders.ReferenceContextProvider" />
+    </web-item>
+
+
+    <web-item key="reference-item-user-options-personal-section" name="Reference Item on User Options --> Personal Section"
+              section="system.user.options/personal" weight="10">
+        <label key="module.webitem.on.user.options.personal.link.label" />
+        <link linkId="reference-item-user-options-personal-section">/plugins/servlet/upm#manage</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <!-- Web Item on the User Hover Links -->
+
+    <web-item key="reference-item-user-hover-links-section" name="Reference Item on the User Hover Links Section"
+              section="system.user.hover.links" weight="5">
+        <label key="module.webitem.on.user.hover.links.section.link.label" />
+        <link>/secure/ViewProfile.jspa?name=${profileUser}</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <!-- Web Sections and Items Issue Operations Bar -->
+
+    <web-item key="reference-item-issue-operations-bar-top-level-section"
+              name="Reference Item on the Issue Operations Bar --> Top Level Section" section="operations-top-level"
+              weight="15">
+        <label key="module.webitem.on.issue.operations.bar.top.level.section.link.label"/>
+        <styleClass>conjoined</styleClass>
+        <link linkId="reference-top-level-operation">/secure/IssueNavigator.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-section key="reference-section-issue-operations-bar-more-actions"
+                 name="Reference Item on the Issue Operations Bar --> Operations Section" location="opsbar-operations"
+                 weight="80"/>
+
+    <web-item key="reference-item-issue-operations-bar-reference-section"
+              name="Reference Item on the Issue Operations Bar --> Reference Section"
+              section="reference-section-issue-operations-bar-more-actions" weight="15">
+        <label key="module.webitem.on.issue.operations.bar.reference.section.link.label"/>
+        <link linkId="reference-operation">/secure/IssueNavigator.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-item key="reference-item-issue-operations-bar-transitions-section"
+              name="Reference Item on the Issue Operations Bar --> Transitions Section"
+              section="transitions-all" weight="10">
+        <label key="module.webitem.on.issue.operations.bar.transitions.section.link.label"/>
+        <link linkId="reference-transition-item">/secure/IssueNavigator.jspa</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <!-- Web Sections and Items Top Navigation Bar -->
+
+    <!-- Reference Top Level Menu on the Top Navigation Bar -->
+
+    <web-item key="reference-menu-top-navigation-bar"
+              name= "Reference Menu on the Top Navigation Bar"
+              section="system.top.navigation.bar" weight="60">
+        <label key="module.webitem.on.top.navigation.bar.top.level.section.link.label"/>
+        <link linkId="reference-menu-top-level-section">https://plugins.atlassian.com/search/by/jira</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition" />
+    </web-item>
+
+    <web-section key="reference-menu-dropdown-top-navigation-bar"
+                 name="Reference Menu Dropdown on the Top Navigation Bar"
+                 location="reference-menu-top-level-section"
+                 weight="220"/>
+
+    <web-item key="reference-cac-item-reference-menu-top-navigation-bar"
+              name="Reference CAC Menu Item on the Reference Top Navigation Bar Menu"
+              section="reference-menu-top-level-section/reference-menu-dropdown-top-navigation-bar"
+              weight="20">
+        <label key="reference.cac.item.on.reference.menu.link.label"/>
+        <link linkId="reference-cac-link">http://confluence.atlassian.com/</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
+
+    <web-item key="reference-forums-item-reference-menu-top-navigation-bar"
+              name="Reference Atlassian Forums Menu Item on the Reference Top Navigation Bar Menu"
+              section="reference-menu-top-level-section/reference-menu-dropdown-top-navigation-bar"
+              weight="20">
+        <label key="reference.forums.item.on.reference.menu.link.label"/>
+        <link linkId="reference-forums-link">http://forums.atlassian.com/</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
+
+    <!-- Reference Section on the Administration Menu -->
+
+    <web-section key="reference-section-admin-menu" name="Reference Section on the Administration Dropdown"
+                 location="admin_link" weight="220"/>
+
+    <web-item key="reference-cac-item-reference-section-admin-menu"
+              name="Reference Menu Item on the Administration --> Reference Section"
+              section="admin_link/reference-section-admin-menu" weight="20">
+        <label key="reference.mac.item.on.reference.section.admin.menu.link.label"/>
+        <link linkId="reference-mac-link">http://www.atlassian.com/my/</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
+
+    <web-item key="reference-sac-item-reference-section-admin-menu"
+              name="Reference Menu Item on the Administration --> Reference Section"
+              section="admin_link/reference-section-admin-menu" weight="30">
+        <label key="reference.sac.item.on.reference.section.admin.menu.link.label"/>
+        <link linkId="reference-sac-link">https://support.atlassian.com/</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+    </web-item>
+
+    <!-- Reference Web Sections and Items in the Administration Page's Links -->
+
+    <!-- Reference Item on the Users, Groups & Roles Section -->
+
+    <web-item key="reference-openid-item-usersgroups" name="Reference OpenId Link Item on the Users, Groups, Roles Section"
+              section="system.admin/usersgroups"  weight="120">
+        <label key="reference.openid.item.on.usersgroups.admin.links.panel"/>
+        <link linkId="reference-openid-link">http://openid.net/</link>
+    </web-item>
+
+    <!-- Reference Section on the Administration Page which contains 2 items -->
+
+    <web-section key="reference-section-admin-page-links" name="Reference Section on the Administration Links Panel"
+                 location="system.admin"  weight="80">
+        <label key="reference.section.on.admin.links.panel" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsAdminCondition" />
+    </web-section>
+
+    <web-item key="reference-jira-kb-item-usersgroups" name="Reference JIRA KB Link Item on the Reference Section"
+              section="system.admin/reference-section-admin-page-links"  weight="10">
+        <label key="reference.jira.kb.item.on.reference.admin.links.panel"/>
+        <link linkId="reference-jira-kb-link">
+            http://confluence.atlassian.com/display/JIRAKB/JIRA+Knowledge+Base+Home
+        </link>
+    </web-item>
+
+    <web-item key="reference-jira-plugin-guide-item-usersgroups" name="Reference OpenId Link Item on the Reference Section"
+              section="system.admin/reference-section-admin-page-links"  weight="20">
+        <label key="reference.jira.plugin.guide.item.on.reference.admin.links.panel"/>
+        <link linkId="reference-jira-plugin-guide-link">
+            http://confluence.atlassian.com/display/JIRA/JIRA+Plugin+Guide
+        </link>
+    </web-item>
+
+    <!-- Reference Hints -->
+
+    <!-- A hint valid in the ATTACH contexts -->
+    <web-item key="reference-hint-attach-context" name="Storm the JIRA Reference Hint" section="jira.hints/ATTACH" weight="10">
+        <label key="reference.hint.attach.context.label.text"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsKeyboardShortcutsEnabledCondition"/>
+    </web-item>
+
+    <!-- A hint valid in the COMMENT context -->
+    <web-item key="reference-hint-comment-context" name="A comment hint" section="jira.hints/COMMENT" weight="60">
+        <label key="reference.hint.comment.context.label.text" />
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.IsKeyboardShortcutsEnabledCondition"/>
+    </web-item>
+
+    <!-- Reference Module Type -->
+    <module-type key="reference-module" class="com.atlassian.jira.dev.reference.plugin.module.ReferenceModuleTypeModuleDescriptor"
+                 name="Reference Module Type" i18n-name-key="module.moduletype.name"/>
+
+    <reference-module key="internal-reference-module-with-i18n" name="Internal Reference Module" i18n-name-key="module.moduletype.internal.name">
+        <description key="module.moduletype.internal.desc">A reference internal 'implementation' of reference module type.</description>
+    </reference-module>
+
+    <reference-module key="internal-reference-module-without-i18n" name="Internal Reference Module (without i18n)">
+        <description>A reference internal 'implementation' of reference module type (without i18n).</description>
+    </reference-module>
+
+    <!-- Keyboard Shortcut Module Type -->
+    <keyboard-shortcut key="keyboard-shortcut-global-context" name="A UV Keyboard shortcut in the global context">
+        <description key="module.keyboard.shortcuts.with.global.context">A UV Keyboard shortcut in the global context</description>
+        <shortcut>tv</shortcut>
+        <operation type="execute">jQuery("body").append("globalshortcut")</operation>
+        <context>global</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="keyboard-shortcut-issuenavigation-context" name="A YZ Keyboard shortcut in the issue navigation context">
+        <description key="module.keyboard.shortcuts.with.issuenavigation.context">A YZ Keyboard shortcut in the issue navigation context</description>
+        <shortcut>yz</shortcut>
+        <operation type="execute">jQuery("body").append("issuenavigationshortcut")</operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="keyboard-shortcut-issueaction-context" name="An WX Keyboard shortcut in the issue action context">
+        <description key="module.keyboard.shortcuts.with.issueaction.context">A WX Keyboard shortcut in the issue action context</description>
+        <shortcut>wx</shortcut>
+        <operation type="execute">jQuery("body").append("issueactionshortcut")</operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <!-- Web Resource Module Type -->
+    <web-resource name="general resource" key="general-resource">
+        <resource name="general.js" type="download" location="js/general.js"/>
+        <context>atl.general</context>
+    </web-resource>
+
+    <web-resource name="admin resource" key="admin-resource">
+        <resource name="admin.js" type="download" location="js/admin.js"/>
+        <context>atl.admin</context>
+    </web-resource>
+
+    <web-resource name="userprofile resource" key="userprofile-resource">
+        <transformation extension="js">
+            <transformer key="referenceWebResourceTransformer" />
+        </transformation>
+        <resource name="userprofile.js" type="download" location="js/userprofile.js"/>
+        <context>atl.userprofile</context>
+    </web-resource>
+
+    <web-resource key="soy-templates">
+        <dependency>com.atlassian.soy.soy-template-plugin:soy-deps</dependency>
+        <dependency>com.atlassian.auiplugin:aui-experimental-soy-templates</dependency>
+        <resource type="soy" name="referenceActionSoy" location="templates/actions/reference-template-action.soy"/>
+        <resource type="soy" name="referenceViewIssueSoy" location="templates/webpanel/reference-webpanel.soy"/>
+    </web-resource>
+
+    <web-resource name="ref-comments" key="ref-comments" state="disabled">
+        <resource type="download" name="ref-comments.js" location="js/ref-comments.js" />
+        <context>jira.view.issue</context>
+    </web-resource>
+
+
+    <web-resource-transformer key="referenceWebResourceTransformer" class="com.atlassian.jira.dev.reference.plugin.template.ReferenceWebResourceTransformer"/>
+
+    <jql-function key="reference-echo-jql-function" name="Reference Echo Function"
+                  class="com.atlassian.jira.dev.reference.plugin.jql.EchoJqlFunction">
+        <description>Returns the input string.</description>
+        <fname>refEcho</fname>
+    </jql-function>
+
+    <component key="labelsClauseValuesGenerator" class="com.atlassian.jira.jql.values.LabelsClauseValuesGenerator" />
+    <component-import key="labelManager" interface="com.atlassian.jira.issue.label.LabelManager" />
+    <component-import key="templateRenderer" interface="com.atlassian.templaterenderer.TemplateRenderer"/>
+    <component-import key="managedConfigurationItemService" interface="com.atlassian.jira.config.managedconfiguration.ManagedConfigurationItemService"/>
+    <component-import key="customFieldManager" interface="com.atlassian.jira.issue.CustomFieldManager"/>
+    <component-import key="constantsManager" interface="com.atlassian.jira.config.ConstantsManager"/>
+    <component-import key="commentManager" interface="com.atlassian.jira.issue.comments.CommentManager"/>
+    <component-import key="issueService" interface="com.atlassian.jira.bc.issue.IssueService"/>
+    <component-import key="customFieldValuePersister" interface="com.atlassian.jira.issue.customfields.persistence.CustomFieldValuePersister"/>
+    <component-import key="multiGroupConverter" interface="com.atlassian.jira.issue.customfields.converters.MultiGroupConverter"/>
+    <component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher"/>
+    <component-import key="applicationProperties" interface="com.atlassian.jira.config.properties.ApplicationProperties"/>
+    <component-import key="dateTimeFieldChangeLogHelper" interface="com.atlassian.jira.issue.history.DateTimeFieldChangeLogHelper"/>
+    <component-import key="jqlDateSupport" interface="com.atlassian.jira.jql.util.JqlDateSupport"/>
+    <component-import key="stringConverter" interface="com.atlassian.jira.issue.customfields.converters.StringConverter"/>
+    <component-import key="jiraAuthenticationContext" interface="com.atlassian.jira.security.JiraAuthenticationContext"/>
+    <component-import key="velocityTemplatingEngine" interface="com.atlassian.jira.template.VelocityTemplatingEngine"/>
+    <component-import key="permissionManager" interface="com.atlassian.jira.security.PermissionManager"/>
+    <component-import key="velocityRequestContextFactory" interface="com.atlassian.jira.util.velocity.VelocityRequestContextFactory"/>
+    <component-import key="customFieldInputHelper" interface="com.atlassian.jira.issue.customfields.searchers.transformer.CustomFieldInputHelper"/>
+    <component-import key="calendarLanguageUtil" interface="com.atlassian.jira.web.action.util.CalendarLanguageUtil"/>
+    <component-import key="ofBizDelegator" interface="com.atlassian.jira.ofbiz.OfBizDelegator"/>
+    <component-import key="userPreferencesManager" interface="com.atlassian.jira.user.preferences.UserPreferencesManager"/>
+    <component-import key="userManager" interface="com.atlassian.jira.user.util.UserManager"/>
+    <component-import key="issueIndexManager" interface="com.atlassian.jira.issue.index.IssueIndexManager"/>
+    <component-import key="optionsManager" interface="com.atlassian.jira.issue.customfields.manager.OptionsManager"/>
+    <component-import key="issueFactory" interface="com.atlassian.jira.issue.IssueFactory"/>
+    <component-import key="jiraBaseUrls" interface="com.atlassian.jira.issue.fields.rest.json.beans.JiraBaseUrls"/>
+    <component-import key="userUtil" interface="com.atlassian.jira.user.util.UserUtil"/>
+    <component-import key="genericConfigManager" interface="com.atlassian.jira.issue.customfields.manager.GenericConfigManager"/>
+    <component-import key="userResolver" interface="com.atlassian.jira.jql.resolver.UserResolver"/>
+    <component-import key="dateTimeFormatterFactory" interface="com.atlassian.jira.datetime.DateTimeFormatterFactory"/>
+    <component-import key="groupManager" interface="com.atlassian.jira.security.groups.GroupManager"/>
+    <component-import key="pluginAccessor" interface="com.atlassian.plugin.PluginAccessor"/>
+    <component-import key="timeZoneManager" interface="com.atlassian.jira.timezone.TimeZoneManager"/>
+    <component-import key="moduleFactory" interface="com.atlassian.plugin.module.ModuleFactory"/>
+    <component-import key="issueManager" interface="com.atlassian.jira.issue.IssueManager"/>
+    <component-import key="i18nHelper" interface="com.atlassian.jira.util.I18nHelper"/>
+    <component-import key="labelUtil" interface="com.atlassian.jira.issue.label.LabelUtil"/>
+    <component-import key="jqlOperandResolver" interface="com.atlassian.jira.jql.operand.JqlOperandResolver"/>
+    <component-import key="selectConverter" interface="com.atlassian.jira.issue.customfields.converters.SelectConverter"/>
+    <component-import key="userHistoryManager" interface="com.atlassian.jira.user.UserHistoryManager"/>
+    <component-import key="userPickerSearchService" interface="com.atlassian.jira.bc.user.search.UserPickerSearchService"/>
+    <component-import key="searchService" interface="com.atlassian.jira.bc.issue.search.SearchService"/>
+    <component-import key="userConverter" interface="com.atlassian.jira.issue.customfields.converters.UserConverter"/>
+    <component-import key="projectImportLabelFieldParser" interface="com.atlassian.jira.issue.customfields.ProjectImportLabelFieldParser"/>
+    <component-import key="fieldVisibilityManager" interface="com.atlassian.jira.web.FieldVisibilityManager"/>
+    <component-import key="systemProperties" interface="com.atlassian.jira.config.properties.JiraProperties"/>
+
+    <project-operation name="Project Operation for Everyone" key="projectop"
+                       class="com.atlassian.jira.dev.reference.plugin.project.ProjectOperation">
+        <resource name="view" type="velocity" location="templates/project/projectop.vm"/>
+        <param name="name" value="Operation for User"/>
+    </project-operation>
+
+    <project-operation name="Project Operation for Admin" key="projectopadmin"
+                       class="com.atlassian.jira.dev.reference.plugin.project.ProjectOperation">
+        <resource name="view" type="velocity" location="templates/project/projectop.vm"/>
+        <param name="name" value="Operation for Admin"/>
+        <param name="permissions" value="admin"/>
+    </project-operation>
+
+    <single-issue-view key="issue-reference-xml" i18n-name-key="reference.single.issue.view" name="Reference View" class="com.atlassian.jira.dev.reference.plugin.issue.views.ReferenceIssueView" state='enabled' fileExtension="xml" contentType="text/xml">
+        <resource type="velocity" name="view" location="templates/plugins/issueviews/single-xml.vm" />
+        <resource type="velocity" name="header" location="templates/plugins/issueviews/single-xml-header.vm" />
+        <resource type="velocity" name="footer" location="templates/plugins/issueviews/single-xml-footer.vm" />
+        <order>10</order> <!-- todo - implement ordering -->
+    </single-issue-view>
+
+    <macro name="Reference 'Reverse' Macro" key='reverse' i18n-name-key="module.macro.name"
+           class="com.atlassian.jira.dev.reference.plugin.renderer.ReferenceMacro">
+        <description key="module.macro.description">Reference macro that reverses input text</description>
+    </macro>
+
+    <user-format key="reference-full-name-user-format" name="Reference Full Name User Format"
+            class="com.atlassian.jira.dev.reference.plugin.userformat.ReferenceFullNameUserFormat">
+        <description
+                key="user.format.plugin.full.name.desc">Reference Implementation of a Full Name user formatting plugin.
+        </description>
+        <type i18n-name-key="user.format.type.full.name">fullName</type>
+    </user-format>
+
+    <renderer-component-factory key="reference-renderer-component-factory" name="Reference Renderer Component Factory"
+                                class="com.atlassian.jira.dev.reference.plugin.renderer.ReferenceRendererComponentFactory">
+        <order>1000</order>
+    </renderer-component-factory>
+
+    <content-link-resolver key="reference-link-resolver" name="Reference Link Resolver"
+                           class="com.atlassian.jira.dev.reference.plugin.renderer.ReferenceLinkResolver">
+        <order>1000</order>
+    </content-link-resolver>
+
+    <top-navigation key="reference-navigation-top" i18n-name-key="reference.top.navigation"
+                    name="Reference Top Navigation Bar"
+                    class="com.atlassian.jira.plugin.navigation.DefaultPluggableTopNavigation" state='enabled'>
+        <resource type="velocity" name="view" location="templates/topnavigation/referencetopnav.vm"/>
+        <order>5</order>
+    </top-navigation>
+
+    <jira-renderer key="jira-reference-renderer" name="Reference JIRA Renderer" class="com.atlassian.jira.dev.reference.plugin.renderer.ReferenceJiraRenderer">
+        <description>A renderer that will renderer content as plain text, adding a special header</description>
+        <resource type="velocity" name="edit" location="templates/plugins/renderers/text/text-renderer-edit.vm"/>
+    </jira-renderer>
+
+      <!--Reference impl of view issue web panel-->
+
+    <web-panel key="referenceViewIssueWepPanel" location="atl.jira.view.issue.right.context" weight="100">
+        <resource name="view" type="velocity" location="templates/webpanel/reference-webpanel.vm"/>
+        <label key="reference.webpanel.label" />
+    </web-panel>
+
+    <web-panel key="referenceViewIssueWepPanelSoy" location="atl.jira.view.issue.right.context" weight="100">
+        <resource name="view" type="soy" location=":soy-templates/Reference.Soy.WebPanel.viewIssue"/>
+        <label key="reference.webpanel.soy.label" />
+    </web-panel>
+
+    <!-- Icon links accross top of module-->
+    <web-item key="create-view-issue-ref-add" name="Create Reference" section="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/header" weight="1">
+        <label key="reference.webpanel.add.label"/>
+        <tooltip key="reference.webpanel.add.label"/>
+        <styleClass>icon jira-icon-add</styleClass>
+        <link linkId="refViewIssue-add-link">
+            /secure/CreateWorklog!default.jspa
+        </link>
+    </web-item>
+
+    <web-item key="create-view-issue-ref-config" name="Config Reference" section="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/header" weight="2">
+        <label key="reference.webpanel.config.label"/>
+        <tooltip key="reference.webpanel.config.label"/>
+        <styleClass>icon jira-icon-edit</styleClass>
+        <link linkId="refViewIssue-add-link">
+            /secure/CreateWorklog!default.jspa
+        </link>
+    </web-item>
+
+    <!-- Links in default section fo dropdown-->
+    <web-item key="create-view-issue-ref-drop-add" name="Config Reference" section="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/drop/default" weight="1">
+        <label key="reference.webpanel.add.label"/>
+        <tooltip key="reference.webpanel.add.label"/>
+        <link linkId="refViewIssue-drop-add-link">
+            /secure/CreateWorklog!default.jspa
+        </link>
+    </web-item>
+
+    <!-- New section and links in drop down - no label-->
+    <web-section key="refWebPanel-drop-new-section" name="New Section for dropdown of ref web panel" location="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/drop" weight="10"/>
+    <web-item key="refViewIssue-drop-add-section-link" name="Config Reference" section="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/drop/refWebPanel-drop-new-section" weight="1">
+        <label key="reference.webpanel.add.label"/>
+        <tooltip key="reference.webpanel.add.label"/>
+        <link linkId="refViewIssue-drop-add-section-link">
+            /secure/CreateWorklog!default.jspa
+        </link>
+    </web-item>
+
+    <!-- New section and links in drop down - with label-->
+    <web-section key="refWebPanel-drop-new-label-section" name="New Section for dropdown of ref web panel" location="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/drop" weight="20">
+        <label key="reference.webpanel.drop.section"/>
+    </web-section>
+
+    <web-item key="refViewIssue-drop-config-label-section-link" name="Config Reference" section="com.atlassian.jira.dev.reference-plugin:referenceViewIssueWepPanel/drop/refWebPanel-drop-new-label-section" weight="1">
+        <label key="reference.webpanel.config.label"/>
+        <tooltip key="reference.webpanel.config.label"/>
+        <link linkId="refViewIssue-drop-config-label-section-link">
+            /secure/CreateWorklog!default.jspa
+        </link>
+    </web-item>
+
+    <web-panel key="reference-transitions-tab" name="view_reference_transitions_tab" location="workflow.transition.tabs" weight="150" state="disabled">
+        <label key="reference.workflowtransitions.tab.panel.label" />
+        <param name="count">12</param>
+        <resource name="view" type="velocity">&lt;h3&gt;A tab appears!&lt;/h3&gt;</resource>
+    </web-panel>
+
+    <web-panel key="reference-transitions-tab-first" name="view_reference_transitions_tab_first" location="workflow.transition.tabs" weight="1" state="disabled">
+        <label key="reference.workflowtransitions.tab.panel.first.label" />
+        <resource name="view" type="velocity">>&lt;h3&gt;A tab appears!&lt;/h3&gt;</resource>
+    </web-panel>
+
+    <rpc-xmlrpc key="reference-xmlrpc" name="Reference XML-RPC Service" class="com.atlassian.jira.dev.reference.plugin.rpc.ReferenceXmlRpcServiceImpl">
+        <description>Reference XML-RPC Service that returns plugin version</description>
+        <service-path>reference-xmlrpc</service-path>
+    </rpc-xmlrpc>
+
+    <rpc-soap key="reference-soap" name="Reference SOAP Service" class="com.atlassian.jira.dev.reference.plugin.rpc.ReferenceSoapServiceImpl">
+        <description>Reference WINNING SOAP Service</description>
+        <service-path>reference-soap</service-path>
+        <published-interface>com.atlassian.jira.dev.reference.plugin.rpc.ReferenceSoapService</published-interface>
+    </rpc-soap>
+
+    <listener key="referenceEventListener" class="com.atlassian.jira.dev.reference.plugin.components.ReferenceEventListener"/>
+
+    <!-- Translation Transforms -->
+    <!-- Note: this is state="disabled" so that it does not interfere with Func Tests running -->
+    <translation-transform key="refTranslationTransform-append-lambda" name="Reference Translation Transform - Append Lambda"
+                           class="com.atlassian.jira.dev.reference.plugin.language.AppendLambdaTranslationTransform" state="disabled">
+        <order>10</order>
+        <description>Applies a transform to all translations that appends a lambda (and some non printable characters)</description>
+    </translation-transform>
+
+    <!--A reference Authorisation based on request parameters-->
+    <authorisation key="refAuth" name="Reference Authorisation" class="com.atlassian.jira.dev.reference.plugin.security.auth.ReferenceAuthorisation"/>
+
+    <notification-filter key="refNotificationFilter" name="Reference Notification Filter" class="com.atlassian.jira.dev.reference.plugin.notifications.ReferenceNotificationFilter" />
+
+    <pre-delete-user-errors key="refReferenceUserDeletionErrors" name="Reference User Deletion Errors"  class="com.atlassian.jira.dev.reference.plugin.user.ReferencePreDeleteUserErrors" />
+    <password-policy key="refReferencePasswordPolicy" name="Reference Password Policy"  class="com.atlassian.jira.dev.reference.plugin.user.ReferencePasswordPolicy" />
+
+    <index-document-configuration entity-key="IssueProperty" key="IssueProperty">
+        <key property-key="foo.bar">
+            <extract path="foo1.bar2" type="string">
+            </extract>
+        </key>
+        <key property-key="foo.bar">
+            <extract path="foo1.bar2" type="date">
+            </extract>
+        </key>
+    </index-document-configuration>
+
+    <entity-search-extractor key="searchExtractor" class="com.atlassian.jira.dev.reference.plugin.extractor.IssueSearchExtractorImpl" />
+
+    <project-permission-override key="brad.odlaw.cant.comment" class="com.atlassian.jira.dev.reference.plugin.security.CantCommentProjectPermissionOverride" />
+    <project-permission-override key="brad.odlaw.cant.edit.issue" class="com.atlassian.jira.dev.reference.plugin.security.CantEditIssueProjectPermissionOverride" />
+    <project-permission-override key="brad.odlaw.cant.transition.issue" class="com.atlassian.jira.dev.reference.plugin.security.CantTransitionIssueProjectPermissionOverride" />
+
+    <global-permission key="ref.global.permission" i18n-name-key="com.atlassian.jira.reference.plugin.global.permission.name" i18n-description-key="com.atlassian.jira.reference.plugin.global.permission.description" anonymous-allowed="false"/>
+
+    <global-permission key="ref.global.permission.anon.allowed" i18n-name-key="com.atlassian.jira.reference.plugin.global.permission.anon.name" i18n-description-key="com.atlassian.jira.reference.plugin.global.permission.anon.description" anonymous-allowed="true"/>
+
+    <project-permission key="ref.project.permission" i18n-name-key="com.atlassian.jira.reference.plugin.project.permission.name" i18n-description-key="com.atlassian.jira.reference.plugin.project.permission.description" category="PROJECTS" />
+
+    <!-- This is disabled by default in order not to affect tests which do not require this plugin module -->
+    <comment-field-renderer key="ref-plugin-comment-field-renderer" state="disabled" weight="10">
+
+        <condition class="com.atlassian.jira.dev.reference.plugin.comment.RefPluginCommentCondition" />
+
+        <context-provider class="com.atlassian.jira.plugin.comment.SystemCommentViewIssueContextProvider" />
+
+        <resource type="velocity" name="field-edit" location="templates/comment/ref-plugin-comment-field-edit.vm"/>
+        <resource type="velocity" name="field-view" location="templates/comment/ref-plugin-comment-field-view.vm"/>
+
+        <resource type="velocity" name="issue-page-edit" location="templates/comment/ref-plugin-comment-edit.vm"/>
+        <resource type="velocity" name="issue-page-view" location="templates/comment/ref-plugin-comment-view.vm"/>
+
+    </comment-field-renderer>
+
+    <resource type="helpPaths" location="HelpPaths" name="helpPaths"/>
+
+    <license-role key="referenceRole" name="Reference License Role">
+        <!-- An internal plugin point only - this won't do anything for a long time, if ever -->
+        <description>A license role for reference which does nothing.</description>
+        <display-name-i18n-key>licenserole.reference.user.name</display-name-i18n-key>
+        <license-role-id>ReferenceUser</license-role-id>
+    </license-role>
+</atlassian-plugin>
+

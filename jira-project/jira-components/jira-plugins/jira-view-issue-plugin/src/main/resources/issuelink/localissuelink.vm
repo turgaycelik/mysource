@@ -1,0 +1,36 @@
+#enable_html_escaping()
+#* @vtlvariable name="issueLinkContext" type="com.atlassian.jira.plugin.viewissue.issuelink.IssueLinkContext" *#
+
+#*Only render the icon if the $url is not null*#
+#macro (renderIcon $url $title $alt)
+    #if ($url)
+    <img src="$url" width="16" height="16" title="$!{title}" alt="$!{alt}" />
+    #end
+#end
+
+#set($contextMap = ${issueLinkContext.map})
+<p>
+    #renderIcon(${contextMap.iconUrl} ${contextMap.iconTooltip} ${contextMap.iconTooltip})
+    <span title="${contextMap.tooltip}">
+        <a href="${contextMap.url}" data-issue-key="${contextMap.issueKey}" class="issue-link link-title#if (${contextMap.resolved}) resolution#end">${contextMap.title}</a>
+        <span class="link-summary">$!{contextMap.summary}</span>
+    </span>
+</p>
+#if (${contextMap.priorityIconUrl} || ${contextMap.statusIconUrl})
+<ul class="link-snapshot">
+    #if (${contextMap.priorityIconUrl})
+    <li class="priority">#renderIcon(${contextMap.priorityIconUrl} ${contextMap.priorityIconTooltip} ${contextMap.priorityIconTooltip})</li>
+    #end
+    #if (${contextMap.status})
+        <li class="status">
+            #if(${contextMap.statusIconLink})<a href="${contextMap.statusIconLink}">#end
+            $soyRenderer.render('jira.webresources:issue-statuses', 'JIRA.Template.Util.Issue.Status.issueStatusResolver', {
+                'issueStatus': $contextMap.status,
+                'isSubtle': true,
+                'maxWidth': 'short'
+            })
+            #if(${contextMap.statusIconLink})</a>#end
+        </li>
+    #end
+</ul>
+#end

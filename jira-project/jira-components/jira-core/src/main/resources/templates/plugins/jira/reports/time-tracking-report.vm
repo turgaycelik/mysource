@@ -1,0 +1,213 @@
+#disable_html_escaping()
+<style type="text/css">
+    table.timeReportHeader
+    {
+        width:100%;
+        border-width:0;
+    }
+    table.timeReportHeader thead th
+    {
+        background-color:#f0f0f0;
+    }
+    table.timeReportHeader h3, table.timeReportHeader h4
+    {
+        margin-top:0;
+        margin-left: 6px;
+        padding:5px;
+    }
+    table.timeReportHeader td
+    {
+        padding:0px;
+    }
+    table.timeReport
+    {
+        padding:0;
+        width:100%;
+        border-width:0;
+        margin:0;
+    }
+    table.timeReport thead
+    {
+        background-color:#f0f0f0;
+        vertical-align:bottom;
+    }
+    table.timeReport tfoot
+    {
+        background-color:#f0f0f0;
+        vertical-align:bottom;
+    }
+    table.timeReport th
+    {
+        padding:5px;
+    }
+    table.timeReport td
+    {
+        padding:5px;
+    }
+    table.timeReport tbody tr .figures
+    {
+        white-space:nowrap;
+    }
+    table.timeReport tbody tr .issue-key
+    {
+        white-space:nowrap;
+    }
+    table.timeReport thead tr th
+    {
+        font-weight:bold;
+        border-bottom-color: #666;
+        border-bottom-width: 1px;
+        border-bottom-style:solid;
+    }
+    table.timeReport tfoot tr th
+    {
+        font-weight:bold;
+        border-top-color: #666;
+        border-top-width: 1px;
+        border-top-style:solid;
+        white-space:nowrap;
+    }
+    table.timeReport .left-bordered
+    {
+        border-left-color: #666;
+        border-left-width: 1px;
+        border-left-style: solid;
+    }
+    table.timeReport .figures
+    {
+        text-align:right;
+        vertical-align:bottom;
+    }
+    table.timeReport .small-head
+    {
+        font-size:x-small;
+    }
+    table.timeReport td
+    {
+        border-left-color: lightgray;
+        border-left-width: 1px;
+        border-left-style: solid;
+        border-bottom-color: lightgray;
+        border-bottom-width: 1px;
+        border-bottom-style: solid;
+    }
+    table.subtask-summary td
+    {
+        border: none;
+        padding:0;
+    }
+    table.timeReport .greyed-out
+    {
+        color: gray;
+    }
+    table.timeReport tbody .red-highlight
+    {
+        font-weight:normal;
+    }
+    table.timeReport tbody .green-highlight
+    {
+        font-weight:normal;
+    }
+</style>
+
+<div>
+    <table class="timeReportHeader" border="0" cellspacing="0" >
+        <thead>
+            <tr>
+                <th nowrap="true"><h3 class="bluetext">$descriptor.getText("timetracking.report.for")&nbsp;$textutils.htmlEncode($action.getSelectedProject().getName())
+                #if($version.getId())
+                    &nbsp;($textutils.htmlEncode($version.getName()))
+                #end
+                </h3>
+                </th>
+            </tr>
+            #if ($subtasksEnabled)
+            <tr>
+                <td nowrap="true">
+                    <h4 class="grey">$textutils.htmlEncode($subtaskDescription)</h4>
+                </td>
+            </tr>
+            #end
+        </thead>
+        <tbody>
+            <tr>
+                #if(!$issues.isEmpty())
+                    <td>#parse("templates/plugins/jira/reports/bars.vm")</td>
+                #else
+                    <td>$descriptor.getText("timetracking.noissues")</td>
+                #end
+            </tr>
+        </tbody>
+    </table>
+    #if (!$issues.isEmpty())
+        <table class="timeReport" id="timeReport" border="0" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th class="small-head">$descriptor.getText("timetracking.key")</th>
+                    <th>&nbsp;</th>
+                    <th class="small-head">$descriptor.getText("timetracking.summary")</th>
+                    <th class="figures small-head left-bordered">$descriptor.getText("timetracking.original.estimate")</th>
+                    #if ($subtasksEnabled)
+                        #set ($tooltip = $descriptor.getText("timetracking.aggregate.original.estimate"))
+                        <th class="figures" title="$tooltip">$descriptor.getText("common.concepts.sum")</th>
+                    #end
+                    <th class="figures small-head left-bordered">$descriptor.getText("timetracking.estimate.remaining.short")</th>
+                    #if ($subtasksEnabled)
+                        #set ($tooltip = $descriptor.getText("timetracking.aggregate.estimate.remaining"))
+                        <th class="figures" title="$tooltip">$descriptor.getText("common.concepts.sum")</th>
+                    #end
+                    <th class="figures small-head left-bordered">$descriptor.getText("timetracking.time.spent")</th>
+                    #if ($subtasksEnabled)
+                        #set ($tooltip = $descriptor.getText("timetracking.aggregate.time.spent"))
+                        <th class="figures" title="$tooltip">$descriptor.getText("common.concepts.sum")</th>
+                    #end
+                    <th class="figures small-head left-bordered">$descriptor.getText("timetracking.accuracy")</th>
+                    #if ($subtasksEnabled)
+                        #set ($tooltip = $descriptor.getText("timetracking.aggregate.accuracy"))
+                        <th class="figures" title="$tooltip">$descriptor.getText("common.concepts.sum")</th>
+                    #end
+                </tr>
+            </thead>
+            <tbody>
+                #foreach ($issue in $issues)
+                    #parse("templates/plugins/jira/reports/time-tracking-issue.vm")
+                    #foreach ($issue in $issue.getSubTasks())
+                        #parse("templates/plugins/jira/reports/time-tracking-issue.vm")
+                    #end
+                #end
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th class="figures">$descriptor.getText("timetracking.total")</th>
+                    #if ($subtasksEnabled)
+                        <th class="figures left-bordered" colspan="2">$totals.getAggregateOriginalEstimate()</th>
+                        <th class="figures left-bordered" colspan="2">$totals.getAggregateRemainingEstimate()</th>
+                        <th class="figures left-bordered" colspan="2">$totals.getAggregateTimeSpent()</th>
+                        #if ($totals.isAggregateOnSchedule() == 1)
+                            <th class="left-bordered green-highlight figures" colspan="2">$totals.getAggregateAccuracyNice()</th>
+                        #elseif ($totals.onSchedule() == -1)
+                            <th class="left-bordered red-highlight figures" colspan="2">&#8209;$totals.getAggregateAccuracyNice()</th>
+                        #else
+                            <th class="left-bordered figures on-track" colspan="2">$descriptor.getText("timetracking.ontrack")</th>
+                        #end
+                    #else
+                        <th class="figures left-bordered">$totals.getOriginalEstimate()</th>
+                        <th class="figures left-bordered">$totals.getRemainingEstimate()</th>
+                        <th class="figures left-bordered">$totals.getTimeSpent()</th>
+                        #if ($totals.onSchedule() == 1)
+                            <th class="green-highlight left-bordered figures">$totals.getAccuracyNice()</th>
+                        #elseif ($totals.onSchedule() == -1)
+                            <th class="red-highlight left-bordered figures">&#8209;$totals.getAccuracyNice()</th>
+                        #else
+                            <th class="figures on-track greyed-out">$descriptor.getText("timetracking.ontrack")</th>
+                        #end
+                    #end
+                </tr>
+            </tfoot>
+        </table>
+    #end
+</div>

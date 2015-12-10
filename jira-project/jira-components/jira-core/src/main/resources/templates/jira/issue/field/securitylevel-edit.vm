@@ -1,0 +1,14 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+<select class="select" id="$field.id" name="$field.id">
+    <option#if ($noneLevelId && $security && $security == $noneLevelId ) selected="selected"#end value="$!noneLevelId">
+        $i18n.getText('common.words.none')
+    </option>
+    #foreach ($sc in $securityLevels)
+        <option#if ($security && $sc && $security == $sc.getLong('id')) selected="selected"#end value="$sc.getLong('id')">
+            $textutils.htmlEncode($sc.getString('name'))
+        </option>
+    #end
+</select>
+#localHelp ('issue.field.securitylevel' 'SecurityLevels')
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

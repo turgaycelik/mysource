@@ -1,0 +1,33 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-something")}
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+
+    <input type="hidden" name="issuelinks" value="issuelinks"/>
+
+    <select class="select" id="issuelinks-linktype" name="issuelinks-linktype">
+        #foreach ($linkType in $linkTypes)
+            <option #if ($selectedLinkType == $linkType) selected="selected" #else #if ($velocityCount == 0 && $textutils.stringSet($selectedLinkType)) selected="selected"#end #end value="$textutils.htmlEncode($linkType)">$textutils.htmlEncode($linkType)</option>
+        #end
+    </select>
+
+    <select class="aui-field-issuepicker hidden" multiple="multiple" name="issuelinks-issues" id="issuelinks-issues"
+                data-popup-link-message="[Select Issue]"
+                data-popup-width="620"
+                data-popup-height="500"
+                data-remove-on-un-select="true"
+                data-ajax-options.query="true"
+                data-ajax-options.url="${req.contextPath}/rest/api/1.0/issues/picker"
+                data-ajax-options.data.current-issue-key="$!issue.key"
+                data-ajax-options.data.show-sub-tasks="true"
+                data-ajax-options.data.show-sub-task-parent="true"
+                data-ajax-options.data.current-project-id="">
+            #if($value && $!value.linkedIssues)
+                #foreach ($linkedIssue in $value.linkedIssues)
+                    <option selected="selected" value="$textutils.htmlEncode($linkedIssue)">$textutils.htmlEncode($linkedIssue)</option>
+                #end
+            #end
+        </select>
+    <div class="description">$i18n.getText("linkissue.sf.picker.desc")</div>
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+$!{auiparams.clear()}
+

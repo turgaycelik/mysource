@@ -1,0 +1,8 @@
+#* @vtlmacrolibrary path="../../../../../../../jira-core/src/main/resources/templates/plugins/jira/issuelinks/macros.vm" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.action.JiraActionSupport" *#
+#* @vtlvariable name="title" type="java.lang.String" *#
+#* @vtlvariable name="url" type="java.lang.String" *#
+#* @vtlvariable name="urlModeAbsolute" type="com.atlassian.plugin.webresource.UrlMode" *#
+#* @vtlvariable name="webResourceUrlProvider" type="com.atlassian.plugin.webresource.WebResourceUrlProvider" *#
+
+#loadingIssueLink ($url $title $i18n $urlModeAbsolute $webResourceUrlProvider)

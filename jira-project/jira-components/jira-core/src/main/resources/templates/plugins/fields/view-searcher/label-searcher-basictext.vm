@@ -1,0 +1,13 @@
+#disable_html_escaping()
+## this is very much a hack - and assumes a lot of things about how a custom field works.
+## please ensure that this will work for you before you use this template.
+## NOTE: This only has to put the urlPrefix in the href now since the url
+## passed in has become much smarter and has already accounted for the custom
+## fields value.
+#if ($value)
+#if ($urlPrefix && $urlPrefix != '')
+    <a href="${urlPrefix}">$textutils.htmlEncode($value)</a>
+#else
+    $textutils.htmlEncode($value)
+#end
+#end

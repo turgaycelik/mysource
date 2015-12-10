@@ -1,0 +1,34 @@
+@import "../../imports/mixins/grid";
+
+//pagination
+.count-pagination {
+    clear: both;
+    padding: @grid 0;
+    table-layout: auto;
+
+    .pagination {
+        @pagination-gap: 0.1em;
+        font-size: 0; // Creative technique to reduce the size of whitespace in-between elements of the pagination list.
+        text-align: right;
+        white-space: nowrap;
+
+        > a,
+        > strong,
+        > span {
+            font-size: 14px; // Reset the font-size.
+            line-height: 1;
+            height: auto;
+            margin: 0 0 0 (1.5*@pagination-gap);
+            padding: @pagination-gap;
+            position: relative;
+            vertical-align: bottom;
+        }
+    }
+}
+
+//results count
+.results-count-start,
+.results-count-end,
+.results-count-total {
+    font-weight: bold;
+}

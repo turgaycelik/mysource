@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.heatmap.title__" directory_title="__MSG_gadget.heatmap.title__" description="__MSG_gadget.heatmap.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:heat-map-gadget", "heatmap-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:heat-map-gadget", "heatmap-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+                Charts
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.heatmap")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="refresh" datatype="hidden" default_value="false"/>
+    <UserPref name="isPopup" datatype="hidden" default_value="false"/>
+    <UserPref name="projectOrFilterId" datatype="hidden" />
+    <UserPref name="statType" datatype="hidden" default_value="assignees" />
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+        
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+                            var searchParam ;
+                            if (/^jql-/.test(this.getPref("projectOrFilterId")) || this.getPref("isPopup") === "true"){
+                                searchParam =
+                                {
+                                    userpref: "projectOrFilterId",
+                                    type: "hidden",
+                                    value: gadgets.util.unescapeString(this.getPref("projectOrFilterId"))
+                                };
+                            }
+                            else{
+                                searchParam = AJS.gadget.fields.projectOrFilterPicker(gadget, "projectOrFilterId");
+                            }
+                            return  {
+                                action: "/rest/gadget/1.0/heatmap/validate",
+                                theme : function () {
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    searchParam,
+                                    {
+                                        userpref: "statType",
+                                        label: this.getPrefs().getMsg("gadget.common.stattype.label"),
+                                        description: this.getMsg("gadget.common.stattype.description"),
+                                        type: "select",
+                                        selected: this.getPref("statType"),
+                                        options: args.statType.stats
+                                    },
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        },
+                        args: [{
+                            key: "statType",
+                            ajaxOptions:  "/rest/gadget/1.0/statTypes"
+                        }]
+                    },
+                    view: {
+                        enableReload: true,
+                        onResizeReload: true,
+                        template: function (args) {
+
+                            var gadget = this;
+
+                            // reset view
+                            gadget.getView().addClass("g-heatmap").empty();
+
+                            var requiresTitle = function() {
+                                return args.chart.filterTitle && args.chart.filterTitle !== "" && args.chart.filterTitle !== "gadget.common.anonymous.filter" && gadget.getPref("isPopup") === "false";
+                            };
+
+                            var setTitles = function () {
+                                if (requiresTitle()){
+                                    // This is used to pass the name of filter or project to the picker
+                                    gadget.projectOrFilterName = args.chart.filterTitle;
+                                    gadgets.window.setTitle(AJS.format("__MSG_gadget.heatmap.title.specific__", args.chart.filterTitle));
+                                }
+                            }();
+
+                            var getHeatMapContainer = function () {
+                                var heatMap = AJS.$("<div id='heatmap' />").appendTo(gadget.getView());
+                                return function () {
+                                    return heatMap;
+                                };
+                            }();
+
+                            var safeEscapeString = function(text) {
+                                if(text) {
+                                    return gadgets.util.escapeString(text);
+                                } else {
+                                    return '';
+                                }
+                            };
+
+                            var getHeatMap = function () {
+                                if (args.chart.data) {
+                                    var html = AJS.$("<ul />").addClass(
+                                            "heatmap");
+                                    AJS.$(args.chart.data).each(function (i) {
+                                        var link;
+                                        var title =  (this.value == 1) ? gadget.getMsg("gadget.heatmap.occurrence") : gadget.getMsg("gadget.heatmap.occurrences");
+                                        // If there are irrelevant issues, no url will be given
+                                        if(this.url){
+                                            link = AJS.$("<a />")
+                                                    .attr("href", this.url)
+                                                    .attr("target", "_parent");
+                                        } else {
+                                            link = AJS.$("<span />");
+                                        }
+                                        link.css("font-size", this.fontSize)
+                                            .attr("title", this.value + " " + title + " (" + this.percentage + "%)")
+                                            .append(safeEscapeString(this.key));
+                                        html.append(AJS.$("<li />")
+                                            .append(link)
+                                            .append(" ")
+                                        )
+                                    });
+                                    AJS.$("#heatmap", gadget.getView()).append(html);
+                                }else{
+                                    AJS.$("#heatmap", gadget.getView()).append(gadget.getMsg("gadget.heatmap.no.data"));
+                                }
+                                gadget.resize();
+                            }();
+
+                            var setSummary = function() {
+                                var linkStart = "";
+                                var linkEnd = "";
+                                var distinctCount= args.chart.data ? args.chart.data.length: 0;
+                                if(requiresTitle()) {
+                                    linkStart = "<a href=\"__ATLASSIAN_BASE_URL__" + args.chart.filterUrl + "\" target=\"_parent\" title=\"" + safeEscapeString(args.chart.filterTitle) + "\">";
+                                    linkEnd = "</a>";
+                                }
+                                getHeatMapContainer().append(
+                                        AJS.$("<p/>").append(AJS.format("__MSG_gadget.heatmap.summary__", "<strong>" + distinctCount + "</strong>", "<strong>'"+ safeEscapeString(args.chart.statType) + "'</strong>", linkStart, "<strong>" + args.chart.issueCount + "</strong>",  linkEnd))
+                                )
+                            }();
+                        },
+                        args: [{
+                            key: "chart",
+                            ajaxOptions: function () {
+                                return {
+                                    url: "/rest/gadget/1.0/heatmap/generate",
+                                    data:  {
+                                        projectOrFilterId: gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                        statType: gadgets.util.unescapeString(this.getPref("statType"))
+                                    }
+                                };
+                            }
+                        }]
+                    }
+                });
+            })();
+        </script>
+
+
+        ]]>
+    </Content>
+
+
+</Module>

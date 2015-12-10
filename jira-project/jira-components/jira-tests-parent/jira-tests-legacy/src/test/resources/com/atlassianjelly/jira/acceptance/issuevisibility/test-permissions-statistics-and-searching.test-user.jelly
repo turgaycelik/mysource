@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<JiraJellyTests xmlns:j="jelly:core" xmlns:u="jelly:util" xmlns:test="jelly:junit" xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <u:tokenize var="usernames" delim=",">${usernamelist}</u:tokenize>
+    <j:forEach items="${usernames}" var="username">
+        <jira:Login username="${username}">
+            <j:set var="jirauser" value="${jelly.user}"/>
+            <!-- The number of issues the users in the above list should be able to see -->
+            <!-- Run a search as this user as set the issues returned in to a variable -->
+            <jira:RunSearchRequest var="issues"/>
+
+            <!-- Check the number of issues returned from the search is the number expected -->
+            <j:set var="numberOfIssues" value="${size(issues)}"/>
+            <test:assert test="${shouldSee == numberOfIssues}">
+                User ${jirauser} should see ${shouldSee} issues they saw ${numberOfIssues}
+                ${issues}
+            </test:assert>
+
+            <!-- Loop over all issues and check that the user can see the ones returned in the search request
+            and can not see the other ones -->
+            <j:forEach items="${allIssues}" var="issue">
+                <!-- check to see if this user can see this issue -->
+                <j:set var="inCollection" value="${issues.contains(issue)}"/>
+                <jira:StringContains value="${issue.getString('summary')}" possiblyContains="${canSeeNoLevelIssues}" doesContain="true">
+                    <test:assert test="${inCollection}">User ${jirauser} should not be able to see the no level issue: ${issue}</test:assert>
+                    <test:assert test="${inCollection == permissionManager.hasPermission(10,issue,jirauser)}">User ${jirauser} should
+                        <j:if test="${inCollection}">not </j:if>be able to see the no level issue: ${issue}
+                    </test:assert>
+                </jira:StringContains>
+
+                <jira:StringContains value="${issue.getString('summary')}" possiblyContains="${canSeeNoLevelIssues}" doesContain="false">
+                    <jira:StringContains value="${issue.getString('summary')}" possiblyContains="${userTypeList}" doesContain="true">
+                        <test:assert test="${inCollection}">User ${jirauser} should be able to see issue: ${issue}</test:assert>
+                    </jira:StringContains>
+                    <jira:StringContains value="${issue.getString('summary')}" possiblyContains="${userTypeList}" doesContain="false">
+                        <test:assert test="${!inCollection}">User ${jirauser} should not be able to see issue: ${issue}</test:assert>
+                    </jira:StringContains>
+                    <test:assert test="${inCollection == permissionManager.hasPermission(10,issue,jirauser)}">User ${jirauser} should
+                        <j:if test="${inCollection}">not </j:if>be able to see the issue: ${issue}
+                    </test:assert>
+                </jira:StringContains>
+            </j:forEach>
+        </jira:Login>
+    </j:forEach>
+</JiraJellyTests>

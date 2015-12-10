@@ -1,0 +1,2 @@
+#disable_html_escaping()
+<customfieldvalue>$dateTimes.formatRSS($!value)</customfieldvalue>

@@ -1,0 +1,12 @@
+{
+    "name": "plan-templates-loader",
+    "version": "0.1.0",
+    "author": "Jaime Sanchez <jsanchez@atlassian.com>",
+    "description": "A simple utility to load JIRA plan templates into JBAC. Strongly based on the loader for Issue Search by scinos@atlassian.com",
+    "dependencies": {
+        "async": "^0.8.0",
+        "read": "^1.0.5",
+        "request": "^2.34.0",
+        "temp": "^0.7.0"
+    }
+}

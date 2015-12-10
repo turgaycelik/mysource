@@ -1,0 +1,10 @@
+#disable_html_escaping()
+</div>
+<script>
+    // Prevent click events from doing stuff in this view
+    AJS.$(function(){
+        AJS.$('#printable-content *').unbind('click').click(function(e){ e.preventDefault() }).removeAttr('onclick');
+    });
+</script>
+</body>
+</html>

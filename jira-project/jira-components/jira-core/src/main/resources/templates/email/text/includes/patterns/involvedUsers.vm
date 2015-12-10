@@ -1,0 +1,10 @@
+#if($involvedUsers && $involvedUsers.size() > 0)
+     $i18n.getText('jira-share-plugin.email.issue.shared.with')
+#***##foreach($involvedUser in $involvedUsers)##
+#*      *##if($involvedUser.user)
+#**#          $involvedUser.user.name
+#*      *##elseif($involvedUser.email)
+#**#          $involvedUser.email
+#*      *##end
+#**##end
+#end

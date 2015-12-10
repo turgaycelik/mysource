@@ -1,0 +1,59 @@
+{namespace JIRA.Templates.Avatar}
+
+/**
+ * @param size
+ * @param src
+ * @param title
+ * @param avatarType
+ * @param defaultId
+ * @param labelContent
+ * @param avatarOwnerId
+ * @param mandatory
+ * @param? imageClasses
+ * @param? fieldId
+ * @param? avatarId
+ */
+{template .picker}
+    {call aui.form.fieldGroup}
+        {param content}
+            {call aui.form.label}
+                {param isRequired: $mandatory /}
+                {param content: $labelContent /}
+                {param forField: null /}
+            {/call}
+
+            <a class="matrix jira-avatar-picker-trigger" href="#"> // to improve layout (all fields types have it's classes, avatar sadly does not)
+            {call aui.avatar.avatar}
+                {param tagName: 'span' /}
+                {param size: $size /}
+                {param avatarImageUrl: $src /}
+                {param accessibilityText: $title /}
+                {param isProject: false /}
+                {param imageClasses}
+                     {if not(not $imageClasses)}{$imageClasses}{/if}
+                {/param}
+                {param extraClasses}
+                    jira-avatar-{$avatarType}
+                {/param}
+            {/call}
+
+            <span class="avatar-select-text">{getText('admin.text.image.select.image')}</span></a>
+        {/param}
+    {/call}
+
+
+    <span id="avatar-dialog-title" class="hidden">{$title}</span>
+    <span id="attach-max-size" class="hidden">130000000</span>
+    <span id="default-avatar-id" class="hidden">{$defaultId}</span>
+    <span id="avatar-owner-id" class="hidden">{$avatarOwnerId}</span>
+    <span id="avatar-type" class="hidden">{$avatarType}</span>
+    <span id="avatar-size" class="hidden">{$size}</span>
+    {if not not $fieldId}
+        <input type="hidden" id="avatar-picker-avatar-id" name="{$fieldId}" value="
+        {if not not $avatarId}
+            {$avatarId}
+        {/if}
+        ">
+    {/if}
+
+{/template}

@@ -1,0 +1,244 @@
+<atlassian-plugin key="jira.keyboard.shortcuts" i18n-name-key="admin.keyboard.shortcuts.plugin.name"
+                  name="Keyboard Shortcuts Plugin">
+
+    <plugin-info>
+        <description key="admin.keyboard.shortcuts.plugin.desc">A plugin that defines a number of keyboard shortcuts.
+        </description>
+        <version>1.0</version>
+        <application-version min="4.0" max="4.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!--
+    Operations will generally use jQuery selectors to define the target of an action.  There's a couple of exceptions
+    such as the 'execute' and  'goTo' operations, which take a javascript function and url respectively.
+    -->
+
+    <!-- GLOBAL SHORTCUTS -->
+
+    <keyboard-shortcut key="go-to-dashboard-kb-shortcut" i18n-name-key="admin.keyboard.shortcut.goto.dashboard.name.common.header"
+                       name="Go to Dashboard Keyboard Shortcut - Common Header" state='enabled'>
+        <order>10</order>
+        <description key="admin.keyboard.shortcut.goto.dashboard.desc">
+            Defines a keyboard shortcut to navigate to the user''s current Dashboard.
+        </description>
+        <shortcut>gd</shortcut>
+        <operation type="goTo">/secure/Dashboard.jspa</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="browse-project-kb-shortcut" i18n-name-key="admin.keyboard.shortcut.browse.project.name.common.header"
+                       name="Browse Project Keyboard Shortcut - Common Header" state='enabled'>
+        <order>20</order>
+        <description key="admin.keyboard.shortcut.browse.project.desc">
+            Defines a keyboard shortcut to navigate to the user''s current Project or, alternatively the list of all visible projects.
+        </description>
+        <shortcut>gp</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                var elem = jQuery("#browse_link");
+                if (elem.length > 0) {
+                    window.location.href = elem.attr("href");
+                }
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="issue-navigator-kb-shortcut"
+                       i18n-name-key="admin.keyboard.shortcut.find.issues.name.common.header"
+                       name="Issue Navigator Keyboard Shortcut - Common Header" state='enabled'>
+        <order>30</order>
+        <description key="admin.keyboard.shortcut.find.issues.desc">
+            Defines a keyboard shortcut to navigate to the issue navigator.
+        </description>
+        <shortcut>gi</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                var elem = jQuery("#find_link");
+                if (elem.length > 0) {
+                    window.location.href = elem.attr("href");
+                }
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="quicksearch" i18n-name-key="admin.keyboard.shortcut.quicksearch.name" name="Quick Search" state='enabled'>
+        <order>50</order>
+        <description key="admin.keyboard.shortcut.quicksearch.desc">Quick Search</description>
+        <shortcut>/</shortcut>
+        <operation type="moveToAndFocus">#quickSearchInput, #admin-quick-nav-field</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="shifter" i18n-name-key="admin.keyboard.shortcut.shifter.name" name="Quick Operations" state='enabled'>
+        <order>60</order>
+        <description key="admin.keyboard.shortcut.shifter.desc">Quick Operations</description>
+        <shortcut>.</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                JIRA.Shifter.show();
+            ]]>
+        </operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="create.issue" i18n-name-key="admin.keyboard.shortcut.create.issue.name" name="Create Issue" state='enabled'>
+        <order>60</order>
+        <description key="admin.keyboard.shortcut.create.issue.desc">Create an Issue</description>
+        <shortcut>c</shortcut>
+        <operation type="moveToAndClick">#header .create-issue</operation>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="help" i18n-name-key="admin.keyboard.shortcut.help.name" name="Shortcut help" state='enabled'>
+        <order>10000</order>
+        <description key="admin.keyboard.shortcut.help.desc">Open shortcut help</description>
+        <shortcut>?</shortcut>
+        <operation type="click">#keyshortscuthelp</operation>
+    </keyboard-shortcut>
+
+    <!-- ISSUE Navigation SHORTCUTS: These apply both on the view issue page and the issue navigator -->
+    <keyboard-shortcut key="navigator.view.issue" i18n-name-key="admin.keyboard.shortcut.navigator.view.issue.name" name="View Issue" state='enabled'>
+        <order>10</order>
+        <description key="admin.keyboard.shortcut.navigator.view.issue.desc">View the selected issue</description>
+        <shortcut>o</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                jira.app.issuenavigator.shortcuts.viewSelectedIssue();
+            ]]>
+        </operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="next.issue" i18n-name-key="admin.keyboard.shortcut.next.issue.name" name="Next Issue" state='enabled'>
+        <order>20</order>
+        <description key="admin.keyboard.shortcut.next.issue.desc">Next Issue</description>
+        <shortcut>j</shortcut>
+        <operation type="evaluate">
+            <![CDATA[
+                if(AJS.$(".standalone-viewissue").length > 0) {
+                    this.followLink("#next-issue");
+                } else {
+                    this.execute(function () {
+                        jira.app.issuenavigator.shortcuts.selectNextIssue();
+                    });
+                }
+            ]]>
+        </operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="prev.issue" i18n-name-key="admin.keyboard.shortcut.prev.issue.name" name="Previous Issue" state='enabled'>
+        <order>30</order>
+        <description key="admin.keyboard.shortcut.prev.issue.desc">Previous Issue</description>
+        <shortcut>k</shortcut>
+        <operation type="evaluate">
+            <![CDATA[
+                if(AJS.$(".standalone-viewissue").length > 0) {
+                    this.followLink("#previous-issue");
+                } else {
+                    this.execute(function () {
+                        jira.app.issuenavigator.shortcuts.selectPreviousIssue();
+                    });
+                }
+            ]]>
+        </operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="navigate.up" i18n-name-key="admin.keyboard.shortcut.navigate.up.name" name="Back to the Navigator" state='enabled'>
+        <order>40</order>
+        <description key="admin.keyboard.shortcut.navigate.up.desc">Search for issues</description>
+        <shortcut>u</shortcut>
+        <operation type="followLink">link[rel=index]:first</operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="move.to.next.action.item" i18n-name-key="admin.keyboard.shortcut.movetonextactionitem.name" name="Move to next action item" state='enabled'>
+        <order>60</order>
+        <description key="admin.keyboard.shortcut.movetonextactionitem.desc">Next Item</description>
+        <shortcut>n</shortcut>
+        <operation type="moveToNextItem">.issue-data-block:visible</operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="move.to.prevaction.item" i18n-name-key="admin.keyboard.shortcut.movetoprevactionitem.name" name="Move to previous action item" state='enabled'>
+        <order>70</order>
+        <description key="admin.keyboard.shortcut.movetoprevactionitem.desc">Previous Item</description>
+        <shortcut>p</shortcut>
+        <operation type="moveToPrevItem">.issue-data-block:visible</operation>
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="navigator.focus.search" i18n-name-key="admin.keyboard.shortcut.navigator.focus.search.name" name="Focus search field" state='enabled'>
+        <order>80</order>
+        <description key="admin.keyboard.shortcut.navigator.focus.search.desc">Focus search field</description>
+        <shortcut>f</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                jira.app.issuenavigator.shortcuts.focusSearch();
+            ]]>
+        </operation>
+        <!--<operation type="moveToAndFocus">#jqltext, #query, #pid</operation>-->
+        <context>issuenavigation</context>
+    </keyboard-shortcut>
+
+    <!-- ISSUE ACTION SHORTCUTS: These apply both on the view issue page and the issue navigator -->
+    <keyboard-shortcut key="edit.issue" i18n-name-key="admin.keyboard.shortcut.edit.issue.name" name="Edit Issue" state='enabled'>
+        <order>10</order>
+        <description key="admin.keyboard.shortcut.edit.issue.desc">Edit Issue</description>
+        <shortcut>e</shortcut>
+        <operation type="evaluate">
+            <![CDATA[
+                if(!jira.app.issue.getIssueKey() && !jira.app.issuenavigator.isRowSelected()) {
+                    //we're not on view issue and no focused issue was found on the issue nav. Do nothing!
+                    return;
+                } else {
+                    this.followLink(".issueaction-edit-issue");
+                }
+            ]]>
+        </operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="assign.issue" i18n-name-key="admin.keyboard.shortcut.assign.issue.name" name="Assign Issue" state='enabled'>
+        <order>20</order>
+        <description key="admin.keyboard.shortcut.assign.issue.desc">Assign Issue</description>
+        <shortcut>a</shortcut>
+        <operation type="click">.issueaction-assign-issue</operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="assign.issue.self" i18n-name-key="admin.keyboard.shortcut.assign.issue.self.name" name="Assign To Me" state='enabled'>
+        <order>30</order>
+        <description key="admin.keyboard.shortcut.assign.issue.self.desc">Assign To Me</description>
+        <shortcut>i</shortcut>
+        <operation type="followLink">#assign-to-me</operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="comment.issue" i18n-name-key="admin.keyboard.shortcut.commentissue.name" name="Comment Issue" state='enabled'>
+        <order>40</order>
+        <description key="admin.keyboard.shortcut.commentissue.desc">Scrolls to comment input and focuses it</description>
+        <shortcut>m</shortcut>
+        <operation type="execute">
+            <![CDATA[
+                JIRA.Issue.invokeCommentTrigger();
+            ]]>
+        </operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <keyboard-shortcut key="label.issue" i18n-name-key="admin.keyboard.shortcut.label.issue.name" name="Edit Labels" state='enabled'>
+        <order>50</order>
+        <description key="admin.keyboard.shortcut.label.issue.desc">Edit this issue's labels</description>
+        <shortcut>l</shortcut>
+        <operation type="click">#edit-labels</operation>
+        <context>issueaction</context>
+    </keyboard-shortcut>
+
+    <!--<keyboard-shortcut key="satellite.up" i18n-name-key="admin.keyboard.shortcut.navigate.up.name" name="Back to the Issue" state='enabled'>-->
+         <!--<order>150</order>-->
+         <!--<description key="admin.keyboard.shortcut.navigate.up.issue.desc">Back to the Issue</description>-->
+         <!--<shortcut>u</shortcut>-->
+         <!--<operation type="followLink">link[rel=index]:first</operation>-->
+         <!--<context>issuenavigationF</context>-->
+     <!--</keyboard-shortcut>-->
+
+</atlassian-plugin>

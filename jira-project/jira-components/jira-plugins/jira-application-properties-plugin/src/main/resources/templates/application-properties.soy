@@ -1,0 +1,41 @@
+{namespace JIRA.Templates.AppProperty}
+
+/**
+ * @param value
+ * @param? desc
+ */
+{template .key}
+    <strong class="application-property-key">{$value}</strong>
+    {if $desc}
+        <div class="application-property-description description">{$desc}</div>
+    {/if}
+{/template}
+
+/**
+* @param key
+* @param value
+* @param allowedValues
+*/
+{template .editValue}
+
+    {if $allowedValues}
+        <select name="value" value="{$value ? $value : ''}" id="{$key}-select">
+        {foreach $allowedValue in $allowedValues}
+            <option value="{$allowedValue}" {if $value == $allowedValue}selected="selected"{/if}>{$allowedValue}</option>
+        {/foreach}
+    {else}
+        <input name="value" type="text" class="text" value="{$value ? $value : ''}"  />
+    {/if}
+{/template}
+
+
+/**
+* @param defaultValue
+* @param value
+*/
+{template .operations}
+{if $defaultValue and ($value != $defaultValue)}
+    <input type="hidden" value="{$defaultValue}" class="application-property-value-default"/>
+    <input class="aui-button application-property-revert" type="submit" value="{getText('admin.advancedconfiguration.revert')}" />
+{/if}
+{/template}

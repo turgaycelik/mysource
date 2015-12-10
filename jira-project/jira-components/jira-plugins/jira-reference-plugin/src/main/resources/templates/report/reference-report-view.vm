@@ -1,0 +1,6 @@
+#disable_html_escaping()
+<div class="report">
+    <h3>Issue Count Report</h3>
+    <br />
+    $projectKey has $issueCount issues
+</div>

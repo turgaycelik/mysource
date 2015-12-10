@@ -1,0 +1,510 @@
+{namespace JIRA.Templates.LicenseSetup}
+
+/**
+ * Render form for add user
+ */
+{template .renderAddUserForm}
+    <form method="post" id="newMacUserForm" class="aui top-label ajs-dirty-warning-exempt">
+        <h3>{getText('setup.newmacuser.header', getText('setupLicense.mac.url'))}</h3>
+        <p>{getText('setup.newmacuser.internet.required')}</p>
+        <div id="formError"></div>
+        <div id="formWarning"></div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="firstName">{getText('setup.newmacuser.firstname')}</label>
+                <input class="text full-width-field" type="text" id="firstName" name="firstName" title="{getText('setup.newmacuser.firstname')}">
+            </div>
+
+            <div class="aui-item">
+                <label for="lastName">{getText('setup.newmacuser.lastname')}</label>
+                <input class="text full-width-field" type="text" id="lastName" name="lastName" title="{getText('setup.newmacuser.lastname')}">
+            </div>
+        </div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="email">{getText('setup.newmacuser.email')}</label>
+                <input class="text full-width-field" type="text" id="email" name="email" title="{getText('setup.newmacuser.email')}">
+            </div>
+        </div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="password">{getText('setup.newmacuser.password')}</label>
+                <input class="text full-width-field" type="password" id="password" name="password" title="{getText('setup.newmacuser.password')}">
+            </div>
+
+            <div class="aui-item">
+                <label for="confirmPassword">{getText('setup.newmacuser.confirmpassword')}</label>
+                <input class="text full-width-field" type="password" id="confirmPassword" name="confirmPassword" title="{getText('setup.newmacuser.confirmpassword')}">
+            </div>
+        </div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="companyName">{getText('setup.newmacuser.companyname')}</label>
+                <input class="text full-width-field" type="text" id="companyName" name="companyName" title="{getText('setup.newmacuser.companyname')}">
+            </div>
+        </div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="country-field">{getText('setup.newmacuser.country')}</label>
+                {call JIRA.Templates.LicenseSetup.countrySelector}
+                    {param name: 'country'/}
+                    {param title: getText('setup.newmacuser.country')/}
+                {/call}
+            </div>
+        </div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <div class="checkbox">
+                    <input class="checkbox" type="checkbox" name="subscribeNewsletter" id="subscribeNewsletter" title="{getText('setup.newmacuser.subscribenewsletter')}">
+                    <label for="subscribeNewsletter">{getText('setup.newmacuser.subscribenewsletter')}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="buttons-container">
+            <div class="aui-group">
+                {call .renderTermsAndConditions} {param checkboxName: 'acceptLicenseNewUser'/} {/call}
+            </div>
+            <div class="aui-group">
+                <div class="buttons">
+                    <input class="aui-button aui-button-primary" type="submit" value="{getText('setup.newmacuser.submit')}">
+                    {call .renderAdditionalButtons /}
+                </div>
+            </div>
+        </div>
+    </form>
+{/template}
+
+/**
+ * Render form for login user
+ */
+{template .renderLoginUserForm}
+    <form method="post" id="loginMacForm" class="aui top-label ajs-dirty-warning-exempt">
+        <h3>{getText('setup.loginmac.header', getText('setupLicense.mac.url'))}</h3>
+        <p>{getText('setup.newmacuser.internet.required')}</p>
+        <div id="formError"></div>
+        <div id="formWarning"></div>
+
+        <div class="aui-group">
+            <div class="aui-item">
+                <label for="username">{getText('setup.loginmac.username')}</label>
+                <input class="text full-width-field" type="text" id="username" name="username" title="{getText('setup.loginmac.username')}">
+            </div>
+
+            <div class="aui-item">
+                <label for="password">{getText('setup.loginmac.password')}</label>
+                <input class="text full-width-field" type="password" id="password" name="password" title="{getText('setup.loginmac.password')}">
+            </div>
+        </div>
+
+        <div class="aui-group">
+          <div class="aui-item">
+            <p id="login-forgot-password"><a href="https://id.atlassian.com/login/resetpassword" target="_blank">{getText('setup.loginmac.forgotpassword')}</a></p>
+          </div>
+        </div>
+
+        <div class="buttons-container">
+            <div class="aui-group">
+                {call .renderTermsAndConditions} {param checkboxName: 'acceptLicenseExistingUser'/} {/call}
+            </div>
+            <div class="aui-group">
+                <div class="buttons">
+                    <input class="aui-button aui-button-primary" type="submit" value="{getText('setup.loginmac.submit')}">
+                    {call .renderAdditionalButtons /}
+                </div>
+            </div>
+         </div>
+    </form>
+{/template}
+
+/**
+ * Render terms and conditions form element
+ * @param? checkboxName the name of check box to accept terms and conditions
+ */
+{template .renderTermsAndConditions}
+<div class="aui-group">
+    <div class="aui-item">
+        <div class="checkbox">
+            <input class="checkbox" type="checkbox" name="{$checkboxName}" id="{$checkboxName}"
+              title="{getText('setupLicense.accept.license.title')}">
+            <label for="acceptLicenseExistingUser">{getText('setupLicense.accept.license.desc', '<a title="',
+              '" target="_blank" href="https://www.atlassian.com/legal/customer-agreement">', '</a>')|noAutoescape}
+            </label>
+        </div>
+    </div>
+</div>
+{/template}
+
+/**
+ * Render buttons that are shown in response to error during plugin evaluation license generating
+ */
+{template .renderAdditionalButtons}
+    <input class="aui-button aui-button-primary plugin-license-next-button hidden" type="submit" value="{getText('common.forms.next')}">
+    <a class="cancel plugin-license-retry-button hidden" href="#">{getText('setup.cross.selling.retry')}</a>
+    <div class="throbbers-placeholder"></div>
+{/template}
+
+/**
+ * Render form for importing license
+ * @param? serverId the Server ID of this instance
+ */
+{template .renderExistingLicenseForm}
+    {let $macLink}<a href="http://{getText('setupLicense.mac.url')}" target="_blank">{getText('setupLicense.mac.url')}</a>{/let}
+
+    <form method="post" id="importLicenseForm" class="aui ajs-dirty-warning-exempt">
+        <h3>
+            <span class="import-license-header-no-bundle hidden">{getText('setup.importlicense.header')}</span>
+            <span class="import-license-header-bundle-selected hidden">{getText('setup.cross.selling.import.license.header')}</span>
+        </h3>
+
+        <p class="existing-license-login-information hidden">
+            {getText('setup.cross.selling.import.license.description', $macLink)|noAutoescape}
+        </p>
+
+        <div id="formError"></div>
+        <div id="formWarning"></div>
+
+        <div class="existing-licence-login-fields hidden">
+            <div class="field-group">
+                <label for="existing-username">{getText('setup.loginmac.username')}</label>
+                <input class="text" type="text" id="existing-username" name="username" title="{getText('setup.loginmac.username')}">
+            </div>
+
+            <div class="field-group">
+                <label for="existing-password">{getText('setup.loginmac.password')}</label>
+                <input class="text" type="password" id="existing-password" name="password" title="{getText('setup.loginmac.password')}">
+                <div class="description"><a href="https://id.atlassian.com/login/resetpassword" target="_blank">{getText('setup.loginmac.forgotpassword')}</a></div>
+            </div>
+        </div>
+
+        <div class="field-group">
+            <label for="serverId">{getText('setup.importlicense.serverId')}</label>
+            <span class="field-value" name="serverId" id="serverId" title="{getText('setup.importlicense.serverId')}">{$serverId}</span>
+        </div>
+
+        <div class="field-group">
+            <label for="licenseKey">{getText('setup.importlicense.license')}</label>
+            <textarea class="textarea full-width-field license-key" rows="7" name="licenseKey" id="licenseKey" title="{getText('setup.importlicense.license')}"></textarea>
+        </div>
+
+        <div class="buttons-container">
+            <div class="buttons">
+              <input class="aui-button aui-button-primary" type="submit" value="{getText('setup.importlicense.submit')}">
+              <a class="cancel plugin-license-retry2-button hidden" href="#">{getText('setup.cross.selling.retry')}</a>
+              {call .renderAdditionalButtons /}
+            </div>
+        </div>
+    </form>
+{/template}
+
+/**
+ * Render a throbber / spinner
+ * @param msg
+ */
+{template .renderSpinner}
+<div class="throbber-message">
+    <span class="aui-icon aui-icon-wait"></span>
+    {sp}
+    <span>{$msg}</span>
+</div>
+{/template}
+
+/**
+ * Render error beneath an input field
+ * @param? msg the error message to display
+ * @param? id of the tag
+ */
+{template .fieldError}
+    <div id="{if $id}{$id}{/if}" class="error">{if $msg}{$msg}{/if}</div>
+{/template}
+
+/**
+ * Render a message beneath an input field
+ * @param? msg the message to display
+ * @param? id of the tag
+ */
+{template .fieldMessage}
+    <div id="{if $id}{$id}{/if}" class="warn">{if $msg}{$msg}{/if}</div>
+{/template}
+
+/**
+ * Render form error message with expandable content
+ * @param title the error title to display
+ * @param msg the error message to display
+ * @param expandableMsg the expandable message content
+ */
+{template .expandableFormError}
+    <div class="aui-message error shadowed">
+        <p class="title">
+            <span class="aui-icon icon-error"></span>
+            <strong>{$title}</strong>
+        </p>
+        <p>{$msg}</p>
+        <a href="#" id="expandError">{getText('setupLicense.error.expand')}</a>
+        <div id="expandedErrorMsg" class="hidden"><br />{$expandableMsg}</div>
+    </div>
+{/template}
+
+/**
+ * Get country selection list
+ *
+ * @param name field name
+ * @param title field title
+ */
+{template .countrySelector}
+    <select class="select full-width-field" name="{$name}" id="{$name}" title="{$title}">
+        <optgroup>
+            <option value="AU">{getText('setup.newmacusers.countries.AU')}</option>
+            <option value="CA">{getText('setup.newmacusers.countries.CA')}</option>
+            <option value="DE">{getText('setup.newmacusers.countries.DE')}</option>
+            <option value="JP">{getText('setup.newmacusers.countries.JP')}</option>
+            <option value="GB">{getText('setup.newmacusers.countries.GB')}</option>
+            <option value="US">{getText('setup.newmacusers.countries.US')}</option>
+        </optgroup>
+        <optgroup>
+            <option value="AD">{getText('setup.newmacusers.countries.AD')}</option>
+            <option value="AE">{getText('setup.newmacusers.countries.AE')}</option>
+            <option value="AF">{getText('setup.newmacusers.countries.AF')}</option>
+            <option value="AG">{getText('setup.newmacusers.countries.AG')}</option>
+            <option value="AI">{getText('setup.newmacusers.countries.AI')}</option>
+            <option value="AL">{getText('setup.newmacusers.countries.AL')}</option>
+            <option value="AM">{getText('setup.newmacusers.countries.AM')}</option>
+            <option value="AN">{getText('setup.newmacusers.countries.AN')}</option>
+            <option value="AO">{getText('setup.newmacusers.countries.AO')}</option>
+            <option value="AQ">{getText('setup.newmacusers.countries.AQ')}</option>
+            <option value="AR">{getText('setup.newmacusers.countries.AR')}</option>
+            <option value="AS">{getText('setup.newmacusers.countries.AS')}</option>
+            <option value="AT">{getText('setup.newmacusers.countries.AT')}</option>
+            <option value="AW">{getText('setup.newmacusers.countries.AW')}</option>
+            <option value="AZ">{getText('setup.newmacusers.countries.AZ')}</option>
+            <option value="BA">{getText('setup.newmacusers.countries.BA')}</option>
+            <option value="BB">{getText('setup.newmacusers.countries.BB')}</option>
+            <option value="BD">{getText('setup.newmacusers.countries.BD')}</option>
+            <option value="BE">{getText('setup.newmacusers.countries.BE')}</option>
+            <option value="BF">{getText('setup.newmacusers.countries.BF')}</option>
+            <option value="BG">{getText('setup.newmacusers.countries.BG')}</option>
+            <option value="BH">{getText('setup.newmacusers.countries.BH')}</option>
+            <option value="BI">{getText('setup.newmacusers.countries.BI')}</option>
+            <option value="BJ">{getText('setup.newmacusers.countries.BJ')}</option>
+            <option value="BM">{getText('setup.newmacusers.countries.BM')}</option>
+            <option value="BN">{getText('setup.newmacusers.countries.BN')}</option>
+            <option value="BO">{getText('setup.newmacusers.countries.BO')}</option>
+            <option value="BR">{getText('setup.newmacusers.countries.BR')}</option>
+            <option value="BS">{getText('setup.newmacusers.countries.BS')}</option>
+            <option value="BT">{getText('setup.newmacusers.countries.BT')}</option>
+            <option value="BV">{getText('setup.newmacusers.countries.BV')}</option>
+            <option value="BW">{getText('setup.newmacusers.countries.BW')}</option>
+            <option value="BY">{getText('setup.newmacusers.countries.BY')}</option>
+            <option value="BZ">{getText('setup.newmacusers.countries.BZ')}</option>
+            <option value="CC">{getText('setup.newmacusers.countries.CC')}</option>
+            <option value="CD">{getText('setup.newmacusers.countries.CD')}</option>
+            <option value="CF">{getText('setup.newmacusers.countries.CF')}</option>
+            <option value="CG">{getText('setup.newmacusers.countries.CG')}</option>
+            <option value="CH">{getText('setup.newmacusers.countries.CH')}</option>
+            <option value="CI">{getText('setup.newmacusers.countries.CI')}</option>
+            <option value="CK">{getText('setup.newmacusers.countries.CK')}</option>
+            <option value="CL">{getText('setup.newmacusers.countries.CL')}</option>
+            <option value="CM">{getText('setup.newmacusers.countries.CM')}</option>
+            <option value="CN">{getText('setup.newmacusers.countries.CN')}</option>
+            <option value="CO">{getText('setup.newmacusers.countries.CO')}</option>
+            <option value="CR">{getText('setup.newmacusers.countries.CR')}</option>
+            <option value="CU">{getText('setup.newmacusers.countries.CU')}</option>
+            <option value="CV">{getText('setup.newmacusers.countries.CV')}</option>
+            <option value="CX">{getText('setup.newmacusers.countries.CX')}</option>
+            <option value="CY">{getText('setup.newmacusers.countries.CY')}</option>
+            <option value="CZ">{getText('setup.newmacusers.countries.CZ')}</option>
+            <option value="DJ">{getText('setup.newmacusers.countries.DJ')}</option>
+            <option value="DK">{getText('setup.newmacusers.countries.DK')}</option>
+            <option value="DM">{getText('setup.newmacusers.countries.DM')}</option>
+            <option value="DO">{getText('setup.newmacusers.countries.DO')}</option>
+            <option value="DZ">{getText('setup.newmacusers.countries.DZ')}</option>
+            <option value="EC">{getText('setup.newmacusers.countries.EC')}</option>
+            <option value="EE">{getText('setup.newmacusers.countries.EE')}</option>
+            <option value="EG">{getText('setup.newmacusers.countries.EG')}</option>
+            <option value="EH">{getText('setup.newmacusers.countries.EH')}</option>
+            <option value="ER">{getText('setup.newmacusers.countries.ER')}</option>
+            <option value="ES">{getText('setup.newmacusers.countries.ES')}</option>
+            <option value="ET">{getText('setup.newmacusers.countries.ET')}</option>
+            <option value="FI">{getText('setup.newmacusers.countries.FI')}</option>
+            <option value="FJ">{getText('setup.newmacusers.countries.FJ')}</option>
+            <option value="FK">{getText('setup.newmacusers.countries.FK')}</option>
+            <option value="FM">{getText('setup.newmacusers.countries.FM')}</option>
+            <option value="FO">{getText('setup.newmacusers.countries.FO')}</option>
+            <option value="FR">{getText('setup.newmacusers.countries.FR')}</option>
+            <option value="GA">{getText('setup.newmacusers.countries.GA')}</option>
+            <option value="GD">{getText('setup.newmacusers.countries.GD')}</option>
+            <option value="GE">{getText('setup.newmacusers.countries.GE')}</option>
+            <option value="GF">{getText('setup.newmacusers.countries.GF')}</option>
+            <option value="GG">{getText('setup.newmacusers.countries.GG')}</option>
+            <option value="GH">{getText('setup.newmacusers.countries.GH')}</option>
+            <option value="GI">{getText('setup.newmacusers.countries.GI')}</option>
+            <option value="GL">{getText('setup.newmacusers.countries.GL')}</option>
+            <option value="GM">{getText('setup.newmacusers.countries.GM')}</option>
+            <option value="GN">{getText('setup.newmacusers.countries.GN')}</option>
+            <option value="GP">{getText('setup.newmacusers.countries.GP')}</option>
+            <option value="GQ">{getText('setup.newmacusers.countries.GQ')}</option>
+            <option value="GR">{getText('setup.newmacusers.countries.GR')}</option>
+            <option value="GS">{getText('setup.newmacusers.countries.GS')}</option>
+            <option value="GT">{getText('setup.newmacusers.countries.GT')}</option>
+            <option value="GU">{getText('setup.newmacusers.countries.GU')}</option>
+            <option value="GW">{getText('setup.newmacusers.countries.GW')}</option>
+            <option value="GY">{getText('setup.newmacusers.countries.GY')}</option>
+            <option value="HK">{getText('setup.newmacusers.countries.HK')}</option>
+            <option value="HM">{getText('setup.newmacusers.countries.HM')}</option>
+            <option value="HN">{getText('setup.newmacusers.countries.HN')}</option>
+            <option value="HR">{getText('setup.newmacusers.countries.HR')}</option>
+            <option value="HT">{getText('setup.newmacusers.countries.HT')}</option>
+            <option value="HU">{getText('setup.newmacusers.countries.HU')}</option>
+            <option value="ID">{getText('setup.newmacusers.countries.ID')}</option>
+            <option value="IE">{getText('setup.newmacusers.countries.IE')}</option>
+            <option value="IL">{getText('setup.newmacusers.countries.IL')}</option>
+            <option value="IM">{getText('setup.newmacusers.countries.IM')}</option>
+            <option value="IN">{getText('setup.newmacusers.countries.IN')}</option>
+            <option value="IO">{getText('setup.newmacusers.countries.IO')}</option>
+            <option value="IQ">{getText('setup.newmacusers.countries.IQ')}</option>
+            <option value="IR">{getText('setup.newmacusers.countries.IR')}</option>
+            <option value="IS">{getText('setup.newmacusers.countries.IS')}</option>
+            <option value="IT">{getText('setup.newmacusers.countries.IT')}</option>
+            <option value="JE">{getText('setup.newmacusers.countries.JE')}</option>
+            <option value="JM">{getText('setup.newmacusers.countries.JM')}</option>
+            <option value="JO">{getText('setup.newmacusers.countries.JO')}</option>
+            <option value="KE">{getText('setup.newmacusers.countries.KE')}</option>
+            <option value="KG">{getText('setup.newmacusers.countries.KG')}</option>
+            <option value="KH">{getText('setup.newmacusers.countries.KH')}</option>
+            <option value="KI">{getText('setup.newmacusers.countries.KI')}</option>
+            <option value="KM">{getText('setup.newmacusers.countries.KM')}</option>
+            <option value="KN">{getText('setup.newmacusers.countries.KN')}</option>
+            <option value="KP">{getText('setup.newmacusers.countries.KP')}</option>
+            <option value="KR">{getText('setup.newmacusers.countries.KR')}</option>
+            <option value="KW">{getText('setup.newmacusers.countries.KW')}</option>
+            <option value="KY">{getText('setup.newmacusers.countries.KY')}</option>
+            <option value="KZ">{getText('setup.newmacusers.countries.KZ')}</option>
+            <option value="LA">{getText('setup.newmacusers.countries.LA')}</option>
+            <option value="LB">{getText('setup.newmacusers.countries.LB')}</option>
+            <option value="LC">{getText('setup.newmacusers.countries.LC')}</option>
+            <option value="LI">{getText('setup.newmacusers.countries.LI')}</option>
+            <option value="LK">{getText('setup.newmacusers.countries.LK')}</option>
+            <option value="LR">{getText('setup.newmacusers.countries.LR')}</option>
+            <option value="LS">{getText('setup.newmacusers.countries.LS')}</option>
+            <option value="LT">{getText('setup.newmacusers.countries.LT')}</option>
+            <option value="LU">{getText('setup.newmacusers.countries.LU')}</option>
+            <option value="LV">{getText('setup.newmacusers.countries.LV')}</option>
+            <option value="LY">{getText('setup.newmacusers.countries.LY')}</option>
+            <option value="MA">{getText('setup.newmacusers.countries.MA')}</option>
+            <option value="MC">{getText('setup.newmacusers.countries.MC')}</option>
+            <option value="MD">{getText('setup.newmacusers.countries.MD')}</option>
+            <option value="ME">{getText('setup.newmacusers.countries.ME')}</option>
+            <option value="MG">{getText('setup.newmacusers.countries.MG')}</option>
+            <option value="MH">{getText('setup.newmacusers.countries.MH')}</option>
+            <option value="MK">{getText('setup.newmacusers.countries.MK')}</option>
+            <option value="ML">{getText('setup.newmacusers.countries.ML')}</option>
+            <option value="MM">{getText('setup.newmacusers.countries.MM')}</option>
+            <option value="MN">{getText('setup.newmacusers.countries.MN')}</option>
+            <option value="MO">{getText('setup.newmacusers.countries.MO')}</option>
+            <option value="MP">{getText('setup.newmacusers.countries.MP')}</option>
+            <option value="MQ">{getText('setup.newmacusers.countries.MQ')}</option>
+            <option value="MR">{getText('setup.newmacusers.countries.MR')}</option>
+            <option value="MS">{getText('setup.newmacusers.countries.MS')}</option>
+            <option value="MT">{getText('setup.newmacusers.countries.MT')}</option>
+            <option value="MU">{getText('setup.newmacusers.countries.MU')}</option>
+            <option value="MV">{getText('setup.newmacusers.countries.MV')}</option>
+            <option value="MW">{getText('setup.newmacusers.countries.MW')}</option>
+            <option value="MX">{getText('setup.newmacusers.countries.MX')}</option>
+            <option value="MY">{getText('setup.newmacusers.countries.MY')}</option>
+            <option value="MZ">{getText('setup.newmacusers.countries.MZ')}</option>
+            <option value="NA">{getText('setup.newmacusers.countries.NA')}</option>
+            <option value="NC">{getText('setup.newmacusers.countries.NC')}</option>
+            <option value="NE">{getText('setup.newmacusers.countries.NE')}</option>
+            <option value="NF">{getText('setup.newmacusers.countries.NF')}</option>
+            <option value="NG">{getText('setup.newmacusers.countries.NG')}</option>
+            <option value="NI">{getText('setup.newmacusers.countries.NI')}</option>
+            <option value="NL">{getText('setup.newmacusers.countries.NL')}</option>
+            <option value="NO">{getText('setup.newmacusers.countries.NO')}</option>
+            <option value="NP">{getText('setup.newmacusers.countries.NP')}</option>
+            <option value="NR">{getText('setup.newmacusers.countries.NR')}</option>
+            <option value="NU">{getText('setup.newmacusers.countries.NU')}</option>
+            <option value="NZ">{getText('setup.newmacusers.countries.NZ')}</option>
+            <option value="OM">{getText('setup.newmacusers.countries.OM')}</option>
+            <option value="PA">{getText('setup.newmacusers.countries.PA')}</option>
+            <option value="PE">{getText('setup.newmacusers.countries.PE')}</option>
+            <option value="PF">{getText('setup.newmacusers.countries.PF')}</option>
+            <option value="PG">{getText('setup.newmacusers.countries.PG')}</option>
+            <option value="PH">{getText('setup.newmacusers.countries.PH')}</option>
+            <option value="PK">{getText('setup.newmacusers.countries.PK')}</option>
+            <option value="PL">{getText('setup.newmacusers.countries.PL')}</option>
+            <option value="PM">{getText('setup.newmacusers.countries.PM')}</option>
+            <option value="PN">{getText('setup.newmacusers.countries.PN')}</option>
+            <option value="PR">{getText('setup.newmacusers.countries.PR')}</option>
+            <option value="PS">{getText('setup.newmacusers.countries.PS')}</option>
+            <option value="PT">{getText('setup.newmacusers.countries.PT')}</option>
+            <option value="PW">{getText('setup.newmacusers.countries.PW')}</option>
+            <option value="PY">{getText('setup.newmacusers.countries.PY')}</option>
+            <option value="QA">{getText('setup.newmacusers.countries.QA')}</option>
+            <option value="RE">{getText('setup.newmacusers.countries.RE')}</option>
+            <option value="RO">{getText('setup.newmacusers.countries.RO')}</option>
+            <option value="RS">{getText('setup.newmacusers.countries.RS')}</option>
+            <option value="RU">{getText('setup.newmacusers.countries.RU')}</option>
+            <option value="RW">{getText('setup.newmacusers.countries.RW')}</option>
+            <option value="SA">{getText('setup.newmacusers.countries.SA')}</option>
+            <option value="SB">{getText('setup.newmacusers.countries.SB')}</option>
+            <option value="SC">{getText('setup.newmacusers.countries.SC')}</option>
+            <option value="SD">{getText('setup.newmacusers.countries.SD')}</option>
+            <option value="SE">{getText('setup.newmacusers.countries.SE')}</option>
+            <option value="SG">{getText('setup.newmacusers.countries.SG')}</option>
+            <option value="SH">{getText('setup.newmacusers.countries.SH')}</option>
+            <option value="SI">{getText('setup.newmacusers.countries.SI')}</option>
+            <option value="SJ">{getText('setup.newmacusers.countries.SJ')}</option>
+            <option value="SK">{getText('setup.newmacusers.countries.SK')}</option>
+            <option value="SL">{getText('setup.newmacusers.countries.SL')}</option>
+            <option value="SM">{getText('setup.newmacusers.countries.SM')}</option>
+            <option value="SN">{getText('setup.newmacusers.countries.SN')}</option>
+            <option value="SO">{getText('setup.newmacusers.countries.SO')}</option>
+            <option value="SR">{getText('setup.newmacusers.countries.SR')}</option>
+            <option value="ST">{getText('setup.newmacusers.countries.ST')}</option>
+            <option value="SV">{getText('setup.newmacusers.countries.SV')}</option>
+            <option value="SY">{getText('setup.newmacusers.countries.SY')}</option>
+            <option value="SZ">{getText('setup.newmacusers.countries.SZ')}</option>
+            <option value="TC">{getText('setup.newmacusers.countries.TC')}</option>
+            <option value="TD">{getText('setup.newmacusers.countries.TD')}</option>
+            <option value="TF">{getText('setup.newmacusers.countries.TF')}</option>
+            <option value="TG">{getText('setup.newmacusers.countries.TG')}</option>
+            <option value="TH">{getText('setup.newmacusers.countries.TH')}</option>
+            <option value="TJ">{getText('setup.newmacusers.countries.TJ')}</option>
+            <option value="TK">{getText('setup.newmacusers.countries.TK')}</option>
+            <option value="TL">{getText('setup.newmacusers.countries.TL')}</option>
+            <option value="TM">{getText('setup.newmacusers.countries.TM')}</option>
+            <option value="TN">{getText('setup.newmacusers.countries.TN')}</option>
+            <option value="TO">{getText('setup.newmacusers.countries.TO')}</option>
+            <option value="TR">{getText('setup.newmacusers.countries.TR')}</option>
+            <option value="TT">{getText('setup.newmacusers.countries.TT')}</option>
+            <option value="TV">{getText('setup.newmacusers.countries.TV')}</option>
+            <option value="TW">{getText('setup.newmacusers.countries.TW')}</option>
+            <option value="TZ">{getText('setup.newmacusers.countries.TZ')}</option>
+            <option value="UA">{getText('setup.newmacusers.countries.UA')}</option>
+            <option value="UG">{getText('setup.newmacusers.countries.UG')}</option>
+            <option value="UY">{getText('setup.newmacusers.countries.UY')}</option>
+            <option value="UZ">{getText('setup.newmacusers.countries.UZ')}</option>
+            <option value="VA">{getText('setup.newmacusers.countries.VA')}</option>
+            <option value="VC">{getText('setup.newmacusers.countries.VC')}</option>
+            <option value="VE">{getText('setup.newmacusers.countries.VE')}</option>
+            <option value="VG">{getText('setup.newmacusers.countries.VG')}</option>
+            <option value="VI">{getText('setup.newmacusers.countries.VI')}</option>
+            <option value="VN">{getText('setup.newmacusers.countries.VN')}</option>
+            <option value="VU">{getText('setup.newmacusers.countries.VU')}</option>
+            <option value="WF">{getText('setup.newmacusers.countries.WF')}</option>
+            <option value="WS">{getText('setup.newmacusers.countries.WS')}</option>
+            <option value="YE">{getText('setup.newmacusers.countries.YE')}</option>
+            <option value="YT">{getText('setup.newmacusers.countries.YT')}</option>
+            <option value="ZA">{getText('setup.newmacusers.countries.ZA')}</option>
+            <option value="ZM">{getText('setup.newmacusers.countries.ZM')}</option>
+            <option value="ZW">{getText('setup.newmacusers.countries.ZW')}</option>
+        </optgroup>
+    </select>
+{/template}
+

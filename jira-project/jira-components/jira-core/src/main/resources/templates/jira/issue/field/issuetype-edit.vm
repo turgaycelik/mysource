@@ -1,0 +1,31 @@
+#disable_html_escaping()
+#customControlHeader ($action "$!{displayParameters.fieldNamePrefix}${field.id}" $i18n.getText($field.nameKey) true $displayParameters $auiparams)
+<select data-container-class="issuetype-ss" class="select imagebacked issuetype-field" id="$!{displayParameters.fieldNamePrefix}$field.id" name="$!{displayParameters.fieldNamePrefix}${field.id}">
+    #foreach ($configOption in $configOptions)
+        #if ($!createOperation || $configOptions.size() > 1)<optgroup data-scheme-id="$!configOption.fieldConfigurationId" label="$textutils.htmlEncode($configOption.projects)">#end
+            #foreach ($option in $configOption.childOptions)
+                <option class="$!configOption.fieldConfigurationId" id="$!{displayParameters.fieldNamePrefix}${field.id}$!configOption.id$!option.id"#if ($issuetype && $option.id && $issuetype == $option.id) data-selected="selected" selected="selected" #end #if ($option.imagePathHtml)data-icon="#getNormalizedUrl($option.imagePathHtml)"#end value="$!option.id">
+                    $textutils.htmlEncode($option.name)
+                </option>
+            #end
+        #if ($!createOperation || $configOptions.size() > 1)</optgroup>#end
+    #end
+</select>
+<fieldset class="project-issue-types hidden">
+    #foreach ($entry in $projectToConfig.entrySet())
+        <input type="hidden" title="$entry.key" value="$entry.value" />
+    #end
+</fieldset>
+<fieldset class="default-project-issue-type hidden">
+#foreach ($entry in $configToDefaultOption.entrySet())
+    <input type="hidden" title="$entry.key" value="$entry.value" />
+#end
+</fieldset>
+
+
+
+#localHelp ('issue.field.issuetype' 'IssueTypes')
+#if ($displayParameters && $displayParameters.restrictedSelection)
+    <div class="description">$i18n.getText('issue.field.issuetype.incompatible.types')</div>
+#end
+#customControlFooter ($action"$!{displayParameters.fieldNamePrefix}${field.id}" $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

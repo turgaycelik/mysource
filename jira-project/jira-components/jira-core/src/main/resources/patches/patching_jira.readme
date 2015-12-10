@@ -1,0 +1,25 @@
+
+____________________________________________________________________
+NOTE : This file MUST exist because it is used as a place holder to find patch information files.  If this file is not shipped
+with JIRA then no patch information will be able to be found.
+____________________________________________________________________
+
+
+This is the read me file to explain patch information works in JIRA.
+
+If a patch needs to be applied to JIRA then a file should be placed in WEB-INF/classes/patches that describes the patch.
+
+The file name should be <issuekey>.patch and the contents of the file should be a short sharp description of the patch.
+
+So for example imagine we had two patches applied, JRA-666 and JRA999.  We would have the following files next to this one :
+
+    WEB-INF/classes/patches/JRA-666.patch
+    WEB-INF/classes/patches/JRA-999.patch
+
+And each file would contain a short description for the reason for the patch.
+
+This information can then be used in the logging and system info pages to show any applied patches.
+
+The patch-gen program will create these files for you automatically in the right place however you still need
+to edit the patch file for a better description of the patch.
+

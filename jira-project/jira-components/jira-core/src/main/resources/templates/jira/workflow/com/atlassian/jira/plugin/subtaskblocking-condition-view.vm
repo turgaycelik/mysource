@@ -1,0 +1,12 @@
+#disable_html_escaping()
+$i18n.getText("admin.workflow.condition.subtaskblocking.view")
+#foreach ($status in $statuses)##
+#**##set ($simpleStatus = $status.getSimpleStatus())##
+#**##set ($isIssueStatusSubtle = true)##
+#**##parse("/static/util/issue/status.vm")##
+#**##if($velocityCount != $statuses.size())##
+#*    *##if($velocityCount == ($statuses.size() - 1))&nbsp;or&nbsp;##
+#*    *##else&nbsp;##
+#*    *##end##
+#**##end##
+#end##

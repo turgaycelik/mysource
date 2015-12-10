@@ -1,0 +1,195 @@
+@import "../../../ui/imports/colours";
+@import "../../../ui/imports/mixins/border-box";
+@import "../../../ui/imports/mixins/border-radius";
+
+@dialog-background-color: @aui-color-page;
+@dialog-border-color: @aui-border-color;
+@dialog-header-background-color: #f0f0f0;
+@dialog-headings-color: @jira-color-text;
+@dialog-subtle-text: @aui-color-text;
+
+@footer-container-padding: 10px;
+
+// Functional styles
+.jira-dialog {
+    left: 50%;
+    position: fixed;
+    top: 50%;
+    z-index: 3000;
+
+    .dialog-blanket {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .jia-dialog-content {
+        .border-box();
+
+        .aui-dialog-content { // The class used to pick content up and place it in a JIRA Form Dialog
+            position: relative;
+            overflow: auto;
+            padding: 0; // for interop with JIRA's form markup, the padding needs to be applied elsewhere
+        }
+    }
+}
+
+// Aesthetics
+.jira-dialog {
+    background: @dialog-header-background-color;
+    border: 1px solid @dialog-border-color;
+    .border-radius(4px);
+    overflow: hidden;
+
+    .dialog-blanket {
+        opacity: 0.2;
+        background: #000;
+    }
+
+    /* dialog header styles */
+    .jira-dialog-heading {
+        background: @dialog-header-background-color;
+        border-bottom: 1px solid @dialog-border-color;
+        .border-box();
+        height: 56px; /* NOTE: This value is hard-coded in dialog.js as HEADER_HEIGHT */
+        margin: 0;
+        overflow: hidden;
+        padding: 15px 20px;
+        position: relative;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        h2 {
+            color: @dialog-headings-color;
+            font-weight: normal;
+            font-size: 20px;
+            line-height: 1.5;
+            margin: 0;
+            overflow: hidden;
+            padding: 0;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    /* dialog navigation styles */
+    .dialog-menu-group {
+        .border-box();
+        border-right: 1px solid @dialog-border-color;
+        height: 100%;
+        margin: 0;
+        padding: 10px 10px 20px 10px;
+        width: 25%;
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        li {
+            margin: 0;
+            padding: 0;
+        }
+
+        .dialog-menu-item {
+            background: none;
+            border: 0;
+            color: @jira-pagenav-menuitem-text-color;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: inherit; /* = 14px */
+            line-height: 1.1428; /* 16px equiv */
+            padding: 7px 10px;
+            margin: 0;
+            text-align: left;
+            text-decoration: none;
+            width: 100%;
+
+            &:hover,
+            &:focus {
+                background-color: @jira-pagenav-menuitem-background-focus-color;
+            }
+            &.selected {
+                color: @jira-pagenav-menuitem-text-selected-color;
+                font-weight: bold;
+            }
+            &:active,
+            &.selected:active {
+                background-color: @jira-pagenav-menuitem-background-active-color;
+                color: @jira-pagenav-menuitem-text-active-color;
+            }
+        }
+
+        + .dialog-pane {
+            padding-left: 0;
+        }
+    }
+
+    /* dialog body content styles */
+    .jira-dialog-content {
+        background: @dialog-background-color;
+    }
+
+    /* dialog footer styles */
+    .buttons-container {
+        background: @dialog-header-background-color;
+        .border-box();
+        border-top: 1px solid @dialog-border-color;
+        clear: both;
+        height: 51px; /* NOTE: This value is hard-coded in dialog.js as BUTTONS_HEIGHT */
+        overflow: hidden;
+        padding: @footer-container-padding;
+        text-align: right;
+        white-space: nowrap;
+        width: 100%;
+
+        .hint-container {
+            color: @dialog-subtle-text;
+            margin: 0;
+            padding: 5px 10px;
+            text-align: left;
+
+            kbd { vertical-align: middle; }
+        }
+        .buttons {
+            float: right;
+            white-space: nowrap;
+        }
+    }
+}
+
+// Dialog content style overrides
+.jira-dialog-content {
+    margin: 0;
+    padding: 0;
+
+    .form-body {
+        position: relative;
+        overflow: auto;
+        padding: 20px; // most dialogs have this nested inside either aui-popup-content or aui-dialog-content
+    }
+
+    .buttons-container {
+        margin: 0;
+        padding: @footer-container-padding;
+        min-height: 0;
+        overflow: hidden;
+    }
+
+    .buttons {
+        padding: 0;
+        text-align: right;
+    }
+
+    form.aui {
+        margin: 0;
+        padding: 0;
+
+        .buttons-container {
+            margin: 0;
+            padding: @footer-container-padding;
+            min-height: 0;
+            overflow: hidden;
+        }
+    }
+}

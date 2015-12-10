@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#if ($value)
+    #if ($displayParameters && $displayParameters.nolink)
+        $textutils.htmlEncode($value.displayName)
+    #else
+    <span class="tinylink">$userformat.formatUserkey($value.key, 'fullNameHover', "user_cf")</span>
+    #end
+#end

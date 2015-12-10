@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templateSet group="webwork">
+  <template name="wwelse" value="&lt;webwork:else&gt;&#10;    $ELSE_BODY$&#10;&lt;/webwork:else&gt;$END$" description="WebWork else tag" toReformat="false" toShortenFQNames="true">
+    <variable name="ELSE_BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwelseif" value="&lt;webwork:elseIf test=&quot;$EXPR$&quot;&gt;&#10;    $ELSEIF_BODY$&#10;&lt;/webwork:elseIf&gt;$END$" description="WebWork else if tag" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="ELSEIF_BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwif" value="&lt;webwork:if test=&quot;$EXPR$&quot;&gt;&#10;    $IF_BODY$&#10;&lt;/webwork:if&gt;$END$" description="WebWork if tag" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="IF_BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwifelse" value="&lt;webwork:if test=&quot;$EXPR$&quot;&gt;&#10;    $IF_BODY$&#10;&lt;/webwork:if&gt;&#10;&lt;webwork:else&gt;&#10;    $ELSE_BODY$&#10;&lt;/webwork:else&gt;$END$" description="WebWork if and else tags" toReformat="false" toShortenFQNames="true">
+    <variable name="EXPR" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="IF_BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="ELSE_BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwit" value="&lt;webwork:iterator value=&quot;$ARRAY_OR_COLLECTION$&quot; status=&quot;'$STATUS$'&quot;&gt;&#10;    $BODY$&#10;&lt;/webwork:iterator&gt;$END$&#10;" description="WebWork iterator tag" toReformat="false" toShortenFQNames="true">
+    <variable name="ARRAY_OR_COLLECTION" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="STATUS" expression="" defaultValue="status" alwaysStopAt="true" />
+    <variable name="BODY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwp" value="&lt;webwork:property value=&quot;$VALUE$&quot;/&gt;$END$" description="WebWork property tag" toReformat="false" toShortenFQNames="true">
+    <variable name="VALUE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwprop" value="&lt;webwork:property value=&quot;$VALUE$&quot;/&gt;$END$" description="WebWork property tag" toReformat="false" toShortenFQNames="true">
+    <variable name="VALUE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwstack" value="&lt;webwork:property value=&quot;/webworkStack&quot; escape=&quot;false&quot;/&gt;$END$" description="WebWork Stack" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwt" value="&lt;webwork:text name=&quot;'$I18N_KEY$'&quot;/&gt;$END$" description="WebWork text tag" toReformat="false" toShortenFQNames="true">
+    <variable name="I18N_KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwt1" value="&lt;webwork:text name=&quot;'$I18N_KEY$'&quot;&gt;&#10;    &lt;webwork:param name=&quot;'value0'&quot;&gt;$PARAM_1$&lt;/webwork:param&gt;&#10;&lt;/webwork:text&gt;$END$ " description="WebWork text tag with a single parameter" toReformat="false" toShortenFQNames="true">
+    <variable name="I18N_KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_1" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwt2" value="&lt;webwork:text name=&quot;'$I18N_KEY$'&quot;&gt;&#10;    &lt;webwork:param name=&quot;'value0'&quot;&gt;$PARAM_1$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value1'&quot;&gt;$PARAM_2$&lt;/webwork:param&gt;&#10;&lt;/webwork:text&gt;$END$" description="WebWork text tag with two parameters" toReformat="false" toShortenFQNames="true">
+    <variable name="I18N_KEY" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_1" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_2" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwt3" value="&lt;webwork:text name=&quot;'$I18N_Key$'&quot;&gt;&#10;    &lt;webwork:param name=&quot;'value0'&quot;&gt;$PARAM_1$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value1'&quot;&gt;$PARAM_2$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value2'&quot;&gt;$PARAM_3$&lt;/webwork:param&gt;&#10;&lt;/webwork:text&gt;$END$" description="WebWork text tag with three parameters" toReformat="false" toShortenFQNames="true">
+    <variable name="I18N_Key" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_1" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_2" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_3" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+  <template name="wwt4" value="&lt;webwork:text name=&quot;'$I18N_Key$'&quot;&gt;&#10;    &lt;webwork:param name=&quot;'value0'&quot;&gt;$PARAM_1$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value1'&quot;&gt;$PARAM_2$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value2'&quot;&gt;$PARAM_3$&lt;/webwork:param&gt;&#10;    &lt;webwork:param name=&quot;'value3'&quot;&gt;$PARAM_4$&lt;/webwork:param&gt;&#10;&lt;/webwork:text&gt;$END$" description="WebWork text tag with four parameters" toReformat="false" toShortenFQNames="true">
+    <variable name="I18N_Key" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_1" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_2" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_3" expression="" defaultValue="" alwaysStopAt="true" />
+    <variable name="PARAM_4" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="false" />
+      <option name="JAVA_COMMENT" value="false" />
+      <option name="JAVA_STRING" value="false" />
+      <option name="XML" value="false" />
+      <option name="HTML" value="false" />
+      <option name="JSP" value="true" />
+      <option name="COMPLETION" value="false" />
+      <option name="OTHER" value="false" />
+    </context>
+  </template>
+</templateSet>
+

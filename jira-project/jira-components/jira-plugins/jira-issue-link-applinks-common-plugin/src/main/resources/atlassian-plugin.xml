@@ -1,0 +1,29 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+        <application-version min="4.4" max="4.4"/>
+    </plugin-info>
+
+    <resource name="jira-issue-link-applinks-common-plugin" type="i18n" location="jira-issue-link-applinks-common-plugin" />
+
+    <!-- Issue Link OAuth -->
+    <web-resource key="issue-link-applinks">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.applinks.applinks-plugin:applinks-public</dependency>
+        <dependency>com.atlassian.applinks.applinks-plugin:applinks-util-js</dependency>
+        <resource type="download" name="issuelink-applinks.js" location="js/issuelink-applinks.js" />
+        <resource type="download" name="issuelink-applinks.css" location="css/issuelink-applinks.css" />
+        <context>atl.general</context>
+    </web-resource>
+
+    <rest key="view-issue-rest-endpoint" path="/issueLinkAppLink" version="1">
+        <package>com.atlassian.jira.plugin.link.applinks.rest.resource</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+</atlassian-plugin>

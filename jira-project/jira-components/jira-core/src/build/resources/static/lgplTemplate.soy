@@ -1,0 +1,28 @@
+{namespace jira.build.generate}
+
+/**
+ * This template is used at build time to generate a jsp listing the LGPL libraries
+ * that JIRA ships with.
+ *
+ * @param lgplLibraries
+ */
+{template .licenseTemplates}
+{lb}namespace JIRA.Templates.About{rb}
+{literal}
+
+/**
+ * Auto-generated. Do not change.
+ */
+{/literal}
+{lb}template .lgpl{rb}{\n}
+{\n}
+    <ul>{\n}
+        {foreach $lib in $lgplLibraries}
+        {if $lib.isLGPL}
+            <li>{$lib.name} ({if $lib.url}<a href="{$lib.url}" target="_blank">{/if}{$lib.artifactGAV}{if $lib.url}</a>{/if})</li>{\n}
+        {/if}
+    {/foreach}
+    </ul>{\n}
+{lb}/template{rb}{\n}
+
+{/template}

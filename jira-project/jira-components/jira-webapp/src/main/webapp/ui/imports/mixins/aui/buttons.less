@@ -1,0 +1,119 @@
+.button-gradient(@base, @from, @to) {
+    background: @base;
+    background: -webkit-linear-gradient(top, @from 0%, @to 100%);
+    background:    -moz-linear-gradient(top, @from 0%, @to 100%);
+    background:     -ms-linear-gradient(top, @from 0%, @to 100%);
+    background:      -o-linear-gradient(top, @from 0%, @to 100%);
+    background:         linear-gradient(to bottom, @from 0%, @to 100%);
+}
+
+.aui-button-style(normal) {
+    .button-gradient(#f2f2f2, #fff, #f2f2f2);
+    border-color: #ccc;
+    border-radius: 3.01px;
+    border-style: solid; // border width and style don't change after this
+    border-width: 1px; // border width and style don't change after this
+    color: #333;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 14px;
+    font-family: inherit; // To get the font stack defined on 'body'
+    font-variant: normal;
+    line-height: 20px;
+    margin: 0 10px 0 0;
+    padding: 4px 10px;
+    text-decoration: none;
+    text-shadow: 0 1px 0 white;
+    vertical-align: baseline;
+
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+
+    &:focus,
+    &:hover {
+        .button-gradient(#f7f7f7, #fff, #f7f7f7);
+        border-color: #999;
+        color: #000;
+        text-decoration:none;
+    }
+
+    &:active {
+        background: #f2f2f2;
+        background-image: none;
+        background-color: #f2f2f2;
+        box-shadow: inset 0px 3px 6px rgba(0,0,0,.1);
+        text-shadow: none;
+        text-decoration:none;
+    }
+}
+
+.aui-button-style(toggled) {
+    .button-gradient(#ddd, #ccc, #ddd);
+
+    &:active {
+        background: #ddd;
+        background-image: none;
+        box-shadow: inset 0px 3px 6px rgba(0,0,0,.2);
+    }
+}
+
+.aui-button-style(disabled) {
+    .disabled-styles() {
+        .button-gradient(#f2f2f2, #fff, #f2f2f2);
+        border-color: #ddd;
+        box-shadow: none;
+        color: #999;
+        cursor: default;
+        text-shadow: none;
+    }
+
+    .disabled-styles();
+
+    &:hover,
+    &:focus,
+    &:active {
+        .disabled-styles();
+    }
+}
+
+.aui-button-style-subtle(normal) {
+    .aui-button-style(normal);
+    background: transparent;
+    border-color: transparent;
+    color: #707070;
+
+    &.active {
+        background-image: none;
+        background-color: #f2f2f2;
+        box-shadow: inset 0 3px 6px rgba(0,0,0,.1), 0 0 0 1px #999;
+        text-shadow: none;
+        text-decoration:none;
+    }
+
+    &[aria-pressed="true"] {
+        .button-gradient(#ccc, #ddd, #ccc);
+        border-color: #ccc;
+        color: #333;
+    }
+    &.aui-dropdown2-trigger.active {
+        border-color: #ccc;
+    }
+    &.aui-dropdown2-trigger:hover {
+        border-color: #999;
+    }
+
+    // need this as the li's don't get the active class
+    > .active {
+        background-color: #f2f2f2;
+        box-shadow: inset 0 3px 6px rgba(0,0,0,.1), 0 0 0 1px #ccc;
+        border-radius: 3.01px 3.01px 0 0;
+        color: #000;
+        text-decoration: none;
+
+        &:hover {
+            box-shadow: inset 0 3px 6px rgba(0,0,0,.1);
+        }
+    }
+}

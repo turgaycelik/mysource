@@ -1,0 +1,424 @@
+<!--
+This file holds details of all the upgrades for JIRA
+
+There is no longer a concept of editions since JIRA 4.x and hence all upgrade tasks
+should be placed in this file.
+
+The makeup of this XML file is described here :
+
+<upgrades> The root node of the file. Everything should be contained within this node
+    <upgrade> Each upgrade element describes an upgrade task.
+        Attributes
+        1. build -  This defines the build that the upgrade applies to
+
+        <class> The class element defines the name of the class which performs the upgrade
+-->
+
+<upgrades>
+    <!-- Build 4.1 -->
+    <upgrade build="509">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build509</class>
+    </upgrade>
+    <!-- jira.maximum.authentication.attempts.allowed -->
+     <upgrade build="520">
+         <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build520</class>
+     </upgrade>
+    <!-- Build 4.2 -->
+    <upgrade build="551">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build551</class>
+    </upgrade>
+    <upgrade build="552">
+      <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build552</class>
+    </upgrade>
+    <upgrade build="554">
+      <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build554</class>
+    </upgrade>
+
+    <upgrade build="571">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build571</class>
+    </upgrade>
+    <upgrade build="572">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build572</class>
+    </upgrade>
+
+    <!-- Embedded Crowd -->
+    <upgrade build="601">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build601</class>
+    </upgrade>
+    <upgrade build="602">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build602</class>
+    </upgrade>
+    <upgrade build="603">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build603</class>
+    </upgrade>
+    <!-- end - Embedded Crowd -->
+    <upgrade build="605">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build605</class>
+    </upgrade>
+    <upgrade build="606">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build606</class>
+    </upgrade>
+    <upgrade build="608">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build608</class>
+    </upgrade>
+    <!-- Upgrade task 611 has been moved into the jira-gadgets-plugin -->
+
+    <upgrade build="633">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build633</class>
+    </upgrade>
+    <upgrade build="634">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build634</class>
+    </upgrade>
+    <upgrade build="637">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build637</class>
+    </upgrade>
+    <upgrade build="638">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build638</class>
+    </upgrade>
+    <upgrade build="640">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build640</class>
+    </upgrade>
+    <upgrade build="642">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build642</class>
+    </upgrade>
+    <upgrade build="643">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build643</class>
+    </upgrade>
+    <upgrade build="645">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build645</class>
+    </upgrade>
+    <upgrade build="663">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build663</class>
+    </upgrade>
+    <!-- JIRA 5.0 -->
+    <upgrade build="701">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build701</class>
+    </upgrade>
+    <upgrade build="704">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build704</class>
+    </upgrade>
+    <upgrade build="705">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build705</class>
+    </upgrade>
+    <!-- Upgrade task 706 removed since issue_key index is no longer created and droped by upgrade task 6128 -->
+    <upgrade build="707">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build707</class>
+    </upgrade>
+    <upgrade build="708">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build708</class>
+    </upgrade>
+    <upgrade build="751">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build751</class>
+    </upgrade>
+    <upgrade build="752">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build752</class>
+    </upgrade>
+    <upgrade build="753">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build753</class>
+    </upgrade>
+    <upgrade build="754">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build754</class>
+    </upgrade>
+    <upgrade build="755">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build755</class>
+    </upgrade>
+    <upgrade build="756">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build756</class>
+    </upgrade>
+    <upgrade build="757">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build756</class>
+    </upgrade>
+    <upgrade build="758">
+            <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build758</class>
+    </upgrade>
+    <upgrade build="759">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build759</class>
+    </upgrade>
+
+    <!-- JIRA 5.1.1 -->
+    <upgrade build="771">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build771</class>
+    </upgrade>
+
+    <!-- JIRA 5.2 -->
+    <upgrade build="801">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build801</class>
+    </upgrade>
+    <upgrade build="802">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build802</class>
+    </upgrade>
+    <upgrade build="807">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build807</class>
+    </upgrade>
+    <upgrade build="808">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build808</class>
+    </upgrade>
+    <upgrade build="809">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build809</class>
+    </upgrade>
+    <upgrade build="810">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build810</class>
+    </upgrade>
+
+    <!-- JIRA 5.2.1 -->
+    <upgrade build="812">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build812</class>
+    </upgrade>
+    <upgrade build="813">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build813</class>
+    </upgrade>
+
+    <!-- JIRA 5.2.2 -->
+    <upgrade build="843">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build843</class>
+    </upgrade>
+
+    <!-- JIRA 5.2.6 (Retroactively added to 6.0 for JRADEV-18245) -->
+    <upgrade build="849">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build849</class>
+    </upgrade>
+
+    <!-- JIRA 5.2.8 -->
+    <upgrade build="851">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build851</class>
+    </upgrade>
+
+    <!-- JIRA 6.0 -->
+    <upgrade build="6001">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6001</class>
+    </upgrade>
+    <upgrade build="6005">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6005</class>
+    </upgrade>
+    <upgrade build="6006">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6006</class>
+    </upgrade>
+    <upgrade build="6007">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6007</class>
+    </upgrade>
+    <upgrade build="6038">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6038</class>
+    </upgrade>
+    <upgrade build="6039">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6039</class>
+    </upgrade>
+    <upgrade build="6040">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6040</class>
+    </upgrade>
+    <upgrade build="6041">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6041</class>
+    </upgrade>
+    <upgrade build="6042">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6042</class>
+    </upgrade>
+    <upgrade build="6044">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6044</class>
+    </upgrade>
+    <upgrade build="6045">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6045</class>
+    </upgrade>
+    <upgrade build="6047">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6047</class>
+    </upgrade>
+    <upgrade build="6081">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6081</class>
+    </upgrade>
+    <upgrade build="6083">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6083</class>
+    </upgrade>
+    <!-- upgrade task 6084 moved to 6162 -->
+    <upgrade build="6085">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6085</class>
+    </upgrade>
+    <upgrade build="6096">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6096</class>
+    </upgrade>
+    <upgrade build="6100">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6100</class>
+    </upgrade>
+
+    <!-- JIRA 6.1 -->
+    <upgrade build="6121">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6121</class>
+    </upgrade>
+    <upgrade build="6122">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6122</class>
+    </upgrade>
+    <upgrade build="6123">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6123</class>
+    </upgrade>
+    <upgrade build="6124">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6124</class>
+    </upgrade>
+    <!-- upgrade tasks 6125 - 6127 moved to 6129 - 6131 -->
+    <upgrade build="6128">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6128</class>
+    </upgrade>
+    <upgrade build="6129">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6129</class>
+    </upgrade>
+    <upgrade build="6130">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6130</class>
+    </upgrade>
+    <upgrade build="6131">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6131</class>
+    </upgrade>
+    <upgrade build="6132">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6132</class>
+    </upgrade>
+    <upgrade build="6133">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6133</class>
+    </upgrade>
+    <upgrade build="6134">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6134</class>
+    </upgrade>
+    <upgrade build="6135">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6135</class>
+    </upgrade>
+    <upgrade build="6136">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6136</class>
+    </upgrade>
+    <upgrade build="6137">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6137</class>
+    </upgrade>
+    <upgrade build="6138">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6138</class>
+    </upgrade>
+    <upgrade build="6139">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6139</class>
+    </upgrade>
+    <upgrade build="6140">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6140</class>
+    </upgrade>
+    <upgrade build="6141">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6141</class>
+    </upgrade>
+    <upgrade build="6142">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6142</class>
+    </upgrade>
+    <upgrade build="6151">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6151</class>
+    </upgrade>
+    <upgrade build="6152">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6152</class>
+    </upgrade>
+    <upgrade build="6153">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6153</class>
+    </upgrade>
+    <upgrade build="6154">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6154</class>
+    </upgrade>
+    <!-- Upgrade task 6156 moved to 6207. Needed to be run against OnDemand. JRA-35857 -->
+    <!-- Upgrade task 6162 moved to 6210. -->
+
+    <!-- JIRA 6.2 -->
+    <upgrade build="6200">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6200</class>
+    </upgrade>
+    <!-- Removed upgrade tasks 6202 to 6204, these where added for dogfooding on JDOG -->
+
+    <upgrade build="6205">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6205</class>
+    </upgrade>
+    <upgrade build="6206">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6206</class>
+    </upgrade>
+    <upgrade build="6207">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6207</class>
+    </upgrade>
+    <upgrade build="6208">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6208</class>
+    </upgrade>
+    <upgrade build="6209">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6209</class>
+    </upgrade>
+    <upgrade build="6210">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6210</class>
+    </upgrade>
+    <upgrade build="6211">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6211</class>
+    </upgrade>
+
+    <!-- ... skipped a bunch of versions so we have a predictable build for when AUI 5.3 lands in JIRA -->
+
+    <upgrade build="6251">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6251</class>
+    </upgrade>
+    <upgrade build="6254">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6254</class>
+    </upgrade>
+    <upgrade build="6256">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6256</class>
+    </upgrade>
+    <upgrade build="6258">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6258</class>
+    </upgrade>
+
+    <!-- JIRA 6.3 -->
+    <upgrade build="6301">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6301</class>
+    </upgrade>
+    <upgrade build="6302">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6302</class>
+    </upgrade>
+    <upgrade build="6304">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6304</class>
+    </upgrade>
+    <upgrade build="6305">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6305</class>
+    </upgrade>
+    <upgrade build="6306">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6306</class>
+    </upgrade>
+
+    <upgrade build="6316">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6316</class>
+    </upgrade>
+    <upgrade build="6317">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6317</class>
+    </upgrade>
+
+    <upgrade build="6318">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6318</class>
+    </upgrade>
+
+    <upgrade build="6319">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6319</class>
+    </upgrade>
+    <upgrade build="6320">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6320</class>
+    </upgrade>
+    <upgrade build="6321">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6321</class>
+    </upgrade>
+    <upgrade build="6322">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6322</class>
+    </upgrade>
+    <upgrade build="6323">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6323</class>
+    </upgrade>
+    <upgrade build="6325">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6325</class>
+    </upgrade>
+    <upgrade build="6326">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6326</class>
+    </upgrade>
+    <upgrade build="6327">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6327</class>
+    </upgrade>
+    <upgrade build="6328">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6328</class>
+    </upgrade>
+    <upgrade build="6331">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6331</class>
+    </upgrade>
+    <upgrade build="6334">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6334</class>
+    </upgrade>
+    <upgrade build="6336">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6336</class>
+    </upgrade>
+    <upgrade build="6343">
+        <class>com.atlassian.jira.upgrade.tasks.UpgradeTask_Build6343</class>
+    </upgrade>
+</upgrades>

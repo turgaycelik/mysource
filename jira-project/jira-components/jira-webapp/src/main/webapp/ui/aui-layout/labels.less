@@ -1,0 +1,60 @@
+/* labels list */
+ul.labels {
+    display: block;
+    list-style-type: none;
+    margin: 0 0 -5px; /* compensate for the line-height so the last line of labels doesn't have extra bottom space */
+    padding: 0;
+
+    li {
+        display: inline;
+        font-size: 0;
+        margin: 0;
+        .lozenge {
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            border-radius: 3.01px; /* 3.01 for IE10 */
+            display: inline-block;
+            font-size: 14px;
+            font-weight: normal;
+            line-height: 1;
+            max-width: 100%;
+            overflow-x: hidden;
+            padding: 1px 5px;
+            margin: 0 3px 0 0;
+            text-align: left;
+            text-decoration: none;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            &a:hover,
+            &a:focus {
+                border-color: #707070;
+                text-decoration: none;
+            }
+        }
+        .edit-labels {
+            vertical-align:top;
+            &.icon-edit-sml {
+                background-position: 3px -698px;
+                &:hover {
+                    background-position: -22px -698px;
+                }
+            }
+        }
+    }
+}
+
+.label-alphabetical {
+    font-size: 0; // This effectively zeros out the width of whitespace between child elements.
+    line-height: 1;
+
+    .aui-label {
+        font-size: 14px; // AUI does explicitly define this as well, but better to be safe than sorry...
+        margin-bottom: 10px;
+        margin-right: 10px;
+        vertical-align: bottom;
+    }
+}
+
+//JRADEV-17914 shifting this up the stack to prevent a flash of edit pencil while the editable-field classes are added to elements by the KA JS.
+.ka ul.labels li .edit-labels { display: none; }
+

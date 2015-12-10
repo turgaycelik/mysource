@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib" xmlns:core="jelly:core" xmlns:log="jelly:log">
+
+    <jira:RemoveActorsFromDefaultProjectRole projectroleid="1" actors="jira-administrators, jira-users" actortype="atlassian-group-role-actor" />
+
+</JiraJelly>

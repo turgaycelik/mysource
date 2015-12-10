@@ -1,0 +1,20 @@
+#disable_html_escaping()
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+<select class="select" id="$field.id" name="$field.id">
+    #if ($displayParameters.displayNone)
+        <option value="">$i18n.getText("common.words.none")</option>
+    #end
+    #foreach ($pr in $priorities)
+        #set ($iconurl = $pr.iconUrlHtml)
+        #if ($iconurl.startsWith('http://') || $iconurl.startsWith('https://'))
+            #set ($iconurl = $pr.iconUrlHtml)
+        #else
+            #set ($iconurl = "${req.getContextPath()}${iconurl}")
+        #end
+        <option class="imagebacked"#if ($priority && $pr.getId() && $priority == $pr.getId()) selected="selected"#end data-icon="${iconurl}" value="$!pr.getId()">
+            $textutils.htmlEncode($pr.getNameTranslation())
+        </option>
+    #end
+</select>
+#localHelp ('issue.field.priority' 'PriorityLevels')
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)

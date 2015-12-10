@@ -1,0 +1,4 @@
+#disable_html_escaping()
+
+#set ($worklogAdded = true)
+#genericChangelogMailWithWorklog("jira.email.title.worklog.added")

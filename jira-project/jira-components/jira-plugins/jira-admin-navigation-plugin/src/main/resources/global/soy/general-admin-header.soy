@@ -1,0 +1,84 @@
+{namespace JIRA.Templates.header.admin}
+
+/**
+* @param? pageActions
+*/
+{template .adminheading}
+<div class="generalAdminHeading aui-page-header">
+    <div class="aui-page-header-inner">
+        <div class="aui-page-header-main">
+            <ol class="aui-nav aui-nav-horizontal">
+                <li>
+                    <h1>{getText('alt.text.admin')}</h1>
+                </li>
+                <li class="admin-search">
+                    <a id="admin-search-link" href="#"  class="aui-button aui-button-subtle"><span class="aui-icon aui-icon-small aui-iconfont-search"></span>{getText('alt.text.SearchAdmin')}</a>
+                </li>
+            </ol>
+        </div>
+        <div class="aui-page-header-actions">
+            <div id="upm-notifications-container"></div>
+            {if $pageActions and length($pageActions)}
+                {foreach $pageActionContent in $pageActions }
+                    {$pageActionContent |noAutoescape}
+                {/foreach}
+            {/if}
+        </div>
+    </div>
+
+</div>
+{/template}
+
+/**
+ * Render the horizontal navigation for a project. It will only render if there is more than one link,
+ * the assumption being that if there's only one place to go, it's where you already are.
+ *
+ * (Related: don't ever try to justify to me that there's a valid use-case for a single link...)
+ *
+ * @param? adminNavigationPrimary a list of navlink objects for the left-hand side of the navigation.
+ * @param? adminNavigationSecondary a list of navlink objects for the right-hand side of the navigation.
+ */
+{template .adminnavheading}
+{let $primaryCount: $adminNavigationPrimary ? length($adminNavigationPrimary) : 0 /}
+{let $secondaryCount: $adminNavigationSecondary ? length($adminNavigationSecondary) : 0 /}
+// Only output a nav if there's more than one location to go to.
+{if ($primaryCount + $secondaryCount) > 1}
+    <nav class="aui-navgroup aui-navgroup-horizontal">
+        <div class="aui-navgroup-inner">
+        {if $primaryCount > 0}
+            <div class="aui-navgroup-primary">
+                {call .navlinks}{param items: $adminNavigationPrimary /}{/call}
+            </div><!-- .aui-navgroup-primary -->
+        {/if}
+        {if $secondaryCount > 0}
+            <div class="aui-navgroup-secondary">
+                {call .navlinks}{param items: $adminNavigationSecondary /}{/call}
+            </div><!-- .aui-navgroup-secondary -->
+        {/if}
+        </div><!-- .aui-navgroup-inner -->
+    </nav>
+{/if}
+
+{/template}
+
+/**
+ * @param items the list of links to render for the section of the admin nav heading.
+ */
+{template .navlinks}
+    <ul class="aui-nav">
+        {foreach $navlink in $items}
+            <li
+                {if $navlink.isSelected} class="aui-nav-selected"{/if}
+            >
+                <a
+                    {sp}href="{$navlink.link|escapeHtml}"
+                    {if $navlink.id} id="{$navlink.id}"{/if}
+                >
+                    <span
+                        {if $navlink.styleClass} class="{$navlink.styleClass}"{/if}
+                    >{$navlink.label}</span>
+                </a>
+            </li>
+        {/foreach}
+    </ul>
+{/template}

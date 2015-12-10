@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#if ($issue.getEnvironment() && $issue.getEnvironment().length() != 0)
+<tr>
+    <th>#text("common.words.env"):</th>
+    <td>
+        $issue.getHtmlEnvironment()
+    </td>
+</tr>
+#end

@@ -1,0 +1,48 @@
+{namespace JIRA.Templates.Fields}
+
+/**
+* @param displayName
+* @param? escape
+*/
+{template .username}
+{if $escape}{$displayName}{else}{$displayName|noAutoescape}{/if}
+{/template}
+
+/**
+ @param username
+ @param icon a link with an href
+ @param displayName
+ @param? escape
+ @param? readOnly
+ */
+{template .recipientUsername}
+<li data-username="{$username}" title={$username}>
+    <span>
+        <span class="user-hover" rel="{$username}">
+            <img alt="" src="{$icon}" title="{call .username data="all" /}">
+            <span title="{call .username data="all" /}">{call .username data="all" /}</span>
+        </span>
+        {if not $readOnly}
+        <button type="button" class="remove-recipient item-delete">
+            {getText('issue.operations.manage.watcher.remove',$username)}
+        </button>
+        {/if}
+    </span>
+</li>
+{/template}
+
+
+
+/**
+@param email
+@param icon
+*/
+{template .recipientEmail}
+<li data-email="{$email}" title={$email}>
+    <span>
+        <img src="{$icon}" title="{$email}">
+        <span title="{$email}">{$email}</span>
+        <span class="remove-recipient item-delete"/>
+    </span>
+</li>
+{/template}

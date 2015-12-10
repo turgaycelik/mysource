@@ -1,0 +1,6 @@
+<events>
+	<event id="TEST_EVENT_1">
+		<name>Test Event 1</name>
+		<description></description>
+	</event>
+</events>

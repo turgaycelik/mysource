@@ -1,0 +1,98 @@
+#disable_html_escaping()
+<html xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+<title>$title</title>
+<style type="text/css">
+table {
+    mso-displayed-decimal-separator:"$localeDecimalSeparator";
+    mso-displayed-thousand-separator:"$localeGroupingSeparator";
+}
+body
+{
+    margin: 0px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    color:black;
+}
+
+</style>
+<META HTTP-EQUIV="Content-Type" Content="application/vnd.ms-excel; charset=$encoding">
+<!-- JRA-7598 - ensure fields (e.g. description) occupy only one cell - even fields containing newlines. -->
+<!--
+Vertical align all cells to the top, in order to align all issue rows of issuetable to the top,
+since Excel does not use or save the css files it is hardcoded here.
+-->
+<style>
+@page
+{
+mso-page-orientation:landscape;
+margin:.25in .25in .5in .25in;
+mso-header-margin:.5in;
+mso-footer-margin:.25in;
+mso-footer-data:"&R&P of &N";
+mso-horizontal-page-align:center;
+mso-vertical-page-align:center;
+}
+
+td.issuekey,
+td.issuetype,
+td.status {
+    mso-style-parent: "";
+    mso-number-format: \@;
+    text-align: left;
+}
+br
+{
+    mso-data-placement:same-cell;
+}
+
+td
+{
+    vertical-align: top;
+}
+</style>
+
+<!--[if gte mso 9]><xml>
+<x:ExcelWorkbook>
+<x:ExcelWorksheets>
+<x:ExcelWorksheet>
+<x:Name>general_report</x:Name>
+<x:WorksheetOptions>
+<x:Print>
+<x:ValidPrinterInfo/>
+</x:Print>
+</x:WorksheetOptions>
+</x:ExcelWorksheet>
+</x:ExcelWorksheets>
+</x:ExcelWorkbook>
+</xml><![endif]-->
+</head>
+<body>
+
+<table border="1">
+    <tr bgcolor="$topBgColour" height="$jiraLogoHeight">
+        <td colspan="$colCount">
+            <img src="$jiraLogo" width="$jiraLogoWidth" height="$jiraLogoHeight" border="0" alt="$title">
+        </td>
+    </tr>
+    <tr>
+        <td colspan="$colCount">
+            <a href="$link">$title</a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="$colCount">
+            $resultsDescription
+        </td>
+    </tr>
+</table>
+
+#if ($noissues)
+<table>
+    <tr><td>&nbsp;</td></tr>
+    <tr><td><b>No Issues Found</b></td></tr>
+    <tr><td>&nbsp;</td></tr>
+</table>
+#end

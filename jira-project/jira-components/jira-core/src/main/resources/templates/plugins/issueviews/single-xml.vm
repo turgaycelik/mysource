@@ -1,0 +1,209 @@
+#disable_html_escaping()
+###macro (xmlEscape $text)$xmlutils.escape($text)#end
+###macro (escCdata $text)$xmlutils.escapeForCdata($text)#end
+###macro (printIssueLinksXML $issues)
+##    #foreach ($issue in $issues)
+##        <issuelink>
+##            <issuekey id="$issue.id">#xmlEscape($issue.key)</issuekey>
+##        </issuelink>
+##    #end
+###end
+
+<item>
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('title'))
+        <title>[#xmlEscape($issue.key)] #xmlEscape($issue.summary)</title>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('link'))
+        <link>#xmlEscape($requestContext.baseUrl)/browse/$issue.key</link>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('project'))
+        <project id="$issue.projectObject.id" key="#xmlEscape($issue.projectObject.key)">#xmlEscape($issue.project.name)</project>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('description'))
+    ## RSS Readers expect the body not to be CDATA, so we should not surround with cdata sections
+        <description>#if ($rssMode == 'raw')#if ($issue.description)<![CDATA[#escCdata($issue.description)]]>#end#else#xmlEscape($xmlView.getRenderedContent('description', $issue.description, $issue))#end</description>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('environment'))
+        <environment>#if ($rssMode == 'raw')#if ($issue.environment)<![CDATA[#escCdata($issue.environment)]]>#end#else#xmlEscape($xmlView.getRenderedContent('environment', $issue.environment, $issue))#end</environment>
+    #end
+    <key id="$issue.id">#xmlEscape($issue.key)</key>
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('summary'))
+        <summary>#xmlEscape($issue.summary)</summary>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('issuetype'))
+        <type id="$issue.issueTypeObject.id" iconUrl="#getNormalizedUrlXmlEscaped($issue.issueTypeObject.iconUrl)">#xmlEscape($issue.issueTypeObject.nameTranslation)</type>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('parent'))
+        #if ($issue.parent)
+            <parent id="$issue.parent.id">$issue.parent.key</parent>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('priority'))
+        #if ($issue.priorityObject)
+            <priority id="$issue.priorityObject.id" iconUrl="#getNormalizedUrlXmlEscaped($issue.priorityObject.iconUrl)">#xmlEscape($issue.priorityObject.nameTranslation)</priority>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('status'))
+        #set($simpleStatus = $issue.statusObject.getSimpleStatus())
+        <status id="$simpleStatus.id" iconUrl="#getNormalizedUrlXmlEscaped($simpleStatus.iconUrl)" description="#xmlEscape($simpleStatus.description)">#xmlEscape($simpleStatus.name)</status>
+        #if ($simpleStatus.statusCategory)
+            <statusCategory id="$simpleStatus.statusCategory.id" key="#xmlEscape($simpleStatus.statusCategory.key)" colorName="#xmlEscape($simpleStatus.statusCategory.colorName)"/>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('resolution'))
+        #if ($issue.resolutionObject)
+            <resolution id="$issue.resolutionObject.id">#xmlEscape($issue.resolutionObject.nameTranslation)</resolution>
+        #else
+            <resolution id="-1">$i18n.getText('common.status.unresolved')</resolution>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('security') && $issue.securityLevel)
+        <security id="$issue.securityLevel.id">#xmlEscape($issue.securityLevel.name)</security>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('assignee'))
+        #if ($issue.assignee)
+            <assignee username="#xmlEscape($issue.assignee.name)">#xmlEscape($issue.assignee.displayName)</assignee>
+        #else
+            <assignee username="-1">$i18n.getText('common.concepts.unassigned')</assignee>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('reporter'))
+        #if ($issue.reporter)
+            <reporter username="#xmlEscape($issue.reporter.name)">#xmlEscape($issue.reporter.displayName)</reporter>
+        #else
+            <reporter username="-1">$i18n.getText('common.words.none')</reporter>
+        #end
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('labels'))
+        <labels>
+            #foreach($label in $issue.labels)
+                <label>#xmlEscape($label.label)</label>
+            #end
+        </labels>
+    #end
+## there are both 'isCreated' and 'getCreated', so we should hard-code it
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('created'))
+        <created>$dateTimeFormatter.format($issue.getCreated())</created>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('updated'))
+        <updated>$dateTimeFormatter.format($issue.updated)</updated>
+    #end
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('resolutiondate'))
+        #if ($issue.resolutionDate)
+            <resolved>$dateTimeFormatter.format($issue.resolutionDate)</resolved>
+        #end
+    #end
+    #if ($issue.affectedVersions && ($issueXmlViewFields.isFieldRequestedAndVisible('versions')))
+        #foreach ($version in $issue.affectedVersions)
+            <version>#xmlEscape($version.name)</version>
+        #end
+    #end
+    #if ($issue.fixVersions && ($issueXmlViewFields.isFieldRequestedAndVisible('fixVersions')))
+        #foreach ($version in $issue.fixVersions)
+            <fixVersion>#xmlEscape($version.name)</fixVersion>
+        #end
+    #end
+    #if ($issue.components && ($issueXmlViewFields.isFieldRequestedAndVisible('components')))
+        #foreach ($component in $issue.components)
+            <component>#xmlEscape($component.name)</component>
+        #end
+    #end
+## Due date is shown event if the due date value is null. This is so due to the comment added to the JRA-2711 issue
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('duedate'))
+        <due>#if($issue.dueDate)$dateFormatter.format($issue.dueDate)#end</due>
+    #end
+## Votes part
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('votes'))
+        #if ($votingEnabled)
+            <votes>$issue.votes</votes>
+        #end
+    #end
+## Watches part
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('watches'))
+        #if ($watchingEnabled)
+            <watches>$issue.watches</watches>
+        #end
+    #end
+## Timetracking section
+    #if ($timeTrackingEnabled)
+        #if ($issue.originalEstimate && $issueXmlViewFields.isFieldRequestedAndVisible('timeoriginalestimate'))
+            <timeoriginalestimate seconds="$issue.originalEstimate">$xmlView.getPrettyDuration($issue.originalEstimate)</timeoriginalestimate>
+        #end
+        #if ($issue.estimate && $issueXmlViewFields.isFieldRequestedAndVisible('timeestimate'))
+            <timeestimate seconds="$issue.estimate">$xmlView.getPrettyDuration($issue.estimate)</timeestimate>
+        #end
+        #if ($issue.timeSpent && $issueXmlViewFields.isFieldRequestedAndVisible('timespent'))
+            <timespent seconds="$issue.timeSpent">$xmlView.getPrettyDuration($issue.timeSpent)</timespent>
+        #end
+        #if ($aggregateTimeTrackingBean)
+            #if ($aggregateTimeTrackingBean.originalEstimate && $issueXmlViewFields.isFieldRequestedAndVisible('aggregatetimeoriginalestimate'))
+                <aggregatetimeoriginalestimate seconds="$aggregateTimeTrackingBean.originalEstimate">$xmlView.getPrettyDuration($aggregateTimeTrackingBean.originalEstimate)</aggregatetimeoriginalestimate>
+            #end
+            #if ($aggregateTimeTrackingBean.remainingEstimate && $issueXmlViewFields.isFieldRequestedAndVisible('aggregatetimeestimate'))
+                <aggregatetimeremainingestimate seconds="$aggregateTimeTrackingBean.remainingEstimate">$xmlView.getPrettyDuration($aggregateTimeTrackingBean.remainingEstimate)</aggregatetimeremainingestimate>
+            #end
+            #if ($aggregateTimeTrackingBean.timeSpent && $issueXmlViewFields.isFieldRequestedAndVisible('aggregatetimespent'))
+                <aggregatetimespent seconds="$aggregateTimeTrackingBean.timeSpent">$xmlView.getPrettyDuration($aggregateTimeTrackingBean.timeSpent)</aggregatetimespent>
+            #end
+        #end
+    #end
+## Comment section
+    #if ($comments && $comments.isEmpty() == false)
+        <comments>
+            #foreach ($comment in $comments)
+                <comment id="$comment.id" author="#xmlEscape($comment.author)" created="$dateTimeFormatter.format($comment.created)" #if ($comment.groupLevel) grouplevel="#xmlEscape($!{comment.groupLevel})"#end #if ($comment.roleLevel) rolelevel="#xmlEscape($!{comment.roleLevel.name})" #end>#if ($rssMode == 'raw')#if($comment.body)<![CDATA[#escCdata($comment.body)]]>#end#else#xmlEscape($xmlView.getRenderedContent('comment', $comment.body, $issue))#end</comment>
+            #end
+        </comments>
+    #end
+## Issue linking
+    #if ($linkingEnabled && $linkCollection && $linkCollection.linkTypes && $linkCollection.linkTypes.isEmpty() == false)
+        <issuelinks>
+            #foreach ($issueLinkType in $linkCollection.linkTypes)
+                <issuelinktype id="#xmlEscape($issueLinkType.id.toString())">
+                    <name>#xmlEscape($issueLinkType.name)</name>
+                    #if ($linkCollection.getOutwardIssues($issueLinkType.name))
+                        <outwardlinks description="#xmlEscape($issueLinkType.outward)">
+                            #printIssueLinksXML ($linkCollection.getOutwardIssues($issueLinkType.name))
+                        </outwardlinks>
+                    #end
+                    #if ($linkCollection.getInwardIssues($issueLinkType.name))
+                        <inwardlinks description="#xmlEscape($issueLinkType.inward)">
+                            #printIssueLinksXML ($linkCollection.getInwardIssues($issueLinkType.name))
+                        </inwardlinks>
+                    #end
+                </issuelinktype>
+            #end
+        </issuelinks>
+    #end
+## Attachments
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('attachment'))
+        <attachments>
+            #foreach ($attachment in $issue.attachments)
+                <attachment id="$attachment.id" name="#xmlEscape($attachment.filename)" size="$attachment.filesize" author="#if($attachment.authorObject)#xmlEscape($attachment.authorObject.username)#else#xmlEscape($!attachment.authorKey)#end" created="$dateTimeFormatter.format($attachment.created)"/>
+            #end
+        </attachments>
+    #end
+## Subtasks
+    #if ($issueXmlViewFields.isFieldRequestedAndVisible('subtasks'))
+        <subtasks>
+            #foreach ($subtask in $issue.subTaskObjects)
+                <subtask id="$subtask.id">$subtask.key</subtask>
+            #end
+        </subtasks>
+    #end
+## Custom fields
+    #if ($visibleCustomFields && $visibleCustomFields.isEmpty() == false)
+        <customfields>
+            #foreach ($layoutItem in $visibleCustomFields)
+                #if ($layoutItem.orderableField.hasValue($issue))
+                    <customfield id="$layoutItem.orderableField.id" key="$layoutItem.orderableField.customFieldType.key">
+                        <customfieldname>#xmlEscape($layoutItem.orderableField.name)</customfieldname>
+                        <customfieldvalues>
+                            $xmlView.getCustomFieldXML($layoutItem.orderableField, $issue)
+                        </customfieldvalues>
+                    </customfield>
+                #end
+            #end
+        </customfields>
+    #end
+</item>

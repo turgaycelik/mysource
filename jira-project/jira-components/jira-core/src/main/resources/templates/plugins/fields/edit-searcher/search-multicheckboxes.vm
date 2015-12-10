@@ -1,0 +1,14 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderType", "checkbox")}
+$!{auiparams.put("fieldsetClass", "group aui-field-multicheckbox")}
+$!{auiparams.put("noLabel", "true")}
+#AUIformFieldsetHeader ($customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    #if ($value) #set ($selectedValues = $value) #end
+    #foreach ($option in $configs.options)
+        #searcherEditHeader ("" ${customField.name})
+            #if ($selectedValues && $selectedValues.contains($option.optionId.toString())) #set ($checked = ' checked="checked" ') #else #set ($checked = "") #end
+            <input${checked} class="checkbox" id="searcher-${customField.id}-${velocityCount}" name="${customField.id}" type="checkbox" value="$option.optionId" />
+            <label for="searcher-${customField.id}-${velocityCount}">$cfValueEncoder.encodeForHtml($option.value)</label>
+        #searcherEditFooter ("" "")
+    #end
+#AUIformFieldsetFooter ($action $customField.id $customField.descriptionProperty.viewHtml $displayParameters $auiparams)

@@ -1,0 +1,42 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.renderers.wiki.macros" i18n-name-key="admin.macro.plugin.name" name="Wiki Renderer Macros Plugin">
+    <plugin-info>
+        <description key="admin.macro.plugin.desc">JIRA's base system macros.</description>
+        <version>1.0</version>
+        <application-version min="3.4" max="3.4"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <macro name='anchor' i18n-name-key="admin.macro.plugin.anchor.name" class='com.atlassian.renderer.v2.macro.basic.BasicAnchorMacro' key='anchor'>
+        <description key="admin.macro.plugin.anchor.desc">Create an anchor that allows people to link to a specific point in a page</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='code' i18n-name-key="admin.macro.plugin.code.name" class='com.atlassian.renderer.v2.macro.code.CodeMacro' key='code'>
+        <description key="admin.macro.plugin.code.desc">Format blocks of source-code or XML</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='quote' i18n-name-key="admin.macro.plugin.quote.name" class='com.atlassian.renderer.v2.macro.basic.QuoteMacro' key='quote'>
+        <description key="admin.macro.plugin.quote.desc">Generate blockquotes that may contain multiple paragraphs or complex markup</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='noformat' i18n-name-key="admin.macro.plugin.noformat.name" class='com.atlassian.renderer.v2.macro.basic.NoformatMacro' key='noformat'>
+        <description key="admin.macro.plugin.noformat.desc">Create blocks of text where other wiki formatting is not applied</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='panel' i18n-name-key="admin.macro.plugin.panel.name" class='com.atlassian.renderer.v2.macro.basic.PanelMacro' key='panel'>
+        <description key="admin.macro.plugin.panel.desc">Draw a panel with an optional title and border</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='color' i18n-name-key="admin.macro.plugin.color.name" class='com.atlassian.renderer.v2.macro.basic.ColorMacro' key='color'>
+        <description key="admin.macro.plugin.color.desc">Change the colour of the contained text</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='loremipsum' i18n-name-key="admin.macro.plugin.loremipsum.name" class='com.atlassian.renderer.v2.macro.basic.LoremIpsumMacro' key='loremipsum'>
+        <description key="admin.macro.plugin.loremipsum.desc">Insert paragraphs of &quot;lorem ipsum&quot; space-filler text</description>
+        <java-version min="1.4"/>
+    </macro>
+    <macro name='html' i18n-name-key="admin.macro.plugin.html.name" class='com.atlassian.renderer.v2.macro.basic.InlineHtmlMacro' key='html' state='disabled'>
+        <description key="admin.macro.plugin.html.desc">Use HTML code within a Jira Issue. Do not enable unless you understand the XSS security implications.</description>
+        <java-version min="1.4"/>
+    </macro>
+
+</atlassian-plugin>

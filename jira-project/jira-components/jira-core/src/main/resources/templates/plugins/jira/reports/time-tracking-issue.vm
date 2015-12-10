@@ -1,0 +1,93 @@
+#disable_html_escaping()
+
+#set ($doNotPrintAggregates = ($issue.isSubTask() && !$issue.isOrphan()))
+
+<tr bgcolor="#ffffff">
+    <td class="nowrap" style="border-left-width: 0;">
+        #if ($doNotPrintAggregates)
+            <img src="$req.contextPath/images/icons/link_out_bot.gif" width="16" height="16" border="0" align="absmiddle" alt="">
+        #end
+        #set ($type = $issue.getIssueType())
+        #displayConstantIcon($type)
+    </td>
+    <td class="issue-key"><a href="$req.contextPath/browse/${issue.getKey()}">$issue.getKey()</a></td>
+    <td>
+        #set ($simpleStatus = $issue.issue.statusObject.simpleStatus)
+        #set ($isIssueStatusSubtle = true)
+        #parse("/static/util/issue/status.vm")
+    </td>
+    <td width="40%">
+        #if ($issue.isOrphan() && $issue.isSubTask())
+            #set ($parentIssue = $issue.getParent())
+            #if ($permissionCheck && $permissionCheck.isIssueVisible($parentIssue) == true)
+                <span class="small"><a href="$req.contextPath/browse/$parentIssue.getKey()" style="text-decoration: none;" title="$textutils.htmlEncode($parentIssue.getSummary())">$parentIssue.getKey()</a></span>
+            #else
+                <span class="smallgrey">$parentIssue.getKey()</span>
+            #end
+        #end
+        <table class="subtask-summary autotrim" cellpadding="0" cellspacing="0">
+            <tr title="$textutils.htmlEncode($issue.getSummary())">
+                #if ($issue.isSubTask())
+                <td width="20px">
+                    <img src="$req.contextPath/images/icons/link_out_bot.gif" width="16" height="16" border="0" align="absmiddle" alt="">
+                </td>
+                #end
+                <td>
+                    <a href="$req.contextPath/browse/${issue.getKey()}">$textutils.htmlEncode($issue.getSummary())</a>
+                </td>
+            </tr>
+        </table>
+    </td>
+    <td class="figures left-bordered">$issue.getOriginalEstimate()</td>
+    #if ($subtasksEnabled)
+        #if ($doNotPrintAggregates)
+            <td class="figures greyed-out">-</td>
+        #else
+            <td class="figures">$issue.getAggregateOriginalEstimate()</td>
+        #end
+    #end
+    <td class="figures left-bordered">$issue.getRemainingEstimate()</td>
+    #if ($subtasksEnabled)
+        #if ($doNotPrintAggregates)
+            <td class="figures greyed-out">-</td>
+        #else
+            <td class="figures">$issue.getAggregateRemainingEstimate()</td>
+        #end
+    #end
+    <td class="figures left-bordered">$issue.getTimeSpent()</td>
+    #if ($subtasksEnabled)
+        #if ($doNotPrintAggregates)
+            <td class="figures greyed-out">-</td>
+        #else
+            <td class="figures">$issue.getAggregateTimeSpent()</td>
+        #end
+    #end
+    #if (!$issue.isTimeTracked())
+        <td class="figures left-bordered greyed-out">-</td>
+    #elseif ($issue.onSchedule() == 1)
+        <td class="figures left-bordered green-highlight">$issue.getAccuracyNice()</td>
+    #elseif ($issue.onSchedule() == -1)
+        <td class="figures left-bordered red-highlight">&#8209;$issue.getAccuracyNice()</td>
+    #elseif (!$issue.hasOriginalEstimate())
+        <td class="figures left-bordered greyed-out">$descriptor.getText("timetracking.not.estimated")</td>
+    #else
+        <td class="figures left-bordered greyed-out">$descriptor.getText("timetracking.ontrack")</td>
+    #end
+    #if ($subtasksEnabled)
+        #if ($doNotPrintAggregates)
+            <td class="figures greyed-out">-</td>
+        #else
+            #if (!$issue.isAggregateTimeTracked())
+                <td class="figures greyed-out">-</td>
+            #elseif ($issue.onScheduleAggregate() == 1)
+                <td class="figures green-highlight">$issue.getAggregateAccuracyNice()</td>
+            #elseif ($issue.onScheduleAggregate() == -1)
+                <td class="figures red-highlight">&#8209;$issue.getAggregateAccuracyNice()</td>
+            #elseif (!$issue.hasAggregateOriginalEstimate())
+                <td class="figures greyed-out">$descriptor.getText("timetracking.not.estimated")</td>
+            #else
+                <td class="figures greyed-out">$descriptor.getText("timetracking.ontrack")</td>
+            #end
+        #end
+    #end
+</tr>

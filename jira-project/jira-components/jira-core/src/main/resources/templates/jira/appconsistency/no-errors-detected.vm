@@ -1,0 +1,27 @@
+#disable_html_escaping()
+<html>
+<head>
+    <title>JIRA Startup Succeeded</title>
+    <meta http-equiv="refresh" content="30;url=$contextPath/" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    ${resourcesHtml}
+</head>
+<body id="jira" class="aui-layout aui-theme-default aui-page-focused aui-page-focused-medium">
+<div id="page">
+    <div id="content" role="main">
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-content">
+                    <h1>JIRA Startup Succeeded</h1>
+                    <div class="aui-message success">
+                        <p id="noerrors"><span class="aui-icon icon-success"></span>No startup errors detected at present.</p>
+                        <p><a id="context-path" href="$contextPath/">Continue to the Dashboard.</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

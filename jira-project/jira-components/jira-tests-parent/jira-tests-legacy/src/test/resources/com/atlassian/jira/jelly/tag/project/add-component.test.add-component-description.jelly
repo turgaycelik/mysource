@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:AddComponent project-key="ABC" name="Comp with description" description="this is the description"/>
+    <jira:AddComponent project-key="ABC" name="Comp with empty description" description=""/>
+    <jira:AddComponent project-key="ABC" name="Comp with null description" />
+</JiraJelly>

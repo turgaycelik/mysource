@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.bugzilla.title__" directory_title="__MSG_gadget.bugzilla.title__" description="__MSG_gadget.bugzilla.description__"
+                 author="Atlassian" author_affiliation="Atlassian"
+                 author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:bugzilla", "bugzilla-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:bugzilla", "bugzilla-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.bugzilla")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="bugzillaUrl" datatype="hidden" default_value=""/>
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:common-lite")
+        #includeResources()
+
+        <script type="text/javascript">
+            (function () {
+                gadgets.window.setTitle("__MSG_gadget.bugzilla.title__");
+                var gadget = AJS.Gadget({
+                    baseUrl: "__ATLASSIAN_BASE_URL__",
+                    useOauth: "/rest/gadget/1.0/currentUser",
+                    config: {
+                        descriptor: function (args) {
+                            var gadget = this;
+                            return  {
+                                action: "/rest/gadget/1.0/bugzilla/validate",
+                                theme : function(){
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                                fields: [
+                                    {
+                                        id: "bugzillaUrl",
+                                        userpref: "bugzillaUrl",
+                                        label: gadget.getMsg("gadget.bugzilla.url.label"),
+                                        description: (gadget.getMsg("gadget.bugzilla.url.description") + "<br><br>" + gadget.getMsg("gadget.bugzilla.incompatible")),
+                                        type: "text",
+                                        value: gadget.getPref("bugzillaUrl")
+                                    },
+                                    AJS.gadget.fields.nowConfigured()
+                                ]
+                            };
+                        }
+                    },
+                    view: {
+                        onResizeAdjustHeight: true,
+                        template: function (args) {
+                            var gadget = this;
+                            var bugzilla_url = gadget.getPref("bugzillaUrl");
+                                gadget.getView().addClass("g-bugzilla");
+                                gadget.getView().empty().append(
+                                AJS.$("<div/>").attr({
+                                    id: "bugzilla-search"
+                                }).append(
+                                    AJS.$("<form/>").attr("id", "bugzilla-search-form").submit(function() {
+
+                                        jQuery.ajax({
+                                            url: "/rest/gadget/1.0/bugzilla/search",
+                                            data: {
+                                               bugId: AJS.$("#bugId").val()
+                                            },
+                                            dataType: "text",
+                                            success: function (data) {
+                                                var url = data;
+                                                if (url === "")
+                                                {
+                                                    if (bugzilla_url === "")
+                                                    {
+                                                        gadget.showMessage("error", gadget.getMsg("gadget.bugzilla.no.issue"), true);
+                                                    }
+                                                    else
+                                                    {
+                                                        url = bugzilla_url + "/show_bug.cgi?id=" + AJS.$("#bugId").val();
+                                                        window.top.location = url;
+                                                    }
+                                                }
+                                                else
+                                                {
+                                                    window.top.location = url;
+                                                }
+                                            }
+                                        });
+
+                                        return false;
+
+                                    }).append(
+                                            AJS.$("<label/>").attr("for", "bugId").addClass("bug-label").append(
+                                                    AJS.$("<a/>").attr({
+                                                    href: bugzilla_url
+                                                }).text("Bugzilla")
+                                            ).append(" " + gadget.getMsg("gadget.bugzilla.search.label"))
+                                    ).append(AJS.$("<input/>").attr({
+                                            type: "text",
+                                            id: "bugId",
+                                            name: "bugId"
+                                        })
+                                    ).append(
+                                        AJS.$("<input/>").attr({
+                                            type: "submit",
+                                            value: "Show"
+                                        }).addClass("show")
+                                    )
+                                ).append(
+                                    gadget.getMsg("gadget.bugzilla.incompatible")
+                                )
+                            );
+                        },
+                        args: [{
+                        }]
+                    }
+                });
+            })();
+        </script>
+        ]]>
+    </Content>
+</Module>

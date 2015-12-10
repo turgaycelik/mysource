@@ -1,0 +1,22 @@
+<!--
+A sample configuration file for Tomcat 4.1.x and 5.0
+Customize the docBase attribute, drop in your $CATALINA_HOME/webapps/ (4.1.x) or
+$CATALINA_HOME/conf/Catalina/localhost/ (5.0) directory and restart Tomcat.
+Note the JOTM dependencies; you'll need to copy various jars to Tomcat's common/lib/ directory.
+See http://www.atlassian.com/software/jira/docs/latest/servers/tomcat41.html for details.
+-->
+
+<Context path="/jira" docBase="@JIRA_WEBAPP@" debug="0" useHttpOnly="true">
+
+  <Resource name="UserTransaction" auth="Container" type="javax.transaction.UserTransaction"/>
+  <ResourceParams name="UserTransaction">
+    <parameter>
+      <name>factory</name>
+      <value>org.objectweb.jotm.UserTransactionFactory</value>
+    </parameter>
+    <parameter>
+      <name>jotm.timeout</name>
+      <value>60</value>
+    </parameter>
+  </ResourceParams>
+</Context>

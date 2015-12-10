@@ -1,0 +1,18 @@
+<html>
+<body>
+<h1>JIRA Workflow Validators</h1>
+<p>
+Validators check the user's input on a transition for validity (different from Conditions, which prevent actions from displaying altogether).
+For a more detailed description, see <a href="http://www.atlassian.com/software/jira/docs/latest/workflow.html#validators">the JIRA documentation</a>.
+<p>
+Validators have one method to implement, validate().  <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/Validator.html#validate(java.util.Map, java.util.Map, com.opensymphony.module.propertyset.PropertySet)">validate(java.util.Map, java.util.Map, com.opensymphony.module.propertyset.PropertySet)</a>.
+<p>
+The contents of 'transientVars' varies depending on which workflow action triggered the transition. Most variables are set by the OSWorkflow engine, and
+ <a href="http://www.opensymphony.com/osworkflow/api/com/opensymphony/workflow/Validator.html#validate(java.util.Map, java.util.Map, com.opensymphony.module.propertyset.PropertySet)">documented here</a>.
+When creating an issue (CreateIssueDetails), the following additional variables are set:
+<dl>
+  <dt>issue</dt> <dd>the <a href="../../issue/Issue.html">Issue</a> {@link com.atlassian.jira.issue.Issue} currently being transitioned</dd>
+  <dt>pkey</dt> <dd>issue's project key - useful for making a validation somehow project-specific (eg. project-specific group membership)</dd>
+</dl>
+</body>
+</html>

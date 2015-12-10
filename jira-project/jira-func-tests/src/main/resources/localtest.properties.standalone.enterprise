@@ -1,0 +1,6 @@
+jira.protocol = http
+jira.host = localhost
+jira.port = 8090
+jira.context = 
+jira.enterprise = true
+jira.xml.data.location = /opt2/jira_autobuild/src/jira-func-tests/xml

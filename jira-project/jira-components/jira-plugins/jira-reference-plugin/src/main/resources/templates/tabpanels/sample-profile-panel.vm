@@ -1,0 +1,11 @@
+#disable_html_escaping()
+<div class="module">
+    <div class="mod-content">
+        <div style="text-align:center;">
+            <img src="$baseurl/images/JIRAMaster.png" alt=""/>
+            <div style="margin-top:10px;background-color:saddlebrown;">
+                <img src="$baseurl/images/JIRAMasterRear.png" alt=""/>
+            </div>
+        </div>
+    </div>
+</div>

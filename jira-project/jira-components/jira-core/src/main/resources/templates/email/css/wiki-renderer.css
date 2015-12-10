@@ -1,0 +1,226 @@
+/*
+ * Stylesheet copied from wiki-renderer.less
+ * Name: wiki-renderer.css
+ * File: /includes/jira/wikipreview/wiki-renderer.less
+ */
+
+table.confluenceTable {
+  border-collapse: collapse;
+  margin: 5px 0 5px 2px;
+  width: auto;
+}
+td.confluenceTd {
+  border: 1px solid #cccccc;
+  padding: 3px 4px 3px 4px;
+}
+th.confluenceTh {
+  border: 1px solid #cccccc;
+  background: #f5f5f5;
+  padding: 3px 4px 3px 4px;
+  text-align: center;
+}
+/* override for aui form styles (stalker comment) */
+div.wiki-edit {
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+div.wiki-edit p {
+  padding: 0;
+}
+div.wiki-edit h1 {
+  font-size: 2.4em;
+}
+div.wiki-edit h2 {
+  font-size: 1.8em;
+  border: none;
+}
+div.wiki-edit h3 {
+  font-size: 1.3em;
+}
+div.wiki-edit h4 {
+  font-size: 1.2em;
+}
+div.wiki-edit h5 {
+  font-size: 1em;
+}
+div.wiki-edit h6 {
+  font-size: .9em;
+}
+div.wiki-edit img,
+div.wiki-edit a img,
+div.wiki-edit fieldset {
+  border: 0;
+}
+div.wiki-edit ul {
+  margin: 0 0 1em 2em;
+}
+div.wiki-edit ol {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding-left: 2.5em;
+}
+div.wiki-edit blockquote {
+  border-left: 2px solid #3c78b5;
+  font-size: 1em;
+  font-family: inherit;
+  margin-left: 0;
+  padding-left: 1em;
+}
+div.wiki-edit small,
+div.wiki-edit .small {
+  font-size: .9em;
+}
+div.wiki-edit strong,
+div.wiki-edit b,
+div.wiki-edit .bolded {
+  font-weight: bold;
+}
+/* All wiki formatted content needs a specific selector prefixed with .wiki-edit also so that it overrides aui form styles */
+.preformatted,
+div.wiki-edit  .preformatted,
+.code,
+div.wiki-edit  .code {
+  border: 1px solid #cccccc;
+  background: #f5f5f5;
+  font-size: 12px;
+  line-height: 1.33333333333333;
+  font-family: monospace;
+}
+.code-keyword,
+div.wiki-edit  .code-keyword {
+  color: #000091;
+}
+.code-object,
+div.wiki-edit  .code-object {
+  color: #910091;
+}
+.code-quote,
+div.wiki-edit  .code-quote,
+.code-quote .code-keyword,
+div.wiki-edit  .code-quote .code-keyword,
+.code-quote .code-object,
+div.wiki-edit  .code-quote .code-object {
+  color: #009100;
+}
+.code-comment,
+div.wiki-edit  .code-comment,
+.code-comment .code-keyword,
+div.wiki-edit  .code-comment .code-keyword,
+.code-comment .code-object,
+div.wiki-edit  .code-comment .code-object,
+.code-comment .code-quote,
+div.wiki-edit  .code-comment .code-quote {
+  color: #808080;
+}
+.code-xml .code-keyword,
+div.wiki-edit  .code-xml .code-keyword {
+  font-weight: bold;
+}
+.code-tag,
+div.wiki-edit  .code-tag {
+  color: #000091;
+}
+.panel,
+div.wiki-edit  .panel {
+  border: 1px solid #cccccc;
+  -moz-border-radius: 3px 3px 3px 3px;
+  border-radius: 3px 3px 3px 3px;
+  margin: 9px 0;
+}
+.panelHeader,
+div.wiki-edit  .panelHeader {
+  border-bottom: 1px solid #cccccc;
+  padding: 9px 12px;
+}
+.panelContent,
+div.wiki-edit  .panelContent {
+  padding: 9px 12px;
+}
+div.wiki-edit pre {
+  background: none;
+  border: none;
+  padding: 0;
+  width: 100%;
+}
+div.preformattedContent pre,
+div.codeContent pre {
+  max-height: 30em;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-wrap: normal;
+}
+div.preformattedContent pre {
+  /* We value the user's formatting in {noformat} blocks. We should never introduce our own newlines in to unformatted blocks of text. */
+
+  white-space: pre;
+  word-break: normal;
+}
+table div.preformattedContent pre {
+  /* ...unless they're in a table, in which case we'd prefer the content wrap than the user having to scroll to the bottom of the table to scroll it. */
+
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+/* miscellaneous styles */
+.linkerror {
+  background-color: #fcc;
+}
+.editPageInsertLinks,
+.editPageInsertLinks a {
+  font-weight: normal;
+  font-size: 9px;
+}
+.helpheading {
+  border-bottom: 1px solid #3b73af;
+  font-weight: bold;
+  background-color: #ddd;
+  padding: 4px 4px 2px;
+  margin: 0px;
+}
+.helpcontent {
+  padding: 4px 4px 20px 4px;
+  background-color: #fff;
+}
+.gridHover {
+  background-color: #f9f9f9;
+}
+.navmenu {
+  border: 1px solid #cccccc;
+}
+/* side menu highlighting (e.g. space content screen) */
+.optionPadded {
+  padding: 2px;
+}
+.optionSelected {
+  border: #dddddd solid #cccccc;
+  border: 1px solid #dddddd;
+  background-color: #ffffcc;
+  padding: 2px;
+  margin: -1px;
+}
+.optionSelected a {
+  font-weight: bold;
+  text-decoration: none;
+  color: black;
+}
+.menuheading {
+  border-bottom: 1px solid #3b73af;
+  font-weight: bold;
+  background-color: #ddd;
+  padding: 4px 4px 2px 4px;
+}
+.menuitems {
+  padding: 4px 4px 20px 4px;
+  background-color: #f5f5f5;
+}
+.pagetitle {
+  font-size: 22px;
+  font-weight: bold;
+  font-family: inherit;
+  color: #003366;
+}
+.wiki-edit-content.previewClass {
+  background-color: #E8F1FF;
+  padding: 0.3em 0.7em;
+}

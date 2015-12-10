@@ -1,0 +1,33 @@
+#disable_html_escaping()
+<div class="result-header">
+    <h3><a href="$link">$textutils.htmlEncode($title)</a></h3>
+    #if ($isSearchRequestFitsNavigator)
+        #foreach ($description in $searcherDescriptions)
+            $description
+        #end
+    #else
+        <div class="searcherValue">
+            <label class="fieldLabel" for="fieldJqlQuery">$i18n.getText('jira.jql.query'):</label>
+            <span id="fieldJqlQuery" class="fieldValue">$searchRequestJqlString</span>
+        </div>
+    #end
+    #if ($searchSortDescriptions && !$searchSortDescriptions.isEmpty())
+        <div class="searcherValue">
+            <label class="fieldLabel">$i18n.getText('navigator.hidden.sortedby'):</label>
+            #foreach ($sortDescription in $searchSortDescriptions)
+                $sortDescription
+            #end
+        </div>
+    #end
+    #if ($searchRequest.getLuceneParameters().isEmpty())
+        <div class="searcherValue">
+            $i18n.getText('navigator.hidden.allissues')
+        </div>
+    #end
+    #if ($searchResultsTotalCount != 0)
+        <div class="results-count">
+            $i18n.getText('navigator.results.displayissues', "<b>$searchResultsStart</b>", "<b>$searchResultsEnd</b>", "<b>$searchResultsTotalCount</b>")
+            $i18n.getText('navigator.results.asat', "<b>$now</b>")
+        </div>
+    #end
+</div>  

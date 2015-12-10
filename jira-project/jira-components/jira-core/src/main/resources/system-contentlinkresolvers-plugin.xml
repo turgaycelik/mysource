@@ -1,0 +1,35 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.wiki.contentlinkresolvers"
+                  i18n-name-key="admin.content.link.resolvers.plugin.name"
+                  name="Content Link Resolvers Plugin">
+    <plugin-info>
+        <description key="admin.content.link.resolvers.plugin.desc">System Content Link Resolvers</description>
+        <version>1.0</version>
+        <application-version min="3.12" max="4.3"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <content-link-resolver key="attachment" name="Attachment Link Resolver"
+                           i18n-name-key="admin.content.link.resolvers.plugin.attachment.name"
+                           class="com.atlassian.jira.issue.fields.renderer.wiki.resolvers.AttachmentLinkResolver">
+        <order>10</order>
+    </content-link-resolver>
+
+    <content-link-resolver key="anchor" name="Anchor Link Resolver"
+                           i18n-name-key="admin.content.link.resolvers.plugin.anchor.name"
+                           class="com.atlassian.jira.issue.fields.renderer.wiki.resolvers.AnchorLinkResolver">
+        <order>20</order>
+    </content-link-resolver>
+
+    <content-link-resolver key="jiraissue" name="JIRA Issue Link Resolver"
+                           i18n-name-key="admin.content.link.resolvers.plugin.jiraissue.name"
+                           class="com.atlassian.jira.issue.fields.renderer.wiki.resolvers.JiraIssueLinkResolver">
+        <order>30</order>
+    </content-link-resolver>
+
+    <content-link-resolver key="userprofile" name="User Profile Link Resolver"
+                           i18n-name-key="admin.content.link.resolvers.plugin.userprofile.name"
+                           class="com.atlassian.jira.issue.fields.renderer.wiki.resolvers.UserProfileLinkResolver">
+        <order>40</order>
+    </content-link-resolver>
+
+</atlassian-plugin>

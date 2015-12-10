@@ -1,0 +1,25 @@
+// Used primarily on the View Issue page
+.shorten {
+    display: block;
+    overflow: hidden;
+    padding: 0;
+    position: static;
+    width: auto;
+
+    .shortener-expand,
+    .shortener-collapse {
+        background-repeat: no-repeat;
+        &:hover,
+        &:focus {
+            background-color: #eee;
+            text-decoration: none;
+        }
+    }
+    .shortener-expand {
+        background-image: inlineimage("images/icons/ico_ellipses.png");
+        padding-left: 17px;
+    }
+    .shortener-collapse {
+        background-image: inlineimage("images/icons/ico_ellipses_back.png");
+    }
+}

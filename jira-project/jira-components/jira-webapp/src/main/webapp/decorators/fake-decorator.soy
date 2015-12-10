@@ -1,0 +1,44 @@
+{namespace JIRA.Templates.FakeDecorators}
+
+/**
+ * Fake decorator for the templates used in metal pages
+ *
+ * @param completePageTitle
+ * @param logoText
+ * @param logoUrl
+ * @param content
+ * @param headContent
+ * @param? extraClasses extra classes applied to the body element
+ * @param? contentExtraClasses extra classes applied to the content wrapper
+ */
+{template .fakeDecorator}
+    {call aui.page.document}
+        {param pageType: 'focused' /}
+        {param focusedPageSize: 'medium' /}
+        {param windowTitle: $completePageTitle /}
+        {param extraClasses: $extraClasses ? $extraClasses : '' /}
+        {param headContent : $headContent /}
+        {param content}
+            {call aui.page.page}
+                {param headerContent}
+                    {call aui.page.header}
+                        {param headerLogoText: $logoText /}
+                        {param headerLogoImageUrl: contextPath() + $logoUrl /}
+                        {param headerLink: contextPath() /}
+                    {/call}
+                {/param}
+                {param contentContent}
+                    {call aui.page.pagePanel}
+                        {param extraClasses: $contentExtraClasses ? $contentExtraClasses : '' /}
+                        {param content}
+                            {call aui.page.pagePanelContent}
+                                {param content: $content /}
+                            {/call}
+                        {/param}
+                    {/call}
+                {/param}
+                {param footerContent: '' /}
+            {/call}
+        {/param}
+    {/call}
+{/template}

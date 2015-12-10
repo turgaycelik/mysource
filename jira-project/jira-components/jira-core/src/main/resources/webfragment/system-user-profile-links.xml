@@ -1,0 +1,25 @@
+<!--
+  All linkId atributes of link elements must not contain spaces!
+  Reason: linkIds are used for window names for pop-ups. See JRA-12387 for more details.
+-->
+<atlassian-plugin name='User Profile Links' key='jira.webfragments.user.profile.links'
+                  i18n-name-key="webfragments.user.profile.links.plugin.name">
+    <plugin-info>
+        <description key="webfragments.user.navigation.bar.plugin.desc">This library includes the web fragments for the
+            left hand user profile links. This should not be disabled
+        </description>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+        <application-version min="3.12" max="3.12"/>
+        <version>1.0</version>
+    </plugin-info>
+
+    <web-item key="user_profile_oauth_access_tokens" name="User Oauth Access Tokens" section="system.user.profile.links/operations"
+              i18n-name-key="webfragments.user.profile.links.item.oauth.access.tokens"  weight="110">
+        <label key="user.oauth.access.tokens"/>
+        <tooltip key=""/>
+        <link linkId="oauth_access_tokens">/plugins/servlet/oauth/users/access-tokens</link>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserIsTheLoggedInUserCondition"/>
+    </web-item>
+
+</atlassian-plugin>

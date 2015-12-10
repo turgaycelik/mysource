@@ -1,0 +1,264 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.workflow" i18n-name-key="admin.workflow.plugin.name" name="Workflow Plugin">
+    <plugin-info>
+        <description key="admin.workflow.plugin.desc">JIRA's system workflow conditions, functions and validators.</description>
+        <version>1.0</version>
+        <application-version min="3.0" max="3.0"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <!-- Conditions -->
+    <workflow-condition key="permission-condition" name="Permission Condition" i18n-name-key="admin.workflow.condition.permission.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowPermissionConditionFactoryImpl">
+        <description key="admin.workflow.condition.permission">Condition to allow only users with a certain permission to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.PermissionCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-condition-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-condition-edit-params.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="onlyassignee-condition" name="Only Assignee Condition" i18n-name-key="admin.workflow.condition.onlyassignee.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowAllowOnlyAssigneeConditionFactoryImpl">
+        <description key="admin.workflow.condition.onlyassignee">Condition to allow only the assignee to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.AllowOnlyAssignee</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/onlyassignee-condition-view.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="onlyreporter-condition" name="Only Reporter Condition" i18n-name-key="admin.workflow.condition.onlyreporter.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowAllowOnlyReporterConditionFactoryImpl">
+        <description key="admin.workflow.condition.onlyreporter">Condition to allow only the reporter to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.AllowOnlyReporter</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/onlyreporter-condition-view.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="isuseringroup-condition" name="User Is In Group" i18n-name-key="admin.workflow.condition.isuseringroup.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowIsUserInGroupConditionFactoryImpl">
+        <description key="admin.workflow.condition.isuseringroup">Condition to allow only users in a given group to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.UserInGroupCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroup-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroup-condition-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroup-condition-edit-params.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="isuseringroupcf-condition" name="User Is In Group Custom Field" i18n-name-key="admin.workflow.condition.isuseringroupcf.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowIsUserInGroupCFConditionFactoryImpl">
+        <description key="admin.workflow.condition.isuseringroupcf">Condition to allow only users in a customfield-specified group to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.InGroupCFCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroupcf-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroupcf-condition-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuseringroupcf-condition-edit-params.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="subtaskblocking-condition" name="Sub-Task Blocking Condition" i18n-name-key="admin.workflow.condition.subtaskblocking.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowSubTaskBlockingConditionFactoryImpl">
+        <description key="admin.workflow.condition.subtaskblocking">Condition to block parent issue transition depending on sub-task status.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.SubTaskBlockingCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/subtaskblocking-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/subtaskblocking-condition-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/subtaskblocking-condition-edit-params.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="isuserinprojectrole-condition" name="User Is In Project Role" i18n-name-key="admin.workflow.condition.isuserinprojectrole.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowIsUserInProjectRoleConditionFactoryImpl">
+        <description key="admin.workflow.condition.isuserinprojectrole">Condition to allow only users in a project role to execute a transition.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.InProjectRoleCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/isuserinprojectrole-condition-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuserinprojectrole-condition-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/isuserinprojectrole-condition-edit-params.vm"/>
+    </workflow-condition>
+
+    <workflow-condition key="alwaysfalse-condition" name="Always False Condition" i18n-name-key="admin.workflow.condition.alwaysfalse.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowAlwaysFalseConditionFactoryImpl">
+        <description key="admin.workflow.condition.alwaysfalse">Condition that will always block transitions.</description>
+
+        <condition-class>com.atlassian.jira.workflow.condition.AlwaysFalseCondition</condition-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/alwaysfalse-condition-view.vm"/>
+    </workflow-condition>
+
+    <!-- Functions -->
+    <workflow-function key="updateissuestatus-function" name="Update Issue Status" i18n-name-key="admin.workflow.function.updateissuestatus.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.updateissuestatus">Sets issue status to the linked status of the destination workflow step.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.UpdateIssueStatusFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>100</weight>
+        <default>true</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/updateissuestatus-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="createcomment-function" name="Create Comment" i18n-name-key="admin.workflow.function.createcomment.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.createcomment">Adds a comment to an issue if one is entered during a transition.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.misc.CreateCommentFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>200</weight>
+        <default>true</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/createcomment-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="generatechangehistory-function" name="Generate Change History" i18n-name-key="admin.workflow.function.generatechangehistory.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.generatechangehistory">Updates change history for an issue and stores the issue to the database.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.GenerateChangeHistoryFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>300</weight>
+        <default>true</default>
+        <addable>non-initial</addable>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/generatechangehistory-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="reindexissue-function" name="Re-index Issue" i18n-name-key="admin.workflow.function.reindexissue.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.reindexissue">Re-indexes an issue to keep indexes in sync with the database.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.IssueReindexFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>400</weight>
+        <default>true</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/reindexissue-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="fireevent-function" name="Fire Event" i18n-name-key="admin.workflow.function.fireevent.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowFireIssueEventFunctionPluginFactory">
+        <description key="admin.workflow.function.fireevent">Fires an event that can be processed by listeners.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.event.FireIssueEventFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <deletable>false</deletable>
+        <weight>600</weight>
+        <default>true</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/fireevent-function-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/fireevent-function-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/fireevent-function-edit-params.vm"/>
+    </workflow-function>
+
+    <workflow-function key="update-issue-field-function" name="Update Issue Field" i18n-name-key="admin.workflow.function.update-issue-field.display.name" class="com.atlassian.jira.plugin.workflow.UpdateIssueFieldFunctionPluginFactory">
+        <description key="admin.workflow.function.update-issue-field">Updates a simple issue field to a given value.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.UpdateIssueFieldFunction</function-class>
+
+        <orderable>true</orderable>
+        <unique>false</unique>
+        <deletable>true</deletable>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/update-issue-field-function-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/update-issue-field-function-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/update-issue-field-function-input-params.vm"/>
+    </workflow-function>
+
+    <workflow-function key="issue-create-function" name="Create Issue" i18n-name-key="admin.workflow.function.issue-create.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.issue-create">Creates an issue originally.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.IssueCreateFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <weight>90</weight>
+        <deletable>false</deletable>
+        <addable>initial</addable>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/issue-create-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="issue-store-function" name="Store Issue" i18n-name-key="admin.workflow.function.issue-store.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.issue-store">Stores updates to an issue (no change history is created).</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.IssueStoreFunction</function-class>
+
+        <orderable>false</orderable>
+        <unique>true</unique>
+        <weight>310</weight>
+        <deletable>false</deletable>
+        <addable>initial</addable>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/issue-store-function-view.vm"/>
+    </workflow-function>
+
+
+    <workflow-function key="assigntoreporter-function" name="Assign to Reporter" i18n-name-key="admin.workflow.function.assigntoreporter.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.assigntoreporter">Assigns the issue to the reporter</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.AssignToReporterFunction</function-class>
+
+        <orderable>true</orderable>
+        <unique>true</unique>
+        <deletable>true</deletable>
+        <weight>100</weight>
+        <default>false</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/assigntoreporter-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="assigntolead-function" name="Assign to Project Lead Developer" i18n-name-key="admin.workflow.function.assigntolead.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.assigntolead">Assigns the issue to the project or component lead</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.AssignToLeadFunction</function-class>
+
+        <orderable>true</orderable>
+        <unique>true</unique>
+        <deletable>true</deletable>
+        <weight>100</weight>
+        <default>false</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/assigntolead-function-view.vm"/>
+    </workflow-function>
+
+    <workflow-function key="assigntocurrentuser-function" name="Assign to Current User" i18n-name-key="admin.workflow.function.assigntocurrentuser.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowNoInputPluginFactory">
+        <description key="admin.workflow.function.assigntocurrentuser">Assigns the issue to the current user, if the current user has the ''Assignable User'' permission.</description>
+
+        <function-class>com.atlassian.jira.workflow.function.issue.AssignToCurrentUserFunction</function-class>
+
+        <orderable>true</orderable>
+        <unique>true</unique>
+        <deletable>true</deletable>
+        <weight>100</weight>
+        <default>false</default>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/assigntocurrentuser-function-view.vm"/>
+    </workflow-function>
+
+    <!-- Validators -->
+    <workflow-validator key="permission-validator" name="Permission Validator" i18n-name-key="admin.workflow.validator.permission.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowPermissionValidatorPluginFactory">
+        <description key="admin.workflow.validator.permission">Validates that the user has a permission.</description>
+
+        <validator-class>com.atlassian.jira.workflow.validator.PermissionValidator</validator-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-validator-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-validator-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/permission-validator-edit-params.vm"/>
+    </workflow-validator>
+
+    <workflow-validator key="user-permission-validator" name="User Permission Validator" i18n-name-key="admin.workflow.validator.user-permission.display.name" class="com.atlassian.jira.plugin.workflow.WorkflowUserPermissionValidatorPluginFactory">
+        <description key="admin.workflow.validator.user-permission">Validates that the user has a permission.</description>
+
+        <validator-class>com.atlassian.jira.workflow.validator.UserPermissionValidator</validator-class>
+
+        <resource type="velocity" name="view" location="templates/jira/workflow/com/atlassian/jira/plugin/user-permission-validator-view.vm"/>
+        <resource type="velocity" name="input-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/user-permission-validator-input-params.vm"/>
+        <resource type="velocity" name="edit-parameters" location="templates/jira/workflow/com/atlassian/jira/plugin/user-permission-validator-edit-params.vm"/>
+    </workflow-validator>
+
+</atlassian-plugin>

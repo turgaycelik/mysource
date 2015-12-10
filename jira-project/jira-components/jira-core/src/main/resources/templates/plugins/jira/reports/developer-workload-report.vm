@@ -1,0 +1,56 @@
+#disable_html_escaping()
+#if ($countMap.size() > 0)
+    <style type="text/css">
+        table.dwreport {
+            border: 0;
+        }
+        table.dwreport thead tr {
+            background-color: #f0f0f0;
+        }
+        table.dwreport tbody tr {
+            background-color: white;
+        }
+        table.dwreport tfoot tr {
+            background-color: #f0f0f0;
+        }
+        table.dwreport td,th {
+            padding: 5px;
+        }
+        .dwreport-header {
+            margin: 6px 4px;
+        }
+    </style>
+    <div class="dwreport-header"><img src="$req.contextPath/images/icons/bullet_creme.gif" height="8" width="8" border="0">
+    $descriptor.getText("workload.developer.report.for.developer")
+    $userformat.formatUsername($developer.name, 'profileLink', 'dev_wl_report')
+    &nbsp;(<a href="$req.contextPath/secure/ConfigureReport!default.jspa?reportKey=$descriptor.completeKey">$descriptor.getText("workload.developer.report.change")</a>)
+    </div>
+    <table cellpadding="3" cellspacing="0" width="100%" class="dwreport" id="dwreport">
+        <thead>
+        <tr>
+            <th class="colHeaderLink"><b>$descriptor.getText("workload.developer.report.projects")</b></th>
+            <th class="colHeaderLink"><b>$descriptor.getText("workload.developer.report.assigned.issues")</b></th>
+            <th class="colHeaderLink"><b>$descriptor.getText("workload.developer.report.workload")</b></th>
+        </tr>
+        </thead>
+        <tbody>
+        #foreach ($projectId in $countMap.keySet())
+            <tr>
+                <td><a href="$req.contextPath/secure/BrowseProject.jspa?id=$projectId">$textutils.htmlEncode($report.getProjectName($projectId))</a></td>
+                <td>$countMap.get($projectId)</td>
+                <td>$report.formatPrettyDuration($workloadMap.get($projectId))</td>
+            </tr>
+        #end
+        </tbody>
+        <tfoot>
+        <tr>
+            <th><b>$descriptor.getText("workload.developer.report.total")</b></th>
+            <th>$totalCount</th>
+            <th>$report.formatPrettyDuration($totalWorkload)</th>
+        </tr>
+        </tfoot>
+    </table>
+#else
+    $descriptor.getText("workload.developer.report.no.issues"). (<a href="req.contextPath/secure/ConfigureReport!default.jspa?reportKey=$descriptor.completeKey">$descriptor.getText("workload.developer.report.change.developer")</a>) <br/>
+    $descriptor.getText("workload.developer.report.note", ["<b>", "</b>"])
+#end

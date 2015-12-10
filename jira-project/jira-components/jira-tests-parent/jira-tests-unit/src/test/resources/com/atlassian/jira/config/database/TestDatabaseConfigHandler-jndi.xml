@@ -1,0 +1,8 @@
+<database>
+    <name>badass-tenant</name>
+    <database-type>mongodb</database-type>
+    <schema-name>does mongo have schemas?</schema-name>
+    <jndi-datasource>
+        <jndi-name>java:comp/env/jdbc/mongodb</jndi-name>
+    </jndi-datasource>
+</database>

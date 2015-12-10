@@ -1,0 +1,15 @@
+#disable_html_escaping()
+## There are columns selected
+#if ($layout.columns.empty == false)
+        #if ($columnTotals && !$columnTotals.isEmpty())
+            #totals ($columnTotals $layout.columns)
+        #end
+        </tbody>
+    </table>
+    <div class="end-of-stable-message"></div>
+    ## paginate the issues (ie show links to page 1, page 2 etc).  This is used if there are more issues than can be shown on one page
+    #pages ($pager)
+#else
+    #set($messageText = "<p>$i18n.getText('navigator.results.nocolumns')</p>")
+    #AUImessage("info" "" "$messageText" "" "" "" "false")
+#end

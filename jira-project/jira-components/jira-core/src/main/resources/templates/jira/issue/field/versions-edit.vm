@@ -1,0 +1,46 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-versionspicker $!fieldLayoutItem.rendererType")}
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+#if ($versions && !$versions.empty)
+    #if ($!isFrotherControl)<div class="ajs-multi-select-placeholder textarea long-field"></div>#end
+    <select class="select #if ($!isFrotherControl) hidden #end" id="$field.id" multiple="multiple" name="$field.id" size="#minSelectSize ($versions 1 6)"
+            data-remove-null-options="true" data-submit-input-val="true" data-input-text="$textutils.htmlEncode($!frotherInputText)" data-create-permission="$!{createPermission}">
+        #if (!$fieldLayoutItem.required)
+            <option#if ($currentVersions && $currentVersions.contains($!unknownVersionId)) selected="selected"#end value="$!unknownVersionId">
+                $i18n.getText('common.words.unknown')
+            </option>
+        #end
+        #foreach ($version in $versions)
+            #if ($version.key == $unreleasedVersionId || $version.key == $releasedVersionId)
+                #if ($optGroupOpen)
+                    </optgroup>
+                #else
+                    #set ($optGroupOpen = true)
+                #end
+                <optgroup label="$textutils.htmlEncode($version.value)">
+            #else
+                <option#if ($currentVersions && $version && $currentVersions.contains($version.key)) selected="selected"#end value="$!version.key">
+                    $textutils.htmlEncode($version.value)
+                </option>
+            #end
+        #end
+        #if ($optGroupOpen)
+            </optgroup>
+        #end
+    </select>
+    #if ($!isFrotherControl)<div class="description">${i18n.getText('generic.picker.static.desc')}</div>#end
+    #displayFieldWarning($displayParameters, $i18n.getText('bulk.edit.warning.version'))
+#else
+    <span class="field-value">$i18n.getText('common.words.none')</span>
+#end
+#customControlFooter ($action $field.id $fieldLayoutItem.getFieldDescription() $displayParameters $auiparams)
+$!{auiparams.clear()}
+#if ($archivedVersions && !$archivedVersions.empty)
+    #customControlHeader ($action "" $i18n.getText($archivedVersionsTitle) false $displayParameters $auiparams)
+    <span class="field-value">
+    #foreach ($version in $archivedVersions)
+        <a href="$req.getContextPath()/secure/IssueNavigator.jspa?reset=true&mode=hide&sorter/order=ASC&sorter/field=priority&pid=$project.getLong('id')&$archivedVersionsSearchParam=$version.id">$textutils.htmlEncode($version.name)</a>#if ($velocityCount < $archivedVersions.size()),#end
+    #end
+    </span>
+    #customControlFooter ($action "" "" $displayParameters $auiparams)
+#end

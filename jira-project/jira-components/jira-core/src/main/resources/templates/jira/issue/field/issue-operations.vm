@@ -1,0 +1,17 @@
+#disable_html_escaping()
+#if($keyboardShortcutManager.isKeyboardShortcutsEnabled())
+    #set($cogTitle=$i18n.getText('issue.actions.and.operations.with.keyboard'))
+#else
+    #set($cogTitle=$i18n.getText('issue.actions.and.operations'))
+#end
+#if ($displayParams && $displayParams.get('nolink'))
+    <span>$i18n.getText('issue.actions.and.operations')</span>
+#else
+    <div class="action-dropdown aui-dd-parent">
+        <a class="aui-dropdown-trigger aui-dd-link icon-tools-small issue-actions-trigger" id="actions_$issue.id" title="$cogTitle" href="${requestContext.baseUrl}/rest/api/1.0/issues/$issue.id/ActionsAndOperations?atl_token=$atl_token">
+            <span>
+                <em>$i18n.getText('issue.actions.and.operations')</em>
+            </span>
+        </a>
+    </div>
+#end

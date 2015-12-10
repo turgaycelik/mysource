@@ -1,0 +1,19 @@
+@import "../../imports/aui-colours";
+
+.operations-list {
+    display: inline;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    > li {
+        display: inline-block;
+    }
+
+    li + li:before {
+        content: "\b7"; /* mid dot */
+        padding: 0 6/14em 0 3/14em; // The font size is 14px, so this equates to "0 6px 0 3px".
+        color: @aui-color-mid;
+    }
+
+}

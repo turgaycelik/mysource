@@ -1,0 +1,94 @@
+#disable_html_escaping()
+#if ($subtasksEnabled)
+    #set ($colspanCount = 15)
+#else
+    #set ($colspanCount = 10)
+#end
+
+<table id="time_tracking_report_table" border="1">
+<tr>
+    <td bgcolor="${topBgColor}" colspan="${colspanCount}" height=30>
+        <img src="${jiraLogo}" width="${jiraLogoWidth}" height="${jiraLogoHeight}" border="0" alt="$jiraTitle">
+    </td>
+</tr>
+<tr>
+    <td bgcolor=#ffffff colspan="${colspanCount}">
+        <a href="${jiraBaseUrl}"><span class="bluetext">$jiraTitle</span></a>
+    </td>
+</tr>
+<tr>
+    <th bgcolor="#dddddd">$descriptor.getText("issue.field.issuetype")</th>
+    <th bgcolor="#dddddd"><b>$descriptor.getText("issue.field.issuekey")</b></th>
+    <th bgcolor="#dddddd"><b>$descriptor.getText("issue.field.status")</b></th>
+    <th bgcolor="#dddddd"><b>$descriptor.getText("issue.field.priority")</b></th>
+    <th bgcolor="#dddddd"><b>$descriptor.getText("issue.field.summary")</b></th>
+    <th bgcolor="#dddddd"><b>$descriptor.getText("report.timetracking.original.estimate.min")</b></th>
+    #if ($subtasksEnabled)
+        <th bgcolor="#dddddd">$descriptor.getText("common.concepts.sum")</th>
+    #end
+    <th bgcolor="#dddddd"><b>$descriptor.getText("report.timetracking.estimate.remaining.min")</b></th>
+    #if ($subtasksEnabled)
+        <th bgcolor="#dddddd">$descriptor.getText("common.concepts.sum")</th>
+    #end
+    <th bgcolor="#dddddd"><b>$descriptor.getText("report.timetracking.time.spent.min")</b></th>
+    #if ($subtasksEnabled)
+        <th bgcolor="#dddddd">$descriptor.getText("common.concepts.sum")</th>
+    #end
+    <th bgcolor="#dddddd"><b>$descriptor.getText("timetracking.accuracy")</b></th>
+    #if ($subtasksEnabled)
+        <th bgcolor="#dddddd">$descriptor.getText("common.concepts.sum")</th>
+    #end
+    <th bgcolor="#dddddd"><b>$descriptor.getText("report.timetracking.accuracy.percent")</b></th>
+    #if ($subtasksEnabled)
+        <th bgcolor="#dddddd">$descriptor.getText("common.concepts.sum")</th>
+    #end
+</tr>
+
+#foreach ($issue in $issues)
+    #parse("templates/plugins/jira/reports/time-tracking-issue-excel.vm")
+    #foreach ($issue in $issue.getSubTasks())
+        #parse("templates/plugins/jira/reports/time-tracking-issue-excel.vm")
+    #end
+#end
+
+<tr>
+    <td colspan="4" align="right">
+        &nbsp;
+    </td>
+    <td><b>$descriptor.getText("timetracking.total")</b></td>
+    <td>$totals.getOriginalEstimate()</td>
+    #if ($subtasksEnabled)
+        <td>$totals.getAggregateOriginalEstimate()</td>
+    #end
+    <td>$totals.getRemainingEstimate()</td>
+    #if ($subtasksEnabled)
+        <td>$totals.getAggregateRemainingEstimate()</td>
+    #end
+    <td>$totals.getTimeSpent()</td>
+    #if ($subtasksEnabled)
+        <td>$totals.getAggregateTimeSpent()</td>
+    #end
+    <td>$totals.getAccuracy()</td>
+    #if ($subtasksEnabled)
+        <td>$totals.getAggregateAccuracy()</td>
+    #end
+    <td>$totals.getAccuracyPercentage()</td>
+    #if ($subtasksEnabled)
+        <td>$totals.getAggregateAccuracyPercentage()</td>
+    #end
+</tr>
+
+<tr>
+    <td bgcolor="#ffffff" colspan="${colspanCount}">&nbsp;</td>
+</tr>
+<tr>
+    <td bgcolor="#dddddd" colspan="${colspanCount}"><font size=1>
+        #if ($remoteUser)
+            $descriptor.getText("report.timetracking.generated.user.info", [$createDate, $textutils.htmlEncode($remoteUser.getDisplayName()), $buildInfo])
+        #else
+            $descriptor.getText("report.timetracking.generated.anon.info", [$createDate, $buildInfo])
+        #end
+    </font></td>
+</tr>
+</table>
+

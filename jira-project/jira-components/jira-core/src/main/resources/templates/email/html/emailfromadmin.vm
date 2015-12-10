@@ -1,0 +1,8 @@
+#disable_html_escaping()
+#set ($pageTitle = $subject)
+#set ($textParagraph = $content)
+
+#defaultMailHeader('jira.email.title.mail.from.administrator' $author)
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/page-title.vm')")
+#rowWrapperNormal("#parse('templates/email/html/includes/patterns/text-paragraph.vm')")
+#parse("templates/email/html/includes/footer.vm")

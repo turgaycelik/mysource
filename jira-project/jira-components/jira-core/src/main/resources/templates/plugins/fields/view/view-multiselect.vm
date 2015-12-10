@@ -1,0 +1,15 @@
+#* @vtlvariable name="remoteUser" type="com.atlassian.crowd.embedded.api.User" *#
+#* @vtlvariable name="customField" type="com.atlassian.jira.issue.fields.CustomField" *#
+#* @vtlvariable name="labelUtil" type="com.atlassian.jira.issue.label.LabelUtil" *#
+#disable_html_escaping()
+#if ($value)
+    <div class="shorten" id="${customField.id}-field">
+        #foreach ($singleValue in $value)
+			#if($noLink)
+				<span>$cfValueEncoder.encodeForHtml($!singleValue.toString())</span>#if ($velocityCount != $value.size()),#end
+			#else
+				<a href="${requestContext.baseUrl}/secure/IssueNavigator.jspa?reset=true${labelUtil.getLabelJql($remoteUser, $!singleValue.toString())}"><span>$cfValueEncoder.encodeForHtml($!singleValue.toString())</span></a>#if ($velocityCount != $value.size()),#end
+			#end
+        #end
+    </div>
+#end

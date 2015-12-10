@@ -1,0 +1,7 @@
+#disable_html_escaping()
+<tr>
+    <th>#text("issue.field.created"):</th>
+    <td>
+        $dateformatter.formatDMYHMS($issue.getCreated())
+    </td>
+</tr>

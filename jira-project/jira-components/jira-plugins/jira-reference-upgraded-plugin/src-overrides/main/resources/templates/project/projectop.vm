@@ -1,0 +1,2 @@
+#disable_html_escaping()
+<strong>$name</strong> (<a href="#">Link to Upgraded Click</a>)

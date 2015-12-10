@@ -1,0 +1,5 @@
+<about-page-panel key="key">
+    <context-provider class="mockContextProvider" />
+    <introduction module-key="exampleModuleKey" function="introduction"/>
+    <conclusion module-key="exampleModuleKey" function="conclusion"/>
+</about-page-panel>

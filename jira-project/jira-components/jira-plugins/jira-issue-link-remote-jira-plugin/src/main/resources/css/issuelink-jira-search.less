@@ -1,0 +1,101 @@
+@import "webstatic:/ui/global.less";
+
+#remote-jira-search-dialog {
+    #jql-search-container {
+        @gem-width: 16px;
+        @button-width: 36px;
+        display: inline-block;
+        position: relative;
+        vertical-align: middle;
+        width: 500px;
+
+        textarea {
+            resize: vertical;
+            width: 100%;
+            height: auto;
+            max-width: none;
+            padding-left: @gem-width + 10px;
+            padding-right: @button-width + 10px;
+            vertical-align: top;
+            z-index: 1;
+        }
+
+        #jql-search-error {
+            position: absolute;
+            left: 5px;
+            top: 50%;
+            margin-top: -8px;
+            width: @gem-width;
+            height: @gem-width;
+            z-index: 2;
+        }
+
+        .search-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: @button-width;
+            height: 30px;
+            z-index: 1;
+        }
+    }
+
+    #simple-search-toggle {
+        display: inline-block;
+        vertical-align: top;
+        padding: 5px 0 0 0;
+    }
+
+    #autocomplete-loading, #autocomplete-failed {
+        margin-left: 10px;
+        color: #666;
+    }
+}
+
+#remote-jira-searchresult {
+    table-layout: fixed;
+    margin-top: 16px;
+}
+
+#search-results-table {
+    overflow: auto;
+    height: 360px;
+
+    td {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    tbody tr:hover {
+        background-color: #F0F0F0;
+        cursor: pointer;
+    }
+
+    .selection {
+        width: 1em;
+    }
+
+    .type {
+        width: 3em;
+    }
+
+    .key {
+        width: 9em;
+    }
+
+    td.key {
+        color: @jira-color-link;
+    }
+
+    .summary {
+    }
+
+    .status {
+        width: 7em;
+    }
+
+    .aui-message {
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,11 @@
+#disable_html_escaping()
+#if ($attachments && $attachments.size() >0)
+<tr>
+    <th>#text("template.attachments"):</th>
+    <td>
+        #foreach ($attachment in $attachments)
+            $attachment.getFilename()#if ($velocityCount != $attachments.size()), #end
+        #end
+    </td>
+</tr>
+#end

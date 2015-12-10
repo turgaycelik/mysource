@@ -1,0 +1,2 @@
+#disable_html_escaping()
+#if($!subject != "")$subject#else($issue.key) $issue.summary#end

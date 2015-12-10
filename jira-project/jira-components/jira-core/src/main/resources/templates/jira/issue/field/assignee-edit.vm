@@ -1,0 +1,41 @@
+#disable_html_escaping()
+#* @vtlvariable name="currentAssignee" type="java.lang.String" *#
+#* @vtlvariable name="soyRenderData" type="java.util.Map<java.lang.String, java.lang.Object>" *#
+#* @vtlvariable name="currentUserInList" type="boolean" *#
+#* @vtlvariable name="optGroupOpen" type="boolean" *#
+#* @vtlvariable name="field" type="com.atlassian.jira.issue.fields.AssigneeSystemField" *#
+#* @vtlvariable name="assigneeOptions" type="java.util.Collection<com.atlassian.jira.issue.fields.option.AssigneeOption>" *#
+
+#customControlHeader ($action $field.id $i18n.getText($field.nameKey) $fieldLayoutItem.required $displayParameters $auiparams)
+
+#if ($soyRenderData)
+    $soyRenderer.render('jira.webresources:field-templates', 'JIRA.Templates.Fields.Pickers.User.assignee', $soyRenderData)
+#else
+    <select class="select" id="$field.id" name="$field.id">
+        #foreach ($assigneeOption in $assigneeOptions)
+            #if ($assigneeOption.getOptionName().equals($authcontext.user.username))
+                #set ($currentUserInList = true)
+            #end
+            #if ($assigneeOption && $assigneeOption.isOptionEnabled() == false)
+                ## we will never reach here but we should never have two open option groups
+                #if($optGroupOpen)
+                  </optgroup>
+                #end
+                <optgroup label="$textutils.htmlEncode($assigneeOption.getDisplayName())">
+                #set ($optGroupOpen = true)
+            #else
+                <option #if ($assigneeOption.getOptionName().equals($authcontext.user.name))class="current-user"#end
+                        #if ($currentAssignee && $assigneeOption.getOptionName() && $currentAssignee == $assigneeOption.getOptionName()) selected="selected"#end
+                        value="$textutils.htmlEncode($!assigneeOption.getOptionName())">$textutils.htmlEncode($assigneeOption.getDisplayName())</option>
+            #end
+        #end
+        #if ($optGroupOpen)
+            </optgroup>
+            #set ($optGroupOpen = false)
+        #end
+    </select>
+    #if ($currentUserInList)
+        <a href="#${field.id}" id="assign-to-me-trigger" title="$i18n.getText('issue.operations.assign', ['', '']) $i18n.getText('issue.operations.assign.tome')">$i18n.getText('issue.operations.assign.tome.short')</a>
+    #end
+#end
+#customControlFooter ($action $field.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)

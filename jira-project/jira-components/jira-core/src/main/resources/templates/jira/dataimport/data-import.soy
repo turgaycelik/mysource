@@ -1,0 +1,29 @@
+{namespace JIRA.Templates.DataImport}
+
+/**
+ * @param jiraTitle
+ * @param jiraLogoUrl
+ * @param resourcesContent
+ */
+{template .result}
+    {call JIRA.Templates.FakeDecorators.fakeDecorator}
+        {param completePageTitle: getText('admin.import.import.project.data') /}
+        {param logoText: $jiraTitle /}
+        {param logoUrl: $jiraLogoUrl /}
+        {param headContent: $resourcesContent /}
+        {param content}
+            {call aui.message.success}
+                {param content}
+                    <p>{getText('admin.import.successful.import')}</p>
+                {/param}
+            {/call}
+            {call aui.message.warning}
+                {param content}
+                    <p>{getText('admin.import.logged.out')}</p>
+                    <p><a id="login" href="{contextPath()}/login.jsp">{getText('admin.common.phrases.log.in.again')}</a>.</p>
+                {/param}
+            {/call}
+            <input type="hidden" id="importresult" value="success" />
+        {/param}
+    {/call}
+{/template}

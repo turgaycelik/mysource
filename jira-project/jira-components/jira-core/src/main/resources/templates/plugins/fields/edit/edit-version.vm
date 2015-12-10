@@ -1,0 +1,51 @@
+#disable_html_escaping()
+#if ($multiple || (!$multiple && $archivedVersions.empty))
+    #if ($multiple)
+        $!{auiparams.put("controlHeaderClass", "aui-field-versionspicker $!fieldLayoutItem.rendererType")}
+    #end
+    #customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+    #if ($value)
+        #set ($selectedValues = $value)
+    #end
+    #if ($collection.isNotEmpty($releasedVersion) || $collection.isNotEmpty($unreleasedVersion))
+    <select class="js-default-checkboxmultiselect select" id="$customField.id"#if ($multiple) multiple="multiple" size="6" #end name="$customField.id"
+            data-remove-null-options="true">
+        <option value="-1"#if (!$selectedValues || $selectedValues.contains("-1")) selected="selected"#end title="$i18n.getText('common.words.unknown')">$i18n.getText('common.words.unknown')</option>
+        #if ($releasedVersion && !$releasedVersion.empty)
+            <optgroup label="$i18n.getText('common.filters.releasedversions')">
+                #foreach ($option in $releasedVersion)
+                    <option#if ($selectedValues && $selectedValues.contains($option.id.toString())) selected="selected"#end value="$option.id" title="$textutils.htmlEncode($option.name)">
+                        $textutils.htmlEncode($option.name)
+                    </option>
+                #end
+            </optgroup>
+        #end
+        #if ($unreleasedVersion && !$unreleasedVersion.empty)
+            <optgroup label="$i18n.getText('common.filters.unreleasedversions')">
+                #foreach ($option in $unreleasedVersion)
+                    <option#if ($selectedValues && $selectedValues.contains($option.id.toString())) selected="selected"#end value="$option.id" title="$textutils.htmlEncode($option.name)">
+                        $textutils.htmlEncode($option.name)
+                    </option>
+                #end
+            </optgroup>
+        #end
+    </select>
+        #if ($multiple && $!isFrotherControl)
+        <div class="aui-description description">${i18n.getText('generic.picker.static.desc')}</div>
+        #end
+    #else
+        $i18n.getText('common.words.none')
+    #end
+    #customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+    $!{auiparams.clear()}
+#end
+#if ($archivedVersions && !$archivedVersions.empty)
+    #customControlHeader ($action "" "$customField.name (${i18n.getText('admin.common.words.archived')})" false $displayParameters $auiparams)
+    <span class="field-value">
+    #foreach ($version in $archivedVersions)
+        <a href="$req.getContextPath()/secure/IssueNavigator.jspa?reset=true&mode=hide&sorter/order=ASC&sorter/field=priority&pid=$issue.project.getLong('id')&$customField.id=$version.id">$textutils.htmlEncode($version.name)</a>#comma($archivedVersions)
+        <input name="$customField.id" type="hidden" value="$version.id" />
+    #end
+    </span>
+    #customControlFooter ($action "" false $displayParameters $auiparams)
+#end

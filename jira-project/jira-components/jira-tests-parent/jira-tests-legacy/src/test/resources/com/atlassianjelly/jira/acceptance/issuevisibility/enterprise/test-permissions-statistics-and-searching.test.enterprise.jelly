@@ -1,0 +1,322 @@
+<?xml version="1.0"?>
+<test:suite xmlns:j="jelly:core" xmlns:u="jelly:util" xmlns:test="jelly:junit" xmlns:jira="jelly:com.atlassian.jira.jelly.enterprise.JiraTagLib">
+    <test:case name="Test Group Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="group-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="usernamelist" value="no-perms-user,assignee-perms-user,reporter-perms-user,assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="20"/>
+            <j:set var="userTypeList" value="none"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="23"/>
+            <j:set var="userTypeList" value="none,assignee-3,reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Assignee Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="group-assignee-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user,reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="20"/>
+            <j:set var="userTypeList" value="none"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="23"/>
+            <j:set var="userTypeList" value="none,assignee-3,reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Reporter Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="group-reporter-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user,assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="20"/>
+            <j:set var="userTypeList" value="none"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="23"/>
+            <j:set var="userTypeList" value="none,assignee-3,reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Assignee Reporter Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="group-assignee-reporter-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="20"/>
+            <j:set var="userTypeList" value="none"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="22"/>
+            <j:set var="userTypeList" value="none,reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="23"/>
+            <j:set var="userTypeList" value="none,assignee-3,reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1,no-level-issue-2,no-level-issue-3,no-level-issue-4"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="7"/>
+            <j:set var="userTypeList" value="assignee-4,reporter-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Assignee Reporter Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="assignee-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user,reporter-perms-user,group-perms-user,group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-2"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-3"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Assignee Reporter Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="assignee-reporter-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user,group-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="assignee-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-2"/>
+            <j:set var="usernamelist" value="group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-2"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="7"/>
+            <j:set var="userTypeList" value="assignee-3,reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-3"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="7"/>
+            <j:set var="userTypeList" value="assignee-4,reporter-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+    <test:case name="Test Group Assignee Reporter Permissions Scheme">
+        <jira:Login username="misc-user" password="password">
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.set-up.jelly"/>
+
+            <!-- setup up the permission scheme for this test -->
+            <jira:SelectProjectScheme projectKey="TSTA" permission-scheme="reporter-perm-scheme" user-name="misc-user"/>
+
+            <j:set var="shouldSee" value="0"/>
+            <j:set var="canSeeNoLevelIssue" value="false"/>
+            <j:set var="usernamelist" value="no-perms-user,group-perms-user,assignee-perms-user,group-assignee-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-1"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-1"/>
+            <j:set var="usernamelist" value="reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-2"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-2"/>
+            <j:set var="usernamelist" value="group-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-3"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-3"/>
+            <j:set var="usernamelist" value="group-assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+
+            <j:set var="shouldSee" value="5"/>
+            <j:set var="userTypeList" value="reporter-4"/>
+            <j:set var="canSeeNoLevelIssues" value="no-level-issue-4"/>
+            <j:set var="usernamelist" value="assignee-reporter-perms-user"/>
+            <j:import inherit="true" uri="../test-permissions-statistics-and-searching.test-user.jelly"/>
+        </jira:Login>
+    </test:case>
+
+</test:suite>

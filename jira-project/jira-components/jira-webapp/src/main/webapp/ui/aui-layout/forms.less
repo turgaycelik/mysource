@@ -1,0 +1,394 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/grid";
+@import "../imports/mixins/opacity";
+
+/* Some old admin forms have toolbars up top */
+.toolbar {background-color:#fefefe;border:1px dotted #bbb;float:right;padding:3px 5px;text-align:right;vertical-align:middle;}
+.toolbar .sectionStart {margin-left:16px;}
+.toolbar a {text-decoration:none;}
+.toolbar a:hover {text-decoration:underline;}
+
+form.aui {
+    select.imagebacked option,
+    option.imagebacked {
+        background-position: 5px 5px;
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        line-height: 20px;
+        padding: 5px 5px 5px 26px;
+    }
+
+    &.top-label {
+        .ajax_autocomplete > label {
+            display: block;
+            float: none;
+            margin: 0 0 5px 0;
+            padding: 0;
+            text-align: left;
+            width: auto;
+        }
+    }
+}
+
+
+/* Used on the admin project select issue type form only */
+.tools {background-color:#fefefe;border:1px dotted #bbb;padding:3px 5px;text-align:left;vertical-align:middle;}
+select.imagebacked option, option.imagebacked, option.selectall { background-position: 1px 2px; background-repeat: no-repeat; padding: 2px 0 2px 20px; vertical-align: middle; }
+option.selectall { background-image: url( ../../../images/icons/table_sql_select_16.png ); border-bottom: 1px #0085eb dotted; }
+
+.jiraform {border-collapse:collapse;font-size:13px;margin-top:@gutter;width:100%;}
+.jiraform:first-child { margin-top: 0; }
+.jiraform td {padding:0 5px 10px;}
+.jiraform td.formErrors {padding-top: 5px;}
+.descriptionrow td.jiraformheader{padding-bottom:14px;}
+.formtitle {border-bottom: 1px solid #ddd;}
+.aui-buttons ~ .help-lnk { display: inline-block; margin: 10px 0 10px 10px; }
+.help-lnk + .formtitle { margin-top: 0; }
+.fieldLabelArea, .fieldLabelAreaTop { vertical-align: top; text-align: right; }
+.fieldLabelArea { width:180px; }
+.fieldValueArea { vertical-align:top; }
+.fieldLabelAreaBulk {text-align:left;}
+.buttons-container td {border-top: 1px solid #ddd;padding-top:10px;}
+.formtitle + .aui-message,
+.module + .buttons-container,
+table.aui + .buttons-container { margin-top: @gutter; }
+.radio[disabled] + label { color: @aui-color-mid; }
+/* // remove border for AUI table and Stepped processes */
+table#issuetable + div.buttons-container,
+table.aui + div.buttons-container,
+
+.sub-heading {color:#999;}
+.jiraform .radio {margin-right:5px;}
+
+.availableActionRow td {vertical-align:top; padding-top: 2px; padding-bottom: 3px;}
+.availableActionRow .description {clear:left;}
+
+/* old deprecated classes - will be refactored out */
+.redText {color:#d04437;}
+.greenText {color:#14892c;}
+
+/* Aim to remove - overrides */
+.intform  form {background-color:#fff;}
+.intform  form .fieldLabelArea {background-color:#fff;width:20%;}
+.intform  form .fieldValueArea {background-color:#fff;width:70%;}
+.intform form table.maxWidth.jiraform {width:100%}
+.aui-popup .intform {max-height:100%}
+.aui-popup .intform #cancelButton{display:none}
+.intform .jiraformheader {padding:0.5em 1em;}
+.intform .formtitle {color:#333;}
+.intform .descriptionrow .jiraformheader {background-color:#fff;}
+.intform .descriptionrow .desc-wrap,
+.intform .jiraformfooter {padding:0.75em 0.5em;text-align:left;}
+.intform .descriptionrow .notify {background-color: #ff1493 !important;}/* Temp style to highlight old messages that should be updated. Remove before 4.4 JRADEV-4717 */
+td.issue-fields-wrap {background-color:#fff;padding:0;width:100%;}
+td.issue-fields-wrap .tabwrap {margin:1em 0.5em;}
+
+/* Aim to remove - used in setup steps*/
+.formOne div {margin-bottom:.25em;}
+.formOne div .radio {position:relative;top:2px;}
+body:first-of-type .formOne div .radio {top:0;} /* safari only fix for JRA-17632 */
+.field-description {margin:0;}
+.disabled .field-description  {.opacity(0.25);}
+.field-description p {margin:0; padding:0; font-size:0.8em;}
+
+/* Project Import */
+.jiraform #projectimport #summary #systemfields { display: inline; float: left; padding-right: 15px; width: 48.75%; }
+.jiraform #projectimport #summary #customfields { display: inline; float: right; width: 48.75%; }
+.jiraform #projectimport #summary ul { list-style-type: none; margin: 0; padding: 0; }
+.jiraform #projectimport #summary ul li { border-bottom:1px solid #eee; display: block; font-size: 14px; padding: 1px 3px 5px 4px; position: relative; }
+.jiraform #projectimport #summary ul li#nothing { color: #9c9c9c; padding: 5px 0 5px 7px; }
+.jiraform #projectimport #summary ul li img { left: 1px; margin-right: 6px; position: relative; top: 3px; }
+.jiraform #projectimport #summary ul li .description { color: #000; font-size: 12px; font-weight: normal; margin: 8px 15px 8px 23px; overflow-x: auto; overflow-y: hidden; }
+.jiraform #projectimport #summary ul li.unprocessed .notification { float: right; font-size: 11px; height: 1%; left: -4px; text-align: right; top: 6px; position: absolute; width: 99%; }
+.jiraform #projectimport #summary .results_header { margin-bottom: 1px; }
+.jiraform #projectimport #summary ul li.results_field { margin: 0; }
+.jiraform #projectimport #summary ul.results_error_list { margin: 0; }
+.jiraform #projectimport #summary .notification { float: right; font-size: 11px; left: -6px; margin: 0; padding: 0; position: relative; top: -20px; z-index: 1000; }
+
+.jiraform #projectDetailsTable.grayBox th { padding: 5px; vertical-align: top; }
+.field_label { color: #000; font-size: 12px; left: 7px; position: absolute; top: 1px; }
+.field_description { font-size: 12px; margin: 0 10px 0 10em; }
+.first .field_description { margin-top: 5px; }
+.last .field_description { margin-bottom: 3px; }
+.first .field_label { top: 6px; }
+.last .field_label { top: 1px; }
+.only .field_description { margin-bottom: 3px; margin-top: 5px; }
+.only .field_label { top: 6px; }
+.field_error { font-size: 11px; padding: 0 5px 1px 0; position: relative; }
+
+/* Old Wizards */
+.wizard-buttons td {text-align: right;}
+.wizard-buttons .wizardInfo { float: left; text-align: left; }
+.hiddenButton {position:absolute;margin-left:-999em;}
+.darkFooter { background-color: #f0f0f0; padding-bottom: 0.5em; padding-top: 0.5em; text-align: center; vertical-align: top; }
+.wizardCell { text-align: left; vertical-align: middle; white-space: nowrap; }
+.wizardRow { background-color: #f0f0f0; height: 40px; padding: 0; vertical-align: middle; }
+.wizardTable {padding:0;}
+.wizardTable tbody table td {padding:0 0.462em;vertical-align:top;}
+.wizardTable tbody table td:first-child {padding-left:0;}
+
+/* Project config */
+.projectOptions {clear:both;margin-top:1.5em;}
+.projectOptions li {display:inline;background-color:#f2f2f2;margin-right:1em;padding:.4em .3em;border:1px solid #bbb}
+
+/* Importers */
+.codearea { -moz-border-radius: 10px; background-color: #F6F6F6; border:1px dashed #bbb; margin: 1em auto; padding: 0 1em; width: 80%; }
+pre.codearea h4 { border-bottom:1px solid #bbb; }
+pre.codearea textarea { background-color: #F6F6F6; border: none; font-family: monospace; font-size: 100%; height: 300px; margin-bottom: 1em; width: 100%; }
+
+/* Misc */
+.fieldDescription { display: block; clear: left; }
+#issuelinks-linktype {display:block;margin-bottom: 5px;}
+#changeTranslationLocale {margin-top:2em;}
+#changeTranslationLocale .button {margin-top:0;}
+
+/* Contextual Overrides */
+
+/* Issue Nav */
+.iss-nav .formLabel,.iss-nav .fieldLabelArea,.iss-nav .fieldLabelAreaTop,.iss-nav .fieldLabelAreaBulk {background-color:#fff;}
+.iss-nav .maxWidth {width:100%;}
+.iss-nav .titlerow td {padding-left:0;}
+.iss-nav .formtitle {border-bottom:1px solid #ddd;color:#222;font-size:16px;margin-top:5px;}
+
+.add-group {clear:both;}
+
+/* draggable grabable items */
+.ab-drag-wrap {clear:both;background-color:#f0f0f0;float:left;overflow:auto;margin-top:14px;padding:7px;min-width:350px;-moz-border-radius:7px;-webkit-border-radius:7px;border-radius:7px;}
+.ab-drag-wrap .buttons-container {margin-top:@grid;}
+.ab-drag-container {float:left;width:340px;margin-left:16px;}
+.ab-drag-container:first-child {margin-left:0;}
+.ab-drag-container h4 {margin:7px 0;}
+.ab-items {background-color:#fff;border:1px solid #bbb;padding:7px}
+.grabable {list-style:none;padding:0;margin:0;min-height:100px;padding-bottom:28px;}
+.grabable li {background-color:#f7f7f7;border:1px solid #ddd;cursor:move;margin:3px;padding:3px;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;}
+.grabable li:hover {background-color:#d8e4f0}
+
+/* used in oAuth pages admin and look & feel view */
+#userformat .module,
+#userformat .mod-header h3,
+#userformat .mod-header {background-color:transparent;}
+#userformat .mod-header {background-image:none;}
+#userformat #full_profile_ops .item-details,
+.user-details-container #full_profile_ops .item-details {list-style-type:disc;padding-left:16px;}
+.user-details-container {width:60%;margin-bottom:2em;}
+
+/* look and feel edit */
+.landf-restore {margin-top:1em;padding-top:1em;border-top:1px solid #ddd;}
+
+/* edit user defaults */
+#edit_user_defaults .fieldLabelArea {width:30%;}
+
+/* integrity checks */
+.integrity-checks {margin:6px 0;}
+.integrity-checks p {margin-bottom:0;padding-left:20px;}
+.integrity-checks input {margin-right:3px;}
+
+/* view logging */
+.logging-container {margin-bottom:2em;}
+
+/* viewgroup.jsp */
+.view-group-container .item-details {margin-bottom:1em;}
+.view-group-container h4 {margin:.5em 0;}
+
+/* subscribefilter.jsp */
+table#filter-subscription-cron {
+    border-spacing: 0;
+    border-collapse: collapse;
+
+    .fieldLabelArea { width: 130px; }
+    .fieldLabelArea + .fieldValueArea { padding-left: 10px; }
+
+    .fieldValueArea label + label { margin-left: 10px; }
+
+    .cron-options-tab-panel {
+        padding: 0;
+        margin: 0;
+
+        > table {
+            border-collapse: collapse;
+            padding: 0;
+        }
+
+        td {
+            padding: 10px 0 0 0;
+        }
+    }
+
+    td { padding: 0; }
+}
+
+/* projectimportselectproject.jsp
+***
+*** Be good to re-factor the js in this and use proper aui-messages
+***
+*/
+#project_summary {margin-bottom:1em;}
+
+table.bulk-edit-user-groups thead tr th,
+table.bulk-edit-user-groups tr.butt-row td {text-align:center;}
+table.bulk-edit-user-groups .field-group {width:90%;margin:0 auto;}
+table.bulk-edit-user-groups .field-group select {min-width:100%;margin-bottom:1em;}
+
+/* May be able to remove this once updating this form to use AUI Forms */
+#filterSearchForm { margin-bottom: 0; }
+.filterSearchInput { border-collapse: collapse; border-spacing: 0; width: 100%; }
+.filterSearchInput .fieldLabelArea { width: 150px; }
+/*.filterSearchInput .buttons input { margin-left: 157px; }*/
+.filterSearchInput font { font-size: 0.9em !important; }
+.filterSearchInput .fieldDescription { font-size: 0.9em; }
+#filter_search_results .pagination { clear: both; margin: 0 0 0.714em 0; }
+
+#oauth-plugin form.aui fieldset div {margin-top:1em;}
+#oauth-plugin form.aui label {display:block;font-weight:700;}
+#oauth-plugin form.aui .description {display:block;font-size:11px;}
+#oauth-plugin form.aui label .form-icon {display:inline-block;width:16px;}
+#oauth-plugin form.aui label .icon-required {background:url( "../../../images/required.png") no-repeat 0 0;position:relative;right:0;}
+#oauth-plugin form.aui label .form-icon span {display:none;}
+#oauth-plugin form.aui .field-value {margin-bottom:6px;}
+#oauth-plugin div.content .content {margin:0;}
+
+#embcwd.list-directories {padding: 0;}
+#embcwd.list-directories h3 {font-size:16px;margin:10px 0;}
+#embcwd.list-directories p.description {padding: 0;margin:16px 0 0 0;}
+#embcwd.list-directories p.description:first-child {margin-top:0;}
+#embcwd.list-directories #new-directory { margin: 16px 0; }
+
+.issuepicker { border-top: 1px solid @aui-color-atlassian; }
+
+.multi-picker-pop { border-top: 1px solid @aui-border-color; padding-top:@grid;}
+
+.overlabel {
+    color: @aui-color-mid;
+    display: none;
+}
+.overlabel-apply {
+    color: @aui-color-mid;
+    cursor: text;
+    font-style: italic;
+    position: absolute;
+    text-align: left;
+    left: 0;
+    top: 0;
+    padding: 3px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+form.aui .field-group label.overlabel {
+    left: 3px;
+    top: 3px;
+}
+
+#add-project-fields {
+    .sample-project-container {
+        max-width: 340px;
+    }
+
+    input.text[name="key"] {
+        width: 125px;
+    }
+
+    .jira-inline-avatar-picker-trigger {
+        cursor: pointer;
+    }
+}
+
+#edit-project-warning-message {
+  margin: 0 0 10px;
+}
+
+#project-edit-key {
+  width: 125px;
+}
+
+#edit-project-key-toggle {
+  margin-left: 10px;
+}
+
+a.aui-iconised-link div.yad {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden
+}
+
+#manage-attachments .buttons-container.form-footer {
+    border-top: 0;
+}
+
+#assign-to-me-trigger {
+    display: inline-block;
+    margin-left: 10px;
+}
+.full-width-field ~ #assign-to-me-trigger,
+.jira-dialog #assign-to-me-trigger {
+    display: table;
+    margin-left: 0;
+    margin-top: 5px;
+}
+
+#issue-filter .date-searcher, .date-searcher {
+
+    min-width: 370px;
+
+    .field-group {
+        margin-bottom:4px;
+
+        .error {
+            margin-left: 25px;
+        }
+
+        .js-dp-type-toggle {
+            margin-left: 0;
+            margin-right: 8px;
+        }
+
+        label, input, select, span.icon-date {
+            float:none;
+            display:inline-block;
+        }
+        input, select, span.icon-date, .helpLink {
+            margin:0 1px;
+        }
+
+        input[type='text'] {
+            width: 40px;
+        }
+        label {
+            width:auto;
+        }
+        input.js-start-date, input.js-end-date {
+            width:75px;
+        }
+    }
+    .field-group:last-of-type {
+        margin-bottom: 0;
+    }
+    ~ .description {
+        padding-top: 5px;
+    }
+}
+
+//JRADEV-18576 spacing issue. If time wasn't a factor it would be nice to re-write these pickers.
+.selectorform {
+    margin-bottom: @gutter;
+}
+
+//JRA-24112 overriding AUI form field "T-Shirt" widths for user-created select/multiselect custom fields
+#issue-workflow-transition .cf-select,
+#create-issue-dialog .cf-select,
+#edit-issue-dialog .cf-select,
+#issue-create .cf-select,
+#issue-edit .cf-select {
+    max-width: 100%;
+    min-width: 0;
+    width: auto;
+}
+
+// The things that shouldn't have been dumped in to forms.less, but were anyway and now need to be included elsewhere
+@import "content/options-list.less";
+@import "popups/create-issue-popup.less";
+@import "popups/create-project-popup.less";
+@import "popups/share-issue-popup.less";
+@import "popups/manage-watchers-popup.less";
+@import "popups/add-comment-popup.less";

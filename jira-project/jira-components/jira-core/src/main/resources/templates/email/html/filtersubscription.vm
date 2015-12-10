@@ -1,0 +1,55 @@
+#disable_html_escaping()
+
+
+
+#parse("templates/email/html/includes/header.vm")
+
+#set ($navigatorUrl = "${baseurl}/secure/IssueNavigator.jspa?mode=hide&requestId=${subscription.getString('filterID')}")
+
+#titleHeader($i18n.getText("template.subscription.issue.sub"))
+
+#rowWrapperNormalBegin()
+<table class="keyvalue-table">
+    <tr>
+        <th>#text("template.subscription.filter"):</th>
+        <td>
+            <a href="${navigatorUrl}">$textutils.htmlEncode($searchRequest.getName(), false)</a>
+            #if (${actualIssueCount} == ${totalIssueCount})
+                ($i18n.getText("template.subscription.filter.count", ${totalIssueCount}))
+            #else
+                ($i18n.getText("template.subscription.filter.subcount", "${actualIssueCount}", "${totalIssueCount}"))
+            #end
+        </td>
+    </tr>
+    #if (${searchRequest.getDescription()})
+        <tr>
+            <td></td>
+            <td>$textutils.htmlEncode($searchRequest.getDescription(), false)</td>
+        </tr>
+    #end
+    <tr>
+        <th>#text("template.subscription.subscriber"):</th>
+        <td>
+            $textutils.htmlEncode($username, false)
+        </td>
+    </tr>
+
+</table>
+#rowWrapperNormalEnd()
+
+#rowWrapperNormal($issueTableHtml)
+
+#if (${actualIssueCount} != ${totalIssueCount})
+    #rowWrapperNormalBegin()
+    #textParagraph($i18n.getText("template.subscription.filter.html.subset", "${actualIssueCount}", "${totalIssueCount}", "<a href='${navigatorUrl}'>", "</a>"))
+    #rowWrapperNormalEnd()
+#end
+
+#if (${recipientIsAuthor})
+    #rowWrapperNormalBegin()
+    #set ($subscriptionUrl = "${baseurl}/secure/FilterSubscription!default.jspa?subId=${subscription.getString('id')}&filterId=${subscription.getString('filterID')}")
+    #textParagraph($i18n.getText("template.subscription.filter.html.edit", "<a href='${subscriptionUrl}'>", "</a>"))
+    #rowWrapperNormalEnd()
+#end
+
+#parse("templates/email/html/includes/footer.vm")

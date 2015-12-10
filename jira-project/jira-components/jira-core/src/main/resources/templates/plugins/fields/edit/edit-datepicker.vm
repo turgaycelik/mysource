@@ -1,0 +1,28 @@
+#disable_html_escaping()
+$!{auiparams.put("controlHeaderClass", "aui-field-datepicker")}
+#customControlHeader ($action $customField.id $customField.name $fieldLayoutItem.required $displayParameters $auiparams)
+## Show the use checkbox field to use the current date/time when configuring the field in the admin section.
+#if ($displayParameters.defaultScreen)
+    <input class="text medium-field datepicker-input" id="$customField.id" name="$customField.id" type="text" value="$textutils.htmlEncode($!value)" />
+    <a href="#" id="${customField.id}-trigger" title="$i18n.getText('date.picker.select.date')">
+        <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+    </a>
+    #datePopup(${customField.id} "${customField.id}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+    <div class="checkbox field-default">
+        #if($dateTimePicker)
+            #set ($labelText = $i18n.getText('date.picker.config.default.datetime'))
+        #else
+            #set ($labelText = $i18n.getText('date.picker.config.default.date'))
+        #end
+        <input#if ($customField.customFieldType.isUseNow($config)) checked="checked"#end class="checkbox" id="useCurrentDate" name="useCurrentDate" type="checkbox" value="true" />
+        <label for="useCurrentDate">${labelText}</label>
+    </div>
+#else
+    <input class="text medium-field datepicker-input" id="$customField.id" name="$customField.id" type="text" value="$textutils.htmlEncode($!value)" />
+    <a href="#" id="${customField.id}-trigger" title="$i18n.getText('date.picker.select.date')">
+        <span class="aui-icon icon-date">$i18n.getText('date.picker.select.date')</span>
+    </a>
+    #datePopup(${customField.id} "${customField.id}-trigger" $dateTimeFormat $dateFormat $timeFormat $dateTimePicker $currentMillis $currentCalendar)
+#end
+#customControlFooter ($action $customField.id $fieldLayoutItem.fieldDescription $displayParameters $auiparams)
+$!{auiparams.clear()}

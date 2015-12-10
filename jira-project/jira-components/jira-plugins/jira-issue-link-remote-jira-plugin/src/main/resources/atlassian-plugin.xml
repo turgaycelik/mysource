@@ -1,0 +1,75 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="${project.organization.name}" url="${project.organization.url}" />
+    </plugin-info>
+
+    <resource name="jira-issue-link-remote-jira-plugin" type="i18n" location="jira-issue-link-remote-jira-plugin" />
+
+    <web-resource key="issue-link-remote-jira-js">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+        <dependency>com.atlassian.jira.jira-issue-link-applinks-common-plugin:issue-link-applinks</dependency>
+        <resource type="download" name="issuelink-jira.js" location="js/issuelink-jira.js" />
+        <context>atl.general</context>
+    </web-resource>
+
+    <!-- JIRA Issue Link type -->
+    <web-item key="add-jira-issue-link" section="create-issue-link-types" weight="20">
+        <label key="viewissue.links.types.jiraissue" />
+        <link linkId="add-jira-issue-link-link">
+            /secure/LinkJiraIssue!default.jspa?id=${issueId}
+        </link>
+        <param name="focused-field-name" value="jiraAppId" />
+    </web-item>
+
+    <webwork1 key="link-jira-issue" name="Link JIRA Issues" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.plugin.link.remotejira.LinkJiraIssue" alias="LinkJiraIssue">
+                <view name="error">/templates/dialog/linkjiraissue.vm</view>
+                <view name="input">/templates/dialog/linkjiraissue.vm</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <!-- Renderer of remote JIRA issue links -->
+    <issue-link-renderer key="remoteJiraIssueLinkRenderer" application-type="com.atlassian.jira" class="com.atlassian.jira.plugin.link.remotejira.RemoteJiraIssueLinkRenderer">
+        <resource name="initial-view" type="velocity" location="templates/renderer/loadingissuelink.vm"/>
+        <resource name="final-view" type="velocity" location="templates/renderer/remotejiraissuelink.vm"/>
+    </issue-link-renderer>
+
+    <rest key="remote-jira-issue-link-rest-endpoint" path="/remoteJiraIssueLink" version="1">
+        <package>com.atlassian.jira.plugin.link.remotejira.rest.resource</package>
+        <dispatcher>REQUEST</dispatcher>
+        <dispatcher>FORWARD</dispatcher>
+        <dispatcher>INCLUDE</dispatcher>
+    </rest>
+
+    <web-resource key="issue-link-jira-search-js">
+        <transformation extension="js">
+            <transformer key="jsI18n"/>
+        </transformation>
+
+        <transformation extension="soy">
+            <transformer key="soyTransformer"/>
+        </transformation>
+
+        <transformation extension="less">
+            <transformer key="lessTransformer"/>
+        </transformation>
+
+        <resource type="download" name="js/issuelink-jira-jqlautocomplete.js" location="js/issuelink-jira-jqlautocomplete.js"/>
+        <resource type="download" name="js/issuelink-jira-search.js" location="js/issuelink-jira-search.js"/>
+        <resource type="download" name="templates/dialog/linkjiraissue-search-html.js" location="templates/dialog/linkjiraissue-search.soy"/>
+        <resource type="download" name="css/issuelink-jira-search.css" location="css/issuelink-jira-search.less"/>
+
+        <dependency>jira.webresources:jqlautocomplete</dependency>
+        <dependency>jira.webresources:issue-statuses</dependency>
+
+        <context>atl.general</context>
+
+    </web-resource>
+
+</atlassian-plugin>

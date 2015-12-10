@@ -1,0 +1,21 @@
+<html>
+<head>
+    <meta name="admin.active.section" content="admin_system_menu/top_system_section"/>
+    <meta name="admin.active.tab" content="general_configuration"/>
+
+    <title>${i18n.getText('admin.advancedproperties.settings.heading')}</title>
+    ${webResourceManager.requireResource("com.atlassian.jira.jira-application-properties-plugin:application-properties-global")}
+</head>
+<body>
+    #set($headingHtml = "<h2>${i18n.getText('admin.advancedproperties.settings.heading')}</h2>")
+    #set($actionsHtml = "<div class='aui-buttons'><a class='aui-button' href='ViewApplicationProperties.jspa'>${i18n.getText('admin.menu.general.settings')}</a></div>")
+    $soyRenderer.render('jira.webresources:soy-templates','JIRA.Templates.Headers.pageHeader',{
+    'mainContent': $headingHtml,
+    'actionsContent': $actionsHtml
+    })
+    <div class="aui-message warning"><span class="aui-icon icon-warning"></span>
+        <p>${i18n.getText('admin.advancedproperties.settings.description')}</p>
+    </div>
+    <table id="application-properties-table" class="aui"></table>
+</body>
+</html>

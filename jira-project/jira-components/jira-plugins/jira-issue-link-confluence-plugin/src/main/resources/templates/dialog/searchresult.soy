@@ -1,0 +1,106 @@
+{namespace JIRA.Templates.ConfluencePageSearch}
+
+
+/**
+* Renders the form for confluence page search
+* @param appLinks the list of Confluence instances we are linked to
+*/
+{template .result}
+<h2>{getText('addconfluencelink.search')}</h2>
+
+<form class="aui search-form" id="confluence-page-search-form" action="#" method="post">
+
+        <div class="field-group">
+            <label for="confluence-app-link">{getText('searchconfluence.modal.server')}:</label>
+            {if length($appLinks) == 1}
+                <span class="field-value">{$appLinks[0].name}</span>
+                <input id="confluence-app-link" class="hidden" type="hidden" name="appId" value="{$appLinks[0].id}"/>
+            {else}
+                <select id="confluence-app-link" class="select medium-field" name="appId">
+                    {foreach $appLink in $appLinks}
+                        <option value="{$appLink.id}">{$appLink.name}</option>
+                    {/foreach}
+                </select>
+            {/if}
+        </div>
+
+        <div class="issue-link-applinks-authentication-message applinks-message-bar"></div>
+
+        <div class="hidden">
+            <input class="issue-link-applinks-application-type" type="hidden" value="com.atlassian.applinks.api.application.confluence.ConfluenceApplicationType"/>
+        </div>
+
+        <div class="issue-link-oauth-toggle field-group">
+                <label for="link-search-text" id="linkSearch-label">{getText('searchconfluence.modal.search')}:</label>
+                <input id="link-search-text" type="text" tabindex="0" class="text" name="linkSearch" size="50" />
+                {sp}<select tabindex="0" class="search-space select" id="search-panel-space">
+                    <option value="">{getText('searchconfluence.modal.allspaces')}</option>
+                </select>
+                {sp}<input type="submit" tabindex="0" class="aui-button" id="search-panel-button" value="{getText('searchconfluence.modal.search')}"/>
+                <span id="link-search-loading" class="icon loading throbber hidden"/>
+        </div>
+
+
+    <div class="message-panel hidden"></div>
+    <div id="search-results-table" class="data-table"></div>
+
+    <div class="buttons-container form-footer">
+        <div class="buttons">
+            <button class="aui-button aui-button-link cancel" id="confluence-link-cancel" title="{getText('searchconfluence.close.hint')}">{getText('common.words.close')}</button>
+        </div>
+    </div>
+</form>
+{/template}
+
+
+/**
+* Renders the form for confluence search results
+* @param results the search results
+*/
+{template .resultsTable}
+{if $results.length > 0}
+    <table id="confluence-searchresult" class="aui">
+        <thead>
+            <tr>
+                <th width="180px">{getText('searchconfluence.result.title')}</th>
+                <th width="550px">{getText('searchconfluence.result.excerpt')}</th>
+            </tr>
+        </thead>
+        <tbody>
+            {foreach $result in $results}
+                <tr title="{$result.title}">
+                    <td class="title" data-url="{$result.url}">{$result.title}</td>
+                    <td class="excerpt">{$result.excerpt}</td>
+                </tr>
+            {/foreach}
+        </tbody>
+    </table>
+{else}
+    <div class="aui-message info">
+        <span class="aui-icon icon-info"></span>
+        <p>{getText('searchconfluence.result.empty')}</p>
+    </div>
+{/if}
+{/template}
+
+
+/**
+* Renders the options for the space drop-down list.
+* @param spaces info about the spaces specific to the confluence instance
+*/
+{template .spaceOptions}
+<option value="">{getText('searchconfluence.modal.allspaces')}</option>
+{foreach $space in $spaces}
+    <option value="{$space.key}">{$space.name}</option>
+{/foreach}
+{/template}
+
+
+/**
+* Renders the "All Spaces" option for the space drop-down list.
+*/
+{template .allSpacesOption}
+<option value="">{getText('searchconfluence.modal.allspaces')}</option>
+<option value="" disabled="disabled">{getText('searchconfluence.modal.loading')}</option>
+{/template}
+

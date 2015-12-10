@@ -1,0 +1,65 @@
+#* @vtlvariable name="task" type="com.atlassian.jira.web.filters.JiraImportProgressFilter.SimpleTaskDescriptorBean" *#
+## WARNING: DO NOT INCLUDE ANY IMAGES IN THIS PAGE!! Those requests will go through the filter chain and cause
+## deadlocks in pico!!
+<!DOCTYPE html>
+<html>
+<head>
+    <title>${task.getDescription()}</title>
+
+    <meta http-equiv="refresh" content="5"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
+    ${resourcesHtml}
+</head>
+<body id="jira" class="aui-layout aui-theme-default aui-page-focused aui-page-focused-medium">
+<div id="page">
+    <div id="content" role="main">
+        <div class="aui-page-panel">
+            <div class="aui-page-panel-inner">
+                <div class="aui-page-panel-content">
+                    <h1>${task.description}</h1>
+
+                    <div class="metal-progress">
+                        <div class="metal-progress-bar" style="width: ${task.progressNumber}%">
+                            ${task.getText('common.tasks.info.progress', "$task.progressNumber")}
+                        </div>
+                    </div>
+                    #if($task.exceptionCause)
+                        #if ($task.exceptionCause.message)
+                            <div class="aui-message error">
+                                <p><span class="aui-icon icon-error"></span>${task.exceptionCause.message}</p>
+                            </div>
+                        #else
+                            <div class="aui-message error">
+                                <p><span class="aui-icon icon-error"></span>${task.exceptionCause}</p>
+                            </div>
+                        #end
+                    #elseif($task.lastProgressEvent)
+                        <p class="status">${task.progressMessage}</p>
+                    #end
+                    <p class="progress">
+                        <small>${task.formattedProgress}</small>
+                    </p>
+                    #if($task.isStarted())
+                        <p class="taskinfo">
+                            <small>${task.formattedStartDate}</small>
+                        </p>
+                    #end
+
+                    #set ($buttonText = "${task.getText('admin.common.words.refresh')}")
+                    #if($task.exceptionCause)
+                        #set ($buttonText = "${task.getText('common.concepts.back')}")
+                    #end
+
+                    <form class="aui" action="" method="post">
+                        <div class="buttons">
+                            <input type="submit" name="${buttonText}" value="${buttonText}" id="refresh_submit" accesskey="s" class="aui-button"/>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+@import "../imports/aui-colours";
+@import "../imports/mixins/border-box";
+@import "../imports/mixins/clearfix";
+
+.module {
+    .border-box();
+    .clearfix();
+    margin-top: 25px;
+
+    &:first-child {
+        margin-top: 0;
+    }
+
+    > .mod-header {
+        .clearfix();
+        > h1,
+        > h2,
+        > h3,
+        > h4,
+        > h5,
+        > h6 {
+            margin-top: 0;
+        }
+
+        + .mod-content {
+            margin-top: 10px;
+        }
+    }
+
+    > .mod-content {
+        .clearfix();
+        iframe { // for things like the activity stream, or gadgets.
+            border: 0;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+    }
+
+    + .module {
+        border-top: 1px solid @aui-border-color;
+        margin-top: 25px;
+        padding-top: 25px;
+    }
+}
+
+@import "modules/property-list.less";
+@import "modules/issue-list.less";
+@import "modules/criteria-groups.less";
+@import "content/twixi.less";
+.admin-summary-panels {
+    margin-top: 20px;
+}
+.admin-summary-section {
+    padding-left: 48px;
+    ul {
+        list-style: none;
+        padding: 0;
+    }
+}
+
+#admin-summary-panel .aui-icon-small:before {
+    font-size: 14px;
+}

@@ -1,0 +1,114 @@
+{namespace JIRA.Templates.Modules}
+
+/**
+ * Provides structure for a block of content.
+ * @param content
+ * @param? headingContent
+ * @param? id
+ * @param? headerId
+ * @param? headerActionsContent
+ * @param? headerPanelContent
+ * @param? headingLevel the size of the heading element -- 1 through 6. Default is 3.
+ * @param? isNotCollapsible By default, modules have twixies. If set to false, module will not have a twixie.
+ * @param? extraClasses
+ * @param? extraAttributes
+ */
+{template .module}
+{if $isNotCollapsible}
+    {call .staticModule data="all" /}
+{else}
+    {call .collapsibleModule data="all" /}
+{/if}
+{/template}
+
+/**
+ * Provides structure for a block of content. User can collapse or expand the block via a twixie.
+ * @param content
+ * @param? headingContent
+ * @param? id
+ * @param? headerId
+ * @param? headerActionsContent
+ * @param? headerPanelContent
+ * @param? headingLevel the size of the heading element -- 1 through 6. Default is 3.
+ * @param? extraClasses
+ * @param? extraAttributes
+ */
+{template .collapsibleModule}
+<div
+    {if $id}{sp}id="{$id}"{/if}
+    class="module toggle-wrap{call aui.renderExtraClasses}{param extraClasses: $extraClasses /}{/call}"
+    {sp}{call aui.renderExtraAttributes}{param extraAttributes: $extraAttributes /}{/call}
+>
+    {call .moduleHeading data="all"}
+        {param isCollapsible: true/}
+    {/call}
+    <div class="mod-content">
+        {$content|noAutoescape}
+    </div>
+</div>
+{/template}
+
+/**
+ * Provides structure for a block of content.
+ * @param content
+ * @param? headingContent
+ * @param? id
+ * @param? headerId
+ * @param? headerActionsContent
+ * @param? headerPanelContent
+ * @param? headingLevel the size of the heading element -- 1 through 6. Default is 3.
+ * @param? extraClasses
+ * @param? extraAttributes
+ */
+{template .staticModule}
+<div
+    {if $id}{sp}id="{$id}"{/if}
+    class="module{call aui.renderExtraClasses}{param extraClasses: $extraClasses /}{/call}"
+    {sp}{call aui.renderExtraAttributes}{param extraAttributes: $extraAttributes /}{/call}
+>
+    {call .moduleHeading data="all"/}
+    <div class="mod-content">
+        {$content|noAutoescape}
+    </div>
+</div>
+{/template}
+
+/**
+ * @param? headerId
+ * @param? headerActionsContent
+ * @param? headerPanelContent
+ * @param? headingContent
+ * @param? headingLevel
+ * @param? isCollapsible
+ */
+{template .moduleHeading private="true"}
+    {if $headerActionsContent or $headerPanelContent or $headingContent}
+    <div class="mod-header"{if $headerId} id="{$headerId}"{/if}>
+        {if $headerActionsContent}
+            {$headerActionsContent|noAutoescape}
+        {/if}
+        {if $headerPanelContent}
+            {$headerPanelContent|noAutoescape}
+        {/if}
+        {if $headingContent}
+            {call .moduleHeadingTag data="all"}
+                {param level: $headingLevel /}
+                {param isCollapsible: $isCollapsible /}
+                {param content: $headingContent /}
+            {/call}
+        {/if}
+    </div>
+    {/if}
+{/template}
+
+/**
+ * @param content
+ * @param? level the size of the heading element -- 1 through 6. Default is 3.
+ * @param? isCollapsible if true, will output the class necessary to make the header element a twixie toggle.
+ */
+{template .moduleHeadingTag private="true"}
+    {let $tagName}{if $level and $level < 7 and $level > 0}h{$level}{else}h3{/if}{/let}
+    <{$tagName}{if $isCollapsible} class="toggle-title"{/if}>
+        {$content|noAutoescape}
+    </{$tagName}>
+{/template}

@@ -1,0 +1,110 @@
+
+.twixi-block,
+.toggle-wrap {
+    .toggle-trigger { display: block; } // To overcome form.aui legend's display:none. Basically interop to make old issue nav stuff work.
+
+    &.collapsed {
+        // The containers for the twixi content areas
+        .twixi-content,
+        .twixi-wrap.verbose,
+        .toggle-block,
+        .mod-content {
+            display: none;
+        }
+        // Special twixi behaviour for View Issue
+        .twixi-wrap.concise {
+            display: block;
+        }
+        // Change the icon to the collapsed version
+        .icon-twixi,
+        .twixi-closed,
+        .toggle-title {
+            background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHDRPAkXAAAADHRSTlMAESIziJmqu8zd7v+91kxoAAAACXBIWXMAAAsSAAALEgHS3X78AAAAFnRFWHRDcmVhdGlvbiBUaW1lADIxLzEyLzEymvNa/wAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAArSURBVAiZY2DAB1iaoAy2XQZQVvRiKIMVLlQ9AU0EpoZjhwLUnEa81iABAFHzB8GYPzdNAAAAAElFTkSuQmCC);
+        }
+    }
+    // Default (expanded) state for twixi content areas
+    .twixi-content,
+    .twixi-wrap.verbose,
+    .toggle-block,
+    .mod-content {
+        display: block;
+    }
+    // Special twixi behaviour for View Issue
+    .twixi-wrap.concise {
+        display: none;
+    }
+    // indent for where the icon will sit
+    .toggle-title,
+    .twixi-wrap,
+    .twixi-trigger {
+        padding-left: 20px;
+        position: relative;
+    }
+    // image for the trigger default (expanded) state
+    .icon-twixi,
+    .twixi-opened,
+    .toggle-title {
+        background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAA3NCSVQICAjb4U/gAAAAJFBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHBwcHDRPAkXAAAADHRSTlMAESIziJmqu8zd7v+91kxoAAAACXBIWXMAAAsSAAALEgHS3X78AAAAFnRFWHRDcmVhdGlvbiBUaW1lADIxLzEyLzEymvNa/wAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAAySURBVAiZY2AgCbA0MDCkgBgcWxlYd4AYjN0B0YvAclrbdxmAGcyrF0OVWxqQZjwDAwA8XgfBciyedgAAAABJRU5ErkJggg==);
+        background-repeat: no-repeat;
+        cursor: pointer;
+    }
+    // explicit styles for the icon-based triggers
+    .twixi,
+    .icon-twixi,
+    .twixi-opened,
+    .twixi-closed {
+        display: block;
+        position: absolute;
+        left: 0;
+        top: 2px; // assumes 20px line-height (20px line-height - 16px icon and then half the remainder so it's balanced)
+    }
+    //
+    .twixi {
+        height: 16px;
+        width: 16px;
+        .icon {
+            top: 0; // remove the top offset because .twixi provides it already
+        }
+    }
+    // explicit styles for the heading-based triggers
+    // need to position the arrow vertically against the text, but these offsets change depending on the font-size/line-height of the headings
+    h1.toggle-title,
+    h2.toggle-title {
+        background-position: 3px 7px; // h1/h2 = 30px line-height. icon = 16px height. Offset = (30px - 16px) / 2 = 7px
+    }
+    h3.toggle-title {
+        background-position: 3px 4px; // h3 = 25px line-height. icon = 16px height. Offset = (25px - 16px) / 2 = 4.5px (go down to 4)
+    }
+    h4.toggle-title,
+    h5.toggle-title,
+    h6.toggle-title {
+        background-position: 2px 2px; // h4/h5/h6 = 20px line-height. icon = 16px height. Offset = (20px - 16px) / 2 = 2px
+    }
+    .toggle-title {
+        margin-left: -20px; // "pull" the twixi out of the flow
+        display: inline-block; //as we've removed the keyline from module headings we'll make only the text clickable to prevent randomness in whitespace
+    }
+    // Special styles for the View Issue page
+    .concise .flooded {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        width: 100%;
+    }
+    .verbose .flooded { // needed to prevent stupidly long single strings overflowing
+        overflow: auto;
+        overflow-y: hidden;
+    }
+}
+
+.msie .twixi-block,
+.toggle-wrap {
+    .concise .flooded {
+        word-wrap: normal;
+        word-break: normal;
+    }
+}
+// JRADEV-18603
+#add_project_link .twixi-content {
+    padding-top: 10px;
+}

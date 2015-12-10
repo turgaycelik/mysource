@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.labels.dashboard.name__" directory_title="__MSG_gadget.labels.dashboard.name__" description="__MSG_gadget.labels.dashboard.description__"
+                 author="Atlassian" author_affiliation="Atlassian" author_location="Sydney, Australia" height="100"
+                 screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:labels-gadget", "labels-screenshot.png")'
+                 thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:labels-gadget", "labels-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">JIRA</Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.labels")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="projectid" datatype="hidden" />
+    <UserPref name="fieldId" datatype="hidden" />
+    <UserPref name="refresh" datatype="hidden" default_value="false" />
+    <Content type="html">
+        <!-- use of requireContext below is to invoke batching of files -->
+<![CDATA[
+
+#requireContext("com.atlassian.jira.gadgets:common-lite")
+#requireResource("com.atlassian.jira.gadgets:g-labels")
+#includeResources()
+
+    
+
+<script type="text/javascript"> 
+(function() {
+
+    AJS.Gadget({
+        baseUrl: "__ATLASSIAN_BASE_URL__",
+        useOauth: "/rest/gadget/1.0/currentUser",
+        config: {
+            descriptor: function (args) {
+                var gadget = this;
+
+                return {
+                    action: "/rest/gadget/1.0/labels/gadget/configuration/validate",
+                    theme : function () {
+                                    if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    } else{
+                                        return "gdt";
+                                    }
+                                }(),
+                    fields: [
+                        AJS.$.extend(true, {}, AJS.gadget.fields.projectPicker(gadget, "projectid", args.options), {
+                            description: gadget.getMsg("gadget.labels.dashboard.projectid.name")
+                        }),
+                        {
+                            userpref: "fieldId",
+                            label: gadget.getMsg("gadget.labels.field.name"),
+                            description: gadget.getMsg("gadget.labels.field.description"),
+                            type: "select",
+                            selected: gadget.getPref("fieldId"),
+                            options: args.labelFields.labelFields
+                        },
+                        AJS.gadget.fields.nowConfigured()
+                    ]
+                };
+            },
+            args : [
+                {
+                    key: "options",
+                    ajaxOptions: "/rest/gadget/1.0/filtersAndProjects?showFilters=false"
+                },
+                {
+                    key: "labelFields",
+                    ajaxOptions: "/rest/gadget/1.0/labels/gadget/fields"
+                }
+            ]
+        },
+        view: {
+            enableReload: true,
+            onResizeReload: true,
+            template: function(args) {
+                var gadget = this;
+                gadget.getView().attr("id", "labels-content");
+                gadget.getView().html(args.labelsGroupHtml);
+
+                gadget.getView().addClass("g-labels");
+
+                gadgets.window.setTitle(AJS.format("__MSG_gadget.labels.title__", AJS.$("input[name='fieldName']").val(), AJS.$("input[name='projectName']").val()));
+
+                gadgets.window.adjustHeight();
+            },
+            args: [{
+                key: "labelsGroupHtml",
+                ajaxOptions: function() {
+                    return {
+                        type: "GET",
+                        url: "/rest/gadget/1.0/labels/gadget/" + this.getPref("projectid") + "/" + this.getPref("fieldId") + "/groups",
+                        dataType: "html",
+                        data: {}
+                    };
+                }
+            }]
+        }
+    });
+})();
+</script>
+        ]]>
+    </Content>
+</Module>

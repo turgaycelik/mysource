@@ -1,0 +1,48 @@
+table.aui {
+    border: none;
+    border-collapse: collapse;
+}
+table.aui th, table.aui td {
+    border-left: none;
+    border-right: none;
+}
+
+#columnNames > form.aui {
+    /* This is necessary to avoid an extra margin between the table and its help text. */
+    margin: 0;
+}
+
+#column-picker-restful-table {
+    min-width: 0;
+    width: 250px;
+}
+#column-picker-restful-table .aui-restfultable-row td {
+    padding: 4px;
+}
+#column-picker-restful-table .aui-restfultable-row .aui-restfultable-operations {
+    /* By default, restful table specifies a 160px width for the operations cell, but we want a compact one. */
+    width: 20px;
+}
+#column-picker-restful-table .aui-restfultable-row .aui-restfultable-draghandle {
+    /* Override the min-height (normally 24px) to allow compact rows. */
+    min-height: 17px;
+    /* Centering the background makes it look a little better with a compact row. */
+    background-position: center;
+}
+
+.aui-restfultable thead { display: none; }
+.aui-restfultable-throbber { display: none; }
+/* Needed for IE8 only */
+.aui-restfultable-readonly td { font-size: 13px; }
+.aui-restfultable-delete { text-indent: 0 } /* To stop the delete icons from disappearing in IE8 */
+
+#column-picker-add {
+    margin-left: 10px;
+}
+.column-picker-select-wrapper {
+    white-space: nowrap;
+}
+#column-picker-restful-table { margin-bottom: 0px; }
+
+/* For hover styles in the RESTful table, see also handleMouseOver and handleMouseOut in gadget-column-picker.js
+   (to workaround IE issues) */

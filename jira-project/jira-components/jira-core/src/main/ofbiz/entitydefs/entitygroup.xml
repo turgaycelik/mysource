@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE entitygroup PUBLIC "-//OFBiz//DTD Entity Group//EN" "http://www.ofbiz.org/dtds/entitygroup.dtd">
+<entitygroup>
+    <!-- sequence entity -->
+    <entity-group group="default" entity="SequenceValueItem"/>
+
+    <!-- osuser. Deprecated - used for importing previous version data-->
+    <entity-group group="default" entity="OSUser"/>
+    <entity-group group="default" entity="OSMembership"/>
+    <entity-group group="default" entity="OSGroup"/>
+
+    <!-- user entities -->
+    <entity-group group="default" entity="User"/>
+    <entity-group group="default" entity="UserAttribute"/>
+    <entity-group group="default" entity="ApplicationUser"/>
+
+    <!-- group entities -->
+    <entity-group group="default" entity="Group"/>
+    <entity-group group="default" entity="GroupAttribute"/>
+
+    <!-- membership entity -->
+    <entity-group group="default" entity="Membership"/>
+
+    <!-- application entities -->
+    <entity-group group="default" entity="Application"/>
+    <entity-group group="default" entity="RemoteAddress"/>
+
+    <!-- directory entities -->
+    <entity-group group="default" entity="Directory"/>
+    <entity-group group="default" entity="DirectoryAttribute"/>
+    <entity-group group="default" entity="DirectoryOperation"/>
+
+
+    <!-- external user management -->
+    <entity-group group="default" entity="ExternalEntity"/>
+
+    <!-- oscore -->
+    <entity-group group="default" entity="OSPropertyEntry"/>
+    <entity-group group="default" entity="OSPropertyString"/>
+    <entity-group group="default" entity="OSPropertyText"/>
+    <entity-group group="default" entity="OSPropertyData"/>
+    <entity-group group="default" entity="OSPropertyDate"/>
+    <entity-group group="default" entity="OSPropertyDecimal"/>
+    <entity-group group="default" entity="OSPropertyNumber"/>
+
+    <!-- osworkflow -->
+    <entity-group group="default" entity="OSWorkflowEntry"/>
+    <entity-group group="default" entity="OSCurrentStep"/>
+    <entity-group group="default" entity="OSHistoryStep"/>
+    <entity-group group="default" entity="OSCurrentStepPrev"/>
+    <entity-group group="default" entity="OSHistoryStepPrev"/>
+
+    <!-- association entities -->
+    <entity-group group="default" entity="NodeAssociation"/>
+    <entity-group group="default" entity="UserAssociation"/>
+    <entity-group group="default" entity="EntityProperty"/>
+
+    <!-- JIRA entities -->
+    <entity-group group="default" entity="ListenerConfig"/>
+    <entity-group group="default" entity="ServiceConfig"/>
+    <entity-group group="default" entity="Project"/>
+    <entity-group group="default" entity="ProjectKey"/>
+    <entity-group group="default" entity="Version"/>
+    <entity-group group="default" entity="Component"/>
+    <entity-group group="default" entity="ProjectCategory"/>
+    <entity-group group="default" entity="Issue"/>
+    <entity-group group="default" entity="MovedIssueKey"/>
+    <entity-group group="default" entity="Label"/>
+    <entity-group group="default" entity="Action"/>
+    <entity-group group="default" entity="Worklog"/>
+    <entity-group group="default" entity="FileAttachment"/>
+    <entity-group group="default" entity="Permission"/>
+    <entity-group group="default" entity="SearchRequest"/>
+    <entity-group group="default" entity="IssueLinkType"/>
+    <entity-group group="default" entity="IssueLink"/>
+    <entity-group group="default" entity="RemoteIssueLink"/>
+    <entity-group group="default" entity="TrackbackPing"/>
+    <entity-group group="default" entity="Priority"/>
+    <entity-group group="default" entity="Resolution"/>
+    <entity-group group="default" entity="IssueType"/>
+    <entity-group group="default" entity="Status"/>
+    <entity-group group="default" entity="EventType"/>
+    <entity-group group="default" entity="AuditLog"/>
+    <entity-group group="default" entity="AuditItem"/>
+    <entity-group group="default" entity="AuditChangedValue"/>
+
+    <entity-group group="default" entity="CustomField"/>
+    <entity-group group="default" entity="CustomFieldValue"/>
+    <entity-group group="default" entity="CustomFieldOption"/>
+    <entity-group group="default" entity="UserPickerFilter"/>
+    <entity-group group="default" entity="UserPickerFilterGroup"/>
+    <entity-group group="default" entity="UserPickerFilterRole"/>
+
+    <entity-group group="default" entity="FieldConfigScheme"/>
+    <entity-group group="default" entity="FieldConfigSchemeIssueType"/>
+    <entity-group group="default" entity="FieldConfiguration"/>
+    <entity-group group="default" entity="ConfigurationContext"/>
+    <entity-group group="default" entity="GenericConfiguration"/>
+    <entity-group group="default" entity="OptionConfiguration"/>
+
+    <entity-group group="default" entity="ChangeGroup"/>
+    <entity-group group="default" entity="ChangeItem"/>
+
+    <entity-group group="default" entity="UserHistoryItem"/>
+    <entity-group group="default" entity="VoteHistory"/>
+
+    <entity-group group="default" entity="MailServer"/>
+
+    <!-- Notifications -->
+    <entity-group group="default" entity="NotificationScheme"/>
+    <entity-group group="default" entity="Notification"/>
+    <entity-group group="default" entity="NotificationInstance"/>
+
+    <entity-group group="default" entity="PermissionScheme"/>
+    <entity-group group="default" entity="SchemePermissions"/>
+
+    <entity-group group="default" entity="IssueSecurityScheme"/>
+    <entity-group group="default" entity="SchemeIssueSecurities"/>
+    <entity-group group="default" entity="SchemeIssueSecurityLevels"/>
+
+    <!-- Filter Subscription -->
+    <entity-group group="default" entity="FilterSubscription"/>
+
+    <!-- Quartz -->
+    <entity-group group="default" entity="QRTZJobDetails"/>
+    <entity-group group="default" entity="QRTZJobListeners"/>
+    <entity-group group="default" entity="QRTZTriggers"/>
+    <entity-group group="default" entity="QRTZSimpleTriggers"/>
+    <entity-group group="default" entity="QRTZCronTriggers"/>
+    <entity-group group="default" entity="QRTZTriggerListeners"/>
+    <entity-group group="default" entity="QRTZFiredTriggers"/>
+    <entity-group group="default" entity="QRTZCalendars"/>
+
+    <entity-group group="default" entity="JQRTZJobDetails"/>
+    <entity-group group="default" entity="JQRTZJobListeners"/>
+    <entity-group group="default" entity="JQRTZTriggers"/>
+    <entity-group group="default" entity="JQRTZSimpleTriggers"/>
+    <entity-group group="default" entity="JQRTZCronTriggers"/>
+    <entity-group group="default" entity="JQRTZSimplePropTriggers"/>
+    <entity-group group="default" entity="JQRTZBlobTriggers"/>
+    <entity-group group="default" entity="JQRTZTriggerListeners"/>
+    <entity-group group="default" entity="JQRTZCalendars"/>
+    <entity-group group="default" entity="JQRTZPausedTriggerGroups"/>
+    <entity-group group="default" entity="JQRTZFiredTriggers"/>
+    <entity-group group="default" entity="JQRTZSchedulerState"/>
+    <entity-group group="default" entity="JQRTZLocks"/>
+
+    <entity-group group="default" entity="RunDetails"/>
+
+    <entity-group group="default" entity="PortalPage"/>
+    <entity-group group="default" entity="PortletConfiguration"/>
+    <entity-group group="default" entity="GadgetUserPreference"/>
+    <entity-group group="default" entity="ExternalGadget"/>
+    <entity-group group="default" entity="VersionControl"/>
+
+    <entity-group group="default" entity="UpgradeHistory"/>
+    <entity-group group="default" entity="UpgradeVersionHistory"/>
+
+    <entity-group group="default" entity="FieldLayoutScheme"/>
+    <entity-group group="default" entity="FieldLayoutSchemeEntity"/>
+    <entity-group group="default" entity="FieldLayout"/>
+    <entity-group group="default" entity="FieldLayoutItem"/>
+    <entity-group group="default" entity="FieldLayoutSchemeAssociation"/>
+
+    <entity-group group="default" entity="ColumnLayout"/>
+    <entity-group group="default" entity="ColumnLayoutItem"/>
+
+    <!-- Field Screen -->
+    <entity-group group="default" entity="FieldScreen"/>
+    <entity-group group="default" entity="FieldScreenTab"/>
+    <entity-group group="default" entity="FieldScreenLayoutItem"/>
+
+    <!-- Field Screen Scheme -->
+    <entity-group group="default" entity="FieldScreenScheme"/>
+    <entity-group group="default" entity="FieldScreenSchemeItem"/>
+
+    <!-- Issue Type Screen Scheme -->
+    <entity-group group="default" entity="IssueTypeScreenScheme"/>
+    <entity-group group="default" entity="IssueTypeScreenSchemeEntity"/>
+
+    <!-- Workflow -->
+    <entity-group group="default" entity="Workflow"/>
+    <entity-group group="default" entity="WorkflowScheme"/>
+    <entity-group group="default" entity="WorkflowSchemeEntity"/>
+    <entity-group group="default" entity="DraftWorkflowScheme"/>
+    <entity-group group="default" entity="DraftWorkflowSchemeEntity"/>
+    <entity-group group="default" entity="DraftWorkflow"/>
+
+    <!-- Project Roles -->
+    <entity-group group="default" entity="ProjectRole"/>
+    <entity-group group="default" entity="ProjectRoleActor"/>
+
+    <!-- Trusted Apps -->
+    <entity-group group="default" entity="TrustedApplication"/>
+
+    <!-- Plugins -->
+    <entity-group group="default" entity="PluginVersion"/>
+    <entity-group group="default" entity="PluginState"/>
+
+    <!-- Sharing -->
+    <entity-group group="default" entity="SharePermissions"/>
+
+    <!-- Favourites -->
+    <entity-group group="default" entity="FavouriteAssociations"/>
+
+    <!-- Avatars -->
+    <entity-group group="default" entity="Avatar"/>
+
+    <!-- OAuth -->
+    <entity-group group="default" entity="OAuthConsumerToken"/>
+    <entity-group group="default" entity="OAuthConsumer"/>
+    <entity-group group="default" entity="OAuthServiceProviderConsumer"/>
+    <entity-group group="default" entity="OAuthServiceProviderToken"/>
+
+    <!-- RememberMe -->
+    <entity-group group="default" entity="RememberMeToken"/>
+
+    <!-- Managed Configuration Entities -->
+    <entity-group group="default" entity="ManagedConfigurationItem"/>
+
+    <entity-group group="default" entity="Feature"/>
+
+    <entity-group group="default" entity="NodeIndexCounter"/>
+    <entity-group group="default" entity="ReplicatedIndexOperation"/>
+    <entity-group group="default" entity="ClusterMessage" />
+    <entity-group group="default" entity="ClusterNode" />
+    <entity-group group="default" entity="ClusterLockStatus" />
+    <entity-group group="default" entity="ClusterNodeHeartbeat" />
+
+    <!-- Views for counts -->
+    <entity-group group="default" entity="AuditLogCount"/>
+    <entity-group group="default" entity="IssueCount"/>
+    <entity-group group="default" entity="IssueCountByAssignee"/>
+    <entity-group group="default" entity="ProjectCount"/>
+    <entity-group group="default" entity="RememberMeTokenCount"/>
+    <entity-group group="default" entity="CustomFieldCount"/>
+    <entity-group group="default" entity="WorkflowCount"/>
+    <entity-group group="default" entity="UserCount"/>
+    <entity-group group="default" entity="GroupCount"/>
+    <entity-group group="default" entity="NotificationInstanceCount"/>
+    <entity-group group="default" entity="ActionCount"/>
+    <entity-group group="default" entity="WorklogCount"/>
+    <entity-group group="default" entity="SearchRequestCount"/>
+    <entity-group group="default" entity="PortalPageCount"/>
+    <entity-group group="default" entity="IssueResolutionCount"/>
+    <entity-group group="default" entity="FileAttachmentCount" />
+    <entity-group group="default" entity="RemoteIssueLinkCount" />
+    <entity-group group="default" entity="UserAssociationCount" />
+
+    <entity-group group="default" entity="OSUserPropertySetView"/>
+    <entity-group group="default" entity="OSUserPropertySetNumberView"/>
+    <entity-group group="default" entity="IssueWorkflowStepView"/>
+    <entity-group group="default" entity="IssueWorkflowEntryView"/>
+    <entity-group group="default" entity="IssueWorklogView"/>
+    <entity-group group="default" entity="ChangeGroupChangeItemView"/>
+
+    <entity-group group="default" entity="UpgradeHistoryMaxIdForTargetBuild"/>
+    <entity-group group="default" entity="UpgradeHistoryLastClassForTargetBuild"/>
+    <entity-group group="default" entity="ChangeGroupIssueView"/>
+    <entity-group group="default" entity="ActionIssueView"/>
+
+    <!-- Views for max's -->
+    <entity-group group="default" entity="IssueMaxId"/>
+    <entity-group group="default" entity="WorklogMax"/>
+    <entity-group group="default" entity="ChangeGroupChangeItemMax"/>
+    <entity-group group="default" entity="IndexOperationMaxIdForNodeId"/>
+
+    <!-- The views for searching Filters. -->
+    <entity-group group="default" entity="SearchRequestShareView"/>
+
+    <!-- Views for min's -->
+    <entity-group group="default" entity="IndexOperationMinId" />
+
+    <!-- Module descriptors entities. -->
+    <entity-group group="default" entity="EntityPropertyIndexDocument"/>
+
+    <entity-group group="default" entity="GlobalPermissionEntry"/>
+
+    <!-- licensing and license roles -->
+    <entity-group group="default" entity="LicenseRoleGroup"/>
+    <entity-group group="default" entity="ProductLicense"/>
+
+    <!-- reindex requests -->
+    <entity-group group="default" entity="ReindexRequest"/>
+    <entity-group group="default" entity="ReindexComponent"/>
+
+    <!-- Views for Jira Start Analytic event-->
+    <entity-group group="default" entity="PermissionSchemeCount"/>
+
+</entitygroup>
+

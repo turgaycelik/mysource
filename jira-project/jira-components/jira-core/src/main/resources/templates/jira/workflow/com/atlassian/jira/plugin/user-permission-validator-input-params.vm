@@ -1,0 +1,28 @@
+#disable_html_escaping()
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.workflow.validator.user-permission.input.user.name"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        <input type="text" name="vars.key" value=""/>
+        <br><font size="1">$i18n.getText("admin.workflow.validator.user-permission.input.user.name.desc")</font>
+    </td>
+</tr>
+<tr bgcolor="#ffffff">
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.common.words.permission"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        #selectMapGrouped ("permissionKey" ${permissions})
+        <br><font size="1">$i18n.getText("admin.workflow.condition.permission.input.perm.to.check")</font>
+    </td>
+</tr>
+<tr>
+    <td align="right" valign="top" bgcolor="#fffff0">
+        <span class="label">$i18n.getText("admin.workflow.validator.user-permission.input.allow.null"):</span>
+    </td>
+    <td bgcolor="#ffffff" nowrap>
+        #selectMap ("nullallowed" ${nullallowedoptions})
+        <br><font size="1">$i18n.getText("admin.workflow.validator.user-permission.input.avoid.check")</font>
+    </td>
+</tr>

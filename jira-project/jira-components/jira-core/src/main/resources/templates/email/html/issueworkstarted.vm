@@ -1,0 +1,18 @@
+#disable_html_escaping()
+
+#defaultMailHeader("email.event.activity.worklog.started.on.issue", $changelogauthor)
+
+#if ($comment)
+    #parse('templates/email/html/includes/patterns/comment-top.vm')
+#end
+
+#if ($changelog)
+    #rowWrapperNormal("#parse('templates/email/html/includes/fields/changelog.vm')")
+#end
+
+#set ($commentActionBody="#parse('templates/email/html/includes/patterns/comment-action.vm')")
+#rowWrapperNormal($commentActionBody)
+
+###set($extraFooterContent = "#parse('templates/email/html/includes/set-issue-details-context.vm')")
+
+#parse("templates/email/html/includes/footer.vm")

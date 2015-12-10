@@ -1,0 +1,58 @@
+<atlassian-plugin key="${project.groupId}.${project.artifactId}" name="${project.name}" plugins-version="2">
+    <plugin-info>
+        <description>${project.description}</description>
+        <version>${project.version}</version>
+        <vendor name="Atlassian" url="http://www.atlassian.com/" />
+    </plugin-info>
+
+    <resource name="i18n" type="i18n" location="i18n/jira-my-home-plugin" />
+
+    <component-import key="userPreferenceManager" interface="com.atlassian.jira.user.preferences.UserPreferencesManager" />
+    <component-import key="featureManager" interface="com.atlassian.jira.config.FeatureManager" />
+    <component-import key="eventPublisher" interface="com.atlassian.event.api.EventPublisher" />
+
+    <component key="myJiraHomePreference" name="My JIRA Home Preference" class="com.atlassian.jira.my_home.MyJiraHomePreferenceImpl" public="true">
+        <interface>com.atlassian.jira.plugin.myjirahome.MyJiraHomePreference</interface>
+    </component>
+
+    <component key="myJiraHomeUpdateService" name="My JIRA Home Update Service" class="com.atlassian.jira.my_home.MyJiraHomeUpdateServiceImpl">
+        <interface>com.atlassian.jira.my_home.MyJiraHomeUpdateService</interface>
+    </component>
+
+    <component key="myJiraHomeValidator" name="My JIRA Home Validator" class="com.atlassian.jira.my_home.MyJiraHomeValidatorImpl">
+        <interface>com.atlassian.jira.my_home.MyJiraHomeValidator</interface>
+    </component>
+
+    <component key="myJiraHomeStorage" name="My JIRA Home Storage" class="com.atlassian.jira.my_home.MyJiraHomeStorageImpl">
+        <interface>com.atlassian.jira.my_home.MyJiraHomeStorage</interface>
+    </component>
+
+    <web-section key="set_my_jira_home" name="My JIRA Home Section" i18n-name-key="my.jira.home.section.label" location="system.user.options" weight="150">
+        <label key="my.jira.home.section.label"/>
+        <description key="my.jira.home.section.desc"/>
+        <condition class="com.atlassian.jira.plugin.webfragment.conditions.UserLoggedInCondition"/>
+        <context-provider class="com.atlassian.jira.my_home.MyJiraHomeSelectionProvider"/>
+    </web-section>
+
+    <web-item key="set_my_jira_home_dashboard" name="Set My JIRA Home to Dashboard" i18n-name-key="my.jira.home.set.dashboard.label" section="system.user.options/set_my_jira_home" weight="20">
+        <label key="my.jira.home.set.dashboard.label"/>
+        <description key="my.jira.home.set.dashboard.desc"/>
+        <tooltip key="my.jira.home.set.dashboard.desc"/>
+        <link linkId="set_my_jira_home_default">/secure/Dashboard.jspa</link>
+    </web-item>
+
+    <web-item key="set_my_jira_home_issue" name="Set My JIRA Home to Issue Navigator" i18n-name-key="my.jira.home.set.issue.navigator.label" section="system.user.options/set_my_jira_home" weight="60">
+        <label key="my.jira.home.set.issue.navigator.label" />
+        <description key="my.jira.home.set.issue.navigator.desc"/>
+        <tooltip key="my.jira.home.set.issue.navigator.desc"/>
+        <link linkId="set_my_jira_home_issuenav">/secure/IssueNavigator.jspa</link>
+    </web-item>
+
+    <webwork1 key="set_my_jira_home_action" name="Update My JIRA Home Action" class="java.lang.Object">
+        <actions>
+            <action name="com.atlassian.jira.my_home.web.action.UpdateMyJiraHome" alias="UpdateMyJiraHome">
+                <view name="error">/secure/views/dashboarderror.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+</atlassian-plugin>

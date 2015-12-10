@@ -1,0 +1,134 @@
+#* @vtlvariable name="metadataHelper" type="com.atlassian.jira.issue.changehistory.metadata.renderer.HistoryMetadataRenderHelper" *#
+#* @vtlvariable name="changehistory" type="com.atlassian.jira.issue.tabpanels.ChangeHistoryAction" *#
+
+#macro (historyMetadataParticipant $participant $withAvatar)
+    #set($participantId = $metadataHelper.getParticipantName($participant))
+    #if($participantId)
+        #if ($withAvatar) #historyMetadataParticipantAvatar($participant) #end #if ($participant.url) <a href="$textutils.htmlEncode($participant.url)">$textutils.htmlEncode($participantId)</a> #else $textutils.htmlEncode($participantId) #end
+    #end
+#end
+
+#macro (historyMetadataParticipantAvatar $participant)
+    #if ($participant.avatarUrl)
+        <span class="aui-avatar aui-avatar-xsmall">
+            <span class="aui-avatar-inner">
+                <img alt="" src="$!textutils.htmlEncode($metadataHelper.getParticipantAvatarUrl($participant))"/>
+            </span>
+        </span>
+    #end
+#end
+
+#macro (createAuthorLink $withAvatar)
+    #if($withAvatar)
+        #set ($authorLink = $userformat.formatUserkey(${changehistory.author}, 'profileLinkActionHeader', "changehistoryauthor_$!{changehistory.id}"))
+    #else
+        #set ($authorLink = $userformat.formatUserkey(${changehistory.author}, 'profileLink', "changehistoryauthor_$!{changehistory.id}"))
+    #end
+#end
+
+#macro(renderChangeHistoryDetails)
+    #set ($timestamp = " - <span class='date' title='$changehistory.createdDateHtml'><time class='livestamp' datetime='$changehistory.createdDateIso8601Html'>$changehistory.createdDateHtml</time></span>")
+    #set($generatorHasNoAvatar = "$!changehistory.historyMetadata.generator.avatarUrl" == "")
+
+    #if($i18n.isKeyDefined($changehistory.historyMetadata.descriptionKey))
+        #set($generator = "#historyMetadataParticipant($changehistory.historyMetadata.generator, false)")
+        #if ("$!changehistory.author" != "" || "$!changehistory.historyMetadata.actor" == "")
+            #createAuthorLink($generatorHasNoAvatar)
+            #set($actor = $authorLink)
+        #elseif ($changehistory.historyMetadata.actor)
+            #set($actor = "#historyMetadataParticipant($changehistory.historyMetadata.actor, $generatorHasNoAvatar)")
+        #end
+        #set($cause = "#historyMetadataParticipant($changehistory.historyMetadata.cause, true)")
+        #set($metadataDescription = $i18n.getText($changehistory.historyMetadata.descriptionKey, $actor.trim(), $generator.trim(), $cause.trim()))
+    #elseif($changehistory.historyMetadata.description)
+        #createAuthorLink($generatorHasNoAvatar)
+        #set($metadataDescription = $i18n.getText('viewissue.changehistory.changeby', $authorLink, $textutils.htmlEncode($changehistory.historyMetadata.description)))
+    #end
+
+    #if($metadataDescription)
+        #historyMetadataParticipantAvatar($changehistory.historyMetadata.generator)
+        $metadataDescription $timestamp
+    #else
+        #createAuthorLink(true)
+        $i18n.getText('viewissue.changehistory.changeby', $authorLink, $timestamp)
+    #end
+#end
+
+#disable_html_escaping()
+<div class="issue-data-block" id="changehistory-$changehistory.id">
+    <div class="actionContainer">
+        <div class="action-details" id="changehistorydetails_$changehistory.id">
+            #renderChangeHistoryDetails()
+        </div>
+        <div class="changehistory action-body">
+            <table cellpadding="0" cellspacing="0" border="0" width="100%" id="changehistory_$!{changehistory.id}">
+            #if ($changehistory.showHeader)
+                <thead>
+                    <tr>
+                        <th width="20%">$i18n.getText('viewissue.changehistory.field')</th>
+                        <th width="40%">$i18n.getText('viewissue.changehistory.origvalue')</th>
+                        <th width="40%">$i18n.getText('viewissue.changehistory.newvalue')</th>
+                    </tr>
+                </thead>
+            #end
+                <tbody>
+            #foreach ($changeitem in $changehistory.changeItems)
+                #set ($fieldName = $changeitem.getString('field'))
+                #set ($isDateField = $changehistory.isDateField($fieldName))
+                <tr>
+                <td width="20%" class="activity-name">
+                #if ( $changeitem.getString("fieldtype").toLowerCase().equals("custom") )
+                    $textutils.htmlEncode($fieldName)
+                #else
+                    #set ($fieldName = $stringUtils.replaceAll($fieldName, " ", "").toLowerCase())
+                    $i18n.getText("issue.field.$fieldName")
+                #end
+                </td>
+                <td width="40%" class="activity-old-val">
+                #if ($changeitem.getString('oldstring'))
+                    #if (($fieldName.equals("timeoriginalestimate") || $fieldName.equals("timeestimate") || $fieldName.equals("timespent")) && $changeitem.getString('oldvalue'))
+                        $changehistory.getPrettyDuration($changeitem.getString('oldvalue'))
+                    #elseif ($isDateField == true)
+                        $changehistory.formatDateValue($changeitem.getString('oldvalue'), $changeitem.getString('oldstring'), $fieldName)
+                    #else
+                        #makelinkedhtml($changeitem.getString('oldstring'))
+                    #end
+                #end
+                #if ($changeitem.getString('oldvalue') && $isDateField == false)
+                    #set ($valueLength = $changeitem.getString('oldvalue').length())
+                    #if ($valueLength > 0)
+                        <span class="hist-value">[#makelinkedhtml($changehistory.formatValueStringForDisplay($changeitem.getString('oldvalue')))]</span>
+                    #end
+                #end
+                </td>
+                <td width="40%" class="activity-new-val">
+                #if ($changeitem.getString('newstring'))
+                    #set ($newStringEscaped = $textutils.htmlEncode($changeitem.getString('newstring')))
+                    #if (($fieldName.equals("timeoriginalestimate") || $fieldName.equals("timeestimate") || $fieldName.equals("timespent")) && $changeitem.getString('newvalue'))
+                        $changehistory.getPrettyDuration($changeitem.getString('newvalue'))
+                    #elseif ($fieldName.equals("attachment"))
+                        #if ($changehistory.isAttachmentValid($changeitem.getString('newvalue')))
+                            <a href="${requestContext.baseUrl}/secure/attachment/$changeitem.getString('newvalue')/$newStringEscaped">$newStringEscaped</a>
+                        #else
+                            $newStringEscaped
+                        #end
+                    #elseif ($isDateField == true)
+                        $changehistory.formatDateValue($changeitem.getString('newvalue'), $changeitem.getString('newstring'), $fieldName)
+                    #else
+                       #makelinkedhtml($changeitem.getString('newstring'))
+                    #end
+                #end
+                #if ($changeitem.getString('newvalue') && $isDateField == false)
+                    #set ($valueLength = $changeitem.getString('newvalue').length())
+                    #if ($valueLength > 0)
+                       <span class="hist-value">[#makelinkedhtml($changehistory.formatValueStringForDisplay($changeitem.getString('newvalue')))]</span>
+                    #end
+                #end
+                </td>
+                </tr>
+            #end
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

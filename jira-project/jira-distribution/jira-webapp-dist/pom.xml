@@ -1,0 +1,55 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-distribution</artifactId>
+    <version>6.3.15</version>
+  </parent>
+  <artifactId>jira-webapp-dist</artifactId>
+  <name>Atlassian JIRA - zDistribution - Webapp Distribution</name>
+  <packaging>war</packaging>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.1</version>
+          <configuration>
+          <overlays>
+            <overlay>
+              <groupId>com.atlassian.jira</groupId>
+              <artifactId>atlassian-jira-webapp</artifactId>
+              <excludes>
+                <exclude>images/raw/**</exclude>
+                <!-- These are excluded at this point as they are runtime dependencies that should exist in the container's classpath -->
+                <exclude>WEB-INF/lib/jta-*.jar</exclude>
+                <exclude>WEB-INF/lib/ots-jts-*.jar</exclude>
+                <exclude>WEB-INF/lib/jotm-*.jar</exclude>
+                <exclude>WEB-INF/lib/objectweb-datasource*.jar</exclude>
+                <exclude>WEB-INF/lib/jonas_timer*.jar</exclude>
+                <exclude>WEB-INF/lib/carol-*.jar</exclude>
+                <exclude>WEB-INF/lib/hsqldb-*.jar</exclude>
+                <exclude>WEB-INF/lib/jndi-*.jar</exclude>
+                <exclude>WEB-INF/lib/xapool-*.jar</exclude>
+                <!-- These on the other hand are suspect. They are not included in the distribution artifacts, but  are specified as dependencies in the m1 project.xml -->
+                <!-- <exclude>WEB-INF/lib/commons-dbcp-*.jar</exclude> -->
+                <!-- <exclude>WEB-INF/lib/commons-pool-*.jar</exclude> -->
+                <exclude>WEB-INF/lib/commons-jelly-tags-junit-*.jar</exclude>
+                <exclude>WEB-INF/lib/jndi-*.jar</exclude>
+              </excludes>
+            </overlay>          
+          </overlays>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>com.atlassian.jira</groupId>
+      <artifactId>atlassian-jira-webapp</artifactId>
+      <version>${project.version}</version>
+      <type>war</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+</project>

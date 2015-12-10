@@ -1,0 +1,36 @@
+jira.protocol = http
+jira.host = localhost
+jira.port = ${jira.port}
+jira.context = ${jira.context}
+# JIRA Edition: One of  enterprise, bundledplugins (only runs plugins2 tests), all (enterprise + bundled plugins), or tpm_ldap (run the TPM LDAP tests)
+jira.edition = all
+
+# Please note jira.xml.data.location was previously reported to need to be the full path.
+# On Ubuntu at least, the relative path will work.
+jira.xml.data.location = ${test.xml.location}/src/main/xml
+#jira.xml.data.location = /src/atlassian/jira/jira-func-tests-components/jira-func-tests/src/main/xml
+
+jira.release.info = unknown
+
+# If the browser path is set then when a test fails the func test framework will try and start
+# the browser with a temporary file of captured web output.  if its not set then no harm
+# and System.out will be used to dump the web response.
+#
+# On a Mac it "just works". This will open the file with the default browser
+# The "-g" tells OSX to not bring the browser to the foreground, this is handy when you have
+# lots of test failures. If you'd rather have the browser brought to the foreground, remove the "-g"
+# browser.path= open -g
+browser.path = firefox
+
+# By default, we open one browser tab for every func test failure with a limit of 5. Further failures
+# will still generate dump artifacts, they just won't have a browser automatically opened and pointing at them.
+# You can change the default by setting this property to a different number. If you set this to a negative number
+# then there is no limit to the number of browser windows that will be opened.
+#browser.maxopen= 5
+
+# To run TPM LDAP tests locally first set jira.edition = tpm_ldap above
+# See https://extranet.atlassian.com/display/CROWD/LDAP+Servers for info on the crowd-op23 OpenLDAP server
+# In theory you could set this up for ldap.type = ActiveDirectory, but it would require SSL certificates to be installed Client-side.
+# Uncomment the following:
+#ldap.type = OpenLdap
+#ldap.server = crowd-op23

@@ -1,0 +1,66 @@
+<atlassian-plugin key="com.atlassian.jira.plugin.system.projectroleactors"
+                  i18n-name-key="admin.projectroleactors.plugin.name" name="Project Role Actors Plugin">
+    <plugin-info>
+        <description key="admin.projectroleactors.plugin.desc">JIRA's system Project Role Actors.</description>
+        <version>1.0</version>
+        <application-version min="3.7" max="3.7"/>
+        <vendor name="Atlassian" url="http://www.atlassian.com"/>
+    </plugin-info>
+
+    <project-roleactor key="atlassian-user-role-actor" name="User Role Actor"
+                       i18n-name-key="admin.projectroleactor.plugin.user.name"
+                       class="com.atlassian.jira.security.roles.actor.UserRoleActorFactory">
+        <description key="admin.projectroleactor.plugin.user.desc">Selects users for a project role.</description>
+
+        <!-- note, the roleactor.type must be the same as the UserRoleActorFactory.TYPE-->
+        <param name="roleactor.type" value="atlassian-user-role-actor"/>
+        <param name="prettyname.key" value="admin.common.words.users"/>
+        <param name="ConfigurationURL" value="UserRoleActorAction"/>
+        <param name="ConfigurationLinkName" value="Edit Users"/>
+        <resource type="velocity" name="configure"
+                  location="templates/plugins/jira/projectroles/user-role-actor-configure.vm"/>
+    </project-roleactor>
+
+    <project-roleactor key="atlassian-group-role-actor" name="Group Role Actor"
+                       i18n-name-key="admin.projectroleactor.plugin.group.name"
+                       class="com.atlassian.jira.security.roles.actor.GroupRoleActorFactory">
+        <description key="admin.projectroleactor.plugin.group.desc">Selects whole groups for a project role.
+        </description>
+
+        <!-- note, the roleactor.type must be the same as the GroupRoleActorFactory.TYPE-->
+        <param name="roleactor.type" value="atlassian-group-role-actor"/>
+        <param name="prettyname.key" value="common.words.groups"/>
+        <param name="ConfigurationURL" value="GroupRoleActorAction"/>
+        <param name="ConfigurationLinkName" value="Edit Groups"/>
+        <resource type="velocity" name="configure"
+                  location="templates/plugins/jira/projectroles/group-role-actor-configure.vm"/>
+    </project-roleactor>
+
+    <webwork1 key="atlassian-user-role-actor-action" i18n-name-key="admin.projectroleactor.plugin.user.action.name"
+              name="User Role Actor Action">
+        <description key="admin.projectroleactor.plugin.user.action.desc">A webwork action to configure the User Role
+            Actor.
+        </description>
+        <actions>
+            <action name="admin.roles.UserRoleActorAction" alias="UserRoleActorAction">
+                <view name="success">/templates/plugins/jira/projectroles/user-role-actor.vm</view>
+                <view name="error">/templates/plugins/jira/projectroles/user-role-actor.vm</view>
+                <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+
+    <webwork1 key="atlassian-group-role-actor-action" i18n-name-key="admin.projectroleactor.plugin.group.action.name"
+              name="Group Role Actor Action">
+        <description key="admin.projectroleactor.plugin.group.action.desc">A webwork action to configure the Group Role
+            Actor
+        </description>
+        <actions>
+            <action name="admin.roles.GroupRoleActorAction" alias="GroupRoleActorAction">
+                <view name="success">/templates/plugins/jira/projectroles/group-role-actor.vm</view>
+                <view name="error">/templates/plugins/jira/projectroles/group-role-actor.vm</view>
+                <view name="securitybreach">/secure/views/securitybreach.jsp</view>
+            </action>
+        </actions>
+    </webwork1>
+</atlassian-plugin>

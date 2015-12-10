@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE entity-config PUBLIC "-//OFBiz//DTD Entity Engine Config//EN" "http://www.ofbiz.org/dtds/entity-config.dtd">
+<!--
+This file configures the OFBiz Entity Engine which JIRA uses to store persist data in a datasource.
+
+For detailed configuration help see:
+
+   http://www.atlassian.com/software/jira/docs/latest/entityengine.html
+
+Or our server specific setup guides (these take you through the setup process for each server):
+
+   http://www.atlassian.com/software/jira/docs/latest/servers/
+
+Normally you will only need to change these settings:
+- transaction factory
+- the datasource
+
+The following changes are less common but can be required:
+- if not using the 7 preconfigured DBs, you may need to add your own field type definition
+-->
+<entity-config>
+    <resource-loader name="maincp" class="org.ofbiz.core.config.ClasspathLoader"/>
+
+    <!-- TRANSACTION FACTORY - This configures how JIRA finds the application server's transaction management.
+
+        For example tag configurations on Orion, Resin, JBoss, Tomcat and Jetty - see:
+        http://www.atlassian.com/software/jira/docs/latest/entityengine.html#transactionfactory
+    -->
+    <transaction-factory class="org.ofbiz.core.entity.transaction.DumbFactory">
+        <user-transaction-jndi jndi-server-name="test" jndi-name="java:comp/UserTransaction"/>
+        <transaction-manager-jndi jndi-server-name="test" jndi-name="java:comp/UserTransaction"/>
+    </transaction-factory>
+
+    <delegator name="default" entity-model-reader="main" entity-group-reader="main">
+        <group-map group-name="default" datasource-name="defaultDS"/>
+    </delegator>
+
+    <entity-model-reader name="main">
+        <resource loader="maincp" location="entitydefs/entitymodel.xml"/>
+    </entity-model-reader>
+
+    <entity-group-reader name="main" loader="maincp" location="entitydefs/entitygroup.xml"/>
+
+    <field-type name="hsql" loader="maincp" location="entitydefs/fieldtype-hsql18.xml"/>
+
+    <!-- DATASOURCE - You will need to update this tag for your installation.
+
+        1. Update field-type-name attribute to match your database.
+        Possible values include: cloudscape, firebird, hsql, mckoidb, mysql, mssql, oracle, postgres, postgres72, sapdb, sybase
+        2. Choose with <jndi-jdbc> or <inline-jdbc> and update appropriately.
+           Either use a <jndi-jdbc> tag OR an <inline-jdbc> tag.
+           Comment out whichever tag you are not using.
+    -->
+    <datasource name="defaultDS" field-type-name="hsql"
+                    schema-name="PUBLIC"
+                    helper-class="org.ofbiz.core.entity.GenericHelperDAO"
+                    check-on-start="true"
+                    use-foreign-keys="false"
+                    use-foreign-key-indices="false"
+                    check-fks-on-start="false"
+                    check-fk-indices-on-start="false"
+                    add-missing-on-start="true">
+
+            <inline-jdbc jdbc-driver="org.hsqldb.jdbcDriver"
+                     jdbc-uri="jdbc:hsqldb:mem:jiradb"
+                     jdbc-username="sa"
+                     jdbc-password=""
+                     isolation-level="ReadUncommitted"/>
+        </datasource>
+</entity-config>

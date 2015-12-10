@@ -1,0 +1,25 @@
+<jira-plugin package="com.atlassian.jira.test.plugin" name="Random Plugin">
+    <description>This plugin descriptor is just used for test purposes!</description>
+
+    <customfield-type key="countries" name="Countries Custom Field" class="com.atlassian.ext.cfs.CountriesCustomField">
+        <description>A custom field to show all the countries in the world.</description>
+
+        <parameter name="foo" value="bar" />
+
+        <template type="velocity" name="view" location="/foo/bar/display.vm" />
+        <template type="velocity" name="search" location="/foo/bar/display.vm" />
+        <template type="velocity" name="edit">Show an input box here.</template>
+    </customfield-type>
+
+    <workflow-condition key="worldended" name="World Ended Condition" class="com.atlassian.workflow.WorldEndedCondition">
+        <description>This is a condition that checks if the world has ended yet or not.</description>
+
+        <template type="velocity" name="view" location="/foo/bar/display.vm" />
+        <template type="velocity" name="edit">This is my exciting velocity template - $foo.</template>
+    </workflow-condition>
+
+    <workflow-validator />
+    <workflow-postfunction />
+
+    <report />
+</jira-plugin>

@@ -1,0 +1,7 @@
+<table class='text-paragraph-pattern' cellspacing='0' cellpadding='0' border='0' width='100%'>
+    <tr>
+        <td class='text-paragraph-pattern-container mobile-resize-text #if ($textParagraphClasses) $textParagraphClasses #end'>
+            $textParagraph
+        </td>
+    </tr>
+</table>

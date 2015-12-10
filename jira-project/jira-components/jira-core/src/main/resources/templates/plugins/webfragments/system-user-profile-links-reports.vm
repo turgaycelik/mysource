@@ -1,0 +1,4 @@
+#disable_html_escaping()
+## This template requires the com.atlassian.jira.web.component.webfragment.UserNavContextLayoutBean to be passed
+
+#userProfileLinks ("reports" $webInterfaceManager $location $helper)

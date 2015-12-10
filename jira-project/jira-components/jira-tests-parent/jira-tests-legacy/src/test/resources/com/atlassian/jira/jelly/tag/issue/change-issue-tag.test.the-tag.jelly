@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<JiraJelly xmlns:jira="jelly:com.atlassian.jira.jelly.JiraTagLib">
+    <jira:ChangeIssue key="ABC-1" updated="2000-01-14 12:00:00.0"/>
+</JiraJelly>

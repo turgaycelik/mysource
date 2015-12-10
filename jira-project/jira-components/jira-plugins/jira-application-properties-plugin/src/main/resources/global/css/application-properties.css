@@ -1,0 +1,7 @@
+.jira-restfultable-editrow .application-property-value-col select {
+    width: auto;
+}
+
+.jira-restfultable-row .application-property-key {
+    font-weight: bold;
+}

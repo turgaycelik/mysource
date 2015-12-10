@@ -1,0 +1,271 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.atlassian.jira</groupId>
+        <artifactId>jira-distribution</artifactId>
+        <version>6.3.15</version>
+    </parent>
+
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-tpm</artifactId>
+    <packaging>pom</packaging>
+    <version>6.3.15</version>
+    <name>Tested Platforms Matrix</name>
+
+    <modules>
+        <module>spm</module>
+    </modules>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.atlassian.maven.plugins</groupId>
+                <artifactId>sandbox-maven-plugin</artifactId>
+                <version>2.1-beta15</version>
+                <executions>
+                    <execution>
+                        <id>enable-sandbox</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>sandbox</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>postgresql</groupId>
+                <artifactId>postgresql</artifactId>
+                <version>9.0-801.jdbc4</version>
+            </dependency>
+
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>5.1.10</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>oracle-jdbc15</artifactId>
+                <version>11.2.0.1.0</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <profiles>
+
+        <!-- Operating System Profiles -->
+        <profile>
+            <id>Unix</id>
+
+            <activation>
+                <os>
+                    <family>unix</family>
+                </os>
+            </activation>
+
+            <properties>
+                <jvm.initialHeap>1024</jvm.initialHeap>
+                <jvm.maxHeap>1024</jvm.maxHeap>
+                <jvm.permGen>256</jvm.permGen>
+
+                <os.windows>undefined</os.windows>
+                <os.unix>${os.name}</os.unix>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Win32</id>
+
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+
+            <properties>
+                <jvm.initialHeap>1024</jvm.initialHeap>
+                <jvm.maxHeap>1024</jvm.maxHeap>
+                <jvm.permGen>256</jvm.permGen>
+
+                <os.windows>${os.name}</os.windows>
+                <os.unix>undefined</os.unix>
+            </properties>
+        </profile>
+
+        <!-- Database Profiles -->
+        <profile>
+            <id>MySQL</id>
+
+            <activation>
+                <property>
+                    <name>MySQL</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>mysql</db.artifactGroup>
+                <db.artifactId>mysql-connector-java</db.artifactId>
+                <db.artifactVersion>5.1.10</db.artifactVersion>
+                <db.ofBizFieldType>mysql</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Postgres</id>
+
+            <activation>
+                <property>
+                    <name>Postgres</name>
+                    <value></value>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>postgresql</db.artifactGroup>
+                <db.artifactId>postgresql</db.artifactId>
+                <db.artifactVersion>9.0-801.jdbc4</db.artifactVersion>
+                <db.ofBizFieldType>postgres72</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Postgres9.1</id>
+
+            <activation>
+                <property>
+                    <name>Postgres</name>
+                    <value>9.1</value>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>postgresql</db.artifactGroup>
+                <db.artifactId>postgresql</db.artifactId>
+                <db.artifactVersion>9.1-903.jdbc4</db.artifactVersion>
+                <db.ofBizFieldType>postgres72</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Postgres9.2</id>
+
+            <activation>
+                <property>
+                    <name>Postgres</name>
+                    <value>9.2</value>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>postgresql</db.artifactGroup>
+                <db.artifactId>postgresql</db.artifactId>
+                <db.artifactVersion>9.2-1004.jdbc4</db.artifactVersion>
+                <db.ofBizFieldType>postgres72</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Postgres9.3</id>
+
+            <activation>
+                <property>
+                    <name>Postgres</name>
+                    <value>9.3</value>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>postgresql</db.artifactGroup>
+                <db.artifactId>postgresql</db.artifactId>
+                <db.artifactVersion>9.3-1101.jdbc4</db.artifactVersion>
+                <db.ofBizFieldType>postgres72</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Oracle10g</id>
+
+            <activation>
+                <property>
+                    <name>Oracle10g</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>com.oracle</db.artifactGroup>
+                <db.artifactId>oracle-jdbc15</db.artifactId>
+                <db.artifactVersion>11.2.0.1.0</db.artifactVersion>
+                <db.ofBizFieldType>oracle10g</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>Oracle</id>
+
+            <activation>
+                <property>
+                    <name>Oracle</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>com.oracle</db.artifactGroup>
+                <db.artifactId>oracle-jdbc15</db.artifactId>
+                <db.artifactVersion>11.2.0.1.0</db.artifactVersion>
+                <db.ofBizFieldType>oracle10g</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>MSSQL</id>
+
+            <activation>
+                <property>
+                    <name>MSSQL</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>net.sourceforge.jtds</db.artifactGroup>
+                <db.artifactId>jtds</db.artifactId>
+                <db.artifactVersion>${mssql.jdbc.version}</db.artifactVersion>
+                <db.ofBizFieldType>mssql</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>MSSQL2012</id>
+
+            <activation>
+                <property>
+                    <name>MSSQL2012</name>
+                </property>
+            </activation>
+
+            <properties>
+                <db.artifactGroup>net.sourceforge.jtds</db.artifactGroup>
+                <db.artifactId>jtds</db.artifactId>
+                <db.artifactVersion>${mssql.jdbc.version}</db.artifactVersion>
+                <db.ofBizFieldType>mssql</db.ofBizFieldType>
+            </properties>
+        </profile>
+
+    </profiles>
+    <properties>
+        <db.ofBizFieldType/>
+        <db.schema/>
+
+        <!-- base JVM args for JIRA test runners -->
+        <jira.user.jvmargs>-Dupm.pac.disable=true -Duser.language=en -Duser.region=AU -Duser.timezone=Australia/Sydney -Djira.scheduler.RamJobStore=true
+        </jira.user.jvmargs>
+        <jira.test.runner.jvmargs>-Dfile.encoding=utf-8 ${jira.user.jvmargs}</jira.test.runner.jvmargs>
+    </properties>
+</project>

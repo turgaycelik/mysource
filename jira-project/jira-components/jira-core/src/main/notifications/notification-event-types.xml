@@ -1,0 +1,38 @@
+<types>
+	<type id="Current_Assignee">
+		<class>com.atlassian.jira.notification.type.CurrentAssignee</class>
+	</type>
+	<type id="Current_Reporter">
+		<class>com.atlassian.jira.notification.type.CurrentReporter</class>
+	</type>
+	<type id="Remote_User">
+		<class>com.atlassian.jira.notification.type.RemoteUser</class>
+	</type>
+  <type id="Project_Lead">
+		<class>com.atlassian.jira.notification.type.ProjectLead</class>
+	</type>
+  <type id="Component_Lead" enterprise="true">
+		<class>com.atlassian.jira.notification.type.enterprise.ComponentLead</class>
+	</type>
+	<type id="Single_User">
+		<class>com.atlassian.jira.notification.type.SingleUser</class>
+	</type>
+	<type id="Group_Dropdown">
+		<class>com.atlassian.jira.notification.type.GroupDropdown</class>
+	</type>
+	<type id="Project_Role">
+		<class>com.atlassian.jira.notification.type.ProjectRoleSecurityAndNotificationType</class>
+	</type>
+	<type id="Single_Email_Address">
+		<class>com.atlassian.jira.notification.type.SingleEmailAddress</class>
+	</type>
+	<type id="All_Watchers">
+		<class>com.atlassian.jira.notification.type.AllWatchers</class>
+	</type>
+    <type id="User_Custom_Field_Value">
+      <class>com.atlassian.jira.notification.type.UserCFValue</class>
+    </type>
+    <type id="Group_Custom_Field_Value">
+      <class>com.atlassian.jira.notification.type.GroupCFValue</class>
+    </type>
+</types>

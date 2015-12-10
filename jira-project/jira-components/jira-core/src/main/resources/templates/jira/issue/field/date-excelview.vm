@@ -1,0 +1,2 @@
+#disable_html_escaping()
+#if ($value) $value #else &nbsp; #end

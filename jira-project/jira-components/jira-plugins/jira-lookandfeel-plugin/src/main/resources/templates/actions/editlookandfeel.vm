@@ -1,0 +1,75 @@
+#* @vtlvariable name="action" type="com.atlassian.jira.lookandfeel.EditLookAndFeel" *#
+
+#set ($SQ = "'")
+#set ($spacer_gif = "${action.contextPath}/images/border/spacer.gif")
+
+<html>
+<head>
+    ${webResourceManager.requireResource("com.atlassian.jira.lookandfeel:edit-look-and-feel")}
+    <meta name="admin.active.section" content="admin_system_menu/top_system_section/user_interface"/>
+    <meta name="admin.active.tab" content="lookandfeel"/>
+    <title>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.edit.look.and.feel.configuration'))</title>
+</head>
+
+<body>
+
+    #if ($action.hasAnyErrors())
+        #parse("templates/actions/errormessages.vm")
+    #end
+    <div class="module">
+        $action.getLogoFormAsHtml()
+    </div>
+    <div class="module">
+        $action.getSiteTitleFormAsHtml()
+    </div>
+    <div class="module">
+        $action.getFavIconFormAsHtml()
+    </div>
+    <div class="module">
+        <div class="mod-header">
+            <h2>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.colours'))</h2>
+        </div>
+        <div class="mod-content">
+            $action.getAutoUpdateColorsLinkAsHtml()
+            <table id="lookandfeel-colours-properties-table" class="aui"></table>
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="mod-header">
+            <h2>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.gadget.chrome.colors'))</h2>
+        </div>
+        <div class="mod-content">
+            <table id="lookandfeel-gadget-colours-properties-table" class="aui"></table>
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="mod-header">
+            <h2>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.date.time.formats'))</h2>
+        </div>
+        <div class="mod-content">
+            $action.getText('admin.globalsettings.lookandfeel.documentation.for.date.time', '<a href="http://download.oracle.com/javase/6/docs/api/index.html?java/text/SimpleDateFormat.html">', '</a>').
+            <table id="lookandfeel-date-time-properties-table" class="aui"></table>
+        </div>
+    </div>
+
+    <div class="module">
+        <div class="mod-header">
+            <h2>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.refresh.resources'))</h2>
+        </div>
+        <div class="mod-content">
+            <p>$action.htmlEncode($action.getText('admin.globalsettings.lookandfeel.refresh.resources.reason.1'))</p>
+            #set ($refreshlink='<a href="LookAndFeel!refreshResources.jspa?atl_token='+ $action.getXsrfToken() +'" id="refreshlookandfeel">')
+            <p>$action.getText('admin.globalsettings.lookandfeel.refresh.resources.reason.2',$refreshlink,'</a>')</p>
+        </div>
+    </div>
+
+    #if($action.hasUserFormatsToEdit())
+        <div class="module">
+            $action.getUserFormatFormAsHtml()
+        </div>
+    #end
+    <dl style="display:none;" id="jira.webresource.flushcounter">$action.lookAndFeelVersionNumber</dl>
+</body>
+</html>

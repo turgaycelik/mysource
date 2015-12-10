@@ -1,0 +1,13 @@
+#* @vtlvariable name="layout" type="com.atlassian.jira.web.component.IssueTableLayoutBean" *#
+#* @vtlvariable name="actionColumn" type="com.atlassian.jira.issue.fields.layout.column.ColumnLayoutItem" *#
+#disable_html_escaping()
+## display a single issue
+#if ($issue)
+    #issues ($issue $issueCount $layout.columns $layout.alternateRowColors $layout.cellDisplayParams $actionColumn $selectedIssueId)
+#else
+    #set ($columnCount = $layout.columns.size())
+    #if ($actionColumn)
+        #set ($columnCount = $columnCount + 1)
+    #end
+    #inaccessibleIssue ($columnCount)
+#end

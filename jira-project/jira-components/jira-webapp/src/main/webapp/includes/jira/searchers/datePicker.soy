@@ -1,0 +1,160 @@
+{namespace JIRA.Templates.DateSearcher}
+
+/**
+*/
+{template .dateMeasurement}
+ <select class="js-measurement">
+    <option value="m">{getText('core.dateutils.minutes')}</option>
+    <option value="h">{getText('core.dateutils.hours')}</option>
+    <option value="d">{getText('core.dateutils.days')}</option>
+    <option value="w">{getText('core.dateutils.weeks')}</option>
+</select>
+{/template}
+
+/**
+* @param inputField
+* @param dateMeasurementField
+*/
+{template .renderWithinTheLast}
+    {getText('popups.daterange.withinthelast', $inputField, $dateMeasurementField)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .withinTheLast}
+    <input type="radio" class="js-dp-type-toggle" id="withinTheLastRadio"/>
+    {call .renderWithinTheLast}
+        {param inputField}
+            <input class="js-val" type="text" maxlength="15" />
+        {/param}
+        {param dateMeasurementField}
+            {call .dateMeasurement /}
+        {/param}
+    {/call}
+{/template}
+
+/**
+*/
+{template .nowOverdue}
+    <label><input type="radio" class="js-dp-type-toggle" />{getText('popups.duedate.nowoverdue')}</label>
+{/template}
+
+/**
+* @param inputField
+* @param dateMeasurementField
+*/
+{template .renderMoreThan}
+    {getText('popups.daterange.morethanago', $inputField, $dateMeasurementField)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .moreThan}
+    <input type="radio" tabIndex="-1" class="js-dp-type-toggle" id="moreThanRadio"/>
+    {call .renderMoreThan}
+        {param inputField}
+            <input class="js-val" type="text" maxlength="15" />
+        {/param}
+        {param dateMeasurementField}
+            {call .dateMeasurement /}
+        {/param}
+    {/call}
+{/template}
+
+
+/**
+* @param inputField
+* @param dateMeasurementField
+*/
+{template .renderDueMoreThan}
+    {getText('popups.daterange.morethan.field', $inputField, $dateMeasurementField)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .dueMoreThan}
+    <input type="radio" tabIndex="-1" class="js-dp-type-toggle" id="moreThanRadio"/>
+    {call .renderDueMoreThan}
+        {param inputField}
+            <input class="js-val" type="text" maxlength="15" />
+        {/param}
+        {param dateMeasurementField}
+            {call .dateMeasurement /}
+        {/param}
+    {/call}
+{/template}
+
+/**
+* @param inputField
+* @param dateMeasurementField
+* @param clauseField
+*/
+{template .renderDueInNext}
+    {getText('popups.daterange.dueinnext.field', $inputField, $dateMeasurementField, $clauseField)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .dueInNext}
+    <input type="radio" tabIndex="-1" class="js-dp-type-toggle" id="dueInNextRadio"/>
+    {call .renderDueInNext}
+        {param inputField}
+            <input class="js-val" maxlength="15" type="text" />
+        {/param}
+        {param dateMeasurementField}
+            {call .dateMeasurement /}
+        {/param}
+        {param clauseField}
+            <select class="js-clause">
+                <option value="orIs">{getText('popups.duedate.or')}</option>
+                <option value="andNot">{getText('popups.duedate.andnot')}</option>
+            </select>
+        {/param}
+    {/call}
+{/template}
+
+/**
+* @param startField
+* @param endField
+*/
+{template .renderDateBetween}
+    {getText('popups.daterange.datebetween', $startField, $endField)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .dateBetween}
+    <input type="radio" tabIndex="-1" class="js-dp-type-toggle" id="dateBetweenRadio"/>
+    {call .renderDateBetween}
+        {param startField}
+            <input class="js-start-date" maxlength="15" placeholder="11-Jan-2012" type="text" />
+            <span class="js-start-date-trigger aui-icon icon-date">{getText('date.picker.select.date')}</span>
+        {/param}
+        {param endField}
+            <input class="js-end-date" maxlength="12" placeholder="30-Jan-2012" type="text" />
+            <span class="js-end-date-trigger aui-icon icon-date">{getText('date.picker.select.date')}</span>
+        {/param}
+    {/call}
+{/template}
+
+/**
+* @param startInput
+* @param endInput
+*/
+{template .renderInRange}
+    {getText('popups.daterange.inrange.field', $startInput, $endInput)|noAutoescape}
+{/template}
+
+/**
+*/
+{template .inRange}
+    <input type="radio" tabIndex="-1" maxlength="15" class="js-dp-type-toggle" id="inRangeRadio"/>
+    {call .renderInRange}
+        {param startInput}
+            <input class="js-start-range" placeholder="-3w 4d 12h" type="text" />
+        {/param}
+        {param endInput}
+            <input class="js-end-range" maxlength="15" placeholder="3w 4d 12h" type="text" />
+        {/param}
+    {/call}
+{/template}

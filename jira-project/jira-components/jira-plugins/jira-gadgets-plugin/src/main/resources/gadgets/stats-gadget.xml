@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Module>
+    <ModulePrefs title="__MSG_gadget.stats.title__" directory_title="__MSG_gadget.stats.title__" description="__MSG_gadget.stats.description__"
+             author="Atlassian" author_affiliation="Atlassian"
+             author_location="Sydney, Australia" height="100"
+             screenshot='#staticResourceUrl("com.atlassian.jira.gadgets:stats-gadget", "stats-screenshot.png")'
+             thumbnail='#staticResourceUrl("com.atlassian.jira.gadgets:stats-gadget", "stats-thumb.png")'>
+        <Optional feature="gadget-directory">
+            <Param name="categories">
+                JIRA
+            </Param>
+        </Optional>
+        <Require feature="setprefs" />
+        <Require feature="views" />
+        <Optional feature="atlassian.util" />
+        <Optional feature='auth-refresh' />
+        <Require feature="settitle"/>
+        <Require feature="dynamic-height"/>
+        <Require feature="oauthpopup" />
+        #oauth
+        #supportedLocales("gadget.common,gadget.stats")
+    </ModulePrefs>
+    <UserPref name="isConfigured" datatype="hidden" default_value="false" />
+    <UserPref name="projectOrFilterId" datatype="hidden" />
+    <UserPref name="statType" datatype="hidden" default_value="assignees" />
+    <UserPref name="includeResolvedIssues" datatype="hidden" default_value="false" />
+    <UserPref name="sortBy" datatype="hidden" default_value="natural" />
+    <UserPref name="sortDirection" datatype="hidden" default_value="asc" />
+    <UserPref name="refresh" datatype="hidden" default_value="false" />
+    <!-- use of requireContext below is to invoke batching of files -->
+    <Content type="html" view="profile,canvas,home">
+        <![CDATA[
+        #requireContext("com.atlassian.jira.gadgets:autocomplete")
+        #requireResource("com.atlassian.jira.gadgets:g-stats")
+        #includeResources()
+        <style type="text/css">
+
+        </style>
+
+        <script type="text/javascript">
+        (function ()
+        {
+            gadgets.window.setTitle("__MSG_gadget.stats.title__");
+            var gadget = AJS.Gadget({
+                baseUrl: "__ATLASSIAN_BASE_URL__",
+                useOauth: "/rest/gadget/1.0/currentUser",
+                config: {
+                    descriptor: function (args)
+                    {
+
+                        var gadget = this;
+                        var statType = function(name)
+                        {
+                            return {
+                                userpref: name,
+                                label: gadget.getMsg("gadget.stats." + name.toLowerCase()  + ".label"),
+                                description: gadget.getMsg("gadget.stats." + name.toLowerCase()  + ".description"),
+                                type: "select",
+                                selected: gadget.getPref(name),
+                                options: args.statType.stats
+                            };
+                        };
+                        var option = function(type, value)
+                        {
+                            return {
+                                label:gadget.getMsg("gadget.stats." + type.toLowerCase() + "." + value.toLowerCase()  + ".label"),
+                                value: value
+                            };
+                        };
+                        return  {
+                            action: "/rest/gadget/1.0/stats/validate",
+                            theme : function ()
+                            {
+                                if (gadgets.window.getViewportDimensions().width < 450){
+                                        return "gdt top-label";
+                                    }
+                                    else
+                                    {
+                                        return "gdt";
+                                    }
+                            }(),
+
+                            fields: [
+                                AJS.gadget.fields.projectOrFilterPicker(gadget, "projectOrFilterId", args.filterIds),
+                                statType("statType"),
+                                {
+                                    userpref: "sortBy",
+                                    label: gadget.getMsg("gadget.stats.sortby.label"),
+                                    description: gadget.getMsg("gadget.stats.sortby.description"),
+                                    type: "select",
+                                    selected: gadget.getPref("sortBy"),
+                                    options: [
+                                        option("sortBy", "natural"),
+                                        option("sortBy", "total")
+                                    ]
+                                },
+                                {
+                                    userpref: "sortDirection",
+                                    label: gadget.getMsg("gadget.stats.sortdirection.label"),
+                                    description: gadget.getMsg("gadget.stats.sortdirection.description"),
+                                    type: "select",
+                                    selected: gadget.getPref("sortDirection"),
+                                    options: [
+                                        option("sortDirection", "asc"),
+                                        option("sortDirection", "desc")
+                                    ]
+                                },
+                                {
+                                    userpref: "includeResolvedIssues",
+                                    label: gadget.getMsg("gadget.stats.includeresolvedissues.label"),
+                                    description: gadget.getMsg("gadget.stats.includeresolvedissues.description"),
+                                    type: "select",
+                                    selected: gadget.getPref("includeResolvedIssues"),
+                                    options: [
+                                        option("includeResolvedIssues", "true"),
+                                        option("includeResolvedIssues", "false")
+                                    ]
+                                },
+                                AJS.gadget.fields.nowConfigured()
+                            ]
+                        };
+                    },
+                    args: [{
+                            key: "statType",
+                            ajaxOptions:  "/rest/gadget/1.0/statTypes"
+                        }]
+                },
+                view: {
+                    enableReload: true,
+                    onResizeReload: true,
+                    template: function (args)
+                    {
+
+                        var makeMarkup = function(markup) {
+
+                            var wrapper = AJS.$("<span/>");
+
+                            var element = AJS.$("<span/>");
+                            if(markup.classes) {
+                                element.addClass(markup.classes.join(" "));
+                            }
+                            var inner = markup.html;
+                            element.html(markup.html);
+                            wrapper.html(element);
+                            return wrapper.html();
+                        };
+
+                        var gadget = this;
+                        gadget.getView().addClass("g-stats");
+                        gadget.getView().empty();
+                        gadget.getView().append(jQuery("#content").clone());
+                        var $ul = jQuery("#stats-gadget-list");
+                        $ul.empty();
+                        jQuery("#stats-gadget-project-or-filter-name").text(args.stats.filterOrProjectName);
+                        gadget.title = args.stats.filterOrProjectName;
+
+                        // This is used to pass the name of filter or project to the picker
+                        gadget.projectOrFilterName = args.stats.filterOrProjectName;
+
+                        jQuery("#stats-gadget-stat-type").text("(" + args.stats.statTypeDescription + ")");
+                        jQuery("#stats-gadget-total-issues").text(args.stats.totalIssueCount);
+                        jQuery("#stats-gadget-project-or-filter-link").attr("href",args.stats.filterOrProjectLink);
+                        if (args.stats != null) {
+                            for (var k in args.stats.rows) {
+                                var row = args.stats.rows[k];
+                                var $row = jQuery("<li class=\"stats-row\"/>");
+                                var $count = jQuery("<span class=\"stats-count\">" + row.count + "</span>");
+                                var $title = jQuery("<div class=\"stats-title\">" + makeMarkup(row) + "</div>");
+                                $title.prepend($count);
+                                if (row.url) {
+                                    $count.wrap(jQuery("<a/>").attr("href", row.url));
+                                }
+
+                                var percentageStr = "<div class=\"stats-percentage\"><table width=\"95%\" cellspacing=\"0\" cellpadding=\"0\" border=\"0\"><tr><td width=\"" +
+                                                    row.percentage + "%\"><div class=\"colour-bar\"></div></td><td width=\"" +
+                                                    (100 - row.percentage) + "%\"><span class='percent-val'>" + row.percentage + "%</span></td></tr></table></div>";
+                                var $percentage = jQuery(percentageStr);
+                                $row.append($title).append($percentage);
+                                $ul.append($row);
+                            }
+                        } else {
+                            $ul.append("<li>__MSG_gadget.stats.no.results__</li>");
+                        }
+                    },
+                    args: [{
+                        key: "stats",
+                        ajaxOptions: function () {
+                                return {
+                                    url: "/rest/gadget/1.0/stats/generate",
+                                    data:  {
+                                        projectOrFilterId : gadgets.util.unescapeString(this.getPref("projectOrFilterId")),
+                                        statType: gadgets.util.unescapeString(this.getPref("statType")),
+                                        includeResolvedIssues: gadgets.util.unescapeString(this.getPref("includeResolvedIssues")),
+                                        sortDirection: gadgets.util.unescapeString(this.getPref("sortDirection")),
+                                        sortBy: gadgets.util.unescapeString(this.getPref("sortBy"))
+                                    }
+                                };
+                        }
+                    }]
+                }
+            });
+        })();
+        </script>
+
+        <div id="template" style="display:none">
+            <div id="content">
+                <h4 class="stats-gadget-heading">
+                    <span class="stats-gadget-summary">__MSG_gadget.stats.statistics__: <a id="stats-gadget-project-or-filter-link"><span id="stats-gadget-project-or-filter-name"></span></a> <span id="stats-gadget-stat-type"></span></span>
+                </h4>
+                <ul id="stats-gadget-list">
+                </ul>
+                <div class="stats-gadget-total">__MSG_gadget.stats.totalissues__:<span id="stats-gadget-total-issues"></span></div>
+            </div>
+        </div>
+        ]]>
+    </Content>
+</Module>

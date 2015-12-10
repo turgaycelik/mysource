@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if (${projectrolename})
+$i18n.getText("admin.workflow.condition.isuserinprojectrole.view", "<b>", "$textutils.htmlEncode(${projectrolename})", "</b>", "")
+#else
+$i18n.getText("admin.workflow.condition.isuserinprojectrole.view.missing","$projectrole")
+#end

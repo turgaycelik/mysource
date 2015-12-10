@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.zeroturnaround.com">
+
+    <classpath>
+        <dir name="${jira.rebel.root}/jira-components/jira-core/target/classes"/>
+        <dir name="${jira.rebel.root}/jira-components/jira-core/src/main/resources"/>
+        <dir name="${jira.rebel.root}/jira-components/jira-api/target/classes"/>
+        <dir name="${jira.rebel.root}/jira-components/jira-api/src/main/resources"/>
+    </classpath>
+
+</application>

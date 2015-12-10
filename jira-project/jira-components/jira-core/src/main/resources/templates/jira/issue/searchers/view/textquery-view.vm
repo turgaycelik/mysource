@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#searcherHeaderNoField ($searcherId $i18n.getText($searcherNameKey))
+#if ($value)
+    "$textutils.htmlEncode($value)"
+#end
+#searcherFooter ($searcherId)

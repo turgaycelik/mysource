@@ -1,0 +1,88 @@
+#disable_html_escaping()
+#* @vtlvariable name="toplevelItems" type="java.util.List<com.atlassian.jira.plugin.webfragment.model.SimpleLink>" *#
+#* @vtlvariable name="moreItems" type="java.util.List<com.atlassian.jira.plugin.webfragment.model.SimpleLink>" *#
+#* @vtlvariable name="lazyMainHeaderLinks" type="java.util.Set<java.lang.String>" *#
+#* @vtlvariable name="dropdownSectionsMap" type="java.util.Map<java.lang.String, com.atlassian.jira.plugin.webfragment.model.SimpleLinkSection>" *#
+#* @vtlvariable name="dropdownLinksMap" type="java.util.Map<java.lang.String, com.atlassian.jira.plugin.webfragment.model.SimpleLink>" *#
+##
+## This file is intentionally trimmed out of whitespaces due to JDEV-22543
+##
+## a single item in the dropdown
+#macro(dropdownLink $dropdownLink)##
+<li>##
+<a #if ($dropdownLink.id) id="$dropdownLink.id" #end##
+class="#if ($dropdownLink.styleClass) $dropdownLink.styleClass #end #if ($dropdownLink.iconUrl) aui-icon-container #end"##
+#if ($dropdownLink.title) title="$dropdownLink.title" #end##
+href="$dropdownLink.url">##
+#if ($dropdownLink.iconUrl)<img src="$dropdownLink.iconUrl" alt="" style="height:16px;width:16px;" />#end##
+$dropdownLink.label##
+</a>##
+</li>##
+#end##
+##
+## a dropdown section for plugin defined sections
+#macro(dropdownSection $section)##
+#set ($sectionKey = "$headerLink.id/$section.id")##
+#set ($dropdownLinks = $dropdownLinksMap.get($sectionKey))##
+#if (!$dropdownLinks.isEmpty())##
+<div class="aui-dropdown2-section">##
+#if ($section.label) <strong>$textutils.htmlEncode($section.label)</strong> #end##
+<ul id="$section.id" class="aui-list-truncate #if ($section.styleClass) $section.styleClass #end">##
+#foreach ($dropdownLink in $dropdownLinks)##
+#dropdownLink($dropdownLink)##
+#end##
+</ul>##
+</div>##
+#end##
+#end##
+##
+## a navlink item (potential trigger for dropdown)
+#macro(navLink $headerLink $extraClasses $isPopupTrigger)##
+<a class="aui-nav-link #if($extraClasses)${extraClasses}#end#if($headerLink.styleClass) $headerLink.styleClass#end"##
+href="$headerLink.url"##
+#if ($headerLink.id) id="$headerLink.id" #end##
+#if ($headerLink.accessKey) accessKey="$headerLink.accessKey" #end##
+#if ($headerLink.title) title="$headerLink.title" #end##
+#if ($isPopupTrigger) aria-haspopup="true" aria-owns="${headerLink.id}-content"#end>${headerLink.label}</a>##
+#end##
+## the complete menu item including plugin defined dropdowns
+#macro(menuItem $headerLink $extraTriggerClasses)##
+<li>##
+#set ($shouldBeLazy = $lazyMainHeaderLinks.contains($headerLink.id))##
+#if ($shouldBeLazy)##
+#navLink($headerLink "aui-dropdown2-ajax jira-ajax-menu ${extraTriggerClasses}" true)##
+<div id="${headerLink.id}-content" class="aui-dropdown2 aui-style-default" data-aui-dropdown2-ajax-key="${headerLink.id}"></div>##
+#else##
+#set ($dropdownSections = $dropdownSectionsMap.get($headerLink.id))##
+#if ($dropdownSections.isEmpty())##
+#navLink($headerLink)##
+#else##
+#navLink($headerLink $extraTriggerClasses true)##
+<div id="${headerLink.id}-content" class="aui-dropdown2 aui-style-default">##
+#foreach ($section in $dropdownSections)##
+#dropdownSection($section)##
+#end##
+</div>##
+#end##
+#end##
+</li>##
+#end##
+##
+## render top level items
+#foreach ($headerLink in $toplevelItems)##
+#menuItem($headerLink 'aui-dropdown2-trigger')##
+#end##
+##
+## render items in the 'more' dropdown
+#if (!$moreItems.isEmpty())##
+<li>##
+<a aria-owns="more-items-content" aria-haspopup="true" class="aui-nav-link aui-dropdown2-trigger">$i18n.getText('common.header.menu.more')</a>##
+<div id="more-items-content" class="aui-dropdown2 aui-style-default">##
+<ul>##
+#foreach ($headerLink in $moreItems)##
+#menuItem($headerLink 'aui-dropdown2-sub-trigger interactive')##
+#end##
+</ul>##
+</div>##
+</li>##
+#end##

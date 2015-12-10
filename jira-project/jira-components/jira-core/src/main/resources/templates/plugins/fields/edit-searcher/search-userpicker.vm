@@ -1,0 +1,23 @@
+#disable_html_escaping()
+#if ($isKickass)
+    #userSearcher($customField.id $customField.name $values $hasPermissionToPickUsers $suggestedUsers $placeholderText false false $customField.descriptionProperty.viewHtml)
+#else
+$!{auiparams.put("controlHeaderClass", "aui-field-userpicker")}
+#searcherEditHeader ($customField.id $customField.name)
+    <div class="ajax_autocomplete" id="searcher-${customField.id}_container">
+        <fieldset rel="${customField.id}" class="hidden user-searcher-params">
+            <input title="formName" type="hidden" value="issue-filter" />
+            <input title="fieldName" type="hidden" value="${customField.id}" />
+            <input title="fieldId" type="hidden" value="searcher-${customField.id}" />
+            <input title="multiSelect" type="hidden" value="false" />
+            #if ($canPerformAjaxSearch)<input title="userPickerEnabled" type="hidden"value="true" />#end
+        </fieldset>
+        <input class="text" id="searcher-${customField.id}" name="${customField.id}" type="text" value="$textutils.htmlEncode($!value)" />
+        #if ($action.isHasPermission("pickusers"))
+            <a class="user-popup-trigger" href="#" id="searcher-${customField.id}Image"><span class="aui-icon icon-userpicker" title="${i18n.getText('navigator.filter.userpicker.imagetitle1')}"></span></a>
+        #end
+        <div class="description" id="searcher-${customField.id}_desc" style="display:none;">${i18n.getText('user.picker.ajax.desc')}</div>
+    </div>
+#searcherEditFooter ($customField.id $customField.descriptionProperty.viewHtml)
+#end
+$!{auiparams.clear()}

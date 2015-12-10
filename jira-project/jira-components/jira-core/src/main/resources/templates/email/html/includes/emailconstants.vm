@@ -1,0 +1,46 @@
+#disable_html_escaping()
+## Header colours
+#set ($topBackgroundColour = $lfbean.getTopBackgroundColour())
+#set ($topTxtColour = $lfbean.getTopTxtColour())
+#set ($topHighlightColor = $lfbean.getTopHighlightColor())
+#set ($topTextHighlightColor = $lfbean.getTopTextHighlightColor())
+#set ($topSeparatorBackgroundColor = $lfbean.getTopSeparatorBackgroundColor())
+
+## Header Menu colours
+#set ($menuTxtColour = $lfbean.getMenuTxtColour())
+#set ($menuBackgroundColour = $lfbean.getMenuBackgroundColour())
+#set ($menuSeparatorColour = $lfbean.getMenuSeparatorColour())
+
+## Colours for headings and Links
+#set ($textHeadingColour = $lfbean.getTextHeadingColour())
+#set ($textLinkColour = $lfbean.getTextLinkColour())
+#set ($textActiveLinkColour = $lfbean.getTextActiveLinkColour())
+
+## Defaults for email templates
+#set ($textFontFamily = "Arial,FreeSans,Helvetica,sans-serif")
+#set ($textSize = "12px")
+#set ($textColour = "#000000")
+#set ($textSubtleColour = "#505050")
+#set ($borderColour = "#bbbbbb")
+
+## AUI Colours
+#set ($auiPanelBackgroundColour = "#f0f0f0")
+#set ($auiPanelBorderColour = "#bbb")
+
+#set ($auiInfoBackgroundColour = "#e0f0ff")
+#set ($auiInfoBorderColour = "#9eb6d4")
+
+#set ($auiSuccessBackgroundColour = "#ddfade")
+#set ($auiSuccessBorderColour = "#93c49f")
+
+#set ($auiErrorBackgroundColour = "#ffe7e7")
+#set ($auiErrorBorderColour = "#df9898")
+
+#set ($auiWarningBackgroundColour = "#ffd")
+#set ($auiWarningBorderColour = "#f7df92")
+
+## Link colour for #authorlink2 / authorlinkkey
+#set ($linkstyle = "color:${textLinkColour};")
+
+## Colours for the quotes used by comments
+#set ($commentBackground = "#edf5ff")

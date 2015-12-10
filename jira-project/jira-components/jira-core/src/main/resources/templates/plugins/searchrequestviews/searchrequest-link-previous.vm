@@ -1,0 +1,12 @@
+#disable_html_escaping()
+<header id="previous-view">
+    <nav class="aui-toolbar">
+        <div class="toolbar-split toolbar-split-right">
+            <ul class="toolbar-group">
+                <li class="toolbar-item">
+                    <a href="$link" class="toolbar-trigger">$i18n.getText('common.concepts.back.to.previous.view')</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>

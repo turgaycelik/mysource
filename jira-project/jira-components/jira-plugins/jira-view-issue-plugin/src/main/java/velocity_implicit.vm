@@ -1,0 +1,3 @@
+#* @implicitly included *#
+#* @vtlvariable name="baseurl" type="java.lang.String" *#
+#* @vtlvariable name="i18n" type="com.atlassian.jira.action.JiraActionSupport" *#

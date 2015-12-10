@@ -1,0 +1,6 @@
+#disable_html_escaping()
+#if ($value)
+    #foreach ($singleValue in $value)
+    <customfieldvalue><![CDATA[$xmlutils.escapeForCdata($!singleValue.getName())]]></customfieldvalue>
+    #end
+#end

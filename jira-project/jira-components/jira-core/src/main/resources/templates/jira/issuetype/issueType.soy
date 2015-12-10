@@ -1,0 +1,111 @@
+{namespace JIRA.Templates.IssueType}
+
+/**
+ * @param errors
+ * @param issueType
+ * @param token
+ * @param activeTab
+ * @param defaultAvatarId
+ * @param action
+ * @param editTitleTextId
+ * @param cancelAction
+ * @param errorMessages
+ */
+{template .editIssueType}
+
+<html>
+<head>
+    <meta name="admin.active.section" content="admin_issues_menu/element_options_section/issue_types_section"/>
+    <meta name="admin.active.tab" content="{$activeTab}"/>
+    <title>{$editTitleTextId}</title>
+</head>
+<body>
+
+    <h2>{$editTitleTextId}: {$issueType.name}</h2>
+    {call .form data="all" /}
+
+</body>
+</html>
+
+{/template}
+
+/**
+ * @param issueType
+ * @param errors
+ * @param token
+ * @param defaultAvatarId
+ * @param action
+ * @param cancelAction
+ * @param errorMessages
+ */
+{template .form autoescape="contextual"}
+
+    {if $errorMessages and length($errorMessages) > 0}
+        {call aui.message.error}
+            {param content}
+                {foreach $error in $errorMessages}
+                    <p>{$error}</p>
+                {/foreach}
+            {/param}
+        {/call}
+    {/if}
+
+
+    {call aui.form.form}
+        {param action: $action /}
+        {param method: 'post' /}
+        {param content}
+            <div class="form-body">
+                {call aui.form.textField}
+                    {param id: 'name' /}
+                    {param isRequired: true /}
+                    {param labelContent: getText('common.words.name') /}
+                    {param value: $issueType.name /}
+                    {param errorTexts: ($errors and $errors.name) ? [$errors.name] : null /}
+                {/call}
+
+                {call aui.form.textField}
+                    {param id: 'description' /}
+                    {param labelContent: getText('common.words.description') /}
+                    {param value: $issueType.description /}
+                    {param errorTexts: ($errors and $errors.description) ? [$errors.description] : null /}
+                {/call}
+
+                {call JIRA.Templates.Avatar.picker}
+                    {param labelContent: getText('admin.issuesettings.issuetypes.edit.avatar') /}
+                    {param defaultId: $defaultAvatarId  /}
+                    {param src}
+                        {$issueType.iconUrlContent |noAutoescape}
+                    {/param}
+                    {param size: 'xsmall' /}
+                    {param title: getText('admin.issuesettings.issuetypes.edit.avatar.click.to.edit') /}
+                    {param mandatory: true /}
+                    {param avatarType: 'issuetype' /}
+                    {param avatarOwnerId: $issueType.id /}
+                    {param fieldId: 'avatarId' /}
+                    {param avatarId: $issueType.avatarId /}
+                {/call}
+
+                <input type="hidden" name="id" value="{$issueType.id}"/>
+                <input type="hidden" name="atl_token" value="{$token}"/>
+                <input type="hidden" id="avatar-picker-iconurl" name="iconurl" value="{$issueType.iconUrlContent |noAutoescape}">
+
+                <div class="form-footer">
+                    {call aui.form.buttons}
+                        {param content}
+                            {call aui.form.submit}
+                                {param id: 'update_submit' /}
+                                {param name: 'Update' /}
+                                {param text: getText('common.forms.update') /}
+                            {/call}
+
+                            <a href="{$cancelAction}" class="cancel">{getText('common.words.cancel')}</a>
+                        {/param}
+                    {/call}
+                </div>
+            </div>
+        {/param}
+    {/call}
+
+{/template}
+

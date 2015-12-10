@@ -1,0 +1,36 @@
+<FindBugsFilter>
+    <Match>
+        <!-- These categories are not enabled for now - BTCYS! -->
+        <Bug category="BAD_PRACTICE,PERFORMANCE,STYLE,EXPERIMENTAL,MALICIOUS_CODE,I18N" />
+    </Match>
+    <!-- The following match rules are to disable some noisy security bug detectors. -->
+    <Match>
+        <!-- The following security file detectors are noisy and not informative -->
+        <Bug pattern="PATH_TRAVERSAL_IN,WEAK_FILENAMEUTILS" />
+    </Match>
+    <Match>
+        <Bug pattern="WEAK_MESSAGE_DIGEST,PREDICTABLE_RANDOM,UNENCRYPTED_SOCKET" />
+    </Match>
+    <Match>
+        <Bug pattern="REDOS" />
+    </Match>
+    <Match>
+        <!-- The UNVALIDATED_REDIRECT detector is unreliable. -->
+        <Bug pattern="UNVALIDATED_REDIRECT" />
+    </Match>
+    <Match>
+        <Bug pattern="HARD_CODE_PASSWORD" />
+    </Match>
+    <!-- The following security detectors are disabled as they are
+        not applicable.
+    -->
+    <Match>
+        <Bug pattern="STRUTS_FORM_VALIDATION" />
+    </Match>
+    <Match>
+        <Bug pattern="SERVLET_HEADER_REFERER,SERVLET_HEADER_USER_AGENT,SERVLET_HEADER" />
+    </Match>
+    <Match>
+        <Bug pattern="STRUTS2_ENDPOINT,STRUTS1_ENDPOINT,WICKET_ENDPOINT,TAPESTRY_ENDPOINT,JAXRS_ENDPOINT,JAXWS_ENDPOINT" />
+    </Match>
+</FindBugsFilter>

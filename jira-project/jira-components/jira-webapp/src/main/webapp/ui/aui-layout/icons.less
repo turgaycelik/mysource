@@ -1,0 +1,278 @@
+@import "../imports/jira-colours";
+@import "../imports/mixins/opacity";
+
+//
+// still to be triaged and addressed
+// ---
+.icon-filters {background:url('../../../images/icons/ico_filters.png') no-repeat 2px 2px;padding-left:2.2em;}
+.icon-reports {background:url('../../../images/icons/ico_reports.png') no-repeat 2px 2px;padding-left:2.2em;}
+.icon-add {background: no-repeat 2px 2px;padding-left:2.2em;}
+.icon-edit {background: no-repeat 2px 2px;padding-left:2.2em;}
+.icon-share {background: no-repeat;}
+.icon-views {background: no-repeat 3px 3px;padding-left:2.2em;}
+.icon-tools {background: no-repeat 2px 2px;padding-left:2.2em;}
+.icon-tools-small {background: no-repeat 4px 3px;padding-left:1.5em;}
+.icon-tools-small span { background-repeat: no-repeat;}
+
+.favourite-status {float:left;} // used for filters and dashboards
+.favourite-item {padding-left:21px} // used for filters and dashboards
+
+// old pseudo-JIRA sprite-based icon definition
+.icon {
+    background: transparent url("../../../images/icons/sprites/icons_module.png") no-repeat 0 0;
+    display: inline-block;
+    height: 16px;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    text-align: left;
+    text-indent: -999em;
+    vertical-align: text-top;
+    width: 16px;
+}
+.jira-icon-image {
+    background-image: none;
+}
+// JRADEV-17333 raised to remove the need for this
+td.icon {
+    background-image: none;
+    display: table-cell;
+    height: auto;
+    overflow: visible;
+    padding: 2px;
+    text-indent: 0;
+    vertical-align: baseline;
+    width: 16px;
+}
+.icon span {display:none;/* this effectively hides the content of the span */text-indent:-9000px;}
+.icon img {background-image:none;height:16px;width:16px;}
+
+    /* position icon sprite */
+    .icon-pagetop {background-position:0 -250px}
+    .icon-first {background-position:0 -400px}
+    .icon-last {background-position:0 -450px}
+    .icon-back {background-position:0 -650px}
+    .twixi-opened {background-position:0 0}
+    .twixi-closed {background-position:0 0}
+    .icon-manage {background-position:0 -1110px}
+    .icon-perma {background-position:0 -950px}
+    .icon-download {background-position:0 -1000px}
+    .icon-is-on {background-position:3px -1087px;}
+    .icon-is-off {background-position:-22px -1087px;}
+    .icon-watch-on {background-position:0 -1260px}
+    .icon-watch-off {background-position:0 -1180px}
+    .icon-watch-disabled {background-position:0 -1220px}
+    .icon-vote-on {background-position:0 -1360px}
+    .icon-vote-off {background-position:0 -1280px}
+    .icon-vote-disabled {background-position:0 -1320px}
+
+    .icon-pagetop:hover {background-position:-25px -250px}
+    .icon-first:hover {background-position:-25px -400px}
+    .icon-last:hover {background-position:-25px -450px}
+    .icon-back:hover {background-position:-25px -650px}
+    .icon-manage:hover {background-position:-25px -1110px}
+    .icon-perma:hover {background-position:-25px -950px}
+    .icon-download:hover {background-position:-25px -1000px}
+    a.icon-watch-on:hover {background-position:-25px -86px}
+    a.icon-watch-off:hover {background-position:-25px -70px}
+    a.icon-vote-on:hover {background-position:-25px -118px}
+    a.icon-vote-off:hover {background-position:-25px -102px}
+
+.icon-required, .icon-f-required {background-image: url("../../../images/required.png");width:10px;}
+.icon-indent {padding-left:20px;}
+.icon-vgrabber {background-image: url("../../../images/vgrabber.png");margin:0;width:4px;}
+
+/* This is a bit of a hack for the bulk screens until aui icons can be used outside of form.aui (https://studio.atlassian.com/browse/AJS-499) */
+table .aui-field-datepicker .aui-icon.icon-date { background: transparent url("../../../images/icons/cal.gif") no-repeat 0 0; display: inline-block; height: 16px; margin: 0 1px 0 1px; overflow: hidden; vertical-align: middle; width: 16px; }
+
+.jqlerror {background-image: url("../../../images/icons/error.png");background-position: 0 0;}
+.jqlgood {background-image: url("../../../images/icons/accept.png");background-position: 0 0;}
+
+.icon-help {background-image: url("../../../images/icons/ico_help.png");}
+h2 .icon-help {float:right;}
+h3 .icon-help {float:right;}
+
+form.aui .file-input-list div.field-group .loading,
+#stqc_form_container div.field-group .loading {display:block;background:url( "../../../images/icons/wait.gif") 0 center no-repeat;padding-left:18px;}
+
+.action-details .icon.icon-locked,
+.action-details .icon.icon-locked:hover {background-position:-2px -1154px;}
+
+ul.imagebacked {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    .icon {
+        float: left;
+        margin-top: 2px;
+        margin-left: -20px;
+    }
+    li {
+        background-position: 0 2px;
+        background-repeat: no-repeat;
+        background-size: 16px 16px;
+        padding: 3px 0 3px 20px;
+    }
+}
+
+/* New icons - these shouldn't be sprited so we can move them to Data URIs */
+.jira-icon18-charlie { background-image: url(../../../images/icons/new/icon18-charlie.png); }
+
+.jira-icon48-components { background: transparent url(../../../images/icons/icon48-components.png) no-repeat 0 0; }
+.jira-icon48-fields { background: transparent url(../../../images/icons/icon48-fields.png) no-repeat 0 0; }
+.jira-icon48-issuetypes { background: transparent url(../../../images/icons/icon48-issuetypes.png) no-repeat 0 0; }
+.jira-icon48-notifications { background: transparent url(../../../images/icons/icon48-notifications.png) no-repeat 0 0; }
+.jira-icon48-people { background: transparent url(../../../images/icons/icon48-people.png) no-repeat 0 0; }
+.jira-icon48-permissions { background: transparent url(../../../images/icons/icon48-permissions.png) no-repeat 0 0; }
+.jira-icon48-screens { background: transparent url(../../../images/icons/icon48-screens.png) no-repeat 0 0; }
+.jira-icon48-settings { background: transparent url(../../../images/icons/icon48-settings.png) no-repeat 0 0; }
+.jira-icon48-versions { background: transparent url(../../../images/icons/icon48-versions.png) no-repeat 0 0; }
+.jira-icon48-workflows { background: transparent url(../../../images/icons/icon48-workflows.png) no-repeat 0 0; }
+
+// Loading icon.
+.icon.loading,
+.form-footer .throbber { background: inlineimageunoptim("images/icons/wait.gif") 0 center no-repeat; }
+.form-footer .throbber { margin-right: 10px; margin-bottom: 10px; visibility: hidden; vertical-align: middle; }
+.form-footer .throbber.loading { visibility: visible; }
+
+//
+// The new hotnesses
+// - the default (base) class is 16x16
+// - small  = 24x24
+// - medium = 32x32
+// - large  = 48x48
+// - huge   = 64x64
+// ---
+.icon-delete { background-image: inlineimage("images/icons/icon-delete.png"); }
+.icon-tools { background-image: inlineimage("images/icons/tools_20.png"); }
+.icon-tools-small { background-image: inlineimage("images/icons/tools_12.png"); }
+
+.icon-userpicker { background-image: inlineimage("images/icons/icon16-people.png"); }
+.icon-userpicker-disabled { background-image: inlineimage("images/icons/ic_locked.png"); cursor: not-allowed; }
+.icon-unlocked { background-image: inlineimage("images/icons/ic_unlocked.png"); }
+.icon-locked { background-image: inlineimage("images/icons/ic_locked.png"); }
+
+.icon-viewissue-share { background-image: inlineimage("images/icons/icon-share.png"); }
+.icon-issuenav-share { background-image: inlineimage("images/icons/icon-share-list.png"); }
+.icon-share.icon-mail { background-image: inlineimage("images/icons/icon-share-mail.png"); }
+.icon-cross { background-image: inlineimage("images/icons/icon-status-error-red.png"); }
+.icon-tick { background-image: inlineimage("images/icons/icon-status-done-green.png"); }
+
+.icon-export.viewissue-export { background-repeat: no-repeat; background-image: inlineimage("images/icons/icon16-export.png"); }
+.icon-export.header-views { background-repeat: no-repeat; background-image: inlineimage("images/icons/icon16-export-list.png"); }
+
+.icon-users {background-image: inlineimage("../../../images/icons/icon_users_16.png"); }
+.icon-groups {background-image: inlineimage("../../../images/icons/icon_groups_16.png"); }
+.icon-roles {background-image: inlineimage("../../../images/icons/icon_roles_16.png"); }
+
+.icon-role-member { background-image: inlineimage("images/icons/icon16-role-member.png"); }
+.icon-role-member-inherited { background-image: inlineimage("images/icons/icon16-role-member-inherited.png"); }
+.icon-role-not-member { background-image: inlineimage("images/icons/icon16-role-not-member.png"); }
+
+/* JIRA-specific icons */
+.jira-icon-add { background-image: inlineimage("images/icons/icon-create.png"); }
+.jira-icon-edit { background-image: inlineimage("images/icons/icon-edit.png"); }
+.jira-icon-view { background-image: inlineimage("images/icons/icon-view.png"); }
+
+.jira-icon-components { background-image: inlineimage("images/icons/icon16-components.png"); }
+.jira-icon-version { background-image: inlineimage("images/icons/icon16-version.png"); }
+.jira-icon-version-released { background-image: inlineimage("images/icons/icon16-version-released.png"); }
+.jira-icon-version-archived { background-image: inlineimage("images/icons/icon16-version-archived.png"); }
+.jira-icon-version-archived-released { background-image: inlineimage("images/icons/icon16-version-archived-released.png"); }
+.jira-icon-report { background-image: inlineimage("images/icons/icon16-report.png"); }
+
+.jira-icon-filter-private { background-image: inlineimage("images/icons/icon_users_16.png"); }
+.jira-icon-filter-public { background-image: inlineimage("images/icons/icon16-people.png"); }
+.jira-icon-marketplace { background-image: inlineimage("images/icons/marketplace-ico.png"); }
+
+// Sorting issue tables
+.icon-sort-down {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAANElEQVQY02P4//8/AwyXl5c3APF/KG5AlmMYQIVokrhwAzaTMBShWI1DcQNlnkFS3IAuDgDKSOiHYDSrdgAAAABJRU5ErkJggg=="); height:10px; width:12px; }
+.icon-sort-up {background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAJCAYAAAALpr0TAAAAL0lEQVQYV2P4//8/AzIuLy9vAGF0cWyK/kMximJcijAU41OEopiQIrhi0t1If4UAykjoh8JG3G8AAAAASUVORK5CYII="); height:10px; width:12px; }
+.icon-sort-down:hover,
+.icon-sort-up:hover {
+    .opacity (.8);
+}
+
+
+// Toggling a favourite filter on / off
+.fav-link {
+    .icon(); // Just in case anybody is using the fav-link class without also adding 'icon'.
+    background: transparent no-repeat 0 0;
+
+    &.on, &.enabled {
+        background-image: inlineimage("images/icons/icon-favorited.png");
+    }
+    &.off, &.disabled { // the 'disabled' state is a legacy thing and superceded by KickAss' updating of issue-nav.
+        background-image: inlineimage("images/icons/icon-favorite.png");
+    }
+}
+
+// Help link icon colourization
+.help-lnk .aui-icon.aui-iconfont-help { // Style all help links properly
+    color: @jira-color-subtle-text;
+}
+
+// Pagination arrows
+.icon-previous,
+.icon-next,
+.icon-page-prev,
+.icon-page-next,
+.icon-page-prev-deactivated,
+.icon-page-next-deactivated {
+    background: transparent none;
+    height: 16px;
+    width: 16px;
+
+    &:after {
+        content: "";
+        border: 8px solid transparent;
+        display: block;
+        height: 0;
+        position: relative;
+        width: 0;
+    }
+}
+.icon-previous:after,
+.icon-next:after { border-width: 6px; }
+.icon-previous:after { border-right-color: @aui-color-mid; }
+.icon-next:after { border-left-color: @aui-color-mid; }
+.icon-page-prev:after { border-bottom-color: @aui-color-mid; bottom: 4px; }
+.icon-page-next:after { border-top-color: @aui-color-mid; top: 4px; }
+.icon-page-prev-deactivated:after { border-bottom-color: @aui-border-color; bottom: 4px; }
+.icon-page-next-deactivated:after { border-top-color: @aui-border-color; top: 4px; }
+
+// Release notes button
+#release-notes-lnk {
+    background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEgAACxIB0t1+/AAAABV0RVh0Q3JlYXRpb24gVGltZQAyNy85LzEyCdisIQAAABx0RVh0U29mdHdhcmUAQWRvYmUgRmlyZXdvcmtzIENTNui8sowAAAB5dEVYdG5hbWVTZXRzAHsgZGVzY3JpcHRpb246IkRvd25sb2FkIHRoZSBcIk5hbWVkIFNlbGVjdGlvbiBTZXRzXCIgcGFuZWwgZnJvbSBodHRwOi8vZmlyZXdvcmtzLmFiZWFsbC5jb20iLCBpZDotMSwgc2V0czp7ICB9IH1YpK+bAAAA9klEQVQ4je2UPRKCMBCFn8GhsLKihUILKwsuwG1oUrAlp4DM5ECZsbaw0TbewEorwMKfwQUjjpS+bpOXb3czyU6apsGYmrYDIpoDMADWjjM7AElZlqe+YqYsNp7nLaWUhyiKztxMRLEQYlHXtcmyLAFw4h7B4rWU8tgHeyhN040QYgHA3DtyAuGCAYDv+2Ebyvd5y04FQXBRSq0ArO5Lnbv+Cpjn+b4dE1HMPZ2Wf1VvhX2ZuYqi2A4GvjMP0b9Ct3mIOs/GWjsbcvCdjwN3WuvwE9RaO9Nah7hNnhfxlpOqqoxSyjW+nskBJHxxMvaAHf3rjQ68AnH6WWT7o97EAAAAAElFTkSuQmCC");
+    background-repeat: no-repeat;
+}
+
+// Some other imports that are hanging around because they used to be defined in this file.
+@import "content/drop-menu.less";
+@import "content/cog-dropdown.less";
+
+
+/** Polyfill styles for old legacy icon names.
+ * @deprecated these rules to be removed in JIRA 6.1 */
+.icon-add, .icon-add16 { .jira-icon-add(); }
+.butt-edit, .icon-edit, .icon-edit-sml { .jira-icon-edit(); }
+.icon-view, .icon-views { .jira-icon-view(); }
+/* @end legacy icon polyfill styles */
+
+.show-constants-help-status .jira-issue-status-icon {
+  vertical-align: middle;
+}
+
+.jira-icon-button {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+
+    &::-moz-focus-inner {
+        border: 0;
+        padding: 0;
+    }
+}

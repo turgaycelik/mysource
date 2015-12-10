@@ -1,0 +1,101 @@
+#disable_html_escaping()
+
+<br/>
+
+<table cellpadding="1" cellspacing="0" border="0" bgcolor="#bbbbbb" width="100%" align="center"><tr><td>
+<table cellpadding="4" cellspacing="0" border="0" width="100%" bgcolor="#ffffff">
+<tr>
+	<td width="20%"><b>#text("common.concepts.project"):</b></td>
+    <td width="80%"><a href="${baseurl}/browse/$issue.getProject().getString("key")">$textutils.htmlEncode($issue.getProject().getString("name"))</a></td>
+</tr>
+
+#if ($issue.components && $issue.components.size() >0)
+<tr>
+    <td><b>#text("common.concepts.components"):</b></td>
+	<td>
+        #foreach ($component in $issue.components)
+            $component.getString("name")#if ($velocityCount != $issue.components.size()), #end
+        #end
+    </td>
+</tr>
+#end
+
+#if ($issue.affectedVersions && $issue.affectedVersions.size() >0)
+<tr>
+    <td><b>#text("template.affects.versions"):</b></td>
+    <td>
+        #foreach ($version in $issue.affectedVersions)
+            $version.getString("name")#if ($velocityCount != $issue.affectedVersions.size()), #end
+        #end
+    </td>
+</tr>
+#end
+
+#if ($issue.fixVersions && $issue.fixVersions.size() >0)
+<tr>
+    <td><b>#text("template.fix.versions"):</b></td>
+    <td>
+        #foreach ($fixfor in $issue.fixVersions)
+            $fixfor.getString("name")#if ($velocityCount != $issue.fixVersions.size()), #end
+        #end
+    </td>
+</tr>
+#end
+
+#if ($issue.securityLevel)
+<tr>
+    <td><b>#text("issue.field.securitylevel"):</b></td>
+    <td>
+        <b><font color="#cc3333">$issue.securityLevel.getString("name")</font></b> #if ($textutils.stringSet($issue.securityLevel.getString("description")))<span class="small">($issue.securityLevel.getString("description"))</span> #end
+    </td>
+</tr>
+#end
+
+#if ($issue.labels && $issue.labels.size() > 0)
+<tr>
+    <td><b>#text("issue.field.labels"):</b></td>
+    <td>
+        #foreach($label in $issue.labels)$textutils.htmlEncode($label.label) #end
+    </td>
+</tr>
+#end
+
+#if ($attachments && $attachments.size() >0)
+<tr>
+    <td><b>#text("template.attachments"):</b></td>
+	<td>
+        #foreach ($attachment in $attachments)
+            $attachment.getFilename()#if ($velocityCount != $attachments.size()), #end
+        #end
+    </td>
+</tr>
+#end
+
+</table>
+</td></tr></table>
+
+#if ($issue.getDescription() && $issue.getDescription().length() != 0)
+<br/>
+
+<table cellpadding="2" cellspacing="0" border="0" width="100%" align="center">
+<tr>
+	<td style="color:#fff;background-color:#bbb;width:1%;white-space:nowrap;text-align:center;font-weight:bold;">
+	    &nbsp;#text("common.concepts.description")&nbsp;
+	</td>
+	<td>&nbsp;</td>
+</tr>
+</table>
+
+<table cellpadding="0" cellspacing="1" border="0" width="100%" bgcolor="#bbbbbb" align="center"><tr><td>
+<table cellpadding="2" cellspacing="0" border="0" width="100%">
+<tr>
+	<td bgcolor="#ffffff" valign="top">
+	    $issue.htmlDescription
+	</td>
+</tr>
+</table>
+</td></tr></table>
+#end
+
+</td></tr></table>
+</td></tr></table>

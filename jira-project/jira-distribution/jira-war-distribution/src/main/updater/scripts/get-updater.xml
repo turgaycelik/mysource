@@ -1,0 +1,20 @@
+<project name="updater-bootstrap" default="main" basedir=".">
+  <description>
+    Downloads a script which handles JIRA updates.
+  </description>
+
+  <property file="${user.home}/updater.properties"/>
+  <property file="${updater.home}/updater.properties"/>
+  <property file="${updater.appliedlog}"/>
+
+  <property name="script" value="updater-${jira.version}.xml"/>
+  <property name="src" value="${updater.repository}/scripts/${script}"/>
+  <property name="dest.dir" location="${updater.home}/scripts"/>
+  <property name="dest" location="${dest.dir}/updater.xml"/>
+
+  <target name="main">
+    <echo level="info">Copying from ${src} to ${dest}</echo>
+    <mkdir dir="${dest.dir}"/>
+    <get src="${src}" dest="${dest}" usetimestamp="true"/>
+  </target>
+</project>

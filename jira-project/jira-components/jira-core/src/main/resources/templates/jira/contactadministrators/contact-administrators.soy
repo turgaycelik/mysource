@@ -1,0 +1,188 @@
+{namespace JIRA.Templates.ContactAdministrators}
+
+/**
+ * Renders Contact Administrator page
+ *
+ * @param to
+ * @param from
+ * @param subject
+ * @param details
+ * @param errors
+ * @param atlToken
+ * @param hasCustomMessage
+ * @param renderedMessageContent a customisable message that can be set by the administrator
+ */
+{template .input}
+    {let $toId: 'contact-administrators-to' /}
+    {let $fromId: 'contact-administrators-from' /}
+    {let $subjectId: 'contact-administrators-subject' /}
+    {let $detailsId: 'contact-administrators-details' /}
+    {let $tokenId: 'contact-administrators-token' /}
+
+        {call aui.page.document}
+            {param windowTitle}{getText('contact.administrator.title')}{/param}
+            {param content}
+                {call aui.page.pagePanel}
+                    {param content}
+                        {call aui.page.pagePanelContent}
+                            {param content}
+                                {call aui.form.form}
+                                    {param id: 'contact-administrators' /}
+                                    {param action: contextPath() + '/secure/ContactAdministrators.jspa' /}
+                                    {param content}
+                                        <h2>{getText('contact.administrator.title')}</h2>
+                                        {if $hasCustomMessage}
+                                            {call aui.message.warning}
+                                                {param content}{$renderedMessageContent|noAutoescape}{/param}
+                                            {/call}
+                                        {/if}
+                                        {call aui.form.fieldset}
+                                            {param legendContent: '' /}
+                                            {param content}
+                                                /* To */
+                                                {call aui.form.fieldGroup}
+                                                    {param content}
+                                                        {call aui.form.label}
+                                                            {param forField: $toId /}
+                                                            {param content: getText('admin.email.to') /}
+                                                        {/call}
+                                                        {call aui.form.input}
+                                                            {param id: $toId /}
+                                                            {param name: 'to' /}
+                                                            {param type: 'text' /}
+                                                            {param value: $to /}
+                                                            {param isDisabled: true /}
+                                                        {/call}
+                                                    {/param}
+                                                {/call}
+
+                                                /* From */
+                                                {call aui.form.fieldGroup}
+                                                    {param content}
+                                                        {call aui.form.label}
+                                                            {param forField: $fromId /}
+                                                            {param isRequired: true /}
+                                                            {param content: getText('admin.email.from') /}
+                                                        {/call}
+                                                        {call aui.form.input}
+                                                            {param id: $fromId /}
+                                                            {param name: 'from' /}
+                                                            {param type: 'text' /}
+                                                            {param value: $from /}
+                                                        {/call}
+                                                        {if $errors.from}
+                                                            {call aui.form.fieldError}
+                                                                {param message: $errors.from /}
+                                                            {/call}
+                                                        {/if}
+                                                    {/param}
+                                                {/call}
+
+                                                /* Subject */
+                                                {call aui.form.fieldGroup}
+                                                    {param content}
+                                                        {call aui.form.label}
+                                                            {param forField: $subjectId /}
+                                                            {param isRequired: true /}
+                                                            {param content: getText('admin.email.subject') /}
+                                                        {/call}
+                                                        {call aui.form.input}
+                                                            {param id: $subjectId /}
+                                                            {param name: 'subject' /}
+                                                            {param type: 'text' /}
+                                                            {param value: $subject /}
+                                                            {param extraClasses: ['long-field'] /}
+                                                        {/call}
+                                                        {if $errors.subject}
+                                                            {call aui.form.fieldError}
+                                                                {param message: $errors.subject /}
+                                                            {/call}
+                                                        {/if}
+                                                    {/param}
+                                                {/call}
+
+                                                /* Details */
+                                                {call aui.form.fieldGroup}
+                                                    {param content}
+                                                        {call aui.form.label}
+                                                            {param forField: $detailsId /}
+                                                            {param isRequired: true /}
+                                                            {param content: getText('contact.administrator.details') /}
+                                                        {/call}
+                                                        {call aui.form.textarea}
+                                                            {param id: $detailsId /}
+                                                            {param name: 'details' /}
+                                                            {param value: $details /}
+                                                            {param rows: 10 /}
+                                                            {param extraClasses: ['long-field'] /}
+                                                        {/call}
+                                                        {if $errors.details}
+                                                            {call aui.form.fieldError}
+                                                                {param message: $errors.details /}
+                                                            {/call}
+                                                        {/if}
+                                                    {/param}
+                                                {/call}
+
+                                                /* Hidden fields */
+                                                <div class="hidden">
+                                                    {call aui.form.input}
+                                                        {param id: $tokenId /}
+                                                        {param name: 'atl_token' /}
+                                                        {param type: 'hidden' /}
+                                                        {param value: $atlToken /}
+                                                    {/call}
+                                                </div>
+                                            {/param}
+                                        {/call}
+                                        {call aui.form.buttons}
+                                            {param content}
+                                                {call aui.form.submit}
+                                                    {param id: 'contact-administrators-submit' /}
+                                                    {param name: getText('admin.email.send') /}
+                                                    {param text: getText('admin.email.send') /}
+                                                {/call}
+                                                {call aui.form.linkButton}
+                                                    {param id: 'contact-administrators-cancel' /}
+                                                    {param url: contextPath() + '/secure/MyJiraHome.jspa' /}
+                                                    {param name: getText('AUI.form.cancel.link.text') /}
+                                                    {param text: getText('AUI.form.cancel.link.text') /}
+                                                {/call}
+                                            {/param}
+                                        {/call}
+                                    {/param}
+                                {/call}
+                            {/param}
+                        {/call}
+                    {/param}
+                {/call}
+            {/param}
+        {/call}
+{/template}
+
+/**
+ * Used in cases where the contact form should not be displayed.
+ * @param renderedMessageContent a customisable message that can be set by the administrator
+ */
+{template .modeBreach}
+        {call aui.page.document}
+            {param windowTitle: getText('contact.administrator.title') /}
+            {param extraClasses: ['page-type-message'] /}
+            {param content}
+                {call aui.page.pagePanel}
+                    {param content}
+                        {call aui.page.pagePanelContent}
+                            {param content}
+                                <header>
+                                    <h1>{getText('contact.administrator.title')}</h1>
+                                    </header>
+                                {call aui.message.warning}
+                                    {param content}{$renderedMessageContent|noAutoescape}{/param}
+                                {/call}
+                            {/param}
+                        {/call}
+                    {/param}
+                {/call}
+            {/param}
+        {/call}
+{/template}

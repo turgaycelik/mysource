@@ -1,0 +1,121 @@
+@import "../../../ui/global.less";
+
+#content > .aui-page-header,
+#content > header > .aui-page-header {
+
+    .aui-page-header-actions {
+        > * { // To ensure everything lines up nicely -- e.g., UPM + .aui-button + .aui-buttons
+            display: inline-block;
+            margin-top: 5px;
+            margin-bottom: 5px;
+            text-align: right;
+            vertical-align: top;
+        }
+    }
+
+    #upm-notifications {
+        display: inline-block;
+        float: none; // undo UPM's own styles.
+        position: relative;
+
+        #upm-notifications-trigger {
+            position: relative; // so that it's placed in the page flow
+        }
+    }
+}
+
+.page-scheduler-admin {
+  .aui-badge {
+    &.successful {
+      background-color: @aui-color-status-success-background;
+      border-color: @aui-color-status-success-border;
+      color: @aui-color-status-success-foreground;
+    }
+
+    &.failed {
+      background-color: @aui-color-status-error-background;
+      border-color: @aui-color-status-error-border;
+      color: @aui-color-status-error-foreground;
+    }
+  }
+
+  table.aui.runners {
+    .runner-key p {
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    .number-of-jobs, .schedule, .actions {
+      white-space: nowrap;
+    }
+
+    .actions {
+      .aui-button-link {
+        padding: 0;
+      }
+     }
+
+    .badge {
+      padding-left: 0px;
+      padding-right: 5px;
+    }
+
+    tr.runner {
+      td {
+        padding-bottom: 0px;
+      }
+    }
+
+    td {
+      max-width: 150px;
+      padding-top: 9px;
+      padding-bottom: 9px;
+
+      &.xsmall-cell {
+        width: 3%;
+      }
+
+      &.small-cell {
+        width: 10%;
+      }
+
+      &.normal-cell {
+        width: 15%;
+      }
+
+      &.wide-cell {
+        width: 60%;
+      }
+    }
+  }
+
+  .details {
+    margin-top: 5px;
+
+    dl {
+      width:100%;
+      overflow:hidden;
+    }
+
+    dt, dd {
+      display: block;
+      float: left;
+      margin: 0;
+      padding: 0;
+    }
+
+    dt {
+      width: 15%;
+      clear: both;
+      color: @jira-color-subtle-text;
+      &:after {
+        content: ':'
+      }
+    }
+
+    dd {
+      width: 85%;
+    }
+  }
+}

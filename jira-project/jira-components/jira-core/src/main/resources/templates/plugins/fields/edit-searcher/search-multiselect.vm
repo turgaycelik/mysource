@@ -1,0 +1,37 @@
+#disable_html_escaping()
+#if ($value)
+    #set ($selectedValues = $value)
+#end
+
+$!{auiparams.put("controlHeaderClass", "aui-field-multiselect")}
+#searcherEditHeader (${customField.id} ${customField.name})
+
+#if ($displayParameters.checkboxmultiselect)
+    <select class="select js-default-checkboxmultiselect" id="searcher-$customField.id" multiple="multiple" name="$customField.id" size="#minSelectSize ($configs.options 1 5)">
+        #foreach ($option in $allOptions)
+            #set ($isInvalid = $invalidOptions.contains($option)))
+            #set ($name = $cfValueEncoder.encodeForHtml($option.value))
+
+            <option #if ($isInvalid) class="invalid_sel" #end
+                    #if ($selectedValues && $selectedValues.contains($option.optionId.toString())) selected="selected" #end
+                    #if ($isInvalid)
+                        #searchContextDescriptionTitleGeneral("common.concepts.value" $name)
+                    #else
+                        title="$name"
+                    #end
+                    value="$option.optionId">
+                $name
+            </option>
+        #end
+    </select>
+#else
+    <select class="select" id="searcher-$customField.id" multiple="multiple" name="$customField.id" size="#minSelectSize ($configs.options 1 5)">
+        <option#if (!$selectedValues || $selectedValues.empty || $selectedValues.contains("-1")) selected="selected"#end value="-1">$i18n.getText("common.filters.any")</option>
+        #foreach ($option in $configs.options)
+            <option #if ($selectedValues && $selectedValues.contains($option.optionId.toString())) selected="selected"#end value="$option.optionId">$cfValueEncoder.encodeForHtml($option.value)</option>
+        #end
+    </select>
+#end
+
+#searcherEditFooter (${customField.id} ${customField.descriptionProperty.viewHtml})
+$!{auiparams.clear()}

@@ -1,0 +1,9 @@
+#disable_html_escaping()
+#parse("templates/email/includes/issueplugins.vm")
+     [ ${baseurl}/browse/${issue.getKey()}?page=${tabpanel-all} ]
+
+#headerTitleText($i18n.getText("template.issue.work.stopped.by", $issue.key, $changelogauthor.displayName), $changelogauthor.displayName)
+
+#parse("templates/email/text/includes/issuesummary.vm")
+
+#parse("templates/email/text/includes/footer.vm")

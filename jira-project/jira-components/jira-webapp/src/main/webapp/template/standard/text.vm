@@ -1,0 +1,37 @@
+#disable_html_escaping()
+#*
+  -- text.vm
+  --
+  -- Required Parameters:
+  --   * label      - The description that will be used to identfy the control.
+  --   * name       - The name of the attribute to put and pull the result from.
+  --                  Equates to the NAME parameter of the HTML INPUT tag.
+  --
+  -- Optional Parameters:
+  --   * labelposition   - determines were the label will be place in relation
+  --                       to the control.  Default is to the left of the control.
+  --   * size       - SIZE parameter of the HTML INPUT tag.
+  --   * maxlength  - MAXLENGTH parameter of the HTML INPUT tag.
+  --   * disabled   - DISABLED parameter of the HTML INPUT tag.
+  --   * readonly   - READONLY parameter of the HTML INPUT tag.
+  --   * onkeyup    - onkeyup parameter of the HTML INPUT tag.
+  --   * tabindex  - tabindex parameter of the HTML INPUT tag.
+  --   * onchange  - onkeyup parameter of the HTML INPUT tag.
+  --
+    *#
+#parse("/template/standard/controlheader.vm")
+
+<input type="text"
+                                   name="$parameters.name"
+#if ($parameters.size)             size="$parameters.size"            #end
+#if ($parameters.maxlength)        maxlength="$parameters.maxlength"  #end
+#if ($parameters.nameValue)        value="$parameters.nameValue"      #end
+#if ($parameters.disabled == true) disabled="disabled"                #end
+#if ($parameters.readonly)         readonly="readonly"                #end
+#if ($parameters.onkeyup)          onkeyup="$parameters.onkeyup"      #end
+#if ($parameters.tabindex)         tabindex="$parameters.tabindex"    #end
+#if ($parameters.onchange)         onchange="$parameters.onchange"    #end
+#if ($parameters.id)               id="$parameters.id"                #end
+/>
+
+#parse("/template/standard/controlfooter.vm")

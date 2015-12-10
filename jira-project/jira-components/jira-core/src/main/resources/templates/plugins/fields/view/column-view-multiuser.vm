@@ -1,0 +1,12 @@
+#disable_html_escaping()
+#if ($value)
+<div class="shorten" id="${customField.id}-field">
+    #foreach ($singleValue in $value)
+        #if ($displayParameters && $displayParameters.nolink)
+            $textutils.htmlEncode($singleValue.displayName)#commaonly ($value)
+        #else
+            <span class="tinylink">$userformat.formatUserkey($singleValue.key, 'profileLink', "multiuser_cf")</span>#commaonly ($value)
+        #end
+    #end
+</div>
+#end

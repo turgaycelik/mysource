@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+    <component name="RunManager">
+        <configuration default="false" name="Func Tests" type="JUnit" factoryName="JUnit">
+            <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma"/>
+            <extension name="snapshooter"/>
+            <module name="jira-func-tests"/>
+            <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
+            <option name="ALTERNATIVE_JRE_PATH" value=""/>
+            <option name="PACKAGE_NAME" value="com.atlassian.jira.webtests"/>
+            <option name="MAIN_CLASS_NAME" value="com.atlassian.jira.webtests.CategorisingTestSuite"/>
+            <option name="METHOD_NAME" value=""/>
+            <option name="TEST_OBJECT" value="class"/>
+            <option name="VM_PARAMETERS"
+                    value="-Xms128m -Xmx512m -XX:MaxPermSize=128m -Datlassian.test.suite.package=com.atlassian.jira.webtests.ztests -Datlassian.test.suite.includes=FUNC_TEST -Datlassian.test.suite.excludes=TPM,RELOADABLE_PLUGINS"/>
+            <option name="PARAMETERS" value=""/>
+            <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
+            <option name="ENV_VARIABLES"/>
+            <option name="PASS_PARENT_ENVS" value="true"/>
+            <option name="TEST_SEARCH_SCOPE">
+                <value defaultName="moduleWithDependencies"/>
+            </option>
+            <envs/>
+            <RunnerSettings RunnerId="Run"/>
+            <ConfigurationWrapper RunnerId="Run"/>
+            <method>
+                <option name="Run Maven goal" value="false"/>
+            </method>
+        </configuration>
+        <configuration default="false" name="JIRA OnDemand" type="Remote" factoryName="Remote">
+            <option name="USE_SOCKET_TRANSPORT" value="true"/>
+            <option name="SERVER_MODE" value="false"/>
+            <option name="SHMEM_ADDRESS" value="javadebug"/>
+            <option name="HOST" value="localhost"/>
+            <option name="PORT" value="5119"/>
+            <RunnerSettings RunnerId="Debug">
+                <option name="DEBUG_PORT" value="5119"/>
+                <option name="TRANSPORT" value="0"/>
+                <option name="LOCAL" value="false"/>
+            </RunnerSettings>
+            <ConfigurationWrapper RunnerId="Debug"/>
+            <method/>
+        </configuration>
+        <configuration default="false" name="JIRA" type="Remote" factoryName="Remote">
+            <option name="USE_SOCKET_TRANSPORT" value="true" />
+            <option name="SERVER_MODE" value="false" />
+            <option name="SHMEM_ADDRESS" value="javadebug" />
+            <option name="HOST" value="localhost" />
+            <option name="PORT" value="5005" />
+            <method />
+        </configuration>
+        <configuration default="false" name="Unit Tests (Fast)" type="JUnit" factoryName="JUnit">
+            <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma"/>
+            <extension name="snapshooter"/>
+            <module name="jira-tests-unit"/>
+            <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
+            <option name="ALTERNATIVE_JRE_PATH" value=""/>
+            <option name="PACKAGE_NAME" value="com.atlassian"/>
+            <option name="MAIN_CLASS_NAME" value=""/>
+            <option name="METHOD_NAME" value=""/>
+            <option name="TEST_OBJECT" value="package"/>
+            <option name="VM_PARAMETERS"
+                    value="-Xms128m -Xmx512m -XX:MaxPermSize=384m -Duser.language=en -Duser.region=AU"/>
+            <option name="PARAMETERS" value=""/>
+            <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$"/>
+            <option name="ENV_VARIABLES"/>
+            <option name="PASS_PARENT_ENVS" value="true"/>
+            <option name="TEST_SEARCH_SCOPE">
+                <value defaultName="singleModule"/>
+            </option>
+            <envs/>
+            <RunnerSettings RunnerId="Debug">
+                <option name="DEBUG_PORT" value="34586"/>
+                <option name="TRANSPORT" value="0"/>
+                <option name="LOCAL" value="true"/>
+            </RunnerSettings>
+            <RunnerSettings RunnerId="Run"/>
+            <ConfigurationWrapper RunnerId="Debug"/>
+            <ConfigurationWrapper RunnerId="Run"/>
+            <method/>
+        </configuration>
+        <configuration default="false" name="Unit Tests (Legacy)" type="JUnit" factoryName="JUnit">
+            <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="emma"/>
+            <extension name="snapshooter"/>
+            <module name="jira-tests-legacy"/>
+            <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
+            <option name="ALTERNATIVE_JRE_PATH" value=""/>
+            <option name="PACKAGE_NAME" value="com.atlassian"/>
+            <option name="MAIN_CLASS_NAME" value=""/>
+            <option name="METHOD_NAME" value=""/>
+            <option name="TEST_OBJECT" value="package"/>
+            <option name="VM_PARAMETERS"
+                    value="-Xms128m -Xmx768m -XX:MaxPermSize=384m -Duser.language=en -Duser.region=AU"/>
+            <option name="PARAMETERS" value=""/>
+            <option name="WORKING_DIRECTORY" value="file://$MODULE_DIR$"/>
+            <option name="ENV_VARIABLES"/>
+            <option name="PASS_PARENT_ENVS" value="true"/>
+            <option name="TEST_SEARCH_SCOPE">
+                <value defaultName="singleModule"/>
+            </option>
+            <envs/>
+            <RunnerSettings RunnerId="Run"/>
+            <ConfigurationWrapper RunnerId="Run"/>
+            <method/>
+        </configuration>
+        <configuration default="false" name="WebDriver Tests" type="JUnit" factoryName="JUnit">
+            <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea"/>
+            <module name="jira-webdriver-tests"/>
+            <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false"/>
+            <option name="ALTERNATIVE_JRE_PATH" value=""/>
+            <option name="PACKAGE_NAME" value="com.atlassian.jira.webtest.webdriver.setup"/>
+            <option name="MAIN_CLASS_NAME" value="com.atlassian.jira.webtest.webdriver.setup.LocalWebTestSuite"/>
+            <option name="METHOD_NAME" value=""/>
+            <option name="TEST_OBJECT" value="class"/>
+            <option name="VM_PARAMETERS"
+                    value="-Xms128m  -Xmx512m  -XX:MaxPermSize=512m -Datlassian.test.suite.package=com.atlassian.jira.webtest.webdriver.tests -Datlassian.test.suite.includes=webdriver_test"/>
+            <option name="PARAMETERS" value=""/>
+            <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$"/>
+            <option name="ENV_VARIABLES"/>
+            <option name="PASS_PARENT_ENVS" value="true"/>
+            <option name="TEST_SEARCH_SCOPE">
+                <value defaultName="moduleWithDependencies"/>
+            </option>
+            <envs/>
+            <patterns/>
+            <RunnerSettings RunnerId="Run"/>
+            <ConfigurationWrapper RunnerId="Run"/>
+            <method/>
+        </configuration>
+        <configuration default="false" name="Unit Tests (jmake)" type="PythonConfigurationType" factoryName="Python">
+            <option name="INTERPRETER_OPTIONS" value="" />
+            <option name="PARENT_ENVS" value="true" />
+            <envs>
+                <env name="JMAKE_SKIP_COWS" value="1" />
+                <env name="PYTHONUNBUFFERED" value="1" />
+            </envs>
+            <option name="SDK_HOME" value="/usr/bin/python3" />
+            <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+            <option name="IS_MODULE_SDK" value="false" />
+            <module name="jmake_src" />
+            <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+            <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jmake_src/jmake.py" />
+            <option name="PARAMETERS" value="jm-unit-test" />
+            <RunnerSettings RunnerId="PyDebugRunner" />
+            <RunnerSettings RunnerId="Run" />
+            <ConfigurationWrapper RunnerId="PyDebugRunner" />
+            <ConfigurationWrapper RunnerId="Run" />
+            <method />
+        </configuration>
+        <configuration default="false" name="Run JIRA (jmake debug)" type="PythonConfigurationType" factoryName="Python">
+            <option name="INTERPRETER_OPTIONS" value="" />
+            <option name="PARENT_ENVS" value="true" />
+            <envs>
+                <env name="JMAKE_SKIP_COWS" value="1" />
+                <env name="PYTHONUNBUFFERED" value="1" />
+            </envs>
+            <option name="SDK_HOME" value="/usr/local/bin/python3.3" />
+            <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/" />
+            <option name="IS_MODULE_SDK" value="true" />
+            <module name="jmake_src" />
+            <EXTENSION ID="PythonCoverageRunConfigurationExtension" enabled="false" sample_coverage="true" runner="coverage.py" />
+            <option name="SCRIPT_NAME" value="$PROJECT_DIR$/jmake_src/jmake.py" />
+            <option name="PARAMETERS" value="debug" />
+            <RunnerSettings RunnerId="Run" />
+            <ConfigurationWrapper RunnerId="Run" />
+            <method />
+        </configuration>
+    </component>
+</project>
